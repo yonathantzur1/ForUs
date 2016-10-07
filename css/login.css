@@ -1,0 +1,81 @@
+.loader {
+    position: absolute;
+    top: 40%;
+    left: 40%;
+}
+
+.login-head-container {
+    position: relative;
+    text-align: center;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.login-head-icon {
+    height: 80px;
+    width: 80px;
+    margin-top: 2%;
+}
+
+.login-label {
+    font-family: Rubik;
+    color: #E78200;
+    font-size: 55px;
+    top:25px;
+    position: relative;
+}
+
+.login-btn {
+    margin-right: 12%;
+    border-style: solid;
+    border-width: 1px;
+    float: right;
+}
+
+.login-container {
+    margin-top: 3%;
+    border: 2px solid black;
+    padding-top: 4%;
+    padding-bottom: 4%;
+    border-radius: 10%;
+}
+
+.user-input {
+    margin-bottom: 2%;
+}
+
+.new-user {
+    left: 0;
+    bottom: 0;
+    padding: 6%;
+    position: absolute;
+    text-decoration: none !important;
+    cursor: pointer;
+}
+
+.close {
+    float: left;
+}
+
+.register-label {
+    font-size: 20px;
+    font-family: Rubik;
+}
+
+.register-buttons {
+    float: left;
+}
+
+.login-icon {
+    font-size: 48px;
+    position: absolute;
+    top: 15px;
+    padding-right: 15px;
+}
+
+.register-icon {
+    font-size: 35px;
+    position: absolute;
+    top: 18px;
+    padding-right: 10px;
+}

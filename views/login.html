@@ -1,0 +1,65 @@
+<link rel="stylesheet" href="../css/login.css">
+
+<div class="row login-head-container">
+    <img src="../logo/icon.png" class="login-head-icon">
+    <label class="login-label">ForUs</label>
+</div>
+<div (keyup)="LoginKeyUp($event)" align="center" class="row login-container col-md-4 col-xs-10 col-sm-6 col-sm-offset-3 col-xs-offset-1 col-md-offset-4">
+    <loader *ngIf=isLoading></loader>
+    <div class="disable-screen" *ngIf=isLoading></div>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
+                <input [(ngModel)]="user.email" (keyup)="ClearPopover($event.srcElement.id)" id="login-email" class="form-control user-input" type="email" name="email" placeholder="אימייל">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
+                <input [(ngModel)]="user.password" (keyup)="ClearPopover($event.srcElement.id)" id="login-password" class="form-control user-input" type="password" name="password" placeholder="סיסמא">
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <button type="button" id="login-btn" (click)="Login()" class="btn btn-primary login-btn">כניסה</button>               
+            </div>
+        </div>
+    </form>
+    <a class="new-user" data-toggle="modal" data-target="#register-modal">משתמש חדש?</a>
+</div>
+<!-- Register modal -->
+<div (keyup)="RegisterKeyUp($event)" class="modal fade" data-backdrop="static" id="register-modal" tabindex="-1" role="dialog" aria-labelledby="registerLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title register-label" id="registerLabel">הרשמה<i class="material-icons register-icon">perm_identity</i></h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-10 col-md-offset-1">
+                    <input [(ngModel)]="newUser.name" id="register-name" class="form-control user-input" type="text" name="name" placeholder="שם">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10 col-md-offset-1">
+                    <input [(ngModel)]="newUser.email" id="register-email" class="form-control user-input" type="email" name="email" placeholder="אימייל">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10 col-md-offset-1">
+                    <input [(ngModel)]="newUser.password" id="register-password" class="form-control user-input" type="password" name="password" placeholder="סיסמא">
+                </div>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+          <div class="register-buttons">
+            <button type="button" class="btn btn-default" (click)="CancelRegister()">בטל</button>
+            <button type="button" id="register-btn" class="btn btn-primary" (click)="Register()">הירשם</button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<span id="server-error" data-toggle="snackbar" data-content="אירעה שגיאה בשרת, נסו שוב..."></span>
