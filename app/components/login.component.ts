@@ -4,13 +4,13 @@ import { LoginService } from '../services/login.service';
 declare var swal;
 
 export class User {
-  constructor() {this.email = ""; this.password= ""}
+  constructor() { this.email = ""; this.password = "" }
   email: string;
   password: string;
 }
 
 export class NewUser {
-  constructor() {this.name = ""; this.email = ""; this.password= ""}
+  constructor() { this.name = ""; this.email = ""; this.password = "" }
   name: string;
   email: string;
   password: string;
@@ -23,8 +23,8 @@ export class NewUser {
 })
 
 export class LoginComponent {
-  constructor(private loginService: LoginService) {}
-  
+  constructor(private loginService: LoginService) { }
+
   user: User = new User();
   newUser: NewUser = new NewUser();
 
@@ -41,10 +41,10 @@ export class LoginComponent {
         // In case the field is the first invalid field.
         if (isValid) {
           $("#" + loginValidationFuncs[i].fieldId).focus();
-        }         
+        }
 
         CreatePopover(loginValidationFuncs[i].fieldId, loginValidationFuncs[i].errMsg);
-        isValid = false;     
+        isValid = false;
       }
     }
 
@@ -66,7 +66,7 @@ export class LoginComponent {
         // In case of server error.
         if (result == null) {
           $("#server-error").snackbar("show");
-          
+
         }
         else if (result == false) {
           $("#login-failed").snackbar("show");
@@ -81,13 +81,32 @@ export class LoginComponent {
   // Running on the array of register validation functions and make sure all valid.
   RegisterValidation() {
     var isValid = true;
+    var checkedFieldsIds = [];
+
     // Running on all register validation functions.
     for (var i = 0; i < registerValidationFuncs.length; i++) {
-      // In case the field is not valid.
-      if (!registerValidationFuncs[i].isFieldValid(this.newUser)) {
-        isValid = false;
+
+      // In case the field was not invalid before.
+      if (!IsInArray(checkedFieldsIds, registerValidationFuncs[i].fieldId)) {        
+        // In case the field is not valid.
+        if (!registerValidationFuncs[i].isFieldValid(this.newUser)) {
+          isValid = false;
+
+          // Push the field id to the array,
+          // so in the next validation of this field it will not be checked.
+          checkedFieldsIds.push(registerValidationFuncs[i].fieldId);
+
+          // Show the microtext of the field. 
+          $("#" + registerValidationFuncs[i].fieldId).html(registerValidationFuncs[i].errMsg);
+        }
+        else {
+          // Clear the microtext of the field.
+          $("#" + registerValidationFuncs[i].fieldId).html("");
+        }
       }
     }
+
+    checkedFieldsIds = [];
 
     return isValid;
   }
@@ -104,31 +123,33 @@ export class LoginComponent {
       this.loginService.Register(this.newUser.name, this.newUser.email, this.newUser.password).then((result) => {
         this.isLoading = false;
 
-      // In case of server error.
-      if (result == null) {
-        $("#server-error").snackbar("show");
-      }
-      // In case the email is already exists.
-      else if (result == false) {
-        swal(
+        // In case of server error.
+        if (result == null) {
+          $("#server-error").snackbar("show");
+        }
+        // In case the email is already exists.
+        else if (result == false) {
+          swal(
             'אופס...',
             'כתובת האימייל כבר נמצאת בשימוש!',
             'error'
           );
-      }
-      else {
-        $("#register-modal").modal('hide');
-      }
-    });
+        }
+        else {
+          $("#register-modal").modal('hide');
+        }
+      });
     }
   }
 
   // Exit from register modal.
-  CancelRegister()  {
+  CancelRegister() {
     $("#register-modal").modal('hide');
     this.newUser = new NewUser();
+    $(".microtext").html("");
   }
 
+  // Key up in login.
   LoginKeyUp(event) {
     // In case the key is enter.
     if (event.keyCode == 13) {
@@ -137,6 +158,7 @@ export class LoginComponent {
     }
   }
 
+  // Key up in register modal.
   RegisterKeyUp(event) {
     // In case the key is escape.
     if (event.keyCode == 27) {
@@ -145,13 +167,18 @@ export class LoginComponent {
 
     // In case the key is enter.
     if (event.keyCode == 13) {
-      $(".user-input").blur();      
+      $(".user-input").blur();
       this.Register();
     }
   }
 
+  // Destroy the popover.
   ClearPopover(elementId: string): void {
     $("#" + elementId).popover("destroy");
+  }
+
+  CloseAllPopover() {
+    $('.popover').popover("destroy");
   }
 
 }
@@ -190,33 +217,35 @@ var registerValidationFuncs = [
     isFieldValid(newUser) {
       return (newUser.name ? true : false);
     },
-    errMsg: "הכנס את שמך",
-    fieldId: "register-name"
+    errMsg: "הכנס את שמך!",
+    fieldId: "register-name-micro"
   },
   {
     isFieldValid(newUser) {
       return (newUser.email ? true : false);
     },
-    errMsg: "הכנס אימייל",
-    fieldId: "register-email"
+    errMsg: "הכנס אימייל!",
+    fieldId: "register-email-micro"
   },
   {
     isFieldValid(newUser) {
       var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+
       return (emailPattern.test(newUser.email));
     },
-    errMsg: "לא תקין",
-    fieldId: "register-email"
+    errMsg: "כתובת אימייל לא תקינה!",
+    fieldId: "register-email-micro"
   },
   {
     isFieldValid(newUser) {
       return (newUser.password ? true : false);
     },
-    errMsg: "הכנס סיסמא",
-    fieldId: "register-password"
+    errMsg: "הכנס סיסמא!",
+    fieldId: "register-password-micro"
   }
 ];
 
+// Creating a new popover.
 function CreatePopover(elementId: string, text: string): void {
   $("#" + elementId).popover({
     placement: "left",
@@ -227,3 +256,16 @@ function CreatePopover(elementId: string, text: string): void {
 
   $("#" + elementId).popover("show");
 };
+
+// Check if object is in array.
+function IsInArray(array, value) {
+  // Running on all the array.
+  for (var i = 0; i < array.length; i++) {
+    // In case the value is in the array.
+    if (array[i] === value) {
+      return true;
+    }
+  }
+
+  return false;
+}

@@ -83,3 +83,10 @@
 .modal-content {
     border-radius: 5%;
 }
+
+.microtext {
+    font-size: 10px;
+    position: absolute;
+    color: red !important;
+    line-height: 5px;
+}

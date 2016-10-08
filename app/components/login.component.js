@@ -77,13 +77,27 @@ var LoginComponent = (function () {
     // Running on the array of register validation functions and make sure all valid.
     LoginComponent.prototype.RegisterValidation = function () {
         var isValid = true;
+        var checkedFieldsIds = [];
         // Running on all register validation functions.
         for (var i = 0; i < registerValidationFuncs.length; i++) {
-            // In case the field is not valid.
-            if (!registerValidationFuncs[i].isFieldValid(this.newUser)) {
-                isValid = false;
+            // In case the field was not invalid before.
+            if (!IsInArray(checkedFieldsIds, registerValidationFuncs[i].fieldId)) {
+                // In case the field is not valid.
+                if (!registerValidationFuncs[i].isFieldValid(this.newUser)) {
+                    isValid = false;
+                    // Push the field id to the array,
+                    // so in the next validation of this field it will not be checked.
+                    checkedFieldsIds.push(registerValidationFuncs[i].fieldId);
+                    // Show the microtext of the field. 
+                    $("#" + registerValidationFuncs[i].fieldId).html(registerValidationFuncs[i].errMsg);
+                }
+                else {
+                    // Clear the microtext of the field.
+                    $("#" + registerValidationFuncs[i].fieldId).html("");
+                }
             }
         }
+        checkedFieldsIds = [];
         return isValid;
     };
     // Regiter the new user to the DB.
@@ -113,7 +127,9 @@ var LoginComponent = (function () {
     LoginComponent.prototype.CancelRegister = function () {
         $("#register-modal").modal('hide');
         this.newUser = new NewUser();
+        $(".microtext").html("");
     };
+    // Key up in login.
     LoginComponent.prototype.LoginKeyUp = function (event) {
         // In case the key is enter.
         if (event.keyCode == 13) {
@@ -121,6 +137,7 @@ var LoginComponent = (function () {
             this.Login();
         }
     };
+    // Key up in register modal.
     LoginComponent.prototype.RegisterKeyUp = function (event) {
         // In case the key is escape.
         if (event.keyCode == 27) {
@@ -132,8 +149,12 @@ var LoginComponent = (function () {
             this.Register();
         }
     };
+    // Destroy the popover.
     LoginComponent.prototype.ClearPopover = function (elementId) {
         $("#" + elementId).popover("destroy");
+    };
+    LoginComponent.prototype.CloseAllPopover = function () {
+        $('.popover').popover("destroy");
     };
     LoginComponent = __decorate([
         core_1.Component({
@@ -178,32 +199,33 @@ var registerValidationFuncs = [
         isFieldValid: function (newUser) {
             return (newUser.name ? true : false);
         },
-        errMsg: "הכנס את שמך",
-        fieldId: "register-name"
+        errMsg: "הכנס את שמך!",
+        fieldId: "register-name-micro"
     },
     {
         isFieldValid: function (newUser) {
             return (newUser.email ? true : false);
         },
-        errMsg: "הכנס אימייל",
-        fieldId: "register-email"
+        errMsg: "הכנס אימייל!",
+        fieldId: "register-email-micro"
     },
     {
         isFieldValid: function (newUser) {
             var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
             return (emailPattern.test(newUser.email));
         },
-        errMsg: "לא תקין",
-        fieldId: "register-email"
+        errMsg: "כתובת אימייל לא תקינה!",
+        fieldId: "register-email-micro"
     },
     {
         isFieldValid: function (newUser) {
             return (newUser.password ? true : false);
         },
-        errMsg: "הכנס סיסמא",
-        fieldId: "register-password"
+        errMsg: "הכנס סיסמא!",
+        fieldId: "register-password-micro"
     }
 ];
+// Creating a new popover.
 function CreatePopover(elementId, text) {
     $("#" + elementId).popover({
         placement: "left",
@@ -214,4 +236,15 @@ function CreatePopover(elementId, text) {
     $("#" + elementId).popover("show");
 }
 ;
+// Check if object is in array.
+function IsInArray(array, value) {
+    // Running on all the array.
+    for (var i = 0; i < array.length; i++) {
+        // In case the value is in the array.
+        if (array[i] === value) {
+            return true;
+        }
+    }
+    return false;
+}
 //# sourceMappingURL=login.component.js.map
