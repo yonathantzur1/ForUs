@@ -192,4 +192,5 @@ function CreatePopover(elementId, text) {
     });
     $("#" + elementId).popover("show");
 }
+;
 //# sourceMappingURL=login.component.js.map

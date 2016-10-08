@@ -208,4 +208,4 @@ function CreatePopover(elementId: string, text: string): void {
   });
 
   $("#" + elementId).popover("show");
-}
+};
