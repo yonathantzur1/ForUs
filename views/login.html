@@ -31,7 +31,7 @@
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" (click)="CancelRegister()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title register-label" id="registerLabel">הרשמה<i class="material-icons register-icon">perm_identity</i></h4>
       </div>
       <div class="modal-body">
@@ -63,3 +63,4 @@
   </div>
 </div>
 <span id="server-error" data-toggle="snackbar" data-content="אירעה שגיאה בשרת, נסו שוב..."></span>
+<span id="login-failed" data-toggle="snackbar" data-content="שם המשתמש או הסיסמא שגויים"></span>

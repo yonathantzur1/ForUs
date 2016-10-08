@@ -66,7 +66,7 @@ var LoginComponent = (function () {
                     $("#server-error").snackbar("show");
                 }
                 else if (result == false) {
-                    swal('אופס...', 'כתובת האימייל או הסיסמא שגויים', 'error');
+                    $("#login-failed").snackbar("show");
                 }
                 else {
                     swal("ברוך הבא!");
@@ -112,6 +112,7 @@ var LoginComponent = (function () {
     // Exit from register modal.
     LoginComponent.prototype.CancelRegister = function () {
         $("#register-modal").modal('hide');
+        this.newUser = new NewUser();
     };
     LoginComponent.prototype.LoginKeyUp = function (event) {
         // In case the key is enter.
@@ -121,6 +122,10 @@ var LoginComponent = (function () {
         }
     };
     LoginComponent.prototype.RegisterKeyUp = function (event) {
+        // In case the key is escape.
+        if (event.keyCode == 27) {
+            this.newUser = new NewUser();
+        }
         // In case the key is enter.
         if (event.keyCode == 13) {
             $(".user-input").blur();
@@ -153,6 +158,14 @@ var loginValidationFuncs = [
     },
     {
         isFieldValid: function (user) {
+            var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+            return (emailPattern.test(user.email));
+        },
+        errMsg: "לא תקין",
+        fieldId: "login-email"
+    },
+    {
+        isFieldValid: function (user) {
             return (user.password ? true : false);
         },
         errMsg: "נדרש",
@@ -173,6 +186,14 @@ var registerValidationFuncs = [
             return (newUser.email ? true : false);
         },
         errMsg: "הכנס אימייל",
+        fieldId: "register-email"
+    },
+    {
+        isFieldValid: function (newUser) {
+            var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+            return (emailPattern.test(newUser.email));
+        },
+        errMsg: "לא תקין",
         fieldId: "register-email"
     },
     {
