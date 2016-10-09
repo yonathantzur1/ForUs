@@ -9,14 +9,16 @@
     <form class="form-horizontal">
         <div class="form-group">
             <div class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
-                <input [(ngModel)]="user.email" (keyup)="ClearPopover($event.srcElement.id)" id="login-email" class="form-control user-input"
+                <input [(ngModel)]="user.email" id="login-email" class="form-control user-input"
                     type="email" name="email" placeholder="אימייל">
+                    <label id="login-email-micro" class="microtext microtext-align"></label>
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
-                <input [(ngModel)]="user.password" (keyup)="ClearPopover($event.srcElement.id)" id="login-password" class="form-control user-input"
+                <input [(ngModel)]="user.password" id="login-password" class="form-control user-input"
                     type="password" name="password" placeholder="סיסמא">
+                    <label id="login-password-micro" class="microtext microtext-align"></label>
             </div>
         </div>
         <div class="form-group">
@@ -25,7 +27,7 @@
             </div>
         </div>
     </form>
-    <a class="new-user" (click)="CloseAllPopover()" data-toggle="modal" data-target="#register-modal">משתמש חדש?</a>
+    <a class="new-user" data-toggle="modal" data-target="#register-modal">משתמש חדש?</a>
 </div>
 <!-- Register modal -->
 <div (keyup)="RegisterKeyUp($event)" class="modal fade" data-backdrop="static" id="register-modal" tabindex="-1" role="dialog"

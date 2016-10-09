@@ -37,18 +37,31 @@ var LoginComponent = (function () {
     // Running on the array of login validation functions and make sure all valid.
     LoginComponent.prototype.LoginValidation = function () {
         var isValid = true;
+        var checkedFieldsIds = [];
         // Running on all login validation functions.
         for (var i = 0; i < loginValidationFuncs.length; i++) {
-            // In case the field is not valid.
-            if (!loginValidationFuncs[i].isFieldValid(this.user)) {
-                // In case the field is the first invalid field.
-                if (isValid) {
-                    $("#" + loginValidationFuncs[i].fieldId).focus();
+            // In case the field was not invalid before.
+            if (!IsInArray(checkedFieldsIds, loginValidationFuncs[i].fieldId)) {
+                // In case the field is not valid.
+                if (!loginValidationFuncs[i].isFieldValid(this.user)) {
+                    // In case the field is the first invalid field.
+                    if (isValid) {
+                        $("#" + loginValidationFuncs[i].inputId).focus();
+                    }
+                    isValid = false;
+                    // Push the field id to the array,
+                    // so in the next validation of this field it will not be checked.
+                    checkedFieldsIds.push(loginValidationFuncs[i].fieldId);
+                    // Show the microtext of the field. 
+                    $("#" + loginValidationFuncs[i].fieldId).html(loginValidationFuncs[i].errMsg);
                 }
-                CreatePopover(loginValidationFuncs[i].fieldId, loginValidationFuncs[i].errMsg);
-                isValid = false;
+                else {
+                    // Clear the microtext of the field.
+                    $("#" + loginValidationFuncs[i].fieldId).html("");
+                }
             }
         }
+        checkedFieldsIds = [];
         return isValid;
     };
     // Login user and redirect him to main page.
@@ -84,6 +97,10 @@ var LoginComponent = (function () {
             if (!IsInArray(checkedFieldsIds, registerValidationFuncs[i].fieldId)) {
                 // In case the field is not valid.
                 if (!registerValidationFuncs[i].isFieldValid(this.newUser)) {
+                    // In case the field is the first invalid field.
+                    if (isValid) {
+                        $("#" + registerValidationFuncs[i].inputId).focus();
+                    }
                     isValid = false;
                     // Push the field id to the array,
                     // so in the next validation of this field it will not be checked.
@@ -149,13 +166,6 @@ var LoginComponent = (function () {
             this.Register();
         }
     };
-    // Destroy the popover.
-    LoginComponent.prototype.ClearPopover = function (elementId) {
-        $("#" + elementId).popover("destroy");
-    };
-    LoginComponent.prototype.CloseAllPopover = function () {
-        $('.popover').popover("destroy");
-    };
     LoginComponent = __decorate([
         core_1.Component({
             selector: 'login',
@@ -175,7 +185,8 @@ var loginValidationFuncs = [
             return (user.email ? true : false);
         },
         errMsg: "נדרש",
-        fieldId: "login-email"
+        fieldId: "login-email-micro",
+        inputId: "login-email"
     },
     {
         isFieldValid: function (user) {
@@ -183,14 +194,16 @@ var loginValidationFuncs = [
             return (emailPattern.test(user.email));
         },
         errMsg: "לא תקין",
-        fieldId: "login-email"
+        fieldId: "login-email-micro",
+        inputId: "login-email"
     },
     {
         isFieldValid: function (user) {
             return (user.password ? true : false);
         },
         errMsg: "נדרש",
-        fieldId: "login-password"
+        fieldId: "login-password-micro",
+        inputId: "login-password"
     }
 ];
 // Register validation functions array.
@@ -200,14 +213,16 @@ var registerValidationFuncs = [
             return (newUser.name ? true : false);
         },
         errMsg: "הכנס את שמך!",
-        fieldId: "register-name-micro"
+        fieldId: "register-name-micro",
+        inputId: "register-name"
     },
     {
         isFieldValid: function (newUser) {
             return (newUser.email ? true : false);
         },
         errMsg: "הכנס אימייל!",
-        fieldId: "register-email-micro"
+        fieldId: "register-email-micro",
+        inputId: "register-email"
     },
     {
         isFieldValid: function (newUser) {
@@ -215,27 +230,18 @@ var registerValidationFuncs = [
             return (emailPattern.test(newUser.email));
         },
         errMsg: "כתובת אימייל לא תקינה!",
-        fieldId: "register-email-micro"
+        fieldId: "register-email-micro",
+        inputId: "register-email"
     },
     {
         isFieldValid: function (newUser) {
             return (newUser.password ? true : false);
         },
         errMsg: "הכנס סיסמא!",
-        fieldId: "register-password-micro"
+        fieldId: "register-password-micro",
+        inputId: "register-password"
     }
 ];
-// Creating a new popover.
-function CreatePopover(elementId, text) {
-    $("#" + elementId).popover({
-        placement: "left",
-        toggle: "popover",
-        content: text,
-        animation: true
-    });
-    $("#" + elementId).popover("show");
-}
-;
 // Check if object is in array.
 function IsInArray(array, value) {
     // Running on all the array.

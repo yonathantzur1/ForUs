@@ -85,8 +85,12 @@
 }
 
 .microtext {
-    font-size: 10px;
+    font-size: 11px;
     position: absolute;
     color: red !important;
     line-height: 5px;
+}
+
+.microtext-align {
+    right: 5%;;
 }
