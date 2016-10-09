@@ -140,9 +140,9 @@ var LoginComponent = (function () {
             });
         }
     };
-    // Exit from register modal.
-    LoginComponent.prototype.CancelRegister = function () {
-        $("#register-modal").modal('hide');
+    // Clear all when open the register modal.
+    LoginComponent.prototype.OpenRegister = function () {
+        this.user = new User();
         this.newUser = new NewUser();
         $(".microtext").html("");
     };
@@ -165,6 +165,9 @@ var LoginComponent = (function () {
             $(".user-input").blur();
             this.Register();
         }
+    };
+    LoginComponent.prototype.HideMicrotext = function (fieldId) {
+        $("#" + fieldId).html("");
     };
     LoginComponent = __decorate([
         core_1.Component({

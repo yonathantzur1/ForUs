@@ -9,16 +9,16 @@
     <form class="form-horizontal">
         <div class="form-group">
             <div class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
-                <input [(ngModel)]="user.email" id="login-email" class="form-control user-input"
-                    type="email" name="email" placeholder="אימייל">
-                    <label id="login-email-micro" class="microtext microtext-align"></label>
+                <input [(ngModel)]="user.email" id="login-email" class="form-control user-input" type="email" name="email" (keyup)="HideMicrotext($event.srcElement.id + '-micro')"
+                    placeholder="אימייל">
+                <label id="login-email-micro" class="microtext microtext-align"></label>
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
-                <input [(ngModel)]="user.password" id="login-password" class="form-control user-input"
-                    type="password" name="password" placeholder="סיסמא">
-                    <label id="login-password-micro" class="microtext microtext-align"></label>
+                <input [(ngModel)]="user.password" id="login-password" class="form-control user-input" type="password" name="password" (keyup)="HideMicrotext($event.srcElement.id + '-micro')"
+                    placeholder="סיסמא">
+                <label id="login-password-micro" class="microtext microtext-align"></label>
             </div>
         </div>
         <div class="form-group">
@@ -27,7 +27,7 @@
             </div>
         </div>
     </form>
-    <a class="new-user" data-toggle="modal" data-target="#register-modal">משתמש חדש?</a>
+    <a class="new-user" (click)="OpenRegister()" data-toggle="modal" data-target="#register-modal">משתמש חדש?</a>
 </div>
 <!-- Register modal -->
 <div (keyup)="RegisterKeyUp($event)" class="modal fade" data-backdrop="static" id="register-modal" tabindex="-1" role="dialog"
@@ -35,27 +35,29 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" (click)="CancelRegister()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title register-label" id="registerLabel">הרשמה<i class="material-icons register-icon">perm_identity</i></h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
                         <div class="col-md-10 col-md-offset-1">
-                            <input [(ngModel)]="newUser.name" id="register-name" class="form-control user-input" type="text" name="name" placeholder="שם">
+                            <input [(ngModel)]="newUser.name" id="register-name" class="form-control user-input" type="text" name="name" (keyup)="HideMicrotext($event.srcElement.id + '-micro')"
+                                placeholder="שם">
                             <label id="register-name-micro" class="microtext"></label>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-10 col-md-offset-1">
-                            <input [(ngModel)]="newUser.email" id="register-email" class="form-control user-input" type="email" name="email" placeholder="אימייל">
+                            <input [(ngModel)]="newUser.email" id="register-email" class="form-control user-input" type="email" name="email" (keyup)="HideMicrotext($event.srcElement.id + '-micro')"
+                                placeholder="אימייל">
                             <label id="register-email-micro" class="microtext"></label>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-10 col-md-offset-1">
                             <input [(ngModel)]="newUser.password" id="register-password" class="form-control user-input" type="password" name="password"
-                                placeholder="סיסמא">
+                                (keyup)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="סיסמא">
                             <label id="register-password-micro" class="microtext"></label>
                         </div>
                     </div>
@@ -63,7 +65,7 @@
             </div>
             <div class="modal-footer">
                 <div class="register-buttons">
-                    <button type="button" class="btn btn-default" (click)="CancelRegister()">בטל</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">בטל</button>
                     <button type="button" id="register-btn" class="btn btn-primary" (click)="Register()">הירשם</button>
                 </div>
             </div>

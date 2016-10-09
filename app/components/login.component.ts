@@ -163,9 +163,9 @@ export class LoginComponent {
     }
   }
 
-  // Exit from register modal.
-  CancelRegister() {
-    $("#register-modal").modal('hide');
+  // Clear all when open the register modal.
+  OpenRegister() {
+    this.user = new User();
     this.newUser = new NewUser();
     $(".microtext").html("");
   }
@@ -192,6 +192,12 @@ export class LoginComponent {
       this.Register();
     }
   }
+
+  HideMicrotext(fieldId) {
+    $("#" + fieldId).html("");
+  }
+
+
 }
 
 //***Help vars and functions***//
