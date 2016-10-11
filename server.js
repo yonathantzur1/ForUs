@@ -3,6 +3,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 var path = require('path');
+var mailer = require('./modules/mailer.js')
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -15,7 +16,7 @@ var server = app.listen((process.env.PORT || 8000), function() {
     console.log("Server is up!");
 });
 
-require('./routes/login.js')(app, BL);
+require('./routes/login.js')(app, BL, mailer);
 
 // Redirect angular requests back to client side.
 app.get('**', function(req, res) {

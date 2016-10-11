@@ -1,4 +1,4 @@
-module.exports = function (app, BL) {
+module.exports = function (app, BL, mailer) {
 
     app.get('/login/:email/:password', function (req, res) {
         var filter = { "email": req.params.email, 'password': req.params.password };
@@ -35,7 +35,11 @@ module.exports = function (app, BL) {
                     if (result == null) {
                         res.status(500).send();
                     }
+                    // In case all register progress was succeeded.
                     else {
+                        // Sending welcome mail to the new user.
+                        mailer.SendMail(req.body.email, mailer.RegisterMail.title, mailer.RegisterMail.text);
+
                         // Send the new user that added to DB.
                         res.send(result);
                     }

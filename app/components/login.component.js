@@ -132,7 +132,8 @@ var LoginComponent = (function () {
                     $("#server-error").snackbar("show");
                 }
                 else if (result == false) {
-                    swal('אופס...', 'כתובת האימייל כבר נמצאת בשימוש!', 'error');
+                    // Show microtext of the email field. 
+                    $("#register-email-micro").html("אימייל זה כבר נמצא בשימוש!");
                 }
                 else {
                     $("#register-modal").modal('hide');
