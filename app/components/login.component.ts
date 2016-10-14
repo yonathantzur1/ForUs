@@ -194,7 +194,6 @@ export class LoginComponent {
     $("#" + fieldId).html("");
   }
 
-
 }
 
 //***Help vars and functions***//
@@ -214,7 +213,7 @@ var loginValidationFuncs = [
       var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
       return (emailPattern.test(user.email));
     },
-    errMsg: "לא תקין",
+    errMsg: "כתובת אימייל לא תקינה!",
     fieldId: "login-email-micro",
     inputId: "login-email"
   },
