@@ -1,19 +1,19 @@
 var nodemailer = require('nodemailer');
 
-// create reusable transporter object using the default SMTP transport
+// Create reusable transporter object using the default SMTP transport
 var transporter = nodemailer.createTransport('smtps://forusmailer%40gmail.com:popCorn1@smtp.gmail.com');
 
 module.exports = {
     SendMail: function(p_destMail, p_mailContent) {
-        // setup e-mail data with unicode symbols
+        // Setup email data with unicode symbols
         var mailOptions = {
-            from: '"ForUs" <forusmailer@gmail.com>', // sender address
-            to: p_destMail, // list of receivers
+            from: '"ForUs" <forusmailer@gmail.com>', // Sender address
+            to: p_destMail, // List of receivers
             subject: p_mailContent.title, // Subject line
-            text: p_mailContent.text // plaintext body
+            text: p_mailContent.text // Plaintext body
         };
 
-        // send mail with defined transport object
+        // Send email with defined transport object
         transporter.sendMail(mailOptions, function(error, info){
             if(error){
                 return console.log(error);

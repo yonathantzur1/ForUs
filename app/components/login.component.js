@@ -167,6 +167,7 @@ var LoginComponent = (function () {
             this.Register();
         }
     };
+    // Hide microtext in a specific field.
     LoginComponent.prototype.HideMicrotext = function (fieldId) {
         $("#" + fieldId).html("");
     };
@@ -188,7 +189,7 @@ var loginValidationFuncs = [
         isFieldValid: function (user) {
             return (user.email ? true : false);
         },
-        errMsg: "נדרש",
+        errMsg: "יש להזין כתובת אימייל",
         fieldId: "login-email-micro",
         inputId: "login-email"
     },
@@ -197,7 +198,7 @@ var loginValidationFuncs = [
             var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
             return (emailPattern.test(user.email));
         },
-        errMsg: "לא תקין",
+        errMsg: "כתובת אימייל לא תקינה",
         fieldId: "login-email-micro",
         inputId: "login-email"
     },
@@ -205,7 +206,7 @@ var loginValidationFuncs = [
         isFieldValid: function (user) {
             return (user.password ? true : false);
         },
-        errMsg: "נדרש",
+        errMsg: "יש להזין סיסמא",
         fieldId: "login-password-micro",
         inputId: "login-password"
     }
@@ -216,7 +217,7 @@ var registerValidationFuncs = [
         isFieldValid: function (newUser) {
             return (newUser.name ? true : false);
         },
-        errMsg: "הכנס את שמך!",
+        errMsg: "יש להזין את שמך!",
         fieldId: "register-name-micro",
         inputId: "register-name"
     },
@@ -224,7 +225,7 @@ var registerValidationFuncs = [
         isFieldValid: function (newUser) {
             return (newUser.email ? true : false);
         },
-        errMsg: "הכנס אימייל!",
+        errMsg: "יש להזין כתובת אימייל!",
         fieldId: "register-email-micro",
         inputId: "register-email"
     },
@@ -241,7 +242,7 @@ var registerValidationFuncs = [
         isFieldValid: function (newUser) {
             return (newUser.password ? true : false);
         },
-        errMsg: "הכנס סיסמא!",
+        errMsg: "יש להזין סיסמא!",
         fieldId: "register-password-micro",
         inputId: "register-password"
     }
