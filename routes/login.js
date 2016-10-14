@@ -38,7 +38,7 @@ module.exports = function (app, BL, mailer) {
                     // In case all register progress was succeeded.
                     else {
                         // Sending welcome mail to the new user.
-                        mailer.SendMail(req.body.email, mailer.RegisterMail.title, mailer.RegisterMail.text);
+                        mailer.SendMail(req.body.email, mailer.GetRegisterMailContent(req.body.name));
 
                         // Send the new user that added to DB.
                         res.send(result);

@@ -4,13 +4,13 @@ var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport('smtps://forusmailer%40gmail.com:popCorn1@smtp.gmail.com');
 
 module.exports = {
-    SendMail: function(p_destMail, p_title, p_text) {
+    SendMail: function(p_destMail, p_mailContent) {
         // setup e-mail data with unicode symbols
         var mailOptions = {
             from: '"ForUs" <forusmailer@gmail.com>', // sender address
             to: p_destMail, // list of receivers
-            subject: p_title, // Subject line
-            text: p_text // plaintext body
+            subject: p_mailContent.title, // Subject line
+            text: p_mailContent.text // plaintext body
         };
 
         // send mail with defined transport object
@@ -21,8 +21,12 @@ module.exports = {
             console.log('Message sent: ' + info.response);
         });
     },
-    RegisterMail: {
-        title: "ברוך הבא!",
-        text: "שלום, ברוך הבא לאתר ForUs!"
+    GetRegisterMailContent: function(p_name) {
+        var content = {
+            title: "ברוך הבא!",
+            text: "שלום " + p_name + ", ברוך הבא לאתר ForUs!"
+        };
+
+        return content;
     }
 };
