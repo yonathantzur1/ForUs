@@ -3,8 +3,8 @@ var DAL = require('./DAL.js');
 module.exports = {
 
     // Return true if the user was found else false.
-    ValidateUser : function(collectionName, filter, callback) {
-        DAL.GetDocsByFilter(collectionName, filter, function(result) {
+    ValidateUser: function (collectionName, filter, callback) {
+        DAL.GetDocsByFilter(collectionName, filter, function (result) {
             // In case of error or more then one user, return null.
             if (result == null || result.length > 1) {
                 callback(null);
@@ -21,8 +21,8 @@ module.exports = {
     },
 
     // Check if property is exists in DB.
-    CheckIfUserExists : function(collectionName, email, callback) {
-        DAL.GetDocsByFilter(collectionName, email, function(result) {
+    CheckIfUserExists: function (collectionName, email, callback) {
+        DAL.GetDocsByFilter(collectionName, email, function (result) {
             // In case of error return null.
             if (result == null) {
                 callback(null);
@@ -39,8 +39,8 @@ module.exports = {
     },
 
     // Add user to the DB.
-    AddUser : function(collectionName, user, callback) {
-        DAL.InsertDocument(collectionName, user, function(result) {
+    AddUser: function (collectionName, user, callback) {
+        DAL.InsertDocument(collectionName, user, function (result) {
             // In case of error.
             if (result == null) {
                 callback(null);

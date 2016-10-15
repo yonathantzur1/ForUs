@@ -8,7 +8,7 @@ module.exports = function (app, BL, mailer) {
                 res.status(500).send();
             }
             else {
-                res.send(result)
+                res.send(result);
             }
         });
     });

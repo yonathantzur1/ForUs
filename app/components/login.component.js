@@ -66,25 +66,12 @@ var LoginComponent = (function () {
     };
     // Login user and redirect him to main page.
     LoginComponent.prototype.Login = function () {
-        var _this = this;
         // Focus out login button.
         $("#login-btn").blur();
         // In case the login fields are valid.
         if (this.LoginValidation()) {
             this.isLoading = true;
-            this.loginService.Login(this.user.email, this.user.password).then(function (result) {
-                _this.isLoading = false;
-                // In case of server error.
-                if (result == null) {
-                    $("#server-error").snackbar("show");
-                }
-                else if (result == false) {
-                    $("#login-failed").snackbar("show");
-                }
-                else {
-                    swal("ברוך הבא!");
-                }
-            });
+            this.loginService.Login(this.user.email, this.user.password);
         }
     };
     // Running on the array of register validation functions and make sure all valid.

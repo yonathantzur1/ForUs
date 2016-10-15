@@ -1,4 +1,4 @@
-import { Component }      from '@angular/core';
+import { Component } from '@angular/core';
 import { LoginService } from '../services/login.service';
 
 declare var swal;
@@ -38,7 +38,7 @@ export class LoginComponent {
     // Running on all login validation functions.
     for (var i = 0; i < loginValidationFuncs.length; i++) {
       // In case the field was not invalid before.
-      if (!IsInArray(checkedFieldsIds, loginValidationFuncs[i].fieldId)) {        
+      if (!IsInArray(checkedFieldsIds, loginValidationFuncs[i].fieldId)) {
         // In case the field is not valid.
         if (!loginValidationFuncs[i].isFieldValid(this.user)) {
           // In case the field is the first invalid field.
@@ -103,7 +103,7 @@ export class LoginComponent {
     for (var i = 0; i < registerValidationFuncs.length; i++) {
 
       // In case the field was not invalid before.
-      if (!IsInArray(checkedFieldsIds, registerValidationFuncs[i].fieldId)) {        
+      if (!IsInArray(checkedFieldsIds, registerValidationFuncs[i].fieldId)) {
         // In case the field is not valid.
         if (!registerValidationFuncs[i].isFieldValid(this.newUser)) {
           // In case the field is the first invalid field.
