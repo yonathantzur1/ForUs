@@ -60,7 +60,12 @@ module.exports = {
                 },
                 function(err, result) {
                     if (err == null) {
-                        callback(result.value.name);
+                        if (result.value != null) {
+                            callback(result.value.name);
+                        }
+                        else {
+                            callback(false);
+                        }
                     }
                     else {
                         callback(null);
