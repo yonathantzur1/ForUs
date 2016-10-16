@@ -13,7 +13,7 @@ module.exports = function (app, BL, mailer) {
         });
     });
 
-    app.post('/Register', function (req, res) {
+    app.post('/register', function (req, res) {
         var email = { "email": req.body.email };
 
         // Check if the email is exists in the DB.
@@ -45,6 +45,19 @@ module.exports = function (app, BL, mailer) {
                     }
                 });
             }
+        });
+    });
+
+    app.put('/forgot', function (req, res) {
+        var email = { "email": req.body.email };
+
+        BL.AddResetCode("Users", email, function (result) {
+            if (result != null) {
+                // TODO: sending the mail.
+            }
+            
+            res.send(result);
+
         });
     });
 

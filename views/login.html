@@ -18,6 +18,9 @@
 			<div class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
 				<input [(ngModel)]="user.password" id="login-password" class="form-control user-input" type="password" name="password" (keyup)="HideMicrotext($event.srcElement.id + '-micro')"
 					placeholder="סיסמא">
+				<div class="forgot-link-sector">
+					<a class="forgot-link" (click)="OpenForgot()" data-toggle="modal" data-target="#forgot-modal">שכחתי?</a>
+				</div>
 				<label id="login-password-micro" class="microtext microtext-align"></label>
 			</div>
 		</div>
@@ -36,14 +39,14 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title register-label" id="registerLabel">הרשמה<i class="material-icons register-icon">perm_identity</i></h4>
+				<h4 class="modal-title modal-title-label" id="registerLabel">הרשמה<i class="material-icons modal-title-icon">perm_identity</i></h4>
 			</div>
 			<div class="modal-body">
 				<form class="form-horizontal">
 					<div class="form-group">
 						<div class="col-md-10 col-md-offset-1">
 							<input [(ngModel)]="newUser.name" id="register-name" class="form-control user-input" type="text" name="name" (keyup)="HideMicrotext($event.srcElement.id + '-micro')"
-								placeholder="שם">
+								maxlength="30" placeholder="שם">
 							<label id="register-name-micro" class="microtext"></label>
 						</div>
 					</div>
@@ -64,7 +67,7 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<div class="register-buttons">
+				<div class="modal-footer-buttons">
 					<button type="button" class="btn btn-default" data-dismiss="modal">בטל</button>
 					<button type="button" id="register-btn" class="btn btn-primary" (click)="Register()">הירשם</button>
 				</div>
@@ -72,5 +75,36 @@
 		</div>
 	</div>
 </div>
+
+<!-- Reset password modal -->
+<div class="modal fade" data-backdrop="static" id="forgot-modal" tabindex="-1" role="dialog"
+	aria-labelledby="forgotLabel">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title modal-title-label" id="forgotLabel">איפוס סיסמא<i class="material-icons modal-title-icon">lock_outline</i></h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<div class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
+							<input [(ngModel)]="forgot.email" id="forgot-email" class="form-control user-input" type="email" name="email" (keyup)="HideMicrotext($event.srcElement.id + '-micro')"
+								placeholder="אימייל">
+							<label id="forgot-email-micro" class="microtext microtext-align"></label>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<div class="modal-footer-buttons">
+					<button type="button" class="btn btn-default" data-dismiss="modal">בטל</button>
+					<button type="button" id="register-btn" class="btn btn-primary" (click)="ResetPassword()">אפס סיסמא</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <span id="server-error" data-toggle="snackbar" data-content="אירעה שגיאה בשרת, נסו שוב..."></span>
 <span id="login-failed" data-toggle="snackbar" data-content="שם המשתמש או הסיסמא שגויים"></span>

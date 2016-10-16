@@ -1,5 +1,8 @@
 var config = require('./config.js');
 
+var generator = require('./generator.js');
+var codeNumOfDigits = 6;
+
 var MongoClient = require('mongodb').MongoClient,
     assert = require('assert');
 
@@ -46,5 +49,28 @@ module.exports = {
                 callback(null);
             }
         });
+    },
+
+    AddResetCode: function (collectionName, email, callback) {
+        MongoClient.connect(url, function (err, db) {
+            if (err == null) {
+                var collection = db.collection(collectionName);
+                collection.findOneAndUpdate(email, {$set: {resetCode: generator.GenerateId(codeNumOfDigits)}}, {
+                    returnOriginal: false,
+                },
+                function(err, result) {
+                    if (err == null) {
+                        callback(result.value.name);
+                    }
+                    else {
+                        callback(null);
+                    }
+                });
+            }
+            else {
+                callback(null);
+            }
+        });
     }
+
 };

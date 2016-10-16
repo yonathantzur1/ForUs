@@ -16,6 +16,12 @@ export class NewUser {
   password: string;
 }
 
+export class Forgot {
+  constructor() { this.email = ""; this.code = "" }
+  email: string;
+  code: string
+}
+
 @Component({
   selector: 'login',
   templateUrl: 'views/login.html',
@@ -27,6 +33,7 @@ export class LoginComponent {
 
   user: User = new User();
   newUser: NewUser = new NewUser();
+  forgot: Forgot = new Forgot();
 
   isLoading: boolean = false;
 
@@ -160,8 +167,15 @@ export class LoginComponent {
     }
   }
 
-  // Clear all when open the register modal.
+  // Open the register modal and clear all.
   OpenRegister() {
+    this.user = new User();
+    this.newUser = new NewUser();
+    $(".microtext").html("");
+  }
+
+  // Open the forgot modal and clear all.
+  OpenForgot() {
     this.user = new User();
     this.newUser = new NewUser();
     $(".microtext").html("");
@@ -193,6 +207,18 @@ export class LoginComponent {
   // Hide microtext in a specific field.
   HideMicrotext(fieldId) {
     $("#" + fieldId).html("");
+  }
+
+  ResetPasswordValidation() {
+
+  }
+
+  ResetPassword() {
+    this.isLoading = true;
+
+    this.loginService.Forgot(this.forgot.email).then((result) => {
+      this.isLoading = false;
+    });
   }
 
 }
@@ -235,6 +261,15 @@ var registerValidationFuncs = [
       return (newUser.name ? true : false);
     },
     errMsg: "יש להזין את שמך!",
+    fieldId: "register-name-micro",
+    inputId: "register-name"
+  },
+  {
+    isFieldValid(newUser) {
+      var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*$/i;
+      return (namePattern.test(newUser.name));
+    },
+    errMsg: "יש להזין שם תקין בעברית!",
     fieldId: "register-name-micro",
     inputId: "register-name"
   },

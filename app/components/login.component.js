@@ -27,11 +27,20 @@ var NewUser = (function () {
     return NewUser;
 }());
 exports.NewUser = NewUser;
+var Forgot = (function () {
+    function Forgot() {
+        this.email = "";
+        this.code = "";
+    }
+    return Forgot;
+}());
+exports.Forgot = Forgot;
 var LoginComponent = (function () {
     function LoginComponent(loginService) {
         this.loginService = loginService;
         this.user = new User();
         this.newUser = new NewUser();
+        this.forgot = new Forgot();
         this.isLoading = false;
     }
     // Running on the array of login validation functions and make sure all valid.
@@ -141,8 +150,14 @@ var LoginComponent = (function () {
             });
         }
     };
-    // Clear all when open the register modal.
+    // Open the register modal and clear all.
     LoginComponent.prototype.OpenRegister = function () {
+        this.user = new User();
+        this.newUser = new NewUser();
+        $(".microtext").html("");
+    };
+    // Open the forgot modal and clear all.
+    LoginComponent.prototype.OpenForgot = function () {
         this.user = new User();
         this.newUser = new NewUser();
         $(".microtext").html("");
@@ -170,6 +185,15 @@ var LoginComponent = (function () {
     // Hide microtext in a specific field.
     LoginComponent.prototype.HideMicrotext = function (fieldId) {
         $("#" + fieldId).html("");
+    };
+    LoginComponent.prototype.ResetPasswordValidation = function () {
+    };
+    LoginComponent.prototype.ResetPassword = function () {
+        var _this = this;
+        this.isLoading = true;
+        this.loginService.Forgot(this.forgot.email).then(function (result) {
+            _this.isLoading = false;
+        });
     };
     LoginComponent = __decorate([
         core_1.Component({
@@ -218,6 +242,15 @@ var registerValidationFuncs = [
             return (newUser.name ? true : false);
         },
         errMsg: "יש להזין את שמך!",
+        fieldId: "register-name-micro",
+        inputId: "register-name"
+    },
+    {
+        isFieldValid: function (newUser) {
+            var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*$/i;
+            return (namePattern.test(newUser.name));
+        },
+        errMsg: "יש להזין שם תקין בעברית!",
         fieldId: "register-name-micro",
         inputId: "register-name"
     },

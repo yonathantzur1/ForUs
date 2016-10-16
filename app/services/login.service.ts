@@ -24,7 +24,19 @@ export class LoginService {
 
     Register(name: string, email: string, password: string) {
         var details = JSON.stringify({"name": name, "email": email, "password": sha512(password)});
-        return this.http.post('/Register', details, {headers: this.headers})
+        return this.http.post('/register', details, {headers: this.headers})
+        .toPromise()
+        .then((result) => {
+            return result.json();
+        })
+        .catch((result) => {
+            return null;
+        });
+    }
+
+    Forgot(email: string) {
+        var details = JSON.stringify({"email": email});
+        return this.http.put('/forgot', details, {headers: this.headers})
         .toPromise()
         .then((result) => {
             return result.json();

@@ -28,7 +28,18 @@ var LoginService = (function () {
     };
     LoginService.prototype.Register = function (name, email, password) {
         var details = JSON.stringify({ "name": name, "email": email, "password": sha512(password) });
-        return this.http.post('/Register', details, { headers: this.headers })
+        return this.http.post('/register', details, { headers: this.headers })
+            .toPromise()
+            .then(function (result) {
+            return result.json();
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
+    LoginService.prototype.Forgot = function (email) {
+        var details = JSON.stringify({ "email": email });
+        return this.http.put('/forgot', details, { headers: this.headers })
             .toPromise()
             .then(function (result) {
             return result.json();

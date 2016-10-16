@@ -49,6 +49,13 @@ module.exports = {
                 callback(result);
             }
         });
+    },
+
+    // Adding reset password code to the DB and return the name of the user.
+    AddResetCode: function (collectionName, email, callback) {
+        DAL.AddResetCode(collectionName, email, function(result) {
+            callback(result);
+        });
     }
 
 };
