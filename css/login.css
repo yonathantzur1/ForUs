@@ -116,3 +116,14 @@
     cursor: pointer;
     font-size: 12px;
 }
+
+.submit-email-forgot {
+    padding: 0;
+    left: 15px;
+}
+
+.cancel-forgot {
+    padding: 0;
+    top: 5px;
+    left: 30px;
+}

@@ -76,9 +76,6 @@ export class LoginComponent {
 
   // Login user and redirect him to main page.
   Login() {
-    // Focus out login button.
-    $("#login-btn").blur();
-
     // In case the login fields are valid.
     if (this.LoginValidation()) {
       this.isLoading = true;
@@ -141,9 +138,6 @@ export class LoginComponent {
 
   // Regiter the new user to the DB.
   Register() {
-    // Focus out register button.
-    $("#register-btn").blur();
-
     // In case the register modal fields are valid.
     if (this.RegisterValidation()) {
       this.isLoading = true;

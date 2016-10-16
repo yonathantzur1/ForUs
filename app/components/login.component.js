@@ -76,8 +76,6 @@ var LoginComponent = (function () {
     // Login user and redirect him to main page.
     LoginComponent.prototype.Login = function () {
         var _this = this;
-        // Focus out login button.
-        $("#login-btn").blur();
         // In case the login fields are valid.
         if (this.LoginValidation()) {
             this.isLoading = true;
@@ -129,8 +127,6 @@ var LoginComponent = (function () {
     // Regiter the new user to the DB.
     LoginComponent.prototype.Register = function () {
         var _this = this;
-        // Focus out register button.
-        $("#register-btn").blur();
         // In case the register modal fields are valid.
         if (this.RegisterValidation()) {
             this.isLoading = true;
