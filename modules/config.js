@@ -1,3 +1,3 @@
 module.exports = {
-    connectionString: 'mongodb://forusdb:Aa123456@ds057176.mlab.com:57176/forus'
+    connectionString: 'mongodb://forusdb:Aa123456@ds021884.mlab.com:21884/forus'
 };
