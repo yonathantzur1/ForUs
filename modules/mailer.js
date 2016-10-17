@@ -28,5 +28,13 @@ module.exports = {
         };
 
         return content;
+    },
+    GetForgotMailContent: function (p_name, p_code) {
+        var content = {
+            title: "איפוס סיסמא",
+            text: "שלום " + p_name + ", הקוד שהונפק עבורך לאיפוס הסיסמא הוא: " + p_code
+        };
+
+        return content;
     }
 };

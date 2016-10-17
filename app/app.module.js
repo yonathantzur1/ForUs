@@ -12,9 +12,9 @@ var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
 var forms_1 = require('@angular/forms');
 var http_1 = require('@angular/http');
-var app_component_1 = require('./components/app.component');
-var login_component_1 = require('./components/login.component');
-var loader_component_1 = require('./components/loader.component');
+var app_component_1 = require('./components/app/app.component');
+var login_component_1 = require('./components/login/login.component');
+var loader_component_1 = require('./components/loader/loader.component');
 var app_routing_1 = require('./app.routing');
 var AppModule = (function () {
     function AppModule() {

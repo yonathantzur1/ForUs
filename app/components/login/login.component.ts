@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LoginService } from '../services/login.service';
+import { LoginService } from '../../services/login/login.service';
 
 declare var swal;
 
@@ -16,7 +16,7 @@ export class NewUser {
   password: string;
 }
 
-export class Forgot {
+export class ForgotUser {
   constructor() { this.email = ""; this.code = "" }
   email: string;
   code: string
@@ -33,7 +33,7 @@ export class LoginComponent {
 
   user: User = new User();
   newUser: NewUser = new NewUser();
-  forgot: Forgot = new Forgot();
+  forgotUser: ForgotUser = new ForgotUser();
 
   isLoading: boolean = false;
 
@@ -161,6 +161,65 @@ export class LoginComponent {
     }
   }
 
+  ResetPasswordValidation() {
+    var isValid = true;
+    var checkedFieldsIds = [];
+
+    // Running on all register validation functions.
+    for (var i = 0; i < forgotValidationFuncs.length; i++) {
+
+      // In case the field was not invalid before.
+      if (!IsInArray(checkedFieldsIds, forgotValidationFuncs[i].fieldId)) {
+        // In case the field is not valid.
+        if (!forgotValidationFuncs[i].isFieldValid(this.forgotUser)) {
+          // In case the field is the first invalid field.
+          if (isValid) {
+            $("#" + forgotValidationFuncs[i].inputId).focus();
+          }
+
+          isValid = false;
+
+          // Push the field id to the array,
+          // so in the next validation of this field it will not be checked.
+          checkedFieldsIds.push(forgotValidationFuncs[i].fieldId);
+
+          // Show the microtext of the field. 
+          $("#" + forgotValidationFuncs[i].fieldId).html(forgotValidationFuncs[i].errMsg);
+        }
+        else {
+          // Clear the microtext of the field.
+          $("#" + forgotValidationFuncs[i].fieldId).html("");
+        }
+      }
+    }
+
+    checkedFieldsIds = [];
+
+    return isValid;
+  }
+
+  // Send mail with reset code to the user.
+  ResetPassword() {
+    // In case the forgot modal fields are valid.
+    if (this.ResetPasswordValidation()) {
+      this.isLoading = true;
+
+      this.loginService.Forgot(this.forgotUser.email).then((result) => {
+        this.isLoading = false;
+
+        // In case of server error.
+        if (result == null) {
+          $("#server-error").snackbar("show");
+        }
+        // In case the user was not found.
+        else if (result == false) {
+          // Show microtext of the email field. 
+          $("#forgot-email-micro").html("אימייל זה לא קיים במערכת!");
+        }
+      });
+    }
+  }
+
   // Open the register modal and clear all.
   OpenRegister() {
     this.user = new User();
@@ -201,18 +260,6 @@ export class LoginComponent {
   // Hide microtext in a specific field.
   HideMicrotext(fieldId) {
     $("#" + fieldId).html("");
-  }
-
-  ResetPasswordValidation() {
-
-  }
-
-  ResetPassword() {
-    this.isLoading = true;
-
-    this.loginService.Forgot(this.forgot.email).then((result) => {
-      this.isLoading = false;
-    });
   }
 
 }
@@ -292,6 +339,17 @@ var registerValidationFuncs = [
     errMsg: "יש להזין סיסמא!",
     fieldId: "register-password-micro",
     inputId: "register-password"
+  }
+];
+
+var forgotValidationFuncs = [
+  {
+    isFieldValid(forgotUser) {
+      return (forgotUser.email ? true : false);
+    },
+    errMsg: "יש להזין כתובת אימייל!",
+    fieldId: "forgot-email-micro",
+    inputId: "forgot-email"
   }
 ];
 

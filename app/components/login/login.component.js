@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var login_service_1 = require('../services/login.service');
+var login_service_1 = require('../../services/login/login.service');
 var User = (function () {
     function User() {
         this.email = "";
@@ -27,20 +27,20 @@ var NewUser = (function () {
     return NewUser;
 }());
 exports.NewUser = NewUser;
-var Forgot = (function () {
-    function Forgot() {
+var ForgotUser = (function () {
+    function ForgotUser() {
         this.email = "";
         this.code = "";
     }
-    return Forgot;
+    return ForgotUser;
 }());
-exports.Forgot = Forgot;
+exports.ForgotUser = ForgotUser;
 var LoginComponent = (function () {
     function LoginComponent(loginService) {
         this.loginService = loginService;
         this.user = new User();
         this.newUser = new NewUser();
-        this.forgot = new Forgot();
+        this.forgotUser = new ForgotUser();
         this.isLoading = false;
     }
     // Running on the array of login validation functions and make sure all valid.
@@ -146,6 +146,54 @@ var LoginComponent = (function () {
             });
         }
     };
+    LoginComponent.prototype.ResetPasswordValidation = function () {
+        var isValid = true;
+        var checkedFieldsIds = [];
+        // Running on all register validation functions.
+        for (var i = 0; i < forgotValidationFuncs.length; i++) {
+            // In case the field was not invalid before.
+            if (!IsInArray(checkedFieldsIds, forgotValidationFuncs[i].fieldId)) {
+                // In case the field is not valid.
+                if (!forgotValidationFuncs[i].isFieldValid(this.forgotUser)) {
+                    // In case the field is the first invalid field.
+                    if (isValid) {
+                        $("#" + forgotValidationFuncs[i].inputId).focus();
+                    }
+                    isValid = false;
+                    // Push the field id to the array,
+                    // so in the next validation of this field it will not be checked.
+                    checkedFieldsIds.push(forgotValidationFuncs[i].fieldId);
+                    // Show the microtext of the field. 
+                    $("#" + forgotValidationFuncs[i].fieldId).html(forgotValidationFuncs[i].errMsg);
+                }
+                else {
+                    // Clear the microtext of the field.
+                    $("#" + forgotValidationFuncs[i].fieldId).html("");
+                }
+            }
+        }
+        checkedFieldsIds = [];
+        return isValid;
+    };
+    // Send mail with reset code to the user.
+    LoginComponent.prototype.ResetPassword = function () {
+        var _this = this;
+        // In case the forgot modal fields are valid.
+        if (this.ResetPasswordValidation()) {
+            this.isLoading = true;
+            this.loginService.Forgot(this.forgotUser.email).then(function (result) {
+                _this.isLoading = false;
+                // In case of server error.
+                if (result == null) {
+                    $("#server-error").snackbar("show");
+                }
+                else if (result == false) {
+                    // Show microtext of the email field. 
+                    $("#forgot-email-micro").html("אימייל זה לא קיים במערכת!");
+                }
+            });
+        }
+    };
     // Open the register modal and clear all.
     LoginComponent.prototype.OpenRegister = function () {
         this.user = new User();
@@ -181,15 +229,6 @@ var LoginComponent = (function () {
     // Hide microtext in a specific field.
     LoginComponent.prototype.HideMicrotext = function (fieldId) {
         $("#" + fieldId).html("");
-    };
-    LoginComponent.prototype.ResetPasswordValidation = function () {
-    };
-    LoginComponent.prototype.ResetPassword = function () {
-        var _this = this;
-        this.isLoading = true;
-        this.loginService.Forgot(this.forgot.email).then(function (result) {
-            _this.isLoading = false;
-        });
     };
     LoginComponent = __decorate([
         core_1.Component({
@@ -274,6 +313,16 @@ var registerValidationFuncs = [
         errMsg: "יש להזין סיסמא!",
         fieldId: "register-password-micro",
         inputId: "register-password"
+    }
+];
+var forgotValidationFuncs = [
+    {
+        isFieldValid: function (forgotUser) {
+            return (forgotUser.email ? true : false);
+        },
+        errMsg: "יש להזין כתובת אימייל!",
+        fieldId: "forgot-email-micro",
+        inputId: "forgot-email"
     }
 ];
 // Check if object is in array.

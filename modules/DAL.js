@@ -52,16 +52,19 @@ module.exports = {
     },
 
     AddResetCode: function (collectionName, email, callback) {
+        var code = generator.GenerateId(codeNumOfDigits);
+
         MongoClient.connect(url, function (err, db) {
             if (err == null) {
                 var collection = db.collection(collectionName);
-                collection.findOneAndUpdate(email, {$set: {resetCode: generator.GenerateId(codeNumOfDigits)}}, {
+                collection.findOneAndUpdate(email, {$set: {resetCode: code}}, {
                     returnOriginal: false,
                 },
                 function(err, result) {
                     if (err == null) {
                         if (result.value != null) {
-                            callback(result.value.name);
+                            var details = {name: result.value.name, resetCode: code};
+                            callback(details);
                         }
                         else {
                             callback(false);
