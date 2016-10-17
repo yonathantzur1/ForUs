@@ -37,34 +37,34 @@ export class LoginComponent {
 
   isLoading: boolean = false;
 
-  // Running on the array of login validation functions and make sure all valid.
-  LoginValidation() {
+  // Running on the array of validation functions and make sure all valid.
+  Validation(funcArray, obj) {
     var isValid = true;
     var checkedFieldsIds = [];
 
     // Running on all login validation functions.
-    for (var i = 0; i < loginValidationFuncs.length; i++) {
+    for (var i = 0; i < funcArray.length; i++) {
       // In case the field was not invalid before.
-      if (!IsInArray(checkedFieldsIds, loginValidationFuncs[i].fieldId)) {
+      if (!IsInArray(checkedFieldsIds, funcArray[i].fieldId)) {
         // In case the field is not valid.
-        if (!loginValidationFuncs[i].isFieldValid(this.user)) {
+        if (!funcArray[i].isFieldValid(obj)) {
           // In case the field is the first invalid field.
           if (isValid) {
-            $("#" + loginValidationFuncs[i].inputId).focus();
+            $("#" + funcArray[i].inputId).focus();
           }
 
           isValid = false;
 
           // Push the field id to the array,
           // so in the next validation of this field it will not be checked.
-          checkedFieldsIds.push(loginValidationFuncs[i].fieldId);
+          checkedFieldsIds.push(funcArray[i].fieldId);
 
           // Show the microtext of the field. 
-          $("#" + loginValidationFuncs[i].fieldId).html(loginValidationFuncs[i].errMsg);
+          $("#" + funcArray[i].fieldId).html(funcArray[i].errMsg);
         }
         else {
           // Clear the microtext of the field.
-          $("#" + loginValidationFuncs[i].fieldId).html("");
+          $("#" + funcArray[i].fieldId).html("");
         }
       }
     }
@@ -77,7 +77,7 @@ export class LoginComponent {
   // Login user and redirect him to main page.
   Login() {
     // In case the login fields are valid.
-    if (this.LoginValidation()) {
+    if (this.Validation(loginValidationFuncs, this.user)) {
       this.isLoading = true;
 
       this.loginService.Login(this.user.email, this.user.password).then((result) => {
@@ -98,48 +98,10 @@ export class LoginComponent {
     }
   }
 
-  // Running on the array of register validation functions and make sure all valid.
-  RegisterValidation() {
-    var isValid = true;
-    var checkedFieldsIds = [];
-
-    // Running on all register validation functions.
-    for (var i = 0; i < registerValidationFuncs.length; i++) {
-
-      // In case the field was not invalid before.
-      if (!IsInArray(checkedFieldsIds, registerValidationFuncs[i].fieldId)) {
-        // In case the field is not valid.
-        if (!registerValidationFuncs[i].isFieldValid(this.newUser)) {
-          // In case the field is the first invalid field.
-          if (isValid) {
-            $("#" + registerValidationFuncs[i].inputId).focus();
-          }
-
-          isValid = false;
-
-          // Push the field id to the array,
-          // so in the next validation of this field it will not be checked.
-          checkedFieldsIds.push(registerValidationFuncs[i].fieldId);
-
-          // Show the microtext of the field. 
-          $("#" + registerValidationFuncs[i].fieldId).html(registerValidationFuncs[i].errMsg);
-        }
-        else {
-          // Clear the microtext of the field.
-          $("#" + registerValidationFuncs[i].fieldId).html("");
-        }
-      }
-    }
-
-    checkedFieldsIds = [];
-
-    return isValid;
-  }
-
   // Regiter the new user to the DB.
   Register() {
     // In case the register modal fields are valid.
-    if (this.RegisterValidation()) {
+    if (this.Validation(registerValidationFuncs, this.newUser)) {
       this.isLoading = true;
 
       this.loginService.Register(this.newUser.name, this.newUser.email, this.newUser.password).then((result) => {
@@ -161,47 +123,10 @@ export class LoginComponent {
     }
   }
 
-  ResetPasswordValidation() {
-    var isValid = true;
-    var checkedFieldsIds = [];
-
-    // Running on all register validation functions.
-    for (var i = 0; i < forgotValidationFuncs.length; i++) {
-
-      // In case the field was not invalid before.
-      if (!IsInArray(checkedFieldsIds, forgotValidationFuncs[i].fieldId)) {
-        // In case the field is not valid.
-        if (!forgotValidationFuncs[i].isFieldValid(this.forgotUser)) {
-          // In case the field is the first invalid field.
-          if (isValid) {
-            $("#" + forgotValidationFuncs[i].inputId).focus();
-          }
-
-          isValid = false;
-
-          // Push the field id to the array,
-          // so in the next validation of this field it will not be checked.
-          checkedFieldsIds.push(forgotValidationFuncs[i].fieldId);
-
-          // Show the microtext of the field. 
-          $("#" + forgotValidationFuncs[i].fieldId).html(forgotValidationFuncs[i].errMsg);
-        }
-        else {
-          // Clear the microtext of the field.
-          $("#" + forgotValidationFuncs[i].fieldId).html("");
-        }
-      }
-    }
-
-    checkedFieldsIds = [];
-
-    return isValid;
-  }
-
   // Send mail with reset code to the user.
   ResetPassword() {
     // In case the forgot modal fields are valid.
-    if (this.ResetPasswordValidation()) {
+    if (this.Validation(forgotValidationFuncs, this.forgotUser)) {
       this.isLoading = true;
 
       this.loginService.Forgot(this.forgotUser.email).then((result) => {
@@ -348,6 +273,16 @@ var forgotValidationFuncs = [
       return (forgotUser.email ? true : false);
     },
     errMsg: "יש להזין כתובת אימייל!",
+    fieldId: "forgot-email-micro",
+    inputId: "forgot-email"
+  },
+  {
+    isFieldValid(forgotUser) {
+      var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+
+      return (emailPattern.test(forgotUser.email));
+    },
+    errMsg: "כתובת אימייל לא תקינה!",
     fieldId: "forgot-email-micro",
     inputId: "forgot-email"
   }
