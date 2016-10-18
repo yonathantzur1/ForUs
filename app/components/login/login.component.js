@@ -83,7 +83,7 @@ var LoginComponent = (function () {
         // In case the login fields are valid.
         if (this.Validation(loginValidationFuncs, this.user)) {
             this.isLoading = true;
-            this.loginService.Login(this.user.email, this.user.password).then(function (result) {
+            this.loginService.Login(this.user).then(function (result) {
                 _this.isLoading = false;
                 // In case of server error.
                 if (result == null) {
@@ -104,7 +104,7 @@ var LoginComponent = (function () {
         // In case the register modal fields are valid.
         if (this.Validation(registerValidationFuncs, this.newUser)) {
             this.isLoading = true;
-            this.loginService.Register(this.newUser.name, this.newUser.email, this.newUser.password).then(function (result) {
+            this.loginService.Register(this.newUser).then(function (result) {
                 _this.isLoading = false;
                 // In case of server error.
                 if (result == null) {
@@ -145,6 +145,20 @@ var LoginComponent = (function () {
                 });
             }
             else {
+                this.loginService.ResetPassword(this.forgotUser).then(function (result) {
+                    _this.isLoading = false;
+                    // In case of server error.
+                    if (result == null) {
+                        $("#server-error").snackbar("show");
+                    }
+                    else if (result == false) {
+                        // Show microtext of the code field. 
+                        $("#forgot-code-micro").html("הקוד שהוזן שגוי!");
+                    }
+                    else {
+                        $("#forgot-modal").modal('hide');
+                    }
+                });
             }
         }
     };

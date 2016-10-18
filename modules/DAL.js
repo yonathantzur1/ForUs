@@ -1,8 +1,5 @@
 var config = require('./config.js');
 
-var generator = require('./generator.js');
-var codeNumOfDigits = 6;
-
 var MongoClient = require('mongodb').MongoClient,
     assert = require('assert');
 
@@ -43,6 +40,7 @@ module.exports = {
                         callback(null);
                     }
                 });
+
                 db.close();
             }
             else {
@@ -51,29 +49,28 @@ module.exports = {
         });
     },
 
-    AddResetCode: function (collectionName, email, callback) {
-        var code = generator.GenerateId(codeNumOfDigits);
-
+    UpdateDocument: function (collectionName, idObj, fieldToUpdateObj, callback) {
         MongoClient.connect(url, function (err, db) {
             if (err == null) {
                 var collection = db.collection(collectionName);
-                collection.findOneAndUpdate(email, {$set: {resetCode: code}}, {
+                collection.findOneAndUpdate(idObj, { $set: fieldToUpdateObj }, {
                     returnOriginal: false,
                 },
-                function(err, result) {
-                    if (err == null) {
-                        if (result.value != null) {
-                            var details = {name: result.value.name, resetCode: code};
-                            callback(details);
+                    function (err, result) {
+                        if (err == null) {
+                            if (result.value != null) {
+                                callback(result.value);
+                            }
+                            else {
+                                callback(false);
+                            }
                         }
                         else {
-                            callback(false);
+                            callback(null);
                         }
-                    }
-                    else {
-                        callback(null);
-                    }
-                });
+                    });
+
+                db.close();
             }
             else {
                 callback(null);

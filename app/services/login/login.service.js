@@ -16,8 +16,8 @@ var LoginService = (function () {
         this.http = http;
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
     }
-    LoginService.prototype.Login = function (email, password) {
-        return this.http.get('/login' + "/" + email + "/" + sha512(password))
+    LoginService.prototype.Login = function (user) {
+        return this.http.get('/login' + "/" + user.email + "/" + sha512(user.password))
             .toPromise()
             .then(function (result) {
             return result.json();
@@ -26,9 +26,13 @@ var LoginService = (function () {
             return null;
         });
     };
-    LoginService.prototype.Register = function (name, email, password) {
-        var details = JSON.stringify({ "name": name, "email": email, "password": sha512(password) });
-        return this.http.post('/register', details, { headers: this.headers })
+    LoginService.prototype.Register = function (newUser) {
+        var details = {
+            "name": newUser.name,
+            "email": newUser.email,
+            "password": sha512(newUser.password)
+        };
+        return this.http.post('/register', JSON.stringify(details), { headers: this.headers })
             .toPromise()
             .then(function (result) {
             return result.json();
@@ -40,6 +44,21 @@ var LoginService = (function () {
     LoginService.prototype.Forgot = function (email) {
         var details = JSON.stringify({ "email": email });
         return this.http.put('/forgot', details, { headers: this.headers })
+            .toPromise()
+            .then(function (result) {
+            return result.json();
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
+    LoginService.prototype.ResetPassword = function (forgotUser) {
+        var details = {
+            "email": forgotUser.email,
+            "code": forgotUser.code,
+            "newPassword": sha512(forgotUser.newPassword)
+        };
+        return this.http.put('/resetPassword', JSON.stringify(details), { headers: this.headers })
             .toPromise()
             .then(function (result) {
             return result.json();

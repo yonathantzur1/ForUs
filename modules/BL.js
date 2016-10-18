@@ -1,9 +1,14 @@
 var DAL = require('./DAL.js');
 
+var generator = require('./generator.js');
+var codeNumOfDigits = 6;
+
 module.exports = {
 
     // Return true if the user was found else false.
-    ValidateUser: function (collectionName, filter, callback) {
+    ValidateUser: function (collectionName, user, callback) {
+        var filter = { "email": user.email, 'password': user.password };
+
         DAL.GetDocsByFilter(collectionName, filter, function (result) {
             // In case of error or more then one user, return null.
             if (result == null || result.length > 1) {
@@ -39,21 +44,26 @@ module.exports = {
     },
 
     // Add user to the DB.
-    AddUser: function (collectionName, user, callback) {
-        DAL.InsertDocument(collectionName, user, function (result) {
-            // In case of error.
-            if (result == null) {
-                callback(null);
-            }
-            else {
-                callback(result);
-            }
+    AddUser: function (collectionName, newUser, callback) {
+        var newUserObj = { "name": newUser.name, "email": newUser.email, "password": newUser.password };
+        DAL.InsertDocument(collectionName, newUserObj, function (result) {
+            callback(result);
         });
     },
 
     // Adding reset password code to the DB and return the name of the user.
     AddResetCode: function (collectionName, email, callback) {
-        DAL.AddResetCode(collectionName, email, function(result) {
+        var code = generator.GenerateId(codeNumOfDigits);
+
+        DAL.UpdateDocument(collectionName, email, { "resetCode": code }, function (result) {
+            callback(result);
+        });
+    },
+
+    ResetPassword: function (collectionName, forgotUser, callback) {
+        var emailObj = { "email": forgotUser.email };
+
+        DAL.UpdateDocument(collectionName, emailObj, { "password": forgotUser.newPassword }, function (result) {
             callback(result);
         });
     }

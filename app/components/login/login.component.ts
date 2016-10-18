@@ -85,7 +85,7 @@ export class LoginComponent {
     if (this.Validation(loginValidationFuncs, this.user)) {
       this.isLoading = true;
 
-      this.loginService.Login(this.user.email, this.user.password).then((result) => {
+      this.loginService.Login(this.user).then((result) => {
         this.isLoading = false;
 
         // In case of server error.
@@ -109,7 +109,7 @@ export class LoginComponent {
     if (this.Validation(registerValidationFuncs, this.newUser)) {
       this.isLoading = true;
 
-      this.loginService.Register(this.newUser.name, this.newUser.email, this.newUser.password).then((result) => {
+      this.loginService.Register(this.newUser).then((result) => {
         this.isLoading = false;
 
         // In case of server error.
@@ -157,7 +157,23 @@ export class LoginComponent {
       }
       // In case the user is in the second stage of reset password.
       else {
+        this.loginService.ResetPassword(this.forgotUser).then((result) => {
+          this.isLoading = false;
 
+          // In case of server error.
+          if (result == null) {
+            $("#server-error").snackbar("show");
+          }
+          // In case the reset code is wrong.
+          else if (result == false) {
+            // Show microtext of the code field. 
+            $("#forgot-code-micro").html("הקוד שהוזן שגוי!");
+          }
+          // In case the password has been changed.
+          else {
+            $("#forgot-modal").modal('hide');
+          }
+        });
       }
     }
   }
