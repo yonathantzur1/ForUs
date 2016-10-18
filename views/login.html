@@ -19,7 +19,7 @@
 				<input [(ngModel)]="user.password" id="login-password" class="form-control user-input" type="password" name="password" (keyup)="HideMicrotext($event.srcElement.id + '-micro')"
 					placeholder="סיסמא">
 				<div class="forgot-link-sector">
-					<a class="forgot-link" (click)="OpenForgot()" data-toggle="modal" data-target="#forgot-modal">שכחתי?</a>
+					<a class="forgot-link" (click)="OpenModal()" data-toggle="modal" data-target="#forgot-modal">שכחתי?</a>
 				</div>
 				<label id="login-password-micro" class="microtext microtext-align"></label>
 			</div>
@@ -30,7 +30,7 @@
 			</div>
 		</div>
 	</form>
-	<a class="new-user" (click)="OpenRegister()" data-toggle="modal" data-target="#register-modal">משתמש חדש?</a>
+	<a class="new-user" (click)="OpenModal()" data-toggle="modal" data-target="#register-modal">משתמש חדש?</a>
 </div>
 <!-- Register modal -->
 <div (keyup)="RegisterKeyUp($event)" class="modal fade" data-backdrop="static" id="register-modal" tabindex="-1" role="dialog"
@@ -77,7 +77,7 @@
 </div>
 
 <!-- Reset password modal -->
-<div class="modal fade" data-backdrop="static" id="forgot-modal" tabindex="-1" role="dialog"
+<div (keyup)="ForgotKeyUp($event)" class="modal fade" data-backdrop="static" id="forgot-modal" tabindex="-1" role="dialog"
 	aria-labelledby="forgotLabel">
 	<div class="modal-dialog modal-sm" role="document">
 		<div class="modal-content">
@@ -88,10 +88,31 @@
 			<div class="modal-body">
 				<form class="form-horizontal">
 					<div class="form-group">
-						<div class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
+						<label *ngIf="forgotUser.showResetCodeField" class="forgot-email-label">אימייל:</label>
+						<div *ngIf="!forgotUser.showResetCodeField" class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
 							<input [(ngModel)]="forgotUser.email" id="forgot-email" class="form-control user-input" type="email" name="email" (keyup)="HideMicrotext($event.srcElement.id + '-micro')"
 								placeholder="אימייל">
 							<label id="forgot-email-micro" class="microtext microtext-align"></label>
+						</div>
+						<div *ngIf="forgotUser.showResetCodeField" class="col-md-10 col-xs-10">
+							{{forgotUser.email}}
+						</div>
+					</div>
+					<div *ngIf="forgotUser.showResetCodeField">
+						<hr>
+						<div class="form-group">
+							<div class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
+								<input [(ngModel)]="forgotUser.code" id="forgot-code" class="form-control user-input" type="text" name="code" (keyup)="HideMicrotext($event.srcElement.id + '-micro')"
+									placeholder="קוד איפוס" maxlength="6">
+								<label id="forgot-code-micro" class="microtext microtext-align"></label>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
+								<input [(ngModel)]="forgotUser.newPassword" id="forgot-newPassword" class="form-control user-input" type="text" name="newPassword"
+									(keyup)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="סיסמא חדשה">
+								<label id="forgot-newPassword-micro" class="microtext microtext-align"></label>
+							</div>
 						</div>
 					</div>
 				</form>
@@ -99,7 +120,7 @@
 			<div class="modal-footer">
 				<div class="modal-footer-buttons">
 					<a class="btn btn-default cancel-forgot" data-dismiss="modal">בטל</a>
-					<a id="register-btn" class="btn btn-primary submit-email-forgot" (click)="ResetPassword()">אפס סיסמא</a>
+					<a id="register-btn" class="btn btn-primary submit-email-forgot" (click)="ResetPassword()">{{forgotBtnText}}</a>
 				</div>
 			</div>
 		</div>

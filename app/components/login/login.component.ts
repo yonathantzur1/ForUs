@@ -4,22 +4,24 @@ import { LoginService } from '../../services/login/login.service';
 declare var swal;
 
 export class User {
-  constructor() { this.email = ""; this.password = "" }
+  constructor() { this.email = ""; this.password = ""; }
   email: string;
   password: string;
 }
 
 export class NewUser {
-  constructor() { this.name = ""; this.email = ""; this.password = "" }
+  constructor() { this.name = ""; this.email = ""; this.password = ""; }
   name: string;
   email: string;
   password: string;
 }
 
 export class ForgotUser {
-  constructor() { this.email = ""; this.code = "" }
+  constructor() { this.email = ""; this.code = ""; this.newPassword = ""; this.showResetCodeField = false; }
   email: string;
-  code: string
+  code: string;
+  newPassword: string;
+  showResetCodeField: boolean;
 }
 
 @Component({
@@ -36,6 +38,9 @@ export class LoginComponent {
   forgotUser: ForgotUser = new ForgotUser();
 
   isLoading: boolean = false;
+
+  forgotBtnTextObj = { searchText: "חיפוש", resetPassText: "אפס סיסמא" }
+  forgotBtnText: string = this.forgotBtnTextObj.searchText;
 
   // Running on the array of validation functions and make sure all valid.
   Validation(funcArray, obj) {
@@ -129,33 +134,39 @@ export class LoginComponent {
     if (this.Validation(forgotValidationFuncs, this.forgotUser)) {
       this.isLoading = true;
 
-      this.loginService.Forgot(this.forgotUser.email).then((result) => {
-        this.isLoading = false;
+      // In case the user is in the first stage of reset password.
+      if (this.forgotUser.showResetCodeField == false) {
+        this.loginService.Forgot(this.forgotUser.email).then((result) => {
+          this.isLoading = false;
 
-        // In case of server error.
-        if (result == null) {
-          $("#server-error").snackbar("show");
-        }
-        // In case the user was not found.
-        else if (result == false) {
-          // Show microtext of the email field. 
-          $("#forgot-email-micro").html("אימייל זה לא קיים במערכת!");
-        }
-      });
+          // In case of server error.
+          if (result == null) {
+            $("#server-error").snackbar("show");
+          }
+          // In case the user was not found.
+          else if (result == false) {
+            // Show microtext of the email field. 
+            $("#forgot-email-micro").html("אימייל זה לא קיים במערכת!");
+          }
+          // In case the user was found.
+          else {
+            this.forgotUser.showResetCodeField = true;
+            this.forgotBtnText = this.forgotBtnTextObj.resetPassText;
+          }
+        });
+      }
+      // In case the user is in the second stage of reset password.
+      else {
+
+      }
     }
   }
 
-  // Open the register modal and clear all.
-  OpenRegister() {
+  // Open modal and clear all.
+  OpenModal() {
     this.user = new User();
     this.newUser = new NewUser();
-    $(".microtext").html("");
-  }
-
-  // Open the forgot modal and clear all.
-  OpenForgot() {
-    this.user = new User();
-    this.newUser = new NewUser();
+    this.forgotUser = new ForgotUser();
     $(".microtext").html("");
   }
 
@@ -170,15 +181,19 @@ export class LoginComponent {
 
   // Key up in register modal.
   RegisterKeyUp(event) {
-    // In case the key is escape.
-    if (event.keyCode == 27) {
-      this.newUser = new NewUser();
-    }
-
     // In case the key is enter.
     if (event.keyCode == 13) {
       $(".user-input").blur();
       this.Register();
+    }
+  }
+
+  // Key up in forgot modal.
+  ForgotKeyUp(event) {
+    // In case the key is enter.
+    if (event.keyCode == 13) {
+      $(".user-input").blur();
+      this.ResetPassword();
     }
   }
 
@@ -285,6 +300,34 @@ var forgotValidationFuncs = [
     errMsg: "כתובת אימייל לא תקינה!",
     fieldId: "forgot-email-micro",
     inputId: "forgot-email"
+  },
+  {
+    isFieldValid(forgotUser) {
+      // In case the code field is shown.
+      if (forgotUser.showResetCodeField) {
+        return (forgotUser.code ? true : false);
+      }
+      else {
+        return true;
+      }
+    },
+    errMsg: "יש להזין קוד אימות!",
+    fieldId: "forgot-code-micro",
+    inputId: "forgot-code"
+  },
+  {
+    isFieldValid(forgotUser) {
+      // In case the code field is shown.
+      if (forgotUser.showResetCodeField) {
+        return (forgotUser.newPassword ? true : false);
+      }
+      else {
+        return true;
+      }
+    },
+    errMsg: "יש להזין סיסמא חדשה!",
+    fieldId: "forgot-newPassword-micro",
+    inputId: "forgot-newPassword"
   }
 ];
 

@@ -37,7 +37,7 @@
     border: 2px solid black;
     padding-top: 4%;
     padding-bottom: 4%;
-    border-radius: 10%;
+    border-radius: 38px;
 }
 
 .user-input {
@@ -126,4 +126,12 @@
     padding: 0;
     top: 5px;
     left: 40px;
+}
+
+.forgot-email-label {
+    position: absolute;
+    right: 15px;
+    color: #003569;
+    font-size: 14px;
+    font-family: Rubik;
 }
