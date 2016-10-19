@@ -117,6 +117,12 @@
     font-size: 12px;
 }
 
+.has-reset-code-link {
+    left: 0;
+    right: 45px;
+    bottom: 14px;
+}
+
 .submit-email-forgot {
     padding: 0;
     left: 20px;

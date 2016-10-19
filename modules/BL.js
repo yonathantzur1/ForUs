@@ -63,8 +63,20 @@ module.exports = {
     ResetPassword: function (collectionName, forgotUser, callback) {
         var emailObj = { "email": forgotUser.email };
 
-        DAL.UpdateDocument(collectionName, emailObj, { "password": forgotUser.newPassword }, function (result) {
-            callback(result);
+        var filter = {"email": forgotUser.email, "resetCode": forgotUser.code};
+
+        DAL.GetDocsByFilter(collectionName, filter, function (result) {
+            if (result == null) {
+                callback(null);
+            }
+            else if (result.length == 0) {
+                callback(false);
+            }
+            else {
+                DAL.UpdateDocument(collectionName, emailObj, { "password": forgotUser.newPassword }, function (result) {
+                    callback(result);
+                });
+            }
         });
     }
 

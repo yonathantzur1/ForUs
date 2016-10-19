@@ -33,6 +33,7 @@ var ForgotUser = (function () {
         this.code = "";
         this.newPassword = "";
         this.showResetCodeField = false;
+        this.hasResetCode = false;
     }
     return ForgotUser;
 }());
@@ -161,6 +162,11 @@ var LoginComponent = (function () {
                 });
             }
         }
+    };
+    LoginComponent.prototype.hasResetCode = function () {
+        this.forgotUser.hasResetCode = true;
+        this.forgotUser.showResetCodeField = true;
+        this.forgotBtnText = this.forgotBtnTextObj.resetPassText;
     };
     // Open modal and clear all.
     LoginComponent.prototype.OpenModal = function () {
@@ -303,7 +309,7 @@ var forgotValidationFuncs = [
     {
         isFieldValid: function (forgotUser) {
             // In case the code field is shown.
-            if (forgotUser.showResetCodeField) {
+            if (forgotUser.showResetCodeField || forgotUser.hasResetCode) {
                 return (forgotUser.code ? true : false);
             }
             else {
@@ -317,7 +323,7 @@ var forgotValidationFuncs = [
     {
         isFieldValid: function (forgotUser) {
             // In case the code field is shown.
-            if (forgotUser.showResetCodeField) {
+            if (forgotUser.showResetCodeField || forgotUser.hasResetCode) {
                 return (forgotUser.newPassword ? true : false);
             }
             else {

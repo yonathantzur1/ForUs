@@ -17,11 +17,18 @@ export class NewUser {
 }
 
 export class ForgotUser {
-  constructor() { this.email = ""; this.code = ""; this.newPassword = ""; this.showResetCodeField = false; }
+  constructor() {
+    this.email = "";
+    this.code = "";
+    this.newPassword = "";
+    this.showResetCodeField = false;
+    this.hasResetCode = false;
+  }
   email: string;
   code: string;
   newPassword: string;
   showResetCodeField: boolean;
+  hasResetCode: boolean;
 }
 
 @Component({
@@ -178,6 +185,12 @@ export class LoginComponent {
     }
   }
 
+  hasResetCode() {
+    this.forgotUser.hasResetCode = true;
+    this.forgotUser.showResetCodeField = true;
+    this.forgotBtnText = this.forgotBtnTextObj.resetPassText;
+  }
+
   // Open modal and clear all.
   OpenModal() {
     this.user = new User();
@@ -320,7 +333,7 @@ var forgotValidationFuncs = [
   {
     isFieldValid(forgotUser) {
       // In case the code field is shown.
-      if (forgotUser.showResetCodeField) {
+      if (forgotUser.showResetCodeField || forgotUser.hasResetCode) {
         return (forgotUser.code ? true : false);
       }
       else {
@@ -334,7 +347,7 @@ var forgotValidationFuncs = [
   {
     isFieldValid(forgotUser) {
       // In case the code field is shown.
-      if (forgotUser.showResetCodeField) {
+      if (forgotUser.showResetCodeField  || forgotUser.hasResetCode) {
         return (forgotUser.newPassword ? true : false);
       }
       else {
