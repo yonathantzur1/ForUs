@@ -171,8 +171,13 @@ export class LoginComponent {
           if (result == null) {
             $("#server-error").snackbar("show");
           }
+          // In case the email was not found.
+          else if (result.emailNotFound) {
+            // Show microtext of the email field. 
+            $("#forgot-email-micro").html("אימייל זה לא קיים במערכת!");
+          }
           // In case the reset code is wrong.
-          else if (result == false) {
+          else if (result.codeNotFound) {
             // Show microtext of the code field. 
             $("#forgot-code-micro").html("הקוד שהוזן שגוי!");
           }

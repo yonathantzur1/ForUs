@@ -62,19 +62,26 @@ module.exports = {
 
     ResetPassword: function (collectionName, forgotUser, callback) {
         var emailObj = { "email": forgotUser.email };
+        var errorsObj = { emailNotFound: false, codeNotFound: false, codeIsExpired: false };
 
-        var filter = {"email": forgotUser.email, "resetCode": forgotUser.code};
-
-        DAL.GetDocsByFilter(collectionName, filter, function (result) {
-            if (result == null) {
+        DAL.GetDocsByFilter(collectionName, emailObj, function (result) {
+            if (result == null || result.length > 1) {
                 callback(null);
             }
+            // In case the email was not found.
             else if (result.length == 0) {
-                callback(false);
+                errorsObj.emailNotFound = true;
+                callback(errorsObj);
             }
+            // In case the code is not found or wrong.
+            else if (result[0].resetCode != forgotUser.code) {
+                errorsObj.codeNotFound = true;
+                callback(errorsObj);
+            }
+            // TODO: add expired validation.
             else {
                 DAL.UpdateDocument(collectionName, emailObj, { "password": forgotUser.newPassword }, function (result) {
-                    callback(result);
+                    callback(true);
                 });
             }
         });

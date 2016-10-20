@@ -52,12 +52,7 @@ module.exports = function (app, BL, mailer) {
 
     app.put('/resetPassword', function (req, res) {
         BL.ResetPassword("Users", req.body, function (result) {
-            if (result != null && result != false) {
-                res.send(true);
-            }
-            else {
-                res.send(result);
-            }
+            res.send(result);
         });
     });
 

@@ -152,7 +152,11 @@ var LoginComponent = (function () {
                     if (result == null) {
                         $("#server-error").snackbar("show");
                     }
-                    else if (result == false) {
+                    else if (result.emailNotFound) {
+                        // Show microtext of the email field. 
+                        $("#forgot-email-micro").html("אימייל זה לא קיים במערכת!");
+                    }
+                    else if (result.codeNotFound) {
                         // Show microtext of the code field. 
                         $("#forgot-code-micro").html("הקוד שהוזן שגוי!");
                     }
