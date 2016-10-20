@@ -15,6 +15,7 @@ export class NewUser {
   email: string;
   password: string;
 }
+var forgotBtnTextObj = { searchText: "חיפוש", resetPassText: "אפס סיסמא" }
 
 export class ForgotUser {
   constructor() {
@@ -23,12 +24,14 @@ export class ForgotUser {
     this.newPassword = "";
     this.showResetCodeField = false;
     this.hasResetCode = false;
+    this.forgotBtnText = forgotBtnTextObj.searchText;
   }
   email: string;
   code: string;
   newPassword: string;
   showResetCodeField: boolean;
   hasResetCode: boolean;
+  forgotBtnText: string;
 }
 
 @Component({
@@ -45,9 +48,6 @@ export class LoginComponent {
   forgotUser: ForgotUser = new ForgotUser();
 
   isLoading: boolean = false;
-
-  forgotBtnTextObj = { searchText: "חיפוש", resetPassText: "אפס סיסמא" }
-  forgotBtnText: string = this.forgotBtnTextObj.searchText;
 
   // Running on the array of validation functions and make sure all valid.
   Validation(funcArray, obj) {
@@ -158,7 +158,7 @@ export class LoginComponent {
           // In case the user was found.
           else {
             this.forgotUser.showResetCodeField = true;
-            this.forgotBtnText = this.forgotBtnTextObj.resetPassText;
+            this.forgotUser.forgotBtnText = forgotBtnTextObj.resetPassText;
           }
         });
       }
@@ -188,7 +188,8 @@ export class LoginComponent {
   hasResetCode() {
     this.forgotUser.hasResetCode = true;
     this.forgotUser.showResetCodeField = true;
-    this.forgotBtnText = this.forgotBtnTextObj.resetPassText;
+    this.forgotUser.forgotBtnText = forgotBtnTextObj.resetPassText;
+    $(".microtext").html("");
   }
 
   // Open modal and clear all.
@@ -347,7 +348,7 @@ var forgotValidationFuncs = [
   {
     isFieldValid(forgotUser) {
       // In case the code field is shown.
-      if (forgotUser.showResetCodeField  || forgotUser.hasResetCode) {
+      if (forgotUser.showResetCodeField || forgotUser.hasResetCode) {
         return (forgotUser.newPassword ? true : false);
       }
       else {

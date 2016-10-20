@@ -27,6 +27,7 @@ var NewUser = (function () {
     return NewUser;
 }());
 exports.NewUser = NewUser;
+var forgotBtnTextObj = { searchText: "חיפוש", resetPassText: "אפס סיסמא" };
 var ForgotUser = (function () {
     function ForgotUser() {
         this.email = "";
@@ -34,6 +35,7 @@ var ForgotUser = (function () {
         this.newPassword = "";
         this.showResetCodeField = false;
         this.hasResetCode = false;
+        this.forgotBtnText = forgotBtnTextObj.searchText;
     }
     return ForgotUser;
 }());
@@ -45,8 +47,6 @@ var LoginComponent = (function () {
         this.newUser = new NewUser();
         this.forgotUser = new ForgotUser();
         this.isLoading = false;
-        this.forgotBtnTextObj = { searchText: "חיפוש", resetPassText: "אפס סיסמא" };
-        this.forgotBtnText = this.forgotBtnTextObj.searchText;
     }
     // Running on the array of validation functions and make sure all valid.
     LoginComponent.prototype.Validation = function (funcArray, obj) {
@@ -141,7 +141,7 @@ var LoginComponent = (function () {
                     }
                     else {
                         _this.forgotUser.showResetCodeField = true;
-                        _this.forgotBtnText = _this.forgotBtnTextObj.resetPassText;
+                        _this.forgotUser.forgotBtnText = forgotBtnTextObj.resetPassText;
                     }
                 });
             }
@@ -166,7 +166,8 @@ var LoginComponent = (function () {
     LoginComponent.prototype.hasResetCode = function () {
         this.forgotUser.hasResetCode = true;
         this.forgotUser.showResetCodeField = true;
-        this.forgotBtnText = this.forgotBtnTextObj.resetPassText;
+        this.forgotUser.forgotBtnText = forgotBtnTextObj.resetPassText;
+        $(".microtext").html("");
     };
     // Open modal and clear all.
     LoginComponent.prototype.OpenModal = function () {
