@@ -2,6 +2,8 @@ var DAL = require('./DAL.js');
 
 var generator = require('./generator.js');
 var codeNumOfDigits = 6;
+var codeNumOfHoursValid = 24;
+var maxTryNum = 3;
 
 module.exports = {
 
@@ -55,14 +57,22 @@ module.exports = {
     AddResetCode: function (collectionName, email, callback) {
         var code = generator.GenerateId(codeNumOfDigits);
 
-        DAL.UpdateDocument(collectionName, email, { "resetCode": code }, function (result) {
+        var resetCode = { resetCode: { "code": code, "date": (new Date()).toISOString(), tryNum: 0 } };
+
+        DAL.UpdateDocument(collectionName, email, resetCode, function (result) {
             callback(result);
         });
     },
 
     ResetPassword: function (collectionName, forgotUser, callback) {
         var emailObj = { "email": forgotUser.email };
-        var errorsObj = { emailNotFound: false, codeNotFound: false, codeIsExpired: false };
+        var errorsObj = {
+            emailNotFound: false,
+            codeNotFound: false,
+            codeNotValid: false,
+            codeIsExpired: false,
+            maxTry: false
+        };
 
         DAL.GetDocsByFilter(collectionName, emailObj, function (result) {
             if (result == null || result.length > 1) {
@@ -73,18 +83,49 @@ module.exports = {
                 errorsObj.emailNotFound = true;
                 callback(errorsObj);
             }
-            // In case the code is not found or wrong.
-            else if (result[0].resetCode != forgotUser.code) {
+            // In case the code was not found.
+            else if (!result[0].resetCode) {
                 errorsObj.codeNotFound = true;
                 callback(errorsObj);
             }
-            // TODO: add expired validation.
+            // In case the code is wrong.
+            else if (result[0].resetCode.code != forgotUser.code) {
+                errorsObj.codeNotValid = true;
+                callback(errorsObj);
+            }
+            // In case the code is expired.
+            else if (new Date(result[0].resetCode.date).addHours(codeNumOfHoursValid).getTime() <
+                (new Date()).getTime()) {
+                errorsObj.codeIsExpired = true;
+                callback(errorsObj);
+            }
+            // In case the code is in max try.
+            else if (result[0].resetCode.tryNum >= maxTryNum) {
+                errorsObj.maxTry = true;
+                callback(errorsObj);
+            }
             else {
-                DAL.UpdateDocument(collectionName, emailObj, { "password": forgotUser.newPassword }, function (result) {
-                    callback(true);
-                });
+                var updateUser = result[0];
+                updateUser.password = forgotUser.newPassword;
+                updateUser.resetCode.tryNum++;
+
+                DAL.UpdateDocument(collectionName, emailObj, updateUser,
+                    function (updateResult) {
+                        if (updateResult != null && updateResult != false) {
+                            callback(true);
+                        }
+                        else {
+                            callback(updateResult);
+                        }
+                    });
             }
         });
     }
 
 };
+
+Date.prototype.addHours = function (h) {
+    this.setTime(this.getTime() + (h * 60 * 60 * 1000));
+
+    return this;
+}

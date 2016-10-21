@@ -39,7 +39,7 @@ module.exports = function (app, BL, mailer) {
 
         BL.AddResetCode("Users", email, function (result) {
             if (result != null && result != false) {
-                mailer.SendMail(req.body.email, mailer.GetForgotMailContent(result.name, result.resetCode));
+                mailer.SendMail(req.body.email, mailer.GetForgotMailContent(result.name, result.resetCode.code));
 
                 // Send true to client.
                 res.send(true);

@@ -176,10 +176,25 @@ export class LoginComponent {
             // Show microtext of the email field. 
             $("#forgot-email-micro").html("אימייל זה לא קיים במערכת!");
           }
-          // In case the reset code is wrong.
+          // In case the reset code is not exists.
           else if (result.codeNotFound) {
             // Show microtext of the code field. 
+            $("#forgot-code-micro").html("הקוד שהוזן לא נמצא!");
+          }
+          // In case the reset code is wrong.
+          else if (result.codeNotValid) {
+            // Show microtext of the code field. 
             $("#forgot-code-micro").html("הקוד שהוזן שגוי!");
+          }
+          // In case the reset code is expired.
+          else if (result.codeIsExpired) {
+            // Show microtext of the code field. 
+            $("#forgot-code-micro").html("פג תוקפו של הקוד שהוזן!");
+          }
+          // In case the reset code is lock.
+          else if (result.maxTry) {
+            // Show microtext of the code field. 
+            $("#forgot-code-micro").html("קוד זה נעול!");
           }
           // In case the password has been changed.
           else {
