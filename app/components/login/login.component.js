@@ -160,6 +160,10 @@ var LoginComponent = (function () {
                         // Show microtext of the code field. 
                         $("#forgot-code-micro").html("הקוד שהוזן לא נמצא!");
                     }
+                    else if (result.maxTry) {
+                        // Show microtext of the code field. 
+                        $("#forgot-code-micro").html("קוד זה נעול!");
+                    }
                     else if (result.codeNotValid) {
                         // Show microtext of the code field. 
                         $("#forgot-code-micro").html("הקוד שהוזן שגוי!");
@@ -167,10 +171,6 @@ var LoginComponent = (function () {
                     else if (result.codeIsExpired) {
                         // Show microtext of the code field. 
                         $("#forgot-code-micro").html("פג תוקפו של הקוד שהוזן!");
-                    }
-                    else if (result.maxTry) {
-                        // Show microtext of the code field. 
-                        $("#forgot-code-micro").html("קוד זה נעול!");
                     }
                     else {
                         $("#forgot-modal").modal('hide');

@@ -89,7 +89,7 @@ module.exports = {
                 callback(errorsObj);
             }
             // In case the code is in max try.
-            else if (result[0].resetCode.tryNum > maxTryNum) {
+            else if (result[0].resetCode.tryNum >= maxTryNum) {
                 errorsObj.maxTry = true;
                 callback(errorsObj);
             }
@@ -97,8 +97,8 @@ module.exports = {
             else if (result[0].resetCode.code != forgotUser.code) {
                 errorsObj.codeNotValid = true;
 
-                var updateCodeObj = result[0].resetCode;
-                updateCodeObj.tryNum++;
+                var updateCodeObj = { "resetCode": result[0].resetCode };
+                updateCodeObj.resetCode.tryNum++;
 
                 DAL.UpdateDocument(collectionName, emailObj, updateCodeObj, function (updateResult) {
                     if (updateResult != null && updateResult != false) {
