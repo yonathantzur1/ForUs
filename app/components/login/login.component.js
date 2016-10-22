@@ -152,13 +152,25 @@ var LoginComponent = (function () {
                     if (result == null) {
                         $("#server-error").snackbar("show");
                     }
-                    else if (result.emailNotFound) {
+                    else if (result == false || result.emailNotFound) {
                         // Show microtext of the email field. 
                         $("#forgot-email-micro").html("אימייל זה לא קיים במערכת!");
                     }
                     else if (result.codeNotFound) {
                         // Show microtext of the code field. 
+                        $("#forgot-code-micro").html("הקוד שהוזן לא נמצא!");
+                    }
+                    else if (result.codeNotValid) {
+                        // Show microtext of the code field. 
                         $("#forgot-code-micro").html("הקוד שהוזן שגוי!");
+                    }
+                    else if (result.codeIsExpired) {
+                        // Show microtext of the code field. 
+                        $("#forgot-code-micro").html("פג תוקפו של הקוד שהוזן!");
+                    }
+                    else if (result.maxTry) {
+                        // Show microtext of the code field. 
+                        $("#forgot-code-micro").html("קוד זה נעול!");
                     }
                     else {
                         $("#forgot-modal").modal('hide');

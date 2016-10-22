@@ -88,10 +88,26 @@ module.exports = {
                 errorsObj.codeNotFound = true;
                 callback(errorsObj);
             }
+            // In case the code is in max try.
+            else if (result[0].resetCode.tryNum > maxTryNum) {
+                errorsObj.maxTry = true;
+                callback(errorsObj);
+            }
             // In case the code is wrong.
             else if (result[0].resetCode.code != forgotUser.code) {
                 errorsObj.codeNotValid = true;
-                callback(errorsObj);
+
+                var updateCodeObj = result[0].resetCode;
+                updateCodeObj.tryNum++;
+
+                DAL.UpdateDocument(collectionName, emailObj, updateCodeObj, function (updateResult) {
+                    if (updateResult != null && updateResult != false) {
+                        callback(errorsObj);
+                    }
+                    else {
+                        callback(updateResult);
+                    }
+                });
             }
             // In case the code is expired.
             else if (new Date(result[0].resetCode.date).addHours(codeNumOfHoursValid).getTime() <
@@ -99,17 +115,8 @@ module.exports = {
                 errorsObj.codeIsExpired = true;
                 callback(errorsObj);
             }
-            // In case the code is in max try.
-            else if (result[0].resetCode.tryNum >= maxTryNum) {
-                errorsObj.maxTry = true;
-                callback(errorsObj);
-            }
             else {
-                var updateUser = result[0];
-                updateUser.password = forgotUser.newPassword;
-                updateUser.resetCode.tryNum++;
-
-                DAL.UpdateDocument(collectionName, emailObj, updateUser,
+                DAL.UpdateDocument(collectionName, emailObj, { "password": forgotUser.newPassword },
                     function (updateResult) {
                         if (updateResult != null && updateResult != false) {
                             callback(true);

@@ -172,7 +172,7 @@ export class LoginComponent {
             $("#server-error").snackbar("show");
           }
           // In case the email was not found.
-          else if (result.emailNotFound) {
+          else if (result == false || result.emailNotFound) {
             // Show microtext of the email field. 
             $("#forgot-email-micro").html("אימייל זה לא קיים במערכת!");
           }
