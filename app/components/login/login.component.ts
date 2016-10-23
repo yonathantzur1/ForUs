@@ -126,7 +126,7 @@ export class LoginComponent {
         // In case the email is already exists.
         else if (result == false) {
           // Show microtext of the email field. 
-          $("#register-email-micro").html("אימייל זה כבר נמצא בשימוש!");
+          $("#register-email-micro").html("אימייל זה כבר נמצא בשימוש");
         }
         else {
           $("#register-modal").modal('hide');
@@ -153,7 +153,7 @@ export class LoginComponent {
           // In case the user was not found.
           else if (result == false) {
             // Show microtext of the email field. 
-            $("#forgot-email-micro").html("אימייל זה לא קיים במערכת!");
+            $("#forgot-email-micro").html("אימייל זה לא קיים במערכת");
           }
           // In case the user was found.
           else {
@@ -173,28 +173,23 @@ export class LoginComponent {
           }
           // In case the email was not found.
           else if (result == false || result.emailNotFound) {
-            // Show microtext of the email field. 
-            $("#forgot-email-micro").html("אימייל זה לא קיים במערכת!");
+            $("#forgot-email-micro").html("אימייל זה לא קיים במערכת");
           }
           // In case the reset code is not exists.
           else if (result.codeNotFound) {
-            // Show microtext of the code field. 
-            $("#forgot-code-micro").html("הקוד שהוזן לא נמצא!");
+            $("#forgot-code-micro").html("הקוד שהוזן לא נמצא");
           }
-          // In case the reset code is lock.
-          else if (result.maxTry) {
-            // Show microtext of the code field. 
-            $("#forgot-code-micro").html("קוד זה נעול!");
-          }
-          // In case the reset code is wrong.
-          else if (result.codeNotValid) {
-            // Show microtext of the code field. 
-            $("#forgot-code-micro").html("הקוד שהוזן שגוי!");
+          // In case the reset code is lock with max tries or already been used.
+          else if (result.maxTry || result.codeIsUsed) {
+            $("#forgot-code-micro").html("קוד זה נעול");
           }
           // In case the reset code is expired.
           else if (result.codeIsExpired) {
-            // Show microtext of the code field. 
-            $("#forgot-code-micro").html("פג תוקפו של הקוד שהוזן!");
+            $("#forgot-code-micro").html("פג תוקפו של הקוד שהוזן");
+          }
+          // In case the reset code is wrong.
+          else if (result.codeNotValid) {
+            $("#forgot-code-micro").html("הקוד שהוזן שגוי");
           }
           // In case the password has been changed.
           else {
@@ -291,7 +286,7 @@ var registerValidationFuncs = [
     isFieldValid(newUser) {
       return (newUser.name ? true : false);
     },
-    errMsg: "יש להזין את שמך!",
+    errMsg: "יש להזין את שמך",
     fieldId: "register-name-micro",
     inputId: "register-name"
   },
@@ -300,7 +295,7 @@ var registerValidationFuncs = [
       var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*$/i;
       return (namePattern.test(newUser.name));
     },
-    errMsg: "יש להזין שם תקין בעברית!",
+    errMsg: "יש להזין שם תקין בעברית",
     fieldId: "register-name-micro",
     inputId: "register-name"
   },
@@ -308,7 +303,7 @@ var registerValidationFuncs = [
     isFieldValid(newUser) {
       return (newUser.email ? true : false);
     },
-    errMsg: "יש להזין כתובת אימייל!",
+    errMsg: "יש להזין כתובת אימייל",
     fieldId: "register-email-micro",
     inputId: "register-email"
   },
@@ -318,7 +313,7 @@ var registerValidationFuncs = [
 
       return (emailPattern.test(newUser.email));
     },
-    errMsg: "כתובת אימייל לא תקינה!",
+    errMsg: "כתובת אימייל לא תקינה",
     fieldId: "register-email-micro",
     inputId: "register-email"
   },
@@ -326,7 +321,7 @@ var registerValidationFuncs = [
     isFieldValid(newUser) {
       return (newUser.password ? true : false);
     },
-    errMsg: "יש להזין סיסמא!",
+    errMsg: "יש להזין סיסמא",
     fieldId: "register-password-micro",
     inputId: "register-password"
   }
@@ -337,7 +332,7 @@ var forgotValidationFuncs = [
     isFieldValid(forgotUser) {
       return (forgotUser.email ? true : false);
     },
-    errMsg: "יש להזין כתובת אימייל!",
+    errMsg: "יש להזין כתובת אימייל",
     fieldId: "forgot-email-micro",
     inputId: "forgot-email"
   },
@@ -347,7 +342,7 @@ var forgotValidationFuncs = [
 
       return (emailPattern.test(forgotUser.email));
     },
-    errMsg: "כתובת אימייל לא תקינה!",
+    errMsg: "כתובת אימייל לא תקינה",
     fieldId: "forgot-email-micro",
     inputId: "forgot-email"
   },
@@ -361,7 +356,7 @@ var forgotValidationFuncs = [
         return true;
       }
     },
-    errMsg: "יש להזין קוד אימות!",
+    errMsg: "יש להזין קוד אימות",
     fieldId: "forgot-code-micro",
     inputId: "forgot-code"
   },
@@ -375,7 +370,7 @@ var forgotValidationFuncs = [
         return true;
       }
     },
-    errMsg: "יש להזין סיסמא חדשה!",
+    errMsg: "יש להזין סיסמא חדשה",
     fieldId: "forgot-newPassword-micro",
     inputId: "forgot-newPassword"
   }

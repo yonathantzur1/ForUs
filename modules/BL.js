@@ -57,7 +57,7 @@ module.exports = {
     AddResetCode: function (collectionName, email, callback) {
         var code = generator.GenerateId(codeNumOfDigits);
 
-        var resetCode = { resetCode: { "code": code, "date": (new Date()).toISOString(), tryNum: 0 } };
+        var resetCode = { resetCode: { "code": code, "date": (new Date()).toISOString(), tryNum: 0, isUsed: false } };
 
         DAL.UpdateDocument(collectionName, email, resetCode, function (result) {
             callback(result);
@@ -71,7 +71,8 @@ module.exports = {
             codeNotFound: false,
             codeNotValid: false,
             codeIsExpired: false,
-            maxTry: false
+            maxTry: false,
+            codeIsUsed: false
         };
 
         DAL.GetDocsByFilter(collectionName, emailObj, function (result) {
@@ -88,9 +89,20 @@ module.exports = {
                 errorsObj.codeNotFound = true;
                 callback(errorsObj);
             }
+            // In case the code is used.
+            else if (result[0].resetCode.isUsed) {
+                errorsObj.codeIsUsed = true;
+                callback(errorsObj);
+            }
             // In case the code is in max try.
             else if (result[0].resetCode.tryNum >= maxTryNum) {
                 errorsObj.maxTry = true;
+                callback(errorsObj);
+            }
+            // In case the code is expired.
+            else if (new Date(result[0].resetCode.date).addHours(codeNumOfHoursValid).getTime() <
+                (new Date()).getTime()) {
+                errorsObj.codeIsExpired = true;
                 callback(errorsObj);
             }
             // In case the code is wrong.
@@ -109,22 +121,20 @@ module.exports = {
                     }
                 });
             }
-            // In case the code is expired.
-            else if (new Date(result[0].resetCode.date).addHours(codeNumOfHoursValid).getTime() <
-                (new Date()).getTime()) {
-                errorsObj.codeIsExpired = true;
-                callback(errorsObj);
-            }
             else {
-                DAL.UpdateDocument(collectionName, emailObj, { "password": forgotUser.newPassword },
-                    function (updateResult) {
-                        if (updateResult != null && updateResult != false) {
-                            callback(true);
-                        }
-                        else {
-                            callback(updateResult);
-                        }
-                    });
+                // Delete the reset code object and change the user password.
+                var updateUser = result[0];
+                updateUser.resetCode.isUsed = true;
+                updateUser.password = forgotUser.newPassword;
+
+                DAL.UpdateDocument(collectionName, emailObj, updateUser, function (updateResult) {
+                    if (updateResult != null && updateResult != false) {
+                        callback(true);
+                    }
+                    else {
+                        callback(updateResult);
+                    }
+                });
             }
         });
     }
