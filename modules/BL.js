@@ -126,6 +126,7 @@ module.exports = {
                 var updateUser = result[0];
                 updateUser.resetCode.isUsed = true;
                 updateUser.password = forgotUser.newPassword;
+                updateUser.resetCode.tryNum++;
 
                 DAL.UpdateDocument(collectionName, emailObj, updateUser, function (updateResult) {
                     if (updateResult != null && updateResult != false) {
