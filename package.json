@@ -4,11 +4,8 @@
   "scripts": {
     "start": "tsc && concurrently \"node server.js\" \"tsc -w\" ",
     "lite": "lite-server",
-    "preinstall": "npm i typings -g",
-    "postinstall": "typings install",
     "tsc": "tsc",
-    "tsc:w": "tsc -w",
-    "typings": "typings"
+    "tsc:w": "tsc -w"
   },
   "licenses": [
     {
@@ -17,16 +14,16 @@
     }
   ],
   "dependencies": {
-    "@angular/common": "~2.1.0",
-    "@angular/compiler": "~2.1.0",
-    "@angular/core": "~2.1.0",
-    "@angular/forms": "~2.1.0",
-    "@angular/http": "~2.1.0",
-    "@angular/platform-browser": "~2.1.0",
-    "@angular/platform-browser-dynamic": "~2.1.0",
-    "@angular/router": "~3.1.0",
-    "@angular/upgrade": "~2.1.0",
-    "angular-in-memory-web-api": "~0.1.5",
+    "@angular/common": "~2.1.1",
+    "@angular/compiler": "~2.1.1",
+    "@angular/core": "~2.1.1",
+    "@angular/forms": "~2.1.1",
+    "@angular/http": "~2.1.1",
+    "@angular/platform-browser": "~2.1.1",
+    "@angular/platform-browser-dynamic": "~2.1.1",
+    "@angular/router": "~3.1.1",
+    "@angular/upgrade": "~2.1.1",
+    "angular-in-memory-web-api": "~0.1.13",
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",
     "bootstrap-material-design": "^0.5.10",
@@ -34,18 +31,19 @@
     "express": "^4.14.0",
     "jquery": "^3.1.1",
     "js-sha512": "^0.2.2",
-    "mongodb": "^2.2.10",
+    "mongodb": "^2.2.11",
     "nodemailer": "^2.6.4",
     "reflect-metadata": "^0.1.8",
     "rxjs": "5.0.0-beta.12",
-    "sweetalert2": "^5.3.4",
+    "sweetalert2": "^5.3.8",
     "systemjs": "0.19.39",
     "zone.js": "^0.6.25"
   },
   "devDependencies": {
+    "@types/core-js": "^0.9.34",
+    "@types/node": "^6.0.45",
     "concurrently": "^3.0.0",
     "lite-server": "^2.2.2",
-    "typescript": "^2.0.3",
-    "typings": "^1.4.0"
+    "typescript": "^2.0.3"
   }
 }

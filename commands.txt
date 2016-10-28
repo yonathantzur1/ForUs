@@ -1,9 +1,9 @@
-npm install express
-npm install body-parser
-npm install jquery
-npm install mongodb
-npm install sweetalert2
-npm install js-sha512
-npm install bootstrap-material-design
-npm install nodemailer
+npm install express --save
+npm install body-parser --save
+npm install jquery --save
+npm install mongodb --save
+npm install sweetalert2 --save
+npm install js-sha512 --save
+npm install bootstrap-material-design --save
+npm install nodemailer --save
 npm install
