@@ -17,7 +17,7 @@ var LoginService = (function () {
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
     }
     LoginService.prototype.Login = function (user) {
-        return this.http.get('/login' + "/" + user.email + "/" + sha512(user.password))
+        return this.http.post('/login', JSON.stringify(user), { headers: this.headers })
             .toPromise()
             .then(function (result) {
             return result.json();
@@ -30,7 +30,7 @@ var LoginService = (function () {
         var details = {
             "name": newUser.name,
             "email": newUser.email,
-            "password": sha512(newUser.password)
+            "password": newUser.password
         };
         return this.http.post('/register', JSON.stringify(details), { headers: this.headers })
             .toPromise()
@@ -56,7 +56,7 @@ var LoginService = (function () {
         var details = {
             "email": forgotUser.email,
             "code": forgotUser.code,
-            "newPassword": sha512(forgotUser.newPassword)
+            "newPassword": forgotUser.newPassword
         };
         return this.http.put('/resetPassword', JSON.stringify(details), { headers: this.headers })
             .toPromise()

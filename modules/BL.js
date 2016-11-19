@@ -8,8 +8,8 @@ var maxTryNum = 3;
 module.exports = {
 
     // Return true if the user was found else false.
-    ValidateUser: function (collectionName, user, callback) {
-        var filter = { "email": user.email, 'password': user.password };
+    ValidateUser: function (collectionName, user, sha512, callback) {
+        var filter = { "email": user.email };
 
         DAL.GetDocsByFilter(collectionName, filter, function (result) {
             // In case of error or more then one user, return null.
@@ -18,7 +18,13 @@ module.exports = {
             }
             // In case the user was found.
             else if (result.length == 1) {
-                callback(true);
+                // In case the password and salt hashing are the password hash in the db
+                if (sha512(user.password + result[0].salt) == result[0].password) {
+                    callback(true);
+                }
+                else {
+                    callback(false);
+                }
             }
             // In case the user was not found.
             else {
@@ -46,14 +52,24 @@ module.exports = {
     },
 
     // Add user to the DB.
-    AddUser: function (collectionName, newUser, callback) {
-        var newUserObj = { "name": newUser.name, "email": newUser.email, "password": newUser.password };
+    AddUser: function (collectionName, newUser, sha512, callback) {
+        var salt = generator.GenerateId(codeNumOfDigits);
+        newUser.password = sha512(newUser.password + salt);
+
+        // Creat the new user object.
+        var newUserObj = {
+            "name": newUser.name,
+            "email": newUser.email,
+            "password": newUser.password,
+            "salt": salt
+        };
+
         DAL.InsertDocument(collectionName, newUserObj, function (result) {
             callback(result);
         });
     },
 
-    // Adding reset password code to the DB and return the name of the user.
+    // Add reset password code to the DB and return the name of the user.
     AddResetCode: function (collectionName, email, callback) {
         var code = generator.GenerateId(codeNumOfDigits);
 
@@ -64,7 +80,8 @@ module.exports = {
         });
     },
 
-    ResetPassword: function (collectionName, forgotUser, callback) {
+    // Rest password of the user.
+    ResetPassword: function (collectionName, forgotUser, sha512, callback) {
         var emailObj = { "email": forgotUser.email };
         var errorsObj = {
             emailNotFound: false,
@@ -124,8 +141,9 @@ module.exports = {
             else {
                 // Delete the reset code object and change the user password.
                 var updateUser = result[0];
-                updateUser.resetCode.isUsed = true;
-                updateUser.password = forgotUser.newPassword;
+                updateUser.salt = generator.GenerateId(codeNumOfDigits);
+                updateUser.password = sha512(forgotUser.newPassword + updateUser.salt);
+                updateUser.resetCode.isUsed = true;                
                 updateUser.resetCode.tryNum++;
 
                 DAL.UpdateDocument(collectionName, emailObj, updateUser, function (updateResult) {

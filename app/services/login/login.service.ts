@@ -7,8 +7,6 @@ import { User } from '../../components/login/login.component';
 import { NewUser } from '../../components/login/login.component';
 import { ForgotUser } from '../../components/login/login.component';
 
-declare var sha512;
-
 @Injectable()
 export class LoginService {
     private headers = new Headers({ 'Content-Type': 'application/json' });
@@ -16,7 +14,7 @@ export class LoginService {
     constructor(private http: Http) { }
 
     Login(user: User) {
-        return this.http.get('/login' + "/" + user.email + "/" + sha512(user.password))
+        return this.http.post('/login', JSON.stringify(user), { headers: this.headers })
             .toPromise()
             .then((result) => {
                 return result.json();
@@ -30,7 +28,7 @@ export class LoginService {
         var details = {
             "name": newUser.name,
             "email": newUser.email,
-            "password": sha512(newUser.password)
+            "password": newUser.password
         };
 
         return this.http.post('/register', JSON.stringify(details), { headers: this.headers })
@@ -59,7 +57,7 @@ export class LoginService {
         var details = {
             "email": forgotUser.email,
             "code": forgotUser.code,
-            "newPassword": sha512(forgotUser.newPassword)
+            "newPassword": forgotUser.newPassword
         };
 
         return this.http.put('/resetPassword', JSON.stringify(details), { headers: this.headers })

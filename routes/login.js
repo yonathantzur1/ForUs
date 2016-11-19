@@ -1,7 +1,7 @@
-module.exports = function (app, BL, mailer) {
+module.exports = function (app, BL, mailer, sha512) {
 
-    app.get('/login/:email/:password', function (req, res) {
-        BL.ValidateUser("Users", req.params, function (result) {
+    app.post('/login', function (req, res) {
+        BL.ValidateUser("Users", req.body, sha512, function (result) {
             res.send(result);
         });
     });
@@ -21,7 +21,7 @@ module.exports = function (app, BL, mailer) {
             }
             else {
                 // Add user to DB and return true.
-                BL.AddUser("Users", req.body, function (result) {
+                BL.AddUser("Users", req.body, sha512, function (result) {
                     // In case all register progress was succeeded.
                     if (result != null) {
                         // Sending welcome mail to the new user.
@@ -51,7 +51,7 @@ module.exports = function (app, BL, mailer) {
     });
 
     app.put('/resetPassword', function (req, res) {
-        BL.ResetPassword("Users", req.body, function (result) {
+        BL.ResetPassword("Users", req.body, sha512, function (result) {
             res.send(result);
         });
     });
