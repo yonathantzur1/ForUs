@@ -19,7 +19,7 @@ GetDB = function (callback) {
             else {
                 if (retryCount < maxConnectRetry) {
                     retryCount++;
-                    getDB(callback);
+                    GetDB(callback);
                 }
                 else {
                     callback(err, db);
@@ -31,6 +31,9 @@ GetDB = function (callback) {
         callback(null, db);
     }
 }
+
+// Initialize DB connection.
+GetDB(function(err, db){});
 
 module.exports = {
     GetDocsByFilter: function (collectionName, filter, callback) {
