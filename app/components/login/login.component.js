@@ -49,6 +49,7 @@ var LoginComponent = (function () {
         this.isLoading = false;
     }
     // Running on the array of validation functions and make sure all valid.
+    // Getting validation array and object to valid.
     LoginComponent.prototype.Validation = function (funcArray, obj) {
         var isValid = true;
         var checkedFieldsIds = [];

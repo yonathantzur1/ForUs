@@ -1,4 +1,4 @@
-var BL = require('./modules/BL.js');
+var usersBL = require('./modules/usersBL.js');
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
@@ -17,7 +17,7 @@ var server = app.listen((process.env.PORT || 8000), function () {
     console.log("Server is up!");
 });
 
-require('./routes/login.js')(app, BL, mailer, sha512);
+require('./routes/login.js')(app, usersBL, mailer, sha512);
 
 // Redirect angular requests back to client side.
 app.get('**', function (req, res) {

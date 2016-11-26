@@ -1,16 +1,18 @@
-module.exports = function (app, BL, mailer, sha512) {
+module.exports = function (app, usersBL, mailer, sha512) {
 
+    // Validate the user details and login the user.
     app.post('/login', function (req, res) {
-        BL.ValidateUser("Users", req.body, sha512, function (result) {
+        usersBL.ValidateUser("Users", req.body, sha512, function (result) {
             res.send(result);
         });
     });
 
+    // Add new user to the db and make sure the email is not already exists.
     app.post('/register', function (req, res) {
         var email = { "email": req.body.email };
 
         // Check if the email is exists in the DB.
-        BL.CheckIfUserExists("Users", email, function (result) {
+        usersBL.CheckIfUserExists("Users", email, function (result) {
             // In case of error.
             if (result == null) {
                 res.send(null);
@@ -20,8 +22,8 @@ module.exports = function (app, BL, mailer, sha512) {
                 res.send(false);
             }
             else {
-                // Add user to DB and return true.
-                BL.AddUser("Users", req.body, sha512, function (result) {
+                // Add user to DB.
+                usersBL.AddUser("Users", req.body, sha512, function (result) {
                     // In case all register progress was succeeded.
                     if (result != null) {
                         // Sending welcome mail to the new user.
@@ -34,24 +36,26 @@ module.exports = function (app, BL, mailer, sha512) {
         });
     });
 
+    // Sending to the user an email with code to reset his password.
     app.put('/forgot', function (req, res) {
         var email = { "email": req.body.email };
 
-        BL.AddResetCode("Users", email, function (result) {
+        usersBL.AddResetCode("Users", email, function (result) {
             if (result != null && result != false) {
                 mailer.SendMail(req.body.email, mailer.GetForgotMailContent(result.name, result.resetCode.code));
-
-                // Send true to client.
                 res.send(true);
             }
             else {
+                // Return to the client false in case the email was not fount,
+                // or null in case of error.
                 res.send(result);
             }
         });
     });
 
+    // Changing user password in db.
     app.put('/resetPassword', function (req, res) {
-        BL.ResetPassword("Users", req.body, sha512, function (result) {
+        usersBL.ResetPassword("Users", req.body, sha512, function (result) {
             res.send(result);
         });
     });

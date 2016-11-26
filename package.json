@@ -1,18 +1,16 @@
 {
   "name": "forus",
   "version": "1.0.0",
+  "description": "ForUs website",
   "scripts": {
     "start": "tsc && concurrently \"node server.js\" \"tsc -w\" ",
     "lite": "lite-server",
     "tsc": "tsc",
     "tsc:w": "tsc -w"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/angular/angular.io/blob/master/LICENSE"
-    }
-  ],
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
   "dependencies": {
     "@angular/common": "~2.2.0",
     "@angular/compiler": "~2.2.0",
@@ -22,7 +20,6 @@
     "@angular/platform-browser": "~2.2.0",
     "@angular/platform-browser-dynamic": "~2.2.0",
     "@angular/router": "~3.2.0",
-    "@angular/upgrade": "~2.2.0",
     "angular-in-memory-web-api": "~0.1.15",
     "body-parser": "^1.15.2",
     "bootstrap-material-design": "^0.5.10",
@@ -36,14 +33,14 @@
     "reflect-metadata": "^0.1.8",
     "rxjs": "5.0.0-beta.12",
     "sweetalert2": "^6.1.1",
-    "systemjs": "0.19.39",
-    "zone.js": "^0.6.25"
+    "systemjs": "0.19.40",
+    "zone.js": "^0.6.26"
   },
   "devDependencies": {
-    "@types/core-js": "^0.9.34",
-    "@types/node": "^6.0.45",
-    "concurrently": "^3.0.0",
+    "concurrently": "^3.1.0",
     "lite-server": "^2.2.2",
-    "typescript": "^2.0.3"
-  }
+    "typescript": "^2.0.10",
+    "@types/node": "^6.0.46"
+  },
+  "repository": {}
 }

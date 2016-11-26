@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { LoginService } from '../../services/login/login.service';
 
-declare var swal;
+declare var swal: any;
 
 export class User {
   constructor() { this.email = ""; this.password = ""; }
@@ -50,9 +50,10 @@ export class LoginComponent {
   isLoading: boolean = false;
 
   // Running on the array of validation functions and make sure all valid.
-  Validation(funcArray, obj) {
+  // Getting validation array and object to valid.
+  Validation(funcArray: any[], obj: any) {
     var isValid = true;
-    var checkedFieldsIds = [];
+    var checkedFieldsIds: any[] = [];
 
     // Running on all login validation functions.
     for (var i = 0; i < funcArray.length; i++) {
@@ -216,7 +217,7 @@ export class LoginComponent {
   }
 
   // Key up in login.
-  LoginKeyUp(event) {
+  LoginKeyUp(event: any) {
     // In case the key is enter.
     if (event.keyCode == 13) {
       $(".user-input").blur();
@@ -225,7 +226,7 @@ export class LoginComponent {
   }
 
   // Key up in register modal.
-  RegisterKeyUp(event) {
+  RegisterKeyUp(event: any) {
     // In case the key is enter.
     if (event.keyCode == 13) {
       $(".user-input").blur();
@@ -234,7 +235,7 @@ export class LoginComponent {
   }
 
   // Key up in forgot modal.
-  ForgotKeyUp(event) {
+  ForgotKeyUp(event: any) {
     // In case the key is enter.
     if (event.keyCode == 13) {
       $(".user-input").blur();
@@ -243,7 +244,7 @@ export class LoginComponent {
   }
 
   // Hide microtext in a specific field.
-  HideMicrotext(fieldId) {
+  HideMicrotext(fieldId: string) {
     $("#" + fieldId).html("");
   }
 
@@ -254,7 +255,7 @@ export class LoginComponent {
 // Login validation functions array.
 var loginValidationFuncs = [
   {
-    isFieldValid(user) {
+    isFieldValid(user: User) {
       return (user.email ? true : false);
     },
     errMsg: "יש להזין כתובת אימייל",
@@ -262,7 +263,7 @@ var loginValidationFuncs = [
     inputId: "login-email"
   },
   {
-    isFieldValid(user) {
+    isFieldValid(user: User) {
       var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
       return (emailPattern.test(user.email));
     },
@@ -271,7 +272,7 @@ var loginValidationFuncs = [
     inputId: "login-email"
   },
   {
-    isFieldValid(user) {
+    isFieldValid(user: User) {
       return (user.password ? true : false);
     },
     errMsg: "יש להזין סיסמא",
@@ -283,7 +284,7 @@ var loginValidationFuncs = [
 // Register validation functions array.
 var registerValidationFuncs = [
   {
-    isFieldValid(newUser) {
+    isFieldValid(newUser: NewUser) {
       return (newUser.name ? true : false);
     },
     errMsg: "יש להזין את שמך",
@@ -291,7 +292,7 @@ var registerValidationFuncs = [
     inputId: "register-name"
   },
   {
-    isFieldValid(newUser) {
+    isFieldValid(newUser: NewUser) {
       var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*$/i;
       return (namePattern.test(newUser.name));
     },
@@ -300,7 +301,7 @@ var registerValidationFuncs = [
     inputId: "register-name"
   },
   {
-    isFieldValid(newUser) {
+    isFieldValid(newUser: NewUser) {
       return (newUser.email ? true : false);
     },
     errMsg: "יש להזין כתובת אימייל",
@@ -308,7 +309,7 @@ var registerValidationFuncs = [
     inputId: "register-email"
   },
   {
-    isFieldValid(newUser) {
+    isFieldValid(newUser: NewUser) {
       var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
 
       return (emailPattern.test(newUser.email));
@@ -318,7 +319,7 @@ var registerValidationFuncs = [
     inputId: "register-email"
   },
   {
-    isFieldValid(newUser) {
+    isFieldValid(newUser: NewUser) {
       return (newUser.password ? true : false);
     },
     errMsg: "יש להזין סיסמא",
@@ -329,7 +330,7 @@ var registerValidationFuncs = [
 
 var forgotValidationFuncs = [
   {
-    isFieldValid(forgotUser) {
+    isFieldValid(forgotUser: ForgotUser) {
       return (forgotUser.email ? true : false);
     },
     errMsg: "יש להזין כתובת אימייל",
@@ -337,7 +338,7 @@ var forgotValidationFuncs = [
     inputId: "forgot-email"
   },
   {
-    isFieldValid(forgotUser) {
+    isFieldValid(forgotUser: ForgotUser) {
       var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
 
       return (emailPattern.test(forgotUser.email));
@@ -347,7 +348,7 @@ var forgotValidationFuncs = [
     inputId: "forgot-email"
   },
   {
-    isFieldValid(forgotUser) {
+    isFieldValid(forgotUser: ForgotUser) {
       // In case the code field is shown.
       if (forgotUser.showResetCodeField || forgotUser.hasResetCode) {
         return (forgotUser.code ? true : false);
@@ -361,7 +362,7 @@ var forgotValidationFuncs = [
     inputId: "forgot-code"
   },
   {
-    isFieldValid(forgotUser) {
+    isFieldValid(forgotUser: ForgotUser) {
       // In case the code field is shown.
       if (forgotUser.showResetCodeField || forgotUser.hasResetCode) {
         return (forgotUser.newPassword ? true : false);
@@ -377,7 +378,7 @@ var forgotValidationFuncs = [
 ];
 
 // Check if object is in array.
-function IsInArray(array, value): boolean {
+function IsInArray(array: any[], value: any): boolean {
   // Running on all the array.
   for (var i = 0; i < array.length; i++) {
     // In case the value is in the array.

@@ -10,7 +10,7 @@ module.exports = {
             from: '"ForUs" <forusmailer@gmail.com>', // Sender address
             to: p_destMail, // List of receivers
             subject: p_mailContent.title, // Subject line
-            text: p_mailContent.text // Plaintext body
+            html: "<div dir='rtl'>" + p_mailContent.text + "</div>" // html body
         };
 
         // Send email with defined transport object
