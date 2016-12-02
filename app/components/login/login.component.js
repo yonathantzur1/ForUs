@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var router_1 = require('@angular/router');
 var login_service_1 = require('../../services/login/login.service');
 var User = (function () {
     function User() {
@@ -41,7 +42,8 @@ var ForgotUser = (function () {
 }());
 exports.ForgotUser = ForgotUser;
 var LoginComponent = (function () {
-    function LoginComponent(loginService) {
+    function LoginComponent(router, loginService) {
+        this.router = router;
         this.loginService = loginService;
         this.user = new User();
         this.newUser = new NewUser();
@@ -95,7 +97,7 @@ var LoginComponent = (function () {
                     $("#login-failed").snackbar("show");
                 }
                 else {
-                    swal("ברוך הבא!");
+                    _this.router.navigate(['']);
                 }
             });
         }
@@ -222,7 +224,7 @@ var LoginComponent = (function () {
             templateUrl: 'views/login.html',
             providers: [login_service_1.LoginService]
         }), 
-        __metadata('design:paramtypes', [login_service_1.LoginService])
+        __metadata('design:paramtypes', [router_1.Router, login_service_1.LoginService])
     ], LoginComponent);
     return LoginComponent;
 }());

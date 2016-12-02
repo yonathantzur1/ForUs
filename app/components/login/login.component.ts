@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { LoginService } from '../../services/login/login.service';
 
 declare var swal: any;
@@ -41,7 +43,7 @@ export class ForgotUser {
 })
 
 export class LoginComponent {
-  constructor(private loginService: LoginService) { }
+  constructor(private router: Router, private loginService: LoginService) { }
 
   user: User = new User();
   newUser: NewUser = new NewUser();
@@ -105,7 +107,7 @@ export class LoginComponent {
           $("#login-failed").snackbar("show");
         }
         else {
-          swal("ברוך הבא!");
+          this.router.navigate(['']);
         }
       });
     }

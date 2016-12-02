@@ -6,8 +6,13 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './components/app/app.component';
 import { LoginComponent } from './components/login/login.component';
 import { LoaderComponent } from './components/loader/loader.component';
+import { HomeComponent } from './components/home/home.component';
 
+import { AuthService } from './services/auth/auth.service';
 import { LoginService } from './services/login/login.service';
+import { HomeService } from './services/home/home.service';
+
+import { AuthGuard } from './components/login/auth.guard';
 
 import { routing } from './app.routing'
 
@@ -21,7 +26,12 @@ import { routing } from './app.routing'
   declarations: [
     AppComponent,
     LoginComponent,
-    LoaderComponent
+    LoaderComponent,
+    HomeComponent
+  ],
+  providers: [
+    AuthGuard,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

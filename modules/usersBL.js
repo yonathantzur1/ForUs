@@ -8,7 +8,7 @@ var maxTryNum = 3;
 module.exports = {
 
     // Return true if the user was found else false.
-    ValidateUser: function (collectionName, user, sha512, callback) {
+    GetUser: function (collectionName, user, sha512, callback) {
         var filter = { "email": user.email };
 
         DAL.GetDocsByFilter(collectionName, filter, function (result) {
@@ -20,8 +20,9 @@ module.exports = {
             else if (result.length == 1) {
                 // In case the password and salt hashing are the password hash in the db
                 if (sha512(user.password + result[0].salt) == result[0].password) {
-                    callback(true);
+                    callback(result[0]);
                 }
+                // In case the password is incorrect.
                 else {
                     callback(false);
                 }

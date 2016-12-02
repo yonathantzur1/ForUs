@@ -2,8 +2,15 @@ module.exports = function (app, usersBL, mailer, sha512) {
 
     // Validate the user details and login the user.
     app.post('/login', function (req, res) {
-        usersBL.ValidateUser("Users", req.body, sha512, function (result) {
-            res.send(result);
+        usersBL.GetUser("Users", req.body, sha512, function (result) {
+            // In case the user email and password are valid.
+            if (result) {
+                req.session.currUser = result;
+                res.send(true);
+            }
+            else {
+                res.send(result);
+            }
         });
     });
 
@@ -58,6 +65,16 @@ module.exports = function (app, usersBL, mailer, sha512) {
         usersBL.ResetPassword("Users", req.body, sha512, function (result) {
             res.send(result);
         });
+    });
+
+    // Getting the current login user.
+    app.get('/isUserOnSession', function (req, res) {
+        if (req.session.currUser) {
+            res.send(true);
+        }
+        else {
+            res.send(null);
+        }
     });
 
 };
