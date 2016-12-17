@@ -6,13 +6,13 @@ import { AuthService } from '../../services/auth/auth.service';
 import { User } from './login.component';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AuthGuardLogin implements CanActivate {
     constructor(private router: Router, private authService: AuthService) { }
 
     canActivate() {
         return this.authService.IsUserOnSession().then((result) => {
-            if (result == false) {
-                this.router.navigate(['/login']);
+            if (result == true) {
+                this.router.navigate(['']);
                 return false;
             }
             else {

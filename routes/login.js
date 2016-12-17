@@ -73,7 +73,7 @@ module.exports = function (app, usersBL, mailer, sha512) {
             res.send(true);
         }
         else {
-            res.send(null);
+            res.send(false);
         }
     });
 

@@ -13,6 +13,7 @@ import { LoginService } from './services/login/login.service';
 import { HomeService } from './services/home/home.service';
 
 import { AuthGuard } from './components/login/auth.guard';
+import { AuthGuardLogin } from './components/login/auth.guard.login';
 
 import { routing } from './app.routing'
 
@@ -31,6 +32,7 @@ import { routing } from './app.routing'
   ],
   providers: [
     AuthGuard,
+    AuthGuardLogin,
     AuthService
   ],
   bootstrap: [AppComponent]
