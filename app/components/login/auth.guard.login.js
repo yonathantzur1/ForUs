@@ -8,9 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var auth_service_1 = require('../../services/auth/auth.service');
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var auth_service_1 = require("../../services/auth/auth.service");
 var AuthGuardLogin = (function () {
     function AuthGuardLogin(router, authService) {
         this.router = router;
@@ -28,11 +28,11 @@ var AuthGuardLogin = (function () {
             }
         });
     };
-    AuthGuardLogin = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [router_1.Router, auth_service_1.AuthService])
-    ], AuthGuardLogin);
     return AuthGuardLogin;
 }());
+AuthGuardLogin = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [router_1.Router, auth_service_1.AuthService])
+], AuthGuardLogin);
 exports.AuthGuardLogin = AuthGuardLogin;
 //# sourceMappingURL=auth.guard.login.js.map
