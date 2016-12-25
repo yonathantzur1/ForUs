@@ -8,6 +8,8 @@ import { LoginComponent } from './components/login/login.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { HomeComponent } from './components/home/home.component';
 
+import { PageNotFoundComponent } from './components/pageNotFound/pageNotFound.component';
+
 import { AuthService } from './services/auth/auth.service';
 import { LoginService } from './services/login/login.service';
 import { HomeService } from './services/home/home.service';
@@ -28,7 +30,8 @@ import { routing } from './app.routing'
     AppComponent,
     LoginComponent,
     LoaderComponent,
-    HomeComponent
+    HomeComponent,
+    PageNotFoundComponent
   ],
   providers: [
     AuthGuard,
