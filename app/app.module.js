@@ -19,7 +19,6 @@ var home_component_1 = require("./components/home/home.component");
 var pageNotFound_component_1 = require("./components/pageNotFound/pageNotFound.component");
 var auth_service_1 = require("./services/auth/auth.service");
 var auth_guard_1 = require("./components/login/auth.guard");
-var auth_guard_login_1 = require("./components/login/auth.guard.login");
 var app_routing_1 = require("./app.routing");
 var AppModule = (function () {
     function AppModule() {
@@ -43,7 +42,6 @@ AppModule = __decorate([
         ],
         providers: [
             auth_guard_1.AuthGuard,
-            auth_guard_login_1.AuthGuardLogin,
             auth_service_1.AuthService
         ],
         bootstrap: [app_component_1.AppComponent]
