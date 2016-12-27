@@ -7,6 +7,7 @@ import { AppComponent } from './components/app/app.component';
 import { LoginComponent } from './components/login/login.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { HomeComponent } from './components/home/home.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 import { PageNotFoundComponent } from './components/pageNotFound/pageNotFound.component';
 
@@ -30,7 +31,8 @@ import { routing } from './app.routing'
     LoginComponent,
     LoaderComponent,
     HomeComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    NavbarComponent
   ],
   providers: [
     AuthGuard,
