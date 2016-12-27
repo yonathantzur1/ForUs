@@ -1,5 +1,13 @@
 <link rel="stylesheet" href="../css/navbar.css">
+
+<div id="sidenav" class="sidenav">
+  <a class="closebtn" (click)="HideSidenav()">&times;</a>
+  <a href="#">נס</a>
+  <a href="#">גדול</a>
+  <a href="#">היה</a>
+  <a href="#">פה</a>
+</div>
 <div class="container-fluid navbar">
-    <img src="../logo/icon.png" class="head-icon">
+    <img (click)="ShowHideSidenav()" src="../logo/icon.png" class="head-icon">
     <div class="name" *ngIf="name">שלום {{name}}</div>
 </div>

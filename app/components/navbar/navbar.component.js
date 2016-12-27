@@ -11,6 +11,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var NavbarComponent = (function () {
     function NavbarComponent() {
+        this.isSidebarOpen = false;
+        this.ShowHideSidenav = function () {
+            this.isSidebarOpen = !this.isSidebarOpen;
+            if (this.isSidebarOpen) {
+                document.getElementById("sidenav").style.width = "250px";
+            }
+            else {
+                document.getElementById("sidenav").style.width = "0";
+            }
+        };
+        this.HideSidenav = function () {
+            this.isSidebarOpen = false;
+            document.getElementById("sidenav").style.width = "0";
+        };
     }
     return NavbarComponent;
 }());
