@@ -32,15 +32,16 @@
     width: 0; /* 0 width - change this with JavaScript */
     position: fixed; /* Stay in place */
     z-index: 1; /* Stay on top */
-    top: 51;
+    top: 50;
     right: 0;
-    background-color: #111; /* Black*/
+    background-color: #1D1F20; /* Black*/
+    background-image: linear-gradient(145deg, #1D1F20, #404348);
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
     transition: 0.4s; /* 0.5 second transition effect to slide in the sidenav */
     user-select: none;
     -webkit-user-select: none;
-    border-top: 1px whitesmoke solid;
+    border-top: 2px whitesmoke solid;
 }
 
 /* The navigation menu links */

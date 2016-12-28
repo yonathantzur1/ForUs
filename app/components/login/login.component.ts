@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common';
 
 import { LoginService } from '../../services/login/login.service';
 
@@ -44,7 +43,7 @@ export class ForgotUser {
 })
 
 export class LoginComponent {
-  constructor(private router: Router, private location: Location, private loginService: LoginService) { }
+  constructor(private router: Router, private loginService: LoginService) { }
 
   user: User = new User();
   newUser: NewUser = new NewUser();
@@ -108,7 +107,6 @@ export class LoginComponent {
           $("#login-failed").snackbar("show");
         }
         else {
-          this.location.replaceState('/');
           this.router.navigate(['']);
         }
       });

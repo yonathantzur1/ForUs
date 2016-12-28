@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var common_1 = require("@angular/common");
 var login_service_1 = require("../../services/login/login.service");
 var User = (function () {
     function User() {
@@ -43,9 +42,8 @@ var ForgotUser = (function () {
 }());
 exports.ForgotUser = ForgotUser;
 var LoginComponent = (function () {
-    function LoginComponent(router, location, loginService) {
+    function LoginComponent(router, loginService) {
         this.router = router;
-        this.location = location;
         this.loginService = loginService;
         this.user = new User();
         this.newUser = new NewUser();
@@ -99,7 +97,6 @@ var LoginComponent = (function () {
                     $("#login-failed").snackbar("show");
                 }
                 else {
-                    _this.location.replaceState('/');
                     _this.router.navigate(['']);
                 }
             });
@@ -229,7 +226,7 @@ LoginComponent = __decorate([
         templateUrl: 'views/login.html',
         providers: [login_service_1.LoginService]
     }),
-    __metadata("design:paramtypes", [router_1.Router, common_1.Location, login_service_1.LoginService])
+    __metadata("design:paramtypes", [router_1.Router, login_service_1.LoginService])
 ], LoginComponent);
 exports.LoginComponent = LoginComponent;
 //***Help vars and functions***//
