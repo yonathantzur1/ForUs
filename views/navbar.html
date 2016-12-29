@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="../css/navbar.css">
 
 <div id="sidenav" class="sidenav">
-  <a class="closebtn" (click)="HideSidenav()">&times;</a>
+  <a class="closebtn" *ngIf="isSidebarOpen" (click)="HideSidenav()">&times;</a>
   <a href="#">נס</a>
   <a href="#">גדול</a>
   <a href="#">היה</a>
