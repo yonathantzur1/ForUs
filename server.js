@@ -30,7 +30,7 @@ require('./routes/login.js')(app, usersBL, mailer, sha512);
 
 app.get('/getCurrUserName', function(req, res) {
     if (req.session.currUser) {
-        res.send(req.session.currUser.name);
+        res.send(req.session.currUser.firstName);
     }
     else {
         res.send(null);

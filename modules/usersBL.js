@@ -59,7 +59,8 @@ module.exports = {
 
         // Creat the new user object.
         var newUserObj = {
-            "name": newUser.name,
+            "firstName": newUser.firstName,
+            "lastName": newUser.lastName,
             "email": newUser.email,
             "password": newUser.password,
             "salt": salt

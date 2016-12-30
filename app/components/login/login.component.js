@@ -21,7 +21,8 @@ var User = (function () {
 exports.User = User;
 var NewUser = (function () {
     function NewUser() {
-        this.name = "";
+        this.firstName = "";
+        this.lastName = "";
         this.email = "";
         this.password = "";
     }
@@ -120,6 +121,7 @@ var LoginComponent = (function () {
                 }
                 else {
                     $("#register-modal").modal('hide');
+                    _this.router.navigate(['']);
                 }
             });
         }
@@ -262,20 +264,37 @@ var loginValidationFuncs = [
 var registerValidationFuncs = [
     {
         isFieldValid: function (newUser) {
-            return (newUser.name ? true : false);
+            return (newUser.firstName ? true : false);
         },
-        errMsg: "יש להזין את שמך",
-        fieldId: "register-name-micro",
-        inputId: "register-name"
+        errMsg: "יש להזין שם פרטי",
+        fieldId: "register-firstName-micro",
+        inputId: "register-firstName"
+    },
+    {
+        isFieldValid: function (newUser) {
+            return (newUser.lastName ? true : false);
+        },
+        errMsg: "יש להזין שם משפחה",
+        fieldId: "register-lastName-micro",
+        inputId: "register-lastName"
     },
     {
         isFieldValid: function (newUser) {
             var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*$/i;
-            return (namePattern.test(newUser.name));
+            return (namePattern.test(newUser.firstName));
         },
         errMsg: "יש להזין שם תקין בעברית",
-        fieldId: "register-name-micro",
-        inputId: "register-name"
+        fieldId: "register-firstName-micro",
+        inputId: "register-firstName"
+    },
+    {
+        isFieldValid: function (newUser) {
+            var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*$/i;
+            return (namePattern.test(newUser.lastName));
+        },
+        errMsg: "יש להזין שם תקין בעברית",
+        fieldId: "register-lastName-micro",
+        inputId: "register-lastName"
     },
     {
         isFieldValid: function (newUser) {

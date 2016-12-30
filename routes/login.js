@@ -34,7 +34,8 @@ module.exports = function (app, usersBL, mailer, sha512) {
                     // In case all register progress was succeeded.
                     if (result != null) {
                         // Sending welcome mail to the new user.
-                        mailer.SendMail(req.body.email, mailer.GetRegisterMailContent(req.body.name));
+                        mailer.SendMail(req.body.email, mailer.GetRegisterMailContent(req.body.firstName));
+                        req.session.currUser = result;
                     }
 
                     res.send(result);

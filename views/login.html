@@ -43,13 +43,28 @@
 			</div>
 			<div class="modal-body">
 				<form class="form-horizontal">
-					<div class="form-group">
-						<div class="col-md-10 col-md-offset-1">
-							<input [(ngModel)]="newUser.name" id="register-name" class="form-control user-input" type="text" name="name" (keyup)="HideMicrotext($event.srcElement.id + '-micro')"
-								maxlength="30" placeholder="שם">
-							<label id="register-name-micro" class="microtext"></label>
-						</div>
-					</div>
+					<table>
+						<tr>
+							<td>
+								<div class="form-group">
+									<div class="col-md-9 col-md-offset-1">
+										<input [(ngModel)]="newUser.firstName" id="register-firstName" class="form-control user-input" type="text" name="firstName" (keyup)="HideMicrotext($event.srcElement.id + '-micro')"
+											maxlength="15" placeholder="שם פרטי">
+										<label id="register-firstName-micro" class="microtext"></label>
+									</div>
+								</div>
+							</td>
+							<td>
+								<div class="form-group">
+									<div class="col-md-9 col-md-offset-2">
+										<input [(ngModel)]="newUser.lastName" id="register-lastName" class="form-control user-input" type="text" name="lastName" (keyup)="HideMicrotext($event.srcElement.id + '-micro')"
+											maxlength="15" placeholder="שם משפחה">
+										<label id="register-lastName-micro" class="microtext"></label>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</table>
 					<div class="form-group">
 						<div class="col-md-10 col-md-offset-1">
 							<input [(ngModel)]="newUser.email" id="register-email" class="form-control user-input" type="email" name="email" (keyup)="HideMicrotext($event.srcElement.id + '-micro')"

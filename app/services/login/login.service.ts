@@ -26,7 +26,8 @@ export class LoginService {
 
     Register(newUser: NewUser) {
         var details = {
-            "name": newUser.name,
+            "firstName": newUser.firstName,
+            "lastName": newUser.lastName,
             "email": newUser.email,
             "password": newUser.password
         };

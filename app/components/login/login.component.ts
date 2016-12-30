@@ -12,8 +12,9 @@ export class User {
 }
 
 export class NewUser {
-  constructor() { this.name = ""; this.email = ""; this.password = ""; }
-  name: string;
+  constructor() { this.firstName = ""; this.lastName = ""; this.email = ""; this.password = ""; }
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
 }
@@ -133,6 +134,7 @@ export class LoginComponent {
         }
         else {
           $("#register-modal").modal('hide');
+          this.router.navigate(['']);
         }
       });
     }
@@ -287,20 +289,37 @@ var loginValidationFuncs = [
 var registerValidationFuncs = [
   {
     isFieldValid(newUser: NewUser) {
-      return (newUser.name ? true : false);
+      return (newUser.firstName ? true : false);
     },
-    errMsg: "יש להזין את שמך",
-    fieldId: "register-name-micro",
-    inputId: "register-name"
+    errMsg: "יש להזין שם פרטי",
+    fieldId: "register-firstName-micro",
+    inputId: "register-firstName"
+  },
+  {
+    isFieldValid(newUser: NewUser) {
+      return (newUser.lastName ? true : false);
+    },
+    errMsg: "יש להזין שם משפחה",
+    fieldId: "register-lastName-micro",
+    inputId: "register-lastName"
   },
   {
     isFieldValid(newUser: NewUser) {
       var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*$/i;
-      return (namePattern.test(newUser.name));
+      return (namePattern.test(newUser.firstName));
     },
     errMsg: "יש להזין שם תקין בעברית",
-    fieldId: "register-name-micro",
-    inputId: "register-name"
+    fieldId: "register-firstName-micro",
+    inputId: "register-firstName"
+  },
+  {
+    isFieldValid(newUser: NewUser) {
+      var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*$/i;
+      return (namePattern.test(newUser.lastName));
+    },
+    errMsg: "יש להזין שם תקין בעברית",
+    fieldId: "register-lastName-micro",
+    inputId: "register-lastName"
   },
   {
     isFieldValid(newUser: NewUser) {
