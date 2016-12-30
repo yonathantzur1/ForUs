@@ -8,6 +8,10 @@
   <a href="#">פה</a>
 </div>
 <div class="container-fluid navbar">
-    <img (click)="ShowHideSidenav()" src="../logo/icon.png" class="head-icon">
-    <div class="name" *ngIf="name">שלום {{name}}</div>
+  <img (click)="ShowHideSidenav()" src="../logo/icon.png" class="head-icon">
+  <div>
+    <input type="text" class="search-input col-md-3 col-md-offset-8 col-xs-6 col-xs-offset-4" maxlength="35" placeholder="חפש">
+    <span class="glyphicon glyphicon-search search-icon col-md-1 col-md-offset-7 col-xs-1 col-xs-offset-3"></span>
+  </div>
+  <div class="name" *ngIf="name">שלום {{name}}</div>
 </div>

@@ -11,8 +11,9 @@
     font-size: 14px;
     font-family: Rubik;
     float: left;
-    position: relative;
-    top: 30%;
+    position: absolute;
+    top: 15px;
+    left: 15px;
 }
 
 .head-icon {
@@ -24,6 +25,22 @@
     cursor: pointer;
     user-select: none;
     -webkit-user-select: none;
+}
+
+.search-input {
+    top: 14px;
+    color: black;
+    padding-right: 5px;
+    font-family: rubik;
+    border-radius: 3px;
+    border: 0;
+    position: relative;
+}
+
+.search-icon {
+    font-size: 15px;
+    margin-top: -6px;
+    left: 6px;
 }
 
 /* The side navigation menu */
@@ -41,14 +58,14 @@
     transition: 0.4s; /* 0.5 second transition effect to slide in the sidenav */
     user-select: none;
     -webkit-user-select: none;
-    border-top: 2px whitesmoke solid;
+    border-top: 2px #A59B9B solid;
 }
 
 /* The navigation menu links */
 .sidenav a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
-    font-size: 25px;
+    font-size: 22px;
     color: #818181;
     display: block;
     transition: 0.3s

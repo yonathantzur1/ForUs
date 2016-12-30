@@ -15,7 +15,7 @@ var NavbarComponent = (function () {
         this.ShowHideSidenav = function () {
             this.isSidebarOpen = !this.isSidebarOpen;
             if (this.isSidebarOpen) {
-                document.getElementById("sidenav").style.width = "215px";
+                document.getElementById("sidenav").style.width = "210px";
             }
             else {
                 document.getElementById("sidenav").style.width = "0";
