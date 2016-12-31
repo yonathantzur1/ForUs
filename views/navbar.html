@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="../css/navbar.css">
 
-<div class="slidenav-overlay" *ngIf="isSidebarOpen" (click)="ClosePopups()"></div>
+<div class="slidenav-overlay" *ngIf="isSidebarOpen || isDropMenuOpen" (click)="ClosePopups()"></div>
 <div id="sidenav" class="sidenav">
   <a class="closebtn" *ngIf="isSidebarOpen" (click)="HideSidenav()">&times;</a>
   <a href="#">נס</a>
@@ -38,3 +38,4 @@
     <span class="name" *ngIf="name">שלום {{name}}</span>
   </div>
 </div>
+<div class="space"></div>
