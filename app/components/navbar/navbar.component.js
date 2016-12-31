@@ -12,9 +12,11 @@ var core_1 = require("@angular/core");
 var NavbarComponent = (function () {
     function NavbarComponent() {
         this.isSidebarOpen = false;
+        this.isDropMenuOpen = false;
         this.ShowHideSidenav = function () {
             this.isSidebarOpen = !this.isSidebarOpen;
             if (this.isSidebarOpen) {
+                this.HideDropMenu();
                 document.getElementById("sidenav").style.width = "210px";
             }
             else {
@@ -24,6 +26,19 @@ var NavbarComponent = (function () {
         this.HideSidenav = function () {
             this.isSidebarOpen = false;
             document.getElementById("sidenav").style.width = "0";
+        };
+        this.ShowHideDropMenu = function () {
+            this.isDropMenuOpen = !this.isDropMenuOpen;
+            if (this.isDropMenuOpen) {
+                this.HideSidenav();
+            }
+        };
+        this.HideDropMenu = function () {
+            this.isDropMenuOpen = false;
+        };
+        this.ClosePopups = function () {
+            this.HideSidenav();
+            this.HideDropMenu();
         };
     }
     return NavbarComponent;
