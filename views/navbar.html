@@ -1,22 +1,22 @@
 <link rel="stylesheet" href="../css/navbar.css">
 
-<div class="slidenav-overlay" *ngIf="isSidebarOpen || isDropMenuOpen" (click)="ClosePopups()"></div>
-<div id="sidenav" class="sidenav">
-  <a class="closebtn" *ngIf="isSidebarOpen" (click)="HideSidenav()">&times;</a>
-  <a href="#">נס</a>
-  <a href="#">גדול</a>
-  <a href="#">היה</a>
-  <a href="#">פה</a>
-</div>
-<div class="container-fluid navbar">
-  <img (click)="ShowHideSidenav()" src="../logo/icon.png" class="head-icon">
-  <div>
-    <input type="text" class="search-input col-md-3 col-md-offset-8 col-xs-5 col-xs-offset-5" maxlength="35" placeholder="חפש"
-      (focus)="ClosePopups()">
-    <span class="glyphicon glyphicon-search search-icon col-md-1 col-md-offset-7 col-xs-1 col-xs-offset-4"></span>
+<div class="space">
+  <div class="slidenav-overlay" *ngIf="isSidebarOpen || isDropMenuOpen" (click)="ClosePopups()"></div>
+  <div id="sidenav" class="sidenav">
+    <a class="closebtn" *ngIf="isSidebarOpen" (click)="HideSidenav()">&times;</a>
+    <a href="#">נס</a>
+    <a href="#">גדול</a>
+    <a href="#">היה</a>
+    <a href="#">פה</a>
   </div>
-  <div class="manage-sector">
-    <span>
+  <div class="container-fluid navbar">
+    <img (click)="ShowHideSidenav()" src="../logo/icon.png" class="head-icon">
+    <span class="search-sector col-md-4 col-xs-6">
+      <input type="text" class="search-input" placeholder="חפש"
+        (focus)="ClosePopups()">
+      <span class="glyphicon glyphicon-search search-icon"></span>
+    </span>
+    <div class="manage-sector">
       <span (click)="ShowHideDropMenu()" class="glyphicon glyphicon-triangle-bottom menu-icon"></span>
       <ul *ngIf="isDropMenuOpen" class="drop-menu col-md-2 col-xs-3">
         <li class="menu-option">
@@ -25,17 +25,16 @@
               הגדרות
             </span>
           </a>
-          </li>
-          <li class="menu-option">
+        </li>
+        <li class="menu-option">
           <a class="option-link" href="#">
             <span class="option-sector">
               התנתקות
             </span>
           </a>
-          </li>
+        </li>
       </ul>
-    </span>
-    <span class="name" *ngIf="name">שלום {{name}}</span>
+      <span class="name" *ngIf="name">שלום {{name}}</span>
+    </div>
   </div>
 </div>
-<div class="space"></div>
