@@ -8,18 +8,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require("@angular/core");
+var core_1 = require('@angular/core');
 var PageNotFoundComponent = (function () {
     function PageNotFoundComponent() {
     }
+    PageNotFoundComponent = __decorate([
+        core_1.Component({
+            selector: 'pageNotFound',
+            templateUrl: 'views/pageNotFound.html'
+        }), 
+        __metadata('design:paramtypes', [])
+    ], PageNotFoundComponent);
     return PageNotFoundComponent;
 }());
-PageNotFoundComponent = __decorate([
-    core_1.Component({
-        selector: 'pageNotFound',
-        templateUrl: 'views/pageNotFound.html'
-    }),
-    __metadata("design:paramtypes", [])
-], PageNotFoundComponent);
 exports.PageNotFoundComponent = PageNotFoundComponent;
 //# sourceMappingURL=pageNotFound.component.js.map

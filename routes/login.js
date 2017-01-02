@@ -50,7 +50,7 @@ module.exports = function (app, usersBL, mailer, sha512) {
 
         usersBL.AddResetCode("Users", email, function (result) {
             if (result != null && result != false) {
-                mailer.SendMail(req.body.email, mailer.GetForgotMailContent(result.name, result.resetCode.code));
+                mailer.SendMail(req.body.email, mailer.GetForgotMailContent(result.firstName, result.resetCode.code));
                 res.send(true);
             }
             else {

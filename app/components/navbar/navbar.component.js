@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require("@angular/core");
+var core_1 = require('@angular/core');
 var DropMenuData = (function () {
     function DropMenuData(link, text) {
         this.link = link, this.text = text;
@@ -52,18 +52,18 @@ var NavbarComponent = (function () {
             this.HideDropMenu();
         };
     }
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], NavbarComponent.prototype, "name", void 0);
+    NavbarComponent = __decorate([
+        core_1.Component({
+            selector: 'navbar',
+            templateUrl: 'views/navbar.html'
+        }), 
+        __metadata('design:paramtypes', [])
+    ], NavbarComponent);
     return NavbarComponent;
 }());
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", String)
-], NavbarComponent.prototype, "name", void 0);
-NavbarComponent = __decorate([
-    core_1.Component({
-        selector: 'navbar',
-        templateUrl: 'views/navbar.html'
-    }),
-    __metadata("design:paramtypes", [])
-], NavbarComponent);
 exports.NavbarComponent = NavbarComponent;
 //# sourceMappingURL=navbar.component.js.map

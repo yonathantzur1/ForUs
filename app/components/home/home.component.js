@@ -8,10 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
-var auth_service_1 = require("../../services/auth/auth.service");
-var home_service_1 = require("../../services/home/home.service");
+var core_1 = require('@angular/core');
+var router_1 = require('@angular/router');
+var auth_service_1 = require('../../services/auth/auth.service');
+var home_service_1 = require('../../services/home/home.service');
 var HomeComponent = (function () {
     function HomeComponent(router, authService, homeService) {
         this.router = router;
@@ -28,15 +28,15 @@ var HomeComponent = (function () {
             _this.currUserName = result._body;
         });
     };
+    HomeComponent = __decorate([
+        core_1.Component({
+            selector: 'home',
+            templateUrl: 'views/home.html',
+            providers: [home_service_1.HomeService]
+        }), 
+        __metadata('design:paramtypes', [router_1.Router, auth_service_1.AuthService, home_service_1.HomeService])
+    ], HomeComponent);
     return HomeComponent;
 }());
-HomeComponent = __decorate([
-    core_1.Component({
-        selector: 'home',
-        templateUrl: 'views/home.html',
-        providers: [home_service_1.HomeService]
-    }),
-    __metadata("design:paramtypes", [router_1.Router, auth_service_1.AuthService, home_service_1.HomeService])
-], HomeComponent);
 exports.HomeComponent = HomeComponent;
 //# sourceMappingURL=home.component.js.map
