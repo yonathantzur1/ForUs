@@ -11,7 +11,7 @@
 }
 
 .name {
-    font-size: 14px;
+    font-size: 15px;
     font-family: Rubik;
 }
 
@@ -48,7 +48,7 @@
     font-size: 16px;
     top: 4px;
     position: absolute;
-    color: black;
+    color: #7b7878;
     left: 20px;
 }
 
@@ -59,8 +59,8 @@
 }
 
 .menu-icon {
-    left: 3px;
-    top: 2px;
+    left: 4px;
+    top: 1px;
     cursor: pointer;
     font-size: 11px;
 }

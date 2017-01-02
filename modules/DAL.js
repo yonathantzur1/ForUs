@@ -61,7 +61,7 @@ module.exports = {
                 var collection = db.collection(collectionName);
                 collection.insertOne(doc, function (err, result) {
                     if (err == null) {
-                        callback(result);
+                        callback(result.insertedId);
                     }
                     else {
                         callback(null);

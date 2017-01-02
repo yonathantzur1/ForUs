@@ -35,7 +35,7 @@ module.exports = function (app, usersBL, mailer, sha512) {
                     if (result != null) {
                         // Sending welcome mail to the new user.
                         mailer.SendMail(req.body.email, mailer.GetRegisterMailContent(req.body.firstName));
-                        req.session.currUser = result;
+                        req.session.currUser = req.body;
                     }
 
                     res.send(result);

@@ -6,7 +6,8 @@ import { Component, Input } from '@angular/core';
 })
 
 export class NavbarComponent {
-    @Input() name: string
+    @Input() name: string;
+    
     isSidebarOpen: boolean = false;
     isDropMenuOpen: boolean = false;
 
