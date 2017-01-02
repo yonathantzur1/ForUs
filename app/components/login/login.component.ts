@@ -18,6 +18,7 @@ export class NewUser {
   email: string;
   password: string;
 }
+
 var forgotBtnTextObj = { searchText: "חיפוש", resetPassText: "אפס סיסמא" }
 
 export class ForgotUser {

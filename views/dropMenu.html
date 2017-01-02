@@ -1,0 +1,11 @@
+<link rel="stylesheet" href="../css/dropMenu.css">
+
+<ul class="drop-menu">
+    <li class="menu-option" *ngFor="let option of options">
+        <a class="option-link" href="{{option.link}}">
+            <span class="option-sector">
+              {{option.text}}
+            </span>
+        </a>
+    </li>
+</ul>

@@ -18,22 +18,7 @@
     </span>
     <div class="manage-sector">
       <span (click)="ShowHideDropMenu()" class="glyphicon glyphicon-triangle-bottom menu-icon"></span>
-      <ul *ngIf="isDropMenuOpen" class="drop-menu col-md-2 col-xs-3">
-        <li class="menu-option">
-          <a class="option-link" href="{{yoni}}">
-            <span class="option-sector">
-              הגדרות
-            </span>
-          </a>
-        </li>
-        <li class="menu-option">
-          <a class="option-link" href="#">
-            <span class="option-sector">
-              התנתקות
-            </span>
-          </a>
-        </li>
-      </ul>
+      <dropMenu class="dropMenuPosition col-md-2 col-xs-4" *ngIf="isDropMenuOpen" [options]="dropMenuDataList"></dropMenu>
       <span class="name" *ngIf="name">שלום {{name}}</span>
     </div>
   </div>

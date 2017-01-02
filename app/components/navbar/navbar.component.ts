@@ -1,5 +1,11 @@
 import { Component, Input } from '@angular/core';
 
+export class DropMenuData {
+    constructor(link: string, text: string) { this.link = link, this.text = text }
+    link: string;
+    text: string;
+}
+
 @Component({
     selector: 'navbar',
     templateUrl: 'views/navbar.html'
@@ -7,9 +13,14 @@ import { Component, Input } from '@angular/core';
 
 export class NavbarComponent {
     @Input() name: string;
-    
+
     isSidebarOpen: boolean = false;
     isDropMenuOpen: boolean = false;
+
+    dropMenuDataList: DropMenuData[] = [
+        new DropMenuData("#", "הגדרות"),
+        new DropMenuData("#", "התנתקות")
+    ];
 
     ShowHideSidenav = function () {
         this.isSidebarOpen = !this.isSidebarOpen;
@@ -28,7 +39,7 @@ export class NavbarComponent {
         document.getElementById("sidenav").style.width = "0";
     }
 
-    ShowHideDropMenu = function() {
+    ShowHideDropMenu = function () {
         this.isDropMenuOpen = !this.isDropMenuOpen;
 
         if (this.isDropMenuOpen) {
@@ -36,11 +47,11 @@ export class NavbarComponent {
         }
     }
 
-    HideDropMenu = function() {
+    HideDropMenu = function () {
         this.isDropMenuOpen = false;
     }
 
-    ClosePopups = function() {
+    ClosePopups = function () {
         this.HideSidenav();
         this.HideDropMenu();
     }
