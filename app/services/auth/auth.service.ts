@@ -30,4 +30,15 @@ export class AuthService {
                 return null;
             });
     }
+
+    Logout() {
+        return this.http.get('/logout')
+            .toPromise()
+            .then((result) => {
+                return result.json();
+            })
+            .catch((result) => {
+                return null;
+            });
+    }
 }

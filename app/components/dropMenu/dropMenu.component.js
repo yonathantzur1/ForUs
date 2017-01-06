@@ -9,8 +9,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var router_1 = require('@angular/router');
 var DropMenuComponent = (function () {
-    function DropMenuComponent() {
+    function DropMenuComponent(router) {
+        this.router = router;
+        this.ActiveAction = function (action, object, link) {
+            if (action) {
+                action(object, link);
+            }
+            else {
+                this.router.navigateByUrl(link);
+            }
+        };
     }
     __decorate([
         core_1.Input(), 
@@ -22,7 +32,7 @@ var DropMenuComponent = (function () {
             templateUrl: 'views/dropMenu.html',
             providers: []
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [router_1.Router])
     ], DropMenuComponent);
     return DropMenuComponent;
 }());

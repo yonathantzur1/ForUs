@@ -56,68 +56,85 @@
     float: left;
     position: relative;
     top: 15px;
+    left: 1%;
 }
 
 .menu-icon {
-    left: 4px;
-    top: 1px;
+    right: 3px;
+    top: 2px;
     cursor: pointer;
-    font-size: 11px;
+    font-size: 12px;
+}
+
+.menu-icon:hover {
+    color: #eee;
+}
+
+.menu-top-arrow {
+    position: absolute;
+    color: #fefff4;
+    left: -5px;
+    font-size: 16px;
+    top: 23px;
+    z-index: 1;
 }
 
 .dropMenuPosition {
     position: fixed;
-    left: 60px;
-    top: 51px;
+    left: 1%;
+    top: 50px;
+    padding: 0;
 }
 
 /* The side navigation menu */
 .sidenav {
-    height: 100%; /* 100% Full-height */
-    width: 0; /* 0 width - change this with JavaScript */
-    position: fixed; /* Stay in place */
-    z-index: 999; /* Stay on top */
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 999;
     top: 50;
     right: 0;
-    background-color: #1D1F20; /* Black*/
-    background-image: linear-gradient(145deg, #1D1F20, #404348);
-    overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 60px; /* Place content 60px from the top */
-    transition: 0.4s; /* 0.5 second transition effect to slide in the sidenav */
+    background-image: linear-gradient(145deg, #0375d8, #505636);
+    overflow-x: hidden;
+    padding-top: 40px !important;
+    transition: 0.4s;
     user-select: none;
     -webkit-user-select: none;
-    border-top: 2px #A59B9B solid;
+    border-top: 2px #bdb7b7 solid;
 }
 
 /* The navigation menu links */
-.sidenav a {
-    padding: 8px 8px 8px 32px;
+.sidenav span {
+    padding: 8px 8px 16px 32px;
     text-decoration: none;
-    font-size: 22px;
-    color: #818181;
+    font-size: 26px !important;
+    color: #222b3a;
     display: block;
-    transition: 0.3s
+    transition: 0.1s;
+    cursor: pointer;
+    white-space: nowrap;
 }
 
 /* When you mouse over the navigation links, change their color */
-.sidenav a:hover, .offcanvas a:focus{
+.sidenav span:hover, .offcanvas span:focus{
     color: #f1f1f1;
 }
 
 /* Position and style the close button (top right corner) */
 .sidenav .closebtn {
     position: absolute;
-    top: 0;
-    left: 0;
-    font-size: 36px;
+    top: 15px;
+    left: 15px;
+    font-size: 18px !important;
     margin-right: 50px;
     cursor: pointer;
+    padding: 0;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
+    .sidenav span {font-size: 18px;}
 }
 
 .slidenav-overlay {

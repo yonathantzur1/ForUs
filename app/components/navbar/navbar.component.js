@@ -9,20 +9,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var router_1 = require('@angular/router');
+var auth_service_1 = require('../../services/auth/auth.service');
 var DropMenuData = (function () {
-    function DropMenuData(link, text) {
-        this.link = link, this.text = text;
+    function DropMenuData(link, text, action, object) {
+        this.link = link, this.text = text, this.action = action, this.object = object;
     }
     return DropMenuData;
 }());
 exports.DropMenuData = DropMenuData;
 var NavbarComponent = (function () {
-    function NavbarComponent() {
+    function NavbarComponent(router, authService) {
+        this.router = router;
+        this.authService = authService;
         this.isSidebarOpen = false;
         this.isDropMenuOpen = false;
         this.dropMenuDataList = [
-            new DropMenuData("#", "הגדרות"),
-            new DropMenuData("#", "התנתקות")
+            new DropMenuData("#", "הגדרות", null, null),
+            new DropMenuData("/login", "התנתקות", function (self, link) {
+                self.authService.Logout().then(function () {
+                    self.router.navigateByUrl(link);
+                });
+            }, this)
         ];
         this.ShowHideSidenav = function () {
             this.isSidebarOpen = !this.isSidebarOpen;
@@ -61,7 +69,7 @@ var NavbarComponent = (function () {
             selector: 'navbar',
             templateUrl: 'views/navbar.html'
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [router_1.Router, auth_service_1.AuthService])
     ], NavbarComponent);
     return NavbarComponent;
 }());

@@ -22,13 +22,23 @@ app.use(bodyParser.urlencoded({
 app.use(express.static('./'));
 app.use(express.static('public'));
 
-var server = app.listen((process.env.PORT || 8000), function() {
+var server = app.listen((process.env.PORT || 8000), function () {
     console.log("Server is up!");
 });
 
 require('./routes/login.js')(app, usersBL, mailer, sha512);
 
-app.get('/getCurrUserName', function(req, res) {
+// Getting the current login user.
+app.get('/isUserOnSession', function (req, res) {
+    if (req.session.currUser) {
+        res.send(true);
+    }
+    else {
+        res.send(false);
+    }
+});
+
+app.get('/getCurrUserName', function (req, res) {
     if (req.session.currUser) {
         res.send(req.session.currUser.firstName);
     }
@@ -37,7 +47,15 @@ app.get('/getCurrUserName', function(req, res) {
     }
 });
 
+app.get('/logout', function (req, res) {
+    if (req.session.currUser) {
+        delete req.session.currUser;
+    }
+
+    res.end();
+});
+
 // Redirect angular requests back to client side.
-app.get('**', function(req, res) {
+app.get('**', function (req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
 });

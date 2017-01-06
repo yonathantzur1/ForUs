@@ -36,6 +36,16 @@ var AuthService = (function () {
             return null;
         });
     };
+    AuthService.prototype.Logout = function () {
+        return this.http.get('/logout')
+            .toPromise()
+            .then(function (result) {
+            return result.json();
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
     AuthService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http])

@@ -109,7 +109,7 @@ export class LoginComponent {
           $("#login-failed").snackbar("show");
         }
         else {
-          this.router.navigate(['']);
+          this.router.navigateByUrl('');
         }
       });
     }
@@ -135,7 +135,7 @@ export class LoginComponent {
         }
         else {
           $("#register-modal").modal('hide');
-          this.router.navigate(['']);
+          this.router.navigateByUrl('');
         }
       });
     }

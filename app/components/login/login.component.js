@@ -98,7 +98,7 @@ var LoginComponent = (function () {
                     $("#login-failed").snackbar("show");
                 }
                 else {
-                    _this.router.navigate(['']);
+                    _this.router.navigateByUrl('');
                 }
             });
         }
@@ -121,7 +121,7 @@ var LoginComponent = (function () {
                 }
                 else {
                     $("#register-modal").modal('hide');
-                    _this.router.navigate(['']);
+                    _this.router.navigateByUrl('');
                 }
             });
         }

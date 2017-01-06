@@ -68,14 +68,4 @@ module.exports = function (app, usersBL, mailer, sha512) {
         });
     });
 
-    // Getting the current login user.
-    app.get('/isUserOnSession', function (req, res) {
-        if (req.session.currUser) {
-            res.send(true);
-        }
-        else {
-            res.send(false);
-        }
-    });
-
 };

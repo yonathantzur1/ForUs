@@ -3,11 +3,11 @@
 <div class="space">
   <div class="slidenav-overlay" *ngIf="isSidebarOpen || isDropMenuOpen" (click)="ClosePopups()"></div>
   <div id="sidenav" class="sidenav">
-    <a class="closebtn" *ngIf="isSidebarOpen" (click)="HideSidenav()">&times;</a>
-    <a href="#">נס</a>
-    <a href="#">גדול</a>
-    <a href="#">היה</a>
-    <a href="#">פה</a>
+    <span class="glyphicon glyphicon-remove closebtn" *ngIf="isSidebarOpen" (click)="HideSidenav()" aria-hidden="true"></span>
+    <span>שבת שלום</span>
+    <span>חג שמח</span>
+    <span>שנה טובה</span>
+    <span>יום טוב</span>
   </div>
   <div class="container-fluid navbar">
     <img (click)="ShowHideSidenav()" src="../logo/icon.png" class="head-icon">
@@ -17,9 +17,10 @@
       <span class="glyphicon glyphicon-search search-icon"></span>
     </span>
     <div class="manage-sector">
-      <span (click)="ShowHideDropMenu()" class="glyphicon glyphicon-triangle-bottom menu-icon"></span>
-      <dropMenu class="dropMenuPosition col-md-2 col-xs-4" *ngIf="isDropMenuOpen" [options]="dropMenuDataList"></dropMenu>
       <span class="name" *ngIf="name">שלום {{name}}</span>
+      <span (click)="ShowHideDropMenu()" class="glyphicon glyphicon-triangle-bottom menu-icon"></span>
+      <span class="glyphicon glyphicon-triangle-top menu-top-arrow" *ngIf="isDropMenuOpen"></span>
+      <dropMenu class="dropMenuPosition col-md-2 col-xs-4" *ngIf="isDropMenuOpen" [options]="dropMenuDataList"></dropMenu>
     </div>
   </div>
 </div>

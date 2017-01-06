@@ -1,9 +1,16 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { AuthService } from '../../services/auth/auth.service';
 
 export class DropMenuData {
-    constructor(link: string, text: string) { this.link = link, this.text = text }
+    constructor(link: string, text: string, action: Function, object: any)
+    { this.link = link, this.text = text, this.action = action, this.object = object }
+    
     link: string;
     text: string;
+    action: Function;
+    object: any;
 }
 
 @Component({
@@ -12,14 +19,20 @@ export class DropMenuData {
 })
 
 export class NavbarComponent {
+    constructor(private router: Router, private authService: AuthService) { }
+
     @Input() name: string;
 
     isSidebarOpen: boolean = false;
     isDropMenuOpen: boolean = false;
 
     dropMenuDataList: DropMenuData[] = [
-        new DropMenuData("#", "הגדרות"),
-        new DropMenuData("#", "התנתקות")
+        new DropMenuData("#", "הגדרות", null, null),
+        new DropMenuData("/login", "התנתקות", function (self: any, link: string) {
+            self.authService.Logout().then(() => {
+                self.router.navigateByUrl(link);
+            });
+        }, this)
     ];
 
     ShowHideSidenav = function () {
