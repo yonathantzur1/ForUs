@@ -27,33 +27,7 @@ var server = app.listen((process.env.PORT || 8000), function () {
 });
 
 require('./routes/login.js')(app, usersBL, mailer, sha512);
-
-// Getting the current login user.
-app.get('/isUserOnSession', function (req, res) {
-    if (req.session.currUser) {
-        res.send(true);
-    }
-    else {
-        res.send(false);
-    }
-});
-
-app.get('/getCurrUserName', function (req, res) {
-    if (req.session.currUser) {
-        res.send(req.session.currUser.firstName);
-    }
-    else {
-        res.send(null);
-    }
-});
-
-app.get('/logout', function (req, res) {
-    if (req.session.currUser) {
-        delete req.session.currUser;
-    }
-
-    res.end();
-});
+require('./routes/auth.js')(app);
 
 // Redirect angular requests back to client side.
 app.get('**', function (req, res) {
