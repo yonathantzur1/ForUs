@@ -94,47 +94,53 @@
     z-index: 999;
     top: 50;
     right: 0;
-    background-image: linear-gradient(145deg, #0375d8, #505636);
+    background-image: linear-gradient(145deg, #0375d8, #c1d65f);
     overflow-x: hidden;
-    padding-top: 40px !important;
     transition: 0.4s;
     user-select: none;
     -webkit-user-select: none;
-    border-top: 2px #bdb7b7 solid;
+    border-top: 1px #bdb7b7 solid;
 }
 
 /* The navigation menu links */
 .sidenav span {
-    padding: 8px 8px 16px 32px;
+    padding: 16px 12px 12px 32px;
     text-decoration: none;
-    font-size: 26px !important;
-    color: #222b3a;
+    font-size: 24px;
+    color: #061e46;
     display: block;
-    transition: 0.1s;
     cursor: pointer;
     white-space: nowrap;
 }
 
+.slidenav-body-sector span {
+    transition: 0.1s;
+}
+
 /* When you mouse over the navigation links, change their color */
-.sidenav span:hover, .offcanvas span:focus{
+.slidenav-body-sector span:hover, .offcanvas span:focus {
     color: #f1f1f1;
 }
 
 /* Position and style the close button (top right corner) */
 .sidenav .closebtn {
-    position: absolute;
-    top: 15px;
+    position: relative;
+    top: 20px;
     left: 15px;
     font-size: 18px !important;
-    margin-right: 50px;
     cursor: pointer;
     padding: 0;
+    float: left;
+    color: #f1f1f1;
+}
+
+.closebtn:hover {
+    color: #061e46 !important;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav span {font-size: 18px;}
+    .sidenav span {font-size: 20px;}
 }
 
 .slidenav-overlay {
@@ -148,4 +154,23 @@
 .space {
     width: 100%;
     height: 50px;
+}
+
+.slidenav-head-sector {
+    background-color: #115c94;
+    width: 100%;
+    height: 55px;
+    top: 0;
+    padding-top: 0;
+}
+
+.slidenav-header {
+    font-size: 26px !important;
+    padding: 0 !important;
+    display: inline !important;
+    cursor: default !important;
+    color: #f1f1f1 !important;
+    top: 9px;
+    position: relative;
+    right: 8px;
 }

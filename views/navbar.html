@@ -3,11 +3,16 @@
 <div class="space">
   <div class="slidenav-overlay" *ngIf="isSidebarOpen || isDropMenuOpen" (click)="ClosePopups()"></div>
   <div id="sidenav" class="sidenav">
-    <span class="glyphicon glyphicon-remove closebtn" *ngIf="isSidebarOpen" (click)="HideSidenav()" aria-hidden="true"></span>
-    <span>שבת שלום</span>
-    <span>חג שמח</span>
-    <span>שנה טובה</span>
-    <span>יום טוב</span>
+    <div class="slidenav-head-sector">
+      <span class="slidenav-header">תפריט</span>
+      <span class="glyphicon glyphicon-remove closebtn" *ngIf="isSidebarOpen" (click)="HideSidenav()" aria-hidden="true"></span>
+    </div>
+    <div class="slidenav-body-sector">
+      <span>שבת שלום</span>
+      <span>חג שמח</span>
+      <span>שנה טובה</span>
+      <span>יום טוב</span>
+    </div>
   </div>
   <div class="container-fluid navbar">
     <img (click)="ShowHideSidenav()" src="../logo/icon.png" class="head-icon">

@@ -20,7 +20,7 @@ var AuthGuard = (function () {
         var _this = this;
         return this.authService.IsUserOnSession().then(function (result) {
             if (result == false) {
-                _this.router.navigate(['/login']);
+                _this.router.navigateByUrl('/login');
                 return false;
             }
             else {
