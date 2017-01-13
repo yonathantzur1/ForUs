@@ -13,7 +13,6 @@
     position: relative;
     text-align: center;
     user-select: none;
-    -webkit-user-select: none;
 }
 
 .login-head-icon {
@@ -155,5 +154,5 @@
 .cancel-register-btn {
     padding: 0;
     top: 6px;
-    left: 30px;
+    left: 35px;
 }
