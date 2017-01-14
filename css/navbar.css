@@ -57,12 +57,12 @@
     position: relative;
     top: 15px;
     left: 1%;
+    cursor: pointer;
 }
 
 .menu-icon {
     right: 3px;
     top: 2px;
-    cursor: pointer;
     font-size: 12px;
 }
 
@@ -107,19 +107,15 @@
     padding: 16px 12px 12px 32px;
     text-decoration: none;
     font-size: 24px;
-    color: #061e46;
+    color: #dbdeff;
     display: block;
     cursor: pointer;
     white-space: nowrap;
 }
 
-.slidenav-body-sector span {
-    transition: 0.1s;
-}
-
 /* When you mouse over the navigation links, change their color */
 .slidenav-body-sector span:hover, .offcanvas span:focus {
-    color: #f1f1f1;
+    background-color: rgba(46, 66, 80, 0.34);
 }
 
 /* Position and style the close button (top right corner) */
@@ -135,7 +131,7 @@
 }
 
 .closebtn:hover {
-    color: #061e46 !important;
+    color: #0e2b5d !important;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */

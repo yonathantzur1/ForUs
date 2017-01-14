@@ -21,9 +21,9 @@
         (focus)="ClosePopups()">
       <span class="glyphicon glyphicon-search search-icon"></span>
     </span>
-    <div class="manage-sector">
+    <div (click)="ShowHideDropMenu()" class="manage-sector">
       <span class="name" *ngIf="name">שלום {{name}}</span>
-      <span (click)="ShowHideDropMenu()" class="glyphicon glyphicon-triangle-bottom menu-icon"></span>
+      <span class="glyphicon glyphicon-triangle-bottom menu-icon"></span>
       <span class="glyphicon glyphicon-triangle-top menu-top-arrow" *ngIf="isDropMenuOpen"></span>
       <dropMenu class="dropMenuPosition col-md-2 col-xs-4" *ngIf="isDropMenuOpen" [options]="dropMenuDataList"></dropMenu>
     </div>
