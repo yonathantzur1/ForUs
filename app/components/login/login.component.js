@@ -272,20 +272,20 @@ var registerValidationFuncs = [
     },
     {
         isFieldValid: function (newUser) {
-            return (newUser.lastName ? true : false);
-        },
-        errMsg: "יש להזין שם משפחה",
-        fieldId: "register-lastName-micro",
-        inputId: "register-lastName"
-    },
-    {
-        isFieldValid: function (newUser) {
             var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*$/i;
             return (namePattern.test(newUser.firstName));
         },
         errMsg: "יש להזין שם תקין בעברית",
         fieldId: "register-firstName-micro",
         inputId: "register-firstName"
+    },
+    {
+        isFieldValid: function (newUser) {
+            return (newUser.lastName ? true : false);
+        },
+        errMsg: "יש להזין שם משפחה",
+        fieldId: "register-lastName-micro",
+        inputId: "register-lastName"
     },
     {
         isFieldValid: function (newUser) {

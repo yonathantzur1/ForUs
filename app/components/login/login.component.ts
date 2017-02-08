@@ -296,15 +296,7 @@ var registerValidationFuncs = [
     fieldId: "register-firstName-micro",
     inputId: "register-firstName"
   },
-  {
-    isFieldValid(newUser: NewUser) {
-      return (newUser.lastName ? true : false);
-    },
-    errMsg: "יש להזין שם משפחה",
-    fieldId: "register-lastName-micro",
-    inputId: "register-lastName"
-  },
-  {
+    {
     isFieldValid(newUser: NewUser) {
       var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*$/i;
       return (namePattern.test(newUser.firstName));
@@ -312,6 +304,14 @@ var registerValidationFuncs = [
     errMsg: "יש להזין שם תקין בעברית",
     fieldId: "register-firstName-micro",
     inputId: "register-firstName"
+  },
+  {
+    isFieldValid(newUser: NewUser) {
+      return (newUser.lastName ? true : false);
+    },
+    errMsg: "יש להזין שם משפחה",
+    fieldId: "register-lastName-micro",
+    inputId: "register-lastName"
   },
   {
     isFieldValid(newUser: NewUser) {
