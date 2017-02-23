@@ -49,9 +49,8 @@
 }
 
 .new-user {
-    left: 0;
-    bottom: 0;
-    padding: 6%;
+    left: 20px;
+    bottom: 15px;
     position: absolute;
     text-decoration: none !important;
     cursor: pointer;
