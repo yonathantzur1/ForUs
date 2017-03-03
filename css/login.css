@@ -18,14 +18,15 @@
 .login-head-icon {
     height: 80px;
     width: 80px;
-    margin-top: 2%;
+    margin-top: -1%;
+    margin-left: 1%;
 }
 
 .login-label {
-    font-family: Rubik;
-    color: #E78200;
-    font-size: 55px;
-    top:25px;
+font-family: Mona Shark;
+    color: #da7b00;
+    font-size: 75px;
+    top: 20px;
     position: relative;
 }
 

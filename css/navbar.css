@@ -8,6 +8,12 @@
     cursor: default;
     user-select: none;
     -webkit-user-select: none;
+    transition: box-shadow 0.4s ease-in-out;
+}
+
+.disable-navbar-shadow {
+    box-shadow: none;
+    transition: box-shadow 0.6s ease-in-out;
 }
 
 .name {

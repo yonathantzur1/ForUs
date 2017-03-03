@@ -38,3 +38,8 @@
     background-color: transparent !important;
     border-color: #009688 !important;
 }
+
+@font-face {
+    font-family: Mona Shark;
+    src: url('../fonts/Mona_Shark.woff');
+}
