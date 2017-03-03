@@ -19,13 +19,12 @@
     height: 80px;
     width: 80px;
     margin-top: -1%;
-    margin-left: 1%;
 }
 
 .login-label {
 font-family: Mona Shark;
     color: #da7b00;
-    font-size: 75px;
+    font-size: 70px;
     top: 20px;
     position: relative;
 }
