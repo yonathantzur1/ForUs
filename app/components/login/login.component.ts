@@ -298,7 +298,7 @@ var registerValidationFuncs = [
   },
     {
     isFieldValid(newUser: NewUser) {
-      var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*$/i;
+      var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i;
       return (namePattern.test(newUser.firstName));
     },
     errMsg: "יש להזין שם תקין בעברית",
@@ -315,7 +315,7 @@ var registerValidationFuncs = [
   },
   {
     isFieldValid(newUser: NewUser) {
-      var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*$/i;
+      var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i;
       return (namePattern.test(newUser.lastName));
     },
     errMsg: "יש להזין שם תקין בעברית",

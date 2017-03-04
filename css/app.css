@@ -43,3 +43,29 @@
     font-family: Mona Shark;
     src: url('../fonts/Mona_Shark.woff');
 }
+
+.main-loader {
+    border: 16px solid #d2d2d2;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    animation: spin 2s linear infinite;
+}
+
+.main-loader-align {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -220px;
+    margin-left: -75px;
+}
+
+.main-loader-title {
+    text-align: center;
+    cursor: default;
+    font-size: 22px;
+    font-family: rubic;
+    color: #111863;
+    margin-right:8px;
+}
