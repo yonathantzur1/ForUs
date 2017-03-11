@@ -1,13 +1,13 @@
 var DAL = require('./DAL.js');
 
 var generator = require('./generator.js');
-var codeNumOfDigits = 6;
-var codeNumOfHoursValid = 24;
+var resetCodeNumOfDigits = 6;
+var resetCodeNumOfHoursValid = 24;
 var maxTryNum = 3;
 
 module.exports = {
 
-    // Return true if the user was found else false.
+    // Return user object if the user was found else false.
     GetUser: function (collectionName, user, sha512, callback) {
         var filter = { "email": user.email };
 
@@ -34,7 +34,7 @@ module.exports = {
         });
     },
 
-    // Check if property is exists in DB.
+    // Check if user is exists in DB.
     CheckIfUserExists: function (collectionName, email, callback) {
         DAL.GetDocsByFilter(collectionName, email, function (result) {
             // In case of error return null.
@@ -54,7 +54,7 @@ module.exports = {
 
     // Add user to the DB.
     AddUser: function (collectionName, newUser, sha512, callback) {
-        var salt = generator.GenerateId(codeNumOfDigits);
+        var salt = generator.GenerateId(resetCodeNumOfDigits);
         newUser.password = sha512(newUser.password + salt);
 
         // Creat the new user object.
@@ -63,7 +63,8 @@ module.exports = {
             "lastName": newUser.lastName,
             "email": newUser.email,
             "password": newUser.password,
-            "salt": salt
+            "salt": salt,
+            "creationDate": new Date()
         };
 
         DAL.InsertDocument(collectionName, newUserObj, function (result) {
@@ -73,7 +74,7 @@ module.exports = {
 
     // Add reset password code to the DB and return the name of the user.
     AddResetCode: function (collectionName, email, callback) {
-        var code = generator.GenerateId(codeNumOfDigits);
+        var code = generator.GenerateId(resetCodeNumOfDigits);
 
         var resetCode = { resetCode: { "code": code, "date": (new Date()).toISOString(), tryNum: 0, isUsed: false } };
 
@@ -119,7 +120,7 @@ module.exports = {
                 callback(errorsObj);
             }
             // In case the code is expired.
-            else if (new Date(result[0].resetCode.date).addHours(codeNumOfHoursValid).getTime() <
+            else if (new Date(result[0].resetCode.date).addHours(resetCodeNumOfHoursValid).getTime() <
                 (new Date()).getTime()) {
                 errorsObj.codeIsExpired = true;
                 callback(errorsObj);
@@ -131,6 +132,7 @@ module.exports = {
                 var updateCodeObj = { "resetCode": result[0].resetCode };
                 updateCodeObj.resetCode.tryNum++;
 
+                // Update num of tries to the code.
                 DAL.UpdateDocument(collectionName, emailObj, updateCodeObj, function (updateResult) {
                     if (updateResult != null && updateResult != false) {
                         callback(errorsObj);
@@ -140,10 +142,11 @@ module.exports = {
                     }
                 });
             }
+            // In case the reset code is valid.
             else {
                 // Delete the reset code object and change the user password.
                 var updateUser = result[0];
-                updateUser.salt = generator.GenerateId(codeNumOfDigits);
+                updateUser.salt = generator.GenerateId(resetCodeNumOfDigits);
                 updateUser.password = sha512(forgotUser.newPassword + updateUser.salt);
                 updateUser.resetCode.isUsed = true;                
                 updateUser.resetCode.tryNum++;
