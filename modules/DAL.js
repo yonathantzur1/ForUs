@@ -5,14 +5,13 @@ var MongoClient = require('mongodb').MongoClient,
 // Connection URL
 var url = config.connectionString;
 var db;
-var poolSize = 10;
 var maxConnectRetry = 5;
 var retryCount = 0;
 
 GetDB = function (callback) {
     // In case there is no connected db.
     if (!db || !db.serverConfig || !db.serverConfig.isConnected()) {
-        MongoClient.connect(url, { server: { maxPoolSize: poolSize } }, function (err, database) {
+        MongoClient.connect(url, function (err, database) {
             if (err == null) {
                 db = database;
                 callback(null, db);
