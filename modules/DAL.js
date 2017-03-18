@@ -38,7 +38,7 @@ GetDB(function (err, db) { });
 
 module.exports = {
     // Getting documents from collection by filter.
-    GetDocsByFilter: function (collectionName, filter, callback) {
+    Find: function (collectionName, filter, callback) {
         GetDB(function (err, db) {
             if (err == null) {
                 var collection = db.collection(collectionName);
@@ -58,7 +58,7 @@ module.exports = {
     },
 
     // Insert new document.
-    InsertDocument: function (collectionName, doc, callback) {
+    Insert: function (collectionName, doc, callback) {
         GetDB(function (err, db) {
             if (err == null) {
                 var collection = db.collection(collectionName);
@@ -78,7 +78,7 @@ module.exports = {
     },
 
     // Update one document.
-    UpdateDocument: function (collectionName, idObj, fieldToUpdateObj, callback) {
+    Update: function (collectionName, idObj, fieldToUpdateObj, callback) {
         GetDB(function (err, db) {
             if (err == null) {
                 var collection = db.collection(collectionName);

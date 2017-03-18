@@ -1,6 +1,6 @@
-var DAL = require('./DAL.js');
+var DAL = require('../DAL.js');
 
-var generator = require('./generator.js');
+var generator = require('../generator.js');
 var resetCodeNumOfDigits = 6;
 var resetCodeNumOfHoursValid = 24;
 var maxTryNum = 3;
@@ -11,7 +11,7 @@ module.exports = {
     GetUser: function (collectionName, user, sha512, callback) {
         var filter = { "email": user.email };
 
-        DAL.GetDocsByFilter(collectionName, filter, function (result) {
+        DAL.Find(collectionName, filter, function (result) {
             // In case of error or more then one user, return null.
             if (result == null || result.length > 1) {
                 callback(null);
@@ -36,7 +36,7 @@ module.exports = {
 
     // Check if user is exists in DB.
     CheckIfUserExists: function (collectionName, email, callback) {
-        DAL.GetDocsByFilter(collectionName, email, function (result) {
+        DAL.Find(collectionName, email, function (result) {
             // In case of error return null.
             if (result == null) {
                 callback(null);
@@ -67,7 +67,7 @@ module.exports = {
             "creationDate": new Date()
         };
 
-        DAL.InsertDocument(collectionName, newUserObj, function (result) {
+        DAL.Insert(collectionName, newUserObj, function (result) {
             callback(result);
         });
     },
@@ -78,7 +78,7 @@ module.exports = {
 
         var resetCode = { resetCode: { "code": code, "date": (new Date()).toISOString(), tryNum: 0, isUsed: false } };
 
-        DAL.UpdateDocument(collectionName, email, resetCode, function (result) {
+        DAL.Update(collectionName, email, resetCode, function (result) {
             callback(result);
         });
     },
@@ -95,7 +95,7 @@ module.exports = {
             codeIsUsed: false
         };
 
-        DAL.GetDocsByFilter(collectionName, emailObj, function (result) {
+        DAL.Find(collectionName, emailObj, function (result) {
             if (result == null || result.length > 1) {
                 callback(null);
             }
@@ -133,7 +133,7 @@ module.exports = {
                 updateCodeObj.resetCode.tryNum++;
 
                 // Update num of tries to the code.
-                DAL.UpdateDocument(collectionName, emailObj, updateCodeObj, function (updateResult) {
+                DAL.Update(collectionName, emailObj, updateCodeObj, function (updateResult) {
                     if (updateResult != null && updateResult != false) {
                         callback(errorsObj);
                     }
@@ -151,7 +151,7 @@ module.exports = {
                 updateUser.resetCode.isUsed = true;                
                 updateUser.resetCode.tryNum++;
 
-                DAL.UpdateDocument(collectionName, emailObj, updateUser, function (updateResult) {
+                DAL.Update(collectionName, emailObj, updateUser, function (updateResult) {
                     if (updateResult != null && updateResult != false) {
                         callback(true);
                     }

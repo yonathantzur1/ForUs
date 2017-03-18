@@ -1,4 +1,3 @@
-var usersBL = require('./modules/usersBL.js');
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
@@ -6,6 +5,10 @@ var path = require('path');
 var mailer = require('./modules/mailer.js');
 var sha512 = require('js-sha512');
 var session = require('express-session');
+
+// BL requires
+var usersBL = require('./modules/BL/usersBL.js');
+var homeBL = require('./modules/BL/homeBL.js');
 
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
