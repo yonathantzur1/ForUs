@@ -1,6 +1,7 @@
 .login-sector {
     user-select: none;
     -webkit-user-select: none;
+    cursor: default;
 }
 
 .loader {
@@ -63,6 +64,8 @@ font-family: Mona Shark;
 .modal-title-label {
     font-size: 20px;
     font-family: Rubik;
+    cursor: default;
+    margin-right: 10%;
 }
 
 .modal-footer-buttons {
@@ -128,13 +131,13 @@ font-family: Mona Shark;
 
 .submit-email-forgot {
     padding: 0;
-    left: 20px;
+    left: 15px;
 }
 
 .cancel-forgot {
     padding: 0;
     top: 6px;
-    left: 40px;
+    left: 30px;
 }
 
 .forgot-email-label {

@@ -296,7 +296,7 @@ var registerValidationFuncs = [
     fieldId: "register-firstName-micro",
     inputId: "register-firstName"
   },
-    {
+  {
     isFieldValid(newUser: NewUser) {
       var namePattern = /^[א-ת']{2,}([ ]+[א-ת']{2,})*([-]+[א-ת']{2,})*$/i;
       return (namePattern.test(newUser.firstName));

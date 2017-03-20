@@ -1,7 +1,7 @@
 var DAL = require('../DAL.js');
 
 var generator = require('../generator.js');
-var resetCodeNumOfDigits = 6;
+var resetCodeNumOfDigits = 8;
 var resetCodeNumOfHoursValid = 24;
 var maxTryNum = 3;
 
@@ -148,7 +148,7 @@ module.exports = {
                 var updateUser = result[0];
                 updateUser.salt = generator.GenerateId(resetCodeNumOfDigits);
                 updateUser.password = sha512(forgotUser.newPassword + updateUser.salt);
-                updateUser.resetCode.isUsed = true;                
+                updateUser.resetCode.isUsed = true;
                 updateUser.resetCode.tryNum++;
 
                 DAL.Update(collectionName, emailObj, updateUser, function (updateResult) {
