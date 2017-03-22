@@ -1,12 +1,6 @@
 <link rel="stylesheet" href="../css/dropMenu.css">
-
 <ul class="drop-menu">
     <li class="menu-option" (click)="ActiveAction(option.action, option.object, option.link)" *ngFor="let option of options">
-        <!--<a class="option-link" href="{{option.link}}">
-            <span class="option-sector">
-              {{option.text}}
-            </span>
-        </a>-->
         <span class="option-link">
             <span class="option-sector">
               {{option.text}}

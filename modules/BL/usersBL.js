@@ -76,7 +76,7 @@ module.exports = {
     AddResetCode: function (collectionName, email, callback) {
         var code = generator.GenerateId(resetCodeNumOfDigits);
 
-        var resetCode = { resetCode: { "code": code, "date": (new Date()).toISOString(), tryNum: 0, isUsed: false } };
+        var resetCode = { resetCode: { "code": code, "date": new Date(), tryNum: 0, isUsed: false } };
 
         DAL.Update(collectionName, email, resetCode, function (result) {
             callback(result);
@@ -144,7 +144,7 @@ module.exports = {
             }
             // In case the reset code is valid.
             else {
-                // Delete the reset code object and change the user password.
+                // Change the user password.
                 var updateUser = result[0];
                 updateUser.salt = generator.GenerateId(resetCodeNumOfDigits);
                 updateUser.password = sha512(forgotUser.newPassword + updateUser.salt);

@@ -1,6 +1,5 @@
 <link rel="stylesheet" href="../css/navbar.css">
-
-<div class="space">
+<div>
   <div class="slidenav-overlay" *ngIf="isSidebarOpen || isDropMenuOpen" (click)="ClosePopups()"></div>
   <div id="sidenav" class="sidenav">
     <div class="slidenav-head-sector">
@@ -14,7 +13,7 @@
       <span>יום טוב</span>
     </div>
   </div>
-  <div [ngClass]="{'disable-navbar-shadow': isSidebarOpen}" class="container-fluid navbar">
+  <div class="container-fluid navbar">
     <img (click)="ShowHideSidenav()" src="../logo/icon.png" class="head-icon">
     <span class="search-sector col-md-4 col-xs-6">
       <input type="text" class="search-input" placeholder="חפש"
