@@ -65,6 +65,7 @@ font-family: Mona Shark;
     font-size: 20px;
     font-family: Rubik;
     cursor: default;
+    margin-right: 10%;
 }
 
 .modal-footer-buttons {
@@ -120,6 +121,14 @@ font-family: Mona Shark;
     margin-left: 5px;
     cursor: pointer;
     font-size: 12px;
+}
+
+.forgot-inner-link {
+    display: inline-block;
+    width: 40%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .has-reset-code-link {

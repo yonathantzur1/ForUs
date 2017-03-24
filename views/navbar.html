@@ -14,17 +14,21 @@
     </div>
   </div>
   <div class="container-fluid navbar">
-    <img (click)="ShowHideSidenav()" src="../logo/icon.png" class="head-icon">
-    <span class="search-sector col-md-4 col-xs-6">
+    <div style="float:right;" class="col-xs-8">
+      <img (click)="ShowHideSidenav()" src="../logo/icon.png" class="head-icon">
+      <span class="search-sector col-md-6 col-xs-8">
       <input type="text" class="search-input" placeholder="חפש"
         (focus)="ClosePopups()">
       <span class="glyphicon glyphicon-search search-icon"></span>
-    </span>
-    <div (click)="ShowHideDropMenu()" class="manage-sector">
-      <span class="name" *ngIf="name">שלום {{name}}</span>
-      <span class="glyphicon glyphicon-triangle-bottom menu-icon"></span>
-      <span class="glyphicon glyphicon-triangle-top menu-top-arrow" *ngIf="isDropMenuOpen"></span>
-      <dropMenu class="dropMenuPosition col-md-2 col-xs-4" *ngIf="isDropMenuOpen" [options]="dropMenuDataList"></dropMenu>
+      </span>
+    </div>
+    <div style="float:left;" class="col-xs-4">
+      <div *ngIf="name" (click)="ShowHideDropMenu()" class="manage-sector">
+        <span class="glyphicon glyphicon-triangle-bottom menu-icon"></span>
+        <span class="name">שלום {{name}}</span>
+        <span class="glyphicon glyphicon-triangle-top menu-top-arrow" *ngIf="isDropMenuOpen"></span>
+        <dropMenu class="dropMenuPosition col-md-2 col-xs-4" *ngIf="isDropMenuOpen" [options]="dropMenuDataList"></dropMenu>
+      </div>
     </div>
   </div>
 </div>

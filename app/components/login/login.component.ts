@@ -200,6 +200,11 @@ export class LoginComponent {
           // In case the password has been changed.
           else {
             $("#forgot-modal").modal('hide');
+            swal(
+              'איפוס סיסמא',
+              'הסיסמא הוחלפה בהצלחה!',
+              'success'
+            );
           }
         });
       }

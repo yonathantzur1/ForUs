@@ -174,6 +174,7 @@ var LoginComponent = (function () {
                     }
                     else {
                         $("#forgot-modal").modal('hide');
+                        swal('איפוס סיסמא', 'הסיסמא הוחלפה בהצלחה!', 'success');
                     }
                 });
             }
