@@ -8,9 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var auth_service_1 = require('../../services/auth/auth.service');
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var auth_service_1 = require("../../services/auth/auth.service");
 var DropMenuData = (function () {
     function DropMenuData(link, text, action, object) {
         this.link = link, this.text = text, this.action = action, this.object = object;
@@ -60,18 +60,18 @@ var NavbarComponent = (function () {
             this.HideDropMenu();
         };
     }
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], NavbarComponent.prototype, "name", void 0);
-    NavbarComponent = __decorate([
-        core_1.Component({
-            selector: 'navbar',
-            templateUrl: 'views/navbar.html'
-        }), 
-        __metadata('design:paramtypes', [router_1.Router, auth_service_1.AuthService])
-    ], NavbarComponent);
     return NavbarComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], NavbarComponent.prototype, "name", void 0);
+NavbarComponent = __decorate([
+    core_1.Component({
+        selector: 'navbar',
+        templateUrl: 'views/navbar.html'
+    }),
+    __metadata("design:paramtypes", [router_1.Router, auth_service_1.AuthService])
+], NavbarComponent);
 exports.NavbarComponent = NavbarComponent;
 //# sourceMappingURL=navbar.component.js.map
