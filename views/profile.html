@@ -1,0 +1,48 @@
+<link rel="stylesheet" href="../css/profile.css">
+
+<div class="modal fade" data-backdrop="static" id="profile-modal" tabindex="-1" role="dialog" aria-labelledby="profileLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title modal-title-label" id="profileLabel">תמונת פרופיל <span class="glyphicon glyphicon-camera modal-title-icon" aria-hidden="true"></span></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="image-sector">
+                        <div class="form-group">
+                            <div class="col-md-6 col-xs-8">
+                                <div id="main-img-container" class="main-img-container">
+                                    <img id="main-img" class="main-img" src="../ex.jpg">
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-4">
+                                <div class="right-container">
+                                    <div id="preview-img-container" class="preview-img-container">
+                                        <img class="preview-img" src="../ex.jpg">
+                                    </div>
+                                </div>
+                                <div class="image-tool-bar">
+                                    <input style="display:none;" type="file" id="inputImage" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
+
+                                    <div *ngFor="let btn of imageBtns" title="{{btn.title}}" (click)="btn.onClick()" class="img-btn">
+                                        <i class="fa {{btn.icon}}" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-footer-buttons">
+                    <a class="btn btn-default cancel-change-btn" data-dismiss="modal">סגור</a>
+                    <a id="register-btn" class="btn btn-primary change-img-btn">אישור</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a class="forNow" (click)="OpenModal()" data-toggle="modal" data-target="#profile-modal">תמונה</a>
+<span id="upload-failed" data-toggle="snackbar" data-content="הקובץ שנבחר אינו תמונה"></span>

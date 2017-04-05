@@ -9,7 +9,10 @@
         <link rel="stylesheet" href="css/app.css">
         <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
         <script src="node_modules/jquery/dist/jquery.min.js"></script>
+        <link href="node_modules/cropper/dist/cropper.css" rel="stylesheet">
+        <script src="node_modules/cropper/dist/cropper.js"></script>
         <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
         <!--Snackbarjs import-->
         <link rel="stylesheet" href="snackbarjs/dist/snackbar.min.css">
         <link rel="stylesheet" href="snackbarjs/themes-css/material.css">
@@ -22,23 +25,23 @@
         <script src="node_modules/bootstrap-material-design/dist/js/material.min.js"></script>
         <script src="node_modules/bootstrap-material-design/dist/js/ripples.min.js"></script>
         <script src="node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
-        <link rel="stylesheet" href="node_modules/sweetalert2/dist/sweetalert2.min.css">   
+        <link rel="stylesheet" href="node_modules/sweetalert2/dist/sweetalert2.min.css">
         <!-- 1. Load libraries -->
         <!-- Polyfill(s) for older browsers -->
         <script src="node_modules/core-js/client/shim.min.js"></script>
         <script src="node_modules/zone.js/dist/zone.js"></script>
-        <script src="node_modules/systemjs/dist/system.src.js"></script>     
+        <script src="node_modules/systemjs/dist/system.src.js"></script>
         <!-- 2. Configure SystemJS -->
         <script src="systemjs.config.js"></script>
         <script>
-            $(document).ready(function() {
-                $(function() {
-                    $.material.init()
+            $(document).ready(function () {
+                $(function () {
+                    $.material.init();
                 });
-            });            
+            });
         </script>
         <script>
-            System.import('./app/main.js').catch(function(err){ console.error(err); });
+            System.import('./app/main.js').catch(function (err) { console.error(err); });
         </script>
     </head>
     <body>

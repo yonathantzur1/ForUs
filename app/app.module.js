@@ -15,6 +15,7 @@ var loader_component_1 = require("./components/loader/loader.component");
 var home_component_1 = require("./components/home/home.component");
 var navbar_component_1 = require("./components/navbar/navbar.component");
 var dropMenu_component_1 = require("./components/dropMenu/dropMenu.component");
+var profile_component_1 = require("./components/profile/profile.component");
 var pageNotFound_component_1 = require("./components/pageNotFound/pageNotFound.component");
 var auth_service_1 = require("./services/auth/auth.service");
 var auth_guard_1 = require("./components/login/auth.guard");
@@ -39,7 +40,8 @@ AppModule = __decorate([
             home_component_1.HomeComponent,
             pageNotFound_component_1.PageNotFoundComponent,
             navbar_component_1.NavbarComponent,
-            dropMenu_component_1.DropMenuComponent
+            dropMenu_component_1.DropMenuComponent,
+            profile_component_1.ProfileComponent
         ],
         providers: [
             auth_guard_1.AuthGuard,

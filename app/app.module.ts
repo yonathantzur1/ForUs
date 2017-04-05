@@ -9,6 +9,7 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { DropMenuComponent } from './components/dropMenu/dropMenu.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 import { PageNotFoundComponent } from './components/pageNotFound/pageNotFound.component';
 
@@ -34,7 +35,8 @@ import { routing } from './app.routing'
     HomeComponent,
     PageNotFoundComponent,
     NavbarComponent,
-    DropMenuComponent
+    DropMenuComponent,
+    ProfileComponent
   ],
   providers: [
     AuthGuard,

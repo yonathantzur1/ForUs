@@ -12,7 +12,7 @@ import { HomeService } from '../../services/home/home.service';
 
 export class HomeComponent implements OnInit {
     constructor(private router: Router, private authService: AuthService, private homeService: HomeService) { }
-    
+
     ngOnInit() {
         this.GetCurrUserName();
     }

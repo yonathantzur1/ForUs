@@ -3240,6 +3240,12 @@ interface JQuery {
     snackbar(property: any): JQuery;
 
     popover(property: any): JQuery;
+
+    cropper(property: any): JQuery;
+
+    cropper(property1: any, property2: any): JQuery;
+
+    cropper(property1: any, property2: any, property3: any): JQuery;
 }
 declare module "jquery" {
     export = $;
