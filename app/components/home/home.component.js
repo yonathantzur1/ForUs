@@ -17,6 +17,7 @@ var HomeComponent = (function () {
         this.router = router;
         this.authService = authService;
         this.homeService = homeService;
+        this.isOpen = false;
         this.currUserName = "";
     }
     HomeComponent.prototype.ngOnInit = function () {
@@ -27,6 +28,9 @@ var HomeComponent = (function () {
         this.authService.GetCurrUserName().then(function (result) {
             _this.currUserName = result._body;
         });
+    };
+    HomeComponent.prototype.openPhoto = function () {
+        this.isOpen = !this.isOpen;
     };
     return HomeComponent;
 }());

@@ -460,6 +460,7 @@ interface BaseJQueryEventObject extends Event {
     pageY: number;
     which: number;
     metaKey: boolean;
+    touches: Array<Object>;
 }
 
 interface JQueryInputEventObject extends BaseJQueryEventObject {

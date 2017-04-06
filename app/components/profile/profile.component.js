@@ -11,9 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var ProfileComponent = (function () {
     function ProfileComponent() {
-        this.OpenModal = function () {
-            var x = 3;
-        };
         this.imageBtns = [
             {
                 icon: "fa-upload",
@@ -101,7 +98,24 @@ var ProfileComponent = (function () {
             }
         ];
     }
+    ProfileComponent.prototype.ngOnChanges = function (simpleChanges) {
+        if (simpleChanges.isOpenEditWindow.currentValue) {
+            $("#profile-modal").modal("show");
+        }
+        else {
+            $("#profile-modal").modal("hide");
+        }
+    };
     ProfileComponent.prototype.ngOnInit = function () {
+        $("#profile-modal").bind('touchstart', function preventZoom(e) {
+            var t2 = e.timeStamp, t1 = $(this).data('lastTouch') || t2, dt = t2 - t1, fingers = e.touches.length;
+            $(this).data('lastTouch', t2);
+            if (!dt || dt > 500 || fingers > 1)
+                return; // not double-tap
+            e.preventDefault(); // double tap - prevent the zoom
+            // also synthesize click events we just swallowed up
+            $(this).trigger('click').trigger('click');
+        });
         var URL = window.URL;
         var $image = $('#main-img');
         var $inputImage = $('#inputImage');
@@ -142,6 +156,10 @@ var ProfileComponent = (function () {
     };
     return ProfileComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], ProfileComponent.prototype, "isOpenEditWindow", void 0);
 ProfileComponent = __decorate([
     core_1.Component({
         selector: 'profile',
@@ -151,19 +169,4 @@ ProfileComponent = __decorate([
     __metadata("design:paramtypes", [])
 ], ProfileComponent);
 exports.ProfileComponent = ProfileComponent;
-// (function($) {
-//   $.fn.nodoubletapzoom = function() {
-//       $(this).bind('touchstart', function preventZoom(e) {
-//         var t2 = e.timeStamp
-//           , t1 = $(this).data('lastTouch') || t2
-//           , dt = t2 - t1
-//           , fingers = e.originalEvent.touches.length;
-//         $(this).data('lastTouch', t2);
-//         if (!dt || dt > 600 || fingers > 1) return; // not double-tap
-//         e.preventDefault(); // double tap - prevent the zoom
-//         // also synthesize click events we just swallowed up
-//         $(this).trigger('click').trigger('click');
-//       });
-//   };
-// })(jQuery);
 //# sourceMappingURL=profile.component.js.map

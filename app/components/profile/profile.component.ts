@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,14 +7,35 @@ import { Router } from '@angular/router';
     providers: []
 })
 
-export class ProfileComponent implements OnInit{
+export class ProfileComponent implements OnInit, OnChanges {
     constructor() { }
 
-    OpenModal = function () {
-        var x = 3;
+    @Input() isOpenEditWindow: boolean;
+
+    ngOnChanges(simpleChanges: any) {
+        if (simpleChanges.isOpenEditWindow.currentValue) {
+            $("#profile-modal").modal("show");
+        }
+        else {
+            $("#profile-modal").modal("hide");
+        }
     }
 
     ngOnInit() {
+        $("#profile-modal").bind('touchstart', function preventZoom(e) {
+            var t2 = e.timeStamp
+                , t1 = $(this).data('lastTouch') || t2
+                , dt = t2 - t1
+                , fingers = e.touches.length;
+            $(this).data('lastTouch', t2);
+            if (!dt || dt > 500 || fingers > 1) return; // not double-tap
+
+            e.preventDefault(); // double tap - prevent the zoom
+            // also synthesize click events we just swallowed up
+            $(this).trigger('click').trigger('click');
+        });
+
+
         var URL = window.URL;
         var $image = $('#main-img');
         var $inputImage = $('#inputImage');
@@ -150,21 +171,3 @@ export class ProfileComponent implements OnInit{
     ];
 
 }
-
-// (function($) {
-//   $.fn.nodoubletapzoom = function() {
-//       $(this).bind('touchstart', function preventZoom(e) {
-//         var t2 = e.timeStamp
-//           , t1 = $(this).data('lastTouch') || t2
-//           , dt = t2 - t1
-//           , fingers = e.originalEvent.touches.length;
-//         $(this).data('lastTouch', t2);
-//         if (!dt || dt > 600 || fingers > 1) return; // not double-tap
-
-//         e.preventDefault(); // double tap - prevent the zoom
-//         // also synthesize click events we just swallowed up
-//         $(this).trigger('click').trigger('click');
-//       });
-//   };
-// })(jQuery);
-
