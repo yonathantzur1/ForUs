@@ -31,7 +31,7 @@ __decorate([
 DropMenuComponent = __decorate([
     core_1.Component({
         selector: 'dropMenu',
-        templateUrl: 'views/dropMenu.html',
+        templateUrl: './dropMenu.html',
         providers: []
     }),
     __metadata("design:paramtypes", [router_1.Router])

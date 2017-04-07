@@ -15,7 +15,7 @@ export class DropMenuData {
 
 @Component({
     selector: 'navbar',
-    templateUrl: 'views/navbar.html'
+    templateUrl: './navbar.html'
 })
 
 export class NavbarComponent {

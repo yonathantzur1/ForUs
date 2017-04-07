@@ -40,7 +40,7 @@ export class ForgotUser {
 
 @Component({
   selector: 'login',
-  templateUrl: 'views/login.html',
+  templateUrl: './login.html',
   providers: [LoginService]
 })
 

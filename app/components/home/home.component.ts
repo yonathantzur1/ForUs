@@ -6,7 +6,7 @@ import { HomeService } from '../../services/home/home.service';
 
 @Component({
     selector: 'home',
-    templateUrl: 'views/home.html',
+    templateUrl: './home.html',
     providers: [HomeService]
 })
 

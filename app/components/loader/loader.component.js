@@ -14,7 +14,7 @@ var LoaderComponent = (function () {
 LoaderComponent = __decorate([
     core_1.Component({
         selector: 'loader',
-        templateUrl: 'views/loader.html'
+        templateUrl: './loader.html'
     })
 ], LoaderComponent);
 exports.LoaderComponent = LoaderComponent;

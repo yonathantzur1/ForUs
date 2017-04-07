@@ -9,8 +9,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+require("./temp.js");
 var ProfileComponent = (function () {
     function ProfileComponent() {
+        this.options = {
+            aspectRatio: 1 / 1,
+            preview: '#preview-img-container',
+            crop: function (e) {
+            }
+        };
         this.imageBtns = [
             {
                 icon: "fa-upload",
@@ -98,6 +105,17 @@ var ProfileComponent = (function () {
             }
         ];
     }
+    ProfileComponent.prototype.ChangeImage = function () {
+        var isSuccess = UploadPhoto(this.options);
+        if (isSuccess == true) {
+            this.isNewPhoto = false;
+        }
+        else if (isSuccess == false) {
+            $("#upload-failed").snackbar("show");
+        }
+        else {
+        }
+    };
     ProfileComponent.prototype.ngOnChanges = function (simpleChanges) {
         if (simpleChanges.isOpenEditWindow.currentValue) {
             $("#profile-modal").modal("show");
@@ -105,6 +123,9 @@ var ProfileComponent = (function () {
         else {
             $("#profile-modal").modal("hide");
         }
+    };
+    ProfileComponent.prototype.UploadNewPhoto = function () {
+        $("#inputImage").trigger("click");
     };
     ProfileComponent.prototype.ngOnInit = function () {
         $("#profile-modal").bind('touchstart', function preventZoom(e) {
@@ -116,43 +137,7 @@ var ProfileComponent = (function () {
             // also synthesize click events we just swallowed up
             $(this).trigger('click').trigger('click');
         });
-        var URL = window.URL;
-        var $image = $('#main-img');
-        var $inputImage = $('#inputImage');
-        var uploadedImageURL;
-        var options = {
-            aspectRatio: 1 / 1,
-            preview: '#preview-img-container',
-            crop: function (e) {
-            }
-        };
-        $('#main-img').cropper(options);
-        if (URL) {
-            $inputImage.change(function () {
-                var files = this.files;
-                var file;
-                if (!$image.data('cropper')) {
-                    return;
-                }
-                if (files && files.length) {
-                    file = files[0];
-                    if (/^image\/\w+$/.test(file.type)) {
-                        if (uploadedImageURL) {
-                            URL.revokeObjectURL(uploadedImageURL);
-                        }
-                        uploadedImageURL = URL.createObjectURL(file);
-                        $image.cropper('destroy').attr('src', uploadedImageURL).cropper(options);
-                        $inputImage.val('');
-                    }
-                    else {
-                        $("#upload-failed").snackbar("show");
-                    }
-                }
-            });
-        }
-        else {
-            $inputImage.prop('disabled', true).parent().addClass('disabled');
-        }
+        $('#main-img').cropper(this.options);
     };
     return ProfileComponent;
 }());
@@ -160,10 +145,14 @@ __decorate([
     core_1.Input(),
     __metadata("design:type", Boolean)
 ], ProfileComponent.prototype, "isOpenEditWindow", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], ProfileComponent.prototype, "isNewPhoto", void 0);
 ProfileComponent = __decorate([
     core_1.Component({
         selector: 'profile',
-        templateUrl: 'views/profile.html',
+        templateUrl: './profile.html',
         providers: []
     }),
     __metadata("design:paramtypes", [])

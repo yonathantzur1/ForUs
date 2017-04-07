@@ -226,7 +226,7 @@ var LoginComponent = (function () {
 LoginComponent = __decorate([
     core_1.Component({
         selector: 'login',
-        templateUrl: 'views/login.html',
+        templateUrl: './login.html',
         providers: [login_service_1.LoginService]
     }),
     __metadata("design:paramtypes", [router_1.Router, login_service_1.LoginService])

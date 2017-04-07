@@ -69,7 +69,7 @@ __decorate([
 NavbarComponent = __decorate([
     core_1.Component({
         selector: 'navbar',
-        templateUrl: 'views/navbar.html'
+        templateUrl: './navbar.html'
     }),
     __metadata("design:paramtypes", [router_1.Router, auth_service_1.AuthService])
 ], NavbarComponent);

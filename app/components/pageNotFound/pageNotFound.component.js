@@ -14,7 +14,7 @@ var PageNotFoundComponent = (function () {
 PageNotFoundComponent = __decorate([
     core_1.Component({
         selector: 'pageNotFound',
-        templateUrl: 'views/pageNotFound.html'
+        templateUrl: './pageNotFound.html'
     })
 ], PageNotFoundComponent);
 exports.PageNotFoundComponent = PageNotFoundComponent;

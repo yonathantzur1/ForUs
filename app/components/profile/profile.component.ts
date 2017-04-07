@@ -1,9 +1,12 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
+import './temp.js';
+
+declare function UploadPhoto(options: Object): boolean;
 
 @Component({
     selector: 'profile',
-    templateUrl: 'views/profile.html',
+    templateUrl: './profile.html',
     providers: []
 })
 
@@ -11,6 +14,28 @@ export class ProfileComponent implements OnInit, OnChanges {
     constructor() { }
 
     @Input() isOpenEditWindow: boolean;
+    @Input() isNewPhoto: boolean;
+
+    options = {
+        aspectRatio: 1 / 1,
+        preview: '#preview-img-container',
+        crop: function (e: any) {
+        }
+    };
+
+    ChangeImage() {
+        var isSuccess = UploadPhoto(this.options);
+
+        if (isSuccess == true) {
+            this.isNewPhoto = false;
+        }
+        else if (isSuccess == false) {
+            $("#upload-failed").snackbar("show");
+        }
+        else {
+
+        }
+    }
 
     ngOnChanges(simpleChanges: any) {
         if (simpleChanges.isOpenEditWindow.currentValue) {
@@ -19,6 +44,10 @@ export class ProfileComponent implements OnInit, OnChanges {
         else {
             $("#profile-modal").modal("hide");
         }
+    }
+
+    UploadNewPhoto() {
+        $("#inputImage").trigger("click");
     }
 
     ngOnInit() {
@@ -35,52 +64,7 @@ export class ProfileComponent implements OnInit, OnChanges {
             $(this).trigger('click').trigger('click');
         });
 
-
-        var URL = window.URL;
-        var $image = $('#main-img');
-        var $inputImage = $('#inputImage');
-        var uploadedImageURL: any;
-
-        var options = {
-            aspectRatio: 1 / 1,
-            preview: '#preview-img-container',
-            crop: function (e: any) {
-            }
-        };
-
-
-        $('#main-img').cropper(options);
-
-        if (URL) {
-            $inputImage.change(function () {
-                var files = this.files;
-                var file;
-
-                if (!$image.data('cropper')) {
-                    return;
-                }
-
-                if (files && files.length) {
-                    file = files[0];
-
-                    if (/^image\/\w+$/.test(file.type)) {
-                        if (uploadedImageURL) {
-                            URL.revokeObjectURL(uploadedImageURL);
-                        }
-
-                        uploadedImageURL = URL.createObjectURL(file);
-                        $image.cropper('destroy').attr('src', uploadedImageURL).cropper(options);
-                        $inputImage.val('');
-                    }
-                    else {
-                        $("#upload-failed").snackbar("show");
-                    }
-                }
-            });
-        }
-        else {
-            $inputImage.prop('disabled', true).parent().addClass('disabled');
-        }
+        $('#main-img').cropper(this.options);
     }
 
     imageBtns = [
