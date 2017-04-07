@@ -35,7 +35,7 @@
   max-width: 100%;
 }
 
-@media (min-width: 300px) {
+@media (max-width: 640px) {
     .main-img-container {
         width: 200px;
         height: 150px;
@@ -58,27 +58,26 @@
 
     .img-btn {
         border: 1px solid black;
-        width: 20px;
-        height: 20px;
+        width: 27px;
+        height: 27px;
         text-align: center;
-        padding-top: 3px;
+        padding-top: 7px;
         border-radius: 5px;
         float: right;
         cursor: pointer;
         font-size: 12px;
-        margin: 4px;
+        margin: 5px;
     }
 
     .image-tool-bar {
         width: 100%;
-        height: 85px;
         right: 1px;
         position: absolute;
         padding-top: 3px;
     }
 }
 
-@media (min-width: 992px) {
+@media (min-width: 641px) {
     .main-img-container {
         width: 400px;
         height: 300px;
@@ -116,7 +115,6 @@
 
     .image-tool-bar {
         width: 93%;
-        height: 35px;
         right: 32px;
         position: absolute;
         padding-top: 3px;
