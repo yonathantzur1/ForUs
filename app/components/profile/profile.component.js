@@ -10,8 +10,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 require("./temp.js");
+var profile_service_1 = require("../../services/profile/profile.service");
 var ProfileComponent = (function () {
-    function ProfileComponent() {
+    function ProfileComponent(profileService) {
+        this.profileService = profileService;
         this.isLoading = false;
         this.options = {
             aspectRatio: 1 / 1,
@@ -157,9 +159,9 @@ ProfileComponent = __decorate([
     core_1.Component({
         selector: 'profile',
         templateUrl: './profile.html',
-        providers: []
+        providers: [profile_service_1.ProfileService]
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [profile_service_1.ProfileService])
 ], ProfileComponent);
 exports.ProfileComponent = ProfileComponent;
 //# sourceMappingURL=profile.component.js.map

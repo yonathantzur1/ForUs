@@ -15,7 +15,6 @@ export class HomeComponent implements OnInit {
 
     isOpen = false;
 
-
     ngOnInit() {
         this.GetCurrUserName();
     }

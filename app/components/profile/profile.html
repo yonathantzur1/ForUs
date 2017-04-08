@@ -17,23 +17,21 @@
                         </div>
                     </div>
 
-                    <div [hidden]="isNewPhoto">
-                        <div class="image-sector">
-                            <div class="form-group">
-                                <div class="col-md-6 col-xs-8">
-                                    <div id="main-img-container" class="main-img-container">
-                                        <img id="main-img" class="main-img" src="">
+                    <div class="image-sector" [hidden]="isNewPhoto">
+                        <div class="form-group">
+                            <div class="col-md-6 col-xs-8">
+                                <div id="main-img-container" class="main-img-container">
+                                    <img id="main-img" class="main-img" src="">
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-4">
+                                <div class="right-container">
+                                    <div id="preview-img-container" class="preview-img-container">
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-xs-4">
-                                    <div class="right-container">
-                                        <div id="preview-img-container" class="preview-img-container">
-                                        </div>
-                                    </div>
-                                    <div class="image-tool-bar">
-                                        <div *ngFor="let btn of imageBtns" title="{{btn.title}}" (click)="btn.onClick()" class="img-btn">
-                                            <i class="fa {{btn.icon}}" aria-hidden="true"></i>
-                                        </div>
+                                <div class="image-tool-bar">
+                                    <div *ngFor="let btn of imageBtns" title="{{btn.title}}" (click)="btn.onClick()" class="img-btn">
+                                        <i class="fa {{btn.icon}}" aria-hidden="true"></i>
                                     </div>
                                 </div>
                             </div>

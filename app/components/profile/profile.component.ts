@@ -2,19 +2,22 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/cor
 import { Router } from '@angular/router';
 import './temp.js';
 
+import { ProfileService } from '../../services/profile/profile.service';
+
 declare function UploadPhoto(options: Object): boolean;
 
 @Component({
     selector: 'profile',
     templateUrl: './profile.html',
-    providers: []
+    providers: [ProfileService]
 })
 
 export class ProfileComponent implements OnInit, OnChanges {
-    constructor() { }
+    constructor(private profileService: ProfileService) { }
 
     @Input() isOpenEditWindow: boolean;
     @Input() isNewPhoto: boolean;
+    
     isLoading = false;
 
     options = {
@@ -37,7 +40,7 @@ export class ProfileComponent implements OnInit, OnChanges {
         else {
             $("#upload-failed").snackbar("show");
         }
-        
+
         this.isLoading = false;
     }
 

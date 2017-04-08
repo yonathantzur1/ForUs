@@ -14,9 +14,6 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { PageNotFoundComponent } from './components/pageNotFound/pageNotFound.component';
 
 import { AuthService } from './services/auth/auth.service';
-import { LoginService } from './services/login/login.service';
-import { HomeService } from './services/home/home.service';
-
 import { AuthGuard } from './components/login/auth.guard';
 
 import { routing } from './app.routing'
