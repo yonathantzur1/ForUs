@@ -118,8 +118,8 @@
     }
 
     .image-tool-bar {
-        width: 93%;
-        right: 32px;
+        width: 100%;
+        right: 6%;
         position: absolute;
         padding-top: 3px;
     }
@@ -166,17 +166,24 @@
     display: inline-block;
     border-radius: 20px;
     padding: 20px;
+    padding-right: 32px;
+    padding-left: 32px;
     cursor: pointer;
     box-shadow: 0px 1px 10px 3px #c5c5c5;
 }
 
 .new-image-icon {
-    font-size: 150px;
+    font-size: 100px;
     color: #403c52;
 }
 
 .new-image-text {
-    font-size: 24px;
+    font-size: 16px;
     font-family: rubik;
     color: #494a38;
+}
+
+.img-loader {
+    position: absolute;
+    right: 0;
 }

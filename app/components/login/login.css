@@ -4,10 +4,13 @@
     cursor: default;
 }
 
-.loader {
+.login-loader {
     position: absolute;
-    top: 40%;
-    left: 40%;
+    top: 50%;
+    left: 50%;
+    margin-top: -45px;
+    margin-left: -35px;
+    z-index: 1;
 }
 
 .login-head-container {

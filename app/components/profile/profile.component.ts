@@ -15,6 +15,7 @@ export class ProfileComponent implements OnInit, OnChanges {
 
     @Input() isOpenEditWindow: boolean;
     @Input() isNewPhoto: boolean;
+    isLoading = false;
 
     options = {
         aspectRatio: 1 / 1,
@@ -24,17 +25,20 @@ export class ProfileComponent implements OnInit, OnChanges {
     };
 
     ChangeImage() {
+        this.isLoading = true;
         var isSuccess = UploadPhoto(this.options);
 
         if (isSuccess == true) {
             this.isNewPhoto = false;
         }
         else if (isSuccess == false) {
-            $("#upload-failed").snackbar("show");
+            $("#image-failed").snackbar("show");
         }
         else {
-
+            $("#upload-failed").snackbar("show");
         }
+        
+        this.isLoading = false;
     }
 
     ngOnChanges(simpleChanges: any) {

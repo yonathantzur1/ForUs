@@ -12,6 +12,7 @@ var core_1 = require("@angular/core");
 require("./temp.js");
 var ProfileComponent = (function () {
     function ProfileComponent() {
+        this.isLoading = false;
         this.options = {
             aspectRatio: 1 / 1,
             preview: '#preview-img-container',
@@ -106,15 +107,18 @@ var ProfileComponent = (function () {
         ];
     }
     ProfileComponent.prototype.ChangeImage = function () {
+        this.isLoading = true;
         var isSuccess = UploadPhoto(this.options);
         if (isSuccess == true) {
             this.isNewPhoto = false;
         }
         else if (isSuccess == false) {
-            $("#upload-failed").snackbar("show");
+            $("#image-failed").snackbar("show");
         }
         else {
+            $("#upload-failed").snackbar("show");
         }
+        this.isLoading = false;
     };
     ProfileComponent.prototype.ngOnChanges = function (simpleChanges) {
         if (simpleChanges.isOpenEditWindow.currentValue) {

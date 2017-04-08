@@ -1,5 +1,4 @@
 <link rel="stylesheet" href="./profile.css">
-
 <div class="modal fade" data-backdrop="static" id="profile-modal" tabindex="-1" role="dialog" aria-labelledby="profileLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -11,9 +10,9 @@
                 <form class="form-horizontal">
                     <input (change)="ChangeImage()" style="display:none;" type="file" id="inputImage" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
 
-                    <div class="upload-image-sector col-md-12 col-xs-12" [hidden]="!isNewPhoto">
+                    <div class="upload-image-sector col-md-12 col-xs-12" *ngIf="isNewPhoto">
                         <div class="upload-image-container" (click)="UploadNewPhoto()">
-                            <div class="new-image-text">בחירת תמונה חדשה</div>
+                            <div class="new-image-text">תמונה חדשה</div>
                             <i class="material-icons new-image-icon">camera_enhance</i>
                         </div>
                     </div>
@@ -44,6 +43,10 @@
             </div>
             <div class="modal-footer">
                 <div class="modal-footer-buttons">
+                    <div class="loader mini-loader img-loader" *ngIf="isLoading">
+                        <div class="loader-spinner mini-loader-spinner">
+                        </div>
+                    </div>
                     <a class="btn btn-default cancel-change-btn" data-dismiss="modal">סגור</a>
                     <a id="register-btn" class="btn btn-primary change-img-btn">אישור</a>
                 </div>
@@ -52,4 +55,5 @@
     </div>
 </div>
 
-<span id="upload-failed" data-toggle="snackbar" data-content="הקובץ שנבחר אינו תמונה"></span>
+<span id="image-failed" data-toggle="snackbar" data-content="הקובץ שנבחר אינו תמונה"></span>
+<span id="upload-failed" data-toggle="snackbar" data-content="שגיאה בהעלאת התמונה שנבחרה"></span>
