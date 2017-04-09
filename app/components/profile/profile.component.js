@@ -109,7 +109,6 @@ var ProfileComponent = (function () {
         ];
     }
     ProfileComponent.prototype.ChangeImage = function () {
-        this.isLoading = true;
         var isSuccess = UploadPhoto(this.options);
         if (isSuccess == true) {
             this.isNewPhoto = false;
@@ -120,10 +119,10 @@ var ProfileComponent = (function () {
         else {
             $("#upload-failed").snackbar("show");
         }
-        this.isLoading = false;
     };
     ProfileComponent.prototype.ngOnChanges = function (simpleChanges) {
         if (simpleChanges.isOpenEditWindow.currentValue) {
+            $('#main-img').cropper(this.options);
             $("#profile-modal").modal("show");
         }
         else {
@@ -143,7 +142,6 @@ var ProfileComponent = (function () {
             // also synthesize click events we just swallowed up
             $(this).trigger('click').trigger('click');
         });
-        $('#main-img').cropper(this.options);
     };
     return ProfileComponent;
 }());
@@ -155,6 +153,10 @@ __decorate([
     core_1.Input(),
     __metadata("design:type", Boolean)
 ], ProfileComponent.prototype, "isNewPhoto", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], ProfileComponent.prototype, "imgSrc", void 0);
 ProfileComponent = __decorate([
     core_1.Component({
         selector: 'profile',

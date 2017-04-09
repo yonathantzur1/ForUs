@@ -21,7 +21,7 @@ export class DropMenuData {
 export class NavbarComponent {
     constructor(private router: Router, private authService: AuthService) { }
 
-    @Input() name: string;
+    @Input() name: Object;
 
     isSidebarOpen: boolean = false;
     isDropMenuOpen: boolean = false;

@@ -12,7 +12,12 @@ module.exports = function (app) {
     // Getting the current login user name.
     app.get('/getCurrUserName', function (req, res) {
         if (req.session.currUser) {
-            res.send(req.session.currUser.firstName);
+            var name = {
+                "firstName": req.session.currUser.firstName,
+                "lastName": req.session.currUser.lastName
+            }
+
+            res.send(name);
         }
         else {
             res.send(null);

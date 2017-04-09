@@ -64,7 +64,7 @@ var NavbarComponent = (function () {
 }());
 __decorate([
     core_1.Input(),
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], NavbarComponent.prototype, "name", void 0);
 NavbarComponent = __decorate([
     core_1.Component({

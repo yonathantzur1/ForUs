@@ -38,5 +38,3 @@ function UploadPhoto(options) {
         return null;
     }
 }
-
-

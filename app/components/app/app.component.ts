@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import './temp.js';
 
 @Component({
   selector: 'app',

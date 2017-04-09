@@ -17,6 +17,7 @@ export class ProfileComponent implements OnInit, OnChanges {
 
     @Input() isOpenEditWindow: boolean;
     @Input() isNewPhoto: boolean;
+    @Input() imgSrc: string;
     
     isLoading = false;
 
@@ -28,7 +29,6 @@ export class ProfileComponent implements OnInit, OnChanges {
     };
 
     ChangeImage() {
-        this.isLoading = true;
         var isSuccess = UploadPhoto(this.options);
 
         if (isSuccess == true) {
@@ -40,12 +40,11 @@ export class ProfileComponent implements OnInit, OnChanges {
         else {
             $("#upload-failed").snackbar("show");
         }
-
-        this.isLoading = false;
     }
 
     ngOnChanges(simpleChanges: any) {
         if (simpleChanges.isOpenEditWindow.currentValue) {
+            $('#main-img').cropper(this.options);
             $("#profile-modal").modal("show");
         }
         else {
@@ -70,8 +69,6 @@ export class ProfileComponent implements OnInit, OnChanges {
             // also synthesize click events we just swallowed up
             $(this).trigger('click').trigger('click');
         });
-
-        $('#main-img').cropper(this.options);
     }
 
     imageBtns = [

@@ -3,7 +3,10 @@
   <div class="slidenav-overlay" *ngIf="isSidebarOpen || isDropMenuOpen" (click)="ClosePopups()"></div>
   <div id="sidenav" class="sidenav">
     <div class="slidenav-head-sector">
-      <span class="slidenav-header">תפריט</span>
+      <div class="slidenav-header">
+        <img class="empty-profile" src="./app/components/profile/pictures/empty-profile.png">
+        <div class="user-name">{{name.firstName + " " + name.lastName}}</div>
+      </div>
       <span class="glyphicon glyphicon-remove closebtn" *ngIf="isSidebarOpen" (click)="HideSidenav()" aria-hidden="true"></span>
     </div>
     <div class="slidenav-body-sector">
@@ -25,7 +28,7 @@
     <div style="float:left;" class="col-xs-4">
       <div *ngIf="name" (click)="ShowHideDropMenu()" class="manage-sector">
         <span class="glyphicon glyphicon-triangle-bottom menu-icon"></span>
-        <span class="name">שלום {{name}}</span>
+        <span class="name">שלום {{name.firstName}}</span>
         <span class="glyphicon glyphicon-triangle-top menu-top-arrow" *ngIf="isDropMenuOpen"></span>
         <dropMenu class="dropMenuPosition col-md-2 col-xs-4" *ngIf="isDropMenuOpen" [options]="dropMenuDataList"></dropMenu>
       </div>

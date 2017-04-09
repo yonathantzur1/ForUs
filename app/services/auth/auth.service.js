@@ -30,7 +30,7 @@ var AuthService = (function () {
         return this.http.get('/getCurrUserName')
             .toPromise()
             .then(function (result) {
-            return result;
+            return result.json();
         })
             .catch(function (result) {
             return null;

@@ -24,7 +24,7 @@ export class AuthService {
         return this.http.get('/getCurrUserName')
             .toPromise()
             .then((result) => {
-                return result;
+                return result.json();
             })
             .catch((result) => {
                 return null;
