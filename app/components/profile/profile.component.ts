@@ -5,6 +5,7 @@ import './temp.js';
 import { ProfileService } from '../../services/profile/profile.service';
 
 declare function UploadPhoto(options: Object): boolean;
+declare function GetCroppedBase64Image(): string;
 
 @Component({
     selector: 'profile',
@@ -18,7 +19,7 @@ export class ProfileComponent implements OnInit, OnChanges {
     @Input() isOpenEditWindow: boolean;
     @Input() isNewPhoto: boolean;
     @Input() imgSrc: string;
-    
+
     isLoading = false;
 
     options = {
@@ -27,49 +28,6 @@ export class ProfileComponent implements OnInit, OnChanges {
         crop: function (e: any) {
         }
     };
-
-    ChangeImage() {
-        var isSuccess = UploadPhoto(this.options);
-
-        if (isSuccess == true) {
-            this.isNewPhoto = false;
-        }
-        else if (isSuccess == false) {
-            $("#image-failed").snackbar("show");
-        }
-        else {
-            $("#upload-failed").snackbar("show");
-        }
-    }
-
-    ngOnChanges(simpleChanges: any) {
-        if (simpleChanges.isOpenEditWindow.currentValue) {
-            $('#main-img').cropper(this.options);
-            $("#profile-modal").modal("show");
-        }
-        else {
-            $("#profile-modal").modal("hide");
-        }
-    }
-
-    UploadNewPhoto() {
-        $("#inputImage").trigger("click");
-    }
-
-    ngOnInit() {
-        $("#profile-modal").bind('touchstart', function preventZoom(e) {
-            var t2 = e.timeStamp
-                , t1 = $(this).data('lastTouch') || t2
-                , dt = t2 - t1
-                , fingers = e.touches.length;
-            $(this).data('lastTouch', t2);
-            if (!dt || dt > 500 || fingers > 1) return; // not double-tap
-
-            e.preventDefault(); // double tap - prevent the zoom
-            // also synthesize click events we just swallowed up
-            $(this).trigger('click').trigger('click');
-        });
-    }
 
     imageBtns = [
         {
@@ -157,5 +115,56 @@ export class ProfileComponent implements OnInit, OnChanges {
             }
         }
     ];
+
+    ngOnChanges(simpleChanges: any) {
+        if (simpleChanges.isOpenEditWindow.currentValue) {
+            $('#main-img').cropper(this.options);
+            $("#profile-modal").modal("show");
+        }
+        else {
+            $("#profile-modal").modal("hide");
+        }
+    }
+
+    ngOnInit() {
+        $("#profile-modal").bind('touchstart', function preventZoom(e) {
+            var t2 = e.timeStamp
+                , t1 = $(this).data('lastTouch') || t2
+                , dt = t2 - t1
+                , fingers = e.touches.length;
+            $(this).data('lastTouch', t2);
+            if (!dt || dt > 500 || fingers > 1) return; // not double-tap
+
+            e.preventDefault(); // double tap - prevent the zoom
+            // also synthesize click events we just swallowed up
+            $(this).trigger('click').trigger('click');
+        });
+    }
+
+    ChangeImage() {
+        var isSuccess = UploadPhoto(this.options);
+
+        if (isSuccess == true) {
+            this.isNewPhoto = false;
+        }
+        else if (isSuccess == false) {
+            $("#image-failed").snackbar("show");
+        }
+        else {
+            $("#upload-failed").snackbar("show");
+        }
+    }
+
+    UploadNewPhoto() {
+        $("#inputImage").trigger("click");
+    }
+
+    SaveImage() {
+        var imgBase64 = GetCroppedBase64Image();
+
+        this.profileService.SaveImage(imgBase64).then((result) => {
+            var x = result;
+        });
+    }
 
 }

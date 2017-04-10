@@ -108,6 +108,26 @@ var ProfileComponent = (function () {
             }
         ];
     }
+    ProfileComponent.prototype.ngOnChanges = function (simpleChanges) {
+        if (simpleChanges.isOpenEditWindow.currentValue) {
+            $('#main-img').cropper(this.options);
+            $("#profile-modal").modal("show");
+        }
+        else {
+            $("#profile-modal").modal("hide");
+        }
+    };
+    ProfileComponent.prototype.ngOnInit = function () {
+        $("#profile-modal").bind('touchstart', function preventZoom(e) {
+            var t2 = e.timeStamp, t1 = $(this).data('lastTouch') || t2, dt = t2 - t1, fingers = e.touches.length;
+            $(this).data('lastTouch', t2);
+            if (!dt || dt > 500 || fingers > 1)
+                return; // not double-tap
+            e.preventDefault(); // double tap - prevent the zoom
+            // also synthesize click events we just swallowed up
+            $(this).trigger('click').trigger('click');
+        });
+    };
     ProfileComponent.prototype.ChangeImage = function () {
         var isSuccess = UploadPhoto(this.options);
         if (isSuccess == true) {
@@ -120,27 +140,13 @@ var ProfileComponent = (function () {
             $("#upload-failed").snackbar("show");
         }
     };
-    ProfileComponent.prototype.ngOnChanges = function (simpleChanges) {
-        if (simpleChanges.isOpenEditWindow.currentValue) {
-            $('#main-img').cropper(this.options);
-            $("#profile-modal").modal("show");
-        }
-        else {
-            $("#profile-modal").modal("hide");
-        }
-    };
     ProfileComponent.prototype.UploadNewPhoto = function () {
         $("#inputImage").trigger("click");
     };
-    ProfileComponent.prototype.ngOnInit = function () {
-        $("#profile-modal").bind('touchstart', function preventZoom(e) {
-            var t2 = e.timeStamp, t1 = $(this).data('lastTouch') || t2, dt = t2 - t1, fingers = e.touches.length;
-            $(this).data('lastTouch', t2);
-            if (!dt || dt > 500 || fingers > 1)
-                return; // not double-tap
-            e.preventDefault(); // double tap - prevent the zoom
-            // also synthesize click events we just swallowed up
-            $(this).trigger('click').trigger('click');
+    ProfileComponent.prototype.SaveImage = function () {
+        var imgBase64 = GetCroppedBase64Image();
+        this.profileService.SaveImage(imgBase64).then(function (result) {
+            var x = result;
         });
     };
     return ProfileComponent;

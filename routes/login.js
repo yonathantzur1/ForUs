@@ -1,8 +1,10 @@
+var collectionName = "Users";
+
 module.exports = function (app, usersBL, mailer, sha512) {
 
     // Validate the user details and login the user.
     app.post('/login', function (req, res) {
-        usersBL.GetUser("Users", req.body, sha512, function (result) {
+        usersBL.GetUser(collectionName, req.body, sha512, function (result) {
             // In case the user email and password are valid.
             if (result) {
                 req.session.currUser = result;
@@ -19,7 +21,7 @@ module.exports = function (app, usersBL, mailer, sha512) {
         var email = { "email": req.body.email };
 
         // Check if the email is exists in the DB.
-        usersBL.CheckIfUserExists("Users", email, function (result) {
+        usersBL.CheckIfUserExists(collectionName, email, function (result) {
             // In case of error.
             if (result == null) {
                 res.send(null);
@@ -30,7 +32,7 @@ module.exports = function (app, usersBL, mailer, sha512) {
             }
             else {
                 // Add user to DB.
-                usersBL.AddUser("Users", req.body, sha512, function (result) {
+                usersBL.AddUser(collectionName, req.body, sha512, function (result) {
                     // In case all register progress was succeeded.
                     if (result != null) {
                         // Sending welcome mail to the new user.
@@ -48,7 +50,7 @@ module.exports = function (app, usersBL, mailer, sha512) {
     app.put('/forgot', function (req, res) {
         var email = { "email": req.body.email };
 
-        usersBL.AddResetCode("Users", email, function (result) {
+        usersBL.AddResetCode(collectionName, email, function (result) {
             if (result != null && result != false) {
                 mailer.SendMail(req.body.email, mailer.GetForgotMailContent(result.firstName, result.resetCode.code));
                 res.send(true);
@@ -63,7 +65,7 @@ module.exports = function (app, usersBL, mailer, sha512) {
 
     // Changing user password in db.
     app.put('/resetPassword', function (req, res) {
-        usersBL.ResetPassword("Users", req.body, sha512, function (result) {
+        usersBL.ResetPassword(collectionName, req.body, sha512, function (result) {
             res.send(result);
         });
     });

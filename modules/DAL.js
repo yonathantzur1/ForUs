@@ -1,6 +1,6 @@
 var config = require('./config.js');
-var MongoClient = require('mongodb').MongoClient,
-    assert = require('assert');
+var MongoClient = require('mongodb').MongoClient, assert = require('assert');
+var ObjectId = require('mongodb').ObjectId;
 
 // Connection URL
 var url = config.connectionString;
@@ -37,6 +37,11 @@ GetDB = function (callback) {
 GetDB(function (err, db) { });
 
 module.exports = {
+    // Convert string id to mongo object id.
+    GetObjectId: function(id) {
+        return new ObjectId(id);
+    },
+
     // Getting documents from collection by filter.
     Find: function (collectionName, filter, callback) {
         GetDB(function (err, db) {

@@ -8,4 +8,19 @@ export class ProfileService {
     private headers = new Headers({ 'Content-Type': 'application/json' });
 
     constructor(private http: Http) { }
+
+    SaveImage(imgBase64: string) {
+        var image = {
+            "imgBase64": imgBase64
+        };
+
+        return this.http.post('/saveImage', JSON.stringify(image), { headers: this.headers })
+            .toPromise()
+            .then((result) => {
+                return result.json();
+            })
+            .catch((result) => {
+                return null;
+            });
+    }
 }

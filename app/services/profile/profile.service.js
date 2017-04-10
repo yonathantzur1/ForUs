@@ -16,6 +16,19 @@ var ProfileService = (function () {
         this.http = http;
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
     }
+    ProfileService.prototype.SaveImage = function (imgBase64) {
+        var image = {
+            "imgBase64": imgBase64
+        };
+        return this.http.post('/saveImage', JSON.stringify(image), { headers: this.headers })
+            .toPromise()
+            .then(function (result) {
+            return result.json();
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
     return ProfileService;
 }());
 ProfileService = __decorate([

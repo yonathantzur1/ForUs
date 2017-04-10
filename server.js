@@ -9,6 +9,7 @@ var session = require('express-session');
 // BL requires
 var usersBL = require('./modules/BL/usersBL.js');
 var homeBL = require('./modules/BL/homeBL.js');
+var profileBL = require('./modules/BL/profileBL.js');
 
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
@@ -29,8 +30,9 @@ var server = app.listen((process.env.PORT || 8000), function () {
     console.log("Server is up!");
 });
 
-require('./routes/login.js')(app, usersBL, mailer, sha512);
 require('./routes/auth.js')(app);
+require('./routes/login.js')(app, usersBL, mailer, sha512);
+require('./routes/profile.js')(app, profileBL);
 
 // Redirect angular requests back to client side.
 app.get('**', function (req, res) {

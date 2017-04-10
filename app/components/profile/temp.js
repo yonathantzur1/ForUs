@@ -38,3 +38,7 @@ function UploadPhoto(options) {
         return null;
     }
 }
+
+function GetCroppedBase64Image() {
+    return $('#main-img').cropper('getCroppedCanvas').toDataURL();
+}
