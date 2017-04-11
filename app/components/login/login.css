@@ -10,7 +10,7 @@
     left: 50%;
     margin-top: -45px;
     margin-left: -35px;
-    z-index: 1;
+    z-index: 9999;
 }
 
 .login-head-container {

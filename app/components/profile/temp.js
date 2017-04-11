@@ -40,5 +40,5 @@ function UploadPhoto(options) {
 }
 
 function GetCroppedBase64Image() {
-    return $('#main-img').cropper('getCroppedCanvas').toDataURL();
+    return $('#main-img').cropper('getCroppedCanvas').toDataURL('image/jpeg');
 }

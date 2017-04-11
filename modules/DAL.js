@@ -38,7 +38,7 @@ GetDB(function (err, db) { });
 
 module.exports = {
     // Convert string id to mongo object id.
-    GetObjectId: function(id) {
+    GetObjectId: function (id) {
         return new ObjectId(id);
     },
 
@@ -47,6 +47,7 @@ module.exports = {
         GetDB(function (err, db) {
             if (err == null) {
                 var collection = db.collection(collectionName);
+
                 collection.find(filter).toArray(function (err, docs) {
                     if (err == null) {
                         callback(docs);
@@ -87,6 +88,7 @@ module.exports = {
         GetDB(function (err, db) {
             if (err == null) {
                 var collection = db.collection(collectionName);
+
                 collection.findOneAndUpdate(idObj, { $set: fieldToUpdateObj }, {
                     returnOriginal: false,
                 }, function (err, result) {
@@ -97,6 +99,27 @@ module.exports = {
                         else {
                             callback(false);
                         }
+                    }
+                    else {
+                        callback(null);
+                    }
+                });
+            }
+            else {
+                callback(null);
+            }
+        });
+    },
+
+    // Delete documents by filter.
+    Delete: function (collectionName, filter, callback) {
+        GetDB(function (err, db) {
+            if (err == null) {
+                var collection = db.collection(collectionName);
+
+                collection.deleteMany(filter, function (err, result) {
+                    if (err == null) {
+                        callback(result.deletedCount);
                     }
                     else {
                         callback(null);

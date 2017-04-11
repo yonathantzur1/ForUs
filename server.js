@@ -7,7 +7,7 @@ var sha512 = require('js-sha512');
 var session = require('express-session');
 
 // BL requires
-var usersBL = require('./modules/BL/usersBL.js');
+var loginBL = require('./modules/BL/loginBL.js');
 var homeBL = require('./modules/BL/homeBL.js');
 var profileBL = require('./modules/BL/profileBL.js');
 
@@ -19,8 +19,9 @@ app.use(session({
     cookie: { secure: false }
 }));
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '20mb'}));
 app.use(bodyParser.urlencoded({
+    limit: '20mb',
     extended: true
 }));
 app.use(express.static('./'));
@@ -31,7 +32,7 @@ var server = app.listen((process.env.PORT || 8000), function () {
 });
 
 require('./routes/auth.js')(app);
-require('./routes/login.js')(app, usersBL, mailer, sha512);
+require('./routes/login.js')(app, loginBL, mailer, sha512);
 require('./routes/profile.js')(app, profileBL);
 
 // Redirect angular requests back to client side.
