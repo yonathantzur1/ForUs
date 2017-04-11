@@ -144,9 +144,28 @@ var ProfileComponent = (function () {
         $("#inputImage").trigger("click");
     };
     ProfileComponent.prototype.SaveImage = function () {
+        var _this = this;
+        this.isLoading = true;
         var imgBase64 = GetCroppedBase64Image();
-        this.profileService.SaveImage(imgBase64).then(function (result) {
-            var x = result;
+        this.profileService.SaveImage(imgBase64).then(function (user) {
+            _this.isLoading = false;
+            // In case of error or the user was not fount.
+            if (!user) {
+                $("#upload-failed").snackbar("show");
+            }
+            else {
+                $("#profile-modal").modal("hide");
+                swal({
+                    html: '<span style="font-weight:bold;user-select:none;">התמונה הוחלפה בהצלחה</span> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
+                    imageUrl: imgBase64,
+                    imageWidth: 150,
+                    imageHeight: 150,
+                    animation: false,
+                    confirmButtonText: "אוקיי"
+                }).then(function () {
+                    var x = 1;
+                });
+            }
         });
     };
     return ProfileComponent;

@@ -9,6 +9,7 @@ var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var forms_1 = require("@angular/forms");
 var http_1 = require("@angular/http");
+// Components import
 var app_component_1 = require("./components/app/app.component");
 var login_component_1 = require("./components/login/login.component");
 var loader_component_1 = require("./components/loader/loader.component");
@@ -16,6 +17,7 @@ var home_component_1 = require("./components/home/home.component");
 var navbar_component_1 = require("./components/navbar/navbar.component");
 var dropMenu_component_1 = require("./components/dropMenu/dropMenu.component");
 var profile_component_1 = require("./components/profile/profile.component");
+var profilePicture_component_1 = require("./components/profilePicture/profilePicture.component");
 var pageNotFound_component_1 = require("./components/pageNotFound/pageNotFound.component");
 var auth_service_1 = require("./services/auth/auth.service");
 var auth_guard_1 = require("./components/login/auth.guard");
@@ -41,7 +43,8 @@ AppModule = __decorate([
             pageNotFound_component_1.PageNotFoundComponent,
             navbar_component_1.NavbarComponent,
             dropMenu_component_1.DropMenuComponent,
-            profile_component_1.ProfileComponent
+            profile_component_1.ProfileComponent,
+            profilePicture_component_1.ProfilePictureComponent
         ],
         providers: [
             auth_guard_1.AuthGuard,

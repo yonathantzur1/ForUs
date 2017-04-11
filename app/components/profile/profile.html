@@ -3,6 +3,10 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                <div class="loader mini-loader img-loader" *ngIf="isLoading || true">
+                        <div class="loader-spinner mini-loader-spinner">
+                        </div>
+                    </div>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title modal-title-label" id="profileLabel">תמונת פרופיל <span class="glyphicon glyphicon-camera modal-title-icon" aria-hidden="true"></span></h4>
             </div>
@@ -41,10 +45,6 @@
             </div>
             <div class="modal-footer">
                 <div class="modal-footer-buttons">
-                    <div class="loader mini-loader img-loader" *ngIf="isLoading">
-                        <div class="loader-spinner mini-loader-spinner">
-                        </div>
-                    </div>
                     <a class="btn btn-default cancel-change-btn" data-dismiss="modal">סגור</a>
                     <a (click)="SaveImage()" id="register-btn" class="btn btn-primary change-img-btn">אישור</a>
                 </div>
@@ -54,4 +54,4 @@
 </div>
 
 <span id="image-failed" data-toggle="snackbar" data-content="הקובץ שנבחר אינו תמונה"></span>
-<span id="upload-failed" data-toggle="snackbar" data-content="שגיאה בהעלאת התמונה שנבחרה"></span>
+<span id="upload-failed" data-toggle="snackbar" data-content="שגיאה בהעלאת התמונה"></span>

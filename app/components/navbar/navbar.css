@@ -182,9 +182,11 @@ font-size: 15px;
 
 /*Profile picture*/
 
-.empty-profile {
-    width: 60px;
-    height: 60px;
+.profile-picture {
+    width: 50px;
+    height: 50px;
+    margin-top: 6px;
+    position: absolute;
 }
 
 .user-name {
@@ -196,5 +198,5 @@ font-size: 15px;
     text-overflow: ellipsis;
     position: absolute;
     top: 20px;
-    right: 70px;
+    right: 60px;
 }

@@ -1,5 +1,6 @@
 var DAL = require('../DAL.js');
 
+var collectionName = "Users";
 var generator = require('../generator.js');
 var resetCodeNumOfDigits = 8;
 var resetCodeNumOfHoursValid = 24;
@@ -8,7 +9,7 @@ var maxTryNum = 3;
 module.exports = {
 
     // Return user object if the user was found else false.
-    GetUser: function (collectionName, user, sha512, callback) {
+    GetUser: function (user, sha512, callback) {
         var filter = { "email": user.email };
 
         DAL.Find(collectionName, filter, function (result) {
@@ -35,7 +36,7 @@ module.exports = {
     },
 
     // Check if user is exists in DB.
-    CheckIfUserExists: function (collectionName, email, callback) {
+    CheckIfUserExists: function (email, callback) {
         DAL.Find(collectionName, email, function (result) {
             // In case of error return null.
             if (result == null) {
@@ -53,7 +54,7 @@ module.exports = {
     },
 
     // Add user to the DB.
-    AddUser: function (collectionName, newUser, sha512, callback) {
+    AddUser: function (newUser, sha512, callback) {
         var salt = generator.GenerateId(resetCodeNumOfDigits);
         newUser.password = sha512(newUser.password + salt);
 
@@ -73,7 +74,7 @@ module.exports = {
     },
 
     // Add reset password code to the DB and return the name of the user.
-    AddResetCode: function (collectionName, email, callback) {
+    AddResetCode: function (email, callback) {
         var code = generator.GenerateId(resetCodeNumOfDigits);
 
         var resetCode = { resetCode: { "code": code, "date": new Date(), tryNum: 0, isUsed: false } };
@@ -84,7 +85,7 @@ module.exports = {
     },
 
     // Rest password of the user.
-    ResetPassword: function (collectionName, forgotUser, sha512, callback) {
+    ResetPassword: function (forgotUser, sha512, callback) {
         var emailObj = { "email": forgotUser.email };
         var errorsObj = {
             emailNotFound: false,

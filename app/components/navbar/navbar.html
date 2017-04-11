@@ -4,7 +4,7 @@
   <div id="sidenav" class="sidenav">
     <div class="slidenav-head-sector">
       <div class="slidenav-header">
-        <img class="empty-profile" src="./app/components/profile/pictures/empty-profile.png">
+        <profilePicture class="profile-picture"></profilePicture>
         <div class="user-name">{{name.firstName + " " + name.lastName}}</div>
       </div>
       <span class="glyphicon glyphicon-remove closebtn" *ngIf="isSidebarOpen" (click)="HideSidenav()" aria-hidden="true"></span>

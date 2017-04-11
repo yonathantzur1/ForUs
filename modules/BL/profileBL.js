@@ -1,9 +1,13 @@
 var DAL = require('../DAL.js');
 
+var collectionName = "Profiles";
+var usersCollectionName = "Users";
+
 module.exports = {
-    SaveImage: function (collectionName, usersCollectionName, imageData, callback) {
+    SaveImage: function (imageData, callback) {
         var userIdObject = DAL.GetObjectId(imageData.userId);
-        imageObj = {
+        
+        var imageObj = {
             "image": imageData.imgBase64,
             "userId": userIdObject
         };

@@ -4,6 +4,7 @@ import './temp.js';
 
 import { ProfileService } from '../../services/profile/profile.service';
 
+declare var swal: any;
 declare function UploadPhoto(options: Object): boolean;
 declare function GetCroppedBase64Image(): string;
 
@@ -160,10 +161,30 @@ export class ProfileComponent implements OnInit, OnChanges {
     }
 
     SaveImage() {
+        this.isLoading = true;
         var imgBase64 = GetCroppedBase64Image();
 
-        this.profileService.SaveImage(imgBase64).then((result) => {
-            var x = result;
+        this.profileService.SaveImage(imgBase64).then((user) => {
+            this.isLoading = false;
+
+            // In case of error or the user was not fount.
+            if (!user) {
+                $("#upload-failed").snackbar("show");
+            }
+            else {
+                $("#profile-modal").modal("hide");
+                
+                swal({
+                    html: '<span style="font-weight:bold;user-select:none;">התמונה הוחלפה בהצלחה</span> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
+                    imageUrl: imgBase64,
+                    imageWidth: 150,
+                    imageHeight: 150,
+                    animation: false,
+                    confirmButtonText: "אוקיי"
+                }).then(function() {
+                    var x = 1;
+                });
+            }
         });
     }
 
