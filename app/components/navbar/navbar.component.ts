@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { GlobalService } from '../../services/global/global.service';
 import { AuthService } from '../../services/auth/auth.service';
 
 export class DropMenuData {
@@ -19,7 +20,13 @@ export class DropMenuData {
 })
 
 export class NavbarComponent {
-    constructor(private router: Router, private authService: AuthService) { }
+    constructor(private router: Router, private authService: AuthService, private globalService: GlobalService) {
+        this.globalService.data.subscribe(value => {
+            if (value["isOpenEditWindow"]) {
+                this.ClosePopups();
+            }
+        });
+    }
 
     @Input() name: Object;
 

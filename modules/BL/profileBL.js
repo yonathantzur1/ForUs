@@ -9,7 +9,8 @@ module.exports = {
         
         var imageObj = {
             "image": imageData.imgBase64,
-            "userId": userIdObject
+            "userId": userIdObject,
+            "updateDate": new Date()
         };
 
         // Delete the current picture of the user.

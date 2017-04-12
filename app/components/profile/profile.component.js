@@ -14,6 +14,7 @@ var global_service_1 = require("../../services/global/global.service");
 var profile_service_1 = require("../../services/profile/profile.service");
 var ProfileComponent = (function () {
     function ProfileComponent(profileService, globalService) {
+        var _this = this;
         this.profileService = profileService;
         this.globalService = globalService;
         this.isLoading = false;
@@ -109,16 +110,14 @@ var ProfileComponent = (function () {
                 }
             }
         ];
+        this.globalService.data.subscribe(function (value) {
+            if (value["isOpenEditWindow"]) {
+                _this.isOpenEditWindow = value["isOpenEditWindow"];
+                _this.ActiveWindow();
+                _this.globalService.deleteData("isOpenEditWindow");
+            }
+        });
     }
-    ProfileComponent.prototype.ngOnChanges = function (simpleChanges) {
-        if (simpleChanges.isOpenEditWindow.currentValue) {
-            $('#main-img').cropper(this.options);
-            $("#profile-modal").modal("show");
-        }
-        else {
-            $("#profile-modal").modal("hide");
-        }
-    };
     ProfileComponent.prototype.ngOnInit = function () {
         $("#profile-modal").bind('touchstart', function preventZoom(e) {
             var t2 = e.timeStamp, t1 = $(this).data('lastTouch') || t2, dt = t2 - t1, fingers = e.touches.length;
@@ -129,6 +128,21 @@ var ProfileComponent = (function () {
             // also synthesize click events we just swallowed up
             $(this).trigger('click').trigger('click');
         });
+    };
+    ProfileComponent.prototype.ngOnChanges = function (simpleChanges) {
+        if (simpleChanges.isOpenEditWindow.currentValue) {
+            this.ActiveWindow();
+        }
+        else {
+            this.DisableWindow();
+        }
+    };
+    ProfileComponent.prototype.ActiveWindow = function () {
+        $('#main-img').cropper(this.options);
+        $("#profile-modal").modal("show");
+    };
+    ProfileComponent.prototype.DisableWindow = function () {
+        $("#profile-modal").modal("hide");
     };
     ProfileComponent.prototype.ChangeImage = function () {
         var isSuccess = UploadPhoto(this.options);

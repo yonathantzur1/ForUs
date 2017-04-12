@@ -13,7 +13,7 @@ import { HomeService } from '../../services/home/home.service';
 export class HomeComponent implements OnInit {
     constructor(private router: Router, private authService: AuthService, private homeService: HomeService) { }
 
-    isOpen = false;
+    isOpenEditWindow = false;
     currUserName = { firstName: "", lastName: "" };
 
     ngOnInit() {
@@ -24,9 +24,5 @@ export class HomeComponent implements OnInit {
         this.authService.GetCurrUserName().then((result) => {
             this.currUserName = result;
         });
-    }
-
-    openPhoto() {
-        this.isOpen = !this.isOpen;
     }
 }

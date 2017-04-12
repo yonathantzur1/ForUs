@@ -17,7 +17,7 @@ var HomeComponent = (function () {
         this.router = router;
         this.authService = authService;
         this.homeService = homeService;
-        this.isOpen = false;
+        this.isOpenEditWindow = false;
         this.currUserName = { firstName: "", lastName: "" };
     }
     HomeComponent.prototype.ngOnInit = function () {
@@ -28,9 +28,6 @@ var HomeComponent = (function () {
         this.authService.GetCurrUserName().then(function (result) {
             _this.currUserName = result;
         });
-    };
-    HomeComponent.prototype.openPhoto = function () {
-        this.isOpen = !this.isOpen;
     };
     return HomeComponent;
 }());

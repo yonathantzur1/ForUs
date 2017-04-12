@@ -32,6 +32,9 @@ var ProfilePictureComponent = (function () {
             }
         });
     };
+    ProfilePictureComponent.prototype.OpenEditWindow = function () {
+        this.globalService.setData("isOpenEditWindow", true);
+    };
     return ProfilePictureComponent;
 }());
 ProfilePictureComponent = __decorate([

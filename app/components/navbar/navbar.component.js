@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var global_service_1 = require("../../services/global/global.service");
 var auth_service_1 = require("../../services/auth/auth.service");
 var DropMenuData = (function () {
     function DropMenuData(link, text, action, object) {
@@ -19,9 +20,11 @@ var DropMenuData = (function () {
 }());
 exports.DropMenuData = DropMenuData;
 var NavbarComponent = (function () {
-    function NavbarComponent(router, authService) {
+    function NavbarComponent(router, authService, globalService) {
+        var _this = this;
         this.router = router;
         this.authService = authService;
+        this.globalService = globalService;
         this.isSidebarOpen = false;
         this.isDropMenuOpen = false;
         this.dropMenuDataList = [
@@ -59,6 +62,11 @@ var NavbarComponent = (function () {
             this.HideSidenav();
             this.HideDropMenu();
         };
+        this.globalService.data.subscribe(function (value) {
+            if (value["isOpenEditWindow"]) {
+                _this.ClosePopups();
+            }
+        });
     }
     return NavbarComponent;
 }());
@@ -71,7 +79,7 @@ NavbarComponent = __decorate([
         selector: 'navbar',
         templateUrl: './navbar.html'
     }),
-    __metadata("design:paramtypes", [router_1.Router, auth_service_1.AuthService])
+    __metadata("design:paramtypes", [router_1.Router, auth_service_1.AuthService, global_service_1.GlobalService])
 ], NavbarComponent);
 exports.NavbarComponent = NavbarComponent;
 //# sourceMappingURL=navbar.component.js.map

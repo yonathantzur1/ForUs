@@ -11,7 +11,6 @@ import { ProfilePictureService } from '../../services/profilePicture/profilePict
 })
 
 export class ProfilePictureComponent implements OnInit {
-    isOpen: boolean;
     profileImageSrc = "./app/components/profilePicture/pictures/empty-profile.png";
 
     constructor(private profilePictureService: ProfilePictureService, private globalService: GlobalService) {
@@ -29,6 +28,10 @@ export class ProfilePictureComponent implements OnInit {
                 this.profileImageSrc = result.image;
             }
         });
+    }
+
+    OpenEditWindow() {
+        this.globalService.setData("isOpenEditWindow", true);
     }
 
 }

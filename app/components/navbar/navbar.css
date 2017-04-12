@@ -183,20 +183,20 @@ font-size: 15px;
 /*Profile picture*/
 
 .profile-picture {
-    width: 50px;
-    height: 50px;
-    margin-top: 6px;
+    width: 55px;
+    height: 55px;
+    margin-top: 4px;
     position: absolute;
 }
 
 .user-name {
     display: inline-block;
     font-size: 18px;
-    width: calc(100% - 45px);
+    width: calc(100% - 50px);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     position: absolute;
     top: 20px;
-    right: 60px;
+    right: 65px;
 }

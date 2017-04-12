@@ -17,7 +17,13 @@ declare function GetCroppedBase64Image(): string;
 
 export class ProfileComponent implements OnInit, OnChanges {
     constructor(private profileService: ProfileService, private globalService: GlobalService) {
-        
+        this.globalService.data.subscribe(value => {
+            if (value["isOpenEditWindow"]) {
+                this.isOpenEditWindow = value["isOpenEditWindow"];
+                this.ActiveWindow();
+                this.globalService.deleteData("isOpenEditWindow");
+            }
+        });
     }
 
     @Input() isOpenEditWindow: boolean;
@@ -120,16 +126,6 @@ export class ProfileComponent implements OnInit, OnChanges {
         }
     ];
 
-    ngOnChanges(simpleChanges: any) {
-        if (simpleChanges.isOpenEditWindow.currentValue) {
-            $('#main-img').cropper(this.options);
-            $("#profile-modal").modal("show");
-        }
-        else {
-            $("#profile-modal").modal("hide");
-        }
-    }
-
     ngOnInit() {
         $("#profile-modal").bind('touchstart', function preventZoom(e) {
             var t2 = e.timeStamp
@@ -143,6 +139,24 @@ export class ProfileComponent implements OnInit, OnChanges {
             // also synthesize click events we just swallowed up
             $(this).trigger('click').trigger('click');
         });
+    }
+
+    ngOnChanges(simpleChanges: any) {
+        if (simpleChanges.isOpenEditWindow.currentValue) {
+            this.ActiveWindow();
+        }
+        else {
+            this.DisableWindow();
+        }
+    }
+
+    ActiveWindow() {
+        $('#main-img').cropper(this.options);
+        $("#profile-modal").modal("show");
+    }
+
+    DisableWindow() {
+        $("#profile-modal").modal("hide");
     }
 
     ChangeImage() {
@@ -187,7 +201,7 @@ export class ProfileComponent implements OnInit, OnChanges {
                     animation: false,
                     confirmButtonText: "אוקיי"
                 }).then(function () {
-                    
+
                 });
             }
         });
