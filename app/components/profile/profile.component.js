@@ -18,6 +18,7 @@ var ProfileComponent = (function () {
         this.profileService = profileService;
         this.globalService = globalService;
         this.isLoading = false;
+        this.userImage = false;
         this.options = {
             aspectRatio: 1 / 1,
             preview: '#preview-img-container',
@@ -111,11 +112,18 @@ var ProfileComponent = (function () {
             }
         ];
         this.globalService.data.subscribe(function (value) {
+            var deleteDataArray = [];
+            if (value["userImage"]) {
+                _this.userImage = value["userImage"];
+                deleteDataArray.push("userImage");
+            }
             if (value["isOpenEditWindow"]) {
+                _this.isNewPhoto = true;
                 _this.isOpenEditWindow = value["isOpenEditWindow"];
                 _this.ActiveWindow();
-                _this.globalService.deleteData("isOpenEditWindow");
+                deleteDataArray.push("isOpenEditWindow");
             }
+            _this.globalService.deleteMultiData(deleteDataArray);
         });
     }
     ProfileComponent.prototype.ngOnInit = function () {
@@ -159,30 +167,38 @@ var ProfileComponent = (function () {
     ProfileComponent.prototype.UploadNewPhoto = function () {
         $("#inputImage").trigger("click");
     };
+    ProfileComponent.prototype.EditUserPhoto = function () {
+        this.imgSrc = this.userImage;
+        $('#main-img').cropper('destroy').attr('src', this.imgSrc).cropper(this.options);
+        this.isNewPhoto = false;
+    };
     ProfileComponent.prototype.SaveImage = function () {
         var _this = this;
-        this.isLoading = true;
-        var imgBase64 = GetCroppedBase64Image();
-        this.profileService.SaveImage(imgBase64).then(function (user) {
-            _this.isLoading = false;
-            // In case of error or the user was not fount.
-            if (!user) {
-                $("#upload-failed").snackbar("show");
-            }
-            else {
-                $("#profile-modal").modal("hide");
-                _this.globalService.setData("newUploadedImage", imgBase64);
-                swal({
-                    html: '<span style="font-weight:bold;">התמונה הוחלפה בהצלחה</span> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
-                    imageUrl: imgBase64,
-                    imageWidth: 150,
-                    imageHeight: 150,
-                    animation: false,
-                    confirmButtonText: "אוקיי"
-                }).then(function () {
-                });
-            }
-        });
+        // In case the user is not in the select part.
+        if (!this.isNewPhoto) {
+            this.isLoading = true;
+            var imgBase64 = GetCroppedBase64Image();
+            this.profileService.SaveImage(imgBase64).then(function (user) {
+                _this.isLoading = false;
+                // In case of error or the user was not fount.
+                if (!user) {
+                    $("#upload-failed").snackbar("show");
+                }
+                else {
+                    $("#profile-modal").modal("hide");
+                    _this.globalService.setData("newUploadedImage", imgBase64);
+                    swal({
+                        html: '<span style="font-weight:bold;">התמונה הוחלפה בהצלחה</span> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
+                        imageUrl: imgBase64,
+                        imageWidth: 150,
+                        imageHeight: 150,
+                        animation: false,
+                        confirmButtonText: "אוקיי"
+                    }).then(function () {
+                    });
+                }
+            });
+        }
     };
     return ProfileComponent;
 }());

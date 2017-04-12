@@ -18,11 +18,22 @@ declare function GetCroppedBase64Image(): string;
 export class ProfileComponent implements OnInit, OnChanges {
     constructor(private profileService: ProfileService, private globalService: GlobalService) {
         this.globalService.data.subscribe(value => {
+            var deleteDataArray = [];
+
+            if (value["userImage"]) {
+                this.userImage = value["userImage"];
+                deleteDataArray.push("userImage");
+            }
+
             if (value["isOpenEditWindow"]) {
+                this.isNewPhoto = true;
                 this.isOpenEditWindow = value["isOpenEditWindow"];
                 this.ActiveWindow();
-                this.globalService.deleteData("isOpenEditWindow");
+                deleteDataArray.push("isOpenEditWindow");
             }
+
+            this.globalService.deleteMultiData(deleteDataArray);
+
         });
     }
 
@@ -30,7 +41,8 @@ export class ProfileComponent implements OnInit, OnChanges {
     @Input() isNewPhoto: boolean;
     @Input() imgSrc: string;
 
-    isLoading = false;
+    isLoading: boolean = false;
+    userImage: any = false;
 
     options = {
         aspectRatio: 1 / 1,
@@ -177,34 +189,43 @@ export class ProfileComponent implements OnInit, OnChanges {
         $("#inputImage").trigger("click");
     }
 
+    EditUserPhoto() {
+        this.imgSrc = this.userImage;
+        $('#main-img').cropper('destroy').attr('src', this.imgSrc).cropper(this.options);
+        this.isNewPhoto = false;
+    }
+
     SaveImage() {
-        this.isLoading = true;
-        var imgBase64 = GetCroppedBase64Image();
+        // In case the user is not in the select part.
+        if (!this.isNewPhoto) {
+            this.isLoading = true;
+            var imgBase64 = GetCroppedBase64Image();
 
-        this.profileService.SaveImage(imgBase64).then((user) => {
-            this.isLoading = false;
+            this.profileService.SaveImage(imgBase64).then((user) => {
+                this.isLoading = false;
 
-            // In case of error or the user was not fount.
-            if (!user) {
-                $("#upload-failed").snackbar("show");
-            }
-            else {
-                $("#profile-modal").modal("hide");
+                // In case of error or the user was not fount.
+                if (!user) {
+                    $("#upload-failed").snackbar("show");
+                }
+                else {
+                    $("#profile-modal").modal("hide");
 
-                this.globalService.setData("newUploadedImage", imgBase64);
+                    this.globalService.setData("newUploadedImage", imgBase64);
 
-                swal({
-                    html: '<span style="font-weight:bold;">התמונה הוחלפה בהצלחה</span> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
-                    imageUrl: imgBase64,
-                    imageWidth: 150,
-                    imageHeight: 150,
-                    animation: false,
-                    confirmButtonText: "אוקיי"
-                }).then(function () {
+                    swal({
+                        html: '<span style="font-weight:bold;">התמונה הוחלפה בהצלחה</span> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
+                        imageUrl: imgBase64,
+                        imageWidth: 150,
+                        imageHeight: 150,
+                        animation: false,
+                        confirmButtonText: "אוקיי"
+                    }).then(function () {
 
-                });
-            }
-        });
+                    });
+                }
+            });
+        }
     }
 
 }

@@ -17,6 +17,7 @@ var ProfilePictureComponent = (function () {
         this.profilePictureService = profilePictureService;
         this.globalService = globalService;
         this.profileImageSrc = "./app/components/profilePicture/pictures/empty-profile.png";
+        this.isUserHasImage = null;
         this.globalService.data.subscribe(function (value) {
             if (value["newUploadedImage"]) {
                 _this.profileImageSrc = value["newUploadedImage"];
@@ -28,15 +29,35 @@ var ProfilePictureComponent = (function () {
         var _this = this;
         this.profilePictureService.GetUserProfileImage().then(function (result) {
             if (result) {
+                _this.isUserHasImage = true;
                 _this.profileImageSrc = result.image;
+            }
+            else {
+                _this.isUserHasImage = false;
             }
         });
     };
     ProfilePictureComponent.prototype.OpenEditWindow = function () {
-        this.globalService.setData("isOpenEditWindow", true);
+        if (this.isEditEnable) {
+            var userImage;
+            // In case the user has image.
+            if (this.isUserHasImage) {
+                userImage = this.profileImageSrc;
+            }
+            else {
+                userImage = false;
+            }
+            var changeVariables = [{ "key": "isOpenEditWindow", "value": true },
+                { "key": "userImage", "value": userImage }];
+            this.globalService.setMultiData(changeVariables);
+        }
     };
     return ProfilePictureComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], ProfilePictureComponent.prototype, "isEditEnable", void 0);
 ProfilePictureComponent = __decorate([
     core_1.Component({
         selector: 'profilePicture',

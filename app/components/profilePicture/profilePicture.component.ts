@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
@@ -22,16 +22,39 @@ export class ProfilePictureComponent implements OnInit {
         });
     }
 
+    @Input() isEditEnable: string;
+
+    isUserHasImage: boolean = null;
+
     ngOnInit() {
         this.profilePictureService.GetUserProfileImage().then((result) => {
             if (result) {
+                this.isUserHasImage = true;
                 this.profileImageSrc = result.image;
+            }
+            else {
+                this.isUserHasImage = false;
             }
         });
     }
 
     OpenEditWindow() {
-        this.globalService.setData("isOpenEditWindow", true);
+        if (this.isEditEnable) {
+            var userImage;
+
+            // In case the user has image.
+            if (this.isUserHasImage) {
+                userImage = this.profileImageSrc;
+            }
+            else {
+                userImage = false;
+            }
+
+            var changeVariables = [{ "key": "isOpenEditWindow", "value": true },
+            { "key": "userImage", "value":  userImage}];
+
+            this.globalService.setMultiData(changeVariables);
+        }
     }
 
 }

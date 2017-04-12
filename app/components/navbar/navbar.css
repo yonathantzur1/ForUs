@@ -187,6 +187,7 @@ font-size: 15px;
     height: 55px;
     margin-top: 4px;
     position: absolute;
+    cursor: pointer;
 }
 
 .user-name {

@@ -12,10 +12,26 @@ var GlobalService = (function () {
         currData[key] = value;
         this.data.next(currData);
     };
+    GlobalService.prototype.setMultiData = function (array) {
+        var currData = this.data.value;
+        array.forEach(function (element) {
+            currData[element.key] = element.value;
+        });
+        this.data.next(currData);
+    };
     GlobalService.prototype.deleteData = function (key) {
         var currData = this.data.value;
         delete currData[key];
         this.data.next(currData);
+    };
+    GlobalService.prototype.deleteMultiData = function (array) {
+        if (array.length != 0) {
+            var currData = this.data.value;
+            array.forEach(function (key) {
+                delete currData[key];
+            });
+            this.data.next(currData);
+        }
     };
     return GlobalService;
 }());

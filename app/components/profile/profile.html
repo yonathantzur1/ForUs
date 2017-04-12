@@ -16,6 +16,10 @@
                     <input (change)="ChangeImage()" style="display:none;" type="file" id="inputImage" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
 
                     <div class="upload-image-sector col-md-12 col-xs-12" *ngIf="isNewPhoto">
+                        <div style="margin-right:5%;" class="upload-image-container" (click)="EditUserPhoto()" *ngIf="userImage != false">
+                            <div class="new-image-text">עריכת תמונה</div>
+                            <img class="edit-image-preview" src="{{userImage}}">
+                        </div>
                         <div class="upload-image-container" (click)="UploadNewPhoto()">
                             <div class="new-image-text">תמונה חדשה</div>
                             <i class="material-icons new-image-icon">camera_enhance</i>
@@ -47,7 +51,7 @@
             <div class="modal-footer">
                 <div class="modal-footer-buttons">
                     <a class="btn btn-default cancel-change-btn" data-dismiss="modal">סגור</a>
-                    <a (click)="SaveImage()" id="register-btn" class="btn btn-primary change-img-btn">אישור</a>
+                    <a (click)="SaveImage()" id="register-btn" class="btn btn-primary change-img-btn" [ngClass]="{'change-img-btn-disabled': isNewPhoto}">אישור</a>
                 </div>
             </div>
         </div>

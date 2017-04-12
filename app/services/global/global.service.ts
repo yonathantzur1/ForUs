@@ -14,10 +14,32 @@ export class GlobalService {
         this.data.next(currData);
     }
 
+    setMultiData(array: Array<any>) {
+        var currData = this.data.value;
+
+        array.forEach(element => {
+            currData[element.key] = element.value;
+        });
+
+        this.data.next(currData);
+    }
+
     deleteData(key: string) {
         var currData = this.data.value;
         delete currData[key];
 
         this.data.next(currData);
+    }
+
+    deleteMultiData(array: Array<string>) {
+        if (array.length != 0) {
+            var currData = this.data.value;
+
+            array.forEach(key => {
+                delete currData[key]
+            });
+
+            this.data.next(currData);
+        }
     }
 }
