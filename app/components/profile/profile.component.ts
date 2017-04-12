@@ -2,6 +2,7 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/cor
 import { Router } from '@angular/router';
 import './temp.js';
 
+import { GlobalService } from '../../services/global/global.service';
 import { ProfileService } from '../../services/profile/profile.service';
 
 declare var swal: any;
@@ -15,7 +16,9 @@ declare function GetCroppedBase64Image(): string;
 })
 
 export class ProfileComponent implements OnInit, OnChanges {
-    constructor(private profileService: ProfileService) { }
+    constructor(private profileService: ProfileService, private globalService: GlobalService) {
+        
+    }
 
     @Input() isOpenEditWindow: boolean;
     @Input() isNewPhoto: boolean;
@@ -173,16 +176,18 @@ export class ProfileComponent implements OnInit, OnChanges {
             }
             else {
                 $("#profile-modal").modal("hide");
-                
+
+                this.globalService.setData("newUploadedImage", imgBase64);
+
                 swal({
-                    html: '<span style="font-weight:bold;user-select:none;">התמונה הוחלפה בהצלחה</span> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
+                    html: '<span style="font-weight:bold;">התמונה הוחלפה בהצלחה</span> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
                     imageUrl: imgBase64,
                     imageWidth: 150,
                     imageHeight: 150,
                     animation: false,
                     confirmButtonText: "אוקיי"
-                }).then(function() {
-                    var x = 1;
+                }).then(function () {
+                    
                 });
             }
         });

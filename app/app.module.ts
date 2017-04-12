@@ -20,6 +20,8 @@ import { AuthGuard } from './components/login/auth.guard';
 
 import { routing } from './app.routing'
 
+import { GlobalService } from './services/global/global.service';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -40,7 +42,8 @@ import { routing } from './app.routing'
   ],
   providers: [
     AuthGuard,
-    AuthService
+    AuthService,
+    GlobalService
   ],
   bootstrap: [AppComponent]
 })

@@ -22,6 +22,7 @@ var pageNotFound_component_1 = require("./components/pageNotFound/pageNotFound.c
 var auth_service_1 = require("./services/auth/auth.service");
 var auth_guard_1 = require("./components/login/auth.guard");
 var app_routing_1 = require("./app.routing");
+var global_service_1 = require("./services/global/global.service");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -48,7 +49,8 @@ AppModule = __decorate([
         ],
         providers: [
             auth_guard_1.AuthGuard,
-            auth_service_1.AuthService
+            auth_service_1.AuthService,
+            global_service_1.GlobalService
         ],
         bootstrap: [app_component_1.AppComponent]
     })

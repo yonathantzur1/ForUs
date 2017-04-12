@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { GlobalService } from '../../services/global/global.service';
 import { ProfilePictureService } from '../../services/profilePicture/profilePicture.service';
 
 @Component({
@@ -10,9 +11,17 @@ import { ProfilePictureService } from '../../services/profilePicture/profilePict
 })
 
 export class ProfilePictureComponent implements OnInit {
-    constructor(private profilePictureService: ProfilePictureService) { }
-
+    isOpen: boolean;
     profileImageSrc = "./app/components/profilePicture/pictures/empty-profile.png";
+
+    constructor(private profilePictureService: ProfilePictureService, private globalService: GlobalService) {
+        this.globalService.data.subscribe(value => {
+            if (value["newUploadedImage"]) {
+                this.profileImageSrc = value["newUploadedImage"];
+                this.globalService.deleteData("newUploadedImage");
+            }
+        });
+    }
 
     ngOnInit() {
         this.profilePictureService.GetUserProfileImage().then((result) => {

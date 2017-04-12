@@ -9,11 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var global_service_1 = require("../../services/global/global.service");
 var profilePicture_service_1 = require("../../services/profilePicture/profilePicture.service");
 var ProfilePictureComponent = (function () {
-    function ProfilePictureComponent(profilePictureService) {
+    function ProfilePictureComponent(profilePictureService, globalService) {
+        var _this = this;
         this.profilePictureService = profilePictureService;
+        this.globalService = globalService;
         this.profileImageSrc = "./app/components/profilePicture/pictures/empty-profile.png";
+        this.globalService.data.subscribe(function (value) {
+            if (value["newUploadedImage"]) {
+                _this.profileImageSrc = value["newUploadedImage"];
+                _this.globalService.deleteData("newUploadedImage");
+            }
+        });
     }
     ProfilePictureComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -31,7 +40,7 @@ ProfilePictureComponent = __decorate([
         templateUrl: './profilePicture.html',
         providers: [profilePicture_service_1.ProfilePictureService]
     }),
-    __metadata("design:paramtypes", [profilePicture_service_1.ProfilePictureService])
+    __metadata("design:paramtypes", [profilePicture_service_1.ProfilePictureService, global_service_1.GlobalService])
 ], ProfilePictureComponent);
 exports.ProfilePictureComponent = ProfilePictureComponent;
 //# sourceMappingURL=profilePicture.component.js.map

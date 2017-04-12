@@ -10,10 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 require("./temp.js");
+var global_service_1 = require("../../services/global/global.service");
 var profile_service_1 = require("../../services/profile/profile.service");
 var ProfileComponent = (function () {
-    function ProfileComponent(profileService) {
+    function ProfileComponent(profileService, globalService) {
         this.profileService = profileService;
+        this.globalService = globalService;
         this.isLoading = false;
         this.options = {
             aspectRatio: 1 / 1,
@@ -155,15 +157,15 @@ var ProfileComponent = (function () {
             }
             else {
                 $("#profile-modal").modal("hide");
+                _this.globalService.setData("newUploadedImage", imgBase64);
                 swal({
-                    html: '<span style="font-weight:bold;user-select:none;">התמונה הוחלפה בהצלחה</span> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
+                    html: '<span style="font-weight:bold;">התמונה הוחלפה בהצלחה</span> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
                     imageUrl: imgBase64,
                     imageWidth: 150,
                     imageHeight: 150,
                     animation: false,
                     confirmButtonText: "אוקיי"
                 }).then(function () {
-                    var x = 1;
                 });
             }
         });
@@ -188,7 +190,7 @@ ProfileComponent = __decorate([
         templateUrl: './profile.html',
         providers: [profile_service_1.ProfileService]
     }),
-    __metadata("design:paramtypes", [profile_service_1.ProfileService])
+    __metadata("design:paramtypes", [profile_service_1.ProfileService, global_service_1.GlobalService])
 ], ProfileComponent);
 exports.ProfileComponent = ProfileComponent;
 //# sourceMappingURL=profile.component.js.map
