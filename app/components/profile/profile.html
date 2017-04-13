@@ -16,7 +16,7 @@
                     <input (change)="ChangeImage()" style="display:none;" type="file" id="inputImage" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
 
                     <div class="upload-image-sector col-md-12 col-xs-12" *ngIf="isNewPhoto">
-                        <div style="margin-right:5%;" class="upload-image-container" (click)="EditUserPhoto()" *ngIf="userImage != false">
+                        <div class="upload-image-container edit-image-preview-sector" (click)="EditUserPhoto()" *ngIf="userImage != false">
                             <div class="new-image-text">עריכת תמונה</div>
                             <img class="edit-image-preview" src="{{userImage}}">
                         </div>
