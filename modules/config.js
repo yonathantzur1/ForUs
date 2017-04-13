@@ -1,6 +1,6 @@
-var url = 'mongodb://forusdb:Aa123456@ds143030.mlab.com:43030/forus';
-var poolSize = 10;
+var url = 'mongodb://forusdb:Aa123456@ds157320.mlab.com:57320/forus';
+var maxPoolSize = 10;
 
 module.exports = {
-    connectionString: url + '?' + 'maxPoolSize=' + poolSize
+    connectionString: url + '?' + 'maxPoolSize=' + maxPoolSize
 };
