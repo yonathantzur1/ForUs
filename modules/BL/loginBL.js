@@ -69,7 +69,13 @@ module.exports = {
         };
 
         DAL.Insert(collectionName, newUserObj, function (result) {
-            callback(result);
+            if (result) {
+                newUserObj._id = result;
+                callback(newUserObj);
+            }
+            else {
+                callback(result);
+            }
         });
     },
 

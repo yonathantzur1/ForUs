@@ -32,10 +32,10 @@ module.exports = function (app, loginBL, mailer, sha512) {
                 // Add user to DB.
                 loginBL.AddUser(req.body, sha512, function (result) {
                     // In case all register progress was succeeded.
-                    if (result != null) {
+                    if (result) {
                         // Sending welcome mail to the new user.
                         mailer.SendMail(req.body.email, mailer.GetRegisterMailContent(req.body.firstName));
-                        req.session.currUser = req.body;
+                        req.session.currUser = result;
                     }
 
                     res.send(result);

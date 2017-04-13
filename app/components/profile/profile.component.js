@@ -41,6 +41,13 @@ var ProfileComponent = (function () {
                 }
             },
             {
+                icon: "fa-arrows",
+                title: "מצב תזוזה",
+                onClick: function () {
+                    $('#main-img').cropper("setDragMode", "move");
+                }
+            },
+            {
                 icon: "fa-rotate-right",
                 title: "סיבוב ימינה",
                 onClick: function () {
@@ -55,17 +62,10 @@ var ProfileComponent = (function () {
                 }
             },
             {
-                icon: "fa-search-minus",
-                title: "הקטנה",
+                icon: "fa-crop",
+                title: "מצב חיתוך",
                 onClick: function () {
-                    $('#main-img').cropper("zoom", -0.1);
-                }
-            },
-            {
-                icon: "fa-search-plus",
-                title: "הגדלה",
-                onClick: function () {
-                    $('#main-img').cropper("zoom", 0.1);
+                    $('#main-img').cropper("setDragMode", "crop");
                 }
             },
             {
@@ -97,17 +97,17 @@ var ProfileComponent = (function () {
                 }
             },
             {
-                icon: "fa-crop",
-                title: "מצב חיתוך",
+                icon: "fa-search-minus",
+                title: "הקטנה",
                 onClick: function () {
-                    $('#main-img').cropper("setDragMode", "crop");
+                    $('#main-img').cropper("zoom", -0.1);
                 }
             },
             {
-                icon: "fa-arrows",
-                title: "מצב תזוזה",
+                icon: "fa-search-plus",
+                title: "הגדלה",
                 onClick: function () {
-                    $('#main-img').cropper("setDragMode", "move");
+                    $('#main-img').cropper("zoom", 0.1);
                 }
             }
         ];
@@ -194,7 +194,6 @@ var ProfileComponent = (function () {
                         imageHeight: 150,
                         animation: false,
                         confirmButtonText: "אוקיי"
-                    }).then(function () {
                     });
                 }
             });
