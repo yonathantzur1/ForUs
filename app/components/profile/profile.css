@@ -231,3 +231,11 @@
     right: 5px;
     top: 5px;
 }
+
+.img-btn-pressed {
+    background-color: #b1d0e6 !important;
+}
+
+.img-btn-pressed:hover {
+    background-color: #b1d0e6 !important;
+}

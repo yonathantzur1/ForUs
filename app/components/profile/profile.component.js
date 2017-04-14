@@ -36,7 +36,8 @@ var ProfileComponent = (function () {
             {
                 icon: "fa-refresh",
                 title: "איפוס תמונה",
-                onClick: function () {
+                onClick: function (self) {
+                    self.ResetAllImageBtns();
                     $('#main-img').cropper("reset");
                 }
             },
@@ -44,8 +45,15 @@ var ProfileComponent = (function () {
                 icon: "fa-arrows",
                 title: "מצב תזוזה",
                 onClick: function () {
-                    $('#main-img').cropper("setDragMode", "move");
-                }
+                    if (this.isPressed) {
+                        $('#main-img').cropper("setDragMode", "crop");
+                    }
+                    else {
+                        $('#main-img').cropper("setDragMode", "move");
+                    }
+                    this.isPressed = !this.isPressed;
+                },
+                isPressed: false
             },
             {
                 icon: "fa-rotate-right",
@@ -62,11 +70,18 @@ var ProfileComponent = (function () {
                 }
             },
             {
-                icon: "fa-crop",
-                title: "מצב חיתוך",
+                icon: "fa-arrows-h",
+                title: "היפוך אופקי",
                 onClick: function () {
-                    $('#main-img').cropper("setDragMode", "crop");
-                }
+                    if (this.isPressed) {
+                        $('#main-img').cropper("scaleX", 1);
+                    }
+                    else {
+                        $('#main-img').cropper("scaleX", -1);
+                    }
+                    this.isPressed = !this.isPressed;
+                },
+                isPressed: false
             },
             {
                 icon: "fa-arrow-down",
@@ -126,6 +141,14 @@ var ProfileComponent = (function () {
             _this.globalService.deleteMultiData(deleteDataArray);
         });
     }
+    ProfileComponent.prototype.ResetAllImageBtns = function () {
+        this.imageBtns.forEach(function (btn) {
+            // In case the btn is pressed.
+            if (btn.isPressed) {
+                btn.onClick();
+            }
+        });
+    };
     ProfileComponent.prototype.ngOnInit = function () {
         $("#profile-modal").bind('touchstart', function preventZoom(e) {
             var t2 = e.timeStamp, t1 = $(this).data('lastTouch') || t2, dt = t2 - t1, fingers = e.touches.length;

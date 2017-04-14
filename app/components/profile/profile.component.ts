@@ -62,7 +62,8 @@ export class ProfileComponent implements OnInit, OnChanges {
         {
             icon: "fa-refresh",
             title: "איפוס תמונה",
-            onClick: function () {
+            onClick: function (self: any) {
+                self.ResetAllImageBtns();
                 $('#main-img').cropper("reset");
             }
         },
@@ -70,8 +71,16 @@ export class ProfileComponent implements OnInit, OnChanges {
             icon: "fa-arrows",
             title: "מצב תזוזה",
             onClick: function () {
-                $('#main-img').cropper("setDragMode", "move");
-            }
+                if (this.isPressed) {
+                    $('#main-img').cropper("setDragMode", "crop");
+                }
+                else {
+                    $('#main-img').cropper("setDragMode", "move");
+                }
+
+                this.isPressed = !this.isPressed;
+            },
+            isPressed: false
         },
         {
             icon: "fa-rotate-right",
@@ -88,11 +97,19 @@ export class ProfileComponent implements OnInit, OnChanges {
             }
         },
         {
-            icon: "fa-crop",
-            title: "מצב חיתוך",
+            icon: "fa-arrows-h",
+            title: "היפוך אופקי",
             onClick: function () {
-                $('#main-img').cropper("setDragMode", "crop");
-            }
+                if (this.isPressed) {
+                    $('#main-img').cropper("scaleX", 1);
+                }
+                else {
+                    $('#main-img').cropper("scaleX", -1);
+                }
+
+                this.isPressed = !this.isPressed;
+            },
+            isPressed: false
         },
         {
             icon: "fa-arrow-down",
@@ -137,6 +154,15 @@ export class ProfileComponent implements OnInit, OnChanges {
             }
         }
     ];
+
+    ResetAllImageBtns() {
+        this.imageBtns.forEach(function (btn: any) {
+            // In case the btn is pressed.
+            if (btn.isPressed) {
+                btn.onClick();
+            }
+        });
+    }
 
     ngOnInit() {
         $("#profile-modal").bind('touchstart', function preventZoom(e) {
