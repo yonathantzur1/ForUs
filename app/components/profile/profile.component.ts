@@ -164,6 +164,15 @@ export class ProfileComponent implements OnInit, OnChanges {
         });
     }
 
+    ResetAllImageBtnsMode() {
+        this.imageBtns.forEach(function (btn: any) {
+            // In case the btn is pressed.
+            if (btn.isPressed) {
+                btn.isPressed = false;
+            }
+        });
+    }
+
     ngOnInit() {
         $("#profile-modal").bind('touchstart', function preventZoom(e) {
             var t2 = e.timeStamp
@@ -201,6 +210,7 @@ export class ProfileComponent implements OnInit, OnChanges {
         var isSuccess = UploadPhoto(this.options);
 
         if (isSuccess == true) {
+            this.ResetAllImageBtnsMode();
             this.isNewPhoto = false;
         }
         else if (isSuccess == false) {

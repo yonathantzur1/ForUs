@@ -50,7 +50,7 @@
             </div>
             <div class="modal-footer">
                 <div class="modal-footer-buttons">
-                    <a class="btn btn-default cancel-change-btn" data-dismiss="modal">סגור</a>
+                    <a (click)="ResetAllImageBtnsMode()" class="btn btn-default cancel-change-btn" data-dismiss="modal">סגור</a>
                     <a (click)="SaveImage()" id="register-btn" class="btn btn-primary change-img-btn" [ngClass]="{'change-img-btn-disabled': isNewPhoto}">אישור</a>
                 </div>
             </div>

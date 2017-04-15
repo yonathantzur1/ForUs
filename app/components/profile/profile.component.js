@@ -149,6 +149,14 @@ var ProfileComponent = (function () {
             }
         });
     };
+    ProfileComponent.prototype.ResetAllImageBtnsMode = function () {
+        this.imageBtns.forEach(function (btn) {
+            // In case the btn is pressed.
+            if (btn.isPressed) {
+                btn.isPressed = false;
+            }
+        });
+    };
     ProfileComponent.prototype.ngOnInit = function () {
         $("#profile-modal").bind('touchstart', function preventZoom(e) {
             var t2 = e.timeStamp, t1 = $(this).data('lastTouch') || t2, dt = t2 - t1, fingers = e.touches.length;
@@ -178,6 +186,7 @@ var ProfileComponent = (function () {
     ProfileComponent.prototype.ChangeImage = function () {
         var isSuccess = UploadPhoto(this.options);
         if (isSuccess == true) {
+            this.ResetAllImageBtnsMode();
             this.isNewPhoto = false;
         }
         else if (isSuccess == false) {
