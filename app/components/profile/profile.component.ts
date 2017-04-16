@@ -100,7 +100,8 @@ export class ProfileComponent implements OnInit, OnChanges {
             icon: "fa-arrows-h",
             title: "היפוך אופקי",
             onClick: function () {
-                var isImageFullRotate = ($('#main-img').cropper("getData").rotate % 180 == 0);
+                var imageData : any = $('#main-img').cropper("getData");
+                var isImageFullRotate = (imageData.rotate % 180 == 0);
 
                 // In case the btn is pressed.
                 if (this.isPressed) {

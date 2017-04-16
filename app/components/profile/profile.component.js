@@ -73,7 +73,8 @@ var ProfileComponent = (function () {
                 icon: "fa-arrows-h",
                 title: "היפוך אופקי",
                 onClick: function () {
-                    var isImageFullRotate = ($('#main-img').cropper("getData").rotate % 180 == 0);
+                    var imageData = $('#main-img').cropper("getData");
+                    var isImageFullRotate = (imageData.rotate % 180 == 0);
                     // In case the btn is pressed.
                     if (this.isPressed) {
                         if (isImageFullRotate) {
