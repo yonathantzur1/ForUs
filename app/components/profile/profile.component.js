@@ -73,11 +73,23 @@ var ProfileComponent = (function () {
                 icon: "fa-arrows-h",
                 title: "היפוך אופקי",
                 onClick: function () {
+                    var isImageFullRotate = ($('#main-img').cropper("getData").rotate % 180 == 0);
+                    // In case the btn is pressed.
                     if (this.isPressed) {
-                        $('#main-img').cropper("scaleX", 1);
+                        if (isImageFullRotate) {
+                            $('#main-img').cropper("scaleX", 1);
+                        }
+                        else {
+                            $('#main-img').cropper("scaleY", 1);
+                        }
                     }
                     else {
-                        $('#main-img').cropper("scaleX", -1);
+                        if (isImageFullRotate) {
+                            $('#main-img').cropper("scaleX", -1);
+                        }
+                        else {
+                            $('#main-img').cropper("scaleY", -1);
+                        }
                     }
                     this.isPressed = !this.isPressed;
                 },
