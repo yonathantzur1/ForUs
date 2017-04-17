@@ -27,8 +27,6 @@ export class GlobalService {
     deleteData(key: string) {
         var currData = this.data.value;
         delete currData[key];
-
-        this.data.next(currData);
     }
 
     deleteMultiData(array: Array<string>) {
@@ -38,8 +36,6 @@ export class GlobalService {
             array.forEach(key => {
                 delete currData[key]
             });
-
-            this.data.next(currData);
         }
     }
 }

@@ -22,7 +22,6 @@ var GlobalService = (function () {
     GlobalService.prototype.deleteData = function (key) {
         var currData = this.data.value;
         delete currData[key];
-        this.data.next(currData);
     };
     GlobalService.prototype.deleteMultiData = function (array) {
         if (array.length != 0) {
@@ -30,7 +29,6 @@ var GlobalService = (function () {
             array.forEach(function (key) {
                 delete currData[key];
             });
-            this.data.next(currData);
         }
     };
     return GlobalService;

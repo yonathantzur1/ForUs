@@ -22,7 +22,7 @@ export class ProfileComponent implements OnInit, OnChanges {
 
             if (value["userImage"]) {
                 this.userImage = value["userImage"];
-                deleteDataArray.push("userImage");
+                // deleteDataArray.push("userImage");
             }
 
             if (value["isOpenEditWindow"]) {
@@ -33,7 +33,6 @@ export class ProfileComponent implements OnInit, OnChanges {
             }
 
             this.globalService.deleteMultiData(deleteDataArray);
-
         });
     }
 
@@ -100,7 +99,7 @@ export class ProfileComponent implements OnInit, OnChanges {
             icon: "fa-arrows-h",
             title: "היפוך אופקי",
             onClick: function () {
-                var imageData : any = $('#main-img').cropper("getData");
+                var imageData: any = $('#main-img').cropper("getData");
                 var isImageFullRotate = (imageData.rotate % 180 == 0);
 
                 // In case the btn is pressed.

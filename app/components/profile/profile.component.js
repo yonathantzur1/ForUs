@@ -143,7 +143,6 @@ var ProfileComponent = (function () {
             var deleteDataArray = [];
             if (value["userImage"]) {
                 _this.userImage = value["userImage"];
-                deleteDataArray.push("userImage");
             }
             if (value["isOpenEditWindow"]) {
                 _this.isNewPhoto = true;

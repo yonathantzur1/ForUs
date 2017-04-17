@@ -51,7 +51,7 @@ export class ProfilePictureComponent implements OnInit {
             }
 
             var changeVariables = [{ "key": "isOpenEditWindow", "value": true },
-            { "key": "userImage", "value":  userImage}];
+            { "key": "userImage", "value": userImage }];
 
             this.globalService.setMultiData(changeVariables);
         }
