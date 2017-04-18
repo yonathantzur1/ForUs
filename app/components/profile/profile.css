@@ -33,7 +33,7 @@
 
 @media (max-width: 370px) {
     .fa {
-        font-size: 18px; 
+        font-size: 16px; 
     }
 
     .align-mini {
@@ -55,24 +55,31 @@
     .main-img-container {
         width: 250px;
         height: 150px;
-        margin-left: calc(80% - 205px);
+        margin: auto;
+        float: none;
     }
 
     .preview-img-container {
-        display: none;
+        width: 80px;
+        height: 80px;
+        overflow: hidden;
+        border-radius: 15px;
+        border: 1px solid #777777;
+        margin: auto;
+        margin-top: 20px;
     }
 
     .right-container {
-        width: 100%;
-        height: 68px;
+        width: calc(100% - 144px);
+        float: left;
     }
 
     .img-btn {
         border: 1px solid black;
-        width: 35px;
-        height: 35px;
+        width: 28px;
+        height: 28px;
         text-align: center;
-        padding-top: 8px;
+        padding-top: 5px;
         border-radius: 5px;
         float: right;
         cursor: pointer;
@@ -81,10 +88,9 @@
     }
 
     .image-tool-bar {
-        width: 100%;
-        position: absolute;
-        top: 20px;
-        right: 3%;
+        width: 144px;
+        float: right;
+        margin-top: 10px;
     }
 
     .upload-image-container {
@@ -118,16 +124,18 @@
     .main-img-container {
         width: 200px;
         height: 150px;
+        margin: auto;
+        float: none;
     }
 
     .preview-img-container {
         width: 60px;
         height: 60px;
-        float: right;
-        margin-right: 15%;
         overflow: hidden;
         border-radius: 15px;
         border: 1px solid #777777;
+        position: absolute;
+        left: 25px;
     }
 
     .right-container {
@@ -149,10 +157,10 @@
     }
 
     .image-tool-bar {
-        width: 100%;
-        right: 1px;
+        width: 111px;
         position: absolute;
         padding-top: 3px;
+        left: 0;
     }
 
     .upload-image-container {
@@ -188,17 +196,17 @@
     .main-img-container {
         width: 400px;
         height: 300px;
+        margin: auto;
+        float: none;
     }
 
     .preview-img-container {
         width: 150px;
         height: 150px;
-        float: right;
-        margin-top: 10%;
-        margin-right: 34%;
         overflow: hidden;
         border-radius: 15px;
         border: 1px solid #777777;
+        margin: auto;
     }
 
     .right-container {
@@ -226,9 +234,8 @@
 
     .image-tool-bar {
         width: 100%;
-        right: 6%;
-        position: absolute;
-        padding-top: 3px;
+        margin: auto;
+        float: none;
     }
 
     .upload-image-container {
