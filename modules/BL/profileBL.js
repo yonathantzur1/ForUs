@@ -6,7 +6,7 @@ var usersCollectionName = "Users";
 module.exports = {
     SaveImage: function (imageData, callback) {
         var userIdObject = DAL.GetObjectId(imageData.userId);
-        
+
         var imageObj = {
             "image": imageData.imgBase64,
             "userId": userIdObject,
@@ -36,5 +36,29 @@ module.exports = {
                 });
             }
         });
+    },
+
+    DeleteImage: function (userId, profileId, callback) {
+        var usersFilter = { "_id": DAL.GetObjectId(userId) };
+        var userObjectFieldDeleteQuery = { profile: "" };
+
+        DAL.Update(usersCollectionName, usersFilter, userObjectFieldDeleteQuery, function (user) {
+            if (user) {
+                var profileFilter = { "_id": DAL.GetObjectId(profileId) };
+
+                DAL.Delete(collectionName, profileFilter, function (result) {
+                    if (result) {
+                        callback(user);
+                    }
+                    else {
+                        callback(null);
+                    }
+
+                })
+            }
+            else {
+                callback(result);
+            }
+        }, true);
     }
 }

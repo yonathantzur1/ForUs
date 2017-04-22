@@ -329,3 +329,19 @@
 .img-btn-pressed:hover {
     background-color: #b1d0e6 !important;
 }
+
+.delete-profile-btn {
+    float: right;
+    margin: 0;
+    padding-left: 8px;
+    padding-right: 10px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    top: 10px;
+    font-size: 15px;
+    border-radius: 10px;
+}
+
+.delete-profile-btn:hover {
+   background-color: #f55549 !important;
+}

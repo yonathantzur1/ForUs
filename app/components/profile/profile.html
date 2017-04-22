@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="./profile.css">
-<div class="modal fade" data-backdrop="static" id="profile-modal" tabindex="-1" role="dialog" aria-labelledby="profileLabel">
+<div class="modal fade"  data-backdrop="static" id="profile-modal" tabindex="-1" role="dialog" aria-labelledby="profileLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -16,7 +16,7 @@
                     <input (change)="ChangeImage()" style="display:none;" type="file" id="inputImage" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
 
                     <div class="upload-image-sector col-md-12 col-xs-12" *ngIf="isNewPhoto">
-                        <div class="upload-image-container edit-image-preview-sector" (click)="EditUserPhoto()" *ngIf="userImage != false">
+                        <div class="upload-image-container edit-image-preview-sector" (click)="EditUserPhoto()" *ngIf="userImage">
                             <div class="new-image-text">עריכת תמונה</div>
                             <img class="edit-image-preview" src="{{userImage}}">
                         </div>
@@ -49,6 +49,9 @@
                 </form>
             </div>
             <div class="modal-footer">
+                <a title="מחיקת תמונת הפרופיל" (click)="DeleteImage()" *ngIf="userImage" class="btn btn-raised btn-danger delete-profile-btn">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                </a>
                 <div class="modal-footer-buttons">
                     <a (click)="ResetAllImageBtnsMode()" class="btn btn-default cancel-change-btn" data-dismiss="modal">סגור</a>
                     <a (click)="SaveImage()" id="register-btn" class="btn btn-primary change-img-btn" [ngClass]="{'change-img-btn-disabled': isNewPhoto}">אישור</a>

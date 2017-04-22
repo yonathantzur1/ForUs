@@ -11,13 +11,22 @@ import { ProfilePictureService } from '../../services/profilePicture/profilePict
 })
 
 export class ProfilePictureComponent implements OnInit {
-    profileImageSrc = "./app/components/profilePicture/pictures/empty-profile.png";
+    defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
+    profileImageSrc = this.defaultProfileImage;
 
     constructor(private profilePictureService: ProfilePictureService, private globalService: GlobalService) {
         this.globalService.data.subscribe(value => {
             if (value["newUploadedImage"]) {
                 this.profileImageSrc = value["newUploadedImage"];
+                this.isUserHasImage = true;
                 this.globalService.deleteData("newUploadedImage");
+            }
+
+            if (value["isImageDeleted"]) {
+                this.profileImageSrc = this.defaultProfileImage;
+                this.isUserHasImage = false;
+                this.globalService.deleteData("isImageDeleted");
+                this.globalService.setData("userImage", false);
             }
         });
     }

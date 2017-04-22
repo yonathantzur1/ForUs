@@ -141,7 +141,7 @@ var ProfileComponent = (function () {
         ];
         this.globalService.data.subscribe(function (value) {
             var deleteDataArray = [];
-            if (value["userImage"]) {
+            if (value["userImage"] != null) {
                 _this.userImage = value["userImage"];
             }
             if (value["isOpenEditWindow"]) {
@@ -242,6 +242,40 @@ var ProfileComponent = (function () {
                 }
             });
         }
+    };
+    ProfileComponent.prototype.DeleteImage = function () {
+        // Disable modal close fade animation, close modal and return the fade animation. 
+        $("#profile-modal").removeClass("fade");
+        $("#profile-modal").modal("hide");
+        $("#profile-modal").addClass("fade");
+        var self = this;
+        swal({
+            html: '<span style="font-weight:bold;">למחוק את התמונה</span> <i class="fa fa-question" aria-hidden="true"></i>',
+            imageUrl: this.userImage,
+            imageWidth: 150,
+            imageHeight: 150,
+            animation: false,
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "כן",
+            cancelButtonText: "לא",
+            showLoaderOnConfirm: true,
+            allowOutsideClick: false,
+            preConfirm: function () {
+                return self.profileService.DeleteImage();
+            }
+        }).then(function (result) {
+            if (result) {
+                self.globalService.setData("isImageDeleted", true);
+                swal({
+                    html: '<span style="font-weight:bold;">התמונה נמחקה בהצלחה</span> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
+                    type: "success",
+                    confirmButtonText: "אוקיי"
+                });
+            }
+            else {
+            }
+        }, function (dismiss) { });
     };
     return ProfileComponent;
 }());

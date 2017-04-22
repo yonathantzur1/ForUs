@@ -29,6 +29,16 @@ var ProfileService = (function () {
             return null;
         });
     };
+    ProfileService.prototype.DeleteImage = function () {
+        return this.http.delete('/deleteImage')
+            .toPromise()
+            .then(function (result) {
+            return result.json();
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
     return ProfileService;
 }());
 ProfileService = __decorate([

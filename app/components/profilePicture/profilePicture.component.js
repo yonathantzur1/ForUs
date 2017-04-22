@@ -16,12 +16,20 @@ var ProfilePictureComponent = (function () {
         var _this = this;
         this.profilePictureService = profilePictureService;
         this.globalService = globalService;
-        this.profileImageSrc = "./app/components/profilePicture/pictures/empty-profile.png";
+        this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
+        this.profileImageSrc = this.defaultProfileImage;
         this.isUserHasImage = null;
         this.globalService.data.subscribe(function (value) {
             if (value["newUploadedImage"]) {
                 _this.profileImageSrc = value["newUploadedImage"];
+                _this.isUserHasImage = true;
                 _this.globalService.deleteData("newUploadedImage");
+            }
+            if (value["isImageDeleted"]) {
+                _this.profileImageSrc = _this.defaultProfileImage;
+                _this.isUserHasImage = false;
+                _this.globalService.deleteData("isImageDeleted");
+                _this.globalService.setData("userImage", false);
             }
         });
     }

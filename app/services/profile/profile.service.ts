@@ -23,4 +23,15 @@ export class ProfileService {
                 return null;
             });
     }
+
+    DeleteImage() {
+        return this.http.delete('/deleteImage')
+            .toPromise()
+            .then((result) => {
+                return result.json();
+            })
+            .catch((result) => {
+                return null;
+            });
+    }
 }
