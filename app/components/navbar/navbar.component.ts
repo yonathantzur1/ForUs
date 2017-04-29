@@ -7,7 +7,7 @@ import { AuthService } from '../../services/auth/auth.service';
 export class DropMenuData {
     constructor(link: string, text: string, action: Function, object: any)
     { this.link = link, this.text = text, this.action = action, this.object = object }
-    
+
     link: string;
     text: string;
     action: Function;

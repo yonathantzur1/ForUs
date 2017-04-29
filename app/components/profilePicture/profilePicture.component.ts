@@ -11,8 +11,11 @@ import { ProfilePictureService } from '../../services/profilePicture/profilePict
 })
 
 export class ProfilePictureComponent implements OnInit {
-    defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
-    profileImageSrc = this.defaultProfileImage;
+    defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
+    profileImageSrc: string = this.defaultProfileImage;
+    isUserHasImage: boolean = null;
+
+    @Input() isEditEnable: string;
 
     constructor(private profilePictureService: ProfilePictureService, private globalService: GlobalService) {
         this.globalService.data.subscribe(value => {
@@ -30,10 +33,6 @@ export class ProfilePictureComponent implements OnInit {
             }
         });
     }
-
-    @Input() isEditEnable: string;
-
-    isUserHasImage: boolean = null;
 
     ngOnInit() {
         this.profilePictureService.GetUserProfileImage().then((result) => {

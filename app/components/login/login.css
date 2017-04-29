@@ -42,7 +42,7 @@ font-family: Mona Shark;
 
 .login-container {
     margin-top: 3%;
-    border: 2px solid #4A4747;
+    box-shadow: 0px 0px 10px #4f4f4f;
     padding-top: 4%;
     padding-bottom: 4%;
     border-radius: 38px;

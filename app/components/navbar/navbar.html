@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="./navbar.css">
 <div class="navbar-container">
-  <div class="slidenav-overlay" *ngIf="isSidebarOpen || isDropMenuOpen" (click)="ClosePopups()"></div>
+  <div class="slidenav-overlay" [ngClass]="{'overlay-background' : isSidebarOpen}" *ngIf="isSidebarOpen || isDropMenuOpen" (click)="ClosePopups()"></div>
   <div id="sidenav" class="sidenav">
     <div class="slidenav-head-sector">
       <div class="slidenav-header">
