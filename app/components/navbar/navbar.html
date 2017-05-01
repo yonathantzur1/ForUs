@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="./navbar.css">
 <div class="navbar-container">
-  <div class="slidenav-overlay" [ngClass]="{'overlay-background' : isSidebarOpen}" *ngIf="isSidebarOpen || isDropMenuOpen" (click)="ClosePopups()"></div>
+  <div class="slidenav-overlay" [ngClass]="{'overlay-background' : isSidebarOpen}" *ngIf="isSidebarOpen || isDropMenuOpen"
+    (click)="ClosePopups()"></div>
   <div id="sidenav" class="sidenav">
     <div class="slidenav-head-sector">
       <div class="slidenav-header">
@@ -20,9 +21,11 @@
     <div style="right:0;position:absolute;" class="col-xs-8">
       <img (click)="ShowHideSidenav()" src="../logo/icon.png" class="head-icon">
       <span class="search-sector col-md-6 col-xs-8">
-      <input type="text" class="search-input" placeholder="חפש"
-        (focus)="ClosePopups()">
-      <span class="glyphicon glyphicon-search search-icon"></span>
+        <input type="text" class="search-input" placeholder="חפש" [(ngModel)]="searchInput" (ngModelChange)="SearchChange(searchInput)" (focus)="ClosePopups()">
+        <span class="glyphicon glyphicon-search search-icon"></span>
+        <div class="search-results-container" *ngIf="isShowSearchResults">
+          <div class="search-result" *ngFor="let result of searchResults">{{result.firstName}}</div>
+        </div>
       </span>
     </div>
     <div style="float:left;" class="col-xs-4">

@@ -183,9 +183,6 @@ font-size: 15px;
     white-space: nowrap;
 }
 
-
-/*Profile picture*/
-
 .profile-picture {
     width: 55px;
     height: 55px;
@@ -204,4 +201,17 @@ font-size: 15px;
     position: absolute;
     top: 20px;
     right: 65px;
+}
+
+.search-results-container {
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: red;
+}
+
+.search-result {
+    height: 20px;
 }

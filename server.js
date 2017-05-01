@@ -11,6 +11,7 @@ var loginBL = require('./modules/BL/loginBL.js');
 var homeBL = require('./modules/BL/homeBL.js');
 var profileBL = require('./modules/BL/profileBL.js');
 var profilePictureBL = require('./modules/BL/profilePictureBL.js');
+var navbarBL = require('./modules/BL/navbarBL.js');
 
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
@@ -20,7 +21,7 @@ app.use(session({
     cookie: { secure: false }
 }));
 
-app.use(bodyParser.json({limit: '10mb'}));
+app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({
     limit: '10mb',
     extended: true
@@ -36,6 +37,7 @@ require('./routes/auth.js')(app);
 require('./routes/login.js')(app, loginBL, mailer, sha512);
 require('./routes/profile.js')(app, profileBL);
 require('./routes/profilePicture.js')(app, profilePictureBL);
+require('./routes/navbar.js')(app, navbarBL);
 
 // Redirect angular requests back to client side.
 app.get('**', function (req, res) {

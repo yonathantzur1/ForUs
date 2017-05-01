@@ -43,8 +43,8 @@ var LoginService = (function () {
         });
     };
     LoginService.prototype.Forgot = function (email) {
-        var details = JSON.stringify({ "email": email });
-        return this.http.put('/forgot', details, { headers: this.headers })
+        var details = { "email": email };
+        return this.http.put('/forgot', JSON.stringify(details), { headers: this.headers })
             .toPromise()
             .then(function (result) {
             return result.json();

@@ -12,6 +12,7 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var global_service_1 = require("../../services/global/global.service");
 var auth_service_1 = require("../../services/auth/auth.service");
+var navbar_service_1 = require("../../services/navbar/navbar.service");
 var DropMenuData = (function () {
     function DropMenuData(link, text, action, object) {
         this.link = link, this.text = text, this.action = action, this.object = object;
@@ -20,13 +21,16 @@ var DropMenuData = (function () {
 }());
 exports.DropMenuData = DropMenuData;
 var NavbarComponent = (function () {
-    function NavbarComponent(router, authService, globalService) {
+    function NavbarComponent(router, authService, globalService, navbarService) {
         var _this = this;
         this.router = router;
         this.authService = authService;
         this.globalService = globalService;
+        this.navbarService = navbarService;
         this.isSidebarOpen = false;
         this.isDropMenuOpen = false;
+        this.searchResults = [];
+        this.isShowSearchResult = false;
         this.dropMenuDataList = [
             new DropMenuData("#", "הגדרות", null, null),
             new DropMenuData("/login", "התנתקות", function (self, link) {
@@ -62,6 +66,22 @@ var NavbarComponent = (function () {
             this.HideSidenav();
             this.HideDropMenu();
         };
+        this.SearchChange = function (input) {
+            var _this = this;
+            input = input.trim();
+            if (input) {
+                this.navbarService.GetMainSearchResults(input).then(function (results) {
+                    if (results && results.length > 0 && input == _this.searchInput.trim()) {
+                        _this.searchResults = results;
+                        _this.isShowSearchResults = true;
+                    }
+                });
+            }
+            else {
+                this.isShowSearchResults = false;
+                this.searchResults = [];
+            }
+        };
         this.globalService.data.subscribe(function (value) {
             if (value["isOpenEditWindow"]) {
                 _this.ClosePopups();
@@ -77,9 +97,11 @@ __decorate([
 NavbarComponent = __decorate([
     core_1.Component({
         selector: 'navbar',
-        templateUrl: './navbar.html'
+        templateUrl: './navbar.html',
+        providers: [navbar_service_1.NavbarService]
     }),
-    __metadata("design:paramtypes", [router_1.Router, auth_service_1.AuthService, global_service_1.GlobalService])
+    __metadata("design:paramtypes", [router_1.Router, auth_service_1.AuthService,
+        global_service_1.GlobalService, navbar_service_1.NavbarService])
 ], NavbarComponent);
 exports.NavbarComponent = NavbarComponent;
 //# sourceMappingURL=navbar.component.js.map

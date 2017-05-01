@@ -63,6 +63,27 @@ module.exports = {
         });
     },
 
+    // Getting documents from collection by filter.
+    FindSpecific: function (collectionName, filter, fields, callback) {
+        GetDB(function (err, db) {
+            if (err == null) {
+                var collection = db.collection(collectionName);
+
+                collection.find(filter, fields).toArray(function (err, docs) {
+                    if (err == null) {
+                        callback(docs);
+                    }
+                    else {
+                        callback(null);
+                    }
+                });
+            }
+            else {
+                callback(null);
+            }
+        });
+    },
+
     // Insert new document.
     Insert: function (collectionName, doc, callback) {
         GetDB(function (err, db) {

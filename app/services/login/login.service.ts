@@ -43,8 +43,9 @@ export class LoginService {
     }
 
     Forgot(email: string) {
-        var details = JSON.stringify({ "email": email });
-        return this.http.put('/forgot', details, { headers: this.headers })
+        var details = { "email": email };
+
+        return this.http.put('/forgot', JSON.stringify(details), { headers: this.headers })
             .toPromise()
             .then((result) => {
                 return result.json();
