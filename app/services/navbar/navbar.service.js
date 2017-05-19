@@ -16,8 +16,8 @@ var NavbarService = (function () {
         this.http = http;
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
     }
-    NavbarService.prototype.GetMainSearchResults = function (searchInput) {
-        var details = { "searchInput": searchInput };
+    NavbarService.prototype.GetMainSearchResults = function (searchInput, searchLimit) {
+        var details = { "searchInput": searchInput, "searchLimit": searchLimit };
         return this.http.post('/getMainSearchResults', JSON.stringify(details), { headers: this.headers })
             .toPromise()
             .then(function (result) {
@@ -27,8 +27,8 @@ var NavbarService = (function () {
             return null;
         });
     };
-    NavbarService.prototype.GetMainSearchResultsWithImages = function (searchInput) {
-        var details = { "searchInput": searchInput };
+    NavbarService.prototype.GetMainSearchResultsWithImages = function (searchInput, searchLimit) {
+        var details = { "searchInput": searchInput, "searchLimit": searchLimit };
         return this.http.post('/getMainSearchResultsWithImages', JSON.stringify(details), { headers: this.headers })
             .toPromise()
             .then(function (result) {

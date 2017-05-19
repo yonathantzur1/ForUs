@@ -27,14 +27,19 @@ var NavbarComponent = (function () {
         this.authService = authService;
         this.globalService = globalService;
         this.navbarService = navbarService;
+        // START CONFIG VARIABLES //
+        this.searchLimit = 4;
+        this.maxImagesInCacheAmount = 20;
+        this.searchInputChangeDelayMilliseconds = 200;
+        // END CONFIG VARIABLES //
         this.isSidebarOpen = false;
         this.isDropMenuOpen = false;
         this.searchResults = [];
         this.profilesCache = {};
-        this.isShowSearchResult = false;
+        this.isShowSearchResults = false;
         this.ImagesIdsInCache = [];
-        this.maxImagesInCacheAmount = 50;
         this.imagesInCacheAmount = 0;
+        this.inputTimer = null;
         this.dropMenuDataList = [
             new DropMenuData("#", "הגדרות", null, null),
             new DropMenuData("/login", "התנתקות", function (self, link) {
@@ -47,6 +52,7 @@ var NavbarComponent = (function () {
             this.isSidebarOpen = !this.isSidebarOpen;
             if (this.isSidebarOpen) {
                 this.HideDropMenu();
+                this.HideSearchResults();
                 document.getElementById("sidenav").style.width = "210px";
             }
             else {
@@ -61,14 +67,26 @@ var NavbarComponent = (function () {
             this.isDropMenuOpen = !this.isDropMenuOpen;
             if (this.isDropMenuOpen) {
                 this.HideSidenav();
+                this.HideSearchResults();
             }
         };
         this.HideDropMenu = function () {
             this.isDropMenuOpen = false;
         };
+        this.ClickSearchInput = function (input) {
+            this.isShowSearchResults = true;
+            if (this.isShowSearchResults) {
+                this.HideSidenav();
+                this.HideDropMenu();
+            }
+        };
+        this.HideSearchResults = function () {
+            this.isShowSearchResults = false;
+        };
         this.ClosePopups = function () {
             this.HideSidenav();
             this.HideDropMenu();
+            this.HideSearchResults();
         };
         this.InsertResultsImagesToCache = function (results) {
             if (this.imagesInCacheAmount > this.maxImagesInCacheAmount) {
@@ -103,32 +121,36 @@ var NavbarComponent = (function () {
             }
         };
         this.SearchChange = function (input) {
-            var _this = this;
-            input = input.trim();
-            if (input) {
-                this.navbarService.GetMainSearchResults(input).then(function (results) {
-                    if (results && results.length > 0 && input == _this.searchInput.trim()) {
-                        _this.searchResults = results;
-                        _this.GetResultsImagesFromCache(results);
-                        _this.isShowSearchResults = true;
-                    }
-                    else {
-                        _this.isShowSearchResults = false;
-                        _this.searchResults = [];
-                    }
-                });
-                this.navbarService.GetMainSearchResultsWithImages(input).then(function (results) {
-                    if (results && results.length > 0 && input == _this.searchInput.trim()) {
-                        _this.searchResults = results;
-                        _this.InsertResultsImagesToCache(results);
-                        _this.isShowSearchResults = true;
-                    }
-                });
+            var self = this;
+            if (self.inputTimer) {
+                clearTimeout(self.inputTimer);
             }
-            else {
-                this.isShowSearchResults = false;
-                this.searchResults = [];
-            }
+            self.inputTimer = setTimeout(function () {
+                input = input ? input.trim() : input;
+                if (input) {
+                    self.navbarService.GetMainSearchResults(input, self.searchLimit).then(function (results) {
+                        if (results && results.length > 0 && input == self.searchInput.trim()) {
+                            self.searchResults = results;
+                            self.GetResultsImagesFromCache(results);
+                            self.isShowSearchResults = true;
+                        }
+                        else {
+                            self.isShowSearchResults = false;
+                            self.searchResults = [];
+                        }
+                    });
+                    self.navbarService.GetMainSearchResultsWithImages(input, self.searchLimit).then(function (results) {
+                        if (results && results.length > 0 && input == self.searchInput.trim()) {
+                            self.searchResults = results;
+                            self.InsertResultsImagesToCache(results);
+                        }
+                    });
+                }
+                else {
+                    self.isShowSearchResults = false;
+                    self.searchResults = [];
+                }
+            }, self.searchInputChangeDelayMilliseconds);
         };
         this.globalService.data.subscribe(function (value) {
             if (value["isOpenEditWindow"]) {

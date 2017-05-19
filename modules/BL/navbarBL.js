@@ -5,9 +5,10 @@ var profileCollectionName = "Profiles";
 
 module.exports = {
 
-    GetMainSearchResults: function (searchInput, callback) {
+    GetMainSearchResults: function (searchInput, searchLimit, callback) {
         var usersFilter = { $match: { fullName: new RegExp("^" + searchInput, 'g') } };
-        aggregateArray = [{ $project: { fullName: { $concat: ["$firstName", " ", "$lastName"] } } }, usersFilter];
+        aggregateArray = [{ $project: { fullName: { $concat: ["$firstName", " ", "$lastName"] } } }, usersFilter,
+        { $limit: searchLimit }];
 
         DAL.Aggregate(usersCollectionName, aggregateArray, function (results) {
             var searchResults = [];
@@ -27,9 +28,10 @@ module.exports = {
         });
     },
 
-    GetMainSearchResultsWithImages: function (searchInput, callback) {
+    GetMainSearchResultsWithImages: function (searchInput, searchLimit, callback) {
         var usersFilter = { $match: { fullName: new RegExp("^" + searchInput, 'g') } };
-        aggregateArray = [{ $project: { fullName: { $concat: ["$firstName", " ", "$lastName"] }, profile: "$profile" } }, usersFilter];
+        aggregateArray = [{ $project: { fullName: { $concat: ["$firstName", " ", "$lastName"] }, profile: "$profile" } }, usersFilter,
+        { $limit: searchLimit }];
 
         DAL.Aggregate(usersCollectionName, aggregateArray, function (results) {
             var searchResults = [];

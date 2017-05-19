@@ -225,7 +225,7 @@
 }
 
 .search-result:hover {
-    background-color: #6c8dca;
+    background-color: #6887c2;
     color: #f7f7f7;
 }
 
@@ -244,8 +244,8 @@
     border: 1px solid #888888;
     display: inline-block;
     vertical-align: middle;
-    font-size: 40px;
-    line-height: 22px;
+    font-size: 8px;
+    line-height: 43px;
     text-align: center;
 }
 
@@ -273,7 +273,7 @@
     }
 }
 
-.load-image-icon span {
+.load-image-icon i {
     /**
      * Use the blink animation, which is defined above
      */
@@ -296,7 +296,7 @@
     animation-fill-mode: both;
 }
 
-.load-image-icon span:nth-child(2) {
+.load-image-icon i:nth-child(2) {
     /**
      * Starts the animation of the third dot
      * with a delay of .2s, otherwise all dots
@@ -305,7 +305,7 @@
     animation-delay: .2s;
 }
 
-.load-image-icon span:nth-child(3) {
+.load-image-icon i:nth-child(3) {
     /**
      * Starts the animation of the third dot
      * with a delay of .4s, otherwise all dots

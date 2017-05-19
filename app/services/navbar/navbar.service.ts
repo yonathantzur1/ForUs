@@ -9,8 +9,8 @@ export class NavbarService {
 
     constructor(private http: Http) { }
 
-    GetMainSearchResults(searchInput: string) {
-        var details = { "searchInput": searchInput };
+    GetMainSearchResults(searchInput: string, searchLimit: number) {
+        var details = { "searchInput": searchInput, "searchLimit": searchLimit };
 
         return this.http.post('/getMainSearchResults', JSON.stringify(details), { headers: this.headers })
             .toPromise()
@@ -22,8 +22,8 @@ export class NavbarService {
             });
     }
 
-    GetMainSearchResultsWithImages(searchInput: string) {
-        var details = { "searchInput": searchInput };
+    GetMainSearchResultsWithImages(searchInput: string, searchLimit: number) {
+        var details = { "searchInput": searchInput, "searchLimit": searchLimit };
 
         return this.http.post('/getMainSearchResultsWithImages', JSON.stringify(details), { headers: this.headers })
             .toPromise()

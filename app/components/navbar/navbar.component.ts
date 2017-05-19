@@ -33,14 +33,22 @@ export class NavbarComponent {
 
     @Input() name: Object;
 
+    // START CONFIG VARIABLES //
+
+    searchLimit: number = 4;
+    maxImagesInCacheAmount: number = 20;
+    searchInputChangeDelayMilliseconds: number = 200;
+
+    // END CONFIG VARIABLES //
+
     isSidebarOpen: boolean = false;
     isDropMenuOpen: boolean = false;
     searchResults: Array<any> = [];
     profilesCache: Object = {};
-    isShowSearchResult = false;
+    isShowSearchResults: boolean = false;
     ImagesIdsInCache: Array<string> = [];
-    maxImagesInCacheAmount = 50;
-    imagesInCacheAmount = 0;
+    imagesInCacheAmount: number = 0;
+    inputTimer: any = null;
 
     dropMenuDataList: DropMenuData[] = [
         new DropMenuData("#", "הגדרות", null, null),
@@ -56,6 +64,7 @@ export class NavbarComponent {
 
         if (this.isSidebarOpen) {
             this.HideDropMenu();
+            this.HideSearchResults();
             document.getElementById("sidenav").style.width = "210px";
         }
         else {
@@ -73,6 +82,7 @@ export class NavbarComponent {
 
         if (this.isDropMenuOpen) {
             this.HideSidenav();
+            this.HideSearchResults();
         }
     }
 
@@ -80,9 +90,23 @@ export class NavbarComponent {
         this.isDropMenuOpen = false;
     }
 
+    ClickSearchInput = function (input: string) {
+        this.isShowSearchResults = true;
+
+        if (this.isShowSearchResults) {
+            this.HideSidenav();
+            this.HideDropMenu();
+        }
+    }
+
+    HideSearchResults = function () {
+        this.isShowSearchResults = false;
+    }
+
     ClosePopups = function () {
         this.HideSidenav();
         this.HideDropMenu();
+        this.HideSearchResults();
     }
 
     InsertResultsImagesToCache = function (results: Array<any>) {
@@ -123,33 +147,43 @@ export class NavbarComponent {
         }
     }
 
+
+
     SearchChange = function (input: string) {
-        input = input.trim();
+        var self = this;
 
-        if (input) {
-            this.navbarService.GetMainSearchResults(input).then((results: Array<any>) => {
-                if (results && results.length > 0 && input == this.searchInput.trim()) {
-                    this.searchResults = results;
-                    this.GetResultsImagesFromCache(results);
-                    this.isShowSearchResults = true;
-                }
-                else {
-                    this.isShowSearchResults = false;
-                    this.searchResults = [];
-                }
-            });
+        if (self.inputTimer) {
+            clearTimeout(self.inputTimer);
+        }
 
-            this.navbarService.GetMainSearchResultsWithImages(input).then((results: Array<any>) => {
-                if (results && results.length > 0 && input == this.searchInput.trim()) {
-                    this.searchResults = results;
-                    this.InsertResultsImagesToCache(results);
-                    this.isShowSearchResults = true;
-                }
-            });
-        }
-        else {
-            this.isShowSearchResults = false;
-            this.searchResults = [];
-        }
+        self.inputTimer = setTimeout(function () {
+            
+            input = input? input.trim(): input;
+
+            if (input) {
+                self.navbarService.GetMainSearchResults(input, self.searchLimit).then((results: Array<any>) => {
+                    if (results && results.length > 0 && input == self.searchInput.trim()) {
+                        self.searchResults = results;
+                        self.GetResultsImagesFromCache(results);
+                        self.isShowSearchResults = true;
+                    }
+                    else {
+                        self.isShowSearchResults = false;
+                        self.searchResults = [];
+                    }
+                });
+
+                self.navbarService.GetMainSearchResultsWithImages(input, self.searchLimit).then((results: Array<any>) => {
+                    if (results && results.length > 0 && input == self.searchInput.trim()) {
+                        self.searchResults = results;
+                        self.InsertResultsImagesToCache(results);
+                    }
+                });
+            }
+            else {
+                self.isShowSearchResults = false;
+                self.searchResults = [];
+            }
+        }, self.searchInputChangeDelayMilliseconds);
     }
 }
