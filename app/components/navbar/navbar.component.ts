@@ -36,7 +36,11 @@ export class NavbarComponent {
     isSidebarOpen: boolean = false;
     isDropMenuOpen: boolean = false;
     searchResults: Array<any> = [];
+    profilesCache: Object = {};
     isShowSearchResult = false;
+    ImagesIdsInCache: Array<string> = [];
+    maxImagesInCacheAmount = 50;
+    imagesInCacheAmount = 0;
 
     dropMenuDataList: DropMenuData[] = [
         new DropMenuData("#", "הגדרות", null, null),
@@ -81,13 +85,64 @@ export class NavbarComponent {
         this.HideDropMenu();
     }
 
+    InsertResultsImagesToCache = function (results: Array<any>) {
+        if (this.imagesInCacheAmount > this.maxImagesInCacheAmount) {
+            for (var i = 0; i < this.ImagesIdsInCache.length; i++) {
+                delete this.profilesCache[this.ImagesIdsInCache[i]];
+            }
+
+            this.imagesInCacheAmount = 0;
+            this.ImagesIdsInCache = [];
+        }
+
+        for (var i = 0; i < results.length; i++) {
+            if (results[i].profile) {
+                if (this.profilesCache[results[i]._id] == null) {
+                    this.ImagesIdsInCache.push(results[i]._id);
+                    this.imagesInCacheAmount++;
+                }
+
+                this.profilesCache[results[i]._id] = results[i].profile;
+            }
+            else {
+                this.profilesCache[results[i]._id] = false;
+            }
+        }
+    }
+
+    GetResultsImagesFromCache = function (results: Array<any>) {
+        for (var i = 0; i < results.length; i++) {
+            var profile = this.profilesCache[results[i]._id];
+
+            if (profile) {
+                results[i].profile = profile;
+            }
+            else if (profile == false) {
+                results[i].profile = null;
+            }
+        }
+    }
+
     SearchChange = function (input: string) {
         input = input.trim();
-        
+
         if (input) {
             this.navbarService.GetMainSearchResults(input).then((results: Array<any>) => {
                 if (results && results.length > 0 && input == this.searchInput.trim()) {
                     this.searchResults = results;
+                    this.GetResultsImagesFromCache(results);
+                    this.isShowSearchResults = true;
+                }
+                else {
+                    this.isShowSearchResults = false;
+                    this.searchResults = [];
+                }
+            });
+
+            this.navbarService.GetMainSearchResultsWithImages(input).then((results: Array<any>) => {
+                if (results && results.length > 0 && input == this.searchInput.trim()) {
+                    this.searchResults = results;
+                    this.InsertResultsImagesToCache(results);
                     this.isShowSearchResults = true;
                 }
             });

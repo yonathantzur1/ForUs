@@ -27,6 +27,17 @@ var NavbarService = (function () {
             return null;
         });
     };
+    NavbarService.prototype.GetMainSearchResultsWithImages = function (searchInput) {
+        var details = { "searchInput": searchInput };
+        return this.http.post('/getMainSearchResultsWithImages', JSON.stringify(details), { headers: this.headers })
+            .toPromise()
+            .then(function (result) {
+            return result.json();
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
     return NavbarService;
 }());
 NavbarService = __decorate([

@@ -21,4 +21,17 @@ export class NavbarService {
                 return null;
             });
     }
+
+    GetMainSearchResultsWithImages(searchInput: string) {
+        var details = { "searchInput": searchInput };
+
+        return this.http.post('/getMainSearchResultsWithImages', JSON.stringify(details), { headers: this.headers })
+            .toPromise()
+            .then((result) => {
+                return result.json();
+            })
+            .catch((result) => {
+                return null;
+            });
+    }
 }

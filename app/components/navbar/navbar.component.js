@@ -30,7 +30,11 @@ var NavbarComponent = (function () {
         this.isSidebarOpen = false;
         this.isDropMenuOpen = false;
         this.searchResults = [];
+        this.profilesCache = {};
         this.isShowSearchResult = false;
+        this.ImagesIdsInCache = [];
+        this.maxImagesInCacheAmount = 50;
+        this.imagesInCacheAmount = 0;
         this.dropMenuDataList = [
             new DropMenuData("#", "הגדרות", null, null),
             new DropMenuData("/login", "התנתקות", function (self, link) {
@@ -66,6 +70,38 @@ var NavbarComponent = (function () {
             this.HideSidenav();
             this.HideDropMenu();
         };
+        this.InsertResultsImagesToCache = function (results) {
+            if (this.imagesInCacheAmount > this.maxImagesInCacheAmount) {
+                for (var i = 0; i < this.ImagesIdsInCache.length; i++) {
+                    delete this.profilesCache[this.ImagesIdsInCache[i]];
+                }
+                this.imagesInCacheAmount = 0;
+                this.ImagesIdsInCache = [];
+            }
+            for (var i = 0; i < results.length; i++) {
+                if (results[i].profile) {
+                    if (this.profilesCache[results[i]._id] == null) {
+                        this.ImagesIdsInCache.push(results[i]._id);
+                        this.imagesInCacheAmount++;
+                    }
+                    this.profilesCache[results[i]._id] = results[i].profile;
+                }
+                else {
+                    this.profilesCache[results[i]._id] = false;
+                }
+            }
+        };
+        this.GetResultsImagesFromCache = function (results) {
+            for (var i = 0; i < results.length; i++) {
+                var profile = this.profilesCache[results[i]._id];
+                if (profile) {
+                    results[i].profile = profile;
+                }
+                else if (profile == false) {
+                    results[i].profile = null;
+                }
+            }
+        };
         this.SearchChange = function (input) {
             var _this = this;
             input = input.trim();
@@ -73,6 +109,18 @@ var NavbarComponent = (function () {
                 this.navbarService.GetMainSearchResults(input).then(function (results) {
                     if (results && results.length > 0 && input == _this.searchInput.trim()) {
                         _this.searchResults = results;
+                        _this.GetResultsImagesFromCache(results);
+                        _this.isShowSearchResults = true;
+                    }
+                    else {
+                        _this.isShowSearchResults = false;
+                        _this.searchResults = [];
+                    }
+                });
+                this.navbarService.GetMainSearchResultsWithImages(input).then(function (results) {
+                    if (results && results.length > 0 && input == _this.searchInput.trim()) {
+                        _this.searchResults = results;
+                        _this.InsertResultsImagesToCache(results);
                         _this.isShowSearchResults = true;
                     }
                 });
