@@ -63,6 +63,10 @@ module.exports = {
                 callback(results);
             }
             else {
+                for (var i = 0; i < results.length; i++) {
+                    results[i].profile = null;
+                }
+
                 callback(results);
             }
         });
