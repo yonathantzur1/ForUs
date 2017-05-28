@@ -74,11 +74,9 @@ var NavbarComponent = (function () {
             this.isDropMenuOpen = false;
         };
         this.ClickSearchInput = function (input) {
-            this.isShowSearchResults = true;
-            if (this.isShowSearchResults) {
-                this.HideSidenav();
-                this.HideDropMenu();
-            }
+            this.isShowSearchResults = input ? true : false;
+            this.HideSidenav();
+            this.HideDropMenu();
         };
         this.HideSearchResults = function () {
             this.isShowSearchResults = false;
@@ -133,16 +131,16 @@ var NavbarComponent = (function () {
                             self.searchResults = results;
                             self.GetResultsImagesFromCache(results);
                             self.isShowSearchResults = true;
+                            self.navbarService.GetMainSearchResultsWithImages(results).then(function (results) {
+                                if (results && results.length > 0 && input == self.searchInput.trim()) {
+                                    self.searchResults = results;
+                                    self.InsertResultsImagesToCache(results);
+                                }
+                            });
                         }
                         else {
                             self.isShowSearchResults = false;
                             self.searchResults = [];
-                        }
-                    });
-                    self.navbarService.GetMainSearchResultsWithImages(input, self.searchLimit).then(function (results) {
-                        if (results && results.length > 0 && input == self.searchInput.trim()) {
-                            self.searchResults = results;
-                            self.InsertResultsImagesToCache(results);
                         }
                     });
                 }

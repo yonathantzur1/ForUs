@@ -15,7 +15,7 @@ module.exports = function (app, navbarBL) {
 
     // Getting search result for the main search.
     app.post('/getMainSearchResultsWithImages', function (req, res) {
-        navbarBL.GetMainSearchResultsWithImages(req.body.searchInput, req.body.searchLimit, function (results) {
+        navbarBL.GetMainSearchResultsWithImages(req.body.results, function (results) {
             // In case the result is not null.
             if (results) {
                 res.send(results);

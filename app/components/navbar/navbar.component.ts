@@ -91,12 +91,10 @@ export class NavbarComponent {
     }
 
     ClickSearchInput = function (input: string) {
-        this.isShowSearchResults = true;
+        this.isShowSearchResults = input ? true : false;
 
-        if (this.isShowSearchResults) {
-            this.HideSidenav();
-            this.HideDropMenu();
-        }
+        this.HideSidenav();
+        this.HideDropMenu();
     }
 
     HideSearchResults = function () {
@@ -157,8 +155,8 @@ export class NavbarComponent {
         }
 
         self.inputTimer = setTimeout(function () {
-            
-            input = input? input.trim(): input;
+
+            input = input ? input.trim() : input;
 
             if (input) {
                 self.navbarService.GetMainSearchResults(input, self.searchLimit).then((results: Array<any>) => {
@@ -166,17 +164,16 @@ export class NavbarComponent {
                         self.searchResults = results;
                         self.GetResultsImagesFromCache(results);
                         self.isShowSearchResults = true;
+                        self.navbarService.GetMainSearchResultsWithImages(results).then((results: Array<any>) => {
+                            if (results && results.length > 0 && input == self.searchInput.trim()) {
+                                self.searchResults = results;
+                                self.InsertResultsImagesToCache(results);
+                            }
+                        });
                     }
                     else {
                         self.isShowSearchResults = false;
                         self.searchResults = [];
-                    }
-                });
-
-                self.navbarService.GetMainSearchResultsWithImages(input, self.searchLimit).then((results: Array<any>) => {
-                    if (results && results.length > 0 && input == self.searchInput.trim()) {
-                        self.searchResults = results;
-                        self.InsertResultsImagesToCache(results);
                     }
                 });
             }

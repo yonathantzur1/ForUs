@@ -22,8 +22,8 @@ export class NavbarService {
             });
     }
 
-    GetMainSearchResultsWithImages(searchInput: string, searchLimit: number) {
-        var details = { "searchInput": searchInput, "searchLimit": searchLimit };
+    GetMainSearchResultsWithImages(results: any) {
+        var details = { "results": results };
 
         return this.http.post('/getMainSearchResultsWithImages', JSON.stringify(details), { headers: this.headers })
             .toPromise()
