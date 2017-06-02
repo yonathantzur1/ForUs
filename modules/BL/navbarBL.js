@@ -34,50 +34,28 @@ module.exports = {
         });
     },
 
-    GetMainSearchResultsWithImages: function (results, callback) {
-        var profileIds = [];
-
-        for (var i = 0; i < results.length; i++) {
-            var result = results[i];
-            var profileId = result.originalProfile;
-
-            if (profileId) {
-                profileIds.push(profileId);
-            }
-        }
+    GetMainSearchResultsWithImages: function (ids, callback) {
+        var profilesIds = ids.profilesIds;
+        var resultsIdsWithNoProfile = ids.resultsIdsWithNoProfile;
 
         var profilesFilter = { "image": true, "userId": true };
 
-        DAL.FindSpecific(profileCollectionName, { "_id": { $in: ConvertIdsToObjectIds(profileIds) } }, profilesFilter, function (profiles) {
+        DAL.FindSpecific(profileCollectionName, { "_id": { $in: ConvertIdsToObjectIds(profilesIds) } }, profilesFilter, function (profiles) {
             if (!profiles) {
                 callback(null);
             }
             else if (profiles.length > 0) {
-                var usersProfileDictionary = {};
+                var profilesDictionary = {};
 
-                for (var i = 0; i < profiles.length; i++) {
-                    var profile = profiles[i];
-                    usersProfileDictionary[profile.userId.toString()] = profile.image;
-                }
+                profiles.forEach(function (profile) {
+                    profilesDictionary[profile._id] = profile.image;
+                });
 
-                for (var i = 0; i < results.length; i++) {
-                    var result = results[i];
-                    var resultProfile = usersProfileDictionary[result._id.toString()];
-
-                    delete result.originalProfile;
-                    result.profile = resultProfile;
-                }
-
-                InsertResultsImagesToCache(results);
-
-                callback(results);
+                callback(profilesDictionary);
+                InsertResultsImagesToCache(profiles, resultsIdsWithNoProfile);
             }
             else {
-                for (var i = 0; i < results.length; i++) {
-                    results[i].profile = null;
-                }
-
-                callback(results);
+                callback(profiles);
             }
         });
 
@@ -93,7 +71,7 @@ function ConvertIdsToObjectIds(array) {
     return array;
 }
 
-function InsertResultsImagesToCache(results) {
+function InsertResultsImagesToCache(profiles, resultsIdsWithNoProfile) {
     if (imagesInCacheAmount > maxImagesInCacheAmount) {
         for (var i = 0; i < ImagesIdsInCache.length; i++) {
             delete profilesCache[ImagesIdsInCache[i]];
@@ -103,23 +81,21 @@ function InsertResultsImagesToCache(results) {
         ImagesIdsInCache = [];
     }
 
-    for (var i = 0; i < results.length; i++) {
-        if (results[i].profile) {
-            if (profilesCache[results[i]._id] == null) {
-                ImagesIdsInCache.push(results[i]._id);
-                imagesInCacheAmount++;
-            }
+    profiles.forEach(function (profile) {
+        profilesCache[profile.userId.toString()] = profile.image;
+    });
 
-            profilesCache[results[i]._id] = results[i].profile;
-        }
-        else {
-            profilesCache[results[i]._id] = false;
-        }
-    }
+    resultsIdsWithNoProfile.forEach(function (id) {
+        profilesCache[id] = false;
+    });
 }
 
 function GetResultsImagesFromCache(results) {
     for (var i = 0; i < results.length; i++) {
+        if (!results[i].originalProfile) {
+            profilesCache[results[i]._id] = false;
+        }
+
         var profile = profilesCache[results[i]._id];
 
         if (profile) {

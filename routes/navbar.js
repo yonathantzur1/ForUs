@@ -13,12 +13,12 @@ module.exports = function (app, navbarBL) {
         });
     });
 
-    // Getting search result for the main search.
+    // Getting search result profiles for the main search.
     app.post('/getMainSearchResultsWithImages', function (req, res) {
-        navbarBL.GetMainSearchResultsWithImages(req.body.results, function (results) {
+        navbarBL.GetMainSearchResultsWithImages(req.body.ids, function (profiles) {
             // In case the result is not null.
-            if (results) {
-                res.send(results);
+            if (profiles) {
+                res.send(profiles);
             }
             else {
                 res.send(null);

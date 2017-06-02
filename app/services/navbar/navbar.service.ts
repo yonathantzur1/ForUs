@@ -22,8 +22,8 @@ export class NavbarService {
             });
     }
 
-    GetMainSearchResultsWithImages(results: any) {
-        var details = { "results": results };
+    GetMainSearchResultsWithImages(ids: any) {
+        var details = { "ids": ids };
 
         return this.http.post('/getMainSearchResultsWithImages', JSON.stringify(details), { headers: this.headers })
             .toPromise()

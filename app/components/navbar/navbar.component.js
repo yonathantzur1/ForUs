@@ -29,7 +29,7 @@ var NavbarComponent = (function () {
         this.navbarService = navbarService;
         // START CONFIG VARIABLES //
         this.searchLimit = 4;
-        this.searchInputChangeDelayMilliseconds = 230;
+        this.searchInputChangeDelayMilliseconds = 200;
         // END CONFIG VARIABLES //
         this.isSidebarOpen = false;
         this.isDropMenuOpen = false;
@@ -73,6 +73,7 @@ var NavbarComponent = (function () {
             this.isShowSearchResults = input ? true : false;
             this.HideSidenav();
             this.HideDropMenu();
+            this.SearchChange(input);
         };
         this.HideSearchResults = function () {
             this.isShowSearchResults = false;
@@ -94,9 +95,16 @@ var NavbarComponent = (function () {
                         if (results && results.length > 0 && input == self.searchInput.trim()) {
                             self.searchResults = results;
                             self.isShowSearchResults = true;
-                            self.navbarService.GetMainSearchResultsWithImages(results).then(function (results) {
-                                if (results && results.length > 0 && input == self.searchInput.trim()) {
-                                    self.searchResults = results;
+                            self.navbarService.GetMainSearchResultsWithImages(GetResultsIds(results)).then(function (profiles) {
+                                if (profiles && Object.keys(profiles).length > 0 && input == self.searchInput.trim()) {
+                                    self.searchResults.forEach(function (result) {
+                                        if (result.originalProfile) {
+                                            result.profile = profiles[result.originalProfile];
+                                        }
+                                        else {
+                                            result.profile = null;
+                                        }
+                                    });
                                 }
                             });
                         }
@@ -134,4 +142,22 @@ NavbarComponent = __decorate([
         global_service_1.GlobalService, navbar_service_1.NavbarService])
 ], NavbarComponent);
 exports.NavbarComponent = NavbarComponent;
+function GetResultsIds(results) {
+    var profilesIds = [];
+    var resultsIdsWithNoProfile = [];
+    results.forEach(function (result) {
+        var id = result.originalProfile;
+        if (id) {
+            profilesIds.push(id);
+        }
+        else {
+            resultsIdsWithNoProfile.push(result._id);
+        }
+    });
+    var data = {
+        "profilesIds": profilesIds,
+        "resultsIdsWithNoProfile": resultsIdsWithNoProfile
+    };
+    return data;
+}
 //# sourceMappingURL=navbar.component.js.map

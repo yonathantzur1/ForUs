@@ -36,7 +36,7 @@ export class NavbarComponent {
     // START CONFIG VARIABLES //
 
     searchLimit: number = 4;
-    searchInputChangeDelayMilliseconds: number = 230;
+    searchInputChangeDelayMilliseconds: number = 200;
 
     // END CONFIG VARIABLES //
 
@@ -91,6 +91,7 @@ export class NavbarComponent {
 
         this.HideSidenav();
         this.HideDropMenu();
+        this.SearchChange(input);
     }
 
     HideSearchResults = function () {
@@ -119,9 +120,16 @@ export class NavbarComponent {
                     if (results && results.length > 0 && input == self.searchInput.trim()) {
                         self.searchResults = results;
                         self.isShowSearchResults = true;
-                        self.navbarService.GetMainSearchResultsWithImages(results).then((results: Array<any>) => {
-                            if (results && results.length > 0 && input == self.searchInput.trim()) {
-                                self.searchResults = results;
+                        self.navbarService.GetMainSearchResultsWithImages(GetResultsIds(results)).then((profiles: any) => {
+                            if (profiles && Object.keys(profiles).length > 0 && input == self.searchInput.trim()) {
+                                self.searchResults.forEach(function (result: any) {
+                                    if (result.originalProfile) {
+                                        result.profile = profiles[result.originalProfile];
+                                    }
+                                    else {
+                                        result.profile = null;
+                                    }
+                                });
                             }
                         });
                     }
@@ -137,4 +145,27 @@ export class NavbarComponent {
             }
         }, self.searchInputChangeDelayMilliseconds);
     }
+}
+
+function GetResultsIds(results: Array<any>) {
+    var profilesIds: Array<string> = [];
+    var resultsIdsWithNoProfile: Array<string> = [];
+
+    results.forEach(function (result) {
+        var id: string = result.originalProfile;
+
+        if (id) {
+            profilesIds.push(id);
+        }
+        else {
+            resultsIdsWithNoProfile.push(result._id);
+        }
+    });
+
+    var data = {
+        "profilesIds" : profilesIds,
+        "resultsIdsWithNoProfile" : resultsIdsWithNoProfile
+    };
+
+    return data;
 }

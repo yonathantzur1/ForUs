@@ -36,9 +36,13 @@
       </span>
     </div>
     <div style="float:left;" class="col-xs-4">
-      <div *ngIf="name" (click)="ShowHideDropMenu()" class="manage-sector">
-        <span class="glyphicon glyphicon-triangle-bottom menu-icon"></span>
-        <span class="name">שלום {{name.firstName}}</span>
+      <div *ngIf="name" class="manage-sector">
+        <span (click)="ShowHideDropMenu()" class="glyphicon glyphicon-triangle-bottom menu-icon"></span>
+        <span class="name">
+          <span (click)="ShowHideDropMenu()" style="cursor:pointer;">
+            שלום {{name.firstName}}
+          </span>
+        </span>
         <span class="glyphicon glyphicon-triangle-top menu-top-arrow" *ngIf="isDropMenuOpen"></span>
         <dropMenu class="dropMenuPosition col-md-2 col-xs-4" *ngIf="isDropMenuOpen" [options]="dropMenuDataList"></dropMenu>
       </div>

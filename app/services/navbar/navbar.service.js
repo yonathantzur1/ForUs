@@ -27,8 +27,8 @@ var NavbarService = (function () {
             return null;
         });
     };
-    NavbarService.prototype.GetMainSearchResultsWithImages = function (results) {
-        var details = { "results": results };
+    NavbarService.prototype.GetMainSearchResultsWithImages = function (ids) {
+        var details = { "ids": ids };
         return this.http.post('/getMainSearchResultsWithImages', JSON.stringify(details), { headers: this.headers })
             .toPromise()
             .then(function (result) {
