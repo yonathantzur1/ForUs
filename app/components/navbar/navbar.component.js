@@ -29,16 +29,12 @@ var NavbarComponent = (function () {
         this.navbarService = navbarService;
         // START CONFIG VARIABLES //
         this.searchLimit = 4;
-        this.maxImagesInCacheAmount = 20;
-        this.searchInputChangeDelayMilliseconds = 200;
+        this.searchInputChangeDelayMilliseconds = 230;
         // END CONFIG VARIABLES //
         this.isSidebarOpen = false;
         this.isDropMenuOpen = false;
         this.searchResults = [];
-        this.profilesCache = {};
         this.isShowSearchResults = false;
-        this.ImagesIdsInCache = [];
-        this.imagesInCacheAmount = 0;
         this.inputTimer = null;
         this.dropMenuDataList = [
             new DropMenuData("#", "הגדרות", null, null),
@@ -86,38 +82,6 @@ var NavbarComponent = (function () {
             this.HideDropMenu();
             this.HideSearchResults();
         };
-        this.InsertResultsImagesToCache = function (results) {
-            if (this.imagesInCacheAmount > this.maxImagesInCacheAmount) {
-                for (var i = 0; i < this.ImagesIdsInCache.length; i++) {
-                    delete this.profilesCache[this.ImagesIdsInCache[i]];
-                }
-                this.imagesInCacheAmount = 0;
-                this.ImagesIdsInCache = [];
-            }
-            for (var i = 0; i < results.length; i++) {
-                if (results[i].profile) {
-                    if (this.profilesCache[results[i]._id] == null) {
-                        this.ImagesIdsInCache.push(results[i]._id);
-                        this.imagesInCacheAmount++;
-                    }
-                    this.profilesCache[results[i]._id] = results[i].profile;
-                }
-                else {
-                    this.profilesCache[results[i]._id] = false;
-                }
-            }
-        };
-        this.GetResultsImagesFromCache = function (results) {
-            for (var i = 0; i < results.length; i++) {
-                var profile = this.profilesCache[results[i]._id];
-                if (profile) {
-                    results[i].profile = profile;
-                }
-                else if (profile == false) {
-                    results[i].profile = null;
-                }
-            }
-        };
         this.SearchChange = function (input) {
             var self = this;
             if (self.inputTimer) {
@@ -129,12 +93,10 @@ var NavbarComponent = (function () {
                     self.navbarService.GetMainSearchResults(input, self.searchLimit).then(function (results) {
                         if (results && results.length > 0 && input == self.searchInput.trim()) {
                             self.searchResults = results;
-                            self.GetResultsImagesFromCache(results);
                             self.isShowSearchResults = true;
                             self.navbarService.GetMainSearchResultsWithImages(results).then(function (results) {
                                 if (results && results.length > 0 && input == self.searchInput.trim()) {
                                     self.searchResults = results;
-                                    self.InsertResultsImagesToCache(results);
                                 }
                             });
                         }

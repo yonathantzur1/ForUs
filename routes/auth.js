@@ -24,9 +24,9 @@ module.exports = function (app) {
         }
     });
 
-    // logout the user from session
+    // Logout the user from session.
     app.get('/logout', function (req, res) {
-        if (req.session.currUser) {
+        if (req.session) {
             delete req.session.currUser;
         }
 

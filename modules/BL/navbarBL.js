@@ -3,6 +3,12 @@ var DAL = require('../DAL.js');
 var usersCollectionName = "Users";
 var profileCollectionName = "Profiles";
 
+// Define search cache variables.
+var maxImagesInCacheAmount = 50;
+var imagesInCacheAmount = 0;
+var profilesCache = {};
+var ImagesIdsInCache = [];
+
 module.exports = {
 
     GetMainSearchResults: function (searchInput, searchLimit, callback) {
@@ -20,6 +26,8 @@ module.exports = {
                     result.originalProfile = result.profile;
                     result.profile = -1;
                 }
+
+                results = GetResultsImagesFromCache(results);
 
                 callback(results);
             }
@@ -60,6 +68,8 @@ module.exports = {
                     result.profile = resultProfile;
                 }
 
+                InsertResultsImagesToCache(results);
+
                 callback(results);
             }
             else {
@@ -81,4 +91,44 @@ function ConvertIdsToObjectIds(array) {
     }
 
     return array;
+}
+
+function InsertResultsImagesToCache(results) {
+    if (imagesInCacheAmount > maxImagesInCacheAmount) {
+        for (var i = 0; i < ImagesIdsInCache.length; i++) {
+            delete profilesCache[ImagesIdsInCache[i]];
+        }
+
+        imagesInCacheAmount = 0;
+        ImagesIdsInCache = [];
+    }
+
+    for (var i = 0; i < results.length; i++) {
+        if (results[i].profile) {
+            if (profilesCache[results[i]._id] == null) {
+                ImagesIdsInCache.push(results[i]._id);
+                imagesInCacheAmount++;
+            }
+
+            profilesCache[results[i]._id] = results[i].profile;
+        }
+        else {
+            profilesCache[results[i]._id] = false;
+        }
+    }
+}
+
+function GetResultsImagesFromCache(results) {
+    for (var i = 0; i < results.length; i++) {
+        var profile = profilesCache[results[i]._id];
+
+        if (profile) {
+            results[i].profile = profile;
+        }
+        else if (profile == false) {
+            results[i].profile = null;
+        }
+    }
+
+    return results;
 }

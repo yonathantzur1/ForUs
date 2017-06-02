@@ -1,5 +1,6 @@
 .close {
     float: left;
+    cursor: pointer;
 }
 
 .modal-title-label {

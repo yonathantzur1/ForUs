@@ -36,18 +36,14 @@ export class NavbarComponent {
     // START CONFIG VARIABLES //
 
     searchLimit: number = 4;
-    maxImagesInCacheAmount: number = 20;
-    searchInputChangeDelayMilliseconds: number = 200;
+    searchInputChangeDelayMilliseconds: number = 230;
 
     // END CONFIG VARIABLES //
 
     isSidebarOpen: boolean = false;
     isDropMenuOpen: boolean = false;
     searchResults: Array<any> = [];
-    profilesCache: Object = {};
     isShowSearchResults: boolean = false;
-    ImagesIdsInCache: Array<string> = [];
-    imagesInCacheAmount: number = 0;
     inputTimer: any = null;
 
     dropMenuDataList: DropMenuData[] = [
@@ -107,46 +103,6 @@ export class NavbarComponent {
         this.HideSearchResults();
     }
 
-    InsertResultsImagesToCache = function (results: Array<any>) {
-        if (this.imagesInCacheAmount > this.maxImagesInCacheAmount) {
-            for (var i = 0; i < this.ImagesIdsInCache.length; i++) {
-                delete this.profilesCache[this.ImagesIdsInCache[i]];
-            }
-
-            this.imagesInCacheAmount = 0;
-            this.ImagesIdsInCache = [];
-        }
-
-        for (var i = 0; i < results.length; i++) {
-            if (results[i].profile) {
-                if (this.profilesCache[results[i]._id] == null) {
-                    this.ImagesIdsInCache.push(results[i]._id);
-                    this.imagesInCacheAmount++;
-                }
-
-                this.profilesCache[results[i]._id] = results[i].profile;
-            }
-            else {
-                this.profilesCache[results[i]._id] = false;
-            }
-        }
-    }
-
-    GetResultsImagesFromCache = function (results: Array<any>) {
-        for (var i = 0; i < results.length; i++) {
-            var profile = this.profilesCache[results[i]._id];
-
-            if (profile) {
-                results[i].profile = profile;
-            }
-            else if (profile == false) {
-                results[i].profile = null;
-            }
-        }
-    }
-
-
-
     SearchChange = function (input: string) {
         var self = this;
 
@@ -162,12 +118,10 @@ export class NavbarComponent {
                 self.navbarService.GetMainSearchResults(input, self.searchLimit).then((results: Array<any>) => {
                     if (results && results.length > 0 && input == self.searchInput.trim()) {
                         self.searchResults = results;
-                        self.GetResultsImagesFromCache(results);
                         self.isShowSearchResults = true;
                         self.navbarService.GetMainSearchResultsWithImages(results).then((results: Array<any>) => {
                             if (results && results.length > 0 && input == self.searchInput.trim()) {
                                 self.searchResults = results;
-                                self.InsertResultsImagesToCache(results);
                             }
                         });
                     }

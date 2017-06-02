@@ -8,7 +8,6 @@
         <profilePicture class="profile-picture" [isEditEnable]="true"></profilePicture>
         <div class="user-name">{{name.firstName + " " + name.lastName}}</div>
       </div>
-      <span class="glyphicon glyphicon-remove closebtn" *ngIf="isSidebarOpen" (click)="HideSidenav()" aria-hidden="true"></span>
     </div>
     <div class="slidenav-body-sector">
       <span>שבת שלום</span>
@@ -21,7 +20,8 @@
     <div style="right:0;position:absolute;" class="col-xs-8">
       <img (click)="ShowHideSidenav()" src="../logo/icon.png" class="head-icon">
       <span class="search-sector col-md-6 col-xs-10">
-        <input type="text" class="search-input" placeholder="חפש" [(ngModel)]="searchInput" (ngModelChange)="SearchChange(searchInput)" (focus)="ClickSearchInput(searchInput)">
+        <input type="text" class="search-input" placeholder="חיפוש" [(ngModel)]="searchInput" (ngModelChange)="SearchChange(searchInput)" (focus)="ClickSearchInput(searchInput)"
+        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
         <span class="glyphicon glyphicon-search search-icon" [ngClass]="{'search-icon-active':isShowSearchResults}"></span>
       <div class="search-results-container" *ngIf="isShowSearchResults && searchResults.length > 0">
         <div class="search-result" *ngFor="let result of searchResults">

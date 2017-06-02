@@ -137,21 +137,6 @@
     background-color: rgba(46, 66, 80, 0.34);
 }
 
-/* Position and style the close button (top right corner) */
-.sidenav .closebtn {
-    position: absolute;
-    top: 14px;
-    left: 14px;
-    font-size: 15px !important;
-    cursor: pointer;
-    padding: 0;
-    color: #f1f1f1;
-}
-
-.closebtn:hover {
-    color: #0e2b5d !important;
-}
-
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
     .sidenav span {font-size: 20px;}
