@@ -9,4 +9,5 @@ npm install nodemailer --save
 npm install express-session --save
 npm install cropper --save
 npm install font-awesome --save
+npm install snackbarjs --save
 npm install
