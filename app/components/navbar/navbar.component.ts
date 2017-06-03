@@ -91,7 +91,7 @@ export class NavbarComponent {
 
         this.HideSidenav();
         this.HideDropMenu();
-        this.SearchChange(input);
+        this.SearchChange(input, true);
     }
 
     HideSearchResults = function () {
@@ -104,7 +104,7 @@ export class NavbarComponent {
         this.HideSearchResults();
     }
 
-    SearchChange = function (input: string) {
+    SearchChange = function (input: string, isDisableOpenResultsWindow: boolean) {
         var self = this;
 
         if (self.inputTimer) {
@@ -119,7 +119,11 @@ export class NavbarComponent {
                 self.navbarService.GetMainSearchResults(input, self.searchLimit).then((results: Array<any>) => {
                     if (results && results.length > 0 && input == self.searchInput.trim()) {
                         self.searchResults = results;
-                        self.isShowSearchResults = true;
+
+                        if (!isDisableOpenResultsWindow) {
+                            self.isShowSearchResults = true;
+                        }
+
                         self.navbarService.GetMainSearchResultsWithImages(GetResultsIds(results)).then((profiles: any) => {
                             if (profiles && Object.keys(profiles).length > 0 && input == self.searchInput.trim()) {
                                 self.searchResults.forEach(function (result: any) {
@@ -163,8 +167,8 @@ function GetResultsIds(results: Array<any>) {
     });
 
     var data = {
-        "profilesIds" : profilesIds,
-        "resultsIdsWithNoProfile" : resultsIdsWithNoProfile
+        "profilesIds": profilesIds,
+        "resultsIdsWithNoProfile": resultsIdsWithNoProfile
     };
 
     return data;

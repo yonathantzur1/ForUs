@@ -56,28 +56,100 @@
     src: url('../../../fonts/Mona_Shark.woff');
 }
 
-.main-loader {
-    border: 16px solid #d2d2d2;
-    border-top: 16px solid #3498db;
-    border-radius: 50%;
-    width: 150px;
-    height: 150px;
-    animation: spin 2s linear infinite;
-}
-
 .main-loader-align {
     position: absolute;
     top: 50%;
     left: 50%;
     margin-top: -220px;
-    margin-left: -75px;
+    margin-left: -100px;
 }
 
-.main-loader-title {
+.main-loading {
+    font-size: 18px;
+    line-height: 42px;
     text-align: center;
+    color: #7f6e99;
+    user-select: none;
+    -webkit-user-select: none;
     cursor: default;
-    font-size: 20px;
-    font-family: rubik;
-    color: #111863;
-    margin-right: 8px;
+}
+
+@media (max-width: 500px) {
+    .main-loading-image {
+        width: 80px;
+        height: 80px;
+    }
+
+    .main-loading {
+        font-size: 12px;
+    }
+
+    .main-loader-align {
+        margin-left: -40px;
+    }
+}
+
+@keyframes blink {
+    /**
+     * At the start of the animation the dot
+     * has an opacity of .2
+     */
+    0% {
+      opacity: .2;
+    }
+    /**
+     * At 20% the dot is fully visible and
+     * then fades out slowly
+     */
+    20% {
+      opacity: 1;
+    }
+    /**
+     * Until it reaches an opacity of .2 and
+     * the animation can start again
+     */
+    100% {
+      opacity: .2;
+    }
+}
+
+.load-image-icon i {
+    /**
+     * Use the blink animation, which is defined above
+     */
+    animation-name: blink;
+    /**
+     * The animation should take 1.4 seconds
+     */
+    animation-duration: 1.4s;
+    /**
+     * It will repeat itself forever
+     */
+    animation-iteration-count: infinite;
+    /**
+     * This makes sure that the starting style (opacity: .2)
+     * of the animation is applied before the animation starts.
+     * Otherwise we would see a short flash or would have
+     * to set the default styling of the dots to the same
+     * as the animation. Same applies for the ending styles.
+     */
+    animation-fill-mode: both;
+}
+
+.load-image-icon i:nth-child(2) {
+    /**
+     * Starts the animation of the third dot
+     * with a delay of .2s, otherwise all dots
+     * would animate at the same time
+     */
+    animation-delay: .2s;
+}
+
+.load-image-icon i:nth-child(3) {
+    /**
+     * Starts the animation of the third dot
+     * with a delay of .4s, otherwise all dots
+     * would animate at the same time
+     */
+    animation-delay: .4s;
 }

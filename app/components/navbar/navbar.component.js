@@ -73,7 +73,7 @@ var NavbarComponent = (function () {
             this.isShowSearchResults = input ? true : false;
             this.HideSidenav();
             this.HideDropMenu();
-            this.SearchChange(input);
+            this.SearchChange(input, true);
         };
         this.HideSearchResults = function () {
             this.isShowSearchResults = false;
@@ -83,7 +83,7 @@ var NavbarComponent = (function () {
             this.HideDropMenu();
             this.HideSearchResults();
         };
-        this.SearchChange = function (input) {
+        this.SearchChange = function (input, isDisableOpenResultsWindow) {
             var self = this;
             if (self.inputTimer) {
                 clearTimeout(self.inputTimer);
@@ -94,7 +94,9 @@ var NavbarComponent = (function () {
                     self.navbarService.GetMainSearchResults(input, self.searchLimit).then(function (results) {
                         if (results && results.length > 0 && input == self.searchInput.trim()) {
                             self.searchResults = results;
-                            self.isShowSearchResults = true;
+                            if (!isDisableOpenResultsWindow) {
+                                self.isShowSearchResults = true;
+                            }
                             self.navbarService.GetMainSearchResultsWithImages(GetResultsIds(results)).then(function (profiles) {
                                 if (profiles && Object.keys(profiles).length > 0 && input == self.searchInput.trim()) {
                                     self.searchResults.forEach(function (result) {
