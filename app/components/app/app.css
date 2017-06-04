@@ -76,8 +76,8 @@
 
 @media (max-width: 500px) {
     .main-loading-image {
-        width: 80px;
-        height: 80px;
+        width: 90px;
+        height: 90px;
     }
 
     .main-loading {
@@ -85,7 +85,7 @@
     }
 
     .main-loader-align {
-        margin-left: -40px;
+        margin-left: -45px;
     }
 }
 

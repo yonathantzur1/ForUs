@@ -217,30 +217,33 @@ var ProfileComponent = (function () {
         this.isNewPhoto = false;
     };
     ProfileComponent.prototype.SaveImage = function () {
-        var _this = this;
         // In case the user is not in the select part.
         if (!this.isNewPhoto) {
             this.isLoading = true;
-            var imgBase64 = GetCroppedBase64Image();
-            this.profileService.SaveImage(imgBase64).then(function (user) {
-                _this.isLoading = false;
-                // In case of error or the user was not fount.
-                if (!user) {
-                    $("#upload-failed").snackbar("show");
-                }
-                else {
-                    $("#profile-modal").modal("hide");
-                    _this.globalService.setData("newUploadedImage", imgBase64);
-                    swal({
-                        html: '<span style="font-weight:bold;">התמונה הוחלפה בהצלחה</span> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
-                        imageUrl: imgBase64,
-                        imageWidth: 150,
-                        imageHeight: 150,
-                        animation: false,
-                        confirmButtonText: "אוקיי"
-                    });
-                }
+            var self = this;
+            GetCroppedBase64Image().then(function (img) {
+                var imgBase64 = img["0"].currentSrc;
+                self.profileService.SaveImage(imgBase64).then(function (user) {
+                    self.isLoading = false;
+                    // In case of error or the user was not fount.
+                    if (!user) {
+                        $("#upload-failed").snackbar("show");
+                    }
+                    else {
+                        $("#profile-modal").modal("hide");
+                        self.globalService.setData("newUploadedImage", imgBase64);
+                        swal({
+                            html: '<span style="font-weight:bold;">התמונה הוחלפה בהצלחה</span> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
+                            imageUrl: imgBase64,
+                            imageWidth: 150,
+                            imageHeight: 150,
+                            animation: false,
+                            confirmButtonText: "אוקיי"
+                        });
+                    }
+                });
             });
+            ;
         }
     };
     ProfileComponent.prototype.DeleteImage = function () {
