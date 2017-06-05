@@ -165,6 +165,7 @@ export class LoginComponent {
           else {
             this.forgotUser.showResetCodeField = true;
             this.forgotUser.forgotBtnText = forgotBtnTextObj.resetPassText;
+            $("#reset-password-alert").snackbar("show");
           }
         });
       }

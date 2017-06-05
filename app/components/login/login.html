@@ -139,7 +139,7 @@
 				<div class="modal-footer">
 					<div class="modal-footer-buttons">
 						<div *ngIf="!forgotUser.showResetCodeField && !forgotUser.hasResetCode" class="forgot-link-sector has-reset-code-link">
-							<a (click)="hasResetCode()" class="forgot-link forgot-inner-link">יש לי כבר קוד איפוס</a>
+							<a *ngIf="forgotUser.email.length > 0" (click)="hasResetCode()" class="forgot-link forgot-inner-link">יש לי כבר קוד איפוס</a>
 						</div>
 						<a class="btn btn-default cancel-forgot" data-dismiss="modal">בטל</a>
 						<a id="register-btn" class="btn btn-primary submit-email-forgot" (click)="ResetPassword()">{{forgotUser.forgotBtnText}}</a>
@@ -150,4 +150,5 @@
 	</div>
 	<span id="server-error" data-toggle="snackbar" data-content="אירעה שגיאה בשרת, נסו שוב..."></span>
 	<span id="login-failed" data-toggle="snackbar" data-content="שם המשתמש או הסיסמא שגויים"></span>
+	<span id="reset-password-alert" data-toggle="snackbar" data-content="קוד לאיפוס הסיסמא נשלח לאימייל שלך"></span>
 </div>

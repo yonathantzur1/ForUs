@@ -14,7 +14,7 @@ module.exports = {
     GetMainSearchResults: function (searchInput, searchLimit, callback) {
         var usersFilter = { $match: { fullName: new RegExp("^" + searchInput, 'g') } };
         aggregateArray = [{ $project: { fullName: { $concat: ["$firstName", " ", "$lastName"] }, profile: "$profile" } }, usersFilter,
-        { $limit: searchLimit }];
+        { $limit: searchLimit }, { $sort: { "fullName": 1 } }];
 
         DAL.Aggregate(usersCollectionName, aggregateArray, function (results) {
             if (!results) {

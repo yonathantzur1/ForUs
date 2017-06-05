@@ -147,6 +147,7 @@ var LoginComponent = (function () {
                     else {
                         _this.forgotUser.showResetCodeField = true;
                         _this.forgotUser.forgotBtnText = forgotBtnTextObj.resetPassText;
+                        $("#reset-password-alert").snackbar("show");
                     }
                 });
             }

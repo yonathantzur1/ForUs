@@ -86,16 +86,24 @@ export class NavbarComponent {
         this.isDropMenuOpen = false;
     }
 
+    ShowSearchResults = function () {
+        this.isShowSearchResults = true;
+
+        if (this.isShowSearchResults) {
+            this.HideSidenav();
+            this.HideDropMenu();
+        }
+    }
+
+    HideSearchResults = function () {
+        this.isShowSearchResults = false;
+    }
+
     ClickSearchInput = function (input: string) {
         this.isShowSearchResults = input ? true : false;
 
         this.HideSidenav();
         this.HideDropMenu();
-        this.SearchChange(input, true);
-    }
-
-    HideSearchResults = function () {
-        this.isShowSearchResults = false;
     }
 
     ClosePopups = function () {
@@ -104,7 +112,7 @@ export class NavbarComponent {
         this.HideSearchResults();
     }
 
-    SearchChange = function (input: string, isDisableOpenResultsWindow: boolean) {
+    SearchChange = function (input: string) {
         var self = this;
 
         if (self.inputTimer) {
@@ -119,10 +127,7 @@ export class NavbarComponent {
                 self.navbarService.GetMainSearchResults(input, self.searchLimit).then((results: Array<any>) => {
                     if (results && results.length > 0 && input == self.searchInput.trim()) {
                         self.searchResults = results;
-
-                        if (!isDisableOpenResultsWindow) {
-                            self.isShowSearchResults = true;
-                        }
+                        self.ShowSearchResults();
 
                         self.navbarService.GetMainSearchResultsWithImages(GetResultsIds(results)).then((profiles: any) => {
                             if (profiles && Object.keys(profiles).length > 0 && input == self.searchInput.trim()) {
@@ -138,13 +143,13 @@ export class NavbarComponent {
                         });
                     }
                     else {
-                        self.isShowSearchResults = false;
+                        self.HideSearchResults();
                         self.searchResults = [];
                     }
                 });
             }
             else {
-                self.isShowSearchResults = false;
+                self.HideSearchResults();
                 self.searchResults = [];
             }
         }, self.searchInputChangeDelayMilliseconds);
