@@ -1,4 +1,4 @@
-var url = 'mongodb://forusdb:Aa123456@ds157320.mlab.com:57320/forus';
+var url = 'mongodb://forusdb:Aa123456@ds123182.mlab.com:23182/forus';
 var maxPoolSize = 10;
 
 module.exports = {
