@@ -5,9 +5,8 @@ var profileCollectionName = "Profiles";
 
 // Define search cache variables.
 var maxImagesInCacheAmount = 50;
-var imagesInCacheAmount = 0;
 var profilesCache = {};
-var ImagesIdsInCache = [];
+var usersIdsInCache = [];
 
 module.exports = {
 
@@ -38,9 +37,7 @@ module.exports = {
         var profilesIds = ids.profilesIds;
         var resultsIdsWithNoProfile = ids.resultsIdsWithNoProfile;
 
-        var profilesFilter = { "image": true, "userId": true };
-
-        DAL.FindSpecific(profileCollectionName, { "_id": { $in: ConvertIdsToObjectIds(profilesIds) } }, profilesFilter, function (profiles) {
+        DAL.Find(profileCollectionName, { "_id": { $in: ConvertIdsToObjectIds(profilesIds) } }, function (profiles) {
             if (!profiles) {
                 callback(null);
             }
@@ -72,16 +69,22 @@ function ConvertIdsToObjectIds(array) {
 }
 
 function InsertResultsImagesToCache(profiles, resultsIdsWithNoProfile) {
-    if (imagesInCacheAmount > maxImagesInCacheAmount) {
-        for (var i = 0; i < ImagesIdsInCache.length; i++) {
-            delete profilesCache[ImagesIdsInCache[i]];
-        }
+    if (usersIdsInCache.length > 0) {
+        usersIdsInCache.forEach(id => {
+            delete profilesCache[id];
+        });
 
-        imagesInCacheAmount = 0;
-        ImagesIdsInCache = [];
+        usersIdsInCache = [];
     }
 
     profiles.forEach(function (profile) {
+        var profileFromCache = profilesCache[profile.userId.toString()];
+
+        // In case the user image is not in cache.
+        if (!profileFromCache) {
+            usersIdsInCache.push(profile.userId.toString());
+        }
+
         profilesCache[profile.userId.toString()] = profile.image;
     });
 
