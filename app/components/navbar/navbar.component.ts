@@ -36,7 +36,7 @@ export class NavbarComponent {
     // START CONFIG VARIABLES //
 
     searchLimit: number = 4;
-    searchInputChangeDelayMilliseconds: number = 200;
+    searchInputChangeDelayMilliseconds: number = 50;
 
     // END CONFIG VARIABLES //
 
@@ -142,10 +142,6 @@ export class NavbarComponent {
                             }
                         });
                     }
-                    else {
-                        self.HideSearchResults();
-                        self.searchResults = [];
-                    }
                 });
             }
             else {
@@ -154,6 +150,20 @@ export class NavbarComponent {
             }
         }, self.searchInputChangeDelayMilliseconds);
     }
+
+
+    GetFilteredSearchResults = function (searchInput: string): Array<any> {
+        var filteredList: any = [];
+
+        this.searchResults.forEach(function (result: any) {
+            if (result.fullName.indexOf(searchInput) != -1) {
+                filteredList.push(result);
+            }
+        });
+
+        return filteredList;
+    }
+
 }
 
 function GetResultsIds(results: Array<any>) {

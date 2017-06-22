@@ -23,8 +23,8 @@
         <input type="text" class="search-input" placeholder="חיפוש" [(ngModel)]="searchInput" (ngModelChange)="SearchChange(searchInput)" (focus)="ClickSearchInput(searchInput)"
         autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
         <span class="glyphicon glyphicon-search search-icon" [ngClass]="{'search-icon-active':isShowSearchResults}"></span>
-      <div class="search-results-container" *ngIf="isShowSearchResults && searchResults.length > 0">
-        <div class="search-result" *ngFor="let result of searchResults">
+      <div class="search-results-container" *ngIf="isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0">
+        <div class="search-result" *ngFor="let result of GetFilteredSearchResults(searchInput)">
           <img *ngIf="result.profile && result.profile != -1" src="{{result.profile}}" class="search-result-image">
           <img *ngIf="!result.profile" src="/app/components/profilePicture/pictures/empty-profile.png" class="search-result-image">
           <span *ngIf="result.profile == -1" class="search-result-image-loading">

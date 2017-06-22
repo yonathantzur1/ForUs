@@ -29,7 +29,7 @@ var NavbarComponent = (function () {
         this.navbarService = navbarService;
         // START CONFIG VARIABLES //
         this.searchLimit = 4;
-        this.searchInputChangeDelayMilliseconds = 200;
+        this.searchInputChangeDelayMilliseconds = 50;
         // END CONFIG VARIABLES //
         this.isSidebarOpen = false;
         this.isDropMenuOpen = false;
@@ -114,10 +114,6 @@ var NavbarComponent = (function () {
                                 }
                             });
                         }
-                        else {
-                            self.HideSearchResults();
-                            self.searchResults = [];
-                        }
                     });
                 }
                 else {
@@ -125,6 +121,15 @@ var NavbarComponent = (function () {
                     self.searchResults = [];
                 }
             }, self.searchInputChangeDelayMilliseconds);
+        };
+        this.GetFilteredSearchResults = function (searchInput) {
+            var filteredList = [];
+            this.searchResults.forEach(function (result) {
+                if (result.fullName.indexOf(searchInput) != -1) {
+                    filteredList.push(result);
+                }
+            });
+            return filteredList;
         };
         this.globalService.data.subscribe(function (value) {
             if (value["isOpenEditWindow"]) {
