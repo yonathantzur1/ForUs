@@ -69,7 +69,7 @@ function ConvertIdsToObjectIds(array) {
 }
 
 function InsertResultsImagesToCache(profiles, resultsIdsWithNoProfile) {
-    if (usersIdsInCache.length > 0) {
+    if (usersIdsInCache.length > maxImagesInCacheAmount) {
         usersIdsInCache.forEach(id => {
             delete profilesCache[id];
         });
