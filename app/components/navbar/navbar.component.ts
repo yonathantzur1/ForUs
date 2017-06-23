@@ -36,7 +36,7 @@ export class NavbarComponent {
     // START CONFIG VARIABLES //
 
     searchLimit: number = 4;
-    searchInputChangeDelayMilliseconds: number = 50;
+    searchInputChangeDelayMilliseconds: number = 100;
 
     // END CONFIG VARIABLES //
 
@@ -153,15 +153,9 @@ export class NavbarComponent {
 
 
     GetFilteredSearchResults = function (searchInput: string): Array<any> {
-        var filteredList: any = [];
-
-        this.searchResults.forEach(function (result: any) {
-            if (result.fullName.indexOf(searchInput) != -1) {
-                filteredList.push(result);
-            }
+        return this.searchResults.filter(function (result: any) {
+            return (result.fullName.indexOf(searchInput) != -1);
         });
-
-        return filteredList;
     }
 
 }

@@ -100,7 +100,7 @@
 
 .dropMenuPosition {
     position: fixed;
-    left: 1%;
+    left: 8px;
     top: 50px;
     padding: 0;
 }
