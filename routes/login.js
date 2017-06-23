@@ -5,7 +5,7 @@ module.exports = function (app, loginBL, mailer, sha512) {
         loginBL.GetUser(req.body, sha512, function (result) {
             // In case the user email and password are valid.
             if (result) {
-                req.session.currUser = result;
+                req.session.user = result;
                 res.send(true);
             }
             else {
@@ -35,7 +35,7 @@ module.exports = function (app, loginBL, mailer, sha512) {
                     if (result) {
                         // Sending welcome mail to the new user.
                         mailer.SendMail(req.body.email, mailer.GetRegisterMailContent(req.body.firstName));
-                        req.session.currUser = result;
+                        req.session.user = result;
                     }
 
                     res.send(result);

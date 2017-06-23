@@ -11,8 +11,8 @@ var usersIdsInCache = [];
 module.exports = {
 
     GetMainSearchResults: function (searchInput, searchLimit, callback) {
-        var usersFilter = { $match: { fullName: new RegExp("^" + searchInput, 'g') } };
-        aggregateArray = [{ $project: { fullName: { $concat: ["$firstName", " ", "$lastName"] }, profile: "$profile" } }, usersFilter,
+        var usersFilter = { $match: { $or: [{ fullName: new RegExp("^" + searchInput, 'g') }, { lastName: new RegExp("^" + searchInput, 'g') }] } };
+        aggregateArray = [{ $project: { fullName: { $concat: ["$firstName", " ", "$lastName"] }, profile: "$profile", firstName: "$firstName", lastName: "$lastName" } }, usersFilter,
         { $limit: searchLimit }, { $sort: { "fullName": 1 } }];
 
         DAL.Aggregate(usersCollectionName, aggregateArray, function (results) {

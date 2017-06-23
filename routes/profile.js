@@ -4,15 +4,15 @@ module.exports = function (app, profileBL) {
         var imageData = req.body;
 
         // In case the user was not found on session
-        if (!req.session.currUser) {
+        if (!req.session.user) {
             res.send(null);
         }
         else {
-            imageData.userId = req.session.currUser._id;
+            imageData.userId = req.session.user._id;
 
             profileBL.SaveImage(imageData, function (result) {
                 if (result) {
-                    req.session.currUser.profile = result.profile.toString();
+                    req.session.user.profile = result.profile.toString();
                 }
 
                 res.send(result);
@@ -23,16 +23,16 @@ module.exports = function (app, profileBL) {
     // Delete the user profile image.
     app.delete('/deleteImage', function (req, res) {
         // In case the user was not found on session
-        if (!req.session.currUser) {
+        if (!req.session.user) {
             res.send(null);
         }
         else {
-            var userId = req.session.currUser._id;
-            var profileId = req.session.currUser.profile;
+            var userId = req.session.user._id;
+            var profileId = req.session.user.profile;
 
             profileBL.DeleteImage(userId, profileId, function (result) {
                 if (result) {
-                    delete req.session.currUser.profile;
+                    delete req.session.user.profile;
                 }
 
                 res.send(result);

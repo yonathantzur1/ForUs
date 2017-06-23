@@ -1,7 +1,7 @@
 module.exports = function (app) {
     // Checking if the session of the user is open.
     app.get('/isUserOnSession', function (req, res) {
-        if (req.session.currUser) {
+        if (req.session.user) {
             res.send(true);
         }
         else {
@@ -11,10 +11,10 @@ module.exports = function (app) {
 
     // Getting the current login user name.
     app.get('/getCurrUserName', function (req, res) {
-        if (req.session.currUser) {
+        if (req.session.user) {
             var name = {
-                "firstName": req.session.currUser.firstName,
-                "lastName": req.session.currUser.lastName
+                "firstName": req.session.user.firstName,
+                "lastName": req.session.user.lastName
             }
 
             res.send(name);
@@ -27,7 +27,7 @@ module.exports = function (app) {
     // Logout the user from session.
     app.get('/logout', function (req, res) {
         if (req.session) {
-            delete req.session.currUser;
+            delete req.session.user;
         }
 
         res.end();

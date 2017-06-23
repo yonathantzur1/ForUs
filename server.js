@@ -39,6 +39,15 @@ require('./routes/profile.js')(app, profileBL);
 require('./routes/profilePicture.js')(app, profilePictureBL);
 require('./routes/navbar.js')(app, navbarBL);
 
+app.get('/login', function (req, res, next) {
+    if (req.session.user) {
+        res.redirect('/');
+    }
+    else {
+        next();
+    }
+});
+
 // Redirect angular requests back to client side.
 app.get('**', function (req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
