@@ -47,7 +47,7 @@ export class ProfilePictureComponent implements OnInit {
     }
 
     OpenEditWindow() {
-        if (this.isEditEnable) {
+        if (this.isEditEnable && this.isUserHasImage != null) {
             var userImage;
 
             // In case the user has image.

@@ -46,7 +46,7 @@ var ProfilePictureComponent = (function () {
         });
     };
     ProfilePictureComponent.prototype.OpenEditWindow = function () {
-        if (this.isEditEnable) {
+        if (this.isEditEnable && this.isUserHasImage != null) {
             var userImage;
             // In case the user has image.
             if (this.isUserHasImage) {
