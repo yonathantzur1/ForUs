@@ -4,7 +4,7 @@ module.exports = function (app, loginBL, mailer, sha512) {
     app.post('/login', function (req, res) {
         loginBL.GetUser(req.body, sha512, function (result) {
             // In case the user email and password are valid.
-            if (result) {
+        if (result && result != "-1") {
                 req.session.user = result;
                 res.send(true);
             }

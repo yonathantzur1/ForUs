@@ -88,6 +88,7 @@ var LoginComponent = (function () {
         // In case the login fields are valid.
         if (this.Validation(loginValidationFuncs, this.user)) {
             this.isLoading = true;
+            var self = this;
             this.loginService.Login(this.user).then(function (result) {
                 _this.isLoading = false;
                 // In case of server error.
@@ -96,6 +97,22 @@ var LoginComponent = (function () {
                 }
                 else if (result == false) {
                     $("#login-failed").snackbar("show");
+                }
+                else if (result == "-1") {
+                    swal({
+                        title: 'משתמש לא קיים במערכת',
+                        type: 'info',
+                        html: 'האם ברצונך להרשם?',
+                        showCloseButton: true,
+                        showCancelButton: true,
+                        confirmButtonText: '<i class="fa fa-thumbs-up"></i>',
+                        cancelButtonText: '<i class="fa fa-thumbs-down"></i>'
+                    }).then(function () {
+                        $("#register-modal").modal("show");
+                        var userEmail = self.user.email;
+                        self.OpenModal();
+                        self.newUser.email = userEmail;
+                    });
                 }
                 else {
                     _this.router.navigateByUrl('');

@@ -30,7 +30,7 @@ module.exports = {
             }
             // In case the user was not found.
             else {
-                callback(false);
+                callback("-1");
             }
         });
     },

@@ -135,9 +135,6 @@ export class NavbarComponent {
                                     if (result.originalProfile) {
                                         result.profile = profiles[result.originalProfile];
                                     }
-                                    else {
-                                        result.profile = null;
-                                    }
                                 });
                             }
                         });

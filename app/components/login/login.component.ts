@@ -96,6 +96,7 @@ export class LoginComponent {
     // In case the login fields are valid.
     if (this.Validation(loginValidationFuncs, this.user)) {
       this.isLoading = true;
+      var self = this;
 
       this.loginService.Login(this.user).then((result) => {
         this.isLoading = false;
@@ -105,8 +106,28 @@ export class LoginComponent {
           $("#server-error").snackbar("show");
 
         }
+        // In case the login details is incorrect.
         else if (result == false) {
           $("#login-failed").snackbar("show");
+        }
+        // In case the user was not found.
+        else if (result == "-1") {
+          swal({
+            title: 'משתמש לא קיים במערכת',
+            type: 'info',
+            html: 'האם ברצונך להרשם?',
+            showCloseButton: true,
+            showCancelButton: true,
+            confirmButtonText:
+            '<i class="fa fa-thumbs-up"></i>',
+            cancelButtonText:
+            '<i class="fa fa-thumbs-down"></i>'
+          }).then(function () {
+            $("#register-modal").modal("show");
+            var userEmail = self.user.email;
+            self.OpenModal();
+            self.newUser.email = userEmail;
+          })
         }
         else {
           this.router.navigateByUrl('');
