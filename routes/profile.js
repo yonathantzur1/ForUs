@@ -1,3 +1,4 @@
+var jwt = require('jsonwebtoken');
 var config = require('../modules/config.js');
 
 module.exports = function (app, profileBL) {
