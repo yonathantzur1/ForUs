@@ -1,18 +1,15 @@
 module.exports = function (app, profilePictureBL) {
+
+    prefix = "/api/profilePicture";
+
     // Get user profile image.
-    app.get('/getUserProfileImage', function (req, res) {
+    app.get(prefix + '/getUserProfileImage', function (req, res) {
         var userId;
 
-        // In case the user was not found on session
-        if (!req.session.user) {
-            res.send(null);
-        }
-        else {
-            profileId = req.session.user.profile;
+        profileId = req.user.profile;
 
-            profilePictureBL.GetUserProfileImage(profileId, function (result) {
-                res.send(result);
-            });
-        }
+        profilePictureBL.GetUserProfileImage(profileId, function (result) {
+            res.send(result);
+        });
     });
 };

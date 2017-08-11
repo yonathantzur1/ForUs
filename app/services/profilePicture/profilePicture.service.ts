@@ -1,16 +1,11 @@
-import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { BasicService } from '../basic/basic.service';
 
-import 'rxjs/add/operator/toPromise';
+export class ProfilePictureService extends BasicService {
 
-@Injectable()
-export class ProfilePictureService {
-    private headers = new Headers({ 'Content-Type': 'application/json' });
-
-    constructor(private http: Http) { }
+    prefix = "/api/profilePicture";
 
     GetUserProfileImage() {
-        return this.http.get('/getUserProfileImage')
+        return super.get(this.prefix + '/getUserProfileImage')
             .toPromise()
             .then((result) => {
                 return result.json();

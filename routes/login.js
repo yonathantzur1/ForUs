@@ -1,12 +1,17 @@
+var jwt = require('jsonwebtoken');
+var config = require('../modules/config.js');
+
 module.exports = function (app, loginBL, mailer, sha512) {
 
+    prefix = "/login";
+
     // Validate the user details and login the user.
-    app.post('/login', function (req, res) {
+    app.post(prefix + '/login', function (req, res) {
         loginBL.GetUser(req.body, sha512, function (result) {
             // In case the user email and password are valid.
-        if (result && result != "-1") {
-                req.session.user = result;
-                res.send(true);
+            if (result && result != "-1") {
+                var token = jwt.sign(result, config.jwtSecret);
+                res.send({ "token": token });
             }
             else {
                 res.send(result);
@@ -15,7 +20,7 @@ module.exports = function (app, loginBL, mailer, sha512) {
     });
 
     // Add new user to the db and make sure the email is not already exists.
-    app.post('/register', function (req, res) {
+    app.post(prefix + '/register', function (req, res) {
         var email = { "email": req.body.email };
 
         // Check if the email is exists in the DB.
@@ -35,17 +40,19 @@ module.exports = function (app, loginBL, mailer, sha512) {
                     if (result) {
                         // Sending welcome mail to the new user.
                         mailer.SendMail(req.body.email, mailer.GetRegisterMailContent(req.body.firstName));
-                        req.session.user = result;
+                        var token = jwt.sign(result, config.jwtSecret);
+                        res.send({ "token": token });
                     }
-
-                    res.send(result);
+                    else {
+                        res.send(result);
+                    }
                 });
             }
         });
     });
 
     // Sending to the user an email with code to reset his password.
-    app.put('/forgot', function (req, res) {
+    app.put(prefix + '/forgot', function (req, res) {
         var email = { "email": req.body.email };
 
         loginBL.AddResetCode(email, function (result) {
@@ -62,7 +69,7 @@ module.exports = function (app, loginBL, mailer, sha512) {
     });
 
     // Changing user password in db.
-    app.put('/resetPassword', function (req, res) {
+    app.put(prefix + '/resetPassword', function (req, res) {
         loginBL.ResetPassword(req.body, sha512, function (result) {
             res.send(result);
         });

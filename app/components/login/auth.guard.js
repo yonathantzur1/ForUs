@@ -19,7 +19,7 @@ var AuthGuard = (function () {
     AuthGuard.prototype.canActivate = function () {
         var _this = this;
         return this.authService.IsUserOnSession().then(function (result) {
-            if (result == false) {
+            if (!result) {
                 _this.router.navigateByUrl('/login');
                 return false;
             }

@@ -6,6 +6,7 @@ import { GlobalService } from '../../services/global/global.service';
 import { ProfileService } from '../../services/profile/profile.service';
 
 declare var swal: any;
+declare var setCookie: any;
 declare function UploadPhoto(options: Object): boolean;
 declare function GetCroppedBase64Image(): any;
 
@@ -251,11 +252,11 @@ export class ProfileComponent implements OnInit, OnChanges {
 
             GetCroppedBase64Image().then(function (img: any) {
                 var imgBase64 = img["0"].currentSrc;
-                self.profileService.SaveImage(imgBase64).then((user: any) => {
+                self.profileService.SaveImage(imgBase64).then((result: any) => {
                     self.isLoading = false;
 
                     // In case of error or the user was not fount.
-                    if (!user) {
+                    if (!result) {
                         $("#upload-failed").snackbar("show");
                     }
                     else {
@@ -270,6 +271,8 @@ export class ProfileComponent implements OnInit, OnChanges {
                             animation: false,
                             confirmButtonText: "אוקיי"
                         });
+
+                        setCookie("token", result.token, 1);
                     }
                 });
             });;
@@ -308,6 +311,8 @@ export class ProfileComponent implements OnInit, OnChanges {
                     type: "success",
                     confirmButtonText: "אוקיי"
                 });
+
+                setCookie("token", result.token, 1);
             }
             else {
 

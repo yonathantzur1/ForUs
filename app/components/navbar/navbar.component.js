@@ -39,9 +39,9 @@ var NavbarComponent = (function () {
         this.dropMenuDataList = [
             new DropMenuData("#", "הגדרות", null, null),
             new DropMenuData("/login", "התנתקות", function (self, link) {
-                self.authService.Logout().then(function () {
-                    self.router.navigateByUrl(link);
-                });
+                // self.authService.Logout().then(() => {
+                //     self.router.navigateByUrl(link);
+                // });
             }, this)
         ];
         this.ShowHideSidenav = function () {

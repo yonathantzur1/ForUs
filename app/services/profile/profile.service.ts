@@ -1,20 +1,15 @@
-import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { BasicService } from '../basic/basic.service';
 
-import 'rxjs/add/operator/toPromise';
+export class ProfileService extends BasicService {
 
-@Injectable()
-export class ProfileService {
-    private headers = new Headers({ 'Content-Type': 'application/json' });
-
-    constructor(private http: Http) { }
+    prefix = "/api/profile";
 
     SaveImage(imgBase64: string) {
         var image = {
             "imgBase64": imgBase64
         };
 
-        return this.http.post('/saveImage', JSON.stringify(image), { headers: this.headers })
+        return super.post(this.prefix + '/saveImage', JSON.stringify(image))
             .toPromise()
             .then((result) => {
                 return result.json();
@@ -25,7 +20,7 @@ export class ProfileService {
     }
 
     DeleteImage() {
-        return this.http.delete('/deleteImage')
+        return super.delete(this.prefix + '/deleteImage')
             .toPromise()
             .then((result) => {
                 return result.json();

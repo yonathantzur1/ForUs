@@ -1,42 +1,41 @@
+var config = require('../modules/config.js');
+
 module.exports = function (app, profileBL) {
+
+    prefix = "/api/profile";
+
     // Add new profile image.
-    app.post('/saveImage', function (req, res) {
+    app.post(prefix + '/saveImage', function (req, res) {
         var imageData = req.body;
 
-        // In case the user was not found on session
-        if (!req.session.user) {
-            res.send(null);
-        }
-        else {
-            imageData.userId = req.session.user._id;
+        imageData.userId = req.user._id;
 
-            profileBL.SaveImage(imageData, function (result) {
-                if (result) {
-                    req.session.user.profile = result.profile.toString();
-                }
-
+        profileBL.SaveImage(imageData, function (result) {
+            if (result) {
+                req.user.profile = result.profile.toString();
+                var token = jwt.sign(req.user, config.jwtSecret);
+                res.send({ "token": token });
+            }
+            else {
                 res.send(result);
-            });
-        }
+            }
+        });
     });
 
     // Delete the user profile image.
-    app.delete('/deleteImage', function (req, res) {
-        // In case the user was not found on session
-        if (!req.session.user) {
-            res.send(null);
-        }
-        else {
-            var userId = req.session.user._id;
-            var profileId = req.session.user.profile;
+    app.delete(prefix + '/deleteImage', function (req, res) {
+        var userId = req.user._id;
+        var profileId = req.user.profile;
 
-            profileBL.DeleteImage(userId, profileId, function (result) {
-                if (result) {
-                    delete req.session.user.profile;
-                }
-
+        profileBL.DeleteImage(userId, profileId, function (result) {
+            if (result) {
+                delete req.user.profile;
+                var token = jwt.sign(req.user, config.jwtSecret);
+                res.send({ "token": token });
+            }
+            else {
                 res.send(result);
-            });
-        }
+            }
+        });
     });
 };

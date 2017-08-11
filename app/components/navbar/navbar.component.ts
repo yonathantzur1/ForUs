@@ -49,9 +49,9 @@ export class NavbarComponent {
     dropMenuDataList: DropMenuData[] = [
         new DropMenuData("#", "הגדרות", null, null),
         new DropMenuData("/login", "התנתקות", function (self: any, link: string) {
-            self.authService.Logout().then(() => {
-                self.router.navigateByUrl(link);
-            });
+            // self.authService.Logout().then(() => {
+            //     self.router.navigateByUrl(link);
+            // });
         }, this)
     ];
 

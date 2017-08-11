@@ -1,23 +1,19 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var core_1 = require("@angular/core");
-var http_1 = require("@angular/http");
-require("rxjs/add/operator/toPromise");
-var AuthService = (function () {
-    function AuthService(http) {
-        this.http = http;
-        this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+var basic_service_1 = require("../basic/basic.service");
+var AuthService = (function (_super) {
+    __extends(AuthService, _super);
+    function AuthService() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.prefix = "/api/auth";
+        return _this;
     }
     AuthService.prototype.IsUserOnSession = function () {
-        return this.http.get('/isUserOnSession')
+        return _super.prototype.get.call(this, this.prefix + '/isUserOnSession')
             .toPromise()
             .then(function (result) {
             return result.json();
@@ -27,17 +23,7 @@ var AuthService = (function () {
         });
     };
     AuthService.prototype.GetCurrUserName = function () {
-        return this.http.get('/getCurrUserName')
-            .toPromise()
-            .then(function (result) {
-            return result.json();
-        })
-            .catch(function (result) {
-            return null;
-        });
-    };
-    AuthService.prototype.Logout = function () {
-        return this.http.get('/logout')
+        return _super.prototype.get.call(this, this.prefix + '/getCurrUserName')
             .toPromise()
             .then(function (result) {
             return result.json();
@@ -47,10 +33,6 @@ var AuthService = (function () {
         });
     };
     return AuthService;
-}());
-AuthService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
-], AuthService);
+}(basic_service_1.BasicService));
 exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map

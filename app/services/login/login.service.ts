@@ -1,20 +1,14 @@
-import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
-
-import 'rxjs/add/operator/toPromise';
+import { BasicService } from '../basic/basic.service';
 
 import { User } from '../../components/login/login.component';
 import { NewUser } from '../../components/login/login.component';
 import { ForgotUser } from '../../components/login/login.component';
-
-@Injectable()
-export class LoginService {
-    private headers = new Headers({ 'Content-Type': 'application/json' });
-
-    constructor(private http: Http) { }
+``
+export class LoginService extends BasicService {
+    prefix = "/login";
 
     Login(user: User) {
-        return this.http.post('/login', JSON.stringify(user), { headers: this.headers })
+        return super.post(this.prefix + '/login', JSON.stringify(user))
             .toPromise()
             .then((result) => {
                 return result.json();
@@ -32,7 +26,7 @@ export class LoginService {
             "password": newUser.password
         };
 
-        return this.http.post('/register', JSON.stringify(details), { headers: this.headers })
+        return super.post(this.prefix + '/register', JSON.stringify(details))
             .toPromise()
             .then((result) => {
                 return result.json();
@@ -45,7 +39,7 @@ export class LoginService {
     Forgot(email: string) {
         var details = { "email": email };
 
-        return this.http.put('/forgot', JSON.stringify(details), { headers: this.headers })
+        return super.put(this.prefix + '/forgot', JSON.stringify(details))
             .toPromise()
             .then((result) => {
                 return result.json();
@@ -62,7 +56,7 @@ export class LoginService {
             "newPassword": forgotUser.newPassword
         };
 
-        return this.http.put('/resetPassword', JSON.stringify(details), { headers: this.headers })
+        return super.put(this.prefix + '/resetPassword', JSON.stringify(details))
             .toPromise()
             .then((result) => {
                 return result.json();

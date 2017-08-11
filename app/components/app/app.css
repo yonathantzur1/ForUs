@@ -60,8 +60,8 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-top: -200px;
-    margin-left: -100px;
+    margin-top: -100px;
+    margin-left: -50px;
 }
 
 .main-loading {
@@ -72,6 +72,11 @@
     user-select: none;
     -webkit-user-select: none;
     cursor: default;
+}
+
+.main-loading-image {
+    width: 100px;
+    height: 100px;
 }
 
 @media (max-width: 500px) {

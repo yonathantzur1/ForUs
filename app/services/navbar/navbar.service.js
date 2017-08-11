@@ -1,24 +1,20 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var core_1 = require("@angular/core");
-var http_1 = require("@angular/http");
-require("rxjs/add/operator/toPromise");
-var NavbarService = (function () {
-    function NavbarService(http) {
-        this.http = http;
-        this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+var basic_service_1 = require("../basic/basic.service");
+var NavbarService = (function (_super) {
+    __extends(NavbarService, _super);
+    function NavbarService() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.prefix = "/api/navbar";
+        return _this;
     }
     NavbarService.prototype.GetMainSearchResults = function (searchInput, searchLimit) {
         var details = { "searchInput": searchInput, "searchLimit": searchLimit };
-        return this.http.post('/getMainSearchResults', JSON.stringify(details), { headers: this.headers })
+        return _super.prototype.post.call(this, this.prefix + '/getMainSearchResults', JSON.stringify(details))
             .toPromise()
             .then(function (result) {
             return result.json();
@@ -29,7 +25,7 @@ var NavbarService = (function () {
     };
     NavbarService.prototype.GetMainSearchResultsWithImages = function (ids) {
         var details = { "ids": ids };
-        return this.http.post('/getMainSearchResultsWithImages', JSON.stringify(details), { headers: this.headers })
+        return _super.prototype.post.call(this, this.prefix + '/getMainSearchResultsWithImages', JSON.stringify(details))
             .toPromise()
             .then(function (result) {
             return result.json();
@@ -39,10 +35,6 @@ var NavbarService = (function () {
         });
     };
     return NavbarService;
-}());
-NavbarService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
-], NavbarService);
+}(basic_service_1.BasicService));
 exports.NavbarService = NavbarService;
 //# sourceMappingURL=navbar.service.js.map

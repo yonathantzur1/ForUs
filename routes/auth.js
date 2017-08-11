@@ -1,7 +1,9 @@
 module.exports = function (app) {
+    prefix = "/api/auth";
+
     // Checking if the session of the user is open.
-    app.get('/isUserOnSession', function (req, res) {
-        if (req.session.user) {
+    app.get(prefix + '/isUserOnSession', function (req, res) {
+        if (req.user) {
             res.send(true);
         }
         else {
@@ -10,11 +12,11 @@ module.exports = function (app) {
     });
 
     // Getting the current login user name.
-    app.get('/getCurrUserName', function (req, res) {
-        if (req.session.user) {
+    app.get(prefix + '/getCurrUserName', function (req, res) {
+        if (req.user) {
             var name = {
-                "firstName": req.session.user.firstName,
-                "lastName": req.session.user.lastName
+                "firstName": req.user.firstName,
+                "lastName": req.user.lastName
             }
 
             res.send(name);
@@ -22,14 +24,5 @@ module.exports = function (app) {
         else {
             res.send(null);
         }
-    });
-
-    // Logout the user from session.
-    app.get('/logout', function (req, res) {
-        if (req.session) {
-            delete req.session.user;
-        }
-
-        res.end();
     });
 };

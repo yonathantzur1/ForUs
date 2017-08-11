@@ -1,23 +1,20 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var core_1 = require("@angular/core");
-var http_1 = require("@angular/http");
-require("rxjs/add/operator/toPromise");
-var LoginService = (function () {
-    function LoginService(http) {
-        this.http = http;
-        this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+var basic_service_1 = require("../basic/basic.service");
+"";
+var LoginService = (function (_super) {
+    __extends(LoginService, _super);
+    function LoginService() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.prefix = "/login";
+        return _this;
     }
     LoginService.prototype.Login = function (user) {
-        return this.http.post('/login', JSON.stringify(user), { headers: this.headers })
+        return _super.prototype.post.call(this, this.prefix + '/login', JSON.stringify(user))
             .toPromise()
             .then(function (result) {
             return result.json();
@@ -33,7 +30,7 @@ var LoginService = (function () {
             "email": newUser.email,
             "password": newUser.password
         };
-        return this.http.post('/register', JSON.stringify(details), { headers: this.headers })
+        return _super.prototype.post.call(this, this.prefix + '/register', JSON.stringify(details))
             .toPromise()
             .then(function (result) {
             return result.json();
@@ -44,7 +41,7 @@ var LoginService = (function () {
     };
     LoginService.prototype.Forgot = function (email) {
         var details = { "email": email };
-        return this.http.put('/forgot', JSON.stringify(details), { headers: this.headers })
+        return _super.prototype.put.call(this, this.prefix + '/forgot', JSON.stringify(details))
             .toPromise()
             .then(function (result) {
             return result.json();
@@ -59,7 +56,7 @@ var LoginService = (function () {
             "code": forgotUser.code,
             "newPassword": forgotUser.newPassword
         };
-        return this.http.put('/resetPassword', JSON.stringify(details), { headers: this.headers })
+        return _super.prototype.put.call(this, this.prefix + '/resetPassword', JSON.stringify(details))
             .toPromise()
             .then(function (result) {
             return result.json();
@@ -69,10 +66,6 @@ var LoginService = (function () {
         });
     };
     return LoginService;
-}());
-LoginService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
-], LoginService);
+}(basic_service_1.BasicService));
 exports.LoginService = LoginService;
 //# sourceMappingURL=login.service.js.map

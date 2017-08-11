@@ -1,18 +1,13 @@
-import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { BasicService } from '../basic/basic.service';
 
-import 'rxjs/add/operator/toPromise';
+export class NavbarService extends BasicService {
 
-@Injectable()
-export class NavbarService {
-    private headers = new Headers({ 'Content-Type': 'application/json' });
-
-    constructor(private http: Http) { }
+    prefix = "/api/navbar";
 
     GetMainSearchResults(searchInput: string, searchLimit: number) {
         var details = { "searchInput": searchInput, "searchLimit": searchLimit };
 
-        return this.http.post('/getMainSearchResults', JSON.stringify(details), { headers: this.headers })
+        return super.post(this.prefix + '/getMainSearchResults', JSON.stringify(details))
             .toPromise()
             .then((result) => {
                 return result.json();
@@ -25,7 +20,7 @@ export class NavbarService {
     GetMainSearchResultsWithImages(ids: any) {
         var details = { "ids": ids };
 
-        return this.http.post('/getMainSearchResultsWithImages', JSON.stringify(details), { headers: this.headers })
+        return super.post(this.prefix + '/getMainSearchResultsWithImages', JSON.stringify(details))
             .toPromise()
             .then((result) => {
                 return result.json();

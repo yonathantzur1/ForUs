@@ -4,7 +4,8 @@ var app = express();
 var path = require('path');
 var mailer = require('./modules/mailer.js');
 var sha512 = require('js-sha512');
-var session = require('express-session');
+var jwt = require('jsonwebtoken');
+var config = require('./modules/config.js');
 
 // BL requires
 var loginBL = require('./modules/BL/loginBL.js');
@@ -13,14 +14,7 @@ var profileBL = require('./modules/BL/profileBL.js');
 var profilePictureBL = require('./modules/BL/profilePictureBL.js');
 var navbarBL = require('./modules/BL/navbarBL.js');
 
-app.set('trust proxy', 1) // trust first proxy
-app.use(session({
-    secret: 'forus',
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: false }
-}));
-
+app.set('trust proxy', 1);
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({
     limit: '10mb',
@@ -28,6 +22,34 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.static('./'));
 app.use(express.static('public'));
+
+function redirectToLogin (req, res) {
+    if (req.method == "GET") {
+        res.redirect('/login');
+    }
+    else {
+        res.status(401).send();
+    }
+}
+
+app.use('/api', function (req, res, next) {
+    var token = getCookieFromReq('token', req.headers.cookie);
+
+    if (!token) {
+        redirectToLogin(req, res);
+    }
+    else {
+        jwt.verify(token, config.jwtSecret, function (err, decoded) {
+            if (err || !decoded) {
+                redirectToLogin(req, res);
+            }
+            else {
+                req.user = decoded;
+                next();
+            }
+        });
+    }
+});
 
 var server = app.listen((process.env.PORT || 8000), function () {
     console.log("Server is up!");
@@ -40,11 +62,20 @@ require('./routes/profilePicture.js')(app, profilePictureBL);
 require('./routes/navbar.js')(app, navbarBL);
 
 app.get('/login', function (req, res, next) {
-    if (req.session.user) {
-        res.redirect('/');
+    var token = getCookieFromReq('token', req.headers.cookie);
+
+    if (!token) {
+        next();
     }
     else {
-        next();
+        jwt.verify(token, config.jwtSecret, function (err, decoded) {
+            if (err || !decoded) {
+                next();
+            }
+            else {
+                res.redirect('/');
+            }
+        });
     }
 });
 
@@ -52,3 +83,26 @@ app.get('/login', function (req, res, next) {
 app.get('**', function (req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
 });
+
+function getCookieFromReq(cname, decodedCookie) {
+    if (!decodedCookie) {
+        return "";
+    }
+
+    var name = cname + "=";
+    var ca = decodedCookie.split(';');
+
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+
+    return "";
+}

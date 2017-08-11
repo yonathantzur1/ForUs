@@ -1,26 +1,22 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var core_1 = require("@angular/core");
-var http_1 = require("@angular/http");
-require("rxjs/add/operator/toPromise");
-var ProfileService = (function () {
-    function ProfileService(http) {
-        this.http = http;
-        this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+var basic_service_1 = require("../basic/basic.service");
+var ProfileService = (function (_super) {
+    __extends(ProfileService, _super);
+    function ProfileService() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.prefix = "/api/profile";
+        return _this;
     }
     ProfileService.prototype.SaveImage = function (imgBase64) {
         var image = {
             "imgBase64": imgBase64
         };
-        return this.http.post('/saveImage', JSON.stringify(image), { headers: this.headers })
+        return _super.prototype.post.call(this, this.prefix + '/saveImage', JSON.stringify(image))
             .toPromise()
             .then(function (result) {
             return result.json();
@@ -30,7 +26,7 @@ var ProfileService = (function () {
         });
     };
     ProfileService.prototype.DeleteImage = function () {
-        return this.http.delete('/deleteImage')
+        return _super.prototype.delete.call(this, this.prefix + '/deleteImage')
             .toPromise()
             .then(function (result) {
             return result.json();
@@ -40,10 +36,6 @@ var ProfileService = (function () {
         });
     };
     return ProfileService;
-}());
-ProfileService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
-], ProfileService);
+}(basic_service_1.BasicService));
 exports.ProfileService = ProfileService;
 //# sourceMappingURL=profile.service.js.map

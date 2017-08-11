@@ -223,10 +223,10 @@ var ProfileComponent = (function () {
             var self = this;
             GetCroppedBase64Image().then(function (img) {
                 var imgBase64 = img["0"].currentSrc;
-                self.profileService.SaveImage(imgBase64).then(function (user) {
+                self.profileService.SaveImage(imgBase64).then(function (result) {
                     self.isLoading = false;
                     // In case of error or the user was not fount.
-                    if (!user) {
+                    if (!result) {
                         $("#upload-failed").snackbar("show");
                     }
                     else {
@@ -240,6 +240,7 @@ var ProfileComponent = (function () {
                             animation: false,
                             confirmButtonText: "אוקיי"
                         });
+                        setCookie("token", result.token, 1);
                     }
                 });
             });
@@ -275,6 +276,7 @@ var ProfileComponent = (function () {
                     type: "success",
                     confirmButtonText: "אוקיי"
                 });
+                setCookie("token", result.token, 1);
             }
             else {
             }
