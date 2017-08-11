@@ -5,4 +5,5 @@ module.exports = {
     connectionString: url + '?' + 'maxPoolSize=' + maxPoolSize,
     jwtSecret: "pingpong",
     jwtTimeoutHours: 24,
+    jwtOptions: { expiresIn: '24h' }
 };
