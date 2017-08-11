@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { LoginService } from '../../services/login/login.service';
 
 declare var swal: any;
-declare var setCookie: any;
+declare var setToken: any;
 
 export class User {
   constructor() { this.email = ""; this.password = ""; }
@@ -131,7 +131,7 @@ export class LoginComponent {
           })
         }
         else {
-          setCookie("token", result.token, 1);
+          setToken(result.token);
           this.router.navigateByUrl('');
         }
       });
@@ -158,7 +158,7 @@ export class LoginComponent {
         }
         else {
           $("#register-modal").modal('hide');
-          setCookie("token", result.token, 1);
+          setToken(result.token);
           this.router.navigateByUrl('');
         }
       });

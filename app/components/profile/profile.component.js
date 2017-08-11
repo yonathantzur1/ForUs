@@ -240,7 +240,7 @@ var ProfileComponent = (function () {
                             animation: false,
                             confirmButtonText: "אוקיי"
                         });
-                        setCookie("token", result.token, 1);
+                        setToken(result.token);
                     }
                 });
             });
@@ -276,7 +276,7 @@ var ProfileComponent = (function () {
                     type: "success",
                     confirmButtonText: "אוקיי"
                 });
-                setCookie("token", result.token, 1);
+                setToken(result.token);
             }
             else {
             }

@@ -6,7 +6,7 @@ import { GlobalService } from '../../services/global/global.service';
 import { ProfileService } from '../../services/profile/profile.service';
 
 declare var swal: any;
-declare var setCookie: any;
+declare var setToken: any;
 declare function UploadPhoto(options: Object): boolean;
 declare function GetCroppedBase64Image(): any;
 
@@ -272,7 +272,7 @@ export class ProfileComponent implements OnInit, OnChanges {
                             confirmButtonText: "אוקיי"
                         });
 
-                        setCookie("token", result.token, 1);
+                        setToken(result.token);
                     }
                 });
             });;
@@ -312,7 +312,7 @@ export class ProfileComponent implements OnInit, OnChanges {
                     confirmButtonText: "אוקיי"
                 });
 
-                setCookie("token", result.token, 1);
+                setToken(result.token);
             }
             else {
 

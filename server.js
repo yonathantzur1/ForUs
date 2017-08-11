@@ -40,11 +40,11 @@ app.use('/api', function (req, res, next) {
     }
     else {
         jwt.verify(token, config.jwtSecret, function (err, decoded) {
-            if (err || !decoded) {
+            if (err || !decoded || decoded.ip != req.ip) {
                 redirectToLogin(req, res);
             }
             else {
-                req.user = decoded;
+                req.user = decoded.user;
                 next();
             }
         });
@@ -69,7 +69,7 @@ app.get('/login', function (req, res, next) {
     }
     else {
         jwt.verify(token, config.jwtSecret, function (err, decoded) {
-            if (err || !decoded) {
+            if (err || !decoded || decoded.ip != req.ip) {
                 next();
             }
             else {

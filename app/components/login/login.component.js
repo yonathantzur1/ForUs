@@ -115,7 +115,7 @@ var LoginComponent = (function () {
                     });
                 }
                 else {
-                    setCookie("token", result.token, 1);
+                    setToken(result.token);
                     _this.router.navigateByUrl('');
                 }
             });
@@ -139,7 +139,7 @@ var LoginComponent = (function () {
                 }
                 else {
                     $("#register-modal").modal('hide');
-                    setCookie("token", result.token, 1);
+                    setToken(result.token);
                     _this.router.navigateByUrl('');
                 }
             });

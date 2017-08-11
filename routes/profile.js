@@ -14,7 +14,8 @@ module.exports = function (app, profileBL) {
         profileBL.SaveImage(imageData, function (result) {
             if (result) {
                 req.user.profile = result.profile.toString();
-                var token = jwt.sign(req.user, config.jwtSecret);
+                var tokenObj = { "user": req.user, "ip": req.ip };
+                var token = jwt.sign(tokenObj, config.jwtSecret, config.jwtOptions);
                 res.send({ "token": token });
             }
             else {
@@ -31,7 +32,8 @@ module.exports = function (app, profileBL) {
         profileBL.DeleteImage(userId, profileId, function (result) {
             if (result) {
                 delete req.user.profile;
-                var token = jwt.sign(req.user, config.jwtSecret);
+                var tokenObj = { "user": req.user, "ip": req.ip };
+                var token = jwt.sign(tokenObj, config.jwtSecret, config.jwtOptions);
                 res.send({ "token": token });
             }
             else {

@@ -3,5 +3,6 @@ var maxPoolSize = 10;
 
 module.exports = {
     connectionString: url + '?' + 'maxPoolSize=' + maxPoolSize,
-    jwtSecret: "pingpong"
+    jwtSecret: "pingpong",
+    jwtTimeoutHours: 24,
 };

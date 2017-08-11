@@ -10,7 +10,8 @@ module.exports = function (app, loginBL, mailer, sha512) {
         loginBL.GetUser(req.body, sha512, function (result) {
             // In case the user email and password are valid.
             if (result && result != "-1") {
-                var token = jwt.sign(result, config.jwtSecret);
+                var tokenObj = { "user": result, "ip": req.ip };
+                var token = jwt.sign(tokenObj, config.jwtSecret, config.jwtOptions);
                 res.send({ "token": token });
             }
             else {
@@ -40,7 +41,8 @@ module.exports = function (app, loginBL, mailer, sha512) {
                     if (result) {
                         // Sending welcome mail to the new user.
                         mailer.SendMail(req.body.email, mailer.GetRegisterMailContent(req.body.firstName));
-                        var token = jwt.sign(result, config.jwtSecret);
+                        var tokenObj = { "user": result, "ip": req.ip };
+                        var token = jwt.sign(tokenObj, config.jwtSecret, config.jwtOptions);
                         res.send({ "token": token });
                     }
                     else {
