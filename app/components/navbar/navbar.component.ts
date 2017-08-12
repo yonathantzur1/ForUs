@@ -5,6 +5,8 @@ import { GlobalService } from '../../services/global/global.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { NavbarService } from '../../services/navbar/navbar.service';
 
+declare var deleteToken: any;
+
 export class DropMenuData {
     constructor(link: string, text: string, action: Function, object: any)
     { this.link = link, this.text = text, this.action = action, this.object = object }
@@ -49,9 +51,8 @@ export class NavbarComponent {
     dropMenuDataList: DropMenuData[] = [
         new DropMenuData("#", "הגדרות", null, null),
         new DropMenuData("/login", "התנתקות", function (self: any, link: string) {
-            // self.authService.Logout().then(() => {
-            //     self.router.navigateByUrl(link);
-            // });
+            deleteToken();
+            self.router.navigateByUrl(link);
         }, this)
     ];
 

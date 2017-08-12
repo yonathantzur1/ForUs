@@ -5,6 +5,8 @@ import { AuthService } from '../../services/auth/auth.service';
 
 import { User } from './login.component';
 
+declare var setToken: any;
+
 @Injectable()
 export class AuthGuard implements CanActivate {
     constructor(private router: Router, private authService: AuthService) { }
@@ -16,6 +18,7 @@ export class AuthGuard implements CanActivate {
                 return false;
             }
             else {
+                setToken(result.token);
                 return true;
             }
         });

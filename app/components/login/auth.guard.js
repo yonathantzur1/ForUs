@@ -25,6 +25,7 @@ var AuthGuard = (function () {
                 return false;
             }
             else {
+                setToken(result.token);
                 return true;
             }
         });

@@ -43,6 +43,27 @@ module.exports = {
     },
 
     // Getting documents from collection by filter.
+    FindOne: function (collectionName, filter, callback) {
+        GetDB(function (err, db) {
+            if (err == null) {
+                var collection = db.collection(collectionName);
+
+                collection.findOne(filter, function (err, docs) {
+                    if (err == null) {
+                        callback(docs);
+                    }
+                    else {
+                        callback(null);
+                    }
+                });
+            }
+            else {
+                callback(null);
+            }
+        });
+    },
+
+    // Getting documents from collection by filter.
     Find: function (collectionName, filter, callback) {
         GetDB(function (err, db) {
             if (err == null) {

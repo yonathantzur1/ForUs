@@ -8,3 +8,7 @@ function setCookie(cname, cvalue, exHours) {
 function setToken(token) {
     setCookie("token", token, 24);
 }
+
+function deleteToken() {
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}

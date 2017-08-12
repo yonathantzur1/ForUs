@@ -44,8 +44,21 @@ app.use('/api', function (req, res, next) {
                 redirectToLogin(req, res);
             }
             else {
-                req.user = decoded.user;
-                next();
+                if (req.originalUrl == '/api/auth/isUserOnSession') {
+                    loginBL.GetUserById(decoded.user._id, function(user) {
+                        if (user) {
+                            req.user = user;
+                            next();
+                        }
+                        else {
+                            redirectToLogin(req, res);
+                        }
+                    });
+                }
+                else {
+                    req.user = decoded.user;
+                    next();
+                }
             }
         });
     }

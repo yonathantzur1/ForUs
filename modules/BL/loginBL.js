@@ -8,6 +8,12 @@ var maxTryNum = 3;
 
 module.exports = {
 
+    GetUserById: function (id, callback) {
+        DAL.FindOne(collectionName, { _id: DAL.GetObjectId(id) }, function (result) {
+            callback(result);
+        });
+    },
+
     // Return user object if the user was found else false.
     GetUser: function (user, sha512, callback) {
         var filter = { "email": user.email };
