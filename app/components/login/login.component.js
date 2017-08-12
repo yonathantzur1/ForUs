@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var login_service_1 = require("../../services/login/login.service");
@@ -241,16 +242,16 @@ var LoginComponent = (function () {
     LoginComponent.prototype.HideMicrotext = function (fieldId) {
         $("#" + fieldId).html("");
     };
+    LoginComponent = __decorate([
+        core_1.Component({
+            selector: 'login',
+            templateUrl: './login.html',
+            providers: [login_service_1.LoginService]
+        }),
+        __metadata("design:paramtypes", [router_1.Router, login_service_1.LoginService])
+    ], LoginComponent);
     return LoginComponent;
 }());
-LoginComponent = __decorate([
-    core_1.Component({
-        selector: 'login',
-        templateUrl: './login.html',
-        providers: [login_service_1.LoginService]
-    }),
-    __metadata("design:paramtypes", [router_1.Router, login_service_1.LoginService])
-], LoginComponent);
 exports.LoginComponent = LoginComponent;
 //***Help vars and functions***//
 // Login validation functions array.

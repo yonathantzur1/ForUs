@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 require("rxjs/add/operator/share");
 require("rxjs/add/operator/startWith");
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");

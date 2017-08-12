@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var global_service_1 = require("../../services/global/global.service");
@@ -130,21 +131,21 @@ var NavbarComponent = (function () {
             }
         });
     }
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], NavbarComponent.prototype, "name", void 0);
+    NavbarComponent = __decorate([
+        core_1.Component({
+            selector: 'navbar',
+            templateUrl: './navbar.html',
+            providers: [navbar_service_1.NavbarService]
+        }),
+        __metadata("design:paramtypes", [router_1.Router, auth_service_1.AuthService,
+            global_service_1.GlobalService, navbar_service_1.NavbarService])
+    ], NavbarComponent);
     return NavbarComponent;
 }());
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", Object)
-], NavbarComponent.prototype, "name", void 0);
-NavbarComponent = __decorate([
-    core_1.Component({
-        selector: 'navbar',
-        templateUrl: './navbar.html',
-        providers: [navbar_service_1.NavbarService]
-    }),
-    __metadata("design:paramtypes", [router_1.Router, auth_service_1.AuthService,
-        global_service_1.GlobalService, navbar_service_1.NavbarService])
-], NavbarComponent);
 exports.NavbarComponent = NavbarComponent;
 function GetResultsIds(results) {
     var profilesIds = [];

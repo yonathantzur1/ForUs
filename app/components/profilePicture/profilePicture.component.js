@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var global_service_1 = require("../../services/global/global.service");
 var profilePicture_service_1 = require("../../services/profilePicture/profilePicture.service");
@@ -60,19 +61,19 @@ var ProfilePictureComponent = (function () {
             this.globalService.setMultiData(changeVariables);
         }
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], ProfilePictureComponent.prototype, "isEditEnable", void 0);
+    ProfilePictureComponent = __decorate([
+        core_1.Component({
+            selector: 'profilePicture',
+            templateUrl: './profilePicture.html',
+            providers: [profilePicture_service_1.ProfilePictureService]
+        }),
+        __metadata("design:paramtypes", [profilePicture_service_1.ProfilePictureService, global_service_1.GlobalService])
+    ], ProfilePictureComponent);
     return ProfilePictureComponent;
 }());
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", String)
-], ProfilePictureComponent.prototype, "isEditEnable", void 0);
-ProfilePictureComponent = __decorate([
-    core_1.Component({
-        selector: 'profilePicture',
-        templateUrl: './profilePicture.html',
-        providers: [profilePicture_service_1.ProfilePictureService]
-    }),
-    __metadata("design:paramtypes", [profilePicture_service_1.ProfilePictureService, global_service_1.GlobalService])
-], ProfilePictureComponent);
 exports.ProfilePictureComponent = ProfilePictureComponent;
 //# sourceMappingURL=profilePicture.component.js.map
