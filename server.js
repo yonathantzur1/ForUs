@@ -33,7 +33,7 @@ function redirectToLogin (req, res) {
 }
 
 app.use('/api', function (req, res, next) {
-    var token = getCookieFromReq('token', req.headers.cookie);
+    var token = getCookieFromReq('tk', req.headers.cookie);
 
     if (!token) {
         redirectToLogin(req, res);
@@ -75,7 +75,7 @@ require('./routes/profilePicture.js')(app, profilePictureBL);
 require('./routes/navbar.js')(app, navbarBL);
 
 app.get('/login', function (req, res, next) {
-    var token = getCookieFromReq('token', req.headers.cookie);
+    var token = getCookieFromReq('tk', req.headers.cookie);
 
     if (!token) {
         next();

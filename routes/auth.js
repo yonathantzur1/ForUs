@@ -1,5 +1,4 @@
-var jwt = require('jsonwebtoken');
-var config = require('../modules/config.js');
+var general = require('../modules/general.js');
 
 module.exports = function (app) {
     prefix = "/api/auth";
@@ -7,8 +6,7 @@ module.exports = function (app) {
     // Checking if the session of the user is open.
     app.get(prefix + '/isUserOnSession', function (req, res) {
         if (req.user) {
-            var tokenObj = { "user": req.user, "ip": req.ip };
-            var token = jwt.sign(tokenObj, config.jwtSecret, config.jwtOptions);
+            var token = general.GetTokenFromUserObject(req.user, req);
             res.send({ "token": token });
         }
         else {

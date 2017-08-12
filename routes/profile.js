@@ -1,5 +1,4 @@
-var jwt = require('jsonwebtoken');
-var config = require('../modules/config.js');
+var general = require('../modules/general.js');
 
 module.exports = function (app, profileBL) {
 
@@ -14,8 +13,7 @@ module.exports = function (app, profileBL) {
         profileBL.SaveImage(imageData, function (result) {
             if (result) {
                 req.user.profile = result.profile.toString();
-                var tokenObj = { "user": req.user, "ip": req.ip };
-                var token = jwt.sign(tokenObj, config.jwtSecret, config.jwtOptions);
+                var token =  general.GetTokenFromUserObject(req.user, req);
                 res.send({ "token": token });
             }
             else {
@@ -32,8 +30,7 @@ module.exports = function (app, profileBL) {
         profileBL.DeleteImage(userId, profileId, function (result) {
             if (result) {
                 delete req.user.profile;
-                var tokenObj = { "user": req.user, "ip": req.ip };
-                var token = jwt.sign(tokenObj, config.jwtSecret, config.jwtOptions);
+                var token =  general.GetTokenFromUserObject(req.user, req);
                 res.send({ "token": token });
             }
             else {

@@ -1,5 +1,4 @@
-var jwt = require('jsonwebtoken');
-var config = require('../modules/config.js');
+var general = require('../modules/general.js');
 
 module.exports = function (app, loginBL, mailer, sha512) {
 
@@ -10,8 +9,7 @@ module.exports = function (app, loginBL, mailer, sha512) {
         loginBL.GetUser(req.body, sha512, function (result) {
             // In case the user email and password are valid.
             if (result && result != "-1") {
-                var tokenObj = { "user": result, "ip": req.ip };
-                var token = jwt.sign(tokenObj, config.jwtSecret, config.jwtOptions);
+                var token = general.GetTokenFromUserObject(result, req);
                 res.send({ "token": token });
             }
             else {
@@ -41,8 +39,7 @@ module.exports = function (app, loginBL, mailer, sha512) {
                     if (result) {
                         // Sending welcome mail to the new user.
                         mailer.SendMail(req.body.email, mailer.GetRegisterMailContent(req.body.firstName));
-                        var tokenObj = { "user": result, "ip": req.ip };
-                        var token = jwt.sign(tokenObj, config.jwtSecret, config.jwtOptions);
+                        var token = general.GetTokenFromUserObject(result, req);
                         res.send({ "token": token });
                     }
                     else {

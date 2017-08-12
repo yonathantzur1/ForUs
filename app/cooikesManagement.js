@@ -6,7 +6,7 @@ function setCookie(cname, cvalue, exHours) {
 }
 
 function setToken(token) {
-    setCookie("token", token, 24);
+    setCookie("tk", token, 48);
 }
 
 function deleteToken() {
