@@ -6,7 +6,7 @@ npm install sweetalert2 --save
 npm install js-sha512 --save
 npm install bootstrap-material-design --save
 npm install nodemailer --save
-npm install express-session --save
+npm install jsonwebtoken --save
 npm install cropper --save
 npm install font-awesome --save
 npm install snackbarjs --save
