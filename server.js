@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({
 app.use(express.static('./'));
 app.use(express.static('public'));
 
-function redirectToLogin (req, res) {
+function redirectToLogin(req, res) {
     if (req.method == "GET") {
         res.redirect('/login');
     }
@@ -40,12 +40,12 @@ app.use('/api', function (req, res, next) {
     }
     else {
         jwt.verify(token, config.jwtSecret, function (err, decoded) {
-            if (err || !decoded || decoded.ip != req.ip) {
+            if (err || !decoded) {
                 redirectToLogin(req, res);
             }
             else {
                 if (req.originalUrl == '/api/auth/isUserOnSession') {
-                    loginBL.GetUserById(decoded.user._id, function(user) {
+                    loginBL.GetUserById(decoded.user._id, function (user) {
                         if (user) {
                             req.user = user;
                             next();
@@ -82,7 +82,7 @@ app.get('/login', function (req, res, next) {
     }
     else {
         jwt.verify(token, config.jwtSecret, function (err, decoded) {
-            if (err || !decoded || decoded.ip != req.ip) {
+            if (err || !decoded) {
                 next();
             }
             else {
@@ -107,7 +107,7 @@ function getCookieFromReq(cname, decodedCookie) {
 
     for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
-        
+
         while (c.charAt(0) == ' ') {
             c = c.substring(1);
         }

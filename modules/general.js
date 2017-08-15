@@ -12,7 +12,7 @@ module.exports = {
             "profile": user.profile
         }
 
-        var tokenObject = { "user": tokenUserObject, "ip": req.ip };
+        var tokenObject = { "user": tokenUserObject };
         var token = jwt.sign(tokenObject, config.jwtSecret, config.jwtOptions);
 
         return token;
