@@ -1,65 +1,66 @@
-<link rel="stylesheet" href="./profile.css">
-<div class="modal fade"  data-backdrop="static" id="profile-modal" tabindex="-1" role="dialog" aria-labelledby="profileLabel">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="loader mini-loader img-loader" *ngIf="isLoading">
-                    <div class="loader-spinner mini-loader-spinner">
+<div id="profile">
+    <div class="modal fade" data-backdrop="static" id="profile-modal" tabindex="-1" role="dialog" aria-labelledby="profileLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="loader mini-loader img-loader" *ngIf="isLoading">
+                        <div class="loader-spinner mini-loader-spinner">
+                        </div>
                     </div>
+                    <div class="disable-screen" *ngIf="isLoading"></div>
+                    <a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                    <h4 class="modal-title modal-title-label" id="profileLabel">תמונת פרופיל <span class="glyphicon glyphicon-camera modal-title-icon" aria-hidden="true"></span></h4>
                 </div>
-                <div class="disable-screen" *ngIf="isLoading"></div>
-                <a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
-                <h4 class="modal-title modal-title-label" id="profileLabel">תמונת פרופיל <span class="glyphicon glyphicon-camera modal-title-icon" aria-hidden="true"></span></h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal">
-                    <input (change)="ChangeImage()" style="display:none;" type="file" id="inputImage" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <input (change)="ChangeImage()" style="display:none;" type="file" id="inputImage" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
 
-                    <div class="upload-image-sector col-md-12 col-xs-12" *ngIf="isNewPhoto">
-                        <div class="upload-image-container edit-image-preview-sector" (click)="EditUserPhoto()" *ngIf="userImage">
-                            <div class="new-image-text">עריכת תמונה</div>
-                            <img class="edit-image-preview" src="{{userImage}}">
-                        </div>
-                        <div class="upload-image-container" (click)="UploadNewPhoto()">
-                            <div class="new-image-text">תמונה חדשה</div>
-                            <i class="material-icons new-image-icon">camera_enhance</i>
-                        </div>
-                    </div>
-
-                    <div class="image-sector" [hidden]="isNewPhoto">
-                        <div class="form-group align-mini">
-                            <div class="col-md-6 col-xs-8 edit-left-side">
-                                <div id="main-img-container" class="main-img-container">
-                                    <img id="main-img" class="main-img" src="{{imgSrc}}">
-                                </div>
+                        <div class="upload-image-sector col-md-12 col-xs-12" *ngIf="isNewPhoto">
+                            <div class="upload-image-container edit-image-preview-sector" (click)="EditUserPhoto()" *ngIf="userImage">
+                                <div class="new-image-text">עריכת תמונה</div>
+                                <img class="edit-image-preview" src="{{userImage}}">
                             </div>
-                            <div class="col-md-6 col-xs-4 edit-right-side">
-                                <div class="right-container">
-                                    <div id="preview-img-container" class="preview-img-container">
+                            <div class="upload-image-container" (click)="UploadNewPhoto()">
+                                <div class="new-image-text">תמונה חדשה</div>
+                                <i class="material-icons new-image-icon">camera_enhance</i>
+                            </div>
+                        </div>
+
+                        <div class="image-sector" [hidden]="isNewPhoto">
+                            <div class="form-group align-mini">
+                                <div class="col-md-6 col-xs-8 edit-left-side">
+                                    <div id="main-img-container" class="main-img-container">
+                                        <img id="main-img" class="main-img" src="{{imgSrc}}">
                                     </div>
                                 </div>
-                                <div class="image-tool-bar">
-                                    <div *ngFor="let btn of imageBtns" title="{{btn.title}}" (click)="btn.onClick(this)" class="img-btn" [ngClass]="{'img-btn-pressed': btn.isPressed}">
-                                        <i class="fa {{btn.icon}}" aria-hidden="true"></i>
+                                <div class="col-md-6 col-xs-4 edit-right-side">
+                                    <div class="right-container">
+                                        <div id="preview-img-container" class="preview-img-container">
+                                        </div>
+                                    </div>
+                                    <div class="image-tool-bar">
+                                        <div *ngFor="let btn of imageBtns" title="{{btn.title}}" (click)="btn.onClick(this)" class="img-btn" [ngClass]="{'img-btn-pressed': btn.isPressed}">
+                                            <i class="fa {{btn.icon}}" aria-hidden="true"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <a title="מחיקת תמונת הפרופיל" (click)="DeleteImage()" *ngIf="userImage && isNewPhoto" class="btn btn-raised btn-default delete-profile-btn">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a title="מחיקת תמונת הפרופיל" (click)="DeleteImage()" *ngIf="userImage && isNewPhoto" class="btn btn-raised btn-default delete-profile-btn">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 </a>
-                <div class="modal-footer-buttons">
-                    <a (click)="ResetAllImageBtnsMode()" class="btn btn-default cancel-change-btn" data-dismiss="modal">סגור</a>
-                    <a (click)="SaveImage()" id="register-btn" class="btn btn-primary change-img-btn" [ngClass]="{'change-img-btn-disabled': isNewPhoto}">אישור</a>
+                    <div class="modal-footer-buttons">
+                        <a (click)="ResetAllImageBtnsMode()" class="btn btn-default cancel-change-btn" data-dismiss="modal">סגור</a>
+                        <a (click)="SaveImage()" id="register-btn" class="btn btn-primary change-img-btn" [ngClass]="{'change-img-btn-disabled': isNewPhoto}">אישור</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<span id="image-failed" data-toggle="snackbar" data-content="הקובץ שנבחר אינו תמונה"></span>
-<span id="upload-failed" data-toggle="snackbar" data-content="שגיאה בהעלאת התמונה"></span>
+    <span id="image-failed" data-toggle="snackbar" data-content="הקובץ שנבחר אינו תמונה"></span>
+    <span id="upload-failed" data-toggle="snackbar" data-content="שגיאה בהעלאת התמונה"></span>
+</div>

@@ -1,8 +1,8 @@
-.navbar-container {
+#navbar .navbar-container {
     height: 50px;
 }
 
-.navbar {
+#navbar .navbar {
     width: 100%;
     background-color: #0375d8;
     position: fixed;
@@ -13,7 +13,7 @@
     -webkit-user-select: none;
 }
 
-.name {
+#navbar .name {
     font-size: 15px;
     font-family: Rubik;
     display: inline-block;
@@ -27,7 +27,7 @@
     padding-left: 5px;
 }
 
-.head-icon {
+#navbar .head-icon {
     position: relative;  
     width: 42px;
     z-index: 1;
@@ -36,7 +36,7 @@
     float: right;
 }
 
-.search-sector {
+#navbar .search-sector {
     float: right;
     top: 14px;
     position: absolute;
@@ -44,7 +44,7 @@
     padding-right: 5px;
 }
 
-.search-input {
+#navbar .search-input {
     color: black;
     padding-right: 5px;
     font-family: rubik;
@@ -57,7 +57,7 @@
     height: 24px;
 }
 
-.search-icon {
+#navbar .search-icon {
     font-size: 16px;
     top: 4px;
     position: absolute;
@@ -65,11 +65,11 @@
     left: 20px;
 }
 
-.search-icon-active {
+#navbar .search-icon-active {
     color: #6088ff !important;
 }
 
-.manage-sector {
+#navbar .manage-sector {
     margin-top: 15px;
     white-space: nowrap;
     max-width: 100%;
@@ -78,18 +78,18 @@
     position: absolute;
 }
 
-.menu-icon {
+#navbar .menu-icon {
     top: 5px;
     font-size: 14px;
     float: left;
     cursor: pointer;
 }
 
-.menu-icon:hover {
+#navbar .menu-icon:hover {
     color: #eee;
 }
 
-.menu-top-arrow {
+#navbar .menu-top-arrow {
     position: absolute;
     color: #fefff4;
     left: -1px;
@@ -98,7 +98,7 @@
     z-index: 1;
 }
 
-.dropMenuPosition {
+#navbar .dropMenuPosition {
     position: fixed;
     left: 8px;
     top: 50px;
@@ -106,7 +106,7 @@
 }
 
 /* The side navigation menu */
-.sidenav {
+#navbar .sidenav {
     height: 100%;
     width: 0;
     position: fixed;
@@ -122,7 +122,7 @@
 }
 
 /* The navigation menu links */
-.sidenav span {
+#navbar .sidenav span {
     padding: 16px 12px 12px 32px;
     text-decoration: none;
     font-size: 24px;
@@ -133,16 +133,16 @@
 }
 
 /* When you mouse over the navigation links, change their color */
-.slidenav-body-sector span:hover, .offcanvas span:focus {
+#navbar .slidenav-body-sector span:hover, .offcanvas span:focus {
     background-color: rgba(46, 66, 80, 0.34);
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
-    .sidenav span {font-size: 20px;}
+    #navbar .sidenav span {font-size: 20px;}
 }
 
-.slidenav-overlay {
+#navbar .slidenav-overlay {
     position: fixed;
     top: 50px;
     right: 0;
@@ -150,11 +150,11 @@
     height: 120vh;
 }
 
-.overlay-background {
+#navbar .overlay-background {
     background-color: rgba(0, 0, 0, 0.14);
 }
 
-.slidenav-head-sector {
+#navbar .slidenav-head-sector {
     background-color: #115c94;
     width: 100%;
     height: 80px;
@@ -162,7 +162,7 @@
     padding-top: 0;
 }
 
-.slidenav-header {
+#navbar .slidenav-header {
     font-size: 26px !important;
     cursor: default !important;
     color: #f1f1f1 !important;
@@ -173,7 +173,7 @@
     white-space: nowrap;
 }
 
-.profile-picture {
+#navbar .profile-picture {
     width: 55px;
     height: 55px;
     margin-top: 4px;
@@ -181,7 +181,7 @@
     cursor: pointer;
 }
 
-.user-name {
+#navbar .user-name {
     display: inline-block;
     font-size: 18px;
     width: calc(100% - 50px);
@@ -193,13 +193,13 @@
     right: 65px;
 }
 
-.search-results-container {
+#navbar .search-results-container {
     width: 100%;
     background-color: #f7f7f7;
     border: 1px solid #1b5484;
 }
 
-.search-result {
+#navbar .search-result {
     height: 55px;
     padding: 5px;
     color: #1d4695;
@@ -209,19 +209,19 @@
     cursor: pointer;
 }
 
-.search-result:hover {
+#navbar .search-result:hover {
     background-color: #6887c2;
     color: #f7f7f7;
 }
 
-.search-result-image {
+#navbar .search-result-image {
     width: 45px;
     height: 45px;
     border-radius: 5px;
     margin-left: 5px;
 }
 
-.search-result-image-loading {
+#navbar .search-result-image-loading {
     width: 45px;
     height: 45px;
     border-radius: 5px;
@@ -258,7 +258,7 @@
     }
 }
 
-.load-image-icon i {
+#navbar .load-image-icon i {
     /**
      * Use the blink animation, which is defined above
      */
@@ -281,7 +281,7 @@
     animation-fill-mode: both;
 }
 
-.load-image-icon i:nth-child(2) {
+#navbar .load-image-icon i:nth-child(2) {
     /**
      * Starts the animation of the third dot
      * with a delay of .2s, otherwise all dots
@@ -290,7 +290,7 @@
     animation-delay: .2s;
 }
 
-.load-image-icon i:nth-child(3) {
+#navbar .load-image-icon i:nth-child(3) {
     /**
      * Starts the animation of the third dot
      * with a delay of .4s, otherwise all dots

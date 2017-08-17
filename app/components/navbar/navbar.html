@@ -1,50 +1,51 @@
-<link rel="stylesheet" href="./navbar.css">
-<div class="navbar-container">
-  <div class="slidenav-overlay" [ngClass]="{'overlay-background' : isSidebarOpen}" *ngIf="isSidebarOpen || isDropMenuOpen || isShowSearchResults"
-    (click)="ClosePopups()"></div>
-  <div id="sidenav" class="sidenav">
-    <div class="slidenav-head-sector">
-      <div class="slidenav-header">
-        <profilePicture class="profile-picture" [isEditEnable]="true"></profilePicture>
-        <div class="user-name">{{name.firstName + " " + name.lastName}}</div>
+<div id="navbar">
+  <div class="navbar-container">
+    <div class="slidenav-overlay" [ngClass]="{'overlay-background' : isSidebarOpen}" *ngIf="isSidebarOpen || isDropMenuOpen || isShowSearchResults"
+      (click)="ClosePopups()"></div>
+    <div id="sidenav" class="sidenav">
+      <div class="slidenav-head-sector">
+        <div class="slidenav-header">
+          <profilePicture class="profile-picture" [isEditEnable]="true"></profilePicture>
+          <div class="user-name">{{name.firstName + " " + name.lastName}}</div>
+        </div>
+      </div>
+      <div class="slidenav-body-sector">
+        <span>שבת שלום</span>
+        <span>חג שמח</span>
+        <span>שנה טובה</span>
+        <span>יום טוב</span>
       </div>
     </div>
-    <div class="slidenav-body-sector">
-      <span>שבת שלום</span>
-      <span>חג שמח</span>
-      <span>שנה טובה</span>
-      <span>יום טוב</span>
-    </div>
-  </div>
-  <div class="container-fluid navbar">
-    <div style="right:0;position:absolute;" class="col-xs-8">
-      <img (click)="ShowHideSidenav()" src="../logo/icon.png" class="head-icon">
-      <span class="search-sector col-md-6 col-xs-10">
+    <div class="container-fluid navbar">
+      <div style="right:0;position:absolute;" class="col-xs-8">
+        <img (click)="ShowHideSidenav()" src="../logo/icon.png" class="head-icon">
+        <span class="search-sector col-md-6 col-xs-10">
         <input type="text" class="search-input" placeholder="חיפוש" [(ngModel)]="searchInput" (ngModelChange)="SearchChange(searchInput)" (focus)="ClickSearchInput(searchInput)"
         autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
         <span class="glyphicon glyphicon-search search-icon" [ngClass]="{'search-icon-active':isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0}"></span>
-      <div class="search-results-container" *ngIf="isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0">
-        <div class="search-result" *ngFor="let result of GetFilteredSearchResults(searchInput)" title="{{result.fullName}}">
-          <img *ngIf="result.profile && result.profile != -1" src="{{result.profile}}" class="search-result-image">
-          <img *ngIf="!result.profile" src="/app/components/profilePicture/pictures/empty-profile.png" class="search-result-image">
-          <span *ngIf="result.profile == -1" class="search-result-image-loading">
+        <div class="search-results-container" *ngIf="isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0">
+          <div class="search-result" *ngFor="let result of GetFilteredSearchResults(searchInput)" title="{{result.fullName}}">
+            <img *ngIf="result.profile && result.profile != -1" src="{{result.profile}}" class="search-result-image">
+            <img *ngIf="!result.profile" src="/app/components/profilePicture/pictures/empty-profile.png" class="search-result-image">
+            <span *ngIf="result.profile == -1" class="search-result-image-loading">
             <p class="load-image-icon"><i class="fa fa-circle" aria-hidden="true"></i> <i class="fa fa-circle" aria-hidden="true"></i> <i class="fa fa-circle" aria-hidden="true"></i></p>
           </span>
-          <span>{{result.fullName}}</span>
+            <span>{{result.fullName}}</span>
+          </div>
         </div>
+        </span>
       </div>
-      </span>
-    </div>
-    <div style="float:left;" class="col-xs-4">
-      <div *ngIf="name" class="manage-sector">
-        <span (click)="ShowHideDropMenu()" class="glyphicon glyphicon-triangle-bottom menu-icon"></span>
-        <span class="name">
+      <div style="float:left;" class="col-xs-4">
+        <div *ngIf="name" class="manage-sector">
+          <span (click)="ShowHideDropMenu()" class="glyphicon glyphicon-triangle-bottom menu-icon"></span>
+          <span class="name">
           <span (click)="ShowHideDropMenu()" style="cursor:pointer;">
             שלום {{name.firstName}}
           </span>
-        </span>
-        <span class="glyphicon glyphicon-triangle-top menu-top-arrow" *ngIf="isDropMenuOpen"></span>
-        <dropMenu class="dropMenuPosition col-md-2 col-xs-4" *ngIf="isDropMenuOpen" [options]="dropMenuDataList"></dropMenu>
+          </span>
+          <span class="glyphicon glyphicon-triangle-top menu-top-arrow" *ngIf="isDropMenuOpen"></span>
+          <dropMenu class="dropMenuPosition col-md-2 col-xs-4" *ngIf="isDropMenuOpen" [options]="dropMenuDataList"></dropMenu>
+        </div>
       </div>
     </div>
   </div>

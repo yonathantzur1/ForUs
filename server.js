@@ -1,6 +1,8 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 var path = require('path');
 var mailer = require('./modules/mailer.js');
 var sha512 = require('js-sha512');
@@ -23,6 +25,10 @@ app.use(bodyParser.urlencoded({
 app.use(express.static('./'));
 app.use(express.static('public'));
 
+
+io.on('connection', function (socket) {
+    // console.log('a user connected');
+});
 function redirectToLogin(req, res) {
     if (req.method == "GET") {
         res.redirect('/login');
@@ -64,7 +70,7 @@ app.use('/api', function (req, res, next) {
     }
 });
 
-var server = app.listen((process.env.PORT || 8000), function () {
+var server = http.listen((process.env.PORT || 8000), function () {
     console.log("Server is up!");
 });
 
