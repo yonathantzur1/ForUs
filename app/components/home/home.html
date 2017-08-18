@@ -1,5 +1,5 @@
 <div id="home">
-    <navbar [name]="currUserName"></navbar>
+    <navbar *ngIf="currUser" [user]="currUser"></navbar>
 
     <profile [isOpenEditWindow]="isOpenEditWindow" [isNewPhoto]="true" [imgSrc]=""></profile>
 </div>

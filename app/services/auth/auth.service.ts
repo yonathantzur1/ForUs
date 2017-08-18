@@ -14,8 +14,8 @@ export class AuthService extends BasicService {
             });
     }
 
-    GetCurrUserName() {
-        return super.get(this.prefix + '/getCurrUserName')
+    GetCurrUser() {
+        return super.get(this.prefix + '/getCurrUser')
             .toPromise()
             .then((result) => {
                 return result.json();

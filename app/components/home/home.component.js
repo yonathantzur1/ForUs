@@ -19,15 +19,15 @@ var HomeComponent = (function () {
         this.authService = authService;
         this.homeService = homeService;
         this.isOpenEditWindow = false;
-        this.currUserName = { firstName: "", lastName: "" };
+        this.currUser = null;
     }
     HomeComponent.prototype.ngOnInit = function () {
-        this.GetCurrUserName();
+        this.GetCurrUser();
     };
-    HomeComponent.prototype.GetCurrUserName = function () {
+    HomeComponent.prototype.GetCurrUser = function () {
         var _this = this;
-        this.authService.GetCurrUserName().then(function (result) {
-            _this.currUserName = result;
+        this.authService.GetCurrUser().then(function (result) {
+            _this.currUser = result;
         });
     };
     HomeComponent = __decorate([

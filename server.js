@@ -25,10 +25,19 @@ app.use(bodyParser.urlencoded({
 app.use(express.static('./'));
 app.use(express.static('public'));
 
-
 io.on('connection', function (socket) {
+
+    socket.on('chat message', function (msg) {
+        io.emit('chat message', "from sever");
+    });
+
+
     // console.log('a user connected');
+    socket.on('disconnect', function () {
+        // console.log('user disconnected');
+    });
 });
+
 function redirectToLogin(req, res) {
     if (req.method == "GET") {
         res.redirect('/login');

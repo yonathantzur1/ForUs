@@ -129,11 +129,15 @@ var NavbarComponent = (function () {
                 _this.ClosePopups();
             }
         });
+        var socket = io();
+        socket.on('msg', function (msg) {
+            console.log('message: ' + msg);
+        });
     }
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object)
-    ], NavbarComponent.prototype, "name", void 0);
+    ], NavbarComponent.prototype, "user", void 0);
     NavbarComponent = __decorate([
         core_1.Component({
             selector: 'navbar',

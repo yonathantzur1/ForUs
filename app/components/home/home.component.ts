@@ -14,15 +14,15 @@ export class HomeComponent implements OnInit {
     constructor(private router: Router, private authService: AuthService, private homeService: HomeService) { }
 
     isOpenEditWindow = false;
-    currUserName = { firstName: "", lastName: "" };
+    currUser: any = null;
 
     ngOnInit() {
-        this.GetCurrUserName();
+        this.GetCurrUser();
     }
 
-    GetCurrUserName() {
-        this.authService.GetCurrUserName().then((result) => {
-            this.currUserName = result;
+    GetCurrUser() {
+        this.authService.GetCurrUser().then((result) => {
+            this.currUser = result;
         });
     }
 }

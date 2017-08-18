@@ -14,18 +14,8 @@ module.exports = function (app) {
         }
     });
 
-    // Getting the current login user name.
-    app.get(prefix + '/getCurrUserName', function (req, res) {
-        if (req.user) {
-            var name = {
-                "firstName": req.user.firstName,
-                "lastName": req.user.lastName
-            }
-
-            res.send(name);
-        }
-        else {
-            res.send(null);
-        }
+    // Getting the current login user.
+    app.get(prefix + '/getCurrUser', function (req, res) {
+        res.send(req.user);
     });
 };

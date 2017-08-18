@@ -6,7 +6,7 @@
       <div class="slidenav-head-sector">
         <div class="slidenav-header">
           <profilePicture class="profile-picture" [isEditEnable]="true"></profilePicture>
-          <div class="user-name">{{name.firstName + " " + name.lastName}}</div>
+          <div class="user-name">{{user.firstName + " " + user.lastName}}</div>
         </div>
       </div>
       <div class="slidenav-body-sector">
@@ -36,11 +36,11 @@
         </span>
       </div>
       <div style="float:left;" class="col-xs-4">
-        <div *ngIf="name" class="manage-sector">
+        <div *ngIf="user" class="manage-sector">
           <span (click)="ShowHideDropMenu()" class="glyphicon glyphicon-triangle-bottom menu-icon"></span>
           <span class="name">
           <span (click)="ShowHideDropMenu()" style="cursor:pointer;">
-            שלום {{name.firstName}}
+            שלום {{user.firstName}}
           </span>
           </span>
           <span class="glyphicon glyphicon-triangle-top menu-top-arrow" *ngIf="isDropMenuOpen"></span>

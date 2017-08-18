@@ -6,6 +6,8 @@ import { AuthService } from '../../services/auth/auth.service';
 import { NavbarService } from '../../services/navbar/navbar.service';
 
 declare var deleteToken: any;
+declare var socket: any;
+declare var io: any;
 
 export class DropMenuData {
     constructor(link: string, text: string, action: Function, object: any)
@@ -31,9 +33,14 @@ export class NavbarComponent {
                 this.ClosePopups();
             }
         });
+
+        var socket = io();
+        socket.on('msg', function (msg: any) {
+            console.log('message: ' + msg);
+        });
     }
 
-    @Input() name: Object;
+    @Input() user: Object;
 
     // START CONFIG VARIABLES //
 

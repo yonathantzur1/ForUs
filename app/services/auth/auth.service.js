@@ -28,8 +28,8 @@ var AuthService = (function (_super) {
             return null;
         });
     };
-    AuthService.prototype.GetCurrUserName = function () {
-        return _super.prototype.get.call(this, this.prefix + '/getCurrUserName')
+    AuthService.prototype.GetCurrUser = function () {
+        return _super.prototype.get.call(this, this.prefix + '/getCurrUser')
             .toPromise()
             .then(function (result) {
             return result.json();
