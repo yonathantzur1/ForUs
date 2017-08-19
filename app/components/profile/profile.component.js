@@ -141,7 +141,6 @@ var ProfileComponent = (function () {
             }
         ];
         this.globalService.data.subscribe(function (value) {
-            var deleteDataArray = [];
             if (value["userImage"] != null) {
                 _this.userImage = value["userImage"];
             }
@@ -149,9 +148,7 @@ var ProfileComponent = (function () {
                 _this.isNewPhoto = true;
                 _this.isOpenEditWindow = value["isOpenEditWindow"];
                 _this.ActiveWindow();
-                deleteDataArray.push("isOpenEditWindow");
             }
-            _this.globalService.deleteMultiData(deleteDataArray);
         });
     }
     ProfileComponent.prototype.ResetAllImageBtns = function () {

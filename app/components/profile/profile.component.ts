@@ -19,7 +19,6 @@ declare function GetCroppedBase64Image(): any;
 export class ProfileComponent implements OnInit, OnChanges {
     constructor(private profileService: ProfileService, private globalService: GlobalService) {
         this.globalService.data.subscribe(value => {
-            var deleteDataArray = [];
 
             if (value["userImage"] != null) {
                 this.userImage = value["userImage"];
@@ -29,10 +28,7 @@ export class ProfileComponent implements OnInit, OnChanges {
                 this.isNewPhoto = true;
                 this.isOpenEditWindow = value["isOpenEditWindow"];
                 this.ActiveWindow();
-                deleteDataArray.push("isOpenEditWindow");
             }
-
-            this.globalService.deleteMultiData(deleteDataArray);
         });
     }
 

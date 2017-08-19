@@ -127,13 +127,17 @@ var NavbarComponent = (function () {
         this.globalService.data.subscribe(function (value) {
             if (value["isOpenEditWindow"]) {
                 _this.ClosePopups();
+                _this.globalService.deleteData("isOpenEditWindow");
             }
         });
-        var socket = io();
-        socket.on('msg', function (msg) {
-            console.log('message: ' + msg);
-        });
     }
+    NavbarComponent.prototype.ngOnInit = function () {
+        var socket = io();
+        socket.emit('login', this.user._id);
+        socket.on('message', function (data) {
+            console.log('message: ' + data);
+        });
+    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object)

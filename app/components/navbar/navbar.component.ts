@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
@@ -25,22 +25,26 @@ export class DropMenuData {
     providers: [NavbarService]
 })
 
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
+    @Input() user: any;
+
     constructor(private router: Router, private authService: AuthService,
         private globalService: GlobalService, private navbarService: NavbarService) {
         this.globalService.data.subscribe(value => {
             if (value["isOpenEditWindow"]) {
                 this.ClosePopups();
+                this.globalService.deleteData("isOpenEditWindow");
             }
-        });
-
-        var socket = io();
-        socket.on('msg', function (msg: any) {
-            console.log('message: ' + msg);
         });
     }
 
-    @Input() user: Object;
+    ngOnInit() {
+        var socket = io();
+        socket.emit('login', this.user._id);
+        socket.on('message', function (data: any) {
+            console.log('message: ' + data);
+        });
+    }
 
     // START CONFIG VARIABLES //
 

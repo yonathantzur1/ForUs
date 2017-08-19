@@ -25,18 +25,8 @@ app.use(bodyParser.urlencoded({
 app.use(express.static('./'));
 app.use(express.static('public'));
 
-io.on('connection', function (socket) {
-
-    socket.on('chat message', function (msg) {
-        io.emit('chat message', "from sever");
-    });
-
-
-    // console.log('a user connected');
-    socket.on('disconnect', function () {
-        // console.log('user disconnected');
-    });
-});
+// Import socket.io mudule
+var socket = require('./modules/socket.js')(io);
 
 function redirectToLogin(req, res) {
     if (req.method == "GET") {
