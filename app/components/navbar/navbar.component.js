@@ -132,11 +132,15 @@ var NavbarComponent = (function () {
         });
     }
     NavbarComponent.prototype.ngOnInit = function () {
-        var socket = io();
-        socket.emit('login', this.user._id);
-        socket.on('message', function (data) {
-            console.log('message: ' + data);
-        });
+        // var socket = io();
+        // var loginData = {
+        //     id: this.user._id,
+        //     token: getToken()
+        // }
+        // socket.emit('login', loginData);
+        // socket.on('message', function (data: any) {
+        //     console.log('message: ' + data);
+        // });
     };
     __decorate([
         core_1.Input(),

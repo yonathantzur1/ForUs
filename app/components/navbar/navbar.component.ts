@@ -5,6 +5,7 @@ import { GlobalService } from '../../services/global/global.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { NavbarService } from '../../services/navbar/navbar.service';
 
+declare var getToken: any;
 declare var deleteToken: any;
 declare var socket: any;
 declare var io: any;
@@ -39,11 +40,16 @@ export class NavbarComponent implements OnInit {
     }
 
     ngOnInit() {
-        var socket = io();
-        socket.emit('login', this.user._id);
-        socket.on('message', function (data: any) {
-            console.log('message: ' + data);
-        });
+        // var socket = io();
+        // var loginData = {
+        //     id: this.user._id,
+        //     token: getToken()
+        // }
+        
+        // socket.emit('login', loginData);
+        // socket.on('message', function (data: any) {
+        //     console.log('message: ' + data);
+        // });
     }
 
     // START CONFIG VARIABLES //

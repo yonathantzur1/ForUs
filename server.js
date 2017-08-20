@@ -26,7 +26,7 @@ app.use(express.static('./'));
 app.use(express.static('public'));
 
 // Import socket.io mudule
-var socket = require('./modules/socket.js')(io);
+var socket = require('./modules/socket.js')(io, jwt, config);
 
 function redirectToLogin(req, res) {
     if (req.method == "GET") {
