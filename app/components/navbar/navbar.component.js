@@ -21,6 +21,12 @@ var DropMenuData = (function () {
     return DropMenuData;
 }());
 exports.DropMenuData = DropMenuData;
+var Friend = (function () {
+    function Friend() {
+    }
+    return Friend;
+}());
+exports.Friend = Friend;
 var NavbarComponent = (function () {
     function NavbarComponent(router, authService, globalService, navbarService) {
         var _this = this;
@@ -28,6 +34,7 @@ var NavbarComponent = (function () {
         this.authService = authService;
         this.globalService = globalService;
         this.navbarService = navbarService;
+        this.friends = [];
         // START CONFIG VARIABLES //
         this.searchLimit = 4;
         this.searchInputChangeDelayMilliseconds = 100;
@@ -44,6 +51,15 @@ var NavbarComponent = (function () {
                 self.router.navigateByUrl(link);
             }, this)
         ];
+        // Loading full friends objects to friends array.
+        this.LoadFriendsData = function (friendsIds) {
+            var _this = this;
+            if (friendsIds.length > 0) {
+                this.navbarService.GetFriends(friendsIds).then(function (friendsResult) {
+                    _this.friends = friendsResult;
+                });
+            }
+        };
         this.ShowHideSidenav = function () {
             this.isSidebarOpen = !this.isSidebarOpen;
             if (this.isSidebarOpen) {
@@ -132,6 +148,7 @@ var NavbarComponent = (function () {
         });
     }
     NavbarComponent.prototype.ngOnInit = function () {
+        this.LoadFriendsData(this.user.friends);
         // var socket = io();
         // var loginData = {
         //     id: this.user._id,

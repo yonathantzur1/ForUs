@@ -18,6 +18,16 @@ var NavbarService = (function (_super) {
         _this.prefix = "/api/navbar";
         return _this;
     }
+    NavbarService.prototype.GetFriends = function (friendsIds) {
+        return _super.prototype.post.call(this, this.prefix + '/getFriends', JSON.stringify(friendsIds))
+            .toPromise()
+            .then(function (result) {
+            return result.json();
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
     NavbarService.prototype.GetMainSearchResults = function (searchInput, searchLimit) {
         var details = { "searchInput": searchInput, "searchLimit": searchLimit };
         return _super.prototype.post.call(this, this.prefix + '/getMainSearchResults', JSON.stringify(details))

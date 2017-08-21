@@ -71,7 +71,8 @@ module.exports = {
             "email": newUser.email,
             "password": newUser.password,
             "salt": salt,
-            "creationDate": new Date()
+            "creationDate": new Date(),
+            "friends" : []
         };
 
         DAL.Insert(collectionName, newUserObj, function (result) {

@@ -4,6 +4,17 @@ export class NavbarService extends BasicService {
 
     prefix = "/api/navbar";
 
+    GetFriends(friendsIds: Array<string>) {
+        return super.post(this.prefix + '/getFriends', JSON.stringify(friendsIds))
+            .toPromise()
+            .then((result) => {
+                return result.json();
+            })
+            .catch((result) => {
+                return null;
+            });
+    }
+
     GetMainSearchResults(searchInput: string, searchLimit: number) {
         var details = { "searchInput": searchInput, "searchLimit": searchLimit };
 

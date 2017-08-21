@@ -10,6 +10,42 @@ var usersIdsInCache = [];
 
 module.exports = {
 
+    GetFriends: function (friendsIds, callback) {
+        var friendsObjectIds = ConvertIdsToObjectIds(friendsIds);
+        var friendsFilter = { $match: { "_id": { $in: friendsObjectIds } } };
+        var joinFilter = {
+            $lookup:
+            {
+                from: profileCollectionName,
+                localField: 'profile',
+                foreignField: '_id',
+                as: 'profileImage'
+            }
+        }
+        var lookupToObject = { $unwind: "$profileImage" };
+        var friendsFileds = { $project: { "firstName": 1, "lastName": 1, "profileImage.image": 1 } };
+
+        var aggregateArray = [friendsFilter, joinFilter, lookupToObject, friendsFileds];
+
+        DAL.Aggregate(usersCollectionName, aggregateArray, function (friendsWithProfile) {
+            friendsWithProfile.forEach(friend => {
+                friend.profileImage = friend.profileImage.image;
+            });
+
+            var friendsFilterWithNoProfile = { "_id": { $in: friendsObjectIds }, profile: { $eq: null } };
+            var friendsFiledsWithNoProfile = { "firstName": true, "lastName": true };
+
+            DAL.FindSpecific(usersCollectionName, friendsFilterWithNoProfile, friendsFiledsWithNoProfile, function (friendsWithNoProfile) {
+                if (!friendsWithProfile || !friendsWithNoProfile) {
+                    callback(null);
+                }
+                else {
+                    callback(friendsWithProfile.concat(friendsWithNoProfile));
+                }
+            });
+        })
+    },
+
     GetMainSearchResults: function (searchInput, searchLimit, callback) {
         var usersFilter = { $match: { $or: [{ fullName: new RegExp("^" + searchInput, 'g') }, { lastName: new RegExp("^" + searchInput, 'g') }] } };
         aggregateArray = [{ $project: { fullName: { $concat: ["$firstName", " ", "$lastName"] }, profile: "$profile", firstName: "$firstName", lastName: "$lastName" } }, usersFilter,

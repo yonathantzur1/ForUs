@@ -20,6 +20,14 @@ export class DropMenuData {
     object: any;
 }
 
+export class Friend {
+    id: string;
+    firstName: string;
+    lastName: string;
+    profileImage: string;
+    isOnline: boolean;
+}
+
 @Component({
     selector: 'navbar',
     templateUrl: './navbar.html',
@@ -28,6 +36,7 @@ export class DropMenuData {
 
 export class NavbarComponent implements OnInit {
     @Input() user: any;
+    friends : Array<Friend> = [];
 
     constructor(private router: Router, private authService: AuthService,
         private globalService: GlobalService, private navbarService: NavbarService) {
@@ -40,6 +49,7 @@ export class NavbarComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.LoadFriendsData(this.user.friends);
         // var socket = io();
         // var loginData = {
         //     id: this.user._id,
@@ -72,6 +82,15 @@ export class NavbarComponent implements OnInit {
             self.router.navigateByUrl(link);
         }, this)
     ];
+
+    // Loading full friends objects to friends array.
+    LoadFriendsData = function(friendsIds: Array<string>) {
+        if (friendsIds.length > 0) {
+            this.navbarService.GetFriends(friendsIds).then((friendsResult: Array<Friend>) => {
+                this.friends = friendsResult;
+            });
+        }
+    }
 
     ShowHideSidenav = function () {
         this.isSidebarOpen = !this.isSidebarOpen;
