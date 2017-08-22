@@ -10,10 +10,12 @@
         </div>
       </div>
       <div class="slidenav-body-sector">
-        <span>שבת שלום</span>
-        <span>חג שמח</span>
-        <span>שנה טובה</span>
-        <span>יום טוב</span>
+        <div class="friend-container" *ngFor="let friend of friends">
+          <img class="friend-profile" src="{{friend.profileImage}}">
+          <span>
+            {{friend.firstName + " " + friend.lastName}}
+          </span>
+        </div>
       </div>
     </div>
     <div class="container-fluid navbar">
