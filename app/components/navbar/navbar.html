@@ -10,7 +10,14 @@
         </div>
       </div>
       <div class="slidenav-body-sector">
-        <div class="friend-container" *ngFor="let friend of friends">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <div id="friend-search-container" class="col-md-12">
+              <input [(ngModel)]="friendSearchInput" id="friend-search" name="friend-search" class="form-control" type="text" placeholder="חיפוש">
+            </div>
+          </div>
+        </form>
+        <div class="friend-container" *ngFor="let friend of (friendSearchInput ? GetFilteredFriends(friendSearchInput) : friends)">
           <img class="friend-profile" src="{{friend.profileImage}}">
           <span>
             {{friend.firstName + " " + friend.lastName}}

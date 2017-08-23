@@ -123,13 +123,14 @@
 
 /* The navigation menu links */
 #navbar .sidenav span {
-    padding: 16px 12px 12px 32px;
-    text-decoration: none;
+    padding: 10px 8px 10px 32px;
     font-size: 16px;
     color: #dbdeff;
-    display: block;
     cursor: pointer;
     white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    overflow: hidden;
 }
 
 #navbar .slidenav-overlay {
@@ -306,3 +307,17 @@
     align-self: center;
     margin-right: 8px;
 }
+
+#navbar .form-group {
+    margin: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+#navbar #friend-search {
+    background-image: linear-gradient(#D2D2D2, #D2D2D2), linear-gradient(#D2D2D2, #D2D2D2) !important;
+    color: #efeded !important;
+}
+
+#navbar #friend-search-container ::-webkit-input-placeholder {
+    color: #DBD8D8;
+  }

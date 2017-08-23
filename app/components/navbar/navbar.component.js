@@ -140,6 +140,12 @@ var NavbarComponent = (function () {
                 return (result.fullName.indexOf(searchInput) != -1);
             });
         };
+        this.GetFilteredFriends = function (friendSearchInput) {
+            return this.friends.filter(function (friend) {
+                return ((friend.firstName.indexOf(friendSearchInput) != -1) ||
+                    (friend.lastName.indexOf(friendSearchInput) != -1));
+            });
+        };
         this.globalService.data.subscribe(function (value) {
             if (value["isOpenEditWindow"]) {
                 _this.ClosePopups();

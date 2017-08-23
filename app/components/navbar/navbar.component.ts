@@ -36,7 +36,7 @@ export class Friend {
 
 export class NavbarComponent implements OnInit {
     @Input() user: any;
-    friends : Array<Friend> = [];
+    friends: Array<Friend> = [];
 
     constructor(private router: Router, private authService: AuthService,
         private globalService: GlobalService, private navbarService: NavbarService) {
@@ -55,7 +55,7 @@ export class NavbarComponent implements OnInit {
         //     id: this.user._id,
         //     token: getToken()
         // }
-        
+
         // socket.emit('login', loginData);
         // socket.on('message', function (data: any) {
         //     console.log('message: ' + data);
@@ -84,7 +84,7 @@ export class NavbarComponent implements OnInit {
     ];
 
     // Loading full friends objects to friends array.
-    LoadFriendsData = function(friendsIds: Array<string>) {
+    LoadFriendsData = function (friendsIds: Array<string>) {
         if (friendsIds.length > 0) {
             this.navbarService.GetFriends(friendsIds).then((friendsResult: Array<Friend>) => {
                 this.friends = friendsResult;
@@ -189,6 +189,13 @@ export class NavbarComponent implements OnInit {
     GetFilteredSearchResults = function (searchInput: string): Array<any> {
         return this.searchResults.filter(function (result: any) {
             return (result.fullName.indexOf(searchInput) != -1);
+        });
+    }
+
+    GetFilteredFriends = function (friendSearchInput: string): Array<any> {
+        return this.friends.filter(function (friend: any) {
+            return ((friend.firstName.indexOf(friendSearchInput) != -1) ||
+                (friend.lastName.indexOf(friendSearchInput) != -1));
         });
     }
 
