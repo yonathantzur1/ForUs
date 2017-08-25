@@ -10,18 +10,22 @@
         </div>
       </div>
       <div class="slidenav-body-sector">
-        <form class="form-horizontal">
-          <div class="form-group">
-            <div id="friend-search-container" class="col-md-12">
-              <input [(ngModel)]="friendSearchInput" id="friend-search" name="friend-search" class="form-control" type="text" placeholder="חיפוש">
+        <loader id="friends-loader" class="friends-loader" *ngIf="isFriendsLoading"></loader>
+        <div id="friends-sector" *ngIf="!isFriendsLoading">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <div id="friend-search-container" class="col-md-12">
+                <input [(ngModel)]="friendSearchInput" id="friend-search" name="friend-search" class="form-control" type="text" placeholder="חיפוש"
+                  autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+              </div>
             </div>
-          </div>
-        </form>
-        <div class="friend-container" *ngFor="let friend of (friendSearchInput ? GetFilteredFriends(friendSearchInput) : friends)">
-          <img class="friend-profile" src="{{friend.profileImage}}">
-          <span>
+          </form>
+          <div class="friend-container" *ngFor="let friend of (GetFilteredFriends(friendSearchInput))">
+            <img class="friend-profile" src="{{friend.profileImage ? friend.profileImage : defaultProfileImage}}">
+            <span>
             {{friend.firstName + " " + friend.lastName}}
           </span>
+          </div>
         </div>
       </div>
     </div>
@@ -29,7 +33,7 @@
       <div style="right:0;position:absolute;" class="col-xs-8">
         <img (click)="ShowHideSidenav()" src="../logo/icon.png" class="head-icon">
         <span class="search-sector col-md-6 col-xs-10">
-        <input type="text" class="search-input" placeholder="חיפוש" [(ngModel)]="searchInput" (ngModelChange)="SearchChange(searchInput)" (focus)="ClickSearchInput(searchInput)"
+        <input type="text" class="search-input" placeholder="חיפוש" [(ngModel)]="searchInput" (ngModelChange)="SearchChange(searchInput)" (focus)="ClickSearchInput(searchInput)" 
         autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
         <span class="glyphicon glyphicon-search search-icon" [ngClass]="{'search-icon-active':isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0}"></span>
         <div class="search-results-container" *ngIf="isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0">

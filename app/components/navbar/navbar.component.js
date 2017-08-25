@@ -35,6 +35,8 @@ var NavbarComponent = (function () {
         this.globalService = globalService;
         this.navbarService = navbarService;
         this.friends = [];
+        this.isFriendsLoading = false;
+        this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         // START CONFIG VARIABLES //
         this.searchLimit = 4;
         this.searchInputChangeDelayMilliseconds = 100;
@@ -55,8 +57,10 @@ var NavbarComponent = (function () {
         this.LoadFriendsData = function (friendsIds) {
             var _this = this;
             if (friendsIds.length > 0) {
+                this.isFriendsLoading = true;
                 this.navbarService.GetFriends(friendsIds).then(function (friendsResult) {
                     _this.friends = friendsResult;
+                    _this.isFriendsLoading = false;
                 });
             }
         };
@@ -137,14 +141,20 @@ var NavbarComponent = (function () {
         };
         this.GetFilteredSearchResults = function (searchInput) {
             return this.searchResults.filter(function (result) {
-                return (result.fullName.indexOf(searchInput) != -1);
+                return ((result.firstName.indexOf(searchInput) == 0) ||
+                    (result.lastName.indexOf(searchInput) == 0));
             });
         };
         this.GetFilteredFriends = function (friendSearchInput) {
-            return this.friends.filter(function (friend) {
-                return ((friend.firstName.indexOf(friendSearchInput) != -1) ||
-                    (friend.lastName.indexOf(friendSearchInput) != -1));
-            });
+            if (!friendSearchInput) {
+                return this.friends;
+            }
+            else {
+                return this.friends.filter(function (friend) {
+                    return ((friend.firstName.indexOf(friendSearchInput) == 0) ||
+                        (friend.lastName.indexOf(friendSearchInput) == 0));
+                });
+            }
         };
         this.globalService.data.subscribe(function (value) {
             if (value["isOpenEditWindow"]) {

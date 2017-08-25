@@ -320,4 +320,14 @@
 
 #navbar #friend-search-container ::-webkit-input-placeholder {
     color: #DBD8D8;
-  }
+}
+
+#navbar .friends-loader {
+    position: absolute;
+    top: 150px;
+    right: 65px;
+}
+
+#navbar #friends-loader .loader {
+    background-color: transparent !important;
+}

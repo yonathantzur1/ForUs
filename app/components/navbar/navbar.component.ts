@@ -37,6 +37,8 @@ export class Friend {
 export class NavbarComponent implements OnInit {
     @Input() user: any;
     friends: Array<Friend> = [];
+    isFriendsLoading: boolean = false;
+    defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
 
     constructor(private router: Router, private authService: AuthService,
         private globalService: GlobalService, private navbarService: NavbarService) {
@@ -86,8 +88,10 @@ export class NavbarComponent implements OnInit {
     // Loading full friends objects to friends array.
     LoadFriendsData = function (friendsIds: Array<string>) {
         if (friendsIds.length > 0) {
+            this.isFriendsLoading = true;
             this.navbarService.GetFriends(friendsIds).then((friendsResult: Array<Friend>) => {
                 this.friends = friendsResult;
+                this.isFriendsLoading = false;
             });
         }
     }
@@ -188,15 +192,21 @@ export class NavbarComponent implements OnInit {
 
     GetFilteredSearchResults = function (searchInput: string): Array<any> {
         return this.searchResults.filter(function (result: any) {
-            return (result.fullName.indexOf(searchInput) != -1);
+            return ((result.firstName.indexOf(searchInput) == 0) ||
+                (result.lastName.indexOf(searchInput) == 0));
         });
     }
 
     GetFilteredFriends = function (friendSearchInput: string): Array<any> {
-        return this.friends.filter(function (friend: any) {
-            return ((friend.firstName.indexOf(friendSearchInput) != -1) ||
-                (friend.lastName.indexOf(friendSearchInput) != -1));
-        });
+        if (!friendSearchInput) {
+            return this.friends;
+        }
+        else {
+            return this.friends.filter(function (friend: any) {
+                return ((friend.firstName.indexOf(friendSearchInput) == 0) ||
+                    (friend.lastName.indexOf(friendSearchInput) == 0));
+            });
+        }
     }
 
 }
