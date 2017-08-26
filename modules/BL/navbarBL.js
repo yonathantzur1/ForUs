@@ -47,9 +47,26 @@ module.exports = {
     },
 
     GetMainSearchResults: function (searchInput, searchLimit, callback) {
-        var usersFilter = { $match: { $or: [{ fullName: new RegExp("^" + searchInput, 'g') }, { lastName: new RegExp("^" + searchInput, 'g') }] } };
-        aggregateArray = [{ $project: { fullName: { $concat: ["$firstName", " ", "$lastName"] }, profile: "$profile", firstName: "$firstName", lastName: "$lastName" } }, usersFilter,
-        { $limit: searchLimit }, { $sort: { "fullName": 1 } }];
+        var usersFilter = {
+            $match: {
+                $or: [
+                    { fullName: new RegExp("^" + searchInput, 'g') },
+                    { fullNameReversed: new RegExp("^" + searchInput, 'g') }
+                ]
+            }
+        };
+
+        var aggregateArray = [{
+            $project: {
+                fullName: { $concat: ["$firstName", " ", "$lastName"] },
+                fullNameReversed: { $concat: ["$lastName", " ", "$firstName"] },
+                profile: 1,
+                firstName: 1,
+                lastName: 1
+            }
+        }, usersFilter,
+        { $limit: searchLimit },
+        { $sort: { "fullName": 1 } }];
 
         DAL.Aggregate(usersCollectionName, aggregateArray, function (results) {
             if (!results) {

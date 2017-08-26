@@ -37,6 +37,7 @@ var NavbarComponent = (function () {
         this.friends = [];
         this.isFriendsLoading = false;
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
+        this.isChatOpen = false;
         // START CONFIG VARIABLES //
         this.searchLimit = 4;
         this.searchInputChangeDelayMilliseconds = 100;
@@ -115,8 +116,8 @@ var NavbarComponent = (function () {
                 clearTimeout(self.inputTimer);
             }
             self.inputTimer = setTimeout(function () {
-                input = input ? input.trim() : input;
                 if (input) {
+                    input = input.trim();
                     self.navbarService.GetMainSearchResults(input, self.searchLimit).then(function (results) {
                         if (results && results.length > 0 && input == self.searchInput.trim()) {
                             self.searchResults = results;
@@ -140,21 +141,32 @@ var NavbarComponent = (function () {
             }, self.searchInputChangeDelayMilliseconds);
         };
         this.GetFilteredSearchResults = function (searchInput) {
-            return this.searchResults.filter(function (result) {
-                return ((result.firstName.indexOf(searchInput) == 0) ||
-                    (result.lastName.indexOf(searchInput) == 0));
-            });
+            if (!searchInput) {
+                return this.searchResults;
+            }
+            else {
+                searchInput = searchInput.trim();
+                return this.searchResults.filter(function (result) {
+                    return ((result.fullName.indexOf(searchInput) == 0) ||
+                        ((result.lastName + " " + result.firstName).indexOf(searchInput) == 0));
+                });
+            }
         };
         this.GetFilteredFriends = function (friendSearchInput) {
             if (!friendSearchInput) {
                 return this.friends;
             }
             else {
+                friendSearchInput = friendSearchInput.trim();
                 return this.friends.filter(function (friend) {
-                    return ((friend.firstName.indexOf(friendSearchInput) == 0) ||
-                        (friend.lastName.indexOf(friendSearchInput) == 0));
+                    return (((friend.firstName + " " + friend.lastName).indexOf(friendSearchInput) == 0) ||
+                        ((friend.lastName + " " + friend.firstName).indexOf(friendSearchInput) == 0));
                 });
             }
+        };
+        // START CHAT FUNCTIONS //
+        this.CloseChat = function () {
+            this.isChatOpen = false;
         };
         this.globalService.data.subscribe(function (value) {
             if (value["isOpenEditWindow"]) {
@@ -166,11 +178,7 @@ var NavbarComponent = (function () {
     NavbarComponent.prototype.ngOnInit = function () {
         this.LoadFriendsData(this.user.friends);
         // var socket = io();
-        // var loginData = {
-        //     id: this.user._id,
-        //     token: getToken()
-        // }
-        // socket.emit('login', loginData);
+        // socket.emit('login', getToken());
         // socket.on('message', function (data: any) {
         //     console.log('message: ' + data);
         // });

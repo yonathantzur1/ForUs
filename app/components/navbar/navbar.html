@@ -23,8 +23,8 @@
           <div class="friend-container" *ngFor="let friend of (GetFilteredFriends(friendSearchInput))">
             <img class="friend-profile" src="{{friend.profileImage ? friend.profileImage : defaultProfileImage}}">
             <span>
-            {{friend.firstName + " " + friend.lastName}}
-          </span>
+              {{friend.firstName + " " + friend.lastName}}
+            </span>
           </div>
         </div>
       </div>
@@ -60,6 +60,17 @@
           <dropMenu class="dropMenuPosition col-md-2 col-xs-4" *ngIf="isDropMenuOpen" [options]="dropMenuDataList"></dropMenu>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHAT SECTOR -->
+<div *ngIf="isChatOpen" id="chat">
+  <div class="col-md-8 chat-window-container">
+    <div class="top-chat-info-line">
+      <img class="friend-chat-profile" src="{{defaultProfileImage}}">
+      <span class="friend-chat-name">יונתן צור</span>
+      <span (click)="CloseChat()" class="glyphicon glyphicon-remove exit-chat" aria-hidden="true"></span>
     </div>
   </div>
 </div>
