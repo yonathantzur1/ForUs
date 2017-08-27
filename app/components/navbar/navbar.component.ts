@@ -39,7 +39,7 @@ export class NavbarComponent implements OnInit {
     friends: Array<Friend> = [];
     isFriendsLoading: boolean = false;
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
-    isChatOpen: boolean = false;
+    isChatOpen: boolean = true;
 
     constructor(private router: Router, private authService: AuthService,
         private globalService: GlobalService, private navbarService: NavbarService) {

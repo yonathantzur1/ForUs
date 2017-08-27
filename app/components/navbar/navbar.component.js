@@ -37,7 +37,7 @@ var NavbarComponent = (function () {
         this.friends = [];
         this.isFriendsLoading = false;
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
-        this.isChatOpen = false;
+        this.isChatOpen = true;
         // START CONFIG VARIABLES //
         this.searchLimit = 4;
         this.searchInputChangeDelayMilliseconds = 100;

@@ -14,6 +14,11 @@
     z-index: 1000;
 }
 
+#navbar .slidenav-body-sector {
+    height: calc(100% - 130px);
+    overflow-y: auto;
+}
+
 #navbar .name {
     font-size: 15px;
     font-family: Rubik;
@@ -120,12 +125,13 @@
     user-select: none;
     -webkit-user-select: none;
     border-top: 1px #bdb7b7 solid;
+    overflow-y: hidden;
 }
 
 /* The navigation menu links */
 #navbar .sidenav span {
-    padding: 10px 8px 10px 0px;
-    font-size: 16px;
+    padding: 12px 8px 10px 0px;
+    font-size: 14px;
     color: #dbdeff;
     cursor: pointer;
     white-space: nowrap;
@@ -302,9 +308,9 @@
 }
 
 #navbar .friend-profile {
-    width: 35px;
-    height: 35px;
-    border-radius: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
     vertical-align: middle;
     align-self: center;
     margin-right: 8px;
