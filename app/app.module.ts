@@ -12,6 +12,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { DropMenuComponent } from './components/dropMenu/dropMenu.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ProfilePictureComponent } from './components/profilePicture/profilePicture.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 import { PageNotFoundComponent } from './components/pageNotFound/pageNotFound.component';
 
@@ -38,7 +39,8 @@ import { GlobalService } from './services/global/global.service';
     NavbarComponent,
     DropMenuComponent,
     ProfileComponent,
-    ProfilePictureComponent
+    ProfilePictureComponent,
+    ChatComponent
   ],
   providers: [
     AuthGuard,

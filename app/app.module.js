@@ -19,6 +19,7 @@ var navbar_component_1 = require("./components/navbar/navbar.component");
 var dropMenu_component_1 = require("./components/dropMenu/dropMenu.component");
 var profile_component_1 = require("./components/profile/profile.component");
 var profilePicture_component_1 = require("./components/profilePicture/profilePicture.component");
+var chat_component_1 = require("./components/chat/chat.component");
 var pageNotFound_component_1 = require("./components/pageNotFound/pageNotFound.component");
 var auth_service_1 = require("./services/auth/auth.service");
 var auth_guard_1 = require("./components/login/auth.guard");
@@ -44,7 +45,8 @@ var AppModule = (function () {
                 navbar_component_1.NavbarComponent,
                 dropMenu_component_1.DropMenuComponent,
                 profile_component_1.ProfileComponent,
-                profilePicture_component_1.ProfilePictureComponent
+                profilePicture_component_1.ProfilePictureComponent,
+                chat_component_1.ChatComponent
             ],
             providers: [
                 auth_guard_1.AuthGuard,

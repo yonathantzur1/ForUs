@@ -37,7 +37,7 @@ var NavbarComponent = (function () {
         this.friends = [];
         this.isFriendsLoading = false;
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
-        this.isChatOpen = true;
+        this.chatData = { "isOpen": false };
         // START CONFIG VARIABLES //
         this.searchLimit = 4;
         this.searchInputChangeDelayMilliseconds = 100;
@@ -164,9 +164,14 @@ var NavbarComponent = (function () {
                 });
             }
         };
-        // START CHAT FUNCTIONS //
-        this.CloseChat = function () {
-            this.isChatOpen = false;
+        this.OpenChat = function (friend) {
+            this.HideSidenav();
+            // Put default profile in case the friend has no profile image.
+            if (!friend.profileImage) {
+                friend.profileImage = this.defaultProfileImage;
+            }
+            this.chatData.friend = friend;
+            this.chatData.isOpen = true;
         };
         this.globalService.data.subscribe(function (value) {
             if (value["isOpenEditWindow"]) {

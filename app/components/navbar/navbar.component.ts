@@ -39,7 +39,7 @@ export class NavbarComponent implements OnInit {
     friends: Array<Friend> = [];
     isFriendsLoading: boolean = false;
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
-    isChatOpen: boolean = true;
+    chatData: any = { "isOpen": false };
 
     constructor(private router: Router, private authService: AuthService,
         private globalService: GlobalService, private navbarService: NavbarService) {
@@ -210,15 +210,17 @@ export class NavbarComponent implements OnInit {
         }
     }
 
+    OpenChat = function (friend: Friend) {
+        this.HideSidenav();
 
-    // START CHAT FUNCTIONS //
+        // Put default profile in case the friend has no profile image.
+        if (!friend.profileImage) {
+            friend.profileImage = this.defaultProfileImage;
+        }
 
-    CloseChat = function () {
-        this.isChatOpen = false;
+        this.chatData.friend = friend;
+        this.chatData.isOpen = true;
     }
-
-    // END CHAT FUNCTIONS //
-
 }
 
 function GetResultsIds(results: Array<any>) {
