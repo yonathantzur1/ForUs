@@ -339,3 +339,15 @@
 #navbar #friends-loader .loader {
     background-color: transparent !important;
 }
+
+#navbar ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 12px;
+}
+
+#navbar ::-webkit-scrollbar-thumb {
+    border-radius: 12px;
+    border: 4px solid rgba(255, 255, 255, 0);
+    background-clip: content-box;
+    background-color: #e3e3e3;
+}

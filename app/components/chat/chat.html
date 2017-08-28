@@ -1,11 +1,24 @@
 <div *ngIf="chatData.isOpen" id="chat">
-    <div class="col-md-8 chat-window-container">
+    <div class="chat-window-container">
         <div class="top-chat-info-line">
             <img class="friend-chat-profile" src="{{chatData.friend.profileImage}}">
             <span class="friend-chat-name">
                 {{chatData.friend.firstName + " " + chatData.friend.lastName}}
             </span>
             <span (click)="CloseChat()" class="glyphicon glyphicon-remove exit-chat" aria-hidden="true"></span>
+        </div>
+        <div class="chat-body-container">
+            <div class="chat-body-sector">
+
+            </div>
+            <div class="chat-write-sector">
+                <div class="msg-input-sector">
+                    <input maxlength="400" class="msg-input" type="text" autocapitalize="off" spellcheck="false">
+                </div>
+                <div class="send-msg-btn-sector">
+                    <span class="glyphicon glyphicon-triangle-left send-msg-btn" aria-hidden="true"></span>
+                </div>
+            </div>
         </div>
     </div>
 </div>
