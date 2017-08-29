@@ -64,4 +64,4 @@
   </div>
 </div>
 
-<chat [chatData]="chatData"></chat>
+<chat *ngIf="chatData.isOpen" [chatData]="chatData"></chat>

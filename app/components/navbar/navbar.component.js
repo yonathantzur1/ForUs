@@ -171,6 +171,8 @@ var NavbarComponent = (function () {
                 friend.profileImage = this.defaultProfileImage;
             }
             this.chatData.friend = friend;
+            this.chatData.user = this.user;
+            this.chatData.socket = this.socket;
             this.chatData.isOpen = true;
         };
         this.globalService.data.subscribe(function (value) {
@@ -182,11 +184,8 @@ var NavbarComponent = (function () {
     }
     NavbarComponent.prototype.ngOnInit = function () {
         this.LoadFriendsData(this.user.friends);
-        // var socket = io();
-        // socket.emit('login', getToken());
-        // socket.on('message', function (data: any) {
-        //     console.log('message: ' + data);
-        // });
+        this.socket = io();
+        this.socket.emit('login', getToken());
     };
     __decorate([
         core_1.Input(),

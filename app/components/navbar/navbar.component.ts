@@ -40,6 +40,7 @@ export class NavbarComponent implements OnInit {
     isFriendsLoading: boolean = false;
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
     chatData: any = { "isOpen": false };
+    socket: any;
 
     constructor(private router: Router, private authService: AuthService,
         private globalService: GlobalService, private navbarService: NavbarService) {
@@ -53,12 +54,9 @@ export class NavbarComponent implements OnInit {
 
     ngOnInit() {
         this.LoadFriendsData(this.user.friends);
-        // var socket = io();
+        this.socket = io();
 
-        // socket.emit('login', getToken());
-        // socket.on('message', function (data: any) {
-        //     console.log('message: ' + data);
-        // });
+        this.socket.emit('login', getToken());
     }
 
     // START CONFIG VARIABLES //
@@ -219,6 +217,8 @@ export class NavbarComponent implements OnInit {
         }
 
         this.chatData.friend = friend;
+        this.chatData.user = this.user;
+        this.chatData.socket = this.socket;
         this.chatData.isOpen = true;
     }
 }

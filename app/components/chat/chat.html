@@ -1,4 +1,4 @@
-<div *ngIf="chatData.isOpen" id="chat">
+<div id="chat">
     <div class="chat-window-container">
         <div class="top-chat-info-line">
             <img class="friend-chat-profile" src="{{chatData.friend.profileImage}}">
@@ -9,13 +9,19 @@
         </div>
         <div class="chat-body-container">
             <div class="chat-body-sector">
-
+                <div class="top-space-line"></div>
+                <div class="message-container" *ngFor="let message of messages">
+                    <span class="message" [ngClass]="{'user-message' : message.from == chatData.user._id, 'friend-message': message.from == chatData.friend._id}">
+                        {{message.text}}
+                    </span>
+                </div>
             </div>
             <div class="chat-write-sector">
                 <div class="msg-input-sector">
-                    <input maxlength="400" class="msg-input" type="text" autocapitalize="off" spellcheck="false">
+                    <input [(ngModel)]="msghInput" (keyup)="MsgInputKeyup($event)" maxlength="400" class="msg-input" type="text" autocapitalize="off"
+                        spellcheck="false">
                 </div>
-                <div class="send-msg-btn-sector">
+                <div (click)="SendMessage()" class="send-msg-btn-sector">
                     <span class="glyphicon glyphicon-triangle-left send-msg-btn" aria-hidden="true"></span>
                 </div>
             </div>

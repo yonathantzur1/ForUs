@@ -16,12 +16,30 @@ var ChatComponent = (function () {
     function ChatComponent(globalService, chatService) {
         this.globalService = globalService;
         this.chatService = chatService;
+        this.messages = [];
         this.CloseChat = function () {
             this.chatData.isOpen = false;
+        };
+        this.SendMessage = function () {
+            var msgData = {
+                "from": this.chatData.user._id,
+                "to": this.chatData.friend._id,
+                "text": this.msghInput
+            };
+            this.msghInput = "";
+            this.messages.push(msgData);
+        };
+        this.MsgInputKeyup = function (event) {
+            if (event.code == "Enter") {
+                this.SendMessage();
+            }
         };
         this.globalService.data.subscribe(function (value) {
         });
     }
+    ChatComponent.prototype.ngOnInit = function () {
+        this.socket = this.chatData.socket;
+    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object)
