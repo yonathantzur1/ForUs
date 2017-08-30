@@ -17,6 +17,7 @@ var ChatComponent = (function () {
         this.globalService = globalService;
         this.chatService = chatService;
         this.messages = [];
+        this.token = getToken();
         this.CloseChat = function () {
             this.chatData.isOpen = false;
         };
@@ -28,6 +29,7 @@ var ChatComponent = (function () {
             };
             this.msghInput = "";
             this.messages.push(msgData);
+            this.socket.emit("SendMessage", msgData, this.token);
         };
         this.MsgInputKeyup = function (event) {
             if (event.code == "Enter") {
@@ -38,7 +40,11 @@ var ChatComponent = (function () {
         });
     }
     ChatComponent.prototype.ngOnInit = function () {
+        var self = this;
         this.socket = this.chatData.socket;
+        this.socket.on('GetMessage', function (msgData) {
+            self.messages.push(msgData);
+        });
     };
     __decorate([
         core_1.Input(),
