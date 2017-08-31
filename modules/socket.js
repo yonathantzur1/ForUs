@@ -8,7 +8,7 @@ module.exports = function (io, jwt, config) {
                 // In case the token is valid.
                 if (!err && decoded) {
                     socket.join(decoded.user._id);
-                    connectedUsers[socket.id] = decoded.user;
+                    connectedUsers[socket.id] = decoded.user._id;
                 }
             });
         });

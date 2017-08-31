@@ -50,7 +50,6 @@ var ChatComponent = (function () {
         this.socket = this.chatData.socket;
         this.socket.on('GetMessage', function (msgData) {
             self.messages.push(msgData);
-            this.ScrollToBottom();
         });
         $("#chat-body-sector").bind("DOMNodeInserted", function () {
             self.ScrollToBottom();

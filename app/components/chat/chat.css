@@ -15,7 +15,7 @@
 @media (min-width: 801px) {
     #chat .chat-window-container {
         background-color: #f2f0f0;
-        height: 525px;
+        height: 65%;
         width: 66%;
         position: fixed;
         z-index: 997;

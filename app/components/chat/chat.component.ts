@@ -29,7 +29,6 @@ export class ChatComponent implements OnInit {
         this.socket = this.chatData.socket
         this.socket.on('GetMessage', function (msgData: any) {
             self.messages.push(msgData);
-            this.ScrollToBottom();
         });
 
         $("#chat-body-sector").bind("DOMNodeInserted", function () {
