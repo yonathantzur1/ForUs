@@ -14,6 +14,9 @@ module.exports = function (io, jwt, config) {
         });
 
         socket.on('SendMessage', function (msgData, token) {
+            // Delete spaces from the start and the end of the message text.
+            msgData.text = msgData.text.trim();
+
             jwt.verify(token, config.jwtSecret, function (err, decoded) {
                 // In case the token is valid and the message is to the user friend.
                 if (!err && decoded && ValidateMessage(msgData, decoded.user)) {

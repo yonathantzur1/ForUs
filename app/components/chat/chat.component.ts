@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ApplicationRef } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { GlobalService } from '../../services/global/global.service';
 import { ChatService } from '../../services/chat/chat.service';
@@ -41,6 +41,9 @@ export class ChatComponent implements OnInit {
     }
 
     SendMessage = function () {
+        // Delete spaces from the start and the end of the message text.
+        this.msghInput = this.msghInput.trim();
+
         if (this.msghInput) {
             var msgData = {
                 "from": this.chatData.user._id,
@@ -51,7 +54,6 @@ export class ChatComponent implements OnInit {
             this.msghInput = "";
 
             this.messages.push(msgData);
-            this.ScrollToBottom();
             this.socket.emit("SendMessage", msgData, this.token);
         }
     }

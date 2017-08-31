@@ -22,6 +22,8 @@ var ChatComponent = (function () {
             this.chatData.isOpen = false;
         };
         this.SendMessage = function () {
+            // Delete spaces from the start and the end of the message text.
+            this.msghInput = this.msghInput.trim();
             if (this.msghInput) {
                 var msgData = {
                     "from": this.chatData.user._id,
@@ -30,7 +32,6 @@ var ChatComponent = (function () {
                 };
                 this.msghInput = "";
                 this.messages.push(msgData);
-                this.ScrollToBottom();
                 this.socket.emit("SendMessage", msgData, this.token);
             }
         };
