@@ -16,8 +16,8 @@ module.exports = function (io, jwt, config) {
         socket.on('SendMessage', function (msgData, token) {
             jwt.verify(token, config.jwtSecret, function (err, decoded) {
                 // In case the token is valid and the message is to the user friend.
-                if (!err && decoded && decoded.user.friends.indexOf(msgData.to) != -1) {
-                    io.to(msgData.to).emit('GetMessage', msgData);     
+                if (!err && decoded && ValidateMessage(msgData, decoded.user)) {
+                    io.to(msgData.to).emit('GetMessage', msgData);
                 }
             });
         });
@@ -26,4 +26,15 @@ module.exports = function (io, jwt, config) {
             delete connectedUsers[socket.id];
         });
     });
+
+    function ValidateMessage(msgData, user) {
+        if (user._id == msgData.from &&
+            user.friends.indexOf(msgData.to) != -1 &&
+            msgData.text) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

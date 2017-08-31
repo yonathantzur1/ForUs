@@ -124,9 +124,10 @@
 }
 
 #chat .message-container {
-    margin: 0px 35px 10px -5px;
-    height: 25px;
-    width: calc(100% - 35px);
+    margin-bottom: 5px;
+    width: calc(100% - 12px);
+    float: right;
+    position: relative;
 }
 
 #chat .message {
@@ -135,6 +136,7 @@
     padding: 5px 8px 5px 8px;
     border-radius: 10px;
     color: #f1f1f1;
+    max-width: 35%;
 }
 
 #chat .user-message {
@@ -145,6 +147,10 @@
 #chat .friend-message {
     float: left;
     background-color: rgba(162, 129, 54, 0.72);
+}
+
+#chat .message-text {
+    word-break: break-word;
 }
 
 

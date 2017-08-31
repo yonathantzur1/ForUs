@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ApplicationRef } from '@angular/core';
 
 import { GlobalService } from '../../services/global/global.service';
 import { ChatService } from '../../services/chat/chat.service';
@@ -29,7 +29,12 @@ export class ChatComponent implements OnInit {
         this.socket = this.chatData.socket
         this.socket.on('GetMessage', function (msgData: any) {
             self.messages.push(msgData);
+            this.ScrollToBottom();
         });
+
+        $("#chat-body-sector").bind("DOMNodeInserted", function () {
+            self.ScrollToBottom();
+        })
     }
 
     CloseChat = function () {
@@ -37,21 +42,28 @@ export class ChatComponent implements OnInit {
     }
 
     SendMessage = function () {
-        var msgData = {
-            "from": this.chatData.user._id,
-            "to": this.chatData.friend._id,
-            "text": this.msghInput
-        };
+        if (this.msghInput) {
+            var msgData = {
+                "from": this.chatData.user._id,
+                "to": this.chatData.friend._id,
+                "text": this.msghInput
+            };
 
-        this.msghInput = "";
+            this.msghInput = "";
 
-        this.messages.push(msgData);
-        this.socket.emit("SendMessage", msgData, this.token);
+            this.messages.push(msgData);
+            this.ScrollToBottom();
+            this.socket.emit("SendMessage", msgData, this.token);
+        }
     }
 
     MsgInputKeyup = function (event: any) {
         if (event.code == "Enter") {
             this.SendMessage();
         }
+    }
+
+    ScrollToBottom = function () {
+        $("#chat-body-sector")[0].scrollTop = $("#chat-body-sector")[0].scrollHeight;
     }
 }

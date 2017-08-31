@@ -8,11 +8,13 @@
             <span (click)="CloseChat()" class="glyphicon glyphicon-remove exit-chat" aria-hidden="true"></span>
         </div>
         <div class="chat-body-container">
-            <div class="chat-body-sector">
+            <div id="chat-body-sector" class="chat-body-sector">
                 <div class="top-space-line"></div>
                 <div class="message-container" *ngFor="let message of messages">
                     <span class="message" [ngClass]="{'user-message' : message.from == chatData.user._id, 'friend-message': message.from == chatData.friend._id}">
-                        {{message.text}}
+                        <div class="message-text">
+                            {{message.text}}
+                        </div>
                     </span>
                 </div>
             </div>

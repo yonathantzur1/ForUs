@@ -22,19 +22,25 @@ var ChatComponent = (function () {
             this.chatData.isOpen = false;
         };
         this.SendMessage = function () {
-            var msgData = {
-                "from": this.chatData.user._id,
-                "to": this.chatData.friend._id,
-                "text": this.msghInput
-            };
-            this.msghInput = "";
-            this.messages.push(msgData);
-            this.socket.emit("SendMessage", msgData, this.token);
+            if (this.msghInput) {
+                var msgData = {
+                    "from": this.chatData.user._id,
+                    "to": this.chatData.friend._id,
+                    "text": this.msghInput
+                };
+                this.msghInput = "";
+                this.messages.push(msgData);
+                this.ScrollToBottom();
+                this.socket.emit("SendMessage", msgData, this.token);
+            }
         };
         this.MsgInputKeyup = function (event) {
             if (event.code == "Enter") {
                 this.SendMessage();
             }
+        };
+        this.ScrollToBottom = function () {
+            $("#chat-body-sector")[0].scrollTop = $("#chat-body-sector")[0].scrollHeight;
         };
         this.globalService.data.subscribe(function (value) {
         });
@@ -44,6 +50,10 @@ var ChatComponent = (function () {
         this.socket = this.chatData.socket;
         this.socket.on('GetMessage', function (msgData) {
             self.messages.push(msgData);
+            this.ScrollToBottom();
+        });
+        $("#chat-body-sector").bind("DOMNodeInserted", function () {
+            self.ScrollToBottom();
         });
     };
     __decorate([
