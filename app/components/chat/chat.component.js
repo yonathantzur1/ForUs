@@ -28,7 +28,8 @@ var ChatComponent = (function () {
                 var msgData = {
                     "from": this.chatData.user._id,
                     "to": this.chatData.friend._id,
-                    "text": this.msghInput
+                    "text": this.msghInput,
+                    "time": new Date()
                 };
                 this.msghInput = "";
                 this.messages.push(msgData);
@@ -43,6 +44,18 @@ var ChatComponent = (function () {
         this.ScrollToBottom = function () {
             $("#chat-body-sector")[0].scrollTop = $("#chat-body-sector")[0].scrollHeight;
         };
+        this.GetTimeString = function (date) {
+            var localDate = new Date(date.getTime());
+            var HH = localDate.getHours().toString();
+            var mm = localDate.getMinutes().toString();
+            if (HH.length == 1) {
+                HH = "0" + HH;
+            }
+            if (mm.length == 1) {
+                mm = "0" + mm;
+            }
+            return (HH + ":" + mm);
+        };
         this.globalService.data.subscribe(function (value) {
         });
     }
@@ -51,6 +64,7 @@ var ChatComponent = (function () {
         this.socket = this.chatData.socket;
         this.socket.on('GetMessage', function (msgData) {
             self.messages.push(msgData);
+            var time = msgData.time;
         });
         $("#chat-body-sector").bind("DOMNodeInserted", function () {
             self.ScrollToBottom();

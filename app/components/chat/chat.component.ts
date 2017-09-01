@@ -29,6 +29,7 @@ export class ChatComponent implements OnInit {
         this.socket = this.chatData.socket
         this.socket.on('GetMessage', function (msgData: any) {
             self.messages.push(msgData);
+            var time = msgData.time;
         });
 
         $("#chat-body-sector").bind("DOMNodeInserted", function () {
@@ -48,7 +49,8 @@ export class ChatComponent implements OnInit {
             var msgData = {
                 "from": this.chatData.user._id,
                 "to": this.chatData.friend._id,
-                "text": this.msghInput
+                "text": this.msghInput,
+                "time": new Date()
             };
 
             this.msghInput = "";
@@ -66,5 +68,22 @@ export class ChatComponent implements OnInit {
 
     ScrollToBottom = function () {
         $("#chat-body-sector")[0].scrollTop = $("#chat-body-sector")[0].scrollHeight;
+    }
+
+    GetTimeString = function (date: Date) {
+        var localDate = new Date(date.getTime());
+
+        var HH = localDate.getHours().toString();
+        var mm = localDate.getMinutes().toString();
+
+        if (HH.length == 1) {
+            HH = "0" + HH;
+        }
+
+        if (mm.length == 1) {
+            mm = "0" + mm;
+        }
+
+        return (HH + ":" + mm);
     }
 }

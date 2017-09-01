@@ -11,6 +11,7 @@
             <div id="chat-body-sector" class="chat-body-sector">
                 <div class="top-space-line"></div>
                 <div class="message-container" *ngFor="let message of messages">
+                    <span class="message-time">{{GetTimeString(message.time)}}</span>
                     <span class="message" [ngClass]="{'user-message' : message.from == chatData.user._id, 'friend-message': message.from == chatData.friend._id}">
                         <div class="message-text">
                             {{message.text}}
