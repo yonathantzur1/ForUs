@@ -63,8 +63,8 @@ var ChatComponent = (function () {
         var self = this;
         this.socket = this.chatData.socket;
         this.socket.on('GetMessage', function (msgData) {
+            msgData.time = new Date();
             self.messages.push(msgData);
-            var time = msgData.time;
         });
         $("#chat-body-sector").bind("DOMNodeInserted", function () {
             self.ScrollToBottom();

@@ -28,8 +28,8 @@ export class ChatComponent implements OnInit {
 
         this.socket = this.chatData.socket
         this.socket.on('GetMessage', function (msgData: any) {
+            msgData.time = new Date();
             self.messages.push(msgData);
-            var time = msgData.time;
         });
 
         $("#chat-body-sector").bind("DOMNodeInserted", function () {

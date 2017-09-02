@@ -328,6 +328,7 @@
 
 #navbar #friend-search-container ::-webkit-input-placeholder {
     color: #DBD8D8;
+    font-size: 12px;
 }
 
 #navbar .friends-loader {
