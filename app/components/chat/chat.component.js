@@ -45,7 +45,7 @@ var ChatComponent = (function () {
             $("#chat-body-sector")[0].scrollTop = $("#chat-body-sector")[0].scrollHeight;
         };
         this.GetTimeString = function (date) {
-            var localDate = new Date(date.getTime());
+            var localDate = new Date(date);
             var HH = localDate.getHours().toString();
             var mm = localDate.getMinutes().toString();
             if (HH.length == 1) {

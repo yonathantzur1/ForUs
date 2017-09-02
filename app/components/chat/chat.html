@@ -11,7 +11,11 @@
             <div id="chat-body-sector" class="chat-body-sector">
                 <div class="top-space-line"></div>
                 <div class="message-container" *ngFor="let message of messages">
-                    <span class="message-time">{{GetTimeString(message.time)}}</span>
+                    <div class="message-time-container" [ngClass]="{'user-message-time' : message.from == chatData.user._id, 'friend-message-time': message.from == chatData.friend._id}">
+                        <span class="message-time">
+                            {{GetTimeString(message.time)}}
+                        </span>
+                    </div>
                     <span class="message" [ngClass]="{'user-message' : message.from == chatData.user._id, 'friend-message': message.from == chatData.friend._id}">
                         <div class="message-text">
                             {{message.text}}

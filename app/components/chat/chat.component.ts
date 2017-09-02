@@ -71,7 +71,7 @@ export class ChatComponent implements OnInit {
     }
 
     GetTimeString = function (date: Date) {
-        var localDate = new Date(date.getTime());
+        var localDate = new Date(date);
 
         var HH = localDate.getHours().toString();
         var mm = localDate.getMinutes().toString();
