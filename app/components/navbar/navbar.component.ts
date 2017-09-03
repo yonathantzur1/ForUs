@@ -21,7 +21,7 @@ export class DropMenuData {
 }
 
 export class Friend {
-    id: string;
+    _id: string;
     firstName: string;
     lastName: string;
     profileImage: string;

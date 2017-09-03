@@ -81,8 +81,10 @@ var ChatComponent = (function () {
         var self = this;
         self.socket = self.chatData.socket;
         self.socket.on('GetMessage', function (msgData) {
-            msgData.time = new Date();
-            self.messages.push(msgData);
+            if (msgData.from == self.chatData.friend._id) {
+                msgData.time = new Date();
+                self.messages.push(msgData);
+            }
         });
         $("#chat-body-sector").bind("DOMNodeInserted", this.ScrollToBottom);
     };
