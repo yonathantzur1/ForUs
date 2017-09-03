@@ -28,11 +28,6 @@ var ChatComponent = (function () {
                 }
                 self.isMessagesLoading = false;
             });
-            self.socket = self.chatData.socket;
-            self.socket.on('GetMessage', function (msgData) {
-                msgData.time = new Date();
-                self.messages.push(msgData);
-            });
         };
         this.CloseChat = function () {
             this.chatData.isOpen = false;
@@ -83,6 +78,12 @@ var ChatComponent = (function () {
         });
     }
     ChatComponent.prototype.ngOnInit = function () {
+        var self = this;
+        self.socket = self.chatData.socket;
+        self.socket.on('GetMessage', function (msgData) {
+            msgData.time = new Date();
+            self.messages.push(msgData);
+        });
         $("#chat-body-sector").bind("DOMNodeInserted", this.ScrollToBottom);
     };
     ChatComponent.prototype.ngOnDestroy = function () {

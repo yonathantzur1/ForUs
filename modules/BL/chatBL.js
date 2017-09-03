@@ -44,10 +44,7 @@ var self = module.exports = {
         msgData.text = encryption.encrypt(msgData.text);
 
         var membersIds = [msgData.from, msgData.to];
-        var chatFilter = {
-            "membersIds": { $in: membersIds },
-            "membersIds": { $size: membersIds.length }
-        }
+        var chatFilter = { "membersIds": { $all: membersIds } }
 
         var chatUpdateQuery = { $push: { "messages": msgData } }
 

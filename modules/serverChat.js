@@ -1,6 +1,6 @@
 var chatBL = require('./BL/chatBL')
 
-module.exports = function(io, jwt, config, socket, connectedUsers) {
+module.exports = function (io, jwt, config, socket, connectedUsers) {
     socket.on('SendMessage', function (msgData, token) {
         // Delete spaces from the start and the end of the message text.
         msgData.text = msgData.text.trim();
