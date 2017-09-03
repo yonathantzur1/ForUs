@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { GlobalService } from '../../services/global/global.service';
 import { ChatService } from '../../services/chat/chat.service';
 
 declare var getToken: any;
@@ -17,13 +16,15 @@ export class ChatComponent implements OnInit {
     messages: Array<any> = [];
     token: any = getToken();
 
-    constructor(private globalService: GlobalService, private chatService: ChatService) {
-        this.globalService.data.subscribe(value => {
-
-        });
-    }
+    constructor(private chatService: ChatService) { }
 
     ngOnInit() {
+        this.chatService.GetChat([this.chatData.user._id, this.chatData.friend._id], getToken()).then((chat: any) => {
+            if (chat) {
+                this.messages = chat.messages;
+            }
+        });
+
         var self = this;
 
         this.socket = this.chatData.socket

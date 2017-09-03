@@ -18,6 +18,17 @@ var ChatService = (function (_super) {
         _this.prefix = "/api/chat";
         return _this;
     }
+    ChatService.prototype.GetChat = function (idsArray, token) {
+        var details = { "membersIds": idsArray, "token": token };
+        return _super.prototype.post.call(this, this.prefix + '/getChat', JSON.stringify(details))
+            .toPromise()
+            .then(function (result) {
+            return result.json();
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
     return ChatService;
 }(basic_service_1.BasicService));
 exports.ChatService = ChatService;

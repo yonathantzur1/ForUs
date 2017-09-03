@@ -15,6 +15,7 @@ var homeBL = require('./modules/BL/homeBL.js');
 var profileBL = require('./modules/BL/profileBL.js');
 var profilePictureBL = require('./modules/BL/profilePictureBL.js');
 var navbarBL = require('./modules/BL/navbarBL.js');
+var chatBL = require('./modules/BL/chatBL.js');
 
 app.set('trust proxy', 1);
 app.use(bodyParser.json({ limit: '10mb' }));
@@ -78,6 +79,7 @@ require('./routes/login.js')(app, loginBL, mailer, sha512);
 require('./routes/profile.js')(app, profileBL);
 require('./routes/profilePicture.js')(app, profilePictureBL);
 require('./routes/navbar.js')(app, navbarBL);
+require('./routes/chat.js')(app, chatBL);
 
 app.get('/login', function (req, res, next) {
     var token = getCookieFromReq('tk', req.headers.cookie);

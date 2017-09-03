@@ -1,3 +1,5 @@
+var chatBL = require('./BL/chatBL')
+
 module.exports = function(io, jwt, config, socket, connectedUsers) {
     socket.on('SendMessage', function (msgData, token) {
         // Delete spaces from the start and the end of the message text.
@@ -8,6 +10,7 @@ module.exports = function(io, jwt, config, socket, connectedUsers) {
             // In case the token is valid and the message is to the user friend.
             if (!err && decoded && ValidateMessage(msgData, decoded.user)) {
                 io.to(msgData.to).emit('GetMessage', msgData);
+                chatBL.AddMessageToChat(msgData);
             }
         });
     });

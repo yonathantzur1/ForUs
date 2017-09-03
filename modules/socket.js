@@ -15,7 +15,7 @@ module.exports = function (io, jwt, config) {
             });
         });
 
-        var encryption = require('../modules/chat.js')(io, jwt, config, socket, connectedUsers);
+        var encryption = require('../modules/serverChat.js')(io, jwt, config, socket, connectedUsers);
 
         socket.on('disconnect', function () {
             delete connectedUsers[socket.id];

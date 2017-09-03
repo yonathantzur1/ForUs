@@ -147,21 +147,12 @@ module.exports = {
     },
 
     // Update one document.
-    Update: function (collectionName, idObj, fieldToUpdateObj, callback, isUnset) {
+    UpdateOne: function (collectionName, idObj, fieldToUpdateObj, callback) {
         GetDB(function (err, db) {
             if (err == null) {
                 var collection = db.collection(collectionName);
-                var updateQuery;
 
-                if (isUnset) {
-                    updateQuery = { $unset: fieldToUpdateObj }
-                }
-                else {
-                    updateQuery = { $set: fieldToUpdateObj }
-                }
-
-
-                collection.findOneAndUpdate(idObj, updateQuery, {
+                collection.findOneAndUpdate(idObj, fieldToUpdateObj, {
                     returnOriginal: false,
                 }, function (err, result) {
                     if (err == null) {

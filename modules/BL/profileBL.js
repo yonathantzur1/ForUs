@@ -26,10 +26,10 @@ module.exports = {
                         callback(null);
                     }
                     else {
-                        var userProfile = { "profile": imageId };
+                        var userProfile = { $set: { "profile": imageId } };
 
                         // Update the id of the profile picture of the user.
-                        DAL.Update(usersCollectionName, { "_id": userIdObject }, userProfile, function (user) {
+                        DAL.UpdateOne(usersCollectionName, { "_id": userIdObject }, userProfile, function (user) {
                             callback(user);
                         });
                     }
@@ -40,9 +40,9 @@ module.exports = {
 
     DeleteImage: function (userId, profileId, callback) {
         var usersFilter = { "_id": DAL.GetObjectId(userId) };
-        var userObjectFieldDeleteQuery = { profile: "" };
+        var userObjectFieldDeleteQuery = { $unset: { profile: "" } };
 
-        DAL.Update(usersCollectionName, usersFilter, userObjectFieldDeleteQuery, function (user) {
+        DAL.UpdateOne(usersCollectionName, usersFilter, userObjectFieldDeleteQuery, function (user) {
             if (user) {
                 var profileFilter = { "_id": DAL.GetObjectId(profileId) };
 
@@ -59,6 +59,6 @@ module.exports = {
             else {
                 callback(result);
             }
-        }, true);
+        });
     }
 }

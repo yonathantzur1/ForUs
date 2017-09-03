@@ -52,6 +52,7 @@
     right: 0;
     cursor: default;
     -webkit-user-select: none;
+    user-select: none;
 }
 
 #chat .friend-chat-profile {
@@ -94,6 +95,8 @@
     height: calc(100% - 30px);
     overflow-y: scroll;
     border-bottom: 1px solid #cacaca;
+    -webkit-user-select: none;
+    user-select: none; 
 }
 
 #chat .chat-write-sector {
@@ -170,6 +173,8 @@
 
 #chat .message-text {
     word-break: break-word;
+    -webkit-user-select: initial;
+    user-select: initial;
 }
 
 #chat .message-time-container {

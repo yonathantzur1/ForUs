@@ -72,7 +72,7 @@ module.exports = {
             "password": newUser.password,
             "salt": salt,
             "creationDate": new Date(),
-            "friends" : []
+            "friends": []
         };
 
         DAL.Insert(collectionName, newUserObj, function (result) {
@@ -87,12 +87,12 @@ module.exports = {
     },
 
     // Add reset password code to the DB and return the name of the user.
-    AddResetCode: function (email, callback) {
+    AddResetCode: function (emailObj, callback) {
         var code = generator.GenerateId(resetCodeNumOfDigits);
 
-        var resetCode = { resetCode: { "code": code, "date": new Date(), tryNum: 0, isUsed: false } };
+        var resetCode = { $set: { resetCode: { "code": code, "date": new Date(), tryNum: 0, isUsed: false } } };
 
-        DAL.Update(collectionName, email, resetCode, function (result) {
+        DAL.UpdateOne(collectionName, emailObj, resetCode, function (result) {
             callback(result);
         });
     },
@@ -142,12 +142,13 @@ module.exports = {
             // In case the code is wrong.
             else if (result[0].resetCode.code != forgotUser.code) {
                 errorsObj.codeNotValid = true;
+                var resetCodeObj = result[0].resetCode;
+                resetCodeObj.tryNum++;
 
-                var updateCodeObj = { "resetCode": result[0].resetCode };
-                updateCodeObj.resetCode.tryNum++;
+                var updateCodeObj = { $set: { "resetCode": resetCodeObj } };
 
                 // Update num of tries to the code.
-                DAL.Update(collectionName, emailObj, updateCodeObj, function (updateResult) {
+                DAL.UpdateOne(collectionName, emailObj, updateCodeObj, function (updateResult) {
                     if (updateResult != null && updateResult != false) {
                         callback(errorsObj);
                     }
@@ -165,7 +166,9 @@ module.exports = {
                 updateUser.resetCode.isUsed = true;
                 updateUser.resetCode.tryNum++;
 
-                DAL.Update(collectionName, emailObj, updateUser, function (updateResult) {
+                updateUserObj = {$set: updateUser};
+
+                DAL.UpdateOne(collectionName, emailObj, updateUserObj, function (updateResult) {
                     if (updateResult != null && updateResult != false) {
                         callback(true);
                     }

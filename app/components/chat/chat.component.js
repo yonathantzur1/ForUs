@@ -10,11 +10,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var global_service_1 = require("../../services/global/global.service");
 var chat_service_1 = require("../../services/chat/chat.service");
 var ChatComponent = (function () {
-    function ChatComponent(globalService, chatService) {
-        this.globalService = globalService;
+    function ChatComponent(chatService) {
         this.chatService = chatService;
         this.messages = [];
         this.token = getToken();
@@ -56,10 +54,14 @@ var ChatComponent = (function () {
             }
             return (HH + ":" + mm);
         };
-        this.globalService.data.subscribe(function (value) {
-        });
     }
     ChatComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.chatService.GetChat([this.chatData.user._id, this.chatData.friend._id], getToken()).then(function (chat) {
+            if (chat) {
+                _this.messages = chat.messages;
+            }
+        });
         var self = this;
         this.socket = this.chatData.socket;
         this.socket.on('GetMessage', function (msgData) {
@@ -80,7 +82,7 @@ var ChatComponent = (function () {
             templateUrl: './chat.html',
             providers: [chat_service_1.ChatService]
         }),
-        __metadata("design:paramtypes", [global_service_1.GlobalService, chat_service_1.ChatService])
+        __metadata("design:paramtypes", [chat_service_1.ChatService])
     ], ChatComponent);
     return ChatComponent;
 }());
