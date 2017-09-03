@@ -174,6 +174,7 @@ var NavbarComponent = (function () {
             this.chatData.user = this.user;
             this.chatData.socket = this.socket;
             this.chatData.isOpen = true;
+            this.globalService.setData("chatData", this.chatData);
         };
         this.globalService.data.subscribe(function (value) {
             if (value["isOpenEditWindow"]) {

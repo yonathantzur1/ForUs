@@ -11,27 +11,47 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var chat_service_1 = require("../../services/chat/chat.service");
+var global_service_1 = require("../../services/global/global.service");
 var ChatComponent = (function () {
-    function ChatComponent(chatService) {
+    function ChatComponent(chatService, globalService) {
+        var _this = this;
         this.chatService = chatService;
+        this.globalService = globalService;
         this.messages = [];
         this.token = getToken();
+        this.InitializeChat = function () {
+            var self = this;
+            self.isMessagesLoading = true;
+            self.chatService.GetChat([self.chatData.user._id, self.chatData.friend._id], getToken()).then(function (chat) {
+                if (chat) {
+                    self.messages = chat.messages;
+                }
+                self.isMessagesLoading = false;
+            });
+            self.socket = self.chatData.socket;
+            self.socket.on('GetMessage', function (msgData) {
+                msgData.time = new Date();
+                self.messages.push(msgData);
+            });
+        };
         this.CloseChat = function () {
             this.chatData.isOpen = false;
         };
         this.SendMessage = function () {
-            // Delete spaces from the start and the end of the message text.
-            this.msghInput = this.msghInput.trim();
-            if (this.msghInput) {
-                var msgData = {
-                    "from": this.chatData.user._id,
-                    "to": this.chatData.friend._id,
-                    "text": this.msghInput,
-                    "time": new Date()
-                };
-                this.msghInput = "";
-                this.messages.push(msgData);
-                this.socket.emit("SendMessage", msgData, this.token);
+            if (!this.isMessagesLoading) {
+                // Delete spaces from the start and the end of the message text.
+                this.msghInput = this.msghInput.trim();
+                if (this.msghInput) {
+                    var msgData = {
+                        "from": this.chatData.user._id,
+                        "to": this.chatData.friend._id,
+                        "text": this.msghInput,
+                        "time": new Date()
+                    };
+                    this.msghInput = "";
+                    this.messages.push(msgData);
+                    this.socket.emit("SendMessage", msgData, this.token);
+                }
             }
         };
         this.MsgInputKeyup = function (event) {
@@ -54,23 +74,20 @@ var ChatComponent = (function () {
             }
             return (HH + ":" + mm);
         };
-    }
-    ChatComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.chatService.GetChat([this.chatData.user._id, this.chatData.friend._id], getToken()).then(function (chat) {
-            if (chat) {
-                _this.messages = chat.messages;
+        this.globalService.data.subscribe(function (value) {
+            if (value["chatData"]) {
+                _this.messages = [];
+                _this.chatData = value["chatData"];
+                _this.InitializeChat();
             }
         });
-        var self = this;
-        this.socket = this.chatData.socket;
-        this.socket.on('GetMessage', function (msgData) {
-            msgData.time = new Date();
-            self.messages.push(msgData);
-        });
-        $("#chat-body-sector").bind("DOMNodeInserted", function () {
-            self.ScrollToBottom();
-        });
+    }
+    ChatComponent.prototype.ngOnInit = function () {
+        $("#chat-body-sector").bind("DOMNodeInserted", this.ScrollToBottom);
+    };
+    ChatComponent.prototype.ngOnDestroy = function () {
+        $("#chat-body-sector").unbind("DOMNodeInserted", this.ScrollToBottom);
+        this.globalService.deleteData("chatData");
     };
     __decorate([
         core_1.Input(),
@@ -82,7 +99,7 @@ var ChatComponent = (function () {
             templateUrl: './chat.html',
             providers: [chat_service_1.ChatService]
         }),
-        __metadata("design:paramtypes", [chat_service_1.ChatService])
+        __metadata("design:paramtypes", [chat_service_1.ChatService, global_service_1.GlobalService])
     ], ChatComponent);
     return ChatComponent;
 }());

@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 
 import { ChatService } from '../../services/chat/chat.service';
+import { GlobalService } from '../../services/global/global.service';
 
 declare var getToken: any;
 
@@ -10,32 +11,49 @@ declare var getToken: any;
     providers: [ChatService]
 })
 
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
     @Input() chatData: any;
     socket: any;
     messages: Array<any> = [];
     token: any = getToken();
+    isMessagesLoading: boolean;
 
-    constructor(private chatService: ChatService) { }
-
-    ngOnInit() {
-        this.chatService.GetChat([this.chatData.user._id, this.chatData.friend._id], getToken()).then((chat: any) => {
-            if (chat) {
-                this.messages = chat.messages;
+    constructor(private chatService: ChatService, private globalService: GlobalService) {
+        this.globalService.data.subscribe(value => {
+            if (value["chatData"]) {
+                this.messages = [];
+                this.chatData = value["chatData"];
+                this.InitializeChat();
             }
         });
+    }
 
+    ngOnInit() {
+        $("#chat-body-sector").bind("DOMNodeInserted", this.ScrollToBottom);
+    }
+
+    ngOnDestroy() {
+        $("#chat-body-sector").unbind("DOMNodeInserted", this.ScrollToBottom);
+        this.globalService.deleteData("chatData");
+    }
+
+    InitializeChat = function () {
         var self = this;
 
-        this.socket = this.chatData.socket
-        this.socket.on('GetMessage', function (msgData: any) {
+        self.isMessagesLoading = true;
+        self.chatService.GetChat([self.chatData.user._id, self.chatData.friend._id], getToken()).then((chat: any) => {
+            if (chat) {
+                self.messages = chat.messages;
+            }
+
+            self.isMessagesLoading = false;
+        });
+
+        self.socket = self.chatData.socket;
+        self.socket.on('GetMessage', function (msgData: any) {
             msgData.time = new Date();
             self.messages.push(msgData);
         });
-
-        $("#chat-body-sector").bind("DOMNodeInserted", function () {
-            self.ScrollToBottom();
-        })
     }
 
     CloseChat = function () {
@@ -43,21 +61,23 @@ export class ChatComponent implements OnInit {
     }
 
     SendMessage = function () {
-        // Delete spaces from the start and the end of the message text.
-        this.msghInput = this.msghInput.trim();
+        if (!this.isMessagesLoading) {
+            // Delete spaces from the start and the end of the message text.
+            this.msghInput = this.msghInput.trim();
 
-        if (this.msghInput) {
-            var msgData = {
-                "from": this.chatData.user._id,
-                "to": this.chatData.friend._id,
-                "text": this.msghInput,
-                "time": new Date()
-            };
+            if (this.msghInput) {
+                var msgData = {
+                    "from": this.chatData.user._id,
+                    "to": this.chatData.friend._id,
+                    "text": this.msghInput,
+                    "time": new Date()
+                };
 
-            this.msghInput = "";
+                this.msghInput = "";
 
-            this.messages.push(msgData);
-            this.socket.emit("SendMessage", msgData, this.token);
+                this.messages.push(msgData);
+                this.socket.emit("SendMessage", msgData, this.token);
+            }
         }
     }
 

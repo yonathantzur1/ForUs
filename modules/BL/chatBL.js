@@ -9,13 +9,8 @@ var self = module.exports = {
     GetChat: function (membersIds, token, callback) {
         jwt.verify(token, config.jwtSecret, function (err, decoded) {
             if (!err && decoded && ValidateUserGetChat(membersIds, decoded.user.friends, decoded.user._id)) {
-                for (var i = 0; i < membersIds.length; i++) {
-                    membersIds[i] = DAL.GetObjectId(membersIds[i]);
-                }
-
                 var chatQueryFilter = {
-                    "membersIds": { $in: membersIds },
-                    "membersIds": { $size: membersIds.length }
+                    "membersIds": { $all: membersIds }
                 }
 
                 DAL.FindOne(collectionName, chatQueryFilter, function (chat) {
@@ -48,7 +43,7 @@ var self = module.exports = {
         // Encrypt message text.
         msgData.text = encryption.encrypt(msgData.text);
 
-        var membersIds = [DAL.GetObjectId(msgData.from), DAL.GetObjectId(msgData.to)];
+        var membersIds = [msgData.from, msgData.to];
         var chatFilter = {
             "membersIds": { $in: membersIds },
             "membersIds": { $size: membersIds.length }

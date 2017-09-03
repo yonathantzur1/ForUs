@@ -10,6 +10,7 @@
         <div class="chat-body-container">
             <div id="chat-body-sector" class="chat-body-sector">
                 <div class="top-space-line"></div>
+                <loader id="chat-loader" class="chat-loader" *ngIf="isMessagesLoading"></loader>
                 <div class="message-container" *ngFor="let message of messages">
                     <div class="message-time-container" [ngClass]="{'user-message-time' : message.from == chatData.user._id, 'friend-message-time': message.from == chatData.friend._id}">
                         <span class="message-time">
@@ -25,10 +26,10 @@
             </div>
             <div class="chat-write-sector">
                 <div class="msg-input-sector">
-                    <input [(ngModel)]="msghInput" (keyup)="MsgInputKeyup($event)" maxlength="400" class="msg-input" type="text" autocapitalize="off"
+                    <input [(ngModel)]="msghInput" [disabled]='isMessagesLoading' (keyup)="MsgInputKeyup($event)" maxlength="400" class="msg-input" type="text" autocapitalize="off"
                         spellcheck="false">
                 </div>
-                <div (click)="SendMessage()" class="send-msg-btn-sector">
+                <div (click)="SendMessage()" [ngClass]="{'send-msg-btn-sector-disabled' : isMessagesLoading}" class="send-msg-btn-sector">
                     <span class="glyphicon glyphicon-triangle-left send-msg-btn" aria-hidden="true"></span>
                 </div>
             </div>

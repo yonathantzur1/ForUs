@@ -220,6 +220,8 @@ export class NavbarComponent implements OnInit {
         this.chatData.user = this.user;
         this.chatData.socket = this.socket;
         this.chatData.isOpen = true;
+
+        this.globalService.setData("chatData", this.chatData);
     }
 }
 
