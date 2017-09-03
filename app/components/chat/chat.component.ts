@@ -29,6 +29,13 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        var self = this;
+        
+        self.socket.on('GetMessage', function (msgData: any) {
+            msgData.time = new Date();
+            self.messages.push(msgData);
+        });
+        
         $("#chat-body-sector").bind("DOMNodeInserted", this.ScrollToBottom);
     }
 
@@ -50,10 +57,6 @@ export class ChatComponent implements OnInit, OnDestroy {
         });
 
         self.socket = self.chatData.socket;
-        self.socket.on('GetMessage', function (msgData: any) {
-            msgData.time = new Date();
-            self.messages.push(msgData);
-        });
     }
 
     CloseChat = function () {
