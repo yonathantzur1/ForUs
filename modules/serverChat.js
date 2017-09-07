@@ -19,7 +19,8 @@ module.exports = function (io, jwt, config, socket, connectedUsers) {
 function ValidateMessage(msgData, user) {
     if (user._id == msgData.from &&
         user.friends.indexOf(msgData.to) != -1 &&
-        msgData.text) {
+        msgData.text &&
+        msgData.text.length <= 600) {
         return true;
     }
     else {

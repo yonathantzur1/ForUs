@@ -28,7 +28,7 @@
             </div>
             <div class="chat-write-sector">
                 <div class="msg-input-sector">
-                    <input [(ngModel)]="msghInput" [disabled]='isMessagesLoading' (keyup)="MsgInputKeyup($event)" maxlength="400" class="msg-input"
+                    <input [(ngModel)]="msghInput" [disabled]='isMessagesLoading' (keyup)="MsgInputKeyup($event)" maxlength="600" class="msg-input"
                         type="text" autocapitalize="off" spellcheck="false">
                 </div>
                 <div (click)="SendMessage()" [ngClass]="{'send-msg-btn-sector-disabled' : isMessagesLoading}" class="send-msg-btn-sector">

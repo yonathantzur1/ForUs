@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, AfterViewChecked } from '@angular/core';
 
 import { ChatService } from '../../services/chat/chat.service';
 import { GlobalService } from '../../services/global/global.service';
@@ -11,12 +11,13 @@ declare var getToken: any;
     providers: [ChatService]
 })
 
-export class ChatComponent implements OnInit, OnDestroy {
+export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     @Input() chatData: any;
     socket: any;
     messages: Array<any> = [];
     token: any = getToken();
     isMessagesLoading: boolean;
+    chatBodyScrollHeight: number = 0;
 
     constructor(private chatService: ChatService, private globalService: GlobalService) {
         this.globalService.data.subscribe(value => {
@@ -36,20 +37,25 @@ export class ChatComponent implements OnInit, OnDestroy {
             if (msgData.from == self.chatData.friend._id) {
                 msgData.time = new Date();
                 self.messages.push(msgData);
-            }            
+            }
         });
-        
-        $("#chat-body-sector").bind("DOMNodeInserted", this.ScrollToBottom);
     }
 
     ngOnDestroy() {
-        $("#chat-body-sector").unbind("DOMNodeInserted", this.ScrollToBottom);
         this.globalService.deleteData("chatData");
+    }
+
+    ngAfterViewChecked() {
+        if ($("#chat-body-sector")[0].scrollHeight != this.chatBodyScrollHeight) {
+            this.ScrollToBottom();
+            this.chatBodyScrollHeight = $("#chat-body-sector")[0].scrollHeight;
+        }
     }
 
     InitializeChat = function () {
         var self = this;
 
+        self.chatBodyScrollHeight = 0;
         self.isMessagesLoading = true;
         self.chatService.GetChat([self.chatData.user._id, self.chatData.friend._id], getToken()).then((chat: any) => {
             if (chat) {

@@ -19,8 +19,10 @@ var ChatComponent = (function () {
         this.globalService = globalService;
         this.messages = [];
         this.token = getToken();
+        this.chatBodyScrollHeight = 0;
         this.InitializeChat = function () {
             var self = this;
+            self.chatBodyScrollHeight = 0;
             self.isMessagesLoading = true;
             self.chatService.GetChat([self.chatData.user._id, self.chatData.friend._id], getToken()).then(function (chat) {
                 if (chat) {
@@ -86,11 +88,15 @@ var ChatComponent = (function () {
                 self.messages.push(msgData);
             }
         });
-        $("#chat-body-sector").bind("DOMNodeInserted", this.ScrollToBottom);
     };
     ChatComponent.prototype.ngOnDestroy = function () {
-        $("#chat-body-sector").unbind("DOMNodeInserted", this.ScrollToBottom);
         this.globalService.deleteData("chatData");
+    };
+    ChatComponent.prototype.ngAfterViewChecked = function () {
+        if ($("#chat-body-sector")[0].scrollHeight != this.chatBodyScrollHeight) {
+            this.ScrollToBottom();
+            this.chatBodyScrollHeight = $("#chat-body-sector")[0].scrollHeight;
+        }
     };
     __decorate([
         core_1.Input(),
