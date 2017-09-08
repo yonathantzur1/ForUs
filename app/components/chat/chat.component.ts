@@ -92,7 +92,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     MsgInputKeyup = function (event: any) {
-        if (event.code == "Enter") {
+        if (event.keyCode == 13) {
             this.SendMessage();
         }
     }

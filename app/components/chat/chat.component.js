@@ -52,7 +52,7 @@ var ChatComponent = (function () {
             }
         };
         this.MsgInputKeyup = function (event) {
-            if (event.code == "Enter") {
+            if (event.keyCode == 13) {
                 this.SendMessage();
             }
         };
