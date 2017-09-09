@@ -27,6 +27,9 @@
             </span>
           </div>
         </div>
+        <div *ngIf="!isFriendsLoading && friends.length == 0" class="no-friends-container">
+          <i class="material-icons no-friends-icon">people</i>
+        </div>
       </div>
     </div>
     <div class="container-fluid navbar">
