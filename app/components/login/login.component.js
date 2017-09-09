@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var login_service_1 = require("../../services/login/login.service");
-var User = (function () {
+var User = /** @class */ (function () {
     function User() {
         this.email = "";
         this.password = "";
@@ -20,7 +20,7 @@ var User = (function () {
     return User;
 }());
 exports.User = User;
-var NewUser = (function () {
+var NewUser = /** @class */ (function () {
     function NewUser() {
         this.firstName = "";
         this.lastName = "";
@@ -31,7 +31,7 @@ var NewUser = (function () {
 }());
 exports.NewUser = NewUser;
 var forgotBtnTextObj = { searchText: "חיפוש", resetPassText: "אפס סיסמא" };
-var ForgotUser = (function () {
+var ForgotUser = /** @class */ (function () {
     function ForgotUser() {
         this.email = "";
         this.code = "";
@@ -43,7 +43,7 @@ var ForgotUser = (function () {
     return ForgotUser;
 }());
 exports.ForgotUser = ForgotUser;
-var LoginComponent = (function () {
+var LoginComponent = /** @class */ (function () {
     function LoginComponent(router, loginService) {
         this.router = router;
         this.loginService = loginService;

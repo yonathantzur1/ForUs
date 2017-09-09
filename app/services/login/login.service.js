@@ -12,7 +12,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var basic_service_1 = require("../basic/basic.service");
 "";
-var LoginService = (function (_super) {
+var LoginService = /** @class */ (function (_super) {
     __extends(LoginService, _super);
     function LoginService() {
         var _this = _super !== null && _super.apply(this, arguments) || this;

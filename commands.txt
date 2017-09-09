@@ -4,6 +4,7 @@ npm install jquery --save
 npm install mongodb --save
 npm install sweetalert2 --save
 npm install js-sha512 --save
+npm install bootstrap --save
 npm install bootstrap-material-design --save
 npm install nodemailer --save
 npm install jsonwebtoken --save
@@ -13,4 +14,18 @@ npm install snackbarjs --save
 npm install socket.io --save
 npm install socket.io-client --save
 npm install crypto --save
+npm install @angular/common --save
+npm install @angular/compiler --save
+npm install @angular/core --save
+npm install @angular/forms --save
+npm install @angular/http --save
+npm install @angular/platform-browser --save
+npm install @angular/platform-browser-dynamic --save
+npm install @angular/router --save
+npm install angular-in-memory-web-api --save
+npm install core-js --save
+npm install rxjs --save
+npm install systemjs --save
+npm install zone.js --save
+
 npm install

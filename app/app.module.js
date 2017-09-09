@@ -25,7 +25,7 @@ var auth_service_1 = require("./services/auth/auth.service");
 var auth_guard_1 = require("./components/login/auth.guard");
 var app_routing_1 = require("./app.routing");
 var global_service_1 = require("./services/global/global.service");
-var AppModule = (function () {
+var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([

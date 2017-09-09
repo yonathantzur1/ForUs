@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var basic_service_1 = require("../basic/basic.service");
-var ProfileService = (function (_super) {
+var ProfileService = /** @class */ (function (_super) {
     __extends(ProfileService, _super);
     function ProfileService() {
         var _this = _super !== null && _super.apply(this, arguments) || this;

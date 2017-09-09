@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("rxjs/add/operator/share");
 require("rxjs/add/operator/startWith");
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
-var GlobalService = (function () {
+var GlobalService = /** @class */ (function () {
     function GlobalService() {
         // use this property for property binding
         this.data = new BehaviorSubject_1.BehaviorSubject({});

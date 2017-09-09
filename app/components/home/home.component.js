@@ -13,7 +13,7 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var auth_service_1 = require("../../services/auth/auth.service");
 var home_service_1 = require("../../services/home/home.service");
-var HomeComponent = (function () {
+var HomeComponent = /** @class */ (function () {
     function HomeComponent(router, authService, homeService) {
         this.router = router;
         this.authService = authService;

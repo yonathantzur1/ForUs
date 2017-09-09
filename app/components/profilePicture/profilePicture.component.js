@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var global_service_1 = require("../../services/global/global.service");
 var profilePicture_service_1 = require("../../services/profilePicture/profilePicture.service");
-var ProfilePictureComponent = (function () {
+var ProfilePictureComponent = /** @class */ (function () {
     function ProfilePictureComponent(profilePictureService, globalService) {
         var _this = this;
         this.profilePictureService = profilePictureService;

@@ -13,7 +13,7 @@ var core_1 = require("@angular/core");
 require("./temp.js");
 var global_service_1 = require("../../services/global/global.service");
 var profile_service_1 = require("../../services/profile/profile.service");
-var ProfileComponent = (function () {
+var ProfileComponent = /** @class */ (function () {
     function ProfileComponent(profileService, globalService) {
         var _this = this;
         this.profileService = profileService;

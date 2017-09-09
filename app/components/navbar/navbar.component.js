@@ -14,20 +14,20 @@ var router_1 = require("@angular/router");
 var global_service_1 = require("../../services/global/global.service");
 var auth_service_1 = require("../../services/auth/auth.service");
 var navbar_service_1 = require("../../services/navbar/navbar.service");
-var DropMenuData = (function () {
+var DropMenuData = /** @class */ (function () {
     function DropMenuData(link, text, action, object) {
         this.link = link, this.text = text, this.action = action, this.object = object;
     }
     return DropMenuData;
 }());
 exports.DropMenuData = DropMenuData;
-var Friend = (function () {
+var Friend = /** @class */ (function () {
     function Friend() {
     }
     return Friend;
 }());
 exports.Friend = Friend;
-var NavbarComponent = (function () {
+var NavbarComponent = /** @class */ (function () {
     function NavbarComponent(router, authService, globalService, navbarService) {
         var _this = this;
         this.router = router;
