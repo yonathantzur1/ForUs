@@ -1,12 +1,15 @@
 var DAL = require('../DAL.js');
 var jwt = require('jsonwebtoken');
 var config = require('../config.js');
+var general = require('../general.js');
 var encryption = require('../encryption.js');
 
 var collectionName = "Chats";
 
 var self = module.exports = {
     GetChat: function (membersIds, token, callback) {
+        token = general.DecodeToken(token);
+        
         jwt.verify(token, config.jwtSecret, function (err, decoded) {
             if (!err && decoded && ValidateUserGetChat(membersIds, decoded.user.friends, decoded.user._id)) {
                 var chatQueryFilter = {

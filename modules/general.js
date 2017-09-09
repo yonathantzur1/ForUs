@@ -1,5 +1,6 @@
 var jwt = require('jsonwebtoken');
 var config = require('../modules/config.js');
+var encryption = require('../modules/encryption.js');
 
 module.exports = {
     GetTokenFromUserObject: function (user, req) {
@@ -14,8 +15,35 @@ module.exports = {
         }
 
         var tokenObject = { "user": tokenUserObject };
-        var token = jwt.sign(tokenObject, config.jwtSecret, config.jwtOptions);
+        var token = encryption.encrypt(jwt.sign(tokenObject, config.jwtSecret, config.jwtOptions));
 
         return token;
+    },
+
+    DecodeToken: function (token) {
+        return encryption.decrypt(token);
+    },
+
+    GetCookieFromReq: function (cname, decodedCookie) {
+        if (!decodedCookie) {
+            return "";
+        }
+
+        var name = cname + "=";
+        var ca = decodedCookie.split(';');
+
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+
+        return "";
     }
 }

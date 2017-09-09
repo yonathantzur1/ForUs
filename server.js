@@ -8,6 +8,7 @@ var mailer = require('./modules/mailer.js');
 var sha512 = require('js-sha512');
 var jwt = require('jsonwebtoken');
 var config = require('./modules/config.js');
+var general = require('./modules/general.js');
 
 // BL requires
 var loginBL = require('./modules/BL/loginBL.js');
@@ -39,12 +40,14 @@ function redirectToLogin(req, res) {
 }
 
 app.use('/api', function (req, res, next) {
-    var token = getCookieFromReq('tk', req.headers.cookie);
+    var token = general.GetCookieFromReq('tk', req.headers.cookie);
 
     if (!token) {
         redirectToLogin(req, res);
     }
     else {
+        token = general.DecodeToken(token);
+
         jwt.verify(token, config.jwtSecret, function (err, decoded) {
             if (err || !decoded) {
                 redirectToLogin(req, res);
@@ -82,12 +85,14 @@ require('./routes/navbar.js')(app, navbarBL);
 require('./routes/chat.js')(app, chatBL);
 
 app.get('/login', function (req, res, next) {
-    var token = getCookieFromReq('tk', req.headers.cookie);
+    var token = general.GetCookieFromReq('tk', req.headers.cookie);
 
     if (!token) {
         next();
     }
     else {
+        token = general.DecodeToken(token);
+
         jwt.verify(token, config.jwtSecret, function (err, decoded) {
             if (err || !decoded) {
                 next();
@@ -103,26 +108,3 @@ app.get('/login', function (req, res, next) {
 app.get('**', function (req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
 });
-
-function getCookieFromReq(cname, decodedCookie) {
-    if (!decodedCookie) {
-        return "";
-    }
-
-    var name = cname + "=";
-    var ca = decodedCookie.split(';');
-
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-
-    return "";
-}
