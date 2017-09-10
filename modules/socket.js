@@ -2,6 +2,7 @@ var general = require('./general.js');
 
 module.exports = function (io, jwt, config) {
     var connectedUsers = {};
+    var socketsDictionary = {};
 
     io.on('connection', function (socket) {
 
@@ -12,7 +13,9 @@ module.exports = function (io, jwt, config) {
                 // In case the token is valid.
                 if (!err && decoded) {
                     socket.join(decoded.user._id);
-                    connectedUsers[socket.id] = decoded.user._id;
+                    decoded.user.socketId = socket.id
+                    connectedUsers[decoded.user._id] = decoded.user;
+                    socketsDictionary[socket.id] = decoded.user._id;
                 }
             });
         });
@@ -20,7 +23,10 @@ module.exports = function (io, jwt, config) {
         require('../modules/serverChat.js')(io, jwt, config, socket, connectedUsers);
 
         socket.on('disconnect', function () {
-            delete connectedUsers[socket.id];
+            var userId = socketsDictionary[socket.id];
+
+            delete socketsDictionary[socket.id];
+            delete connectedUsers[userId];
         });
     });
 }

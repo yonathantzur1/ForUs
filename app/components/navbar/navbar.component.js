@@ -166,15 +166,17 @@ var NavbarComponent = /** @class */ (function () {
         };
         this.OpenChat = function (friend) {
             this.HideSidenav();
-            // Put default profile in case the friend has no profile image.
-            if (!friend.profileImage) {
-                friend.profileImage = this.defaultProfileImage;
+            if (!this.chatData.friend || this.chatData.friend._id != friend._id) {
+                // Put default profile in case the friend has no profile image.
+                if (!friend.profileImage) {
+                    friend.profileImage = this.defaultProfileImage;
+                }
+                this.chatData.friend = friend;
+                this.chatData.user = this.user;
+                this.chatData.socket = this.socket;
+                this.chatData.isOpen = true;
+                this.globalService.setData("chatData", this.chatData);
             }
-            this.chatData.friend = friend;
-            this.chatData.user = this.user;
-            this.chatData.socket = this.socket;
-            this.chatData.isOpen = true;
-            this.globalService.setData("chatData", this.chatData);
         };
         this.globalService.data.subscribe(function (value) {
             if (value["isOpenEditWindow"]) {

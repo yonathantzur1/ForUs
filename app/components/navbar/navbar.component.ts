@@ -11,8 +11,7 @@ declare var socket: any;
 declare var io: any;
 
 export class DropMenuData {
-    constructor(link: string, text: string, action: Function, object: any)
-    { this.link = link, this.text = text, this.action = action, this.object = object }
+    constructor(link: string, text: string, action: Function, object: any) { this.link = link, this.text = text, this.action = action, this.object = object }
 
     link: string;
     text: string;
@@ -211,17 +210,19 @@ export class NavbarComponent implements OnInit {
     OpenChat = function (friend: Friend) {
         this.HideSidenav();
 
-        // Put default profile in case the friend has no profile image.
-        if (!friend.profileImage) {
-            friend.profileImage = this.defaultProfileImage;
+        if (!this.chatData.friend || this.chatData.friend._id != friend._id) {
+            // Put default profile in case the friend has no profile image.
+            if (!friend.profileImage) {
+                friend.profileImage = this.defaultProfileImage;
+            }
+
+            this.chatData.friend = friend;
+            this.chatData.user = this.user;
+            this.chatData.socket = this.socket;
+            this.chatData.isOpen = true;
+
+            this.globalService.setData("chatData", this.chatData);
         }
-
-        this.chatData.friend = friend;
-        this.chatData.user = this.user;
-        this.chatData.socket = this.socket;
-        this.chatData.isOpen = true;
-
-        this.globalService.setData("chatData", this.chatData);
     }
 }
 
