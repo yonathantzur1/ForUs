@@ -1,7 +1,7 @@
 var chatBL = require('./BL/chatBL');
 var general = require('./general.js');
 
-module.exports = function (io, jwt, config, socket, connectedUsers) {
+module.exports = function (io, jwt, config, socket, socketsDictionary, connectedUsers) {
     socket.on('SendMessage', function (msgData, token) {
         // Delete spaces from the start and the end of the message text.
         msgData.text = msgData.text.trim();
@@ -13,6 +13,26 @@ module.exports = function (io, jwt, config, socket, connectedUsers) {
             if (!err && decoded && ValidateMessage(msgData, decoded.user)) {
                 io.to(msgData.to).emit('GetMessage', msgData);
                 chatBL.AddMessageToChat(msgData);
+            }
+        });
+    });
+
+    socket.on('ServerGetOnlineFriends', function (token) {
+        token = general.DecodeToken(token);
+
+        jwt.verify(token, config.jwtSecret, function (err, decoded) {4
+            // In case the token is valid.
+            if (!err && decoded) {
+                var user = decoded.user;
+                var onlineFriendsIds = [];
+
+                user.friends.forEach(friendId => {
+                    if (connectedUsers[friendId]) {
+                        onlineFriendsIds.push(friendId);
+                    }   
+                });
+
+                io.to(user._id).emit('ClientGetOnlineFriends', onlineFriendsIds);
             }
         });
     });

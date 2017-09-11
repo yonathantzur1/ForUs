@@ -154,6 +154,7 @@
     float: right;
     position: relative;
     padding-right: 5px;
+    padding-left: 5px;
 }
 
 #chat .message {
@@ -194,7 +195,7 @@
 }
 
 #chat .friend-message-time {
-    left: 0px;
+    left: 5px;
 }
 
 #chat .message-time {

@@ -62,6 +62,7 @@ var NavbarComponent = /** @class */ (function () {
                 this.navbarService.GetFriends(friendsIds).then(function (friendsResult) {
                     _this.friends = friendsResult;
                     _this.isFriendsLoading = false;
+                    _this.socket.emit("ServerGetOnlineFriends", getToken());
                 });
             }
         };
@@ -166,7 +167,7 @@ var NavbarComponent = /** @class */ (function () {
         };
         this.OpenChat = function (friend) {
             this.HideSidenav();
-            if (!this.chatData.friend || this.chatData.friend._id != friend._id) {
+            if (!this.chatData.isOpen || !this.chatData.friend || this.chatData.friend._id != friend._id) {
                 // Put default profile in case the friend has no profile image.
                 if (!friend.profileImage) {
                     friend.profileImage = this.defaultProfileImage;
@@ -189,6 +190,23 @@ var NavbarComponent = /** @class */ (function () {
         this.LoadFriendsData(this.user.friends);
         this.socket = io();
         this.socket.emit('login', getToken());
+        var self = this;
+        self.socket.on('ClientGetOnlineFriends', function (onlineFriendsIds) {
+            if (onlineFriendsIds.length > 0) {
+                self.friends.forEach(function (friend) {
+                    if (onlineFriendsIds.indexOf(friend._id) != -1) {
+                        friend.isOnline = true;
+                    }
+                });
+            }
+        });
+        self.socket.on('GetFriendConnectionStatus', function (statusObj) {
+            self.friends.forEach(function (friend) {
+                if (friend._id == statusObj.friendId) {
+                    friend.isOnline = statusObj.isOnline;
+                }
+            });
+        });
     };
     __decorate([
         core_1.Input(),

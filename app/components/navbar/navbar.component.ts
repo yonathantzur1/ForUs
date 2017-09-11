@@ -56,6 +56,26 @@ export class NavbarComponent implements OnInit {
         this.socket = io();
 
         this.socket.emit('login', getToken());
+
+        var self = this;
+
+        self.socket.on('ClientGetOnlineFriends', function (onlineFriendsIds: Array<string>) {
+            if (onlineFriendsIds.length > 0) {
+                self.friends.forEach(friend => {
+                    if (onlineFriendsIds.indexOf(friend._id) != -1) {
+                        friend.isOnline = true;
+                    }
+                });
+            }
+        });
+
+        self.socket.on('GetFriendConnectionStatus', function (statusObj: any) {
+            self.friends.forEach(friend => {
+                if (friend._id == statusObj.friendId) {
+                    friend.isOnline = statusObj.isOnline;
+                }
+            });
+        });
     }
 
     // START CONFIG VARIABLES //
@@ -86,6 +106,7 @@ export class NavbarComponent implements OnInit {
             this.navbarService.GetFriends(friendsIds).then((friendsResult: Array<Friend>) => {
                 this.friends = friendsResult;
                 this.isFriendsLoading = false;
+                this.socket.emit("ServerGetOnlineFriends", getToken());
             });
         }
     }
@@ -210,7 +231,7 @@ export class NavbarComponent implements OnInit {
     OpenChat = function (friend: Friend) {
         this.HideSidenav();
 
-        if (!this.chatData.friend || this.chatData.friend._id != friend._id) {
+        if (!this.chatData.isOpen || !this.chatData.friend || this.chatData.friend._id != friend._id) {
             // Put default profile in case the friend has no profile image.
             if (!friend.profileImage) {
                 friend.profileImage = this.defaultProfileImage;
