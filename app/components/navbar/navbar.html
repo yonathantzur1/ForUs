@@ -25,7 +25,7 @@
             <span>
               {{friend.firstName + " " + friend.lastName}}
             </span>
-            <div *ngIf="friend.isOnline" class="online-icon"></div>
+            <div *ngIf="friend.isOnline && isSidebarOpen" class="online-icon"></div>
           </div>
         </div>
         <div *ngIf="!isFriendsLoading && friends.length == 0" class="no-friends-container">

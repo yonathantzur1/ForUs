@@ -38,19 +38,23 @@ module.exports = function (io, jwt, config) {
 
         socket.on('disconnect', function () {
             var disconnectUserId = socketsDictionary[socket.id];
-            var disconnectUserFriends = connectedUsers[disconnectUserId].friends;
+            var disconnectUser = connectedUsers[disconnectUserId];
 
-            delete socketsDictionary[socket.id];
-            delete connectedUsers[disconnectUserId];
+            if (disconnectUser) {
+                var disconnectUserFriends = disconnectUser.friends;
+                
+                delete socketsDictionary[socket.id];
+                delete connectedUsers[disconnectUserId];
 
-            var statusObj = {
-                "friendId": disconnectUserId,
-                "isOnline": false
+                var statusObj = {
+                    "friendId": disconnectUserId,
+                    "isOnline": false
+                }
+
+                disconnectUserFriends.forEach(friendId => {
+                    io.to(friendId).emit('GetFriendConnectionStatus', statusObj);
+                });
             }
-
-            disconnectUserFriends.forEach(friendId => {
-                io.to(friendId).emit('GetFriendConnectionStatus', statusObj);
-            });
         });
     });
 }

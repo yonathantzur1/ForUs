@@ -137,7 +137,7 @@
     cursor: pointer;
     white-space: nowrap;
     text-overflow: ellipsis;
-    width: 60%;
+    width: 70%;
     overflow: hidden;
 }
 
@@ -363,8 +363,6 @@
     border: 1px solid white;
     border-radius: 50%;
     background-color: #19e719;
-    position: absolute;
-    left: 10px;
     align-self: center;
 }
 
