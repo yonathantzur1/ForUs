@@ -184,6 +184,10 @@ var NavbarComponent = /** @class */ (function () {
                 _this.ClosePopups();
                 _this.globalService.deleteData("isOpenEditWindow");
             }
+            if (value["logout"] && _this.socket) {
+                _this.socket.emit('logout');
+                _this.globalService.deleteData("logout");
+            }
         });
     }
     NavbarComponent.prototype.ngOnInit = function () {

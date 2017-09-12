@@ -28,7 +28,7 @@
             <div *ngIf="friend.isOnline && isSidebarOpen" class="online-icon"></div>
           </div>
         </div>
-        <div *ngIf="!isFriendsLoading && friends.length == 0" class="no-friends-container">
+        <div *ngIf="!isFriendsLoading && friends.length == 0 && isSidebarOpen" class="no-friends-container">
           <i class="material-icons no-friends-icon">people</i>
         </div>
       </div>

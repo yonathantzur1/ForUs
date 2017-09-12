@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var global_service_1 = require("../../services/global/global.service");
 var login_service_1 = require("../../services/login/login.service");
 var User = /** @class */ (function () {
     function User() {
@@ -44,14 +45,21 @@ var ForgotUser = /** @class */ (function () {
 }());
 exports.ForgotUser = ForgotUser;
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent(router, loginService) {
+    function LoginComponent(router, globalService, loginService) {
         this.router = router;
+        this.globalService = globalService;
         this.loginService = loginService;
         this.user = new User();
         this.newUser = new NewUser();
         this.forgotUser = new ForgotUser();
         this.isLoading = false;
     }
+    LoginComponent.prototype.ngOnInit = function () {
+        this.globalService.setData("logout", true);
+    };
+    LoginComponent.prototype.ngOnDestroy = function () {
+        this.globalService.deleteData("logout");
+    };
     // Running on the array of validation functions and make sure all valid.
     // Getting validation array and object to valid.
     LoginComponent.prototype.Validation = function (funcArray, obj) {
@@ -248,7 +256,7 @@ var LoginComponent = /** @class */ (function () {
             templateUrl: './login.html',
             providers: [login_service_1.LoginService]
         }),
-        __metadata("design:paramtypes", [router_1.Router, login_service_1.LoginService])
+        __metadata("design:paramtypes", [router_1.Router, global_service_1.GlobalService, login_service_1.LoginService])
     ], LoginComponent);
     return LoginComponent;
 }());

@@ -48,6 +48,11 @@ export class NavbarComponent implements OnInit {
                 this.ClosePopups();
                 this.globalService.deleteData("isOpenEditWindow");
             }
+
+            if (value["logout"] && this.socket) {
+                this.socket.emit('logout');
+                this.globalService.deleteData("logout");
+            }
         });
     }
 

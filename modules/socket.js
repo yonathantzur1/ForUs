@@ -1,9 +1,9 @@
 var general = require('./general.js');
 
-module.exports = function (io, jwt, config) {
-    var socketsDictionary = {};
-    var connectedUsers = {};
+var socketsDictionary = {};
+var connectedUsers = {};
 
+module.exports = function (io, jwt, config) {
     io.on('connection', function (socket) {
 
         socket.on('login', function (token) {
@@ -34,27 +34,35 @@ module.exports = function (io, jwt, config) {
             });
         });
 
+        socket.on('logout', function () {
+            LogoutUser(io, socket);
+        });
+
         require('../modules/serverChat.js')(io, jwt, config, socket, socketsDictionary, connectedUsers);
 
         socket.on('disconnect', function () {
-            var disconnectUserId = socketsDictionary[socket.id];
-            var disconnectUser = connectedUsers[disconnectUserId];
-
-            if (disconnectUser) {
-                var disconnectUserFriends = disconnectUser.friends;
-                
-                delete socketsDictionary[socket.id];
-                delete connectedUsers[disconnectUserId];
-
-                var statusObj = {
-                    "friendId": disconnectUserId,
-                    "isOnline": false
-                }
-
-                disconnectUserFriends.forEach(friendId => {
-                    io.to(friendId).emit('GetFriendConnectionStatus', statusObj);
-                });
-            }
+            LogoutUser(io, socket);
         });
     });
+}
+
+function LogoutUser(io, socket) {
+    var disconnectUserId = socketsDictionary[socket.id];
+    var disconnectUser = connectedUsers[disconnectUserId];
+
+    if (disconnectUser) {
+        var disconnectUserFriends = disconnectUser.friends;
+
+        delete socketsDictionary[socket.id];
+        delete connectedUsers[disconnectUserId];
+
+        var statusObj = {
+            "friendId": disconnectUserId,
+            "isOnline": false
+        }
+
+        disconnectUserFriends.forEach(friendId => {
+            io.to(friendId).emit('GetFriendConnectionStatus', statusObj);
+        });
+    }
 }
