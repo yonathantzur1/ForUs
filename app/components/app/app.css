@@ -5,16 +5,16 @@ a, a:hover, a:focus {
 }
 
 .form-control, .form-group .form-control {
-    background-image: linear-gradient(#95a0b6, #95a0b6), linear-gradient(#D2D2D2, #D2D2D2) !important;
+    background-image: linear-gradient(#7882b6, #7882b6), linear-gradient(#D2D2D2, #D2D2D2) !important;
 }
 
 .btn:not(.btn-raised).btn-primary, .input-group-btn .btn:not(.btn-raised).btn-primary {
-    color: #7c7c7c !important;
+    color: #7882b6 !important;
 }
 
 .btn:hover {
     background-color: transparent !important;
-    border-color: #7c7c7c !important;
+    border-color: #7882b6 !important;
 }
 
 /* END OVERRIDE BOOTSTRAP MATERIAL CSS */
