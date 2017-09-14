@@ -3,9 +3,12 @@ import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/startWith';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
+declare var io: any;
+
 export class GlobalService {
     // use this property for property binding
     public data: BehaviorSubject<boolean> = new BehaviorSubject<any>({});
+    public socket = io();
 
     setData(key: string, value: any) {
         var currData = this.data.value;

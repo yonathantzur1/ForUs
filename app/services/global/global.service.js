@@ -7,6 +7,7 @@ var GlobalService = /** @class */ (function () {
     function GlobalService() {
         // use this property for property binding
         this.data = new BehaviorSubject_1.BehaviorSubject({});
+        this.socket = io();
     }
     GlobalService.prototype.setData = function (key, value) {
         var currData = this.data.value;

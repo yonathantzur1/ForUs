@@ -179,6 +179,7 @@ var NavbarComponent = /** @class */ (function () {
                 this.globalService.setData("chatData", this.chatData);
             }
         };
+        this.socket = globalService.socket;
         this.globalService.data.subscribe(function (value) {
             if (value["isOpenEditWindow"]) {
                 _this.ClosePopups();
@@ -192,7 +193,6 @@ var NavbarComponent = /** @class */ (function () {
     }
     NavbarComponent.prototype.ngOnInit = function () {
         this.LoadFriendsData(this.user.friends);
-        this.socket = io();
         this.socket.emit('login', getToken());
         var self = this;
         self.socket.on('ClientGetOnlineFriends', function (onlineFriendsIds) {

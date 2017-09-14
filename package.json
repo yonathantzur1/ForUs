@@ -25,7 +25,6 @@
     "bootstrap-material-design": "^0.5.10",
     "core-js": "^2.5.1",
     "cropper": "^3.0.0",
-    "crypto": "^1.0.1",
     "express": "^4.15.4",
     "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",

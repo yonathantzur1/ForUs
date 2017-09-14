@@ -13,7 +13,6 @@ npm install font-awesome --save
 npm install snackbarjs --save
 npm install socket.io --save
 npm install socket.io-client --save
-npm install crypto --save
 npm install @angular/common --save
 npm install @angular/compiler --save
 npm install @angular/core --save

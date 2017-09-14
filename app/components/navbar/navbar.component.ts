@@ -43,6 +43,8 @@ export class NavbarComponent implements OnInit {
 
     constructor(private router: Router, private authService: AuthService,
         private globalService: GlobalService, private navbarService: NavbarService) {
+        this.socket = globalService.socket;
+        
         this.globalService.data.subscribe(value => {
             if (value["isOpenEditWindow"]) {
                 this.ClosePopups();
@@ -58,7 +60,6 @@ export class NavbarComponent implements OnInit {
 
     ngOnInit() {
         this.LoadFriendsData(this.user.friends);
-        this.socket = io();
 
         this.socket.emit('login', getToken());
 

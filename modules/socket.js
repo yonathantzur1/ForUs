@@ -13,17 +13,27 @@ module.exports = function (io, jwt, config) {
                 // In case the token is valid.
                 if (!err && decoded) {
                     var user = decoded.user;
-                    user.socketId = socket.id;
+
+                    // In case the user is already login.
+                    if (connectedUsers[user._id]) {
+                        var loginUserObj = connectedUsers[user._id];
+                        user.socketIds = loginUserObj.socketIds;
+                        user.socketIds.push(socket.id);
+                        user.connectionsNumber = connectedUsers[user._id].connectionsNumber + 1;
+                    }
+                    else {
+                        user.socketIds = [socket.id];
+                        user.connectionsNumber = 1;
+                    }
 
                     socket.join(user._id);
                     socketsDictionary[socket.id] = user._id;
                     connectedUsers[user._id] = user;
-
-                    var connectionUserId = socketsDictionary[socket.id];
-                    var connectionUserFriends = connectedUsers[connectionUserId].friends;
+                    
+                    var connectionUserFriends = user.friends;
 
                     var statusObj = {
-                        "friendId": connectionUserId,
+                        "friendId": user._id,
                         "isOnline": true
                     }
 
@@ -51,18 +61,25 @@ function LogoutUser(io, socket) {
     var disconnectUser = connectedUsers[disconnectUserId];
 
     if (disconnectUser) {
-        var disconnectUserFriends = disconnectUser.friends;
+        // In case the user was connected only once.
+        if (disconnectUser.connectionsNumber == 1) {
+            var disconnectUserFriends = disconnectUser.friends;
 
-        delete socketsDictionary[socket.id];
-        delete connectedUsers[disconnectUserId];
+            delete socketsDictionary[socket.id];
+            delete connectedUsers[disconnectUserId];
 
-        var statusObj = {
-            "friendId": disconnectUserId,
-            "isOnline": false
+            var statusObj = {
+                "friendId": disconnectUserId,
+                "isOnline": false
+            }
+
+            disconnectUserFriends.forEach(friendId => {
+                io.to(friendId).emit('GetFriendConnectionStatus', statusObj);
+            });
         }
-
-        disconnectUserFriends.forEach(friendId => {
-            io.to(friendId).emit('GetFriendConnectionStatus', statusObj);
-        });
+        else {
+            delete socketsDictionary[socket.id];
+            disconnectUser.connectionsNumber--;
+        }
     }
 }
