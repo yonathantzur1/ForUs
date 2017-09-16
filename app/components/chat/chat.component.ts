@@ -20,6 +20,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     chatBodyScrollHeight: number = 0;
 
     constructor(private chatService: ChatService, private globalService: GlobalService) {
+        this.socket = globalService.socket;
+
         this.globalService.data.subscribe(value => {
             if (value["chatData"]) {
                 this.messages = [];
@@ -32,7 +34,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     ngOnInit() {
         var self = this;
 
-        self.socket = self.chatData.socket;
         self.socket.on('GetMessage', function (msgData: any) {
             if (msgData.from == self.chatData.friend._id) {
                 msgData.time = new Date();

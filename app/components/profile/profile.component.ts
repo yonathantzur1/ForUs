@@ -24,15 +24,15 @@ export class ProfileComponent implements OnInit, OnChanges {
                 this.userImage = value["userImage"];
             }
 
-            if (value["isOpenEditWindow"]) {
+            if (value["isOpenProfileEditWindow"]) {
                 this.isNewPhoto = true;
-                this.isOpenEditWindow = value["isOpenEditWindow"];
+                this.isOpenProfileEditWindow = value["isOpenProfileEditWindow"];
                 this.ActiveWindow();
             }
         });
     }
 
-    @Input() isOpenEditWindow: boolean;
+    @Input() isOpenProfileEditWindow: boolean;
     @Input() isNewPhoto: boolean;
     @Input() imgSrc: string;
 
@@ -198,7 +198,7 @@ export class ProfileComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(simpleChanges: any) {
-        if (simpleChanges.isOpenEditWindow.currentValue) {
+        if (simpleChanges.isOpenProfileEditWindow.currentValue) {
             this.ActiveWindow();
         }
         else {

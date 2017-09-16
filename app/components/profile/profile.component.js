@@ -144,9 +144,9 @@ var ProfileComponent = /** @class */ (function () {
             if (value["userImage"] != null) {
                 _this.userImage = value["userImage"];
             }
-            if (value["isOpenEditWindow"]) {
+            if (value["isOpenProfileEditWindow"]) {
                 _this.isNewPhoto = true;
-                _this.isOpenEditWindow = value["isOpenEditWindow"];
+                _this.isOpenProfileEditWindow = value["isOpenProfileEditWindow"];
                 _this.ActiveWindow();
             }
         });
@@ -179,7 +179,7 @@ var ProfileComponent = /** @class */ (function () {
         });
     };
     ProfileComponent.prototype.ngOnChanges = function (simpleChanges) {
-        if (simpleChanges.isOpenEditWindow.currentValue) {
+        if (simpleChanges.isOpenProfileEditWindow.currentValue) {
             this.ActiveWindow();
         }
         else {
@@ -283,7 +283,7 @@ var ProfileComponent = /** @class */ (function () {
     __decorate([
         core_1.Input(),
         __metadata("design:type", Boolean)
-    ], ProfileComponent.prototype, "isOpenEditWindow", void 0);
+    ], ProfileComponent.prototype, "isOpenProfileEditWindow", void 0);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Boolean)

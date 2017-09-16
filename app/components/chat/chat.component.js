@@ -71,6 +71,7 @@ var ChatComponent = /** @class */ (function () {
             }
             return (HH + ":" + mm);
         };
+        this.socket = globalService.socket;
         this.globalService.data.subscribe(function (value) {
             if (value["chatData"]) {
                 _this.messages = [];
@@ -81,7 +82,6 @@ var ChatComponent = /** @class */ (function () {
     }
     ChatComponent.prototype.ngOnInit = function () {
         var self = this;
-        self.socket = self.chatData.socket;
         self.socket.on('GetMessage', function (msgData) {
             if (msgData.from == self.chatData.friend._id) {
                 msgData.time = new Date();

@@ -18,7 +18,7 @@ var HomeComponent = /** @class */ (function () {
         this.router = router;
         this.authService = authService;
         this.homeService = homeService;
-        this.isOpenEditWindow = false;
+        this.isOpenProfileEditWindow = false;
         this.currUser = null;
     }
     HomeComponent.prototype.ngOnInit = function () {

@@ -60,9 +60,9 @@ export class NavbarComponent implements OnInit {
         this.socket = globalService.socket;
 
         this.globalService.data.subscribe(value => {
-            if (value["isOpenEditWindow"]) {
+            if (value["isOpenProfileEditWindow"]) {
                 this.ClosePopups();
-                this.globalService.deleteData("isOpenEditWindow");
+                this.globalService.deleteData("isOpenProfileEditWindow");
             }
 
             if (value["logout"] && this.socket) {
@@ -74,10 +74,15 @@ export class NavbarComponent implements OnInit {
 
     ngOnInit() {
         this.LoadFriendsData(this.user.friends);
-
         this.socket.emit('login', getToken());
 
         var self = this;
+
+        self.socket.on('GetMessage', function (msgData: any) {
+            if (!self.chatData.isOpen || msgData.from != self.chatData.friend._id) {
+                self.GetToolbarItem("messages").number++;
+            }
+        });
 
         self.socket.on('ClientGetOnlineFriends', function (onlineFriendsIds: Array<string>) {
             if (onlineFriendsIds.length > 0) {
@@ -118,6 +123,15 @@ export class NavbarComponent implements OnInit {
             self.router.navigateByUrl(link);
         }, this)
     ];
+
+    // Return item object from toolbar items array by its id.
+    GetToolbarItem = function (id: string) {
+        for (var i = 0; i < this.toolbarItems.length; i++) {
+            if (this.toolbarItems[i].id == id) {
+                return this.toolbarItems[i];
+            }
+        }
+    }
 
     // Loading full friends objects to friends array.
     LoadFriendsData = function (friendsIds: Array<string>) {
@@ -259,7 +273,6 @@ export class NavbarComponent implements OnInit {
 
             this.chatData.friend = friend;
             this.chatData.user = this.user;
-            this.chatData.socket = this.socket;
             this.chatData.isOpen = true;
 
             this.globalService.setData("chatData", this.chatData);

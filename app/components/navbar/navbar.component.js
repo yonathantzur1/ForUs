@@ -68,6 +68,14 @@ var NavbarComponent = /** @class */ (function () {
                 self.router.navigateByUrl(link);
             }, this)
         ];
+        // Return item object from toolbar items array by its id.
+        this.GetToolbarItem = function (id) {
+            for (var i = 0; i < this.toolbarItems.length; i++) {
+                if (this.toolbarItems[i].id == id) {
+                    return this.toolbarItems[i];
+                }
+            }
+        };
         // Loading full friends objects to friends array.
         this.LoadFriendsData = function (friendsIds) {
             var _this = this;
@@ -188,16 +196,15 @@ var NavbarComponent = /** @class */ (function () {
                 }
                 this.chatData.friend = friend;
                 this.chatData.user = this.user;
-                this.chatData.socket = this.socket;
                 this.chatData.isOpen = true;
                 this.globalService.setData("chatData", this.chatData);
             }
         };
         this.socket = globalService.socket;
         this.globalService.data.subscribe(function (value) {
-            if (value["isOpenEditWindow"]) {
+            if (value["isOpenProfileEditWindow"]) {
                 _this.ClosePopups();
-                _this.globalService.deleteData("isOpenEditWindow");
+                _this.globalService.deleteData("isOpenProfileEditWindow");
             }
             if (value["logout"] && _this.socket) {
                 _this.socket.emit('logout');
@@ -209,6 +216,11 @@ var NavbarComponent = /** @class */ (function () {
         this.LoadFriendsData(this.user.friends);
         this.socket.emit('login', getToken());
         var self = this;
+        self.socket.on('GetMessage', function (msgData) {
+            if (!self.chatData.isOpen || msgData.from != self.chatData.friend._id) {
+                self.GetToolbarItem("messages").number++;
+            }
+        });
         self.socket.on('ClientGetOnlineFriends', function (onlineFriendsIds) {
             if (onlineFriendsIds.length > 0) {
                 self.friends.forEach(function (friend) {
