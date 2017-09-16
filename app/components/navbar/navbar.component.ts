@@ -40,6 +40,11 @@ export class NavbarComponent implements OnInit {
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
     chatData: any = { "isOpen": false };
     socket: any;
+    messageNotificationName: string;
+    messageNotificationText: string;
+    isShowMessageNotification: boolean = false;
+    messageNotificationTime: number = 2000; // In milliseconds
+
     toolbarItems = [
         {
             id: "messages",
@@ -81,6 +86,10 @@ export class NavbarComponent implements OnInit {
         self.socket.on('GetMessage', function (msgData: any) {
             if (!self.chatData.isOpen || msgData.from != self.chatData.friend._id) {
                 self.GetToolbarItem("messages").number++;
+
+                if (!self.chatData.isOpen) {
+                    self.ShowMessageNotification(self.GetFriendNameById(msgData.from), msgData.text);
+                }
             }
         });
 
@@ -131,6 +140,30 @@ export class NavbarComponent implements OnInit {
                 return this.toolbarItems[i];
             }
         }
+    }
+
+    ShowMessageNotification = function (name: string, text: string) {
+        if (name && text) {
+            this.messageNotificationName = name;
+            this.messageNotificationText = text;
+            this.isShowMessageNotification = true;
+
+            var self = this;
+            var notificationInterval = setInterval(function () {
+                self.isShowMessageNotification = false;
+                clearInterval(notificationInterval);
+            }, this.messageNotificationTime);
+        }
+    }
+
+    GetFriendNameById = function (id: string): string {
+        for (var i = 0; i < this.friends.length; i++) {
+            if (this.friends[i]._id == id) {
+                return (this.friends[i].firstName + " " + this.friends[i].lastName);
+            }
+        }
+
+        return null;
     }
 
     // Loading full friends objects to friends array.

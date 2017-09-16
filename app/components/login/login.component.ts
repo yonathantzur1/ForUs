@@ -114,7 +114,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         // In case of server error.
         if (result == null) {
           $("#server-error").snackbar("show");
-
         }
         // In case the login details is incorrect.
         else if (result == false) {

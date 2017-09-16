@@ -38,6 +38,8 @@ var NavbarComponent = /** @class */ (function () {
         this.isFriendsLoading = false;
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.chatData = { "isOpen": false };
+        this.isShowMessageNotification = false;
+        this.messageNotificationTime = 2000; // In milliseconds
         this.toolbarItems = [
             {
                 id: "messages",
@@ -75,6 +77,26 @@ var NavbarComponent = /** @class */ (function () {
                     return this.toolbarItems[i];
                 }
             }
+        };
+        this.ShowMessageNotification = function (name, text) {
+            if (name && text) {
+                this.messageNotificationName = name;
+                this.messageNotificationText = text;
+                this.isShowMessageNotification = true;
+                var self = this;
+                var notificationInterval = setInterval(function () {
+                    self.isShowMessageNotification = false;
+                    clearInterval(notificationInterval);
+                }, this.messageNotificationTime);
+            }
+        };
+        this.GetFriendNameById = function (id) {
+            for (var i = 0; i < this.friends.length; i++) {
+                if (this.friends[i]._id == id) {
+                    return (this.friends[i].firstName + " " + this.friends[i].lastName);
+                }
+            }
+            return null;
         };
         // Loading full friends objects to friends array.
         this.LoadFriendsData = function (friendsIds) {
@@ -219,6 +241,9 @@ var NavbarComponent = /** @class */ (function () {
         self.socket.on('GetMessage', function (msgData) {
             if (!self.chatData.isOpen || msgData.from != self.chatData.friend._id) {
                 self.GetToolbarItem("messages").number++;
+                if (!self.chatData.isOpen) {
+                    self.ShowMessageNotification(self.GetFriendNameById(msgData.from), msgData.text);
+                }
             }
         });
         self.socket.on('ClientGetOnlineFriends', function (onlineFriendsIds) {

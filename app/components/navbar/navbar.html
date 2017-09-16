@@ -72,6 +72,9 @@
       </div>
     </div>
   </div>
+  <span id="message-notification" class="message-notification" *ngIf="isShowMessageNotification">
+    <span class="message-notification-name">{{messageNotificationName}}</span>: <span class="message-notification-text">{{messageNotificationText}}</span>
+  </span>
 </div>
 
 <chat *ngIf="chatData.isOpen" [chatData]="chatData"></chat>
