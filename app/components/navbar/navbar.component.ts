@@ -40,11 +40,25 @@ export class NavbarComponent implements OnInit {
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
     chatData: any = { "isOpen": false };
     socket: any;
+    toolbarItems = [
+        {
+            id: "messages",
+            icon: "fa fa-envelope-o",
+            title: "הודעות",
+            number: 0
+        },
+        {
+            id: "notifications",
+            icon: "fa fa-bell-o",
+            title: "התראות",
+            number: 0
+        }
+    ];
 
     constructor(private router: Router, private authService: AuthService,
         private globalService: GlobalService, private navbarService: NavbarService) {
         this.socket = globalService.socket;
-        
+
         this.globalService.data.subscribe(value => {
             if (value["isOpenEditWindow"]) {
                 this.ClosePopups();

@@ -38,6 +38,20 @@ var NavbarComponent = /** @class */ (function () {
         this.isFriendsLoading = false;
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.chatData = { "isOpen": false };
+        this.toolbarItems = [
+            {
+                id: "messages",
+                icon: "fa fa-envelope-o",
+                title: "הודעות",
+                number: 0
+            },
+            {
+                id: "notifications",
+                icon: "fa fa-bell-o",
+                title: "התראות",
+                number: 0
+            }
+        ];
         // START CONFIG VARIABLES //
         this.searchLimit = 4;
         this.searchInputChangeDelayMilliseconds = 100;

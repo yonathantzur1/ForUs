@@ -1,3 +1,4 @@
 <div id="profilePicture">
     <img (click)="OpenEditWindow()" class="profile-image" [ngClass]="{'profile-image-border': isUserHasImage}" src="{{profileImageSrc}}">
+    <div title="הוספת תמונת פרופיל" class="add-image-btn" *ngIf="isUserHasImage == false">+</div>
 </div>

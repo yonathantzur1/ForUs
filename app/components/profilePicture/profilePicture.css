@@ -7,3 +7,17 @@
     border: 0.5px solid #4f4f4f;
     border-radius: 5px;
 }
+
+#profilePicture .add-image-btn {
+    width: 15px;
+    height: 15px;
+    background-color: #03a9f4;
+    color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 15px;
+}

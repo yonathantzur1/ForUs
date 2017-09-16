@@ -5,6 +5,7 @@
             <span class="friend-chat-name">
                 {{chatData.friend.firstName + " " + chatData.friend.lastName}}
             </span>
+            <div class="online-icon" *ngIf="chatData.friend.isOnline"></div>
             <span (click)="CloseChat()" class="glyphicon glyphicon-remove exit-chat" aria-hidden="true"></span>
         </div>
         <div class="chat-body-container">
