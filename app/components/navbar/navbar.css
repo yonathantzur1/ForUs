@@ -403,7 +403,7 @@
 #navbar .message-notification {
     max-width: 230px;
     height: 30px;
-    background-color: rgba(62, 62, 62, 0.59);
+    background-color: rgba(62, 62, 62, 0.80);
     position: absolute;
     bottom: 10px;
     left: 10px;
@@ -426,7 +426,7 @@
 }
 
 @keyframes showNotification {
-    from {opacity: 0.1;}
+    from {opacity: 0;}
     to {opacity: 1;}
 }
 

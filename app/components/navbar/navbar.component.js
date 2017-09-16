@@ -39,7 +39,7 @@ var NavbarComponent = /** @class */ (function () {
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.chatData = { "isOpen": false };
         this.isShowMessageNotification = false;
-        this.messageNotificationTime = 2000; // In milliseconds
+        this.messageNotificationTime = 3500; // In milliseconds
         this.toolbarItems = [
             {
                 id: "messages",
@@ -78,15 +78,17 @@ var NavbarComponent = /** @class */ (function () {
                 }
             }
         };
-        this.ShowMessageNotification = function (name, text) {
+        this.ShowMessageNotification = function (name, text, friendId) {
             if (name && text) {
                 this.messageNotificationName = name;
                 this.messageNotificationText = text;
+                this.messageNotificationFriendId = friendId;
                 this.isShowMessageNotification = true;
                 var self = this;
-                var notificationInterval = setInterval(function () {
+                self.notificationInterval = setInterval(function () {
                     self.isShowMessageNotification = false;
-                    clearInterval(notificationInterval);
+                    clearInterval(self.notificationInterval);
+                    self.notificationInterval = null;
                 }, this.messageNotificationTime);
             }
         };
@@ -97,6 +99,23 @@ var NavbarComponent = /** @class */ (function () {
                 }
             }
             return null;
+        };
+        this.GetFriendById = function (id) {
+            for (var i = 0; i < this.friends.length; i++) {
+                if (this.friends[i]._id == id) {
+                    return this.friends[i];
+                }
+            }
+            return null;
+        };
+        this.MessageNotificationClicked = function () {
+            // Turn off the open notification.
+            this.isShowMessageNotification = false;
+            if (this.notificationInterval) {
+                clearInterval(this.notificationInterval);
+                this.notificationInterval = null;
+            }
+            this.OpenChat(this.GetFriendById(this.messageNotificationFriendId));
         };
         // Loading full friends objects to friends array.
         this.LoadFriendsData = function (friendsIds) {
@@ -242,7 +261,13 @@ var NavbarComponent = /** @class */ (function () {
             if (!self.chatData.isOpen || msgData.from != self.chatData.friend._id) {
                 self.GetToolbarItem("messages").number++;
                 if (!self.chatData.isOpen) {
-                    self.ShowMessageNotification(self.GetFriendNameById(msgData.from), msgData.text);
+                    // Turn off the open notification.
+                    self.isShowMessageNotification = false;
+                    if (self.notificationInterval) {
+                        clearInterval(self.notificationInterval);
+                        self.notificationInterval = null;
+                    }
+                    self.ShowMessageNotification(self.GetFriendNameById(msgData.from), msgData.text, msgData.from);
                 }
             }
         });

@@ -42,8 +42,10 @@ export class NavbarComponent implements OnInit {
     socket: any;
     messageNotificationName: string;
     messageNotificationText: string;
+    messageNotificationFriendId: string;
     isShowMessageNotification: boolean = false;
-    messageNotificationTime: number = 2000; // In milliseconds
+    messageNotificationTime: number = 3500; // In milliseconds
+    notificationInterval: any;
 
     toolbarItems = [
         {
@@ -88,7 +90,15 @@ export class NavbarComponent implements OnInit {
                 self.GetToolbarItem("messages").number++;
 
                 if (!self.chatData.isOpen) {
-                    self.ShowMessageNotification(self.GetFriendNameById(msgData.from), msgData.text);
+                    // Turn off the open notification.
+                    self.isShowMessageNotification = false;
+
+                    if (self.notificationInterval) {
+                        clearInterval(self.notificationInterval);
+                        self.notificationInterval = null;
+                    }
+
+                    self.ShowMessageNotification(self.GetFriendNameById(msgData.from), msgData.text, msgData.from);
                 }
             }
         });
@@ -142,16 +152,18 @@ export class NavbarComponent implements OnInit {
         }
     }
 
-    ShowMessageNotification = function (name: string, text: string) {
+    ShowMessageNotification = function (name: string, text: string, friendId: string) {
         if (name && text) {
             this.messageNotificationName = name;
             this.messageNotificationText = text;
+            this.messageNotificationFriendId = friendId;
             this.isShowMessageNotification = true;
 
             var self = this;
-            var notificationInterval = setInterval(function () {
+            self.notificationInterval = setInterval(function () {
                 self.isShowMessageNotification = false;
-                clearInterval(notificationInterval);
+                clearInterval(self.notificationInterval);
+                self.notificationInterval = null;
             }, this.messageNotificationTime);
         }
     }
@@ -164,6 +176,28 @@ export class NavbarComponent implements OnInit {
         }
 
         return null;
+    }
+
+    GetFriendById = function (id: string): Friend {
+        for (var i = 0; i < this.friends.length; i++) {
+            if (this.friends[i]._id == id) {
+                return this.friends[i];
+            }
+        }
+
+        return null;
+    }
+
+    MessageNotificationClicked = function () {
+        // Turn off the open notification.
+        this.isShowMessageNotification = false;
+
+        if (this.notificationInterval) {
+            clearInterval(this.notificationInterval);
+            this.notificationInterval = null;
+        }
+
+        this.OpenChat(this.GetFriendById(this.messageNotificationFriendId));
     }
 
     // Loading full friends objects to friends array.
