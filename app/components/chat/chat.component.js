@@ -21,6 +21,7 @@ var ChatComponent = /** @class */ (function () {
         this.token = getToken();
         this.chatBodyScrollHeight = 0;
         this.InitializeChat = function () {
+            var _this = this;
             var self = this;
             self.chatBodyScrollHeight = 0;
             self.isMessagesLoading = true;
@@ -29,6 +30,7 @@ var ChatComponent = /** @class */ (function () {
                     self.messages = chat.messages;
                 }
                 self.isMessagesLoading = false;
+                _this.globalService.deleteData("chatData");
             });
         };
         this.CloseChat = function () {
@@ -88,9 +90,6 @@ var ChatComponent = /** @class */ (function () {
                 self.messages.push(msgData);
             }
         });
-    };
-    ChatComponent.prototype.ngOnDestroy = function () {
-        this.globalService.deleteData("chatData");
     };
     ChatComponent.prototype.ngAfterViewChecked = function () {
         if ($("#chat-body-sector")[0].scrollHeight != this.chatBodyScrollHeight) {

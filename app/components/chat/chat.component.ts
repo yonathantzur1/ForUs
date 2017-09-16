@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, Input, AfterViewChecked } from '@angular/core';
 
 import { ChatService } from '../../services/chat/chat.service';
 import { GlobalService } from '../../services/global/global.service';
@@ -11,7 +11,7 @@ declare var getToken: any;
     providers: [ChatService]
 })
 
-export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class ChatComponent implements OnInit, AfterViewChecked {
     @Input() chatData: any;
     socket: any;
     messages: Array<any> = [];
@@ -42,10 +42,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         });
     }
 
-    ngOnDestroy() {
-        this.globalService.deleteData("chatData");
-    }
-
     ngAfterViewChecked() {
         if ($("#chat-body-sector")[0].scrollHeight != this.chatBodyScrollHeight) {
             this.ScrollToBottom();
@@ -64,6 +60,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             }
 
             self.isMessagesLoading = false;
+
+            this.globalService.deleteData("chatData");
         });
     }
 

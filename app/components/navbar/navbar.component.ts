@@ -266,7 +266,7 @@ export class NavbarComponent implements OnInit {
     ClosePopups = function () {
         this.HideSidenav();
         this.HideDropMenu();
-        this.HideSearchResults();
+        this.HideSearchResults();        
     }
 
     SearchChange = function (input: string) {
