@@ -22,4 +22,13 @@ module.exports = function (app, navbarBL) {
         });
     });
 
+    app.get(prefix + '/getUserMessagesNotifications', function (req, res) {
+        navbarBL.GetUserMessagesNotifications(req.user._id, function (messagesNotifications) {
+            res.send(messagesNotifications);
+        });
+    });
+
+    app.post(prefix + '/updateMessagesNotifications', function (req, res) {
+        navbarBL.UpdateMessagesNotifications(req.user._id, req.body.messagesNotifications, req.body.friendId);
+    });
 };

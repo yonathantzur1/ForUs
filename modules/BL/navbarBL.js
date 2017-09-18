@@ -109,6 +109,31 @@ module.exports = {
             }
         });
 
+    },
+
+    GetUserMessagesNotifications: function (userId, callback) {
+        DAL.FindOneSpecific(usersCollectionName,
+            { _id: DAL.GetObjectId(userId) },
+            { "messagesNotifications": 1 },
+            function (messagesNotifications) {
+                callback(messagesNotifications);
+            });
+    },
+
+    UpdateMessagesNotifications: function (userId, messagesNotifications, friendId) {
+        var userId = {
+            "_id": DAL.GetObjectId(userId)
+        }
+
+        var friendUnreadMessages = messagesNotifications[friendId];
+
+        if (friendId && !friendUnreadMessages.firstUnreadMessageDate) {
+            friendUnreadMessages.firstUnreadMessageDate = new Date();
+        }
+
+        DAL.UpdateOne(usersCollectionName, userId, { $set: { "messagesNotifications": messagesNotifications } }, function (result) {
+            var x = result;
+        });
     }
 
 };

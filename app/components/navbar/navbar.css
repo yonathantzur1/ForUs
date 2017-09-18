@@ -137,8 +137,12 @@
     cursor: pointer;
     white-space: nowrap;
     text-overflow: ellipsis;
-    width: 70%;
+    width: 68%;
     overflow: hidden;
+}
+
+#navbar .bold-friend-name {
+    font-weight: bold;
 }
 
 #navbar .slidenav-overlay {
@@ -398,6 +402,8 @@
     border-radius: 50%;
     background-color: #19e719;
     align-self: center;
+    position: absolute;
+    left: 15px;
 }
 
 #navbar .message-notification {
@@ -423,6 +429,7 @@
     line-height: 30px;
     animation-name: showNotification;
     animation-duration: 0.5s;
+    z-index: 999;
 }
 
 @keyframes showNotification {

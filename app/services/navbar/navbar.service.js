@@ -40,7 +40,7 @@ var NavbarService = /** @class */ (function (_super) {
         });
     };
     NavbarService.prototype.GetMainSearchResultsWithImages = function (ids) {
-        var details = { "ids": ids };
+        var details = { ids: ids };
         return _super.prototype.post.call(this, this.prefix + '/getMainSearchResultsWithImages', JSON.stringify(details))
             .toPromise()
             .then(function (result) {
@@ -49,6 +49,20 @@ var NavbarService = /** @class */ (function (_super) {
             .catch(function (result) {
             return null;
         });
+    };
+    NavbarService.prototype.GetUserMessagesNotifications = function () {
+        return _super.prototype.get.call(this, this.prefix + '/getUserMessagesNotifications')
+            .toPromise()
+            .then(function (result) {
+            return result.json();
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
+    NavbarService.prototype.UpdateMessagesNotifications = function (messagesNotifications, friendId) {
+        var details = { messagesNotifications: messagesNotifications, friendId: friendId };
+        _super.prototype.post.call(this, this.prefix + '/updateMessagesNotifications', JSON.stringify(details)).toPromise();
     };
     return NavbarService;
 }(basic_service_1.BasicService));

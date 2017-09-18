@@ -60,6 +60,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
             }
 
             self.isMessagesLoading = false;
+            $("#msg-input").focus();
 
             this.globalService.deleteData("chatData");
         });

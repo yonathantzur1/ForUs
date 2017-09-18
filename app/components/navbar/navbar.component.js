@@ -27,7 +27,14 @@ var Friend = /** @class */ (function () {
     return Friend;
 }());
 exports.Friend = Friend;
+var toolbarItem = /** @class */ (function () {
+    function toolbarItem() {
+    }
+    return toolbarItem;
+}());
+exports.toolbarItem = toolbarItem;
 var NavbarComponent = /** @class */ (function () {
+    // END CONFIG VARIABLES //
     function NavbarComponent(router, authService, globalService, navbarService) {
         var _this = this;
         this.router = router;
@@ -39,25 +46,20 @@ var NavbarComponent = /** @class */ (function () {
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.chatData = { "isOpen": false };
         this.isShowMessageNotification = false;
-        this.messageNotificationTime = 3500; // In milliseconds
         this.toolbarItems = [
             {
                 id: "messages",
                 icon: "fa fa-envelope-o",
                 title: "הודעות",
-                number: 0
+                content: {}
             },
             {
                 id: "notifications",
                 icon: "fa fa-bell-o",
                 title: "התראות",
-                number: 0
+                content: {}
             }
         ];
-        // START CONFIG VARIABLES //
-        this.searchLimit = 4;
-        this.searchInputChangeDelayMilliseconds = 100;
-        // END CONFIG VARIABLES //
         this.isSidebarOpen = false;
         this.isDropMenuOpen = false;
         this.searchResults = [];
@@ -70,6 +72,34 @@ var NavbarComponent = /** @class */ (function () {
                 self.router.navigateByUrl(link);
             }, this)
         ];
+        // START CONFIG VARIABLES //
+        this.searchLimit = 4;
+        this.searchInputChangeDelay = 120; // In milliseconds
+        this.messageNotificationTime = 3500; // In milliseconds
+        this.IsShowToolbarItemBadget = function (item) {
+            return (Object.keys(item.content).length > 0);
+        };
+        this.AddMessageToToolbarMessages = function (msgData) {
+            var messages = this.GetToolbarItem("messages").content;
+            var friendMessages = messages[msgData.from];
+            var messageNotificationObject = {
+                "unreadMessagesNumber": 1
+            };
+            if (friendMessages) {
+                friendMessages.unreadMessagesNumber++;
+            }
+            else {
+                messages[msgData.from] = messageNotificationObject;
+            }
+            this.navbarService.UpdateMessagesNotifications(messages, msgData.from);
+        };
+        this.RemoveFriendMessagesFromToolbarMessages = function (friendId) {
+            var notificationsMessages = this.GetToolbarItem("messages").content;
+            if (notificationsMessages[friendId]) {
+                delete (notificationsMessages[friendId]);
+                this.navbarService.UpdateMessagesNotifications(this.GetToolbarItem("messages").content);
+            }
+        };
         // Return item object from toolbar items array by its id.
         this.GetToolbarItem = function (id) {
             for (var i = 0; i < this.toolbarItems.length; i++) {
@@ -118,7 +148,7 @@ var NavbarComponent = /** @class */ (function () {
             this.OpenChat(this.GetFriendById(this.messageNotificationFriendId));
         };
         // Loading full friends objects to friends array.
-        this.LoadFriendsData = function (friendsIds) {
+        this.LoadFriendsData = function (friendsIds, callback) {
             var _this = this;
             if (friendsIds.length > 0) {
                 this.isFriendsLoading = true;
@@ -126,7 +156,11 @@ var NavbarComponent = /** @class */ (function () {
                     _this.friends = friendsResult;
                     _this.isFriendsLoading = false;
                     _this.socket.emit("ServerGetOnlineFriends", getToken());
+                    callback();
                 });
+            }
+            else {
+                callback();
             }
         };
         this.ShowHideSidenav = function () {
@@ -202,7 +236,7 @@ var NavbarComponent = /** @class */ (function () {
                     self.HideSearchResults();
                     self.searchResults = [];
                 }
-            }, self.searchInputChangeDelayMilliseconds);
+            }, self.searchInputChangeDelay);
         };
         this.GetFilteredSearchResults = function (searchInput) {
             if (!searchInput) {
@@ -228,9 +262,20 @@ var NavbarComponent = /** @class */ (function () {
                 });
             }
         };
+        this.GetFriendUnreadMessagesNumberText = function (friendId) {
+            var friendNotificationsMessages = this.GetToolbarItem("messages").content[friendId];
+            if (friendNotificationsMessages) {
+                return "(" + friendNotificationsMessages.unreadMessagesNumber + ")";
+            }
+            else {
+                return "";
+            }
+        };
         this.OpenChat = function (friend) {
             this.HideSidenav();
             if (!this.chatData.isOpen || !this.chatData.friend || this.chatData.friend._id != friend._id) {
+                // Empty unread messages notifications from the currend friend.
+                this.RemoveFriendMessagesFromToolbarMessages(friend._id);
                 // Put default profile in case the friend has no profile image.
                 if (!friend.profileImage) {
                     friend.profileImage = this.defaultProfileImage;
@@ -254,12 +299,17 @@ var NavbarComponent = /** @class */ (function () {
         });
     }
     NavbarComponent.prototype.ngOnInit = function () {
-        this.LoadFriendsData(this.user.friends);
         this.socket.emit('login', getToken());
         var self = this;
+        self.LoadFriendsData(self.user.friends, function () {
+            self.navbarService.GetUserMessagesNotifications().then(function (result) {
+                var messagesNotifications = result.messagesNotifications ? result.messagesNotifications : {};
+                self.GetToolbarItem("messages").content = messagesNotifications;
+            });
+        });
         self.socket.on('GetMessage', function (msgData) {
             if (!self.chatData.isOpen || msgData.from != self.chatData.friend._id) {
-                self.GetToolbarItem("messages").number++;
+                self.AddMessageToToolbarMessages(msgData);
                 if (!self.chatData.isOpen) {
                     // Turn off the open notification.
                     self.isShowMessageNotification = false;

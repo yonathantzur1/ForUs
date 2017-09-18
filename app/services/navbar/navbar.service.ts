@@ -29,7 +29,7 @@ export class NavbarService extends BasicService {
     }
 
     GetMainSearchResultsWithImages(ids: any) {
-        var details = { "ids": ids };
+        var details = { ids };
 
         return super.post(this.prefix + '/getMainSearchResultsWithImages', JSON.stringify(details))
             .toPromise()
@@ -39,5 +39,22 @@ export class NavbarService extends BasicService {
             .catch((result) => {
                 return null;
             });
+    }
+
+    GetUserMessagesNotifications() {
+        return super.get(this.prefix + '/getUserMessagesNotifications')
+            .toPromise()
+            .then((result) => {
+                return result.json();
+            })
+            .catch((result) => {
+                return null;
+            });
+    }
+
+    UpdateMessagesNotifications(messagesNotifications: any, friendId: string) {
+        var details = { messagesNotifications, friendId };
+
+        super.post(this.prefix + '/updateMessagesNotifications', JSON.stringify(details)).toPromise();
     }
 }

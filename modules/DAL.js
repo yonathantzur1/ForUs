@@ -63,6 +63,27 @@ module.exports = {
         });
     },
 
+        // Getting documents from collection by filter.
+        FindOneSpecific: function (collectionName, filter, fields, callback) {
+            GetDB(function (err, db) {
+                if (err == null) {
+                    var collection = db.collection(collectionName);
+    
+                    collection.findOne(filter, fields, function (err, docs) {
+                        if (err == null) {
+                            callback(docs);
+                        }
+                        else {
+                            callback(null);
+                        }
+                    });
+                }
+                else {
+                    callback(null);
+                }
+            });
+        },
+
     // Getting documents from collection by filter.
     Find: function (collectionName, filter, callback) {
         GetDB(function (err, db) {
@@ -183,6 +204,27 @@ module.exports = {
                 collection.deleteMany(filter, function (err, result) {
                     if (err == null) {
                         callback(result.deletedCount);
+                    }
+                    else {
+                        callback(null);
+                    }
+                });
+            }
+            else {
+                callback(null);
+            }
+        });
+    },
+
+    // Save or update document.
+    Save: function (collectionName, object, callback) {
+        GetDB(function (err, db) {
+            if (err == null) {
+                var collection = db.collection(collectionName);
+
+                collection.save(object, function (err, result) {
+                    if (err == null) {
+                        callback(result.n);
                     }
                     else {
                         callback(null);

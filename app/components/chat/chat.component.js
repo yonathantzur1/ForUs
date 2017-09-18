@@ -30,6 +30,7 @@ var ChatComponent = /** @class */ (function () {
                     self.messages = chat.messages;
                 }
                 self.isMessagesLoading = false;
+                $("#msg-input").focus();
                 _this.globalService.deleteData("chatData");
             });
         };

@@ -10,7 +10,7 @@
           <div class="toolbar-menu">
             <span class="toolbar-item" *ngFor="let item of toolbarItems">
               <i title="{{item.title}}" class="{{item.icon}}" aria-hidden="true"></i>
-              <span class="badget-icon" *ngIf="item.number > 0"></span>
+              <span class="badget-icon" *ngIf="IsShowToolbarItemBadget(item)"></span>
             </span>
           </div>
         </div>
@@ -28,9 +28,10 @@
           </form>
           <div (click)="OpenChat(friend)" class="friend-container" *ngFor="let friend of (GetFilteredFriends(friendSearchInput))">
             <img class="friend-profile" src="{{friend.profileImage ? friend.profileImage : defaultProfileImage}}">
-            <span class="friend-name-container" title="{{friend.firstName + ' ' + friend.lastName}}">
-              {{friend.firstName + " " + friend.lastName}}
-            </span>
+            <span [ngClass]="{'bold-friend-name' : GetFriendUnreadMessagesNumberText(friend._id)}" class="friend-name-container" title="{{friend.firstName + ' ' + friend.lastName}}">
+              <span>{{friend.firstName + " " + friend.lastName}}</span>
+              <span>{{GetFriendUnreadMessagesNumberText(friend._id)}}</span>
+            </span>            
             <div *ngIf="friend.isOnline && isSidebarOpen" class="online-icon"></div>
           </div>
         </div>
