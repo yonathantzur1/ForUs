@@ -120,20 +120,55 @@ module.exports = {
             });
     },
 
+    AddMessageNotification: function (userId, friendId) {
+        var friendIdObject = {
+            "_id": DAL.GetObjectId(friendId)
+        }
+
+        DAL.FindOneSpecific(usersCollectionName, friendIdObject, { "messagesNotifications": 1 }, function (result) {
+            var messagesNotifications = result.messagesNotifications;
+
+            var friendMessagesNotifications = messagesNotifications ? messagesNotifications[userId] : null;
+
+            if (friendMessagesNotifications) {
+                friendMessagesNotifications.unreadMessagesNumber++;
+
+                if (!friendMessagesNotifications.firstUnreadMessageDate) {
+                    friendMessagesNotifications.firstUnreadMessageDate = new Date();
+                }
+            }
+            else {
+                var messagesNotifications = {};
+                messagesNotifications[userId] = {
+                    "unreadMessagesNumber": 1,
+                    "firstUnreadMessageDate": new Date()
+                }
+            }
+
+            DAL.UpdateOne(usersCollectionName, friendIdObject, { $set: { "messagesNotifications": messagesNotifications } }, function (result) { });
+        });
+    },
+
     UpdateMessagesNotifications: function (userId, messagesNotifications, friendId) {
-        var userId = {
+        var userIdObject = {
             "_id": DAL.GetObjectId(userId)
         }
 
         var friendUnreadMessages = messagesNotifications[friendId];
 
-        if (friendId && !friendUnreadMessages.firstUnreadMessageDate) {
+        if (!friendUnreadMessages.firstUnreadMessageDate) {
             friendUnreadMessages.firstUnreadMessageDate = new Date();
         }
 
-        DAL.UpdateOne(usersCollectionName, userId, { $set: { "messagesNotifications": messagesNotifications } }, function (result) {
-            var x = result;
-        });
+        DAL.UpdateOne(usersCollectionName, userIdObject, { $set: { "messagesNotifications": messagesNotifications } }, function (result) { });
+    },
+
+    RemoveMessagesNotifications: function (userId, messagesNotifications) {
+        var userIdObject = {
+            "_id": DAL.GetObjectId(userId)
+        }
+
+        DAL.UpdateOne(usersCollectionName, userIdObject, { $set: { "messagesNotifications": messagesNotifications } }, function (result) { });
     }
 
 };

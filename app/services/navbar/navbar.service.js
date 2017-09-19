@@ -64,6 +64,10 @@ var NavbarService = /** @class */ (function (_super) {
         var details = { messagesNotifications: messagesNotifications, friendId: friendId };
         _super.prototype.post.call(this, this.prefix + '/updateMessagesNotifications', JSON.stringify(details)).toPromise();
     };
+    NavbarService.prototype.RemoveMessagesNotifications = function (messagesNotifications) {
+        var details = { messagesNotifications: messagesNotifications };
+        _super.prototype.post.call(this, this.prefix + '/removeMessagesNotifications', JSON.stringify(details)).toPromise();
+    };
     return NavbarService;
 }(basic_service_1.BasicService));
 exports.NavbarService = NavbarService;

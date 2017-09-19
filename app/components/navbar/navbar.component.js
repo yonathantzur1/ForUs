@@ -80,8 +80,8 @@ var NavbarComponent = /** @class */ (function () {
             return (Object.keys(item.content).length > 0);
         };
         this.AddMessageToToolbarMessages = function (msgData) {
-            var messages = this.GetToolbarItem("messages").content;
-            var friendMessages = messages[msgData.from];
+            var notificationsMessages = this.GetToolbarItem("messages").content;
+            var friendMessages = notificationsMessages[msgData.from];
             var messageNotificationObject = {
                 "unreadMessagesNumber": 1
             };
@@ -89,15 +89,15 @@ var NavbarComponent = /** @class */ (function () {
                 friendMessages.unreadMessagesNumber++;
             }
             else {
-                messages[msgData.from] = messageNotificationObject;
+                notificationsMessages[msgData.from] = messageNotificationObject;
             }
-            this.navbarService.UpdateMessagesNotifications(messages, msgData.from);
+            this.navbarService.UpdateMessagesNotifications(notificationsMessages, msgData.from);
         };
         this.RemoveFriendMessagesFromToolbarMessages = function (friendId) {
             var notificationsMessages = this.GetToolbarItem("messages").content;
             if (notificationsMessages[friendId]) {
                 delete (notificationsMessages[friendId]);
-                this.navbarService.UpdateMessagesNotifications(this.GetToolbarItem("messages").content);
+                this.navbarService.RemoveMessagesNotifications(notificationsMessages);
             }
         };
         // Return item object from toolbar items array by its id.
@@ -148,7 +148,7 @@ var NavbarComponent = /** @class */ (function () {
             this.OpenChat(this.GetFriendById(this.messageNotificationFriendId));
         };
         // Loading full friends objects to friends array.
-        this.LoadFriendsData = function (friendsIds, callback) {
+        this.LoadFriendsData = function (friendsIds) {
             var _this = this;
             if (friendsIds.length > 0) {
                 this.isFriendsLoading = true;
@@ -156,11 +156,7 @@ var NavbarComponent = /** @class */ (function () {
                     _this.friends = friendsResult;
                     _this.isFriendsLoading = false;
                     _this.socket.emit("ServerGetOnlineFriends", getToken());
-                    callback();
                 });
-            }
-            else {
-                callback();
             }
         };
         this.ShowHideSidenav = function () {
@@ -301,11 +297,11 @@ var NavbarComponent = /** @class */ (function () {
     NavbarComponent.prototype.ngOnInit = function () {
         this.socket.emit('login', getToken());
         var self = this;
-        self.LoadFriendsData(self.user.friends, function () {
-            self.navbarService.GetUserMessagesNotifications().then(function (result) {
-                var messagesNotifications = result.messagesNotifications ? result.messagesNotifications : {};
-                self.GetToolbarItem("messages").content = messagesNotifications;
-            });
+        self.LoadFriendsData(self.user.friends);
+        // Loading user messages notifications.
+        self.navbarService.GetUserMessagesNotifications().then(function (result) {
+            var messagesNotifications = result.messagesNotifications ? result.messagesNotifications : {};
+            self.GetToolbarItem("messages").content = messagesNotifications;
         });
         self.socket.on('GetMessage', function (msgData) {
             if (!self.chatData.isOpen || msgData.from != self.chatData.friend._id) {

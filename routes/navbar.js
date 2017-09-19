@@ -30,5 +30,11 @@ module.exports = function (app, navbarBL) {
 
     app.post(prefix + '/updateMessagesNotifications', function (req, res) {
         navbarBL.UpdateMessagesNotifications(req.user._id, req.body.messagesNotifications, req.body.friendId);
+        res.end();
+    });
+
+    app.post(prefix + '/removeMessagesNotifications', function (req, res) {
+        navbarBL.RemoveMessagesNotifications(req.user._id, req.body.messagesNotifications);
+        res.end();
     });
 };

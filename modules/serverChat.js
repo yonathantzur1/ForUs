@@ -1,4 +1,5 @@
 var chatBL = require('./BL/chatBL');
+var navbarBL = require('./BL/navbarBL');
 var general = require('./general.js');
 
 module.exports = function (io, jwt, config, socket, socketsDictionary, connectedUsers) {
@@ -11,7 +12,14 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
         jwt.verify(token, config.jwtSecret, function (err, decoded) {
             // In case the token is valid and the message is to the user friend.
             if (!err && decoded && ValidateMessage(msgData, decoded.user)) {
-                io.to(msgData.to).emit('GetMessage', msgData);
+                // In case the friend is online.
+                if (connectedUsers[msgData.to]) {
+                    io.to(msgData.to).emit('GetMessage', msgData);
+                }
+                else {
+                    navbarBL.AddMessageNotification(msgData.from, msgData.to);
+                }
+                
                 chatBL.AddMessageToChat(msgData);
             }
         });

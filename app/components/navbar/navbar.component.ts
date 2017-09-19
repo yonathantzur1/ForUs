@@ -111,11 +111,12 @@ export class NavbarComponent implements OnInit {
 
         var self = this;
 
-        self.LoadFriendsData(self.user.friends, function () {
-            self.navbarService.GetUserMessagesNotifications().then((result: any) => {
-                var messagesNotifications = result.messagesNotifications ? result.messagesNotifications : {};
-                self.GetToolbarItem("messages").content = messagesNotifications;
-            });
+        self.LoadFriendsData(self.user.friends);
+
+        // Loading user messages notifications.
+        self.navbarService.GetUserMessagesNotifications().then((result: any) => {
+            var messagesNotifications = result.messagesNotifications ? result.messagesNotifications : {};
+            self.GetToolbarItem("messages").content = messagesNotifications;
         });
 
         self.socket.on('GetMessage', function (msgData: any) {
@@ -160,8 +161,8 @@ export class NavbarComponent implements OnInit {
     }
 
     AddMessageToToolbarMessages = function (msgData: any) {
-        var messages = this.GetToolbarItem("messages").content;
-        var friendMessages = messages[msgData.from];
+        var notificationsMessages = this.GetToolbarItem("messages").content;
+        var friendMessages = notificationsMessages[msgData.from];
         var messageNotificationObject = {
             "unreadMessagesNumber": 1
         }
@@ -170,17 +171,17 @@ export class NavbarComponent implements OnInit {
             friendMessages.unreadMessagesNumber++;
         }
         else {
-            messages[msgData.from] = messageNotificationObject;
+            notificationsMessages[msgData.from] = messageNotificationObject;
         }
 
-        this.navbarService.UpdateMessagesNotifications(messages, msgData.from);
+        this.navbarService.UpdateMessagesNotifications(notificationsMessages, msgData.from);
     }
 
     RemoveFriendMessagesFromToolbarMessages = function (friendId: string) {
         var notificationsMessages = this.GetToolbarItem("messages").content;
         if (notificationsMessages[friendId]) {
             delete (notificationsMessages[friendId]);
-            this.navbarService.UpdateMessagesNotifications(this.GetToolbarItem("messages").content);
+            this.navbarService.RemoveMessagesNotifications(notificationsMessages);
         }
     }
 
@@ -242,18 +243,14 @@ export class NavbarComponent implements OnInit {
     }
 
     // Loading full friends objects to friends array.
-    LoadFriendsData = function (friendsIds: Array<string>, callback: Function) {
+    LoadFriendsData = function (friendsIds: Array<string>) {
         if (friendsIds.length > 0) {
             this.isFriendsLoading = true;
             this.navbarService.GetFriends(friendsIds).then((friendsResult: Array<Friend>) => {
                 this.friends = friendsResult;
                 this.isFriendsLoading = false;
                 this.socket.emit("ServerGetOnlineFriends", getToken());
-                callback();
             });
-        }
-        else {
-            callback();
         }
     }
 

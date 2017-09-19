@@ -57,4 +57,10 @@ export class NavbarService extends BasicService {
 
         super.post(this.prefix + '/updateMessagesNotifications', JSON.stringify(details)).toPromise();
     }
+
+    RemoveMessagesNotifications(messagesNotifications: any) {
+        var details = { messagesNotifications };
+
+        super.post(this.prefix + '/removeMessagesNotifications', JSON.stringify(details)).toPromise();
+    }
 }
