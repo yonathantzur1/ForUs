@@ -63,26 +63,26 @@ module.exports = {
         });
     },
 
-        // Getting documents from collection by filter.
-        FindOneSpecific: function (collectionName, filter, fields, callback) {
-            GetDB(function (err, db) {
-                if (err == null) {
-                    var collection = db.collection(collectionName);
-    
-                    collection.findOne(filter, fields, function (err, docs) {
-                        if (err == null) {
-                            callback(docs);
-                        }
-                        else {
-                            callback(null);
-                        }
-                    });
-                }
-                else {
-                    callback(null);
-                }
-            });
-        },
+    // Getting documents from collection by filter.
+    FindOneSpecific: function (collectionName, filter, fields, callback) {
+        GetDB(function (err, db) {
+            if (err == null) {
+                var collection = db.collection(collectionName);
+
+                collection.findOne(filter, fields, function (err, docs) {
+                    if (err == null) {
+                        callback(docs);
+                    }
+                    else {
+                        callback(null);
+                    }
+                });
+            }
+            else {
+                callback(null);
+            }
+        });
+    },
 
     // Getting documents from collection by filter.
     Find: function (collectionName, filter, callback) {
@@ -175,6 +175,7 @@ module.exports = {
 
                 collection.findOneAndUpdate(idObj, fieldToUpdateObj, {
                     returnOriginal: false,
+                    upsert: true
                 }, function (err, result) {
                     if (err == null) {
                         if (result.value != null) {

@@ -9,12 +9,14 @@ var collectionName = "Chats";
 var self = module.exports = {
     GetChat: function (membersIds, token, callback) {
         token = general.DecodeToken(token);
-        
+
         jwt.verify(token, config.jwtSecret, function (err, decoded) {
             if (!err && decoded && ValidateUserGetChat(membersIds, decoded.user.friends, decoded.user._id)) {
                 var chatQueryFilter = {
                     "membersIds": { $all: membersIds }
                 }
+
+                self.CreateChat(membersIds);
 
                 DAL.FindOne(collectionName, chatQueryFilter, function (chat) {
                     if (!chat) {
@@ -25,7 +27,7 @@ var self = module.exports = {
                     }
 
                     callback(chat);
-                })
+                });
             }
             else {
                 callback(null);
@@ -34,12 +36,16 @@ var self = module.exports = {
     },
 
     CreateChat: function (membersIds) {
+        var chatQueryFilter = {
+            "membersIds": { $all: membersIds }
+        }
+
         var chatObj = {
             "membersIds": membersIds,
             "messages": []
         }
 
-        DAL.Insert(collectionName, chatObj, function () { });
+        DAL.UpdateOne(collectionName, chatQueryFilter, chatObj, function () { });
     },
 
     AddMessageToChat: function (msgData) {
