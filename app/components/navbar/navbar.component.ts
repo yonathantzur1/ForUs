@@ -160,11 +160,16 @@ export class NavbarComponent implements OnInit {
         return (Object.keys(item.content).length > 0);
     }
 
+    IsShowFriendFindInput = function () {
+        return $(".slidenav-body-sector").hasScrollBar();
+    }
+
     AddMessageToToolbarMessages = function (msgData: any) {
         var notificationsMessages = this.GetToolbarItem("messages").content;
         var friendMessages = notificationsMessages[msgData.from];
         var messageNotificationObject = {
-            "unreadMessagesNumber": 1
+            "unreadMessagesNumber": 1,
+            "firstUnreadMessageId": msgData.id
         }
 
         if (friendMessages) {
@@ -386,6 +391,8 @@ export class NavbarComponent implements OnInit {
         this.HideSidenav();
 
         if (!this.chatData.isOpen || !this.chatData.friend || this.chatData.friend._id != friend._id) {
+            var messagesNotifications = Object.assign({}, this.GetToolbarItem("messages").content);
+
             // Empty unread messages notifications from the currend friend.
             this.RemoveFriendMessagesFromToolbarMessages(friend._id);
 
@@ -396,6 +403,7 @@ export class NavbarComponent implements OnInit {
 
             this.chatData.friend = friend;
             this.chatData.user = this.user;
+            this.chatData.messagesNotifications = messagesNotifications;
             this.chatData.isOpen = true;
 
             this.globalService.setData("chatData", this.chatData);

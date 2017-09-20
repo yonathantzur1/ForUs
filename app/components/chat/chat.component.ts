@@ -19,6 +19,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     isMessagesLoading: boolean;
     chatBodyScrollHeight: number = 0;
 
+    // Unread messages line sector properties //
+    isAllowShowUnreadLine: boolean;
+    unreadMessagesNumber: number;
+
     constructor(private chatService: ChatService, private globalService: GlobalService) {
         this.socket = globalService.socket;
 
@@ -52,6 +56,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     InitializeChat = function () {
         var self = this;
 
+        self.isAllowShowUnreadLine = true;
         self.chatBodyScrollHeight = 0;
         self.isMessagesLoading = true;
         self.chatService.GetChat([self.chatData.user._id, self.chatData.friend._id], getToken()).then((chat: any) => {
@@ -84,6 +89,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
                 };
 
                 this.msghInput = "";
+                this.isAllowShowUnreadLine = false;
 
                 this.messages.push(msgData);
                 this.socket.emit("SendMessage", msgData, this.token);
@@ -116,5 +122,20 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         }
 
         return (HH + ":" + mm);
+    }
+
+    IsShowUnreadLine = function (msgFromId: string, msgId: string) {
+        var friendMessagesNotifications = this.chatData.messagesNotifications[msgFromId];
+
+        if (this.isAllowShowUnreadLine &&
+            friendMessagesNotifications &&
+            msgId == friendMessagesNotifications.firstUnreadMessageId) {
+            this.unreadMessagesNumber = friendMessagesNotifications.unreadMessagesNumber;
+
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

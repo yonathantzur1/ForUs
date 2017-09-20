@@ -2,7 +2,7 @@
     <div class="chat-window-container">
         <div class="top-chat-info-line">
             <img class="friend-chat-profile" src="{{chatData.friend.profileImage}}">
-            <span class="friend-chat-name">
+            <span class="friend-chat-name" title="{{chatData.friend.firstName + ' ' + chatData.friend.lastName}}">
                 {{chatData.friend.firstName + " " + chatData.friend.lastName}}
             </span>
             <div class="online-icon" *ngIf="chatData.friend.isOnline"></div>
@@ -14,23 +14,32 @@
                 <span *ngIf="isMessagesLoading" class="chat-loading-container">
                     <p class="load-image-icon"><i class="fa fa-circle" aria-hidden="true"></i> <i class="fa fa-circle" aria-hidden="true"></i> <i class="fa fa-circle" aria-hidden="true"></i></p>
                 </span>
-                <div class="message-container" *ngFor="let message of messages">
-                    <div class="message-time-container" [ngClass]="{'user-message-time' : message.from == chatData.user._id, 'friend-message-time': message.from == chatData.friend._id}">
-                        <span class="message-time">
-                            {{GetTimeString(message.time)}}
+                <div *ngFor="let message of messages">
+                    <div *ngIf="IsShowUnreadLine(message.from, message.id)" class="unread-messages-line-sector">                            
+                            <div class="unread-messages-line">
+                                <span class="unread-messages-text-container">
+                                    <span class="unread-messages-text">{{unreadMessagesNumber}} הודעות שלא נקראו</span>
+                                </span>                           
+                            </div>
+                        </div>
+                    <div class="message-container">                        
+                        <div id="message-time-container" class="message-time-container" [ngClass]="{'user-message-time' : message.from == chatData.user._id, 'friend-message-time': message.from == chatData.friend._id}">
+                            <span class="message-time">
+                                {{GetTimeString(message.time)}}
+                            </span>
+                        </div>
+                        <span class="message" [ngClass]="{'user-message' : message.from == chatData.user._id, 'friend-message': message.from == chatData.friend._id}">
+                            <div class="message-text">
+                                {{message.text}}
+                            </div>
                         </span>
                     </div>
-                    <span class="message" [ngClass]="{'user-message' : message.from == chatData.user._id, 'friend-message': message.from == chatData.friend._id}">
-                        <div class="message-text">
-                            {{message.text}}
-                        </div>
-                    </span>
                 </div>
             </div>
             <div class="chat-write-sector">
                 <div class="msg-input-sector">
-                    <input [(ngModel)]="msghInput" (keyup)="MsgInputKeyup($event)" maxlength="600" id="msg-input" class="msg-input"
-                        type="text" autocapitalize="off" spellcheck="false">
+                    <input [(ngModel)]="msghInput" (keyup)="MsgInputKeyup($event)" maxlength="600" id="msg-input" class="msg-input" type="text"
+                        autocapitalize="off" spellcheck="false">
                 </div>
                 <div (click)="SendMessage()" [ngClass]="{'send-msg-btn-sector-disabled' : isMessagesLoading}" class="send-msg-btn-sector">
                     <span class="glyphicon glyphicon-triangle-left send-msg-btn" aria-hidden="true"></span>

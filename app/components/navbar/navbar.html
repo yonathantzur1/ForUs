@@ -17,8 +17,8 @@
       </div>
       <div class="slidenav-body-sector">
         <loader id="friends-loader" class="friends-loader" *ngIf="isFriendsLoading"></loader>
-        <div id="friends-sector" *ngIf="!isFriendsLoading && friends.length > 0">
-          <form class="form-horizontal">
+        <div id="friends-sector" class="friends-sector" *ngIf="!isFriendsLoading && friends.length > 0">
+          <form class="form-horizontal" *ngIf="IsShowFriendFindInput()">
             <div class="form-group">
               <div id="friend-search-container" class="col-md-12">
                 <input [(ngModel)]="friendSearchInput" id="friend-search" name="friend-search" class="form-control" type="text" placeholder="חיפוש חברים"
@@ -27,12 +27,12 @@
             </div>
           </form>
           <div (click)="OpenChat(friend)" class="friend-container" *ngFor="let friend of (GetFilteredFriends(friendSearchInput))">
+            <div *ngIf="friend.isOnline && isSidebarOpen" class="online-icon"></div>
             <img class="friend-profile" src="{{friend.profileImage ? friend.profileImage : defaultProfileImage}}">
             <span [ngClass]="{'bold-friend-name' : GetFriendUnreadMessagesNumberText(friend._id)}" class="friend-name-container" title="{{friend.firstName + ' ' + friend.lastName}}">
               <span>{{friend.firstName + " " + friend.lastName}}</span>
               <span>{{GetFriendUnreadMessagesNumberText(friend._id)}}</span>
-            </span>            
-            <div *ngIf="friend.isOnline && isSidebarOpen" class="online-icon"></div>
+            </span>
           </div>
         </div>
         <div *ngIf="!isFriendsLoading && friends.length == 0 && isSidebarOpen" class="no-friends-container">

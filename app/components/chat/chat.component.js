@@ -23,6 +23,7 @@ var ChatComponent = /** @class */ (function () {
         this.InitializeChat = function () {
             var _this = this;
             var self = this;
+            self.isAllowShowUnreadLine = true;
             self.chatBodyScrollHeight = 0;
             self.isMessagesLoading = true;
             self.chatService.GetChat([self.chatData.user._id, self.chatData.friend._id], getToken()).then(function (chat) {
@@ -49,6 +50,7 @@ var ChatComponent = /** @class */ (function () {
                         "time": new Date()
                     };
                     this.msghInput = "";
+                    this.isAllowShowUnreadLine = false;
                     this.messages.push(msgData);
                     this.socket.emit("SendMessage", msgData, this.token);
                 }
@@ -73,6 +75,18 @@ var ChatComponent = /** @class */ (function () {
                 mm = "0" + mm;
             }
             return (HH + ":" + mm);
+        };
+        this.IsShowUnreadLine = function (msgFromId, msgId) {
+            var friendMessagesNotifications = this.chatData.messagesNotifications[msgFromId];
+            if (this.isAllowShowUnreadLine &&
+                friendMessagesNotifications &&
+                msgId == friendMessagesNotifications.firstUnreadMessageId) {
+                this.unreadMessagesNumber = friendMessagesNotifications.unreadMessagesNumber;
+                return true;
+            }
+            else {
+                return false;
+            }
         };
         this.socket = globalService.socket;
         this.globalService.data.subscribe(function (value) {

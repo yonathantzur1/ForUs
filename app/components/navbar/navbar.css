@@ -129,7 +129,6 @@
     overflow-y: hidden;
 }
 
-/* The navigation menu links */
 #navbar .friend-name-container {
     padding: 12px 8px 10px 0px;
     font-size: 14px;
@@ -137,7 +136,7 @@
     cursor: pointer;
     white-space: nowrap;
     text-overflow: ellipsis;
-    width: 68%;
+    width: calc(100% - 45px);
     overflow: hidden;
 }
 
@@ -212,7 +211,7 @@
 #navbar .toolbar-item {
     margin-left: 12px;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 20px;
 }
 
 #navbar .badget-icon {
@@ -332,6 +331,10 @@
     animation-delay: .4s;
 }
 
+.friends-sector {
+    margin-top: 1px;
+}
+
 #navbar .friend-container {
     display: flex;
     cursor: pointer;
@@ -396,14 +399,15 @@
 }
 
 #navbar .online-icon {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     border: 1px solid white;
     border-radius: 50%;
     background-color: #19e719;
-    align-self: center;
+    align-self: flex-start;
     position: absolute;
-    left: 15px;
+    right: 6px;
+    margin-top: 28px;
 }
 
 #navbar .message-notification {

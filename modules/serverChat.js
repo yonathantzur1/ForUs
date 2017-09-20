@@ -7,6 +7,7 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
         // Delete spaces from the start and the end of the message text.
         msgData.text = msgData.text.trim();
         msgData.time = new Date();
+        msgData.id = general.GenerateId();
         token = general.DecodeToken(token);
 
         jwt.verify(token, config.jwtSecret, function (err, decoded) {
@@ -28,7 +29,7 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
     socket.on('ServerGetOnlineFriends', function (token) {
         token = general.DecodeToken(token);
 
-        jwt.verify(token, config.jwtSecret, function (err, decoded) {4
+        jwt.verify(token, config.jwtSecret, function (err, decoded) {
             // In case the token is valid.
             if (!err && decoded) {
                 var user = decoded.user;
