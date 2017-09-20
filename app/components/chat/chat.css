@@ -95,6 +95,7 @@
     top: 40px;
     height: calc(100% - 40px);
     position: relative;
+    direction: rtl;
 }
 
 #chat .chat-body-sector {
@@ -257,6 +258,7 @@
     width: fit-content;
     float: right;
     margin-right: calc(50% - 62px);
+    cursor: default;
 }
 
 #chat .unread-messages-text {
