@@ -168,27 +168,30 @@ module.exports = {
     },
 
     // Update one document.
-    UpdateOne: function (collectionName, idObj, fieldToUpdateObj, callback) {
+    UpdateOne: function (collectionName, idObj, fieldToUpdateObj, callback, isInsertIfNotExists) {
         GetDB(function (err, db) {
             if (err == null) {
                 var collection = db.collection(collectionName);
 
-                collection.findOneAndUpdate(idObj, fieldToUpdateObj, {
+                var updateConfig = {
                     returnOriginal: false,
-                    upsert: true
-                }, function (err, result) {
-                    if (err == null) {
-                        if (result.value != null) {
-                            callback(result.value);
+                    upsert: isInsertIfNotExists
+                }
+
+                collection.findOneAndUpdate(idObj, fieldToUpdateObj, updateConfig,
+                    function (err, result) {
+                        if (err == null) {
+                            if (result.value != null) {
+                                callback(result.value);
+                            }
+                            else {
+                                callback(false);
+                            }
                         }
                         else {
-                            callback(false);
+                            callback(null);
                         }
-                    }
-                    else {
-                        callback(null);
-                    }
-                });
+                    });
             }
             else {
                 callback(null);

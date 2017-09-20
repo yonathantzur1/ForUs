@@ -16,8 +16,6 @@ var self = module.exports = {
                     "membersIds": { $all: membersIds }
                 }
 
-                self.CreateChat(membersIds);
-
                 DAL.FindOne(collectionName, chatQueryFilter, function (chat) {
                     if (!chat) {
                         self.CreateChat(membersIds);
@@ -45,7 +43,7 @@ var self = module.exports = {
             "messages": []
         }
 
-        DAL.UpdateOne(collectionName, chatQueryFilter, chatObj, function () { });
+        DAL.UpdateOne(collectionName, chatQueryFilter, chatObj, function () { }, true);
     },
 
     AddMessageToChat: function (msgData) {
