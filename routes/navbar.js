@@ -29,7 +29,7 @@ module.exports = function (app, navbarBL) {
     });
 
     app.post(prefix + '/updateMessagesNotifications', function (req, res) {
-        navbarBL.UpdateMessagesNotifications(req.user._id, req.body.messagesNotifications, req.body.friendId);
+        navbarBL.UpdateMessagesNotifications(req.user._id, req.body.messagesNotifications);
         res.end();
     });
 

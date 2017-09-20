@@ -120,7 +120,7 @@ module.exports = {
             });
     },
 
-    AddMessageNotification: function (userId, friendId) {
+    AddMessageNotification: function (userId, friendId, msgId) {
         var friendIdObject = {
             "_id": DAL.GetObjectId(friendId)
         }
@@ -132,16 +132,11 @@ module.exports = {
 
             if (friendMessagesNotifications) {
                 friendMessagesNotifications.unreadMessagesNumber++;
-
-                if (!friendMessagesNotifications.firstUnreadMessageDate) {
-                    friendMessagesNotifications.firstUnreadMessageDate = new Date();
-                }
             }
             else {
-                var messagesNotifications = {};
                 messagesNotifications[userId] = {
                     "unreadMessagesNumber": 1,
-                    "firstUnreadMessageDate": new Date()
+                    "firstUnreadMessageId": msgId
                 }
             }
 
@@ -149,15 +144,9 @@ module.exports = {
         });
     },
 
-    UpdateMessagesNotifications: function (userId, messagesNotifications, friendId) {
+    UpdateMessagesNotifications: function (userId, messagesNotifications) {
         var userIdObject = {
             "_id": DAL.GetObjectId(userId)
-        }
-
-        var friendUnreadMessages = messagesNotifications[friendId];
-
-        if (!friendUnreadMessages.firstUnreadMessageDate) {
-            friendUnreadMessages.firstUnreadMessageDate = new Date();
         }
 
         DAL.UpdateOne(usersCollectionName, userIdObject, { $set: { "messagesNotifications": messagesNotifications } }, function (result) { });

@@ -61,7 +61,7 @@ var NavbarService = /** @class */ (function (_super) {
         });
     };
     NavbarService.prototype.UpdateMessagesNotifications = function (messagesNotifications, friendId) {
-        var details = { messagesNotifications: messagesNotifications, friendId: friendId };
+        var details = { messagesNotifications: messagesNotifications };
         _super.prototype.post.call(this, this.prefix + '/updateMessagesNotifications', JSON.stringify(details)).toPromise();
     };
     NavbarService.prototype.RemoveMessagesNotifications = function (messagesNotifications) {

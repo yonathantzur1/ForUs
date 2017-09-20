@@ -18,7 +18,7 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
                     io.to(msgData.to).emit('GetMessage', msgData);
                 }
                 else {
-                    navbarBL.AddMessageNotification(msgData.from, msgData.to);
+                    navbarBL.AddMessageNotification(msgData.from, msgData.to, msgData.id);
                 }
                 
                 chatBL.AddMessageToChat(msgData);

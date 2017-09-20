@@ -167,19 +167,18 @@ export class NavbarComponent implements OnInit {
     AddMessageToToolbarMessages = function (msgData: any) {
         var notificationsMessages = this.GetToolbarItem("messages").content;
         var friendMessages = notificationsMessages[msgData.from];
-        var messageNotificationObject = {
-            "unreadMessagesNumber": 1,
-            "firstUnreadMessageId": msgData.id
-        }
 
         if (friendMessages) {
             friendMessages.unreadMessagesNumber++;
         }
         else {
-            notificationsMessages[msgData.from] = messageNotificationObject;
+            notificationsMessages[msgData.from] = {
+                "unreadMessagesNumber": 1,
+                "firstUnreadMessageId": msgData.id
+            };
         }
 
-        this.navbarService.UpdateMessagesNotifications(notificationsMessages, msgData.from);
+        this.navbarService.UpdateMessagesNotifications(notificationsMessages);
     }
 
     RemoveFriendMessagesFromToolbarMessages = function (friendId: string) {
