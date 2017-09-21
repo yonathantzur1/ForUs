@@ -1,5 +1,5 @@
 #unreadWindow .unreadWindow-container {
-    position: absolute;
+    position: fixed;
     top: 130px;
     right: 165px;
     width: 50%;
