@@ -1,5 +1,5 @@
-<div class="slidenav-overlay" [ngClass]="{'overlay-background' : isSidebarOpen}" *ngIf="isSidebarOpen || isDropMenuOpen || isShowSearchResults"
-  (click)="ClosePopups()"></div>
+<div class="slidenav-overlay" [ngClass]="{'overlay-background' : isSidebarOpen, 'slidenav-overlay-top' : isUnreadWindowOpen}"
+  *ngIf="isSidebarOpen || isDropMenuOpen || isShowSearchResults" (click)="ClosePopups()"></div>
 <div id="navbar">
   <div class="navbar-container">
     <div id="sidenav" class="sidenav">
@@ -9,7 +9,7 @@
           <div class="user-name" title="{{user.firstName + ' ' + user.lastName}}">{{user.firstName + " " + user.lastName}}</div>
           <div class="toolbar-menu">
             <span class="toolbar-item" *ngFor="let item of toolbarItems">
-              <i title="{{item.title}}" class="{{item.icon}}" aria-hidden="true"></i>
+              <i title="{{item.title}}" (click)="item.onClick()" class="{{item.icon}}" aria-hidden="true"></i>
               <span class="badget-icon" *ngIf="IsShowToolbarItemBadget(item)"></span>
             </span>
           </div>
@@ -78,5 +78,5 @@
   </span>
 </div>
 
-<unreadWindow *ngIf="false"></unreadWindow>
+<unreadWindow *ngIf="isUnreadWindowOpen" [messagesNotifications]="GetToolbarItem('messages').content"></unreadWindow>
 <chat *ngIf="chatData.isOpen" [chatData]="chatData"></chat>

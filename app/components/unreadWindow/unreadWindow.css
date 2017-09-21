@@ -1,12 +1,22 @@
 #unreadWindow .unreadWindow-container {
     position: absolute;
-    top: 50px;
-    right: 210px;
-    width: calc(100% - 50px);
+    top: 130px;
+    right: 165px;
+    width: 50%;
     max-width: 310px;
-    height: calc(100% - 50px);
-    max-height: 300px;
+    height: 250px;
+    max-height: calc(100% - 130px);
     background-color: white;
-    border: 1px solid #8a8a8a;
-    z-index: 999;
+    box-shadow: 2px 2px 25px 1px #888888;
+    z-index: 1001;
+    border-radius: 5px;
+}
+
+#unreadWindow .window-top-arrow {
+    top: 115px;
+    right: 174px;
+    z-index: 1002;
+    font-size: 20px;
+    color: white;
+    position: fixed;
 }

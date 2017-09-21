@@ -57,8 +57,12 @@ var ChatComponent = /** @class */ (function () {
             }
         };
         this.MsgInputKeyup = function (event) {
+            // In case of pressing ENTER.
             if (event.keyCode == 13) {
                 this.SendMessage();
+            }
+            else if (event.keyCode == 27) {
+                this.CloseChat();
             }
         };
         this.ScrollToBottom = function () {

@@ -13,6 +13,10 @@ var core_1 = require("@angular/core");
 var UnreadWindowComponent = /** @class */ (function () {
     function UnreadWindowComponent() {
     }
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], UnreadWindowComponent.prototype, "messagesNotifications", void 0);
     UnreadWindowComponent = __decorate([
         core_1.Component({
             selector: 'unreadWindow',

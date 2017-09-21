@@ -46,20 +46,7 @@ var NavbarComponent = /** @class */ (function () {
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.chatData = { "isOpen": false };
         this.isShowMessageNotification = false;
-        this.toolbarItems = [
-            {
-                id: "messages",
-                icon: "fa fa-envelope-o",
-                title: "הודעות",
-                content: {}
-            },
-            {
-                id: "notifications",
-                icon: "fa fa-bell-o",
-                title: "התראות",
-                content: {}
-            }
-        ];
+        this.isUnreadWindowOpen = false;
         this.isSidebarOpen = false;
         this.isDropMenuOpen = false;
         this.searchResults = [];
@@ -182,6 +169,7 @@ var NavbarComponent = /** @class */ (function () {
             if (this.isDropMenuOpen) {
                 this.HideSidenav();
                 this.HideSearchResults();
+                this.HideUnreadWindow();
             }
         };
         this.HideDropMenu = function () {
@@ -201,11 +189,17 @@ var NavbarComponent = /** @class */ (function () {
             this.isShowSearchResults = input ? true : false;
             this.HideSidenav();
             this.HideDropMenu();
+            this.HideUnreadWindow();
         };
         this.ClosePopups = function () {
-            this.HideSidenav();
-            this.HideDropMenu();
-            this.HideSearchResults();
+            if (this.isUnreadWindowOpen) {
+                this.HideUnreadWindow();
+            }
+            else {
+                this.HideSidenav();
+                this.HideDropMenu();
+                this.HideSearchResults();
+            }
         };
         this.SearchChange = function (input) {
             var self = this;
@@ -287,6 +281,9 @@ var NavbarComponent = /** @class */ (function () {
                 this.globalService.setData("chatData", this.chatData);
             }
         };
+        this.HideUnreadWindow = function () {
+            this.isUnreadWindowOpen = false;
+        };
         this.socket = globalService.socket;
         this.globalService.data.subscribe(function (value) {
             if (value["isOpenProfileEditWindow"]) {
@@ -298,6 +295,26 @@ var NavbarComponent = /** @class */ (function () {
                 _this.globalService.deleteData("logout");
             }
         });
+        var self = this;
+        this.toolbarItems = [
+            {
+                id: "messages",
+                icon: "fa fa-envelope-o",
+                title: "הודעות",
+                content: {},
+                onClick: function () {
+                    self.isUnreadWindowOpen = !self.isUnreadWindowOpen;
+                }
+            },
+            {
+                id: "friendRequests",
+                icon: "fa fa-user-plus",
+                title: "בקשות חברות",
+                content: {},
+                onClick: function () {
+                }
+            }
+        ];
     }
     NavbarComponent.prototype.ngOnInit = function () {
         this.socket.emit('login', getToken());

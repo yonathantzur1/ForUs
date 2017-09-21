@@ -32,6 +32,7 @@ export class toolbarItem {
     icon: string;
     title: string;
     content: Object;
+    onClick: Function;
 }
 
 @Component({
@@ -51,21 +52,9 @@ export class NavbarComponent implements OnInit {
     messageNotificationText: string;
     messageNotificationFriendId: string;
     isShowMessageNotification: boolean = false;
+    isUnreadWindowOpen: boolean = false;
     notificationInterval: any;
-    toolbarItems: Array<toolbarItem> = [
-        {
-            id: "messages",
-            icon: "fa fa-envelope-o",
-            title: "הודעות",
-            content: {}
-        },
-        {
-            id: "notifications",
-            icon: "fa fa-bell-o",
-            title: "התראות",
-            content: {}
-        }
-    ];
+    toolbarItems: Array<toolbarItem>;
 
     isSidebarOpen: boolean = false;
     isDropMenuOpen: boolean = false;
@@ -104,6 +93,29 @@ export class NavbarComponent implements OnInit {
                 this.globalService.deleteData("logout");
             }
         });
+
+        var self = this;
+
+        this.toolbarItems = [
+            {
+                id: "messages",
+                icon: "fa fa-envelope-o",
+                title: "הודעות",
+                content: {},
+                onClick: function () {
+                    self.isUnreadWindowOpen = !self.isUnreadWindowOpen;
+                }
+            },
+            {
+                id: "friendRequests",
+                icon: "fa fa-user-plus",
+                title: "בקשות חברות",
+                content: {},
+                onClick: function () {
+
+                }
+            }
+        ];
     }
 
     ngOnInit() {
@@ -282,6 +294,7 @@ export class NavbarComponent implements OnInit {
         if (this.isDropMenuOpen) {
             this.HideSidenav();
             this.HideSearchResults();
+            this.HideUnreadWindow();
         }
     }
 
@@ -307,12 +320,18 @@ export class NavbarComponent implements OnInit {
 
         this.HideSidenav();
         this.HideDropMenu();
+        this.HideUnreadWindow();
     }
 
     ClosePopups = function () {
-        this.HideSidenav();
-        this.HideDropMenu();
-        this.HideSearchResults();
+        if (this.isUnreadWindowOpen) {
+            this.HideUnreadWindow();
+        }
+        else {
+            this.HideSidenav();
+            this.HideDropMenu();
+            this.HideSearchResults();  
+        }      
     }
 
     SearchChange = function (input: string) {
@@ -407,6 +426,10 @@ export class NavbarComponent implements OnInit {
 
             this.globalService.setData("chatData", this.chatData);
         }
+    }
+
+    HideUnreadWindow = function () {
+        this.isUnreadWindowOpen = false;
     }
 }
 

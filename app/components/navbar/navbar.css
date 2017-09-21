@@ -7,6 +7,10 @@
     z-index: 998;
 }
 
+.slidenav-overlay-top {
+    z-index: 1000 !important;
+}
+
 .overlay-background {
     background-color: rgba(0, 0, 0, 0.14);
 }
@@ -186,7 +190,7 @@
 
 #navbar .user-name {
     display: inline-block;
-    font-size: 16px;
+    font-size: 18px;
     width: calc(100% - 40px);
     white-space: nowrap;
     overflow: hidden;

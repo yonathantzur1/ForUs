@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 
 @Component({
@@ -8,6 +8,8 @@ import { Component } from '@angular/core';
 })
 
 export class UnreadWindowComponent {
+    @Input() messagesNotifications: any;
+
     constructor() { }
 
 }
