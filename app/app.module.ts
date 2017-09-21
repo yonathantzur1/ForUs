@@ -13,6 +13,7 @@ import { DropMenuComponent } from './components/dropMenu/dropMenu.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ProfilePictureComponent } from './components/profilePicture/profilePicture.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { UnreadWindowComponent } from './components/unreadWindow/unreadWindow.component';
 
 import { PageNotFoundComponent } from './components/pageNotFound/pageNotFound.component';
 
@@ -40,7 +41,8 @@ import { GlobalService } from './services/global/global.service';
     DropMenuComponent,
     ProfileComponent,
     ProfilePictureComponent,
-    ChatComponent
+    ChatComponent,
+    UnreadWindowComponent
   ],
   providers: [
     AuthGuard,

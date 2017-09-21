@@ -1,3 +1,16 @@
+.slidenav-overlay {
+    position: fixed;
+    top: 50px;
+    right: 0;
+    left: 0;
+    height: 120vh;
+    z-index: 998;
+}
+
+.overlay-background {
+    background-color: rgba(0, 0, 0, 0.14);
+}
+
 #navbar .navbar-container {
     height: 50px;
 }
@@ -142,19 +155,6 @@
 
 #navbar .bold-friend-name {
     font-weight: bold;
-}
-
-#navbar .slidenav-overlay {
-    position: fixed;
-    top: 50px;
-    right: 0;
-    left: 0;
-    height: 120vh;
-    z-index: 998;
-}
-
-#navbar .overlay-background {
-    background-color: rgba(0, 0, 0, 0.14);
 }
 
 #navbar .slidenav-head-sector {

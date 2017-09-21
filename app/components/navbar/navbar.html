@@ -1,7 +1,7 @@
+<div class="slidenav-overlay" [ngClass]="{'overlay-background' : isSidebarOpen}" *ngIf="isSidebarOpen || isDropMenuOpen || isShowSearchResults"
+  (click)="ClosePopups()"></div>
 <div id="navbar">
   <div class="navbar-container">
-    <div class="slidenav-overlay" [ngClass]="{'overlay-background' : isSidebarOpen}" *ngIf="isSidebarOpen || isDropMenuOpen || isShowSearchResults"
-      (click)="ClosePopups()"></div>
     <div id="sidenav" class="sidenav">
       <div class="slidenav-head-sector">
         <div class="slidenav-header">
@@ -31,7 +31,7 @@
             <img class="friend-profile" src="{{friend.profileImage ? friend.profileImage : defaultProfileImage}}">
             <span [ngClass]="{'bold-friend-name' : GetFriendUnreadMessagesNumberText(friend._id)}" class="friend-name-container" title="{{friend.firstName + ' ' + friend.lastName}}">
               <span>{{friend.firstName + " " + friend.lastName}}</span>
-              <span>{{GetFriendUnreadMessagesNumberText(friend._id)}}</span>
+            <span>{{GetFriendUnreadMessagesNumberText(friend._id)}}</span>
             </span>
           </div>
         </div>
@@ -78,4 +78,5 @@
   </span>
 </div>
 
+<unreadWindow *ngIf="false"></unreadWindow>
 <chat *ngIf="chatData.isOpen" [chatData]="chatData"></chat>
