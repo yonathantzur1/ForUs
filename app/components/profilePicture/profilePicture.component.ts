@@ -4,6 +4,10 @@ import { Router } from '@angular/router';
 import { GlobalService } from '../../services/global/global.service';
 import { ProfilePictureService } from '../../services/profilePicture/profilePicture.service';
 
+// Define those variables in order to active events for all instances of that class.
+var originalNumOfProfilePictureInstances = 0;
+var numOfProfilePictureInstances = 0;
+
 @Component({
     selector: 'profilePicture',
     templateUrl: './profilePicture.html',
@@ -18,18 +22,33 @@ export class ProfilePictureComponent implements OnInit {
     @Input() isEditEnable: string;
 
     constructor(private profilePictureService: ProfilePictureService, private globalService: GlobalService) {
+        originalNumOfProfilePictureInstances++;
+        numOfProfilePictureInstances++;
+
         this.globalService.data.subscribe(value => {
             if (value["newUploadedImage"]) {
                 this.profileImageSrc = value["newUploadedImage"];
                 this.isUserHasImage = true;
-                this.globalService.deleteData("newUploadedImage");
+
+                numOfProfilePictureInstances--;
+
+                if (numOfProfilePictureInstances == 0) {
+                    numOfProfilePictureInstances = originalNumOfProfilePictureInstances;
+                    this.globalService.deleteData("newUploadedImage");
+                }
             }
 
             if (value["isImageDeleted"]) {
                 this.profileImageSrc = this.defaultProfileImage;
-                this.isUserHasImage = false;
-                this.globalService.deleteData("isImageDeleted");
-                this.globalService.setData("userImage", false);
+                this.isUserHasImage = false;                
+
+                numOfProfilePictureInstances--;
+
+                if (numOfProfilePictureInstances == 0) {
+                    numOfProfilePictureInstances = originalNumOfProfilePictureInstances;
+                    this.globalService.deleteData("isImageDeleted");
+                    this.globalService.setData("userImage", false);
+                }
             }
         });
     }

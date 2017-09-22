@@ -50,14 +50,23 @@
     font-size: 15px;
     font-family: Rubik;
     display: inline-block;
-    width: 78%;
+    max-width: 78%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    left: 16px;
+    left: 18px;
     position: absolute;
     text-align: left;
     padding-left: 5px;
+    cursor:pointer;
+    top: -3px;
+}
+
+#navbar .top-navbar-user-image {
+    width: 30px;
+    height: 30px;
+    margin-left: 3px;
+    display: inline-block;
 }
 
 #navbar .head-icon {
@@ -133,7 +142,7 @@
 
 #navbar .dropMenuPosition {
     position: fixed;
-    left: 8px;
+    left: 5px;
     top: 50px;
     padding: 0;
 }
@@ -302,29 +311,52 @@
     left: 30px;
 }
 
+#navbar .notification-icon {
+    position: absolute;
+    left: -15px;
+    top: 3px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#navbar .notification-icon-badget {
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    position: absolute;
+    border-radius: 50%;
+    top: 1px;
+    margin-left: -2px;
+    border: 1px solid #eee;
+}
+
 @media (max-width: 768px) {
     #navbar .search-result {
-        height: 35px !important;
+        height: 45px !important;
     }
 
     #navbar .search-result-image {
-        width: 25px !important;
-        height: 25px !important;
+        width: 35px !important;
+        height: 35px !important;
     }
 
     #navbar .search-result-name {
-        width: calc(100% - 55px) !important;
-        font-size: 10px !important;
+        width: calc(100% - 60px) !important;
+        font-size: 12px !important;
     }
 
     #navbar .search-result-image-loading {
-        width: 25px !important;
-        height: 25px !important;
+        width: 35px !important;
+        height: 35px !important;
     }
 
     #navbar .friend-request-btn {
-        font-size: 18px !important;
+        font-size: 22px !important;
         left: 25px !important;
+    }
+
+    #navbar .search-result-image-loading {
+        line-height: 32px !important;
     }
 }
 

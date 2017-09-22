@@ -58,15 +58,18 @@
             <i class="fa fa-plus-square-o friend-request-btn hvr-grow" title="הוספה לחברים" aria-hidden="true"></i>
           </div>
         </div>
+        <i class="fa fa-bell-o notification-icon" aria-hidden="true"></i>
+        <span class="notification-icon-badget" *ngIf="false"></span>
         </span>
       </div>
-      <div style="float:left;" class="col-xs-4">
+      <div style="float:left;" class="col-xs-4">        
         <div *ngIf="user" class="manage-sector">
           <span (click)="ShowHideDropMenu()" class="glyphicon glyphicon-triangle-bottom menu-icon"></span>
-          <span class="name">
-          <span (click)="ShowHideDropMenu()" style="cursor:pointer;">
-            שלום {{user.firstName}}
-          </span>
+          <span (click)="ShowHideDropMenu()" class="name">
+            <span class="top-navbar-user-image">
+              <profilePicture [isEditEnable]="false"></profilePicture>
+            </span>
+            {{user.firstName}}
           </span>
           <span class="glyphicon glyphicon-triangle-top menu-top-arrow" *ngIf="isDropMenuOpen"></span>
           <dropMenu class="dropMenuPosition col-md-2 col-xs-4" *ngIf="isDropMenuOpen" [options]="dropMenuDataList"></dropMenu>

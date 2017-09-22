@@ -12,6 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var global_service_1 = require("../../services/global/global.service");
 var profilePicture_service_1 = require("../../services/profilePicture/profilePicture.service");
+// Define those variables in order to active events for all instances of that class.
+var originalNumOfProfilePictureInstances = 0;
+var numOfProfilePictureInstances = 0;
 var ProfilePictureComponent = /** @class */ (function () {
     function ProfilePictureComponent(profilePictureService, globalService) {
         var _this = this;
@@ -20,17 +23,27 @@ var ProfilePictureComponent = /** @class */ (function () {
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.profileImageSrc = this.defaultProfileImage;
         this.isUserHasImage = null;
+        originalNumOfProfilePictureInstances++;
+        numOfProfilePictureInstances++;
         this.globalService.data.subscribe(function (value) {
             if (value["newUploadedImage"]) {
                 _this.profileImageSrc = value["newUploadedImage"];
                 _this.isUserHasImage = true;
-                _this.globalService.deleteData("newUploadedImage");
+                numOfProfilePictureInstances--;
+                if (numOfProfilePictureInstances == 0) {
+                    numOfProfilePictureInstances = originalNumOfProfilePictureInstances;
+                    _this.globalService.deleteData("newUploadedImage");
+                }
             }
             if (value["isImageDeleted"]) {
                 _this.profileImageSrc = _this.defaultProfileImage;
                 _this.isUserHasImage = false;
-                _this.globalService.deleteData("isImageDeleted");
-                _this.globalService.setData("userImage", false);
+                numOfProfilePictureInstances--;
+                if (numOfProfilePictureInstances == 0) {
+                    numOfProfilePictureInstances = originalNumOfProfilePictureInstances;
+                    _this.globalService.deleteData("isImageDeleted");
+                    _this.globalService.setData("userImage", false);
+                }
             }
         });
     }

@@ -279,6 +279,7 @@ export class NavbarComponent implements OnInit {
             document.getElementById("sidenav").style.width = "210px";
         }
         else {
+            this.HideUnreadWindow();
             document.getElementById("sidenav").style.width = "0";
         }
     }
