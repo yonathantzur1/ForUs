@@ -310,10 +310,11 @@ export class ProfileComponent implements OnInit, OnChanges {
 
                 setToken(result.token);
             }
-            else {
-
-            }
-        }, function (dismiss: any) { });
+        }, function (dismiss: any) {
+            $("#profile-modal").removeClass("fade");
+            $("#profile-modal").modal("show");
+            $("#profile-modal").addClass("fade");
+        });
     }
 
 }

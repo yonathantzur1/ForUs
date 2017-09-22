@@ -276,9 +276,11 @@ var ProfileComponent = /** @class */ (function () {
                 });
                 setToken(result.token);
             }
-            else {
-            }
-        }, function (dismiss) { });
+        }, function (dismiss) {
+            $("#profile-modal").removeClass("fade");
+            $("#profile-modal").modal("show");
+            $("#profile-modal").addClass("fade");
+        });
     };
     __decorate([
         core_1.Input(),

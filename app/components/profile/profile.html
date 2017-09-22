@@ -49,9 +49,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <a title="מחיקת תמונת הפרופיל" (click)="DeleteImage()" *ngIf="userImage && isNewPhoto" class="btn btn-raised btn-default delete-profile-btn">
-                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                </a>
+                    <!-- <a  (click)="DeleteImage()"  class="btn btn-raised btn-default delete-profile-btn"></a> -->
+                    <span *ngIf="userImage && isNewPhoto" title="מחיקת תמונת הפרופיל" (click)="DeleteImage()" class="glyphicon glyphicon-trash delete-profile-btn" aria-hidden="true"></span>
                     <div class="modal-footer-buttons">
                         <a (click)="ResetAllImageBtnsMode()" class="btn btn-default cancel-change-btn" data-dismiss="modal">סגור</a>
                         <a (click)="SaveImage()" id="register-btn" class="btn btn-primary change-img-btn" [ngClass]="{'change-img-btn-disabled': isNewPhoto}">אישור</a>
