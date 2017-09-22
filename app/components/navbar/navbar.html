@@ -43,7 +43,7 @@
     <div class="container-fluid navbar">
       <div style="right:0;position:absolute;" class="col-xs-8">
         <img (click)="ShowHideSidenav()" src="../logo/icon.png" class="head-icon">
-        <span class="search-sector col-md-6 col-xs-10">
+        <span class="search-sector col-md-6 col-xs-9">
         <input type="text" class="search-input" placeholder="חיפוש" [(ngModel)]="searchInput" (ngModelChange)="SearchChange(searchInput)" (focus)="ClickSearchInput(searchInput)" 
         autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
         <span class="glyphicon glyphicon-search search-icon" [ngClass]="{'search-icon-active':isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0}"></span>
@@ -54,7 +54,7 @@
             <span *ngIf="result.profile == -1" class="search-result-image-loading">
               <p class="load-image-icon"><i class="fa fa-circle" aria-hidden="true"></i> <i class="fa fa-circle" aria-hidden="true"></i> <i class="fa fa-circle" aria-hidden="true"></i></p>
             </span>
-            <span>{{result.fullName}}</span>
+            <span class="search-result-name">{{result.fullName}}</span>
           </div>
         </div>
         </span>

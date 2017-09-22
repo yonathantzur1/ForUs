@@ -50,7 +50,7 @@
 										<div class="form-group">
 											<div class="col-md-9 col-md-offset-1 col-xs-9 col-xs-offset-1">
 												<input [(ngModel)]="newUser.firstName" id="register-firstName" class="form-control user-input" type="text" name="firstName"
-												 (keyup)="HideMicrotext($event.srcElement.id + '-micro')" maxlength="15" placeholder="שם פרטי">
+												 (keyup)="HideMicrotext($event.srcElement.id + '-micro')" maxlength="10" placeholder="שם פרטי">
 												<label id="register-firstName-micro" class="microtext"></label>
 											</div>
 										</div>
@@ -59,7 +59,7 @@
 										<div class="form-group">
 											<div class="col-md-9 col-md-offset-2 col-xs-9 col-xs-offset-2">
 												<input [(ngModel)]="newUser.lastName" id="register-lastName" class="form-control user-input" type="text" name="lastName"
-												 (keyup)="HideMicrotext($event.srcElement.id + '-micro')" maxlength="15" placeholder="שם משפחה">
+												 (keyup)="HideMicrotext($event.srcElement.id + '-micro')" maxlength="10" placeholder="שם משפחה">
 												<label id="register-lastName-micro" class="microtext"></label>
 											</div>
 										</div>

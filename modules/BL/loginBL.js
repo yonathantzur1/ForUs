@@ -61,29 +61,34 @@ module.exports = {
 
     // Add user to the DB.
     AddUser: function (newUser, sha512, callback) {
-        var salt = generator.GenerateId(resetCodeNumOfDigits);
-        newUser.password = sha512(newUser.password + salt);
+        if (ValidateUserObject(newUser)) {
+            var salt = generator.GenerateId(resetCodeNumOfDigits);
+            newUser.password = sha512(newUser.password + salt);
 
-        // Creat the new user object.
-        var newUserObj = {
-            "firstName": newUser.firstName,
-            "lastName": newUser.lastName,
-            "email": newUser.email,
-            "password": newUser.password,
-            "salt": salt,
-            "creationDate": new Date(),
-            "friends": []
-        };
+            // Creat the new user object.
+            var newUserObj = {
+                "firstName": newUser.firstName,
+                "lastName": newUser.lastName,
+                "email": newUser.email,
+                "password": newUser.password,
+                "salt": salt,
+                "creationDate": new Date(),
+                "friends": []
+            };
 
-        DAL.Insert(collectionName, newUserObj, function (result) {
-            if (result) {
-                newUserObj._id = result;
-                callback(newUserObj);
-            }
-            else {
-                callback(result);
-            }
-        });
+            DAL.Insert(collectionName, newUserObj, function (result) {
+                if (result) {
+                    newUserObj._id = result;
+                    callback(newUserObj);
+                }
+                else {
+                    callback(result);
+                }
+            });
+        }
+        else {
+            callback(null);
+        }
     },
 
     // Add reset password code to the DB and return the name of the user.
@@ -166,7 +171,7 @@ module.exports = {
                 updateUser.resetCode.isUsed = true;
                 updateUser.resetCode.tryNum++;
 
-                updateUserObj = {$set: updateUser};
+                updateUserObj = { $set: updateUser };
 
                 DAL.UpdateOne(collectionName, emailObj, updateUserObj, function (updateResult) {
                     if (updateResult != null && updateResult != false) {
@@ -186,4 +191,18 @@ Date.prototype.addHours = function (h) {
     this.setTime(this.getTime() + (h * 60 * 60 * 1000));
 
     return this;
+}
+
+function ValidateUserObject(userObj) {
+    if (typeof userObj.firstName == string &&
+        typeof userObj.lastName == string &&
+        typeof userObj.email == string &&
+        typeof userObj.password == string &&
+        userObj.firstName.length <= 10 &&
+        userObj.lastName.length <= 10) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
