@@ -134,6 +134,7 @@ module.exports = {
                 friendMessagesNotifications.unreadMessagesNumber++;
             }
             else {
+                messagesNotifications = messagesNotifications ? messagesNotifications : {};
                 messagesNotifications[userId] = {
                     "unreadMessagesNumber": 1,
                     "firstUnreadMessageId": msgId

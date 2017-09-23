@@ -19,17 +19,15 @@ module.exports = function (io, jwt, config) {
                         var loginUserObj = connectedUsers[user._id];
                         user.socketIds = loginUserObj.socketIds;
                         user.socketIds.push(socket.id);
-                        user.connectionsNumber = connectedUsers[user._id].connectionsNumber + 1;
                     }
                     else {
                         user.socketIds = [socket.id];
-                        user.connectionsNumber = 1;
                     }
 
                     socket.join(user._id);
                     socketsDictionary[socket.id] = user._id;
                     connectedUsers[user._id] = user;
-                    
+
                     var connectionUserFriends = user.friends;
 
                     var statusObj = {
@@ -62,7 +60,7 @@ function LogoutUser(io, socket) {
 
     if (disconnectUser) {
         // In case the user was connected only once.
-        if (disconnectUser.connectionsNumber == 1) {
+        if (disconnectUser.socketIds.length == 1) {
             var disconnectUserFriends = disconnectUser.friends;
 
             delete socketsDictionary[socket.id];
@@ -79,7 +77,7 @@ function LogoutUser(io, socket) {
         }
         else {
             delete socketsDictionary[socket.id];
-            disconnectUser.connectionsNumber--;
+            disconnectUser.socketIds.splice(disconnectUser.socketIds.indexOf(socket.id));
         }
     }
 }

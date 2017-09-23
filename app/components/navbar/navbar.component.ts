@@ -195,6 +195,7 @@ export class NavbarComponent implements OnInit {
 
     RemoveFriendMessagesFromToolbarMessages = function (friendId: string) {
         var notificationsMessages = this.GetToolbarItem("messages").content;
+        
         if (notificationsMessages[friendId]) {
             delete (notificationsMessages[friendId]);
             this.navbarService.RemoveMessagesNotifications(notificationsMessages);

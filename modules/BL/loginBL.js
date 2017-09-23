@@ -194,10 +194,10 @@ Date.prototype.addHours = function (h) {
 }
 
 function ValidateUserObject(userObj) {
-    if (typeof userObj.firstName == string &&
-        typeof userObj.lastName == string &&
-        typeof userObj.email == string &&
-        typeof userObj.password == string &&
+    if (typeof userObj.firstName == "string" &&
+        typeof userObj.lastName == "string" &&
+        typeof userObj.email == "string" &&
+        typeof userObj.password == "string" &&
         userObj.firstName.length <= 10 &&
         userObj.lastName.length <= 10) {
         return true;
