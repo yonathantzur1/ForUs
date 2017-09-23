@@ -10,6 +10,11 @@ export class GlobalService {
     public data: BehaviorSubject<boolean> = new BehaviorSubject<any>({});
     public socket = io();
 
+    GenerateNewSocket() {
+        this.socket ? this.socket.destroy() : null;
+        this.socket = io();
+    }
+
     setData(key: string, value: any) {
         var currData = this.data.value;
         currData[key] = value;

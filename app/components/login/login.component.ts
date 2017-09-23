@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
@@ -47,21 +47,13 @@ export class ForgotUser {
   providers: [LoginService]
 })
 
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent {
   constructor(private router: Router, private globalService: GlobalService, private loginService: LoginService) { }
 
   user: User = new User();
   newUser: NewUser = new NewUser();
   forgotUser: ForgotUser = new ForgotUser();
   isLoading: boolean = false;
-
-  ngOnInit() {
-    this.globalService.setData("logout", true);
-  }
-
-  ngOnDestroy() {
-    this.globalService.deleteData("logout");
-  }
 
   // Running on the array of validation functions and make sure all valid.
   // Getting validation array and object to valid.

@@ -52,13 +52,6 @@ var NavbarComponent = /** @class */ (function () {
         this.searchResults = [];
         this.isShowSearchResults = false;
         this.inputTimer = null;
-        this.dropMenuDataList = [
-            new DropMenuData("#", "הגדרות", null, null),
-            new DropMenuData("/login", "התנתקות", function (self, link) {
-                deleteToken();
-                self.router.navigateByUrl(link);
-            }, this)
-        ];
         // START CONFIG VARIABLES //
         this.searchLimit = 4;
         this.searchInputChangeDelay = 120; // In milliseconds
@@ -291,13 +284,9 @@ var NavbarComponent = /** @class */ (function () {
                 _this.ClosePopups();
                 _this.globalService.deleteData("isOpenProfileEditWindow");
             }
-            if (value["logout"] && _this.socket) {
-                _this.socket.emit('logout');
-                _this.globalService.deleteData("logout");
-            }
         });
         var self = this;
-        this.toolbarItems = [
+        self.toolbarItems = [
             {
                 id: "messages",
                 icon: "fa fa-envelope-o",
@@ -315,6 +304,14 @@ var NavbarComponent = /** @class */ (function () {
                 onClick: function () {
                 }
             }
+        ];
+        self.dropMenuDataList = [
+            new DropMenuData("#", "הגדרות", null, null),
+            new DropMenuData("/login", "התנתקות", function (self, link) {
+                deleteToken();
+                self.globalService.GenerateNewSocket();
+                self.router.navigateByUrl(link);
+            }, self)
         ];
     }
     NavbarComponent.prototype.ngOnInit = function () {

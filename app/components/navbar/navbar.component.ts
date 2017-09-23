@@ -54,7 +54,6 @@ export class NavbarComponent implements OnInit {
     isShowMessageNotification: boolean = false;
     isUnreadWindowOpen: boolean = false;
     notificationInterval: any;
-    toolbarItems: Array<toolbarItem>;
 
     isSidebarOpen: boolean = false;
     isDropMenuOpen: boolean = false;
@@ -62,13 +61,8 @@ export class NavbarComponent implements OnInit {
     isShowSearchResults: boolean = false;
     inputTimer: any = null;
 
-    dropMenuDataList: DropMenuData[] = [
-        new DropMenuData("#", "הגדרות", null, null),
-        new DropMenuData("/login", "התנתקות", function (self: any, link: string) {
-            deleteToken();
-            self.router.navigateByUrl(link);
-        }, this)
-    ];
+    toolbarItems: Array<toolbarItem>;
+    dropMenuDataList: Array<DropMenuData>;
 
     // START CONFIG VARIABLES //
 
@@ -87,16 +81,11 @@ export class NavbarComponent implements OnInit {
                 this.ClosePopups();
                 this.globalService.deleteData("isOpenProfileEditWindow");
             }
-
-            if (value["logout"] && this.socket) {
-                this.socket.emit('logout');
-                this.globalService.deleteData("logout");
-            }
         });
 
         var self = this;
 
-        this.toolbarItems = [
+        self.toolbarItems = [
             {
                 id: "messages",
                 icon: "fa fa-envelope-o",
@@ -115,6 +104,15 @@ export class NavbarComponent implements OnInit {
 
                 }
             }
+        ];
+
+        self.dropMenuDataList = [
+            new DropMenuData("#", "הגדרות", null, null),
+            new DropMenuData("/login", "התנתקות", function (self: any, link: string) {
+                deleteToken();
+                self.globalService.GenerateNewSocket();
+                self.router.navigateByUrl(link);
+            }, self)
         ];
     }
 
@@ -195,7 +193,7 @@ export class NavbarComponent implements OnInit {
 
     RemoveFriendMessagesFromToolbarMessages = function (friendId: string) {
         var notificationsMessages = this.GetToolbarItem("messages").content;
-        
+
         if (notificationsMessages[friendId]) {
             delete (notificationsMessages[friendId]);
             this.navbarService.RemoveMessagesNotifications(notificationsMessages);
@@ -332,8 +330,8 @@ export class NavbarComponent implements OnInit {
         else {
             this.HideSidenav();
             this.HideDropMenu();
-            this.HideSearchResults();  
-        }      
+            this.HideSearchResults();
+        }
     }
 
     SearchChange = function (input: string) {

@@ -9,6 +9,10 @@ var GlobalService = /** @class */ (function () {
         this.data = new BehaviorSubject_1.BehaviorSubject({});
         this.socket = io();
     }
+    GlobalService.prototype.GenerateNewSocket = function () {
+        this.socket ? this.socket.destroy() : null;
+        this.socket = io();
+    };
     GlobalService.prototype.setData = function (key, value) {
         var currData = this.data.value;
         currData[key] = value;

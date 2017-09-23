@@ -42,10 +42,6 @@ module.exports = function (io, jwt, config) {
             });
         });
 
-        socket.on('logout', function () {
-            LogoutUser(io, socket);
-        });
-
         require('../modules/serverChat.js')(io, jwt, config, socket, socketsDictionary, connectedUsers);
 
         socket.on('disconnect', function () {

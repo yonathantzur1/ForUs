@@ -54,12 +54,6 @@ var LoginComponent = /** @class */ (function () {
         this.forgotUser = new ForgotUser();
         this.isLoading = false;
     }
-    LoginComponent.prototype.ngOnInit = function () {
-        this.globalService.setData("logout", true);
-    };
-    LoginComponent.prototype.ngOnDestroy = function () {
-        this.globalService.deleteData("logout");
-    };
     // Running on the array of validation functions and make sure all valid.
     // Getting validation array and object to valid.
     LoginComponent.prototype.Validation = function (funcArray, obj) {
