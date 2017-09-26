@@ -10,9 +10,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var unreadWindow_service_1 = require("../../services/unreadWindow/unreadWindow.service");
 var UnreadWindowComponent = /** @class */ (function () {
-    function UnreadWindowComponent() {
+    function UnreadWindowComponent(unreadWindowService) {
+        this.unreadWindowService = unreadWindowService;
+        this.GetUnreadMessagesNumber = function () {
+            var _this = this;
+            var counter = 0;
+            Object.keys(this.messagesNotifications).forEach(function (id) {
+                counter += _this.messagesNotifications[id].unreadMessagesNumber;
+            });
+            return counter;
+        };
     }
+    UnreadWindowComponent.prototype.ngOnInit = function () {
+        this.unreadWindowService.GetAllChats().then(function (chats) {
+            var x = chats;
+        });
+    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object)
@@ -21,9 +36,9 @@ var UnreadWindowComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'unreadWindow',
             templateUrl: './unreadWindow.html',
-            providers: []
+            providers: [unreadWindow_service_1.UnreadWindowService]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [unreadWindow_service_1.UnreadWindowService])
     ], UnreadWindowComponent);
     return UnreadWindowComponent;
 }());

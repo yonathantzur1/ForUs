@@ -3,7 +3,7 @@ var config = require('../modules/config.js');
 var encryption = require('../modules/encryption.js');
 
 module.exports = {
-    GetTokenFromUserObject: function (user, req) {
+    GetTokenFromUserObject: function (user) {
         var tokenUserObject = {
             "_id": user._id,
             "firstName": user.firstName,
@@ -47,9 +47,9 @@ module.exports = {
         return "";
     },
 
-    GenerateId: function() {
+    GenerateId: function () {
         var timestamp = (new Date().getTime() / 1000 | 0).toString(16);
-        return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function() {
+        return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function () {
             return (Math.random() * 16 | 0).toString(16);
         }).toLowerCase();
     }

@@ -13,7 +13,7 @@ module.exports = function (app, profileBL) {
         profileBL.SaveImage(imageData, function (result) {
             if (result) {
                 req.user.profile = result.profile.toString();
-                var token =  general.GetTokenFromUserObject(req.user, req);
+                var token = general.GetTokenFromUserObject(req.user);
                 res.send({ "token": token });
             }
             else {
@@ -30,7 +30,7 @@ module.exports = function (app, profileBL) {
         profileBL.DeleteImage(userId, profileId, function (result) {
             if (result) {
                 delete req.user.profile;
-                var token =  general.GetTokenFromUserObject(req.user, req);
+                var token = general.GetTokenFromUserObject(req.user);
                 res.send({ "token": token });
             }
             else {

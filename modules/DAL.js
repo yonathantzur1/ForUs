@@ -85,12 +85,14 @@ module.exports = {
     },
 
     // Getting documents from collection by filter.
-    Find: function (collectionName, filter, callback) {
+    Find: function (collectionName, filter, callback, sortObj) {
         GetDB(function (err, db) {
             if (err == null) {
                 var collection = db.collection(collectionName);
 
-                collection.find(filter).toArray(function (err, docs) {
+                sortObj = sortObj ? sortObj : {};
+
+                collection.find(filter).sort(sortObj).toArray(function (err, docs) {
                     if (err == null) {
                         callback(docs);
                     }
@@ -106,12 +108,14 @@ module.exports = {
     },
 
     // Getting documents from collection by filter.
-    FindSpecific: function (collectionName, filter, fields, callback) {
+    FindSpecific: function (collectionName, filter, fields, callback, sortObj) {
         GetDB(function (err, db) {
             if (err == null) {
                 var collection = db.collection(collectionName);
 
-                collection.find(filter, fields).toArray(function (err, docs) {
+                sortObj = sortObj ? sortObj : {};
+
+                collection.find(filter, fields).sort(sortObj).toArray(function (err, docs) {
                     if (err == null) {
                         callback(docs);
                     }

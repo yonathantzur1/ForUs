@@ -342,7 +342,7 @@
     }
 
     #navbar .search-result-name {
-        width: calc(100% - 68px) !important;
+        width: calc(100% - 75px) !important;
         font-size: 12px !important;
     }
 
@@ -353,6 +353,7 @@
 
     #navbar .friend-request-btn {
         left: 24px !important;
+        font-size: 30px !important;
     }
 
     #navbar .search-result-image-loading {

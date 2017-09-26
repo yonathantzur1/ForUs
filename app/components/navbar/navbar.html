@@ -55,7 +55,7 @@
               <p class="load-image-icon"><i class="fa fa-circle" aria-hidden="true"></i> <i class="fa fa-circle" aria-hidden="true"></i> <i class="fa fa-circle" aria-hidden="true"></i></p>
             </span>
             <span class="search-result-name">{{result.fullName}}</span>
-            <i class="fa fa-plus-square-o friend-request-btn hvr-grow" title="הוספה לחברים" aria-hidden="true"></i>
+            <i *ngIf="result._id != user._id" class="fa fa-plus-square-o friend-request-btn hvr-grow" title="בקשת חברות" aria-hidden="true"></i>
           </div>
         </div>
         <i class="fa fa-bell-o notification-icon" aria-hidden="true"></i>

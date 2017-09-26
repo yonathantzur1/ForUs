@@ -9,7 +9,7 @@ module.exports = function (app, loginBL, mailer, sha512) {
         loginBL.GetUser(req.body, sha512, function (result) {
             // In case the user email and password are valid.
             if (result && result != "-1") {
-                var token = general.GetTokenFromUserObject(result, req);
+                var token = general.GetTokenFromUserObject(result);
                 res.send({ "token": token });
             }
             else {
@@ -39,7 +39,7 @@ module.exports = function (app, loginBL, mailer, sha512) {
                     if (result) {
                         // Sending welcome mail to the new user.
                         mailer.SendMail(req.body.email, mailer.GetRegisterMailContent(req.body.firstName));
-                        var token = general.GetTokenFromUserObject(result, req);
+                        var token = general.GetTokenFromUserObject(result);
                         res.send({ "token": token });
                     }
                     else {

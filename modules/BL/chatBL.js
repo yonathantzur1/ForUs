@@ -53,7 +53,10 @@ var self = module.exports = {
         var membersIds = [msgData.from, msgData.to];
         var chatFilter = { "membersIds": { $all: membersIds } }
 
-        var chatUpdateQuery = { $push: { "messages": msgData } }
+        var chatUpdateQuery = {
+            $push: { "messages": msgData },
+            $set: { "lastMessage": { "text": msgData.text, "time": msgData.time } }
+        }
 
         DAL.UpdateOne(collectionName, chatFilter, chatUpdateQuery, function (result) { });
     }

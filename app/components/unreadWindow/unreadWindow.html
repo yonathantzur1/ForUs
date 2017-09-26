@@ -1,6 +1,9 @@
 <div id="unreadWindow">
     <span class="glyphicon glyphicon-triangle-top window-top-arrow"></span>
     <div class="unreadWindow-container">
-
+        <div *ngIf="GetUnreadMessagesNumber() > 0" class="top-line">
+            <span>{{GetUnreadMessagesNumber()}} הודעות שלא נקראו</span>
+        </div>
+        <div class="body-container"></div>
     </div>
 </div>

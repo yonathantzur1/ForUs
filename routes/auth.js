@@ -6,7 +6,7 @@ module.exports = function (app) {
     // Checking if the session of the user is open.
     app.get(prefix + '/isUserOnSession', function (req, res) {
         if (req.user) {
-            var token = general.GetTokenFromUserObject(req.user, req);
+            var token = general.GetTokenFromUserObject(req.user);
             res.send({ "token": token });
         }
         else {
