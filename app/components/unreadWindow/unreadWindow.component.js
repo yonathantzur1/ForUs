@@ -14,6 +14,7 @@ var unreadWindow_service_1 = require("../../services/unreadWindow/unreadWindow.s
 var UnreadWindowComponent = /** @class */ (function () {
     function UnreadWindowComponent(unreadWindowService) {
         this.unreadWindowService = unreadWindowService;
+        this.chats = [];
         this.GetUnreadMessagesNumber = function () {
             var _this = this;
             var counter = 0;
@@ -22,12 +23,40 @@ var UnreadWindowComponent = /** @class */ (function () {
             });
             return counter;
         };
+        this.GetTimeString = function (date) {
+            var localDate = new Date(date);
+            var HH = localDate.getHours().toString();
+            var mm = localDate.getMinutes().toString();
+            if (HH.length == 1) {
+                HH = "0" + HH;
+            }
+            if (mm.length == 1) {
+                mm = "0" + mm;
+            }
+            return (HH + ":" + mm);
+        };
+        this.GetFriend = function (friendId) {
+            return (this.friends.find(function (friend) {
+                return (friend._id == friendId);
+            }));
+        };
+        this.GetFriendName = function (friendId) {
+            var friendObj = (this.friends.find(function (friend) {
+                return (friend._id == friendId);
+            }));
+            return (friendObj.firstName + " " + friendObj.lastName);
+        };
     }
     UnreadWindowComponent.prototype.ngOnInit = function () {
-        this.unreadWindowService.GetAllChats().then(function (chats) {
-            var x = chats;
+        var self = this;
+        self.unreadWindowService.GetAllChats().then(function (chats) {
+            self.chats = chats;
         });
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], UnreadWindowComponent.prototype, "friends", void 0);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object)

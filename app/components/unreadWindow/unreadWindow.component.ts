@@ -10,13 +10,17 @@ import { UnreadWindowService } from '../../services/unreadWindow/unreadWindow.se
 })
 
 export class UnreadWindowComponent implements OnInit {
+    @Input() friends: any;
     @Input() messagesNotifications: any;
+    chats: any = [];
 
     constructor(private unreadWindowService: UnreadWindowService) { }
 
     ngOnInit() {
-        this.unreadWindowService.GetAllChats().then(function (chats) {
-            var x = chats;
+        var self = this;
+
+        self.unreadWindowService.GetAllChats().then(function (chats) {
+            self.chats = chats;
         });
     }
 
@@ -28,5 +32,36 @@ export class UnreadWindowComponent implements OnInit {
         });
 
         return counter;
+    }
+
+    GetTimeString = function (date: Date) {
+        var localDate = new Date(date);
+
+        var HH = localDate.getHours().toString();
+        var mm = localDate.getMinutes().toString();
+
+        if (HH.length == 1) {
+            HH = "0" + HH;
+        }
+
+        if (mm.length == 1) {
+            mm = "0" + mm;
+        }
+
+        return (HH + ":" + mm);
+    }
+
+    GetFriend = function (friendId: string) {
+        return (this.friends.find(function (friend: any) {
+            return (friend._id == friendId);
+        }));
+    }
+
+    GetFriendName = function (friendId: string) {
+        var friendObj = (this.friends.find(function (friend: any) {
+            return (friend._id == friendId);
+        }));
+
+        return (friendObj.firstName + " " + friendObj.lastName);
     }
 }

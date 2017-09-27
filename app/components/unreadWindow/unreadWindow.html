@@ -4,6 +4,23 @@
         <div *ngIf="GetUnreadMessagesNumber() > 0" class="top-line">
             <span>{{GetUnreadMessagesNumber()}} הודעות שלא נקראו</span>
         </div>
-        <div class="body-container"></div>
+        <div class="body-container">
+            <div class="chat-container" *ngFor="let chat of chats">
+                <img class="chat-image" src="{{GetFriend(chat.friendId).profileImage}}">
+                <table>
+                    <tr>
+                        <td>
+                            <span class="chat-name">{{GetFriendName(chat.friendId)}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="chat-last-text">{{chat.lastMessage.text}}</span>
+                        </td>
+                    </tr>                    
+                </table>
+                <span class="chat-last-time">{{GetTimeString(chat.lastMessage.time)}}</span>
+            </div>
+        </div>
     </div>
 </div>
