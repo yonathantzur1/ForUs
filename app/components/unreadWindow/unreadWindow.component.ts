@@ -10,8 +10,9 @@ import { UnreadWindowService } from '../../services/unreadWindow/unreadWindow.se
 })
 
 export class UnreadWindowComponent implements OnInit {
-    @Input() friends: any;
-    @Input() messagesNotifications: any;
+    @Input() friends: Array<any>;
+    @Input() messagesNotifications: Object;
+    @Input() OpenChat: Function;
     chats: any = [];
 
     constructor(private unreadWindowService: UnreadWindowService) { }

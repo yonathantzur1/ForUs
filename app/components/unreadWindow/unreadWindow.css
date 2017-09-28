@@ -4,12 +4,11 @@
     right: 165px;
     width: 55%;
     max-width: 310px;
-    height: 250px;
+    height: 240px;
     max-height: calc(100% - 135px);
     background-color: white;
     box-shadow: 2px 2px 25px 1px #888888;
     z-index: 1001;
-    border-radius: 5px;
 }
 
 #unreadWindow .window-top-arrow {
@@ -38,9 +37,13 @@
 }
 
 #unreadWindow .body-container {
-    height: calc(100% - 25px);
+    height: 100%;
     width: 100%;
     overflow-y: overlay;
+}
+
+#unreadWindow .body-container-with-top {
+    height: calc(100% - 20px) !important;
 }
 
 #unreadWindow .chat-container {
@@ -56,31 +59,59 @@
     cursor: pointer;
 }
 
+#unreadWindow .chat-container:hover {
+    background-color: #f7f7f7;
+}
+
 #unreadWindow .chat-last-text {
     font-size: 12px;
-    max-width: calc(100% - 75px);
+    max-width: 100%;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
 }
 
 #unreadWindow .chat-last-time {
-    position: absolute;
-    left: 10px;
     font-size: 10px;
     align-self: center;
     margin-top: 1px;
 }
 
 #unreadWindow .chat-image {
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     margin-left: 5px;
-    border: 1px solid #c2c2c2;
+    border: 0.5px solid rgba(128, 127, 127, 0.7);
 }
 
 #unreadWindow .chat-name {
     font-size: 14px;
     font-weight: bold;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#unreadWindow .details-table {
+    width: calc(100% - 85px);
+}
+
+#unreadWindow .details-td {
+    width: calc(100% - 10px);
+    display: grid;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#unreadWindow .notificaiton-sign {
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background-color: #8fa8ef;
+    margin-right: 5px;
+    margin-left: 3px;
+    margin-top: 1px;
 }

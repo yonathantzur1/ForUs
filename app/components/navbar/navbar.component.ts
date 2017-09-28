@@ -407,6 +407,7 @@ export class NavbarComponent implements OnInit {
 
     OpenChat = function (friend: Friend) {
         this.HideSidenav();
+        this.HideUnreadWindow();
 
         if (!this.chatData.isOpen || !this.chatData.friend || this.chatData.friend._id != friend._id) {
             var messagesNotifications = Object.assign({}, this.GetToolbarItem("messages").content);

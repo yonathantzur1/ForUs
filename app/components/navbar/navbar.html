@@ -82,5 +82,5 @@
   </span>
 </div>
 
-<unreadWindow *ngIf="isUnreadWindowOpen" [friends]="friends" [messagesNotifications]="GetToolbarItem('messages').content"></unreadWindow>
+<unreadWindow *ngIf="isUnreadWindowOpen" [OpenChat]="OpenChat.bind(this)" [friends]="friends" [messagesNotifications]="GetToolbarItem('messages').content"></unreadWindow>
 <chat *ngIf="chatData.isOpen" [chatData]="chatData"></chat>

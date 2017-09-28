@@ -55,12 +55,16 @@ var UnreadWindowComponent = /** @class */ (function () {
     };
     __decorate([
         core_1.Input(),
-        __metadata("design:type", Object)
+        __metadata("design:type", Array)
     ], UnreadWindowComponent.prototype, "friends", void 0);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object)
     ], UnreadWindowComponent.prototype, "messagesNotifications", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Function)
+    ], UnreadWindowComponent.prototype, "OpenChat", void 0);
     UnreadWindowComponent = __decorate([
         core_1.Component({
             selector: 'unreadWindow',

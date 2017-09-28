@@ -4,22 +4,23 @@
         <div *ngIf="GetUnreadMessagesNumber() > 0" class="top-line">
             <span>{{GetUnreadMessagesNumber()}} הודעות שלא נקראו</span>
         </div>
-        <div class="body-container">
-            <div class="chat-container" *ngFor="let chat of chats">
+        <div class="body-container" [ngClass]="{'body-container-with-top': GetUnreadMessagesNumber() > 0}">
+            <div class="chat-container" *ngFor="let chat of chats" (click)="OpenChat(GetFriend(chat.friendId))">
                 <img class="chat-image" src="{{GetFriend(chat.friendId).profileImage}}">
-                <table>
+                <table class="details-table">
                     <tr>
-                        <td>
+                        <td class="details-td">
                             <span class="chat-name">{{GetFriendName(chat.friendId)}}</span>
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td class="details-td">
                             <span class="chat-last-text">{{chat.lastMessage.text}}</span>
                         </td>
-                    </tr>                    
+                    </tr>
                 </table>
                 <span class="chat-last-time">{{GetTimeString(chat.lastMessage.time)}}</span>
+                <span *ngIf="messagesNotifications[chat.friendId]" class="notificaiton-sign"></span>
             </div>
         </div>
     </div>
