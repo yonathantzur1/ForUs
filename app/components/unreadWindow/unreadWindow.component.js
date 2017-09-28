@@ -51,6 +51,14 @@ var UnreadWindowComponent = /** @class */ (function () {
         var self = this;
         self.unreadWindowService.GetAllChats().then(function (chats) {
             self.chats = chats;
+            self.chats.push(self.chats[0]);
+            self.chats.push(self.chats[0]);
+            self.chats.push(self.chats[0]);
+            self.chats.push(self.chats[0]);
+            self.chats.push(self.chats[0]);
+            self.chats.push(self.chats[0]);
+            self.chats.push(self.chats[0]);
+            self.chats.push(self.chats[0]);
         });
     };
     __decorate([

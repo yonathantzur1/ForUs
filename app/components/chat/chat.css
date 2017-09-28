@@ -83,7 +83,7 @@
 
 #chat .chat-body-sector {
     height: calc(100% - 30px);
-    overflow-y: scroll;
+    overflow-y: overlay;
     border-bottom: 1px solid #cacaca;
     -webkit-user-select: none;
     user-select: none; 
@@ -142,8 +142,8 @@
     width: 100%;
     float: right;
     position: relative;
-    padding-right: 5px;
-    padding-left: 5px;
+    padding-right: 12px;
+    padding-left: 12px;
 }
 
 #chat .message {
@@ -181,11 +181,11 @@
 }
 
 #chat .user-message-time {
-    right: 5px;
+    right: 12px;
 }
 
 #chat .friend-message-time {
-    left: 5px;
+    left: 12px;
 }
 
 #chat .message-time {
@@ -216,8 +216,8 @@
     height: 30px;
     display: flex;
     margin-bottom: 15px;
-    padding-right: 7px;
-    padding-left: 7px;
+    padding-right: 12px;
+    padding-left: 12px;
     padding-top: 9px;
 }
 

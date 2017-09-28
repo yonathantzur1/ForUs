@@ -4,7 +4,7 @@
     right: 165px;
     width: 55%;
     max-width: 310px;
-    height: 240px;
+    height: 230px;
     max-height: calc(100% - 135px);
     background-color: white;
     box-shadow: 2px 2px 25px 1px #888888;
@@ -95,7 +95,7 @@
 }
 
 #unreadWindow .details-table {
-    width: calc(100% - 85px);
+    width: calc(100% - 90px);
 }
 
 #unreadWindow .details-td {
@@ -106,12 +106,16 @@
     overflow: hidden;
 }
 
+#unreadWindow .name-tr {
+    height: 18px;
+}
+
 #unreadWindow .notificaiton-sign {
     height: 8px;
     width: 8px;
     border-radius: 50%;
     background-color: #8fa8ef;
     margin-right: 5px;
-    margin-left: 3px;
+    margin-left: 5px;
     margin-top: 1px;
 }

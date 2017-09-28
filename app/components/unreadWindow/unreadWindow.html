@@ -8,7 +8,7 @@
             <div class="chat-container" *ngFor="let chat of chats" (click)="OpenChat(GetFriend(chat.friendId))">
                 <img class="chat-image" src="{{GetFriend(chat.friendId).profileImage}}">
                 <table class="details-table">
-                    <tr>
+                    <tr class="name-tr">
                         <td class="details-td">
                             <span class="chat-name">{{GetFriendName(chat.friendId)}}</span>
                         </td>
@@ -19,8 +19,8 @@
                         </td>
                     </tr>
                 </table>
-                <span class="chat-last-time">{{GetTimeString(chat.lastMessage.time)}}</span>
                 <span *ngIf="messagesNotifications[chat.friendId]" class="notificaiton-sign"></span>
+                <span class="chat-last-time">{{GetTimeString(chat.lastMessage.time)}}</span>                
             </div>
         </div>
     </div>

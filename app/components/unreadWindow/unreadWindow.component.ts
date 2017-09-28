@@ -22,6 +22,14 @@ export class UnreadWindowComponent implements OnInit {
 
         self.unreadWindowService.GetAllChats().then(function (chats) {
             self.chats = chats;
+            self.chats.push(self.chats[0]);
+            self.chats.push(self.chats[0]);
+            self.chats.push(self.chats[0]);
+            self.chats.push(self.chats[0]);
+            self.chats.push(self.chats[0]);
+            self.chats.push(self.chats[0]);
+            self.chats.push(self.chats[0]);
+            self.chats.push(self.chats[0]);
         });
     }
 
