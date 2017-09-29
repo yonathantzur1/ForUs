@@ -45,17 +45,21 @@ var NavbarComponent = /** @class */ (function () {
         this.isFriendsLoading = false;
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.chatData = { "isOpen": false };
+        // START message notification variables //
         this.isShowMessageNotification = false;
+        // END message notification variables //
+        // START friend-request notification variables //
+        this.isShowFriendRequestNotification = false;
+        // END friend-request notification variables //
         this.isUnreadWindowOpen = false;
         this.isSidebarOpen = false;
         this.isDropMenuOpen = false;
         this.searchResults = [];
         this.isShowSearchResults = false;
-        this.inputTimer = null;
         // START CONFIG VARIABLES //
         this.searchLimit = 4;
         this.searchInputChangeDelay = 140; // In milliseconds
-        this.messageNotificationDelay = 3500; // In milliseconds
+        this.notificationDelay = 3800; // In milliseconds
         this.IsShowFriendFindInput = function () {
             return $(".slidenav-body-sector").hasScrollBar();
         };
@@ -95,11 +99,11 @@ var NavbarComponent = /** @class */ (function () {
                 this.messageNotificationFriendId = friendId;
                 this.isShowMessageNotification = true;
                 var self = this;
-                self.notificationInterval = setInterval(function () {
+                self.messageNotificationInterval = setInterval(function () {
                     self.isShowMessageNotification = false;
-                    clearInterval(self.notificationInterval);
-                    self.notificationInterval = null;
-                }, this.messageNotificationDelay);
+                    clearInterval(self.messageNotificationInterval);
+                    self.messageNotificationInterval = null;
+                }, this.notificationDelay);
             }
         };
         this.GetFriendNameById = function (id) {
@@ -121,9 +125,9 @@ var NavbarComponent = /** @class */ (function () {
         this.MessageNotificationClicked = function () {
             // Turn off the open notification.
             this.isShowMessageNotification = false;
-            if (this.notificationInterval) {
-                clearInterval(this.notificationInterval);
-                this.notificationInterval = null;
+            if (this.messageNotificationInterval) {
+                clearInterval(this.messageNotificationInterval);
+                this.messageNotificationInterval = null;
             }
             this.OpenChat(this.GetFriendById(this.messageNotificationFriendId));
         };
@@ -194,10 +198,10 @@ var NavbarComponent = /** @class */ (function () {
         };
         this.SearchChange = function (input) {
             var self = this;
-            if (self.inputTimer) {
-                clearTimeout(self.inputTimer);
+            if (self.inputInterval) {
+                clearTimeout(self.inputInterval);
             }
-            self.inputTimer = setTimeout(function () {
+            self.inputInterval = setTimeout(function () {
                 if (input) {
                     input = input.trim();
                     self.navbarService.GetMainSearchResults(input, self.searchLimit).then(function (results) {
@@ -282,12 +286,34 @@ var NavbarComponent = /** @class */ (function () {
         this.AddFriendRequest = function (friendId) {
             var friendRequests = this.GetToolbarItem("friendRequests").content;
             friendRequests.send.push(friendId);
-            this.navbarService.AddFriendRequest(friendId).then(function (result) { });
+            var self = this;
+            self.navbarService.AddFriendRequest(friendId).then(function (result) {
+                if (result) {
+                    self.socket.emit("ServerUpdateFriendRequests", self.user._id, friendRequests);
+                    self.socket.emit("SendFriendRequest", self.user._id, friendId);
+                }
+            });
         };
         this.RemoveFriendRequest = function (friendId) {
             var friendRequests = this.GetToolbarItem("friendRequests").content;
             friendRequests.send.splice(friendRequests.send.indexOf(friendId));
-            this.navbarService.RemoveFriendRequest(friendId).then(function (result) { });
+            var self = this;
+            this.navbarService.RemoveFriendRequest(friendId).then(function (result) {
+                if (result) {
+                    self.socket.emit("ServerUpdateFriendRequests", self.user._id, friendRequests);
+                    self.socket.emit("RemoveFriendRequest", self.user._id, friendId);
+                }
+            });
+        };
+        this.ShowFriendRequestNotification = function (name) {
+            this.friendRequestNotificationName = name;
+            this.isShowFriendRequestNotification = true;
+            var self = this;
+            self.friendRequestNotificationInterval = setInterval(function () {
+                self.isShowFriendRequestNotification = false;
+                clearInterval(self.friendRequestNotificationInterval);
+                self.friendRequestNotificationInterval = null;
+            }, this.notificationDelay);
         };
         this.IsShowAddFriendRequestBtn = function (friendId) {
             var friendRequests = this.GetToolbarItem("friendRequests").content;
@@ -373,9 +399,9 @@ var NavbarComponent = /** @class */ (function () {
                 if (!self.chatData.isOpen) {
                     // Turn off the open notification.
                     self.isShowMessageNotification = false;
-                    if (self.notificationInterval) {
-                        clearInterval(self.notificationInterval);
-                        self.notificationInterval = null;
+                    if (self.messageNotificationInterval) {
+                        clearInterval(self.messageNotificationInterval);
+                        self.messageNotificationInterval = null;
                     }
                     self.ShowMessageNotification(self.GetFriendNameById(msgData.from), msgData.text, msgData.from);
                 }
@@ -396,6 +422,18 @@ var NavbarComponent = /** @class */ (function () {
                     friend.isOnline = statusObj.isOnline;
                 }
             });
+        });
+        self.socket.on('ClientUpdateFriendRequests', function (friendRequests) {
+            self.GetToolbarItem("friendRequests").content = friendRequests;
+        });
+        self.socket.on('GetFriendRequest', function (friendId, friendFullName) {
+            var friendRequests = self.GetToolbarItem("friendRequests").content;
+            friendRequests.get.push(friendId);
+            self.ShowFriendRequestNotification(friendFullName);
+        });
+        self.socket.on('DeleteFriendRequest', function (friendId) {
+            var friendRequests = self.GetToolbarItem("friendRequests").content;
+            friendRequests.get.splice(friendRequests.get.indexOf(friendId));
         });
     };
     __decorate([

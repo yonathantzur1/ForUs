@@ -100,4 +100,17 @@ export class NavbarService extends BasicService {
                 return null;
             });
     }
+
+    AddFriend(friendId: string) {
+        var details = { friendId };
+
+        return super.post(this.prefix + '/addFriend', JSON.stringify(details))
+            .toPromise()
+            .then((result) => {
+                return result.json();
+            })
+            .catch((result) => {
+                return null;
+            });
+    }
 }

@@ -49,18 +49,31 @@ export class NavbarComponent implements OnInit {
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
     chatData: any = { "isOpen": false };
     socket: any;
+
+    // START message notification variables //
+
+    isShowMessageNotification: boolean = false;
     messageNotificationName: string;
     messageNotificationText: string;
     messageNotificationFriendId: string;
-    isShowMessageNotification: boolean = false;
-    isUnreadWindowOpen: boolean = false;
-    notificationInterval: any;
+    messageNotificationInterval: any;
 
+    // END message notification variables //
+
+    // START friend-request notification variables //
+
+    isShowFriendRequestNotification: boolean = false;
+    friendRequestNotificationName: string;
+    friendRequestNotificationInterval: any;
+
+    // END friend-request notification variables //
+
+    isUnreadWindowOpen: boolean = false;
     isSidebarOpen: boolean = false;
     isDropMenuOpen: boolean = false;
     searchResults: Array<any> = [];
     isShowSearchResults: boolean = false;
-    inputTimer: any = null;
+    inputInterval: any;
 
     toolbarItems: Array<toolbarItem>;
     dropMenuDataList: Array<DropMenuData>;
@@ -69,7 +82,7 @@ export class NavbarComponent implements OnInit {
 
     searchLimit: number = 4;
     searchInputChangeDelay: number = 140; // In milliseconds
-    messageNotificationDelay: number = 3500; // In milliseconds
+    notificationDelay: number = 3800; // In milliseconds
 
     // END CONFIG VARIABLES //
 
@@ -152,9 +165,9 @@ export class NavbarComponent implements OnInit {
                     // Turn off the open notification.
                     self.isShowMessageNotification = false;
 
-                    if (self.notificationInterval) {
-                        clearInterval(self.notificationInterval);
-                        self.notificationInterval = null;
+                    if (self.messageNotificationInterval) {
+                        clearInterval(self.messageNotificationInterval);
+                        self.messageNotificationInterval = null;
                     }
 
                     self.ShowMessageNotification(self.GetFriendNameById(msgData.from), msgData.text, msgData.from);
@@ -178,6 +191,21 @@ export class NavbarComponent implements OnInit {
                     friend.isOnline = statusObj.isOnline;
                 }
             });
+        });
+
+        self.socket.on('ClientUpdateFriendRequests', function (friendRequests: Array<any>) {
+            self.GetToolbarItem("friendRequests").content = friendRequests;
+        });
+
+        self.socket.on('GetFriendRequest', function (friendId: string, friendFullName: string) {
+            var friendRequests = self.GetToolbarItem("friendRequests").content;
+            friendRequests.get.push(friendId);
+            self.ShowFriendRequestNotification(friendFullName);
+        });
+
+        self.socket.on('DeleteFriendRequest', function (friendId: string) {
+            var friendRequests = self.GetToolbarItem("friendRequests").content;
+            friendRequests.get.splice(friendRequests.get.indexOf(friendId));
         });
     }
 
@@ -228,11 +256,11 @@ export class NavbarComponent implements OnInit {
             this.isShowMessageNotification = true;
 
             var self = this;
-            self.notificationInterval = setInterval(function () {
+            self.messageNotificationInterval = setInterval(function () {
                 self.isShowMessageNotification = false;
-                clearInterval(self.notificationInterval);
-                self.notificationInterval = null;
-            }, this.messageNotificationDelay);
+                clearInterval(self.messageNotificationInterval);
+                self.messageNotificationInterval = null;
+            }, this.notificationDelay);
         }
     }
 
@@ -260,9 +288,9 @@ export class NavbarComponent implements OnInit {
         // Turn off the open notification.
         this.isShowMessageNotification = false;
 
-        if (this.notificationInterval) {
-            clearInterval(this.notificationInterval);
-            this.notificationInterval = null;
+        if (this.messageNotificationInterval) {
+            clearInterval(this.messageNotificationInterval);
+            this.messageNotificationInterval = null;
         }
 
         this.OpenChat(this.GetFriendById(this.messageNotificationFriendId));
@@ -348,11 +376,11 @@ export class NavbarComponent implements OnInit {
     SearchChange = function (input: string) {
         var self = this;
 
-        if (self.inputTimer) {
-            clearTimeout(self.inputTimer);
+        if (self.inputInterval) {
+            clearTimeout(self.inputInterval);
         }
 
-        self.inputTimer = setTimeout(function () {
+        self.inputInterval = setTimeout(function () {
             if (input) {
                 input = input.trim();
                 self.navbarService.GetMainSearchResults(input, self.searchLimit).then((results: Array<any>) => {
@@ -452,14 +480,38 @@ export class NavbarComponent implements OnInit {
         var friendRequests = this.GetToolbarItem("friendRequests").content;
         friendRequests.send.push(friendId);
 
-        this.navbarService.AddFriendRequest(friendId).then(function (result: any) { });
+        var self = this;
+        self.navbarService.AddFriendRequest(friendId).then(function (result: any) {
+            if (result) {
+                self.socket.emit("ServerUpdateFriendRequests", self.user._id, friendRequests);
+                self.socket.emit("SendFriendRequest", self.user._id, friendId);
+            }
+        });
     }
 
     RemoveFriendRequest = function (friendId: string) {
         var friendRequests = this.GetToolbarItem("friendRequests").content;
         friendRequests.send.splice(friendRequests.send.indexOf(friendId));
 
-        this.navbarService.RemoveFriendRequest(friendId).then(function (result: any) { });
+        var self = this;
+        this.navbarService.RemoveFriendRequest(friendId).then(function (result: any) {
+            if (result) {
+                self.socket.emit("ServerUpdateFriendRequests", self.user._id, friendRequests);
+                self.socket.emit("RemoveFriendRequest", self.user._id, friendId);
+            }
+        });
+    }
+
+    ShowFriendRequestNotification = function (name: string) {
+        this.friendRequestNotificationName = name;
+        this.isShowFriendRequestNotification = true;
+
+        var self = this;
+        self.friendRequestNotificationInterval = setInterval(function () {
+            self.isShowFriendRequestNotification = false;
+            clearInterval(self.friendRequestNotificationInterval);
+            self.friendRequestNotificationInterval = null;
+        }, this.notificationDelay);
     }
 
     IsShowAddFriendRequestBtn = function (friendId: string) {
@@ -477,7 +529,7 @@ export class NavbarComponent implements OnInit {
 
     IsShowRemoveFriendRequestBtn = function (friendId: string) {
         var friendRequests = this.GetToolbarItem("friendRequests").content;
-        
+
         if (friendRequests.send.indexOf(friendId) != -1) {
             return true;
         }

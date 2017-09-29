@@ -51,7 +51,13 @@ module.exports = function (app, navbarBL) {
     });
 
     app.post(prefix + '/removeFriendRequest', function (req, res) {
-        navbarBL.RemoveFriendRequest(req.user, req.body.friendId, function (result) {
+        navbarBL.RemoveFriendRequest(req.user._id, req.body.friendId, function (result) {
+            res.send(result);
+        });
+    });
+
+    app.post(prefix + '/addFriend', function (req, res) {
+        navbarBL.AddFriend(req.user, req.body.friendId, function (result) {
             res.send(result);
         });
     });

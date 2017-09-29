@@ -100,6 +100,17 @@ var NavbarService = /** @class */ (function (_super) {
             return null;
         });
     };
+    NavbarService.prototype.AddFriend = function (friendId) {
+        var details = { friendId: friendId };
+        return _super.prototype.post.call(this, this.prefix + '/addFriend', JSON.stringify(details))
+            .toPromise()
+            .then(function (result) {
+            return result.json();
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
     return NavbarService;
 }(basic_service_1.BasicService));
 exports.NavbarService = NavbarService;

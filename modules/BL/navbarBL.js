@@ -199,9 +199,9 @@ module.exports = {
         }
     },
 
-    RemoveFriendRequest: function (user, friendId, callback) {
+    RemoveFriendRequest: function (userId, friendId, callback) {
         var userIdObject = {
-            "_id": DAL.GetObjectId(user._id)
+            "_id": DAL.GetObjectId(userId)
         }
 
         var friendIdObject = {
@@ -212,7 +212,7 @@ module.exports = {
         DAL.UpdateOne(usersCollectionName, userIdObject, { $pull: { "friendRequests.send": friendId } }, function (result) {
             if (result) {
                 // Remove the request from the friend.
-                DAL.UpdateOne(usersCollectionName, friendIdObject, { $pull: { "friendRequests.get": user._id } }, function (result) {
+                DAL.UpdateOne(usersCollectionName, friendIdObject, { $pull: { "friendRequests.get": userId } }, function (result) {
                     result ? callback(true) : callback(null);
                 });
             }
@@ -220,6 +220,35 @@ module.exports = {
                 callback(null);
             }
         });
+    },
+
+    AddFriend: function (user, friendId, callback) {
+        // Validation check in order to check if the user and the friend are not already friends.
+        if (user.friends.indexOf(friendId) != -1) {
+            callback(null);
+        }
+        else {
+            var userIdObject = {
+                "_id": DAL.GetObjectId(user._id)
+            }
+
+            var friendIdObject = {
+                "_id": DAL.GetObjectId(friendId)
+            }
+
+            // Add the friend to the user as a friend.
+            DAL.UpdateOne(usersCollectionName, userIdObject, { $push: { "friends": friendId } }, function (result) {
+                if (result) {
+                    // Add the user to the friend as a friend.
+                    DAL.UpdateOne(usersCollectionName, friendIdObject, { $push: { "friends": user._id } }, function (result) {
+                        result ? callback(true) : callback(null);
+                    });
+                }
+                else {
+                    callback(null);
+                }
+            });
+        }
     }
 
 };
