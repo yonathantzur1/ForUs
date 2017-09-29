@@ -73,7 +73,11 @@ module.exports = {
                 "password": newUser.password,
                 "salt": salt,
                 "creationDate": new Date(),
-                "friends": []
+                "friends": [],
+                "friendRequests" : {
+                    "get" : [],
+                    "send" : []
+                }
             };
 
             DAL.Insert(collectionName, newUserObj, function (result) {

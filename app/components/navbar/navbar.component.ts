@@ -32,6 +32,7 @@ export class toolbarItem {
     icon: string;
     title: string;
     content: Object;
+    isShowToolbarItemBadget: Function;
     onClick: Function;
 }
 
@@ -67,8 +68,8 @@ export class NavbarComponent implements OnInit {
     // START CONFIG VARIABLES //
 
     searchLimit: number = 4;
-    searchInputChangeDelay: number = 120; // In milliseconds
-    messageNotificationTime: number = 3500; // In milliseconds
+    searchInputChangeDelay: number = 140; // In milliseconds
+    messageNotificationDelay: number = 3500; // In milliseconds
 
     // END CONFIG VARIABLES //
 
@@ -91,15 +92,24 @@ export class NavbarComponent implements OnInit {
                 icon: "fa fa-envelope-o",
                 title: "הודעות",
                 content: {},
+                isShowToolbarItemBadget: function () {
+                    return (Object.keys(this.content).length > 0);
+                },
                 onClick: function () {
-                    self.isUnreadWindowOpen = !self.isUnreadWindowOpen;
+                    self.ShowHideUnreadWindow();
                 }
             },
             {
                 id: "friendRequests",
                 icon: "fa fa-user-plus",
                 title: "בקשות חברות",
-                content: {},
+                content: {
+                    get: [],
+                    send: []
+                },
+                isShowToolbarItemBadget: function () {
+                    return (this.content.get.length > 0);
+                },
                 onClick: function () {
 
                 }
@@ -127,6 +137,11 @@ export class NavbarComponent implements OnInit {
         self.navbarService.GetUserMessagesNotifications().then((result: any) => {
             var messagesNotifications = result.messagesNotifications ? result.messagesNotifications : {};
             self.GetToolbarItem("messages").content = messagesNotifications;
+        });
+
+        // Loading user friend requests.
+        self.navbarService.GetUserFriendRequests().then((result: any) => {
+            self.GetToolbarItem("friendRequests").content = result.friendRequests;
         });
 
         self.socket.on('GetMessage', function (msgData: any) {
@@ -164,10 +179,6 @@ export class NavbarComponent implements OnInit {
                 }
             });
         });
-    }
-
-    IsShowToolbarItemBadget = function (item: toolbarItem) {
-        return (Object.keys(item.content).length > 0);
     }
 
     IsShowFriendFindInput = function () {
@@ -221,7 +232,7 @@ export class NavbarComponent implements OnInit {
                 self.isShowMessageNotification = false;
                 clearInterval(self.notificationInterval);
                 self.notificationInterval = null;
-            }, this.messageNotificationTime);
+            }, this.messageNotificationDelay);
         }
     }
 
@@ -429,8 +440,50 @@ export class NavbarComponent implements OnInit {
         }
     }
 
+    ShowHideUnreadWindow = function () {
+        this.isUnreadWindowOpen = !this.isUnreadWindowOpen;
+    }
+
     HideUnreadWindow = function () {
         this.isUnreadWindowOpen = false;
+    }
+
+    AddFriendRequest = function (friendId: string) {
+        var friendRequests = this.GetToolbarItem("friendRequests").content;
+        friendRequests.send.push(friendId);
+
+        this.navbarService.AddFriendRequest(friendId).then(function (result: any) { });
+    }
+
+    RemoveFriendRequest = function (friendId: string) {
+        var friendRequests = this.GetToolbarItem("friendRequests").content;
+        friendRequests.send.splice(friendRequests.send.indexOf(friendId));
+
+        this.navbarService.RemoveFriendRequest(friendId).then(function (result: any) { });
+    }
+
+    IsShowAddFriendRequestBtn = function (friendId: string) {
+        var friendRequests = this.GetToolbarItem("friendRequests").content;
+
+        if (friendId != this.user._id &&
+            friendRequests.send.indexOf(friendId) == -1 &&
+            friendRequests.get.indexOf(friendId) == -1) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    IsShowRemoveFriendRequestBtn = function (friendId: string) {
+        var friendRequests = this.GetToolbarItem("friendRequests").content;
+        
+        if (friendRequests.send.indexOf(friendId) != -1) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
 

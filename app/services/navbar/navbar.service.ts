@@ -63,4 +63,41 @@ export class NavbarService extends BasicService {
 
         super.post(this.prefix + '/removeMessagesNotifications', JSON.stringify(details)).toPromise();
     }
+
+    GetUserFriendRequests() {
+        return super.get(this.prefix + '/getUserFriendRequests')
+            .toPromise()
+            .then((result) => {
+                return result.json();
+            })
+            .catch((result) => {
+                return null;
+            });
+    }
+
+    AddFriendRequest(friendId: string) {
+        var details = { friendId };
+
+        return super.post(this.prefix + '/addFriendRequest', JSON.stringify(details))
+            .toPromise()
+            .then((result) => {
+                return result.json();
+            })
+            .catch((result) => {
+                return null;
+            });
+    }
+
+    RemoveFriendRequest(friendId: string) {
+        var details = { friendId };
+
+        return super.post(this.prefix + '/removeFriendRequest', JSON.stringify(details))
+            .toPromise()
+            .then((result) => {
+                return result.json();
+            })
+            .catch((result) => {
+                return null;
+            });
+    }
 }

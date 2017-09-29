@@ -10,7 +10,7 @@
           <div class="toolbar-menu">
             <span class="toolbar-item" *ngFor="let item of toolbarItems">
               <i title="{{item.title}}" (click)="item.onClick()" class="{{item.icon}}" aria-hidden="true"></i>
-              <span class="badget-icon" *ngIf="IsShowToolbarItemBadget(item)"></span>
+              <span class="badget-icon" *ngIf="item.isShowToolbarItemBadget()"></span>
             </span>
           </div>
         </div>
@@ -55,7 +55,8 @@
               <p class="load-image-icon"><i class="fa fa-circle" aria-hidden="true"></i> <i class="fa fa-circle" aria-hidden="true"></i> <i class="fa fa-circle" aria-hidden="true"></i></p>
             </span>
             <span class="search-result-name">{{result.fullName}}</span>
-            <i *ngIf="result._id != user._id" class="fa fa-plus-square-o friend-request-btn hvr-grow" title="בקשת חברות" aria-hidden="true"></i>
+            <i *ngIf="IsShowAddFriendRequestBtn(result._id)" (click)="AddFriendRequest(result._id)" class="fa fa-plus-square-o friend-request-btn hvr-grow" title="בקשת חברות" aria-hidden="true"></i>
+            <i *ngIf="IsShowRemoveFriendRequestBtn(result._id)" (click)="RemoveFriendRequest(result._id)" class="fa fa-ellipsis-h friend-request-btn remove-request" title="ממתין לאישור חברות" aria-hidden="true"></i>
           </div>
         </div>
         <i class="fa fa-bell-o notification-icon" aria-hidden="true"></i>

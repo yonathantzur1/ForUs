@@ -159,6 +159,67 @@ module.exports = {
         }
 
         DAL.UpdateOne(usersCollectionName, userIdObject, { $set: { "messagesNotifications": messagesNotifications } }, function (result) { });
+    },
+
+    GetUserFriendRequests: function (userId, callback) {
+        DAL.FindOneSpecific(usersCollectionName,
+            { _id: DAL.GetObjectId(userId) },
+            { "friendRequests": 1 },
+            function (friendRequests) {
+                callback(friendRequests);
+            });
+    },
+
+    AddFriendRequest: function (user, friendId, callback) {
+        // Validation check in order to check if the user and the friend are not already friends.
+        if (user.friends.indexOf(friendId) != -1) {
+            callback(null);
+        }
+        else {
+            var userIdObject = {
+                "_id": DAL.GetObjectId(user._id)
+            }
+
+            var friendIdObject = {
+                "_id": DAL.GetObjectId(friendId)
+            }
+
+            // Add the request to the user.
+            DAL.UpdateOne(usersCollectionName, userIdObject, { $push: { "friendRequests.send": friendId } }, function (result) {
+                if (result) {
+                    // Add the request to the friend.
+                    DAL.UpdateOne(usersCollectionName, friendIdObject, { $push: { "friendRequests.get": user._id } }, function (result) {
+                        result ? callback(true) : callback(null);
+                    });
+                }
+                else {
+                    callback(null);
+                }
+            });
+        }
+    },
+
+    RemoveFriendRequest: function (user, friendId, callback) {
+        var userIdObject = {
+            "_id": DAL.GetObjectId(user._id)
+        }
+
+        var friendIdObject = {
+            "_id": DAL.GetObjectId(friendId)
+        }
+
+        // Remove the request from the user.
+        DAL.UpdateOne(usersCollectionName, userIdObject, { $pull: { "friendRequests.send": friendId } }, function (result) {
+            if (result) {
+                // Remove the request from the friend.
+                DAL.UpdateOne(usersCollectionName, friendIdObject, { $pull: { "friendRequests.get": user._id } }, function (result) {
+                    result ? callback(true) : callback(null);
+                });
+            }
+            else {
+                callback(null);
+            }
+        });
     }
 
 };

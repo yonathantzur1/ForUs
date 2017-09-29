@@ -54,11 +54,8 @@ var NavbarComponent = /** @class */ (function () {
         this.inputTimer = null;
         // START CONFIG VARIABLES //
         this.searchLimit = 4;
-        this.searchInputChangeDelay = 120; // In milliseconds
-        this.messageNotificationTime = 3500; // In milliseconds
-        this.IsShowToolbarItemBadget = function (item) {
-            return (Object.keys(item.content).length > 0);
-        };
+        this.searchInputChangeDelay = 140; // In milliseconds
+        this.messageNotificationDelay = 3500; // In milliseconds
         this.IsShowFriendFindInput = function () {
             return $(".slidenav-body-sector").hasScrollBar();
         };
@@ -102,7 +99,7 @@ var NavbarComponent = /** @class */ (function () {
                     self.isShowMessageNotification = false;
                     clearInterval(self.notificationInterval);
                     self.notificationInterval = null;
-                }, this.messageNotificationTime);
+                }, this.messageNotificationDelay);
             }
         };
         this.GetFriendNameById = function (id) {
@@ -276,8 +273,41 @@ var NavbarComponent = /** @class */ (function () {
                 this.globalService.setData("chatData", this.chatData);
             }
         };
+        this.ShowHideUnreadWindow = function () {
+            this.isUnreadWindowOpen = !this.isUnreadWindowOpen;
+        };
         this.HideUnreadWindow = function () {
             this.isUnreadWindowOpen = false;
+        };
+        this.AddFriendRequest = function (friendId) {
+            var friendRequests = this.GetToolbarItem("friendRequests").content;
+            friendRequests.send.push(friendId);
+            this.navbarService.AddFriendRequest(friendId).then(function (result) { });
+        };
+        this.RemoveFriendRequest = function (friendId) {
+            var friendRequests = this.GetToolbarItem("friendRequests").content;
+            friendRequests.send.splice(friendRequests.send.indexOf(friendId));
+            this.navbarService.RemoveFriendRequest(friendId).then(function (result) { });
+        };
+        this.IsShowAddFriendRequestBtn = function (friendId) {
+            var friendRequests = this.GetToolbarItem("friendRequests").content;
+            if (friendId != this.user._id &&
+                friendRequests.send.indexOf(friendId) == -1 &&
+                friendRequests.get.indexOf(friendId) == -1) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
+        this.IsShowRemoveFriendRequestBtn = function (friendId) {
+            var friendRequests = this.GetToolbarItem("friendRequests").content;
+            if (friendRequests.send.indexOf(friendId) != -1) {
+                return true;
+            }
+            else {
+                return false;
+            }
         };
         this.socket = globalService.socket;
         this.globalService.data.subscribe(function (value) {
@@ -293,15 +323,24 @@ var NavbarComponent = /** @class */ (function () {
                 icon: "fa fa-envelope-o",
                 title: "הודעות",
                 content: {},
+                isShowToolbarItemBadget: function () {
+                    return (Object.keys(this.content).length > 0);
+                },
                 onClick: function () {
-                    self.isUnreadWindowOpen = !self.isUnreadWindowOpen;
+                    self.ShowHideUnreadWindow();
                 }
             },
             {
                 id: "friendRequests",
                 icon: "fa fa-user-plus",
                 title: "בקשות חברות",
-                content: {},
+                content: {
+                    get: [],
+                    send: []
+                },
+                isShowToolbarItemBadget: function () {
+                    return (this.content.get.length > 0);
+                },
                 onClick: function () {
                 }
             }
@@ -323,6 +362,10 @@ var NavbarComponent = /** @class */ (function () {
         self.navbarService.GetUserMessagesNotifications().then(function (result) {
             var messagesNotifications = result.messagesNotifications ? result.messagesNotifications : {};
             self.GetToolbarItem("messages").content = messagesNotifications;
+        });
+        // Loading user friend requests.
+        self.navbarService.GetUserFriendRequests().then(function (result) {
+            self.GetToolbarItem("friendRequests").content = result.friendRequests;
         });
         self.socket.on('GetMessage', function (msgData) {
             if (!self.chatData.isOpen || msgData.from != self.chatData.friend._id) {

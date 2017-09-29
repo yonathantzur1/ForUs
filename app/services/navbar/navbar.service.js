@@ -68,6 +68,38 @@ var NavbarService = /** @class */ (function (_super) {
         var details = { messagesNotifications: messagesNotifications };
         _super.prototype.post.call(this, this.prefix + '/removeMessagesNotifications', JSON.stringify(details)).toPromise();
     };
+    NavbarService.prototype.GetUserFriendRequests = function () {
+        return _super.prototype.get.call(this, this.prefix + '/getUserFriendRequests')
+            .toPromise()
+            .then(function (result) {
+            return result.json();
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
+    NavbarService.prototype.AddFriendRequest = function (friendId) {
+        var details = { friendId: friendId };
+        return _super.prototype.post.call(this, this.prefix + '/addFriendRequest', JSON.stringify(details))
+            .toPromise()
+            .then(function (result) {
+            return result.json();
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
+    NavbarService.prototype.RemoveFriendRequest = function (friendId) {
+        var details = { friendId: friendId };
+        return _super.prototype.post.call(this, this.prefix + '/removeFriendRequest', JSON.stringify(details))
+            .toPromise()
+            .then(function (result) {
+            return result.json();
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
     return NavbarService;
 }(basic_service_1.BasicService));
 exports.NavbarService = NavbarService;

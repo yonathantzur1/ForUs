@@ -37,4 +37,22 @@ module.exports = function (app, navbarBL) {
         navbarBL.RemoveMessagesNotifications(req.user._id, req.body.messagesNotifications);
         res.end();
     });
+
+    app.get(prefix + '/getUserFriendRequests', function (req, res) {
+        navbarBL.GetUserFriendRequests(req.user._id, function (friendRequests) {
+            res.send(friendRequests);
+        });
+    });
+
+    app.post(prefix + '/addFriendRequest', function (req, res) {
+        navbarBL.AddFriendRequest(req.user, req.body.friendId, function (result) {
+            res.send(result);
+        });
+    });
+
+    app.post(prefix + '/removeFriendRequest', function (req, res) {
+        navbarBL.RemoveFriendRequest(req.user, req.body.friendId, function (result) {
+            res.send(result);
+        });
+    });
 };
