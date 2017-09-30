@@ -1,4 +1,5 @@
 var DAL = require('../DAL.js');
+var general = require('../general.js');
 
 var usersCollectionName = "Users";
 var profileCollectionName = "Profiles";
@@ -8,7 +9,7 @@ var maxImagesInCacheAmount = 50;
 var profilesCache = {};
 var usersIdsInCache = [];
 
-module.exports = {
+var self = module.exports = {
 
     GetFriends: function (friendsIds, callback) {
         var friendsObjectIds = ConvertIdsToObjectIds(friendsIds);
@@ -237,11 +238,52 @@ module.exports = {
             }
 
             // Add the friend to the user as a friend.
-            DAL.UpdateOne(usersCollectionName, userIdObject, { $push: { "friends": friendId } }, function (result) {
-                if (result) {
+            DAL.UpdateOne(usersCollectionName, userIdObject, { $push: { "friends": friendId } }, function (updatedUser) {
+                if (updatedUser) {
+                    // Getting a new token from the user object with the friend.
+                    var newToken = general.GetTokenFromUserObject(updatedUser);
+
                     // Add the user to the friend as a friend.
-                    DAL.UpdateOne(usersCollectionName, friendIdObject, { $push: { "friends": user._id } }, function (result) {
-                        result ? callback(true) : callback(null);
+                    DAL.UpdateOne(usersCollectionName, friendIdObject, { $push: { "friends": user._id } }, function (updatedFriend) {
+                        if (updatedFriend) {
+                            // Remove the friend request that came from the friend.
+                            self.RemoveFriendRequest(friendId, user._id, function (result) {
+                                if (result) {
+                                    var clientFriendObject = {
+                                        "_id": updatedFriend._id.toString(),
+                                        "firstName": updatedFriend.firstName,
+                                        "lastName": updatedFriend.lastName,
+                                        "profileImage": null
+                                    }
+
+                                    var finalResult = {
+                                        "token": newToken,
+                                        "friend": clientFriendObject
+                                    }
+
+                                    // In case the friend has profile image.
+                                    if (updatedFriend.profile) {
+                                        // Getting the friend profile image.
+                                        DAL.FindOneSpecific(profileCollectionName,
+                                            { "_id": updatedFriend.profile },
+                                            { "image": 1 },
+                                            function (result) {
+                                                finalResult.friend.profileImage = result.image;
+                                                callback(finalResult);
+                                            });
+                                    }
+                                    else {
+                                        callback(finalResult);
+                                    }
+                                }
+                                else {
+                                    callback(null);
+                                }
+                            });
+                        }
+                        else {
+                            callback(null);
+                        }
                     });
                 }
                 else {

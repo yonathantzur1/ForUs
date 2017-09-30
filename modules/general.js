@@ -24,13 +24,13 @@ module.exports = {
         return encryption.decrypt(token);
     },
 
-    GetCookieFromReq: function (cname, decodedCookie) {
-        if (!decodedCookie) {
+    GetCookieFromReq: function (cname, reqCookie) {
+        if (!reqCookie) {
             return "";
         }
 
         var name = cname + "=";
-        var ca = decodedCookie.split(';');
+        var ca = reqCookie.split(';');
 
         for (var i = 0; i < ca.length; i++) {
             var c = ca[i];

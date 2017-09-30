@@ -318,6 +318,7 @@ var NavbarComponent = /** @class */ (function () {
         this.IsShowAddFriendRequestBtn = function (friendId) {
             var friendRequests = this.GetToolbarItem("friendRequests").content;
             if (friendId != this.user._id &&
+                this.user.friends.indexOf(friendId) == -1 &&
                 friendRequests.send.indexOf(friendId) == -1 &&
                 friendRequests.get.indexOf(friendId) == -1) {
                 return true;
@@ -334,6 +335,30 @@ var NavbarComponent = /** @class */ (function () {
             else {
                 return false;
             }
+        };
+        this.IsShowFriendRequestConfirmSector = function (friendId) {
+            var friendRequests = this.GetToolbarItem("friendRequests").content;
+            if (friendRequests.get.indexOf(friendId) != -1) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
+        this.AddFriend = function (friendId) {
+            var friendRequests = this.GetToolbarItem("friendRequests").content;
+            friendRequests.get.splice(friendRequests.get.indexOf(friendId));
+            var self = this;
+            self.navbarService.AddFriend(friendId).then(function (result) {
+                if (result) {
+                    self.socket.emit("ServerUpdateFriendRequests", self.user._id, friendRequests);
+                    // Setting the new token on the client.
+                    setToken(result.token);
+                    var friend = result.friend;
+                    self.user.friends = friend._id;
+                    self.friends.push(friend);
+                }
+            });
         };
         this.socket = globalService.socket;
         this.globalService.data.subscribe(function (value) {

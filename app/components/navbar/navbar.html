@@ -58,7 +58,12 @@
             <i *ngIf="IsShowAddFriendRequestBtn(result._id)" (click)="AddFriendRequest(result._id)" class="fa fa-plus-square-o friend-request-btn hvr-grow"
               title="בקשת חברות" aria-hidden="true"></i>
             <i *ngIf="IsShowRemoveFriendRequestBtn(result._id)" (click)="RemoveFriendRequest(result._id)" class="fa fa-ellipsis-h friend-request-btn remove-request"
-              title="ממתין לאישור חברות" aria-hidden="true"></i>
+              title="נשלחה בקשת חברות" aria-hidden="true"></i>
+            <span *ngIf="IsShowFriendRequestConfirmSector(result._id)">
+              <i class="fa fa-user-plus friend-request-confirm-icon" title="אישור בקשת חברות" aria-hidden="true"></i>
+              <i (click)="AddFriend(result._id)" class="material-icons friend-request-confirm-btn" title="אישור">check</i>
+              <i class="material-icons friend-request-decline-btn" title="ביטול">close</i>
+            </span>
           </div>
         </div>
         <i class="fa fa-bell-o notification-icon" aria-hidden="true"></i>
@@ -79,11 +84,11 @@
       </div>
     </div>
   </div>
-  <span (click)="MessageNotificationClicked()" id="message-notification" class="message-notification" *ngIf="isShowMessageNotification && !isShowFriendRequestNotification">
-    <span class="message-notification-name">{{messageNotificationName}}</span>: <span class="message-notification-text">{{messageNotificationText}}</span>
+  <span (click)="MessageNotificationClicked()" id="notification" class="notification" *ngIf="isShowMessageNotification && !isShowFriendRequestNotification">
+    <span class="notification-name">{{messageNotificationName}}</span>: <span class="notification-text">{{messageNotificationText}}</span>
   </span>
-  <span (click)="FriendRequestNotificationClicked()" id="message-notification" class="message-notification" *ngIf="isShowFriendRequestNotification && !isShowMessageNotification">
-    <span class="message-notification-name">{{friendRequestNotificationName}}</span> <span class="message-notification-text">שלח/ה לך בקשת חברות</span>
+  <span (click)="FriendRequestNotificationClicked()" id="notification" class="notification" *ngIf="isShowFriendRequestNotification && !isShowMessageNotification">
+    <span class="notification-name">{{friendRequestNotificationName}}</span> <span class="notification-text">שלח/ה לך בקשת חברות</span>
   </span>
 </div>
 

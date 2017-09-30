@@ -6,6 +6,7 @@ import { AuthService } from '../../services/auth/auth.service';
 import { NavbarService } from '../../services/navbar/navbar.service';
 
 declare var getToken: any;
+declare var setToken: any;
 declare var deleteToken: any;
 declare var socket: any;
 declare var io: any;
@@ -518,6 +519,7 @@ export class NavbarComponent implements OnInit {
         var friendRequests = this.GetToolbarItem("friendRequests").content;
 
         if (friendId != this.user._id &&
+            this.user.friends.indexOf(friendId) == -1 &&
             friendRequests.send.indexOf(friendId) == -1 &&
             friendRequests.get.indexOf(friendId) == -1) {
             return true;
@@ -536,6 +538,36 @@ export class NavbarComponent implements OnInit {
         else {
             return false;
         }
+    }
+
+    IsShowFriendRequestConfirmSector = function (friendId: string) {
+        var friendRequests = this.GetToolbarItem("friendRequests").content;
+
+        if (friendRequests.get.indexOf(friendId) != -1) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    AddFriend = function (friendId: string) {
+        var friendRequests = this.GetToolbarItem("friendRequests").content;
+        friendRequests.get.splice(friendRequests.get.indexOf(friendId));
+
+        var self = this;
+        self.navbarService.AddFriend(friendId).then(function (result: any) {
+            if (result) {
+                self.socket.emit("ServerUpdateFriendRequests", self.user._id, friendRequests);
+
+                // Setting the new token on the client.
+                setToken(result.token);
+
+                var friend = result.friend;
+                self.user.friends = friend._id;
+                self.friends.push(friend);
+            }
+        });
     }
 }
 
