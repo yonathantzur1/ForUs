@@ -10,14 +10,8 @@ module.exports = {
         else {
             var profileObjectId = DAL.GetObjectId(profileId);
 
-            DAL.Find(collectionName, { "_id": profileObjectId }, function (result) {
-                // In case of error or the picture was not found.
-                if (result == null || result.length == 0) {
-                    callback(null);
-                }
-                else {
-                    callback(result[0]);
-                }
+            DAL.FindOne(collectionName, { "_id": profileObjectId }, function (result) {
+                callback(result);
             });
         }
     }

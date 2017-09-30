@@ -24,4 +24,15 @@ export class AuthService extends BasicService {
                 return null;
             });
     }
+
+    GetCurrUserToken() {
+        return super.get(this.prefix + '/getCurrUserToken')
+            .toPromise()
+            .then((result) => {
+                return result.json();
+            })
+            .catch((result) => {
+                return null;
+            });
+    }
 }

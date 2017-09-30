@@ -1,3 +1,4 @@
+var loginBL = require('../modules/BL/loginBL.js');
 var general = require('../modules/general.js');
 
 module.exports = function (app) {
@@ -17,5 +18,23 @@ module.exports = function (app) {
     // Getting the current login user.
     app.get(prefix + '/getCurrUser', function (req, res) {
         res.send(req.user);
+    });
+
+    // Getting the current login user token.
+    app.get(prefix + '/getCurrUserToken', function (req, res) {
+        if (req.user) {
+            loginBL.GetUserById(req.user._id, function (user) {
+                if (user) {
+                    var token = general.GetTokenFromUserObject(user);
+                    res.send({ "token": token });
+                }
+                else {
+                    res.send(null);
+                }
+            });
+        }
+        else {
+            res.send(null);
+        }
     });
 };

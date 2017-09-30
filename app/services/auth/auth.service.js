@@ -38,6 +38,16 @@ var AuthService = /** @class */ (function (_super) {
             return null;
         });
     };
+    AuthService.prototype.GetCurrUserToken = function () {
+        return _super.prototype.get.call(this, this.prefix + '/getCurrUserToken')
+            .toPromise()
+            .then(function (result) {
+            return result.json();
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
     return AuthService;
 }(basic_service_1.BasicService));
 exports.AuthService = AuthService;
