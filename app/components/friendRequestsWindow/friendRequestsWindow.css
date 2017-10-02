@@ -1,7 +1,7 @@
-#unreadWindow .unreadWindow-container {
+#friendRequestsWindow .friendRequestsWindow-container {
     position: fixed;
     top: 132px;
-    right: 165px;
+    right: 135px;
     width: 55%;
     max-width: 310px;
     height: 230px;
@@ -11,16 +11,16 @@
     z-index: 1001;
 }
 
-#unreadWindow .window-top-arrow {
+#friendRequestsWindow .window-top-arrow {
     top: 118px;
-    right: 174px;
+    right: 144px;
     z-index: 1002;
     font-size: 20px;
     color: white;
     position: fixed;
 }
 
-#unreadWindow .top-line {
+#friendRequestsWindow .top-line {
     height: 20px;
     width: 100%;
     border-bottom: 1px solid #d2d2d2;
@@ -36,13 +36,13 @@
     padding-right: 10px;
 }
 
-#unreadWindow .body-container {
+#friendRequestsWindow .body-container {
     height: 100%;
     width: 100%;
     overflow-y: overlay;
 }
 
-#unreadWindow .body-container-with-top {
+#friendRequestsWindow .body-container-with-top {
     height: calc(100% - 20px) !important;
 }
 

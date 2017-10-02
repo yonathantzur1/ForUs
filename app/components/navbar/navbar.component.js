@@ -52,6 +52,7 @@ var NavbarComponent = /** @class */ (function () {
         this.isShowFriendRequestNotification = false;
         // END friend-request notification variables //
         this.isUnreadWindowOpen = false;
+        this.isFriendRequestsWindowOpen = false;
         this.isSidebarOpen = false;
         this.isDropMenuOpen = false;
         this.searchResults = [];
@@ -153,10 +154,13 @@ var NavbarComponent = /** @class */ (function () {
             }
             else {
                 this.HideUnreadWindow();
+                this.HideFriendRequestsWindow();
                 document.getElementById("sidenav").style.width = "0";
             }
         };
         this.HideSidenav = function () {
+            this.HideUnreadWindow();
+            this.HideFriendRequestsWindow();
             this.isSidebarOpen = false;
             document.getElementById("sidenav").style.width = "0";
         };
@@ -165,7 +169,6 @@ var NavbarComponent = /** @class */ (function () {
             if (this.isDropMenuOpen) {
                 this.HideSidenav();
                 this.HideSearchResults();
-                this.HideUnreadWindow();
             }
         };
         this.HideDropMenu = function () {
@@ -185,16 +188,19 @@ var NavbarComponent = /** @class */ (function () {
             this.isShowSearchResults = input ? true : false;
             this.HideSidenav();
             this.HideDropMenu();
-            this.HideUnreadWindow();
         };
         this.ClosePopups = function () {
-            if (this.isUnreadWindowOpen) {
+            this.HideSidenav();
+            this.HideDropMenu();
+            this.HideSearchResults();
+        };
+        this.OverlayClicked = function () {
+            if (this.isUnreadWindowOpen || this.isFriendRequestsWindowOpen) {
                 this.HideUnreadWindow();
+                this.HideFriendRequestsWindow();
             }
             else {
-                this.HideSidenav();
-                this.HideDropMenu();
-                this.HideSearchResults();
+                this.ClosePopups();
             }
         };
         this.SearchChange = function (input) {
@@ -262,7 +268,6 @@ var NavbarComponent = /** @class */ (function () {
         };
         this.OpenChat = function (friend) {
             this.HideSidenav();
-            this.HideUnreadWindow();
             if (!this.chatData.isOpen || !this.chatData.friend || this.chatData.friend._id != friend._id) {
                 var messagesNotifications = Object.assign({}, this.GetToolbarItem("messages").content);
                 // Empty unread messages notifications from the currend friend.
@@ -283,6 +288,12 @@ var NavbarComponent = /** @class */ (function () {
         };
         this.HideUnreadWindow = function () {
             this.isUnreadWindowOpen = false;
+        };
+        this.ShowHideFriendRequestsWindow = function () {
+            this.isFriendRequestsWindowOpen = !this.isFriendRequestsWindowOpen;
+        };
+        this.HideFriendRequestsWindow = function () {
+            this.isFriendRequestsWindowOpen = false;
         };
         this.AddFriendRequest = function (friendId) {
             var friendRequests = this.GetToolbarItem("friendRequests").content;
@@ -426,6 +437,7 @@ var NavbarComponent = /** @class */ (function () {
                     return (this.content.get.length > 0);
                 },
                 onClick: function () {
+                    self.ShowHideFriendRequestsWindow();
                 }
             }
         ];

@@ -21,6 +21,7 @@ var profile_component_1 = require("./components/profile/profile.component");
 var profilePicture_component_1 = require("./components/profilePicture/profilePicture.component");
 var chat_component_1 = require("./components/chat/chat.component");
 var unreadWindow_component_1 = require("./components/unreadWindow/unreadWindow.component");
+var friendRequestsWindow_component_1 = require("./components/friendRequestsWindow/friendRequestsWindow.component");
 var pageNotFound_component_1 = require("./components/pageNotFound/pageNotFound.component");
 var auth_service_1 = require("./services/auth/auth.service");
 var auth_guard_1 = require("./components/login/auth.guard");
@@ -48,7 +49,8 @@ var AppModule = /** @class */ (function () {
                 profile_component_1.ProfileComponent,
                 profilePicture_component_1.ProfilePictureComponent,
                 chat_component_1.ChatComponent,
-                unreadWindow_component_1.UnreadWindowComponent
+                unreadWindow_component_1.UnreadWindowComponent,
+                friendRequestsWindow_component_1.FriendRequestsWindowComponent
             ],
             providers: [
                 auth_guard_1.AuthGuard,

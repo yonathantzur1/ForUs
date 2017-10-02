@@ -1,5 +1,5 @@
-<div class="slidenav-overlay" [ngClass]="{'overlay-background' : isSidebarOpen, 'slidenav-overlay-top' : isUnreadWindowOpen}"
-  *ngIf="isSidebarOpen || isDropMenuOpen || isShowSearchResults" (click)="ClosePopups()"></div>
+<div class="slidenav-overlay" [ngClass]="{'overlay-background' : isSidebarOpen, 'slidenav-overlay-top' : (isUnreadWindowOpen || isFriendRequestsWindowOpen)}"
+  *ngIf="isSidebarOpen || isDropMenuOpen || isShowSearchResults" (click)="OverlayClicked()"></div>
 <div id="navbar">
   <div class="navbar-container">
     <div id="sidenav" class="sidenav" [ngClass]="{'sidenav-shadow' : isSidebarOpen}">
@@ -93,4 +93,5 @@
 </div>
 
 <unreadWindow *ngIf="isUnreadWindowOpen" [OpenChat]="OpenChat.bind(this)" [friends]="friends" [messagesNotifications]="GetToolbarItem('messages').content"></unreadWindow>
+<friendRequestsWindow *ngIf="isFriendRequestsWindowOpen"></friendRequestsWindow>
 <chat *ngIf="chatData.isOpen" [chatData]="chatData"></chat>

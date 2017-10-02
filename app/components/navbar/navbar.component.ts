@@ -70,6 +70,7 @@ export class NavbarComponent implements OnInit {
     // END friend-request notification variables //
 
     isUnreadWindowOpen: boolean = false;
+    isFriendRequestsWindowOpen: boolean = false;
     isSidebarOpen: boolean = false;
     isDropMenuOpen: boolean = false;
     searchResults: Array<any> = [];
@@ -126,7 +127,7 @@ export class NavbarComponent implements OnInit {
                     return (this.content.get.length > 0);
                 },
                 onClick: function () {
-
+                    self.ShowHideFriendRequestsWindow();
                 }
             }
         ];
@@ -345,11 +346,14 @@ export class NavbarComponent implements OnInit {
         }
         else {
             this.HideUnreadWindow();
+            this.HideFriendRequestsWindow();
             document.getElementById("sidenav").style.width = "0";
         }
     }
 
     HideSidenav = function () {
+        this.HideUnreadWindow();
+        this.HideFriendRequestsWindow();
         this.isSidebarOpen = false;
         document.getElementById("sidenav").style.width = "0";
     }
@@ -360,7 +364,6 @@ export class NavbarComponent implements OnInit {
         if (this.isDropMenuOpen) {
             this.HideSidenav();
             this.HideSearchResults();
-            this.HideUnreadWindow();
         }
     }
 
@@ -386,17 +389,21 @@ export class NavbarComponent implements OnInit {
 
         this.HideSidenav();
         this.HideDropMenu();
-        this.HideUnreadWindow();
     }
 
     ClosePopups = function () {
-        if (this.isUnreadWindowOpen) {
+        this.HideSidenav();
+        this.HideDropMenu();
+        this.HideSearchResults();
+    }
+
+    OverlayClicked = function() {
+        if (this.isUnreadWindowOpen || this.isFriendRequestsWindowOpen) {
             this.HideUnreadWindow();
+            this.HideFriendRequestsWindow();
         }
         else {
-            this.HideSidenav();
-            this.HideDropMenu();
-            this.HideSearchResults();
+            this.ClosePopups();
         }
     }
 
@@ -473,7 +480,6 @@ export class NavbarComponent implements OnInit {
 
     OpenChat = function (friend: Friend) {
         this.HideSidenav();
-        this.HideUnreadWindow();
 
         if (!this.chatData.isOpen || !this.chatData.friend || this.chatData.friend._id != friend._id) {
             var messagesNotifications = Object.assign({}, this.GetToolbarItem("messages").content);
@@ -501,6 +507,14 @@ export class NavbarComponent implements OnInit {
 
     HideUnreadWindow = function () {
         this.isUnreadWindowOpen = false;
+    }
+
+    ShowHideFriendRequestsWindow = function () {
+        this.isFriendRequestsWindowOpen = !this.isFriendRequestsWindowOpen;
+    }
+
+    HideFriendRequestsWindow = function () {
+        this.isFriendRequestsWindowOpen = false;
     }
 
     AddFriendRequest = function (friendId: string) {

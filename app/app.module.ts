@@ -14,6 +14,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { ProfilePictureComponent } from './components/profilePicture/profilePicture.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { UnreadWindowComponent } from './components/unreadWindow/unreadWindow.component';
+import { FriendRequestsWindowComponent } from './components/friendRequestsWindow/friendRequestsWindow.component';
 
 import { PageNotFoundComponent } from './components/pageNotFound/pageNotFound.component';
 
@@ -42,7 +43,8 @@ import { GlobalService } from './services/global/global.service';
     ProfileComponent,
     ProfilePictureComponent,
     ChatComponent,
-    UnreadWindowComponent
+    UnreadWindowComponent,
+    FriendRequestsWindowComponent
   ],
   providers: [
     AuthGuard,
