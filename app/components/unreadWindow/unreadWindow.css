@@ -33,6 +33,7 @@
     cursor: default;
     overflow: hidden;
     white-space: nowrap;
+    padding-right: 10px;
 }
 
 #unreadWindow .body-container {

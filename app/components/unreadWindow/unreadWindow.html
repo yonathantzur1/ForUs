@@ -6,8 +6,8 @@
         </div>
         <div class="body-container" [ngClass]="{'body-container-with-top': GetUnreadMessagesNumber() > 0}">
             <div class="chat-container" *ngFor="let chat of chats" (click)="OpenChat(GetFriend(chat.friendId))">
-                <span *ngIf="messagesNotifications[chat.friendId] || true" class="notificaiton-sign"></span>
-                <img class="chat-image" src="{{GetFriend(chat.friendId).profileImage}}">
+                <span *ngIf="messagesNotifications[chat.friendId]" class="notificaiton-sign"></span>
+                <img class="chat-image" src="{{GetFriend(chat.friendId).profileImage || defaultProfileImage}}">
                 <table class="details-table">
                     <tr class="name-tr">
                         <td class="details-td">

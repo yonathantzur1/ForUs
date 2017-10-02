@@ -15,14 +15,14 @@
                     <p class="load-image-icon"><i class="fa fa-circle" aria-hidden="true"></i> <i class="fa fa-circle" aria-hidden="true"></i> <i class="fa fa-circle" aria-hidden="true"></i></p>
                 </span>
                 <div *ngFor="let message of messages">
-                    <div *ngIf="IsShowUnreadLine(message.from, message.id)" class="unread-messages-line-sector">                            
-                            <div class="unread-messages-line">
-                                <span class="unread-messages-text-container">
-                                    <span class="unread-messages-text">{{unreadMessagesNumber}} הודעות שלא נקראו</span>
-                                </span>                           
-                            </div>
+                    <div *ngIf="IsShowUnreadLine(message.from, message.id)" class="unread-messages-line-sector">
+                        <div class="unread-messages-line">
+                            <span class="unread-messages-text-container">
+                                <span class="unread-messages-text">{{GetUnreadMessagesNumberText(unreadMessagesNumber)}}</span>
+                            </span>
                         </div>
-                    <div class="message-container">                        
+                    </div>
+                    <div class="message-container">
                         <div id="message-time-container" class="message-time-container" [ngClass]="{'user-message-time' : message.from == chatData.user._id, 'friend-message-time': message.from == chatData.friend._id}">
                             <span class="message-time">
                                 {{GetTimeString(message.time)}}

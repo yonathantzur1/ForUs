@@ -14,6 +14,7 @@ export class UnreadWindowComponent implements OnInit {
     @Input() messagesNotifications: Object;
     @Input() OpenChat: Function;
     chats: any = [];
+    defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
 
     constructor(private unreadWindowService: UnreadWindowService) { }
 

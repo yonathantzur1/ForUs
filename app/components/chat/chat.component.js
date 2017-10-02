@@ -92,6 +92,14 @@ var ChatComponent = /** @class */ (function () {
                 return false;
             }
         };
+        this.GetUnreadMessagesNumberText = function (unreadMessagesNumber) {
+            if (unreadMessagesNumber == 1) {
+                return ("הודעה 1 שלא נקראה");
+            }
+            else {
+                return (unreadMessagesNumber + " הודעות שלא נקראו");
+            }
+        };
         this.socket = globalService.socket;
         this.globalService.data.subscribe(function (value) {
             if (value["chatData"]) {

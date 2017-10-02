@@ -143,4 +143,13 @@ export class ChatComponent implements OnInit, AfterViewChecked {
             return false;
         }
     }
+
+    GetUnreadMessagesNumberText = function (unreadMessagesNumber: number) {
+        if (unreadMessagesNumber == 1) {
+            return ("הודעה 1 שלא נקראה");
+        }
+        else {
+            return (unreadMessagesNumber + " הודעות שלא נקראו");
+        }
+    }
 }

@@ -15,6 +15,7 @@ var UnreadWindowComponent = /** @class */ (function () {
     function UnreadWindowComponent(unreadWindowService) {
         this.unreadWindowService = unreadWindowService;
         this.chats = [];
+        this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.GetUnreadMessagesNumber = function () {
             var _this = this;
             var counter = 0;
