@@ -14,10 +14,17 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
 
     });
 
-    socket.on('SendFriendRequest', function (userId, friendId) {
-        var user = connectedUsers[userId];
-        var userFullName = user.firstName + " " + user.lastName;
-        io.to(friendId).emit('GetFriendRequest', userId, userFullName);
+    socket.on('SendFriendRequest', function (token, friendId) {
+        token = general.DecodeToken(token);
+
+        jwt.verify(token, config.jwtSecret, function (err, decoded) {
+            // In case the token is valid.
+            if (!err && decoded) {
+                var user = decoded.user;
+                var userFullName = user.firstName + " " + user.lastName;
+                io.to(friendId).emit('GetFriendRequest', user._id, userFullName);
+            }
+        });
     });
 
     socket.on('RemoveFriendRequest', function (userId, friendId) {
@@ -26,6 +33,18 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
 
     socket.on('ServerIgnoreFriendRequest', function (userId, friendId) {
         io.to(friendId).emit('ClientIgnoreFriendRequest', userId);
+    });
+
+    socket.on('ServerAddFriend', function (token, result) {
+        token = general.DecodeToken(token);
+
+        jwt.verify(token, config.jwtSecret, function (err, decoded) {
+            // In case the token is valid.
+            if (!err && decoded) {
+                io.to(decoded.user._id).emit('ClientAddFriend', result);
+            }
+        });
+
     });
 
     socket.on('ServerFriendAddedUpdate', function (token, friendId) {

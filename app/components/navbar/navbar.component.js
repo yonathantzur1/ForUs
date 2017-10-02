@@ -58,8 +58,9 @@ var NavbarComponent = /** @class */ (function () {
         this.isShowSearchResults = false;
         // START CONFIG VARIABLES //
         this.searchLimit = 4;
-        this.searchInputChangeDelay = 140; // In milliseconds
-        this.notificationDelay = 3800; // In milliseconds
+        this.searchInputChangeDelay = 140; // milliseconds
+        this.notificationDelay = 3800; // milliseconds
+        this.askForOnlineFriendsDelay = 30; // seconds
         this.IsShowFriendFindInput = function () {
             return $(".slidenav-body-sector").hasScrollBar();
         };
@@ -290,7 +291,7 @@ var NavbarComponent = /** @class */ (function () {
             self.navbarService.AddFriendRequest(friendId).then(function (result) {
                 if (result) {
                     self.socket.emit("ServerUpdateFriendRequests", getToken(), friendRequests);
-                    self.socket.emit("SendFriendRequest", self.user._id, friendId);
+                    self.socket.emit("SendFriendRequest", getToken(), friendId);
                 }
             });
         };
@@ -345,6 +346,20 @@ var NavbarComponent = /** @class */ (function () {
                 return false;
             }
         };
+        this.AddFriendObjectToUser = function (data) {
+            var friend = data.friend;
+            var userFriends = this.user.friends;
+            if (userFriends.indexOf(friend._id) == -1) {
+                // Add the friend id to the user's friends array.
+                userFriends.push(friend._id);
+            }
+            // Setting the new token on the client.
+            setToken(data.token);
+            // Add the friend client object to the friends array.
+            this.friends.push(friend);
+            this.socket.emit("ServerGetOnlineFriends", getToken());
+            this.socket.emit("ServerFriendAddedUpdate", getToken(), friend._id);
+        };
         this.AddFriend = function (friendId) {
             // Remove the friend request from all friend requests object.
             var friendRequests = this.GetToolbarItem("friendRequests").content;
@@ -356,12 +371,7 @@ var NavbarComponent = /** @class */ (function () {
             self.navbarService.AddFriend(friendId).then(function (result) {
                 if (result) {
                     self.socket.emit("ServerUpdateFriendRequests", getToken(), friendRequests);
-                    // Setting the new token on the client.
-                    setToken(result.token);
-                    var friend = result.friend;
-                    self.friends.push(friend);
-                    self.socket.emit("ServerGetOnlineFriends", getToken());
-                    self.socket.emit("ServerFriendAddedUpdate", getToken(), friendId);
+                    self.socket.emit("ServerAddFriend", getToken(), result);
                 }
                 else {
                     //  Recover the actions in case the server is fail to add the friend. 
@@ -431,6 +441,9 @@ var NavbarComponent = /** @class */ (function () {
     NavbarComponent.prototype.ngOnInit = function () {
         this.socket.emit('login', getToken());
         var self = this;
+        setInterval(function () {
+            self.socket.emit("ServerGetOnlineFriends", getToken());
+        }, self.askForOnlineFriendsDelay * 1000);
         self.LoadFriendsData(self.user.friends);
         // Loading user messages notifications.
         self.navbarService.GetUserMessagesNotifications().then(function (result) {
@@ -486,6 +499,9 @@ var NavbarComponent = /** @class */ (function () {
         self.socket.on('ClientIgnoreFriendRequest', function (friendId) {
             var friendRequests = self.GetToolbarItem("friendRequests").content;
             friendRequests.send.splice(friendRequests.send.indexOf(friendId));
+        });
+        self.socket.on('ClientAddFriend', function (result) {
+            self.AddFriendObjectToUser(result);
         });
         self.socket.on('ClientFriendAddedUpdate', function (friend) {
             self.authService.GetCurrUserToken().then(function (result) {

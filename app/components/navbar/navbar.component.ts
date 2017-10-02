@@ -82,8 +82,9 @@ export class NavbarComponent implements OnInit {
     // START CONFIG VARIABLES //
 
     searchLimit: number = 4;
-    searchInputChangeDelay: number = 140; // In milliseconds
-    notificationDelay: number = 3800; // In milliseconds
+    searchInputChangeDelay: number = 140; // milliseconds
+    notificationDelay: number = 3800; // milliseconds
+    askForOnlineFriendsDelay: number = 30; // seconds
 
     // END CONFIG VARIABLES //
 
@@ -144,6 +145,10 @@ export class NavbarComponent implements OnInit {
         this.socket.emit('login', getToken());
 
         var self = this;
+
+        setInterval(function () {
+            self.socket.emit("ServerGetOnlineFriends", getToken());
+        }, self.askForOnlineFriendsDelay * 1000);
 
         self.LoadFriendsData(self.user.friends);
 
@@ -212,6 +217,10 @@ export class NavbarComponent implements OnInit {
         self.socket.on('ClientIgnoreFriendRequest', function (friendId: string) {
             var friendRequests = self.GetToolbarItem("friendRequests").content;
             friendRequests.send.splice(friendRequests.send.indexOf(friendId));
+        });
+
+        self.socket.on('ClientAddFriend', function (result: any) {
+            self.AddFriendObjectToUser(result);
         });
 
         self.socket.on('ClientFriendAddedUpdate', function (friend: any) {
@@ -502,7 +511,7 @@ export class NavbarComponent implements OnInit {
         self.navbarService.AddFriendRequest(friendId).then(function (result: any) {
             if (result) {
                 self.socket.emit("ServerUpdateFriendRequests", getToken(), friendRequests);
-                self.socket.emit("SendFriendRequest", self.user._id, friendId);
+                self.socket.emit("SendFriendRequest", getToken(), friendId);
             }
         });
     }
@@ -568,11 +577,29 @@ export class NavbarComponent implements OnInit {
         }
     }
 
+    AddFriendObjectToUser = function (data: any) {
+        var friend = data.friend;
+        var userFriends = this.user.friends;
+
+        if (userFriends.indexOf(friend._id) == -1) {
+            // Add the friend id to the user's friends array.
+            userFriends.push(friend._id);
+        }
+
+        // Setting the new token on the client.
+        setToken(data.token);
+
+        // Add the friend client object to the friends array.
+        this.friends.push(friend);
+        this.socket.emit("ServerGetOnlineFriends", getToken());
+        this.socket.emit("ServerFriendAddedUpdate", getToken(), friend._id);
+    }
+
     AddFriend = function (friendId: string) {
         // Remove the friend request from all friend requests object.
         var friendRequests = this.GetToolbarItem("friendRequests").content;
         friendRequests.get.splice(friendRequests.get.indexOf(friendId));
-       
+
         // Add the friend id to the user's friends array.
         var userFriends = this.user.friends;
         userFriends.push(friendId);
@@ -581,14 +608,7 @@ export class NavbarComponent implements OnInit {
         self.navbarService.AddFriend(friendId).then(function (result: any) {
             if (result) {
                 self.socket.emit("ServerUpdateFriendRequests", getToken(), friendRequests);
-
-                // Setting the new token on the client.
-                setToken(result.token);
-
-                var friend = result.friend;
-                self.friends.push(friend);
-                self.socket.emit("ServerGetOnlineFriends", getToken());
-                self.socket.emit("ServerFriendAddedUpdate", getToken(), friendId);
+                self.socket.emit("ServerAddFriend", getToken(), result);
             }
             else {
                 //  Recover the actions in case the server is fail to add the friend. 
@@ -603,7 +623,7 @@ export class NavbarComponent implements OnInit {
         // Remove the friend request from all friend requests object.
         var friendRequests = this.GetToolbarItem("friendRequests").content;
         friendRequests.get.splice(friendRequests.get.indexOf(friendId));
-        
+
         var self = this;
         this.navbarService.IgnoreFriendRequest(friendId).then(function (result: any) {
             if (result) {

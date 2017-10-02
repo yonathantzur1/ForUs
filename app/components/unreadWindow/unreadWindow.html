@@ -6,6 +6,7 @@
         </div>
         <div class="body-container" [ngClass]="{'body-container-with-top': GetUnreadMessagesNumber() > 0}">
             <div class="chat-container" *ngFor="let chat of chats" (click)="OpenChat(GetFriend(chat.friendId))">
+                <span *ngIf="messagesNotifications[chat.friendId] || true" class="notificaiton-sign"></span>
                 <img class="chat-image" src="{{GetFriend(chat.friendId).profileImage}}">
                 <table class="details-table">
                     <tr class="name-tr">
@@ -19,8 +20,7 @@
                         </td>
                     </tr>
                 </table>
-                <span *ngIf="messagesNotifications[chat.friendId]" class="notificaiton-sign"></span>
-                <span class="chat-last-time">{{GetTimeString(chat.lastMessage.time)}}</span>                
+                <span class="chat-last-time">{{GetTimeString(chat.lastMessage.time)}}</span>
             </div>
         </div>
     </div>
