@@ -24,6 +24,10 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
         io.to(friendId).emit('DeleteFriendRequest', userId);
     });
 
+    socket.on('ServerIgnoreFriendRequest', function (userId, friendId) {
+        io.to(friendId).emit('ClientIgnoreFriendRequest', userId);
+    });
+
     socket.on('ServerFriendAddedUpdate', function (token, friendId) {
         token = general.DecodeToken(token);
 

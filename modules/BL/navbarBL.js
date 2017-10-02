@@ -223,6 +223,29 @@ var self = module.exports = {
         });
     },
 
+    IgnoreFriendRequest: function (userId, friendId, callback) {
+        var userIdObject = {
+            "_id": DAL.GetObjectId(userId)
+        }
+
+        var friendIdObject = {
+            "_id": DAL.GetObjectId(friendId)
+        }
+
+        // Remove the request from the user.
+        DAL.UpdateOne(usersCollectionName, userIdObject, { $pull: { "friendRequests.get": friendId } }, function (result) {
+            if (result) {
+                // Remove the request from the friend.
+                DAL.UpdateOne(usersCollectionName, friendIdObject, { $pull: { "friendRequests.send": userId } }, function (result) {
+                    result ? callback(true) : callback(null);
+                });
+            }
+            else {
+                callback(null);
+            }
+        });
+    },
+
     AddFriend: function (user, friendId, callback) {
         // Validation check in order to check if the user and the friend are not already friends.
         if (user.friends.indexOf(friendId) != -1) {

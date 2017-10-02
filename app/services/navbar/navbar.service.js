@@ -100,6 +100,17 @@ var NavbarService = /** @class */ (function (_super) {
             return null;
         });
     };
+    NavbarService.prototype.IgnoreFriendRequest = function (friendId) {
+        var details = { friendId: friendId };
+        return _super.prototype.post.call(this, this.prefix + '/ignoreFriendRequest', JSON.stringify(details))
+            .toPromise()
+            .then(function (result) {
+            return result.json();
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
     NavbarService.prototype.AddFriend = function (friendId) {
         var details = { friendId: friendId };
         return _super.prototype.post.call(this, this.prefix + '/addFriend', JSON.stringify(details))

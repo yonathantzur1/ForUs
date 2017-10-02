@@ -27,7 +27,7 @@
             </div>
           </form>
           <div (click)="OpenChat(friend)" class="friend-container" *ngFor="let friend of (GetFilteredFriends(friendSearchInput))">
-            <div *ngIf="friend.isOnline && isSidebarOpen" class="online-icon"></div>
+            <div *ngIf="friend.isOnline" class="online-icon"></div>
             <img class="friend-profile" src="{{friend.profileImage ? friend.profileImage : defaultProfileImage}}">
             <span [ngClass]="{'bold-friend-name' : GetFriendUnreadMessagesNumberText(friend._id)}" class="friend-name-container" title="{{friend.firstName + ' ' + friend.lastName}}">
               <span>{{friend.firstName + " " + friend.lastName}}</span>
@@ -62,7 +62,7 @@
             <span *ngIf="IsShowFriendRequestConfirmSector(result._id)">
               <i class="fa fa-user-plus friend-request-confirm-icon" title="אישור בקשת חברות" aria-hidden="true"></i>
               <i (click)="AddFriend(result._id)" class="material-icons friend-request-confirm-btn" title="אישור">check</i>
-              <i class="material-icons friend-request-decline-btn" title="ביטול">close</i>
+              <i (click)="IgnoreFriendRequest(result._id)" class="material-icons friend-request-decline-btn" title="ביטול">close</i>
             </span>
           </div>
         </div>

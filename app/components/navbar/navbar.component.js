@@ -346,9 +346,12 @@ var NavbarComponent = /** @class */ (function () {
             }
         };
         this.AddFriend = function (friendId) {
+            // Remove the friend request from all friend requests object.
             var friendRequests = this.GetToolbarItem("friendRequests").content;
             friendRequests.get.splice(friendRequests.get.indexOf(friendId));
-            this.user.friends = friendId;
+            // Add the friend id to the user's friends array.
+            var userFriends = this.user.friends;
+            userFriends.push(friendId);
             var self = this;
             self.navbarService.AddFriend(friendId).then(function (result) {
                 if (result) {
@@ -359,6 +362,24 @@ var NavbarComponent = /** @class */ (function () {
                     self.friends.push(friend);
                     self.socket.emit("ServerGetOnlineFriends", getToken());
                     self.socket.emit("ServerFriendAddedUpdate", getToken(), friendId);
+                }
+                else {
+                    //  Recover the actions in case the server is fail to add the friend. 
+                    friendRequests.get.push(friendId);
+                    userFriends.slice(userFriends.indexOf(friendId));
+                    self.socket.emit("ServerUpdateFriendRequests", getToken(), friendRequests);
+                }
+            });
+        };
+        this.IgnoreFriendRequest = function (friendId) {
+            // Remove the friend request from all friend requests object.
+            var friendRequests = this.GetToolbarItem("friendRequests").content;
+            friendRequests.get.splice(friendRequests.get.indexOf(friendId));
+            var self = this;
+            this.navbarService.IgnoreFriendRequest(friendId).then(function (result) {
+                if (result) {
+                    self.socket.emit("ServerUpdateFriendRequests", getToken(), friendRequests);
+                    self.socket.emit("ServerIgnoreFriendRequest", self.user._id, friendId);
                 }
             });
         };
@@ -461,6 +482,10 @@ var NavbarComponent = /** @class */ (function () {
         self.socket.on('DeleteFriendRequest', function (friendId) {
             var friendRequests = self.GetToolbarItem("friendRequests").content;
             friendRequests.get.splice(friendRequests.get.indexOf(friendId));
+        });
+        self.socket.on('ClientIgnoreFriendRequest', function (friendId) {
+            var friendRequests = self.GetToolbarItem("friendRequests").content;
+            friendRequests.send.splice(friendRequests.send.indexOf(friendId));
         });
         self.socket.on('ClientFriendAddedUpdate', function (friend) {
             self.authService.GetCurrUserToken().then(function (result) {
