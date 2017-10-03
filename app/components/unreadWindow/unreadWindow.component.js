@@ -25,15 +25,20 @@ var UnreadWindowComponent = /** @class */ (function () {
             return counter;
         };
         this.GetUnreadMessagesNumberText = function () {
-            var unreadMessagesNumber = this.GetUnreadMessagesNumber();
-            if (unreadMessagesNumber == 0) {
-                return "שיחות אחרונות";
-            }
-            else if (unreadMessagesNumber == 1) {
-                return "הודעה 1 שלא נקראה";
+            if (this.chats.length == 0) {
+                return "אין הודעות חדשות";
             }
             else {
-                return (unreadMessagesNumber + " הודעות שלא נקראו");
+                var unreadMessagesNumber = this.GetUnreadMessagesNumber();
+                if (unreadMessagesNumber == 0) {
+                    return "שיחות אחרונות";
+                }
+                else if (unreadMessagesNumber == 1) {
+                    return "הודעה 1 שלא נקראה";
+                }
+                else {
+                    return (unreadMessagesNumber + " הודעות שלא נקראו");
+                }
             }
         };
         this.GetTimeString = function (date) {
@@ -54,10 +59,12 @@ var UnreadWindowComponent = /** @class */ (function () {
             }));
         };
         this.GetFriendName = function (friendId) {
-            var friendObj = (this.friends.find(function (friend) {
-                return (friend._id == friendId);
-            }));
-            return (friendObj.firstName + " " + friendObj.lastName);
+            var friendObj = this.GetFriend(friendId);
+            return friendObj ? (friendObj.firstName + " " + friendObj.lastName) : "";
+        };
+        this.GetFriendProfile = function (friendId) {
+            var friendObj = this.GetFriend(friendId);
+            return friendObj ? friendObj.profileImage : null;
         };
     }
     UnreadWindowComponent.prototype.ngOnInit = function () {
@@ -67,6 +74,15 @@ var UnreadWindowComponent = /** @class */ (function () {
             self.chats = chats;
             self.isChatsLoading = false;
         });
+    };
+    UnreadWindowComponent.prototype.ngOnChanges = function (changes) {
+        if (changes.messagesNotifications && !changes.messagesNotifications.firstChange) {
+            var self = this;
+            // Loading all chats.
+            self.unreadWindowService.GetAllChats().then(function (chats) {
+                self.chats = chats;
+            });
+        }
     };
     __decorate([
         core_1.Input(),
@@ -80,6 +96,10 @@ var UnreadWindowComponent = /** @class */ (function () {
         core_1.Input(),
         __metadata("design:type", Function)
     ], UnreadWindowComponent.prototype, "OpenChat", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Boolean)
+    ], UnreadWindowComponent.prototype, "isOpen", void 0);
     UnreadWindowComponent = __decorate([
         core_1.Component({
             selector: 'unreadWindow',

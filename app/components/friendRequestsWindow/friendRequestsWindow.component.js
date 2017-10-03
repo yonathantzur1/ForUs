@@ -15,9 +15,25 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
     function FriendRequestsWindowComponent(friendRequestsWindowService) {
         this.friendRequestsWindowService = friendRequestsWindowService;
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
+        this.GetFriendRequestsNumberText = function () {
+            var friendRequestsNumber = this.friendRequests.length;
+            if (friendRequestsNumber == 0) {
+                return "אין בקשות חברות חדשות";
+            }
+            else if (friendRequestsNumber == 1) {
+                return "בקשת חברות 1 חדשה";
+            }
+            else {
+                return (friendRequestsNumber + " בקשות חברות חדשות");
+            }
+        };
     }
     FriendRequestsWindowComponent.prototype.ngOnInit = function () {
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Array)
+    ], FriendRequestsWindowComponent.prototype, "friendRequests", void 0);
     FriendRequestsWindowComponent = __decorate([
         core_1.Component({
             selector: 'friendRequestsWindow',

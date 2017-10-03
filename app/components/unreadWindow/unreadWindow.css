@@ -118,12 +118,6 @@
     position: absolute;
 }
 
-#unreadWindow .empty-chats-text {
-    margin-right: 8px;
-    margin-top: 8px;
-    color: #363636;
-}
-
 #unreadWindow .chats-loader {
     position: absolute;
     top: 50%;

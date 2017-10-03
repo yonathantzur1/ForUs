@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import { UnreadWindowService } from '../../services/unreadWindow/unreadWindow.service';
 
@@ -9,10 +9,12 @@ import { UnreadWindowService } from '../../services/unreadWindow/unreadWindow.se
     providers: [UnreadWindowService]
 })
 
-export class UnreadWindowComponent implements OnInit {
+export class UnreadWindowComponent implements OnInit, OnChanges {
     @Input() friends: Array<any>;
     @Input() messagesNotifications: Object;
     @Input() OpenChat: Function;
+    @Input() isOpen: boolean;
+
     chats: any = [];
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
     isChatsLoading: boolean;
@@ -29,6 +31,17 @@ export class UnreadWindowComponent implements OnInit {
         });
     }
 
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes.messagesNotifications && !changes.messagesNotifications.firstChange) {
+            var self = this;
+
+            // Loading all chats.
+            self.unreadWindowService.GetAllChats().then(function (chats) {
+                self.chats = chats;
+            });
+        }
+    }
+
     GetUnreadMessagesNumber = function () {
         var counter = 0;
 
@@ -39,17 +52,22 @@ export class UnreadWindowComponent implements OnInit {
         return counter;
     }
 
-    GetUnreadMessagesNumberText = function() {
-        var unreadMessagesNumber = this.GetUnreadMessagesNumber();
-
-        if (unreadMessagesNumber == 0) {
-            return "שיחות אחרונות";
-        }
-        else if (unreadMessagesNumber == 1) {
-            return "הודעה 1 שלא נקראה";
+    GetUnreadMessagesNumberText = function () {
+        if (this.chats.length == 0) {
+            return "אין הודעות חדשות";
         }
         else {
-            return (unreadMessagesNumber + " הודעות שלא נקראו");
+            var unreadMessagesNumber = this.GetUnreadMessagesNumber();
+
+            if (unreadMessagesNumber == 0) {
+                return "שיחות אחרונות";
+            }
+            else if (unreadMessagesNumber == 1) {
+                return "הודעה 1 שלא נקראה";
+            }
+            else {
+                return (unreadMessagesNumber + " הודעות שלא נקראו");
+            }
         }
     }
 
@@ -77,10 +95,14 @@ export class UnreadWindowComponent implements OnInit {
     }
 
     GetFriendName = function (friendId: string) {
-        var friendObj = (this.friends.find(function (friend: any) {
-            return (friend._id == friendId);
-        }));
+        var friendObj = this.GetFriend(friendId);
 
-        return (friendObj.firstName + " " + friendObj.lastName);
+        return friendObj ? (friendObj.firstName + " " + friendObj.lastName) : "";
+    }
+
+    GetFriendProfile = function (friendId: string) {
+        var friendObj = this.GetFriend(friendId);
+
+        return friendObj ? friendObj.profileImage : null;
     }
 }
