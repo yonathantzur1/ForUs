@@ -11,32 +11,43 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var global_service_1 = require("../../services/global/global.service");
 var auth_service_1 = require("../../services/auth/auth.service");
+var profilePicture_service_1 = require("../../services/profilePicture/profilePicture.service");
 var home_service_1 = require("../../services/home/home.service");
 var HomeComponent = /** @class */ (function () {
-    function HomeComponent(router, authService, homeService) {
+    function HomeComponent(router, authService, profilePictureService, homeService, globalService) {
         this.router = router;
         this.authService = authService;
+        this.profilePictureService = profilePictureService;
         this.homeService = homeService;
+        this.globalService = globalService;
         this.isOpenProfileEditWindow = false;
         this.currUser = null;
     }
     HomeComponent.prototype.ngOnInit = function () {
-        this.GetCurrUser();
-    };
-    HomeComponent.prototype.GetCurrUser = function () {
-        var _this = this;
-        this.authService.GetCurrUser().then(function (result) {
-            _this.currUser = result;
+        var self = this;
+        self.authService.GetCurrUser().then(function (result) {
+            self.currUser = result;
+        });
+        self.profilePictureService.GetUserProfileImage().then(function (result) {
+            if (result) {
+                self.globalService.userProfileImage = result.image;
+            }
+            self.globalService.setData("userProfileImageLoaded", true);
         });
     };
     HomeComponent = __decorate([
         core_1.Component({
             selector: 'home',
             templateUrl: './home.html',
-            providers: [home_service_1.HomeService]
+            providers: [home_service_1.HomeService, profilePicture_service_1.ProfilePictureService]
         }),
-        __metadata("design:paramtypes", [router_1.Router, auth_service_1.AuthService, home_service_1.HomeService])
+        __metadata("design:paramtypes", [router_1.Router,
+            auth_service_1.AuthService,
+            profilePicture_service_1.ProfilePictureService,
+            home_service_1.HomeService,
+            global_service_1.GlobalService])
     ], HomeComponent);
     return HomeComponent;
 }());

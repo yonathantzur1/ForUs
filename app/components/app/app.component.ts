@@ -6,4 +6,6 @@ import './temp.js';
   templateUrl: './main.html'
 })
 
-export class AppComponent {}
+export class AppComponent {
+  
+}

@@ -9,9 +9,10 @@ export class GlobalService {
     // use this property for property binding
     public data: BehaviorSubject<boolean> = new BehaviorSubject<any>({});
     public socket = io();
+    public userProfileImage: string;
 
     GenerateNewSocket() {
-        this.socket ? this.socket.destroy() : null;
+        this.socket && this.socket.destroy();
         this.socket = io();
     }
 

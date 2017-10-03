@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
@@ -14,7 +14,7 @@ var numOfProfilePictureInstances = 0;
     providers: [ProfilePictureService]
 })
 
-export class ProfilePictureComponent implements OnInit {
+export class ProfilePictureComponent {
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
     profileImageSrc: string = this.defaultProfileImage;
     isUserHasImage: boolean = null;
@@ -33,6 +33,7 @@ export class ProfilePictureComponent implements OnInit {
                 numOfProfilePictureInstances--;
 
                 if (numOfProfilePictureInstances == 0) {
+                    delete this.globalService.userProfileImage;
                     numOfProfilePictureInstances = originalNumOfProfilePictureInstances;
                     this.globalService.deleteData("newUploadedImage");
                 }
@@ -40,27 +41,34 @@ export class ProfilePictureComponent implements OnInit {
 
             if (value["isImageDeleted"]) {
                 this.profileImageSrc = this.defaultProfileImage;
-                this.isUserHasImage = false;                
+                this.isUserHasImage = false;
 
                 numOfProfilePictureInstances--;
 
                 if (numOfProfilePictureInstances == 0) {
+                    delete this.globalService.userProfileImage;
                     numOfProfilePictureInstances = originalNumOfProfilePictureInstances;
                     this.globalService.deleteData("isImageDeleted");
                     this.globalService.setData("userImage", false);
                 }
             }
-        });
-    }
 
-    ngOnInit() {
-        this.profilePictureService.GetUserProfileImage().then((result) => {
-            if (result) {
-                this.isUserHasImage = true;
-                this.profileImageSrc = result.image;
-            }
-            else {
-                this.isUserHasImage = false;
+            if (value["userProfileImageLoaded"]) {
+                if (this.globalService.userProfileImage) {
+                    this.profileImageSrc = this.globalService.userProfileImage;
+                    this.isUserHasImage = true;
+                }
+                else {
+                    this.isUserHasImage = false;
+                }
+
+                numOfProfilePictureInstances--;
+
+                if (numOfProfilePictureInstances == 0) {
+                    delete this.globalService.userProfileImage;
+                    numOfProfilePictureInstances = originalNumOfProfilePictureInstances;
+                    this.globalService.deleteData("userProfileImageLoaded");
+                }
             }
         });
     }

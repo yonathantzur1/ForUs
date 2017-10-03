@@ -13,13 +13,13 @@ export class AuthGuard implements CanActivate {
 
     canActivate() {
         return this.authService.IsUserOnSession().then((result) => {
-            if (!result) {
-                this.router.navigateByUrl('/login');
-                return false;
-            }
-            else {
+            if (result) {
                 setToken(result.token);
                 return true;
+            }
+            else {
+                this.router.navigateByUrl('/login');
+                return false;
             }
         });
     }

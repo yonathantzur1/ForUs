@@ -15,14 +15,17 @@ export class UnreadWindowComponent implements OnInit {
     @Input() OpenChat: Function;
     chats: any = [];
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
+    isChatsLoading: boolean;
 
     constructor(private unreadWindowService: UnreadWindowService) { }
 
     ngOnInit() {
         var self = this;
+        this.isChatsLoading = true;
 
         self.unreadWindowService.GetAllChats().then(function (chats) {
             self.chats = chats;
+            self.isChatsLoading = false;
         });
     }
 
@@ -34,6 +37,20 @@ export class UnreadWindowComponent implements OnInit {
         });
 
         return counter;
+    }
+
+    GetUnreadMessagesNumberText = function() {
+        var unreadMessagesNumber = this.GetUnreadMessagesNumber();
+
+        if (unreadMessagesNumber == 0) {
+            return "שיחות אחרונות";
+        }
+        else if (unreadMessagesNumber == 1) {
+            return "הודעה 1 שלא נקראה";
+        }
+        else {
+            return (unreadMessagesNumber + " הודעות שלא נקראו");
+        }
     }
 
     GetTimeString = function (date: Date) {

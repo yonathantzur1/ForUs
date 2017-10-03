@@ -24,6 +24,18 @@ var UnreadWindowComponent = /** @class */ (function () {
             });
             return counter;
         };
+        this.GetUnreadMessagesNumberText = function () {
+            var unreadMessagesNumber = this.GetUnreadMessagesNumber();
+            if (unreadMessagesNumber == 0) {
+                return "שיחות אחרונות";
+            }
+            else if (unreadMessagesNumber == 1) {
+                return "הודעה 1 שלא נקראה";
+            }
+            else {
+                return (unreadMessagesNumber + " הודעות שלא נקראו");
+            }
+        };
         this.GetTimeString = function (date) {
             var localDate = new Date(date);
             var HH = localDate.getHours().toString();
@@ -50,8 +62,10 @@ var UnreadWindowComponent = /** @class */ (function () {
     }
     UnreadWindowComponent.prototype.ngOnInit = function () {
         var self = this;
+        this.isChatsLoading = true;
         self.unreadWindowService.GetAllChats().then(function (chats) {
             self.chats = chats;
+            self.isChatsLoading = false;
         });
     };
     __decorate([

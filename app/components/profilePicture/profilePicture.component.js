@@ -31,6 +31,7 @@ var ProfilePictureComponent = /** @class */ (function () {
                 _this.isUserHasImage = true;
                 numOfProfilePictureInstances--;
                 if (numOfProfilePictureInstances == 0) {
+                    delete _this.globalService.userProfileImage;
                     numOfProfilePictureInstances = originalNumOfProfilePictureInstances;
                     _this.globalService.deleteData("newUploadedImage");
                 }
@@ -40,25 +41,29 @@ var ProfilePictureComponent = /** @class */ (function () {
                 _this.isUserHasImage = false;
                 numOfProfilePictureInstances--;
                 if (numOfProfilePictureInstances == 0) {
+                    delete _this.globalService.userProfileImage;
                     numOfProfilePictureInstances = originalNumOfProfilePictureInstances;
                     _this.globalService.deleteData("isImageDeleted");
                     _this.globalService.setData("userImage", false);
                 }
             }
+            if (value["userProfileImageLoaded"]) {
+                if (_this.globalService.userProfileImage) {
+                    _this.profileImageSrc = _this.globalService.userProfileImage;
+                    _this.isUserHasImage = true;
+                }
+                else {
+                    _this.isUserHasImage = false;
+                }
+                numOfProfilePictureInstances--;
+                if (numOfProfilePictureInstances == 0) {
+                    delete _this.globalService.userProfileImage;
+                    numOfProfilePictureInstances = originalNumOfProfilePictureInstances;
+                    _this.globalService.deleteData("userProfileImageLoaded");
+                }
+            }
         });
     }
-    ProfilePictureComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.profilePictureService.GetUserProfileImage().then(function (result) {
-            if (result) {
-                _this.isUserHasImage = true;
-                _this.profileImageSrc = result.image;
-            }
-            else {
-                _this.isUserHasImage = false;
-            }
-        });
-    };
     ProfilePictureComponent.prototype.OpenEditWindow = function () {
         if (this.isEditEnable && this.isUserHasImage != null) {
             var userImage;

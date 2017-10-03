@@ -10,7 +10,7 @@ var GlobalService = /** @class */ (function () {
         this.socket = io();
     }
     GlobalService.prototype.GenerateNewSocket = function () {
-        this.socket ? this.socket.destroy() : null;
+        this.socket && this.socket.destroy();
         this.socket = io();
     };
     GlobalService.prototype.setData = function (key, value) {

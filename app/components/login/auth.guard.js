@@ -20,13 +20,13 @@ var AuthGuard = /** @class */ (function () {
     AuthGuard.prototype.canActivate = function () {
         var _this = this;
         return this.authService.IsUserOnSession().then(function (result) {
-            if (!result) {
-                _this.router.navigateByUrl('/login');
-                return false;
-            }
-            else {
+            if (result) {
                 setToken(result.token);
                 return true;
+            }
+            else {
+                _this.router.navigateByUrl('/login');
+                return false;
             }
         });
     };

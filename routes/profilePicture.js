@@ -1,5 +1,4 @@
 module.exports = function (app, profilePictureBL) {
-
     prefix = "/api/profilePicture";
 
     // Get user profile image.
