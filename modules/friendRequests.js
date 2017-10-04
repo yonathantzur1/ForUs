@@ -2,6 +2,17 @@ var profilePictureBL = require('./BL/profilePictureBL');
 var general = require('./general.js');
 
 module.exports = function (io, jwt, config, socket, socketsDictionary, connectedUsers) {
+    socket.on('ServerUpdateFriendRequestsStatus', function (token, friendId) {
+        token = general.DecodeToken(token);
+
+        jwt.verify(token, config.jwtSecret, function (err, decoded) {
+            // In case the token is valid.
+            if (!err && decoded) {
+                io.to(decoded.user._id).emit('ClientUpdateFriendRequestsStatus', friendId);
+            }
+        });
+    });
+
     socket.on('ServerUpdateFriendRequests', function (token, friendRequests) {
         token = general.DecodeToken(token);
 
@@ -11,7 +22,6 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
                 io.to(decoded.user._id).emit('ClientUpdateFriendRequests', friendRequests);
             }
         });
-
     });
 
     socket.on('SendFriendRequest', function (token, friendId) {

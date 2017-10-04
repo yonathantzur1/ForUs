@@ -12,7 +12,12 @@ declare var socket: any;
 declare var io: any;
 
 export class DropMenuData {
-    constructor(link: string, text: string, action: Function, object: any) { this.link = link, this.text = text, this.action = action, this.object = object }
+    constructor(link: string, text: string, action: Function, object: any) {
+        this.link = link;
+        this.text = text;
+        this.action = action;
+        this.object = object;
+    }
 
     link: string;
     text: string;
@@ -89,8 +94,10 @@ export class NavbarComponent implements OnInit {
 
     // END CONFIG VARIABLES //
 
-    constructor(private router: Router, private authService: AuthService,
-        private globalService: GlobalService, private navbarService: NavbarService) {
+    constructor(private router: Router,
+        private authService: AuthService,
+        private globalService: GlobalService,
+        private navbarService: NavbarService) {
         this.socket = globalService.socket;
 
         this.globalService.data.subscribe(value => {
@@ -397,7 +404,7 @@ export class NavbarComponent implements OnInit {
         this.HideSearchResults();
     }
 
-    OverlayClicked = function() {
+    OverlayClicked = function () {
         if (this.isUnreadWindowOpen || this.isFriendRequestsWindowOpen) {
             this.HideUnreadWindow();
             this.HideFriendRequestsWindow();

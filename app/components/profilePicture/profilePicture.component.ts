@@ -16,7 +16,6 @@ var numOfProfilePictureInstances = 0;
 
 export class ProfilePictureComponent {
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
-    profileImageSrc: string = this.defaultProfileImage;
     isUserHasImage: boolean = null;
 
     @Input() isEditEnable: string;
@@ -27,26 +26,24 @@ export class ProfilePictureComponent {
 
         this.globalService.data.subscribe(value => {
             if (value["newUploadedImage"]) {
-                this.profileImageSrc = value["newUploadedImage"];
+                globalService.userProfileImage = value["newUploadedImage"];
                 this.isUserHasImage = true;
 
                 numOfProfilePictureInstances--;
 
                 if (numOfProfilePictureInstances == 0) {
-                    delete this.globalService.userProfileImage;
                     numOfProfilePictureInstances = originalNumOfProfilePictureInstances;
                     this.globalService.deleteData("newUploadedImage");
                 }
             }
 
             if (value["isImageDeleted"]) {
-                this.profileImageSrc = this.defaultProfileImage;
+                globalService.userProfileImage = this.defaultProfileImage;
                 this.isUserHasImage = false;
 
                 numOfProfilePictureInstances--;
 
                 if (numOfProfilePictureInstances == 0) {
-                    delete this.globalService.userProfileImage;
                     numOfProfilePictureInstances = originalNumOfProfilePictureInstances;
                     this.globalService.deleteData("isImageDeleted");
                     this.globalService.setData("userImage", false);
@@ -55,7 +52,6 @@ export class ProfilePictureComponent {
 
             if (value["userProfileImageLoaded"]) {
                 if (this.globalService.userProfileImage) {
-                    this.profileImageSrc = this.globalService.userProfileImage;
                     this.isUserHasImage = true;
                 }
                 else {
@@ -65,7 +61,6 @@ export class ProfilePictureComponent {
                 numOfProfilePictureInstances--;
 
                 if (numOfProfilePictureInstances == 0) {
-                    delete this.globalService.userProfileImage;
                     numOfProfilePictureInstances = originalNumOfProfilePictureInstances;
                     this.globalService.deleteData("userProfileImageLoaded");
                 }
@@ -79,7 +74,7 @@ export class ProfilePictureComponent {
 
             // In case the user has image.
             if (this.isUserHasImage) {
-                userImage = this.profileImageSrc;
+                userImage = this.globalService.userProfileImage;
             }
             else {
                 userImage = false;

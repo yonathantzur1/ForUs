@@ -96,10 +96,6 @@ var UnreadWindowComponent = /** @class */ (function () {
         core_1.Input(),
         __metadata("design:type", Function)
     ], UnreadWindowComponent.prototype, "OpenChat", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Boolean)
-    ], UnreadWindowComponent.prototype, "isOpen", void 0);
     UnreadWindowComponent = __decorate([
         core_1.Component({
             selector: 'unreadWindow',

@@ -21,27 +21,24 @@ var ProfilePictureComponent = /** @class */ (function () {
         this.profilePictureService = profilePictureService;
         this.globalService = globalService;
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
-        this.profileImageSrc = this.defaultProfileImage;
         this.isUserHasImage = null;
         originalNumOfProfilePictureInstances++;
         numOfProfilePictureInstances++;
         this.globalService.data.subscribe(function (value) {
             if (value["newUploadedImage"]) {
-                _this.profileImageSrc = value["newUploadedImage"];
+                globalService.userProfileImage = value["newUploadedImage"];
                 _this.isUserHasImage = true;
                 numOfProfilePictureInstances--;
                 if (numOfProfilePictureInstances == 0) {
-                    delete _this.globalService.userProfileImage;
                     numOfProfilePictureInstances = originalNumOfProfilePictureInstances;
                     _this.globalService.deleteData("newUploadedImage");
                 }
             }
             if (value["isImageDeleted"]) {
-                _this.profileImageSrc = _this.defaultProfileImage;
+                globalService.userProfileImage = _this.defaultProfileImage;
                 _this.isUserHasImage = false;
                 numOfProfilePictureInstances--;
                 if (numOfProfilePictureInstances == 0) {
-                    delete _this.globalService.userProfileImage;
                     numOfProfilePictureInstances = originalNumOfProfilePictureInstances;
                     _this.globalService.deleteData("isImageDeleted");
                     _this.globalService.setData("userImage", false);
@@ -49,7 +46,6 @@ var ProfilePictureComponent = /** @class */ (function () {
             }
             if (value["userProfileImageLoaded"]) {
                 if (_this.globalService.userProfileImage) {
-                    _this.profileImageSrc = _this.globalService.userProfileImage;
                     _this.isUserHasImage = true;
                 }
                 else {
@@ -57,7 +53,6 @@ var ProfilePictureComponent = /** @class */ (function () {
                 }
                 numOfProfilePictureInstances--;
                 if (numOfProfilePictureInstances == 0) {
-                    delete _this.globalService.userProfileImage;
                     numOfProfilePictureInstances = originalNumOfProfilePictureInstances;
                     _this.globalService.deleteData("userProfileImageLoaded");
                 }
@@ -69,7 +64,7 @@ var ProfilePictureComponent = /** @class */ (function () {
             var userImage;
             // In case the user has image.
             if (this.isUserHasImage) {
-                userImage = this.profileImageSrc;
+                userImage = this.globalService.userProfileImage;
             }
             else {
                 userImage = false;

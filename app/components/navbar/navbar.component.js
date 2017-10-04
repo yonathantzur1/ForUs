@@ -16,7 +16,10 @@ var auth_service_1 = require("../../services/auth/auth.service");
 var navbar_service_1 = require("../../services/navbar/navbar.service");
 var DropMenuData = /** @class */ (function () {
     function DropMenuData(link, text, action, object) {
-        this.link = link, this.text = text, this.action = action, this.object = object;
+        this.link = link;
+        this.text = text;
+        this.action = action;
+        this.object = object;
     }
     return DropMenuData;
 }());
@@ -537,8 +540,10 @@ var NavbarComponent = /** @class */ (function () {
             templateUrl: './navbar.html',
             providers: [navbar_service_1.NavbarService]
         }),
-        __metadata("design:paramtypes", [router_1.Router, auth_service_1.AuthService,
-            global_service_1.GlobalService, navbar_service_1.NavbarService])
+        __metadata("design:paramtypes", [router_1.Router,
+            auth_service_1.AuthService,
+            global_service_1.GlobalService,
+            navbar_service_1.NavbarService])
     ], NavbarComponent);
     return NavbarComponent;
 }());

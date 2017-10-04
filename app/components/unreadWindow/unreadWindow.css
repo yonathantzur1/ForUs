@@ -1,6 +1,6 @@
 #unreadWindow .unreadWindow-container {
     position: fixed;
-    top: 132px;
+    top: 131px;
     right: 165px;
     width: 55%;
     max-width: 310px;
@@ -12,7 +12,7 @@
 }
 
 #unreadWindow .window-top-arrow {
-    top: 119px;
+    top: 118px;
     right: 174px;
     z-index: 1002;
     font-size: 20px;

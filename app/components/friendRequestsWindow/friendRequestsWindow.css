@@ -1,6 +1,6 @@
 #friendRequestsWindow .friendRequestsWindow-container {
     position: fixed;
-    top: 132px;
+    top: 131px;
     right: 135px;
     width: 55%;
     max-width: 310px;
@@ -12,7 +12,7 @@
 }
 
 #friendRequestsWindow .window-top-arrow {
-    top: 119px;
+    top: 118px;
     right: 144px;
     z-index: 1002;
     font-size: 20px;
@@ -37,11 +37,72 @@
 }
 
 #friendRequestsWindow .body-container {
-    height: 100%;
+    height: calc(100% - 20px) !important;
     width: 100%;
     overflow-y: overlay;
 }
 
-#friendRequestsWindow .body-container-with-top {
-    height: calc(100% - 20px) !important;
+#friendRequestsWindow .friend-request-container {
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid #d2d2d2;
+    display: flex;
+    align-items: center;
+    font-family: Rubik;
+    padding-right: 5px;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    position: relative;
+}
+
+#friendRequestsWindow .friend-request-container:hover {
+    background-color: #f7f7f7;
+}
+
+#friendRequestsWindow .friend-request-image {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 12px;
+    margin-left: 5px;
+    border: 0.5px solid rgba(128, 127, 127, 0.7);
+}
+
+#friendRequestsWindow .friend-name {
+    width: calc(100% - 100px);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+#friendRequestsWindow .friend-request-response-btn {
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+#friendRequestsWindow .friend-request-response-btn:hover {
+    background-color: #e1e4ff;
+}
+
+#friendRequestsWindow .friend-request-confirm-btn {
+    margin-right: 10px
+}
+
+#friendRequestsWindow .friend-request-decline-btn {
+    margin-right: 8px;
+    margin-left: 12px;
+}
+
+#friendRequestsWindow .friend-requests-loader {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    margin-right: -35px;
+    margin-top: -35px;
+}
+
+#friendRequestsWindow .friend-requests-loader .loader {
+    background-color: transparent !important;
 }

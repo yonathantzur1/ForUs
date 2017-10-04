@@ -92,6 +92,6 @@
   </span>
 </div>
 
-<unreadWindow [hidden]="!isUnreadWindowOpen" [isOpen]="isUnreadWindowOpen" [OpenChat]="OpenChat.bind(this)" [friends]="friends" [messagesNotifications]="GetToolbarItem('messages').content"></unreadWindow>
-<friendRequestsWindow *ngIf="isFriendRequestsWindowOpen" [friendRequests]="GetToolbarItem('friendRequests').content.get"></friendRequestsWindow>
+<unreadWindow [hidden]="!isUnreadWindowOpen" [OpenChat]="OpenChat.bind(this)" [friends]="friends" [messagesNotifications]="GetToolbarItem('messages').content"></unreadWindow>
+<friendRequestsWindow [hidden]="!isFriendRequestsWindowOpen" [AddFriend]="AddFriend.bind(this)" [IgnoreFriendRequest]="IgnoreFriendRequest.bind(this)" [friendRequests]="GetToolbarItem('friendRequests').content.get"></friendRequestsWindow>
 <chat *ngIf="chatData.isOpen" [chatData]="chatData"></chat>

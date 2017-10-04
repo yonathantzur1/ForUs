@@ -13,7 +13,6 @@ export class UnreadWindowComponent implements OnInit, OnChanges {
     @Input() friends: Array<any>;
     @Input() messagesNotifications: Object;
     @Input() OpenChat: Function;
-    @Input() isOpen: boolean;
 
     chats: any = [];
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
