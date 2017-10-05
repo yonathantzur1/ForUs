@@ -14,9 +14,9 @@ var router_1 = require("@angular/router");
 var DropMenuComponent = /** @class */ (function () {
     function DropMenuComponent(router) {
         this.router = router;
-        this.ActiveAction = function (action, object, link) {
+        this.ActiveAction = function (action, link) {
             if (action) {
-                action(object, link);
+                action(link);
             }
             else {
                 this.router.navigateByUrl(link);

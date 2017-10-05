@@ -11,9 +11,11 @@ export class GlobalService {
     public socket = io();
     public userProfileImage: string;
 
-    GenerateNewSocket() {
+    ResetGlobalVariables() {
         this.socket && this.socket.destroy();
         this.socket = io();
+        this.data = new BehaviorSubject<any>({});
+        this.userProfileImage = null;
     }
 
     setData(key: string, value: any) {

@@ -14,9 +14,9 @@ export class DropMenuComponent {
 
     @Input() options: DropMenuData[];
 
-    ActiveAction = function (action: Function, object: any, link: string) {
+    ActiveAction = function (action: Function, link: string) {
         if (action) {
-            action(object, link);
+            action(link);
         }
         else {
             this.router.navigateByUrl(link);

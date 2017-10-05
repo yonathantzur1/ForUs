@@ -12,11 +12,10 @@ declare var socket: any;
 declare var io: any;
 
 export class DropMenuData {
-    constructor(link: string, text: string, action: Function, object: any) {
+    constructor(link: string, text: string, action: Function) {
         this.link = link;
         this.text = text;
         this.action = action;
-        this.object = object;
     }
 
     link: string;
@@ -139,12 +138,12 @@ export class NavbarComponent implements OnInit {
         ];
 
         self.dropMenuDataList = [
-            new DropMenuData("#", "הגדרות", null, null),
-            new DropMenuData("/login", "התנתקות", function (self: any, link: string) {
+            new DropMenuData("#", "הגדרות", null),
+            new DropMenuData("/login", "התנתקות", function (link: string) {
                 deleteToken();
-                self.globalService.GenerateNewSocket();
+                self.globalService.ResetGlobalVariables();
                 self.router.navigateByUrl(link);
-            }, self)
+            })
         ];
     }
 

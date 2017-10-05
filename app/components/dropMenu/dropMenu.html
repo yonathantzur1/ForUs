@@ -1,10 +1,10 @@
 <div id="dropMenu">
     <ul class="drop-menu">
-        <li class="menu-option" (click)="ActiveAction(option.action, option.object, option.link)" *ngFor="let option of options">
+        <li class="menu-option" (click)="ActiveAction(option.action, option.link)" *ngFor="let option of options">
             <span class="option-link">
-            <span class="option-sector">
-              {{option.text}}
-            </span>
+                <span class="option-sector">
+                    {{option.text}}
+                </span>
             </span>
         </li>
     </ul>

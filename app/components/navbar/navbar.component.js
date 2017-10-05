@@ -15,11 +15,10 @@ var global_service_1 = require("../../services/global/global.service");
 var auth_service_1 = require("../../services/auth/auth.service");
 var navbar_service_1 = require("../../services/navbar/navbar.service");
 var DropMenuData = /** @class */ (function () {
-    function DropMenuData(link, text, action, object) {
+    function DropMenuData(link, text, action) {
         this.link = link;
         this.text = text;
         this.action = action;
-        this.object = object;
     }
     return DropMenuData;
 }());
@@ -444,12 +443,12 @@ var NavbarComponent = /** @class */ (function () {
             }
         ];
         self.dropMenuDataList = [
-            new DropMenuData("#", "הגדרות", null, null),
-            new DropMenuData("/login", "התנתקות", function (self, link) {
+            new DropMenuData("#", "הגדרות", null),
+            new DropMenuData("/login", "התנתקות", function (link) {
                 deleteToken();
-                self.globalService.GenerateNewSocket();
+                self.globalService.ResetGlobalVariables();
                 self.router.navigateByUrl(link);
-            }, self)
+            })
         ];
     }
     NavbarComponent.prototype.ngOnInit = function () {
