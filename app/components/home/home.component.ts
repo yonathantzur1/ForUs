@@ -17,7 +17,14 @@ export class HomeComponent implements OnInit {
         private authService: AuthService,
         private profilePictureService: ProfilePictureService,
         private homeService: HomeService,
-        private globalService: GlobalService) { }
+        private globalService: GlobalService) {
+        this.globalService.data.subscribe(value => {
+            if (value["isOpenProfileEditWindow"] == true ||
+                value["isOpenProfileEditWindow"] == false) {
+                this.isOpenProfileEditWindow = value["isOpenProfileEditWindow"];
+            }
+        });
+    }
 
     isOpenProfileEditWindow = false;
     currUser: any = null;

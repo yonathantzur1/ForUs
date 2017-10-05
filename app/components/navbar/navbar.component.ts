@@ -103,7 +103,6 @@ export class NavbarComponent implements OnInit {
         this.globalService.data.subscribe(value => {
             if (value["isOpenProfileEditWindow"]) {
                 this.ClosePopups();
-                this.globalService.deleteData("isOpenProfileEditWindow");
             }
         });
 

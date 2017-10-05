@@ -411,7 +411,6 @@ var NavbarComponent = /** @class */ (function () {
         this.globalService.data.subscribe(function (value) {
             if (value["isOpenProfileEditWindow"]) {
                 _this.ClosePopups();
-                _this.globalService.deleteData("isOpenProfileEditWindow");
             }
         });
         var self = this;

@@ -15,11 +15,10 @@ var global_service_1 = require("../../services/global/global.service");
 var profile_service_1 = require("../../services/profile/profile.service");
 var ProfileComponent = /** @class */ (function () {
     function ProfileComponent(profileService, globalService) {
-        var _this = this;
         this.profileService = profileService;
         this.globalService = globalService;
         this.isLoading = false;
-        this.userImage = false;
+        this.isNewPhoto = true;
         this.options = {
             aspectRatio: 1 / 1,
             preview: '#preview-img-container',
@@ -140,16 +139,6 @@ var ProfileComponent = /** @class */ (function () {
                 }
             }
         ];
-        this.globalService.data.subscribe(function (value) {
-            if (value["userImage"] != null) {
-                _this.userImage = value["userImage"];
-            }
-            if (value["isOpenProfileEditWindow"]) {
-                _this.isNewPhoto = true;
-                _this.isOpenProfileEditWindow = value["isOpenProfileEditWindow"];
-                _this.ActiveWindow();
-            }
-        });
     }
     ProfileComponent.prototype.ResetAllImageBtns = function () {
         this.imageBtns.forEach(function (btn) {
@@ -168,6 +157,8 @@ var ProfileComponent = /** @class */ (function () {
         });
     };
     ProfileComponent.prototype.ngOnInit = function () {
+        this.userImage = this.globalService.userProfileImage;
+        this.ActiveWindow();
         $("#profile-modal").bind('touchstart', function preventZoom(e) {
             var t2 = e.timeStamp, t1 = $(this).data('lastTouch') || t2, dt = t2 - t1, fingers = e.touches.length;
             $(this).data('lastTouch', t2);
@@ -178,20 +169,14 @@ var ProfileComponent = /** @class */ (function () {
             $(this).trigger('click').trigger('click');
         });
     };
-    ProfileComponent.prototype.ngOnChanges = function (simpleChanges) {
-        if (simpleChanges.isOpenProfileEditWindow.currentValue) {
-            this.ActiveWindow();
-        }
-        else {
-            this.DisableWindow();
-        }
-    };
     ProfileComponent.prototype.ActiveWindow = function () {
         $('#main-img').cropper(this.options);
         $("#profile-modal").modal("show");
     };
-    ProfileComponent.prototype.DisableWindow = function () {
+    ProfileComponent.prototype.CloseWindow = function () {
+        $("#profile-modal").removeClass("fade");
         $("#profile-modal").modal("hide");
+        this.globalService.setData("isOpenProfileEditWindow", false);
     };
     ProfileComponent.prototype.ChangeImage = function () {
         var isSuccess = UploadPhoto(this.options);
@@ -210,8 +195,7 @@ var ProfileComponent = /** @class */ (function () {
         $("#inputImage").trigger("click");
     };
     ProfileComponent.prototype.EditUserPhoto = function () {
-        this.imgSrc = this.userImage;
-        $('#main-img').cropper('destroy').attr('src', this.imgSrc).cropper(this.options);
+        $('#main-img').cropper('destroy').attr('src', this.userImage).cropper(this.options);
         this.isNewPhoto = false;
     };
     ProfileComponent.prototype.SaveImage = function () {
@@ -282,18 +266,6 @@ var ProfileComponent = /** @class */ (function () {
             $("#profile-modal").addClass("fade");
         });
     };
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Boolean)
-    ], ProfileComponent.prototype, "isOpenProfileEditWindow", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Boolean)
-    ], ProfileComponent.prototype, "isNewPhoto", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", String)
-    ], ProfileComponent.prototype, "imgSrc", void 0);
     ProfileComponent = __decorate([
         core_1.Component({
             selector: 'profile',

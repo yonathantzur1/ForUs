@@ -17,6 +17,7 @@ var profilePicture_service_1 = require("../../services/profilePicture/profilePic
 var home_service_1 = require("../../services/home/home.service");
 var HomeComponent = /** @class */ (function () {
     function HomeComponent(router, authService, profilePictureService, homeService, globalService) {
+        var _this = this;
         this.router = router;
         this.authService = authService;
         this.profilePictureService = profilePictureService;
@@ -24,6 +25,12 @@ var HomeComponent = /** @class */ (function () {
         this.globalService = globalService;
         this.isOpenProfileEditWindow = false;
         this.currUser = null;
+        this.globalService.data.subscribe(function (value) {
+            if (value["isOpenProfileEditWindow"] == true ||
+                value["isOpenProfileEditWindow"] == false) {
+                _this.isOpenProfileEditWindow = value["isOpenProfileEditWindow"];
+            }
+        });
     }
     HomeComponent.prototype.ngOnInit = function () {
         var self = this;

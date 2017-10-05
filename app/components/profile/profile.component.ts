@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import './temp.js';
 
@@ -16,28 +16,13 @@ declare function GetCroppedBase64Image(): any;
     providers: [ProfileService]
 })
 
-export class ProfileComponent implements OnInit, OnChanges {
-    constructor(private profileService: ProfileService, private globalService: GlobalService) {
-        this.globalService.data.subscribe(value => {
-
-            if (value["userImage"] != null) {
-                this.userImage = value["userImage"];
-            }
-
-            if (value["isOpenProfileEditWindow"]) {
-                this.isNewPhoto = true;
-                this.isOpenProfileEditWindow = value["isOpenProfileEditWindow"];
-                this.ActiveWindow();
-            }
-        });
-    }
-
-    @Input() isOpenProfileEditWindow: boolean;
-    @Input() isNewPhoto: boolean;
-    @Input() imgSrc: string;
+export class ProfileComponent implements OnInit {
+    constructor(private profileService: ProfileService, private globalService: GlobalService) { }
 
     isLoading: boolean = false;
-    userImage: any = false;
+    userImage: string;
+    isOpenProfileEditWindow: boolean;
+    isNewPhoto: boolean = true;
 
     options = {
         aspectRatio: 1 / 1,
@@ -183,6 +168,9 @@ export class ProfileComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
+        this.userImage = this.globalService.userProfileImage;
+        this.ActiveWindow();
+
         $("#profile-modal").bind('touchstart', function preventZoom(e) {
             var t2 = e.timeStamp
                 , t1 = $(this).data('lastTouch') || t2
@@ -197,22 +185,15 @@ export class ProfileComponent implements OnInit, OnChanges {
         });
     }
 
-    ngOnChanges(simpleChanges: any) {
-        if (simpleChanges.isOpenProfileEditWindow.currentValue) {
-            this.ActiveWindow();
-        }
-        else {
-            this.DisableWindow();
-        }
-    }
-
     ActiveWindow() {
         $('#main-img').cropper(this.options);
         $("#profile-modal").modal("show");
     }
 
-    DisableWindow() {
+    CloseWindow() {
+        $("#profile-modal").removeClass("fade");
         $("#profile-modal").modal("hide");
+        this.globalService.setData("isOpenProfileEditWindow", false);
     }
 
     ChangeImage() {
@@ -235,8 +216,7 @@ export class ProfileComponent implements OnInit, OnChanges {
     }
 
     EditUserPhoto() {
-        this.imgSrc = this.userImage;
-        $('#main-img').cropper('destroy').attr('src', this.imgSrc).cropper(this.options);
+        $('#main-img').cropper('destroy').attr('src', this.userImage).cropper(this.options);
         this.isNewPhoto = false;
     }
 

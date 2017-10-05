@@ -4,10 +4,6 @@ import { Router } from '@angular/router';
 import { GlobalService } from '../../services/global/global.service';
 import { ProfilePictureService } from '../../services/profilePicture/profilePicture.service';
 
-// Define those variables in order to active events for all instances of that class.
-var originalNumOfProfilePictureInstances = 0;
-var numOfProfilePictureInstances = 0;
-
 @Component({
     selector: 'profilePicture',
     templateUrl: './profilePicture.html',
@@ -21,33 +17,16 @@ export class ProfilePictureComponent {
     @Input() isEditEnable: string;
 
     constructor(private profilePictureService: ProfilePictureService, private globalService: GlobalService) {
-        originalNumOfProfilePictureInstances++;
-        numOfProfilePictureInstances++;
-
         this.globalService.data.subscribe(value => {
             if (value["newUploadedImage"]) {
                 globalService.userProfileImage = value["newUploadedImage"];
                 this.isUserHasImage = true;
-
-                numOfProfilePictureInstances--;
-
-                if (numOfProfilePictureInstances == 0) {
-                    numOfProfilePictureInstances = originalNumOfProfilePictureInstances;
-                    this.globalService.deleteData("newUploadedImage");
-                }
             }
 
             if (value["isImageDeleted"]) {
                 globalService.userProfileImage = this.defaultProfileImage;
                 this.isUserHasImage = false;
-
-                numOfProfilePictureInstances--;
-
-                if (numOfProfilePictureInstances == 0) {
-                    numOfProfilePictureInstances = originalNumOfProfilePictureInstances;
-                    this.globalService.deleteData("isImageDeleted");
-                    this.globalService.setData("userImage", false);
-                }
+                this.globalService.setData("userImage", null);
             }
 
             if (value["userProfileImageLoaded"]) {
@@ -57,33 +36,13 @@ export class ProfilePictureComponent {
                 else {
                     this.isUserHasImage = false;
                 }
-
-                numOfProfilePictureInstances--;
-
-                if (numOfProfilePictureInstances == 0) {
-                    numOfProfilePictureInstances = originalNumOfProfilePictureInstances;
-                    this.globalService.deleteData("userProfileImageLoaded");
-                }
             }
         });
     }
 
     OpenEditWindow() {
         if (this.isEditEnable && this.isUserHasImage != null) {
-            var userImage;
-
-            // In case the user has image.
-            if (this.isUserHasImage) {
-                userImage = this.globalService.userProfileImage;
-            }
-            else {
-                userImage = false;
-            }
-
-            var changeVariables = [{ "key": "isOpenProfileEditWindow", "value": true },
-            { "key": "userImage", "value": userImage }];
-
-            this.globalService.setMultiData(changeVariables);
+            this.globalService.setData("isOpenProfileEditWindow", true);
         }
     }
 

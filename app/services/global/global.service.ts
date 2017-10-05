@@ -17,34 +17,21 @@ export class GlobalService {
     }
 
     setData(key: string, value: any) {
-        var currData = this.data.value;
+        var currData: any = this.data.value;
+        currData = {};
         currData[key] = value;
 
         this.data.next(currData);
     }
 
     setMultiData(array: Array<any>) {
-        var currData = this.data.value;
+        var currData: any = this.data.value;
+        currData = {};
 
         array.forEach(element => {
             currData[element.key] = element.value;
         });
 
         this.data.next(currData);
-    }
-
-    deleteData(key: string) {
-        var currData = this.data.value;
-        delete currData[key];
-    }
-
-    deleteMultiData(array: Array<string>) {
-        if (array.length != 0) {
-            var currData = this.data.value;
-
-            array.forEach(key => {
-                delete currData[key]
-            });
-        }
     }
 }

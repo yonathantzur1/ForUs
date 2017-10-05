@@ -8,7 +8,7 @@
                         </div>
                     </div>
                     <div class="disable-screen" *ngIf="isLoading"></div>
-                    <a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                    <a class="close" (click)="CloseWindow()" aria-label="Close"><span aria-hidden="true">&times;</span></a>
                     <h4 class="modal-title modal-title-label" id="profileLabel">תמונת פרופיל <span class="glyphicon glyphicon-camera modal-title-icon" aria-hidden="true"></span></h4>
                 </div>
                 <div class="modal-body">
@@ -30,7 +30,7 @@
                             <div class="form-group align-mini">
                                 <div class="col-md-6 col-xs-8 edit-left-side">
                                     <div id="main-img-container" class="main-img-container">
-                                        <img id="main-img" class="main-img" src="{{imgSrc}}">
+                                        <img id="main-img" class="main-img" src="{{userImage}}">
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-xs-4 edit-right-side">
@@ -52,7 +52,7 @@
                     <!-- <a  (click)="DeleteImage()"  class="btn btn-raised btn-default delete-profile-btn"></a> -->
                     <span *ngIf="userImage && isNewPhoto" title="מחיקת תמונת הפרופיל" (click)="DeleteImage()" class="glyphicon glyphicon-trash delete-profile-btn" aria-hidden="true"></span>
                     <div class="modal-footer-buttons">
-                        <a (click)="ResetAllImageBtnsMode()" class="btn btn-default cancel-change-btn" data-dismiss="modal">סגור</a>
+                        <a (click)="ResetAllImageBtnsMode();CloseWindow();" class="btn btn-default cancel-change-btn">סגור</a>
                         <a (click)="SaveImage()" id="register-btn" class="btn btn-primary change-img-btn" [ngClass]="{'change-img-btn-disabled': isNewPhoto}">אישור</a>
                     </div>
                 </div>

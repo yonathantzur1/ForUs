@@ -21,7 +21,6 @@ var ChatComponent = /** @class */ (function () {
         this.token = getToken();
         this.chatBodyScrollHeight = 0;
         this.InitializeChat = function () {
-            var _this = this;
             var self = this;
             self.isAllowShowUnreadLine = true;
             self.chatBodyScrollHeight = 0;
@@ -32,7 +31,6 @@ var ChatComponent = /** @class */ (function () {
                 }
                 self.isMessagesLoading = false;
                 $("#msg-input").focus();
-                _this.globalService.deleteData("chatData");
             });
         };
         this.CloseChat = function () {

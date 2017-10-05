@@ -12,9 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var global_service_1 = require("../../services/global/global.service");
 var profilePicture_service_1 = require("../../services/profilePicture/profilePicture.service");
-// Define those variables in order to active events for all instances of that class.
-var originalNumOfProfilePictureInstances = 0;
-var numOfProfilePictureInstances = 0;
 var ProfilePictureComponent = /** @class */ (function () {
     function ProfilePictureComponent(profilePictureService, globalService) {
         var _this = this;
@@ -22,27 +19,15 @@ var ProfilePictureComponent = /** @class */ (function () {
         this.globalService = globalService;
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.isUserHasImage = null;
-        originalNumOfProfilePictureInstances++;
-        numOfProfilePictureInstances++;
         this.globalService.data.subscribe(function (value) {
             if (value["newUploadedImage"]) {
                 globalService.userProfileImage = value["newUploadedImage"];
                 _this.isUserHasImage = true;
-                numOfProfilePictureInstances--;
-                if (numOfProfilePictureInstances == 0) {
-                    numOfProfilePictureInstances = originalNumOfProfilePictureInstances;
-                    _this.globalService.deleteData("newUploadedImage");
-                }
             }
             if (value["isImageDeleted"]) {
                 globalService.userProfileImage = _this.defaultProfileImage;
                 _this.isUserHasImage = false;
-                numOfProfilePictureInstances--;
-                if (numOfProfilePictureInstances == 0) {
-                    numOfProfilePictureInstances = originalNumOfProfilePictureInstances;
-                    _this.globalService.deleteData("isImageDeleted");
-                    _this.globalService.setData("userImage", false);
-                }
+                _this.globalService.setData("userImage", null);
             }
             if (value["userProfileImageLoaded"]) {
                 if (_this.globalService.userProfileImage) {
@@ -51,27 +36,12 @@ var ProfilePictureComponent = /** @class */ (function () {
                 else {
                     _this.isUserHasImage = false;
                 }
-                numOfProfilePictureInstances--;
-                if (numOfProfilePictureInstances == 0) {
-                    numOfProfilePictureInstances = originalNumOfProfilePictureInstances;
-                    _this.globalService.deleteData("userProfileImageLoaded");
-                }
             }
         });
     }
     ProfilePictureComponent.prototype.OpenEditWindow = function () {
         if (this.isEditEnable && this.isUserHasImage != null) {
-            var userImage;
-            // In case the user has image.
-            if (this.isUserHasImage) {
-                userImage = this.globalService.userProfileImage;
-            }
-            else {
-                userImage = false;
-            }
-            var changeVariables = [{ "key": "isOpenProfileEditWindow", "value": true },
-                { "key": "userImage", "value": userImage }];
-            this.globalService.setMultiData(changeVariables);
+            this.globalService.setData("isOpenProfileEditWindow", true);
         }
     };
     __decorate([
