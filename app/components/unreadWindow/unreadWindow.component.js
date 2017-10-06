@@ -14,6 +14,9 @@ var unreadWindow_service_1 = require("../../services/unreadWindow/unreadWindow.s
 var UnreadWindowComponent = /** @class */ (function () {
     function UnreadWindowComponent(unreadWindowService) {
         this.unreadWindowService = unreadWindowService;
+        this.days = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
+        this.months = ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני",
+            "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"];
         this.chats = [];
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.GetUnreadMessagesNumber = function () {
@@ -43,15 +46,34 @@ var UnreadWindowComponent = /** @class */ (function () {
         };
         this.GetTimeString = function (date) {
             var localDate = new Date(date);
+            var currDate = new Date();
             var HH = localDate.getHours().toString();
             var mm = localDate.getMinutes().toString();
-            if (HH.length == 1) {
-                HH = "0" + HH;
-            }
             if (mm.length == 1) {
                 mm = "0" + mm;
             }
-            return (HH + ":" + mm);
+            var dateTimeString = "";
+            var timeDiff = Math.abs(currDate.getTime() - localDate.getTime());
+            var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+            var dateDetailsString = "";
+            if (diffDays <= 7) {
+                if (diffDays <= 1) {
+                    dateDetailsString = "היום";
+                }
+                else {
+                    dateDetailsString = this.days[localDate.getDay()];
+                }
+                dateTimeString = HH + ":" + mm;
+            }
+            else {
+                if (localDate.getFullYear() == currDate.getFullYear()) {
+                    dateDetailsString = (localDate.getDay() + 1) + " ב" + this.months[localDate.getMonth()];
+                }
+                else {
+                    dateDetailsString = (localDate.getDay() + 1) + "." + (localDate.getMonth() + 1) + "." + localDate.getFullYear();
+                }
+            }
+            return { "dateDetailsString": dateDetailsString, "dateTimeString": dateTimeString };
         };
         this.GetFriend = function (friendId) {
             return (this.friends.find(function (friend) {

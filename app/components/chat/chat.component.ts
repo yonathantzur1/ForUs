@@ -116,10 +116,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         var HH = localDate.getHours().toString();
         var mm = localDate.getMinutes().toString();
 
-        if (HH.length == 1) {
-            HH = "0" + HH;
-        }
-
         if (mm.length == 1) {
             mm = "0" + mm;
         }

@@ -21,7 +21,10 @@
                         </td>
                     </tr>
                 </table>
-                <span class="chat-last-time">{{GetTimeString(chat.lastMessage.time)}}</span>
+                <div class="chat-last-time">
+                    <span>{{GetTimeString(chat.lastMessage.time).dateDetailsString}}</span>
+                    <span>{{GetTimeString(chat.lastMessage.time).dateTimeString}}</span>
+                </div>
             </div>
         </div>
     </div>

@@ -72,6 +72,7 @@
     font-size: 10px;
     align-self: center;
     margin-top: 1px;
+    display: grid;
 }
 
 #unreadWindow .chat-image {
@@ -93,7 +94,7 @@
 }
 
 #unreadWindow .details-table {
-    width: calc(100% - 95px);
+    width: calc(100% - 114px);
 }
 
 #unreadWindow .details-td {

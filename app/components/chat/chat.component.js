@@ -70,9 +70,6 @@ var ChatComponent = /** @class */ (function () {
             var localDate = new Date(date);
             var HH = localDate.getHours().toString();
             var mm = localDate.getMinutes().toString();
-            if (HH.length == 1) {
-                HH = "0" + HH;
-            }
             if (mm.length == 1) {
                 mm = "0" + mm;
             }

@@ -14,6 +14,9 @@ export class UnreadWindowComponent implements OnInit, OnChanges {
     @Input() messagesNotifications: Object;
     @Input() OpenChat: Function;
 
+    days: Array<string> = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
+    months: Array<string> = ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני",
+        "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"];
     chats: any = [];
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
     isChatsLoading: boolean;
@@ -72,19 +75,41 @@ export class UnreadWindowComponent implements OnInit, OnChanges {
 
     GetTimeString = function (date: Date) {
         var localDate = new Date(date);
+        var currDate = new Date();
 
         var HH = localDate.getHours().toString();
         var mm = localDate.getMinutes().toString();
-
-        if (HH.length == 1) {
-            HH = "0" + HH;
-        }
 
         if (mm.length == 1) {
             mm = "0" + mm;
         }
 
-        return (HH + ":" + mm);
+        var dateTimeString = "";
+
+        var timeDiff = Math.abs(currDate.getTime() - localDate.getTime());
+        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        var dateDetailsString = "";
+
+        if (diffDays <= 7) {
+            if (diffDays <= 1) {
+                dateDetailsString = "היום";
+            }
+            else {
+                dateDetailsString = this.days[localDate.getDay()];
+            }
+
+            dateTimeString = HH + ":" + mm;
+        }
+        else {
+            if (localDate.getFullYear() == currDate.getFullYear()) {
+                dateDetailsString = (localDate.getDay() + 1) + " ב" + this.months[localDate.getMonth()]
+            }
+            else {
+                dateDetailsString = (localDate.getDay() + 1) + "." + (localDate.getMonth() + 1) + "." + localDate.getFullYear();
+            }
+        }
+
+        return { "dateDetailsString": dateDetailsString, "dateTimeString": dateTimeString };
     }
 
     GetFriend = function (friendId: string) {
