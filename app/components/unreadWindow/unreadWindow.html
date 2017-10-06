@@ -22,8 +22,9 @@
                     </tr>
                 </table>
                 <div class="chat-last-time">
-                    <span>{{GetTimeString(chat.lastMessage.time).dateDetailsString}}</span>
-                    <span>{{GetTimeString(chat.lastMessage.time).dateTimeString}}</span>
+                    {{CalculateChatTimeString(chat)}}
+                    <span>{{chat.timeString.dateDetailsString}}</span>
+                    <span>{{chat.timeString.dateTimeString}}</span>
                 </div>
             </div>
         </div>

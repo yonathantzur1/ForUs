@@ -73,8 +73,8 @@ export class UnreadWindowComponent implements OnInit, OnChanges {
         }
     }
 
-    GetTimeString = function (date: Date) {
-        var localDate = new Date(date);
+    CalculateChatTimeString = function (chat: any) {
+        var localDate = new Date(chat.lastMessage.time);
         var currDate = new Date();
 
         var HH = localDate.getHours().toString();
@@ -109,7 +109,7 @@ export class UnreadWindowComponent implements OnInit, OnChanges {
             }
         }
 
-        return { "dateDetailsString": dateDetailsString, "dateTimeString": dateTimeString };
+        chat.timeString = { "dateDetailsString": dateDetailsString, "dateTimeString": dateTimeString };
     }
 
     GetFriend = function (friendId: string) {

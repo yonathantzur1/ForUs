@@ -44,8 +44,8 @@ var UnreadWindowComponent = /** @class */ (function () {
                 }
             }
         };
-        this.GetTimeString = function (date) {
-            var localDate = new Date(date);
+        this.CalculateChatTimeString = function (chat) {
+            var localDate = new Date(chat.lastMessage.time);
             var currDate = new Date();
             var HH = localDate.getHours().toString();
             var mm = localDate.getMinutes().toString();
@@ -73,7 +73,7 @@ var UnreadWindowComponent = /** @class */ (function () {
                     dateDetailsString = (localDate.getDay() + 1) + "." + (localDate.getMonth() + 1) + "." + localDate.getFullYear();
                 }
             }
-            return { "dateDetailsString": dateDetailsString, "dateTimeString": dateTimeString };
+            chat.timeString = { "dateDetailsString": dateDetailsString, "dateTimeString": dateTimeString };
         };
         this.GetFriend = function (friendId) {
             return (this.friends.find(function (friend) {
