@@ -51,7 +51,6 @@ var ChatComponent = /** @class */ (function () {
                     this.isAllowShowUnreadLine = false;
                     this.messages.push(msgData);
                     this.socket.emit("SendMessage", msgData, this.token);
-                    this.socket.emit("ServerUpdateSendMessage", msgData, this.token);
                 }
             }
         };

@@ -30,12 +30,6 @@ var UnreadWindowComponent = /** @class */ (function () {
                 self.isRefreshActive = false;
             });
         };
-        this.RefreshWindow = function () {
-            if (!this.isRefreshActive) {
-                this.isRefreshActive = true;
-                this.LoadChatsObjects();
-            }
-        };
         this.GetUnreadMessagesNumber = function () {
             var _this = this;
             var counter = 0;
@@ -120,24 +114,34 @@ var UnreadWindowComponent = /** @class */ (function () {
         var self = this;
         this.isChatsLoading = true;
         this.LoadChatsObjects();
-        self.socket.on('GetMessage', function (msgData) {
-            for (var i = 0; i < self.chats.length; i++) {
-                var chat = self.chats[i];
-                if (chat.friendId == msgData.from) {
-                    chat.lastMessage.text = msgData.text;
-                    chat.lastMessage.time = (new Date()).toISOString();
-                    break;
-                }
-            }
-        });
         self.socket.on('ClientUpdateSendMessage', function (msgData) {
+            var isChatUpdated = false;
             for (var i = 0; i < self.chats.length; i++) {
                 var chat = self.chats[i];
                 if (chat.friendId == msgData.to) {
                     chat.lastMessage.text = msgData.text;
                     chat.lastMessage.time = (new Date()).toISOString();
+                    isChatUpdated = true;
                     break;
                 }
+            }
+            if (!isChatUpdated) {
+                self.LoadChatsObjects();
+            }
+        });
+        self.socket.on('ClientUpdateGetMessage', function (msgData) {
+            var isChatUpdated = false;
+            for (var i = 0; i < self.chats.length; i++) {
+                var chat = self.chats[i];
+                if (chat.friendId == msgData.from) {
+                    chat.lastMessage.text = msgData.text;
+                    chat.lastMessage.time = (new Date()).toISOString();
+                    isChatUpdated = true;
+                    break;
+                }
+            }
+            if (!isChatUpdated) {
+                self.LoadChatsObjects();
             }
         });
     };

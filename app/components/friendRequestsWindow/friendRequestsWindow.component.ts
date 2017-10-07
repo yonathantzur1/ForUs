@@ -22,7 +22,6 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     friendRequestsObjects: Array<any> = [];
     isFirstFriendRequestsObjectsLoaded: boolean = false;
     isFriendRequestsLoading: boolean = false;
-    isRefreshActive: boolean = false;
 
     constructor(private navbarService: NavbarService,
         private friendRequestsWindowService: FriendRequestsWindowService,
@@ -66,20 +65,11 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
             this.navbarService.GetFriends(this.friendRequests).then((friendsResult: Array<any>) => {
                 this.friendRequestsObjects = friendsResult;
                 this.isFriendRequestsLoading = false;
-                this.isRefreshActive = false;
             });
         }
         else {
             this.friendRequestsObjects = [];
             this.isFriendRequestsLoading = false;
-            this.isRefreshActive = false;
-        }
-    }
-
-    RefreshWindow = function () {
-        if (!this.isRefreshActive) {
-            this.isRefreshActive = true;
-            this.LoadFriendRequestsObjects();
         }
     }
 

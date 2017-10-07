@@ -34,29 +34,43 @@ export class UnreadWindowComponent implements OnInit {
 
         this.LoadChatsObjects();
 
-        self.socket.on('GetMessage', function (msgData: any) {
-            for (var i = 0; i < self.chats.length; i++) {
-                var chat = self.chats[i];
-
-                if (chat.friendId == msgData.from) {
-                    chat.lastMessage.text = msgData.text;
-                    chat.lastMessage.time = (new Date()).toISOString();
-
-                    break;
-                }
-            }
-        });
-
         self.socket.on('ClientUpdateSendMessage', function (msgData: any) {
+            var isChatUpdated = false;
+
             for (var i = 0; i < self.chats.length; i++) {
                 var chat = self.chats[i];
 
                 if (chat.friendId == msgData.to) {
                     chat.lastMessage.text = msgData.text;
                     chat.lastMessage.time = (new Date()).toISOString();
+                    isChatUpdated = true;
 
                     break;
                 }
+            }
+
+            if (!isChatUpdated) {
+                self.LoadChatsObjects();
+            }
+        });
+
+        self.socket.on('ClientUpdateGetMessage', function (msgData: any) {
+            var isChatUpdated = false;
+
+            for (var i = 0; i < self.chats.length; i++) {
+                var chat = self.chats[i];
+
+                if (chat.friendId == msgData.from) {
+                    chat.lastMessage.text = msgData.text;
+                    chat.lastMessage.time = (new Date()).toISOString();
+                    isChatUpdated = true;
+
+                    break;
+                }
+            }
+
+            if (!isChatUpdated) {
+                self.LoadChatsObjects();
             }
         });
     }
@@ -69,13 +83,6 @@ export class UnreadWindowComponent implements OnInit {
             self.isChatsLoading = false;
             self.isRefreshActive = false;
         });
-    }
-
-    RefreshWindow = function () {
-        if (!this.isRefreshActive) {
-            this.isRefreshActive = true;
-            this.LoadChatsObjects();
-        }
     }
 
     GetUnreadMessagesNumber = function () {

@@ -3,7 +3,6 @@
     <div class="friendRequestsWindow-container">
         <div *ngIf="!isFriendRequestsLoading" class="top-line">
             <span>{{GetFriendRequestsNumberText()}}</span>
-            <i *ngIf="(friendRequests.length > 0)" (click)="RefreshWindow()" class="material-icons refresh-icon" [ngClass]="{'refresh-icon-spin' : isRefreshActive}">refresh</i>
         </div>
         <div class="body-container">
             <loader *ngIf="isFriendRequestsLoading" id="friend-requests-loader" class="friend-requests-loader"></loader>

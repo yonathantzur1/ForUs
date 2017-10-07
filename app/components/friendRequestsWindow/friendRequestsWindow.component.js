@@ -22,26 +22,17 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         this.friendRequestsObjects = [];
         this.isFirstFriendRequestsObjectsLoaded = false;
         this.isFriendRequestsLoading = false;
-        this.isRefreshActive = false;
         this.LoadFriendRequestsObjects = function () {
             var _this = this;
             if (this.friendRequests.length > 0) {
                 this.navbarService.GetFriends(this.friendRequests).then(function (friendsResult) {
                     _this.friendRequestsObjects = friendsResult;
                     _this.isFriendRequestsLoading = false;
-                    _this.isRefreshActive = false;
                 });
             }
             else {
                 this.friendRequestsObjects = [];
                 this.isFriendRequestsLoading = false;
-                this.isRefreshActive = false;
-            }
-        };
-        this.RefreshWindow = function () {
-            if (!this.isRefreshActive) {
-                this.isRefreshActive = true;
-                this.LoadFriendRequestsObjects();
             }
         };
         this.GetFriendRequestsNumberText = function () {

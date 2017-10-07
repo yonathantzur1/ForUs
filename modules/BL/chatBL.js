@@ -46,7 +46,7 @@ var self = module.exports = {
         DAL.UpdateOne(collectionName, chatQueryFilter, chatObj, function () { }, true);
     },
 
-    AddMessageToChat: function (msgData) {
+    AddMessageToChat: function (msgData, callback) {
         // Encrypt message text.
         msgData.text = encryption.encrypt(msgData.text);
 
@@ -58,7 +58,9 @@ var self = module.exports = {
             $set: { "lastMessage": { "text": msgData.text, "time": msgData.time } }
         }
 
-        DAL.UpdateOne(collectionName, chatFilter, chatUpdateQuery, function (result) { });
+        DAL.UpdateOne(collectionName, chatFilter, chatUpdateQuery, function (result) {
+            result ? callback(true) : callback(false);
+        });
     }
 }
 
