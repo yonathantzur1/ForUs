@@ -121,6 +121,19 @@
     position: absolute;
 }
 
+#unreadWindow .refresh-icon {
+    font-size: 16px;
+    position: absolute;
+    left: 5px;
+    cursor: pointer;
+    align-self: center;
+}
+
+#unreadWindow .refresh-icon-spin {
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+}
+
 #unreadWindow .chats-loader {
     position: absolute;
     top: 50%;

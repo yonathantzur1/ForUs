@@ -3,6 +3,7 @@
     <div class="unreadWindow-container">
         <div *ngIf="!isChatsLoading" class="top-line">
             <span>{{GetUnreadMessagesNumberText()}}</span>
+            <i (click)="RefreshWindow()" class="material-icons refresh-icon" [ngClass]="{'refresh-icon-spin' : isRefreshActive}">refresh</i>
         </div>
         <div class="body-container">
             <loader *ngIf="isChatsLoading" id="chats-loader" class="chats-loader"></loader>

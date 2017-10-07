@@ -11,14 +11,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var unreadWindow_service_1 = require("../../services/unreadWindow/unreadWindow.service");
+var global_service_1 = require("../../services/global/global.service");
 var UnreadWindowComponent = /** @class */ (function () {
-    function UnreadWindowComponent(unreadWindowService) {
+    function UnreadWindowComponent(unreadWindowService, globalService) {
         this.unreadWindowService = unreadWindowService;
+        this.globalService = globalService;
         this.days = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
         this.months = ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני",
             "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"];
         this.chats = [];
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
+        this.isRefreshActive = false;
+        this.LoadChatsObjects = function () {
+            var self = this;
+            self.unreadWindowService.GetAllChats().then(function (chats) {
+                self.chats = chats;
+                self.isChatsLoading = false;
+                self.isRefreshActive = false;
+            });
+        };
+        this.RefreshWindow = function () {
+            if (!this.isRefreshActive) {
+                this.isRefreshActive = true;
+                this.LoadChatsObjects();
+            }
+        };
         this.GetUnreadMessagesNumber = function () {
             var _this = this;
             var counter = 0;
@@ -55,10 +72,19 @@ var UnreadWindowComponent = /** @class */ (function () {
             var dateTimeString = "";
             var timeDiff = Math.abs(currDate.getTime() - localDate.getTime());
             var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+            var datesDaysDiff = Math.abs(currDate.getDay() - localDate.getDay());
             var dateDetailsString = "";
             if (diffDays <= 7) {
-                if (diffDays <= 1) {
-                    dateDetailsString = "היום";
+                if (diffDays <= 2) {
+                    if (currDate.getDay() == localDate.getDay()) {
+                        dateDetailsString = "היום";
+                    }
+                    else if (Math.min((7 - datesDaysDiff), datesDaysDiff) <= 1) {
+                        dateDetailsString = "אתמול";
+                    }
+                    else {
+                        dateDetailsString = this.days[localDate.getDay()];
+                    }
                 }
                 else {
                     dateDetailsString = this.days[localDate.getDay()];
@@ -88,23 +114,32 @@ var UnreadWindowComponent = /** @class */ (function () {
             var friendObj = this.GetFriend(friendId);
             return friendObj ? friendObj.profileImage : null;
         };
+        this.socket = globalService.socket;
     }
     UnreadWindowComponent.prototype.ngOnInit = function () {
         var self = this;
         this.isChatsLoading = true;
-        self.unreadWindowService.GetAllChats().then(function (chats) {
-            self.chats = chats;
-            self.isChatsLoading = false;
+        this.LoadChatsObjects();
+        self.socket.on('GetMessage', function (msgData) {
+            for (var i = 0; i < self.chats.length; i++) {
+                var chat = self.chats[i];
+                if (chat.friendId == msgData.from) {
+                    chat.lastMessage.text = msgData.text;
+                    chat.lastMessage.time = (new Date()).toISOString();
+                    break;
+                }
+            }
         });
-    };
-    UnreadWindowComponent.prototype.ngOnChanges = function (changes) {
-        if (changes.messagesNotifications && !changes.messagesNotifications.firstChange) {
-            var self = this;
-            // Loading all chats.
-            self.unreadWindowService.GetAllChats().then(function (chats) {
-                self.chats = chats;
-            });
-        }
+        self.socket.on('ClientUpdateSendMessage', function (msgData) {
+            for (var i = 0; i < self.chats.length; i++) {
+                var chat = self.chats[i];
+                if (chat.friendId == msgData.to) {
+                    chat.lastMessage.text = msgData.text;
+                    chat.lastMessage.time = (new Date()).toISOString();
+                    break;
+                }
+            }
+        });
     };
     __decorate([
         core_1.Input(),
@@ -124,7 +159,7 @@ var UnreadWindowComponent = /** @class */ (function () {
             templateUrl: './unreadWindow.html',
             providers: [unreadWindow_service_1.UnreadWindowService]
         }),
-        __metadata("design:paramtypes", [unreadWindow_service_1.UnreadWindowService])
+        __metadata("design:paramtypes", [unreadWindow_service_1.UnreadWindowService, global_service_1.GlobalService])
     ], UnreadWindowComponent);
     return UnreadWindowComponent;
 }());

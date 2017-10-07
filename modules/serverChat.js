@@ -3,6 +3,17 @@ var navbarBL = require('./BL/navbarBL');
 var general = require('./general.js');
 
 module.exports = function (io, jwt, config, socket, socketsDictionary, connectedUsers) {
+    socket.on('ServerUpdateSendMessage', function (msgData, token) {
+        token = general.DecodeToken(token);
+
+        jwt.verify(token, config.jwtSecret, function (err, decoded) {
+            // In case the token is valid.
+            if (!err && decoded) {
+                io.to(decoded.user._id).emit('ClientUpdateSendMessage', msgData);
+            }
+        });
+    });
+
     socket.on('SendMessage', function (msgData, token) {
         // Delete spaces from the start and the end of the message text.
         msgData.text = msgData.text.trim();
@@ -20,7 +31,7 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
                 else {
                     navbarBL.AddMessageNotification(msgData.from, msgData.to, msgData.id);
                 }
-                
+
                 chatBL.AddMessageToChat(msgData);
             }
         });
@@ -38,7 +49,7 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
                 user.friends.forEach(friendId => {
                     if (connectedUsers[friendId]) {
                         onlineFriendsIds.push(friendId);
-                    }   
+                    }
                 });
 
                 io.to(user._id).emit('ClientGetOnlineFriends', onlineFriendsIds);

@@ -91,6 +91,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
                 this.messages.push(msgData);
                 this.socket.emit("SendMessage", msgData, this.token);
+                this.socket.emit("ServerUpdateSendMessage", msgData, this.token);
             }
         }
     }

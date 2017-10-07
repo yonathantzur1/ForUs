@@ -17,11 +17,12 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     @Input() AddFriend: Function;
     @Input() IgnoreFriendRequest: Function;
 
+    socket: any;
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
     friendRequestsObjects: Array<any> = [];
     isFirstFriendRequestsObjectsLoaded: boolean = false;
-    isFriendRequestsLoading: boolean = false;;
-    socket: any;
+    isFriendRequestsLoading: boolean = false;
+    isRefreshActive: boolean = false;
 
     constructor(private navbarService: NavbarService,
         private friendRequestsWindowService: FriendRequestsWindowService,
@@ -50,25 +51,35 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges) {
+        // In case of loading data for the first time.
         if (changes.friendRequests &&
             !changes.friendRequests.firstChange &&
             !this.isFirstFriendRequestsObjectsLoaded) {
             this.isFirstFriendRequestsObjectsLoaded = true;
+            this.isFriendRequestsLoading = true;
             this.LoadFriendRequestsObjects();
         }
     }
 
     LoadFriendRequestsObjects = function () {
         if (this.friendRequests.length > 0) {
-            this.isFriendRequestsLoading = true;
-
             this.navbarService.GetFriends(this.friendRequests).then((friendsResult: Array<any>) => {
                 this.friendRequestsObjects = friendsResult;
                 this.isFriendRequestsLoading = false;
+                this.isRefreshActive = false;
             });
         }
         else {
             this.friendRequestsObjects = [];
+            this.isFriendRequestsLoading = false;
+            this.isRefreshActive = false;
+        }
+    }
+
+    RefreshWindow = function () {
+        if (!this.isRefreshActive) {
+            this.isRefreshActive = true;
+            this.LoadFriendRequestsObjects();
         }
     }
 

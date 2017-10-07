@@ -95,6 +95,19 @@
     margin-left: 12px;
 }
 
+#friendRequestsWindow .refresh-icon {
+    font-size: 16px;
+    position: absolute;
+    left: 5px;
+    cursor: pointer;
+    align-self: center;
+}
+
+#friendRequestsWindow .refresh-icon-spin {
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+}
+
 #friendRequestsWindow .friend-requests-loader {
     position: absolute;
     top: 50%;

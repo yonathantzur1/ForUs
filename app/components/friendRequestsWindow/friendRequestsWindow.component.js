@@ -22,17 +22,26 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         this.friendRequestsObjects = [];
         this.isFirstFriendRequestsObjectsLoaded = false;
         this.isFriendRequestsLoading = false;
+        this.isRefreshActive = false;
         this.LoadFriendRequestsObjects = function () {
             var _this = this;
             if (this.friendRequests.length > 0) {
-                this.isFriendRequestsLoading = true;
                 this.navbarService.GetFriends(this.friendRequests).then(function (friendsResult) {
                     _this.friendRequestsObjects = friendsResult;
                     _this.isFriendRequestsLoading = false;
+                    _this.isRefreshActive = false;
                 });
             }
             else {
                 this.friendRequestsObjects = [];
+                this.isFriendRequestsLoading = false;
+                this.isRefreshActive = false;
+            }
+        };
+        this.RefreshWindow = function () {
+            if (!this.isRefreshActive) {
+                this.isRefreshActive = true;
+                this.LoadFriendRequestsObjects();
             }
         };
         this.GetFriendRequestsNumberText = function () {
@@ -52,7 +61,6 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         };
         this.socket = globalService.socket;
     }
-    ;
     FriendRequestsWindowComponent.prototype.ngOnInit = function () {
         var self = this;
         self.socket.on('ClientUpdateFriendRequestsStatus', function (friendId) {
@@ -70,10 +78,12 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         });
     };
     FriendRequestsWindowComponent.prototype.ngOnChanges = function (changes) {
+        // In case of loading data for the first time.
         if (changes.friendRequests &&
             !changes.friendRequests.firstChange &&
             !this.isFirstFriendRequestsObjectsLoaded) {
             this.isFirstFriendRequestsObjectsLoaded = true;
+            this.isFriendRequestsLoading = true;
             this.LoadFriendRequestsObjects();
         }
     };

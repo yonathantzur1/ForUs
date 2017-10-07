@@ -3,6 +3,7 @@
     <div class="friendRequestsWindow-container">
         <div *ngIf="!isFriendRequestsLoading" class="top-line">
             <span>{{GetFriendRequestsNumberText()}}</span>
+            <i *ngIf="(friendRequests.length > 0)" (click)="RefreshWindow()" class="material-icons refresh-icon" [ngClass]="{'refresh-icon-spin' : isRefreshActive}">refresh</i>
         </div>
         <div class="body-container">
             <loader *ngIf="isFriendRequestsLoading" id="friend-requests-loader" class="friend-requests-loader"></loader>
@@ -10,7 +11,8 @@
                 <div class="friend-request-container" *ngFor="let request of friendRequestsObjects">
                     <img class="friend-request-image" src="{{request.profileImage ? request.profileImage : defaultProfileImage}}">
                     <span class="friend-name">{{request.firstName + " " + request.lastName}}</span>
-                    <i (click)="AddFriend(request._id);FriendRequestBtnClicked(request._id);" class="material-icons friend-request-response-btn friend-request-confirm-btn" title="אישור">check</i>
+                    <i (click)="AddFriend(request._id);FriendRequestBtnClicked(request._id);" class="material-icons friend-request-response-btn friend-request-confirm-btn"
+                        title="אישור">check</i>
                     <i (click)="IgnoreFriendRequest(request._id);FriendRequestBtnClicked(request._id);" class="material-icons friend-request-response-btn friend-request-decline-btn"
                         title="ביטול">close</i>
                 </div>

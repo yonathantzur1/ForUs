@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { UnreadWindowService } from '../../services/unreadWindow/unreadWindow.service';
+import { GlobalService } from '../../services/global/global.service';
 
 
 @Component({
@@ -9,38 +10,71 @@ import { UnreadWindowService } from '../../services/unreadWindow/unreadWindow.se
     providers: [UnreadWindowService]
 })
 
-export class UnreadWindowComponent implements OnInit, OnChanges {
+export class UnreadWindowComponent implements OnInit {
     @Input() friends: Array<any>;
     @Input() messagesNotifications: Object;
     @Input() OpenChat: Function;
 
+    socket: any;
     days: Array<string> = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
     months: Array<string> = ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני",
         "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"];
     chats: any = [];
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
     isChatsLoading: boolean;
+    isRefreshActive: boolean = false;
 
-    constructor(private unreadWindowService: UnreadWindowService) { }
+    constructor(private unreadWindowService: UnreadWindowService, private globalService: GlobalService) {
+        this.socket = globalService.socket;
+    }
 
     ngOnInit() {
         var self = this;
         this.isChatsLoading = true;
 
-        self.unreadWindowService.GetAllChats().then(function (chats) {
-            self.chats = chats;
-            self.isChatsLoading = false;
+        this.LoadChatsObjects();
+
+        self.socket.on('GetMessage', function (msgData: any) {
+            for (var i = 0; i < self.chats.length; i++) {
+                var chat = self.chats[i];
+
+                if (chat.friendId == msgData.from) {
+                    chat.lastMessage.text = msgData.text;
+                    chat.lastMessage.time = (new Date()).toISOString();
+
+                    break;
+                }
+            }
+        });
+
+        self.socket.on('ClientUpdateSendMessage', function (msgData: any) {
+            for (var i = 0; i < self.chats.length; i++) {
+                var chat = self.chats[i];
+
+                if (chat.friendId == msgData.to) {
+                    chat.lastMessage.text = msgData.text;
+                    chat.lastMessage.time = (new Date()).toISOString();
+
+                    break;
+                }
+            }
         });
     }
 
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.messagesNotifications && !changes.messagesNotifications.firstChange) {
-            var self = this;
+    LoadChatsObjects = function () {
+        var self = this;
 
-            // Loading all chats.
-            self.unreadWindowService.GetAllChats().then(function (chats) {
-                self.chats = chats;
-            });
+        self.unreadWindowService.GetAllChats().then(function (chats: any) {
+            self.chats = chats;
+            self.isChatsLoading = false;
+            self.isRefreshActive = false;
+        });
+    }
+
+    RefreshWindow = function () {
+        if (!this.isRefreshActive) {
+            this.isRefreshActive = true;
+            this.LoadChatsObjects();
         }
     }
 
@@ -88,11 +122,20 @@ export class UnreadWindowComponent implements OnInit, OnChanges {
 
         var timeDiff = Math.abs(currDate.getTime() - localDate.getTime());
         var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        var datesDaysDiff = Math.abs(currDate.getDay() - localDate.getDay());
         var dateDetailsString = "";
 
         if (diffDays <= 7) {
-            if (diffDays <= 1) {
-                dateDetailsString = "היום";
+            if (diffDays <= 2) {
+                if (currDate.getDay() == localDate.getDay()) {
+                    dateDetailsString = "היום";
+                }
+                else if (Math.min((7 - datesDaysDiff), datesDaysDiff) <= 1) {
+                    dateDetailsString = "אתמול";
+                }
+                else {
+                    dateDetailsString = this.days[localDate.getDay()];
+                }
             }
             else {
                 dateDetailsString = this.days[localDate.getDay()];
