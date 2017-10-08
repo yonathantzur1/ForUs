@@ -61,7 +61,15 @@ module.exports = function (app, loginBL, mailer, sha512) {
                     });
                 }
                 else {
-                    res.send(result);
+                    // In case the user is not exists.
+                    if (result == "-1") {
+                        req.brute.reset(function () {
+                            res.send(result);
+                        });
+                    }
+                    else {
+                        res.send(result);
+                    }
                 }
             });
         });

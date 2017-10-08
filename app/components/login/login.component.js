@@ -119,12 +119,8 @@ var LoginComponent = /** @class */ (function () {
                 }
                 else {
                     if (result.lock != null) {
-                        var options = {
-                            content: "המשתמש ננעל למשך " + result.lock + " דקות",
-                            style: "snackbar"
-                        };
-                        $(_this.snackbarId).snackbar("hide");
-                        _this.snackbarId = $.snackbar(options);
+                        $("#lock-user").attr("data-content", "המשתמש ננעל למשך " + result.lock + " דקות");
+                        _this.snackbarId = $("#lock-user").snackbar("show");
                     }
                     else {
                         setToken(result.token);
