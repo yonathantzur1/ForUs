@@ -118,8 +118,18 @@ var LoginComponent = /** @class */ (function () {
                     });
                 }
                 else {
-                    setToken(result.token);
-                    _this.router.navigateByUrl('');
+                    if (result.lock != null) {
+                        var options = {
+                            content: "המשתמש ננעל למשך " + result.lock + " דקות",
+                            style: "snackbar"
+                        };
+                        $(_this.snackbarId).snackbar("hide");
+                        _this.snackbarId = $.snackbar(options);
+                    }
+                    else {
+                        setToken(result.token);
+                        _this.router.navigateByUrl('');
+                    }
                 }
             });
         }

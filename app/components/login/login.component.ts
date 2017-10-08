@@ -7,6 +7,7 @@ import { LoginService } from '../../services/login/login.service';
 
 declare var swal: any;
 declare var setToken: any;
+declare var $: any;
 
 export class User {
   constructor() { this.email = ""; this.password = ""; }
@@ -22,7 +23,7 @@ export class NewUser {
   password: string;
 }
 
-var forgotBtnTextObj = { searchText: "חיפוש", resetPassText: "אפס סיסמא" }
+var forgotBtnTextObj = { searchText: "חיפוש", resetPassText: "אפס סיסמא" };
 
 export class ForgotUser {
   constructor() {
@@ -54,6 +55,7 @@ export class LoginComponent {
   newUser: NewUser = new NewUser();
   forgotUser: ForgotUser = new ForgotUser();
   isLoading: boolean = false;
+  snackbarId: any;
 
   // Running on the array of validation functions and make sure all valid.
   // Getting validation array and object to valid.
@@ -131,8 +133,19 @@ export class LoginComponent {
           })
         }
         else {
-          setToken(result.token);
-          this.router.navigateByUrl('');
+          if (result.lock != null) {
+            var options = {
+              content: "המשתמש ננעל למשך " + result.lock + " דקות",
+              style: "snackbar"
+            }
+            $(this.snackbarId).snackbar("hide");
+
+            this.snackbarId = $.snackbar(options);
+          }
+          else {
+            setToken(result.token);
+            this.router.navigateByUrl('');
+          }
         }
       });
     }

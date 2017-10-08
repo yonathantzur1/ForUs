@@ -1,22 +1,70 @@
 var general = require('../modules/general.js');
 
+var ExpressBrute = require('express-brute'),
+    store = new ExpressBrute.MemoryStore();
+
+var failCallback = function (req, res, next, nextValidRequestDate) {
+    var minutesLockTime =
+        Math.ceil((nextValidRequestDate.getTime() - (new Date()).getTime()) / (1000 * 60));
+    res.send({ "lock": minutesLockTime });
+};
+
+var handleStoreError = function (error) {
+    log.error(error);
+
+    throw {
+        message: error.message,
+        parent: error.parent
+    };
+}
+// Start slowing requests after 5 failed attempts.
+var userBruteforce = new ExpressBrute(store, {
+    freeRetries: 10,
+    minWait: 1 * 60 * 1000, // 1 minutes 
+    maxWait: 5 * 60 * 1000, // 5 minutes 
+    failCallback: failCallback,
+    handleStoreError: handleStoreError
+});
+
+// No more than 1000 login attempts per day per IP.
+var globalBruteforce = new ExpressBrute(store, {
+    freeRetries: 1000,
+    attachResetToRequest: false,
+    refreshTimeoutOnRequest: false,
+    minWait: 25 * 60 * 60 * 1000, // 1 day 1 hour (should never reach this wait time) 
+    maxWait: 25 * 60 * 60 * 1000, // 1 day 1 hour (should never reach this wait time) 
+    lifetime: 24 * 60 * 60, // 1 day (seconds not milliseconds) 
+    failCallback: failCallback,
+    handleStoreError: handleStoreError
+});
+
+
 module.exports = function (app, loginBL, mailer, sha512) {
 
     prefix = "/login";
 
     // Validate the user details and login the user.
-    app.post(prefix + '/login', function (req, res) {
-        loginBL.GetUser(req.body, sha512, function (result) {
-            // In case the user email and password are valid.
-            if (result && result != "-1") {
-                var token = general.GetTokenFromUserObject(result);
-                res.send({ "token": token });
+    app.post(prefix + '/login',
+        globalBruteforce.prevent,
+        userBruteforce.getMiddleware({
+            key: function (req, res, next) {
+                next(req.body.email);
             }
-            else {
-                res.send(result);
-            }
+        }),
+        function (req, res, next) {
+            loginBL.GetUser(req.body, sha512, function (result) {
+                // In case the user email and password are valid.
+                if (result && result != "-1") {
+                    req.brute.reset(function () {
+                        var token = general.GetTokenFromUserObject(result);
+                        res.send({ "token": token });
+                    });
+                }
+                else {
+                    res.send(result);
+                }
+            });
         });
-    });
 
     // Add new user to the db and make sure the email is not already exists.
     app.post(prefix + '/register', function (req, res) {
