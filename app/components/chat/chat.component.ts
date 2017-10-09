@@ -19,6 +19,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     isMessagesLoading: boolean;
     chatBodyScrollHeight: number = 0;
 
+    days: Array<string> = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
+    months: Array<string> = ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני",
+        "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"];
+
     // Unread messages line sector properties //
     isAllowShowUnreadLine: boolean;
     unreadMessagesNumber: number;
@@ -146,4 +150,112 @@ export class ChatComponent implements OnInit, AfterViewChecked {
             return (unreadMessagesNumber + " הודעות שלא נקראו");
         }
     }
+
+    IsShowDateBubble = function (index: number) {
+        if (index == 0) {
+            return true
+        }
+        else if (index > 0) {
+            var currMessageDate = new Date(this.messages[index].time);
+            var beforeMessageDate = new Date(this.messages[index - 1].time);
+
+            if (currMessageDate.getDay() != beforeMessageDate.getDay() ||
+                currMessageDate.getMonth() != beforeMessageDate.getMonth() ||
+                currMessageDate.getFullYear() != beforeMessageDate.getFullYear()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    GetDateBubbleText = function (index: number) {
+        var localDate = new Date(this.messages[index].time);
+        var currDate = new Date();
+
+        var timeDiff = Math.abs(currDate.getTime() - localDate.getTime());
+        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        var datesDaysDiff = Math.abs(currDate.getDay() - localDate.getDay());
+
+        var dateDetailsString = "";
+
+        if (diffDays <= 7) {
+            if (diffDays <= 2) {
+                if (currDate.getDay() == localDate.getDay()) {
+                    dateDetailsString = "היום";
+                }
+                else if (Math.min((7 - datesDaysDiff), datesDaysDiff) <= 1) {
+                    dateDetailsString = "אתמול";
+                }
+                else {
+                    dateDetailsString = this.days[localDate.getDay()];
+                }
+            }
+            else {
+                dateDetailsString = this.days[localDate.getDay()];
+            }
+        }
+        else {
+            if (localDate.getFullYear() == currDate.getFullYear()) {
+                dateDetailsString = (localDate.getDay() + 1) + " ב" + this.months[localDate.getMonth()]
+            }
+            else {
+                dateDetailsString = (localDate.getDay() + 1) + "." + (localDate.getMonth() + 1) + "." + localDate.getFullYear();
+            }
+        }
+
+
+        return dateDetailsString;
+    }
+
+
+    CalculateChatTimeString = function (chat: any) {
+        var localDate = new Date(chat.lastMessage.time);
+        var currDate = new Date();
+
+        var HH = localDate.getHours().toString();
+        var mm = localDate.getMinutes().toString();
+
+        if (mm.length == 1) {
+            mm = "0" + mm;
+        }
+
+        var dateTimeString = "";
+
+        var timeDiff = Math.abs(currDate.getTime() - localDate.getTime());
+        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        var datesDaysDiff = Math.abs(currDate.getDay() - localDate.getDay());
+        var dateDetailsString = "";
+
+        if (diffDays <= 7) {
+            if (diffDays <= 2) {
+                if (currDate.getDay() == localDate.getDay()) {
+                    dateDetailsString = "היום";
+                }
+                else if (Math.min((7 - datesDaysDiff), datesDaysDiff) <= 1) {
+                    dateDetailsString = "אתמול";
+                }
+                else {
+                    dateDetailsString = this.days[localDate.getDay()];
+                }
+            }
+            else {
+                dateDetailsString = this.days[localDate.getDay()];
+            }
+
+            dateTimeString = HH + ":" + mm;
+        }
+        else {
+            if (localDate.getFullYear() == currDate.getFullYear()) {
+                dateDetailsString = (localDate.getDay() + 1) + " ב" + this.months[localDate.getMonth()]
+            }
+            else {
+                dateDetailsString = (localDate.getDay() + 1) + "." + (localDate.getMonth() + 1) + "." + localDate.getFullYear();
+            }
+        }
+
+        chat.timeString = { "dateDetailsString": dateDetailsString, "dateTimeString": dateTimeString };
+    }
+
+
 }

@@ -12,15 +12,24 @@
             <div id="chat-body-sector" class="chat-body-sector">
                 <div class="top-space-line"></div>
                 <span *ngIf="isMessagesLoading" class="chat-loading-container">
-                    <p class="load-image-icon"><i class="fa fa-circle" aria-hidden="true"></i> <i class="fa fa-circle" aria-hidden="true"></i> <i class="fa fa-circle" aria-hidden="true"></i></p>
+                    <p class="load-image-icon">
+                        <i class="fa fa-circle" aria-hidden="true"></i>
+                        <i class="fa fa-circle" aria-hidden="true"></i>
+                        <i class="fa fa-circle" aria-hidden="true"></i>
+                    </p>
                 </span>
-                <div *ngFor="let message of messages">
-                    <div *ngIf="IsShowUnreadLine(message.from, message.id)" class="unread-messages-line-sector">
-                        <div class="unread-messages-line">
-                            <span class="unread-messages-text-container">
-                                <span class="unread-messages-text">{{GetUnreadMessagesNumberText(unreadMessagesNumber)}}</span>
+                <div *ngFor="let message of messages; let i = index">
+                    <div *ngIf="IsShowUnreadLine(message.from, message.id)" class="bubble-message-line-sector">
+                        <div class="bubble-message-line">
+                            <span class="bubble-message-text-container">
+                                <span class="bubble-message-text">{{GetUnreadMessagesNumberText(unreadMessagesNumber)}}</span>
                             </span>
                         </div>
+                    </div>
+                    <div *ngIf="IsShowDateBubble(i)" class="bubble-message-line-sector">
+                        <span class="bubble-date-text-container">
+                            <span class="bubble-message-text">{{GetDateBubbleText(i)}}</span>
+                        </span>
                     </div>
                     <div class="message-container">
                         <div id="message-time-container" class="message-time-container" [ngClass]="{'user-message-time' : message.from == chatData.user._id, 'friend-message-time': message.from == chatData.friend._id}">
