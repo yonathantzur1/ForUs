@@ -7,7 +7,10 @@ var collectionName = "Chats";
 module.exports = {
     GetAllChats: function (userId, callback) {
         var sortObj = { "lastMessage.time": -1 };
-        var queryObj = { "messages": { $ne: [] } };
+        var queryObj = {
+            "membersIds": { $in: [userId] },
+            "messages": { $ne: [] }
+        };
 
         DAL.FindSpecific(collectionName, queryObj, { "membersIds": 1, "lastMessage": 1 }, function (chats) {
             if (chats) {
