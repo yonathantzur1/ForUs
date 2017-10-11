@@ -51,14 +51,24 @@
 #chat .friend-chat-name {
     color: white;
     font-size: 15px;
-    margin-top: 9px;
+    align-self: center;
     margin-right: 8px;
     font-family: Rubik;
-    align-content: center;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     max-width: 50%;
+}
+
+#chat .friend-typing-title {
+    color: white;
+    font-size: 10px;
+    align-self: flex-end;
+    margin-right: 10px;
+    font-family: Rubik;
+    white-space: nowrap;
+    max-width: 50%;
+    margin-bottom: 6px;
 }
 
 #chat .exit-chat {

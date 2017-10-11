@@ -53,6 +53,17 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
             }
         });
     });
+
+    socket.on('ServerFriendTyping', function (friendId, token) {
+        token = general.DecodeToken(token);
+
+        jwt.verify(token, config.jwtSecret, function (err, decoded) {
+            // In case the token is valid.
+            if (!err && decoded) {
+                io.to(friendId).emit('ClientFriendTyping', decoded.user._id);
+            }
+        });
+    });
 }
 
 function ValidateMessage(msgData, user) {

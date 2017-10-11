@@ -108,6 +108,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         else if (event.keyCode == 27) {
             this.CloseChat();
         }
+        else {
+            this.socket.emit("ServerFriendTyping", this.chatData.friend._id, this.token);
+        }
     }
 
     ScrollToBottom = function () {
@@ -256,6 +259,5 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
         chat.timeString = { "dateDetailsString": dateDetailsString, "dateTimeString": dateTimeString };
     }
-
 
 }

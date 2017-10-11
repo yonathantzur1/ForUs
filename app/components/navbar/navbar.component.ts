@@ -30,6 +30,8 @@ export class Friend {
     lastName: string;
     profileImage: string;
     isOnline: boolean;
+    isTyping: boolean;
+    typingTimer: any;
 }
 
 export class toolbarItem {
@@ -87,9 +89,10 @@ export class NavbarComponent implements OnInit {
     // START CONFIG VARIABLES //
 
     searchLimit: number = 4;
-    searchInputChangeDelay: number = 140; // milliseconds
+    searchInputChangeDelay: number = 150; // milliseconds
     notificationDelay: number = 3800; // milliseconds
-    askForOnlineFriendsDelay: number = 30; // seconds
+    askForOnlineFriendsDelay: number = 20; // seconds
+    typingDelay: number = 2200; // milliseconds
 
     // END CONFIG VARIABLES //
 
@@ -239,6 +242,10 @@ export class NavbarComponent implements OnInit {
                     self.socket.emit("ServerGetOnlineFriends", getToken());
                 }
             });
+        });
+
+        self.socket.on('ClientFriendTyping', function (friendId: string) {
+            self.MakeFriendTyping(friendId);
         });
     }
 
@@ -650,7 +657,23 @@ export class NavbarComponent implements OnInit {
                 self.socket.emit("ServerIgnoreFriendRequest", self.user._id, friendId);
             }
         });
+    }
 
+    MakeFriendTyping = function (friendId: string) {
+        var friendObj: Friend = this.friends.find((friend: Friend) => {
+            return (friend._id == friendId);
+        });
+
+        if (friendObj) {
+            friendObj.typingTimer && clearTimeout(friendObj.typingTimer);
+            friendObj.isTyping = true;
+
+            var self = this;
+
+            friendObj.typingTimer = setTimeout(function () {
+                friendObj.isTyping = false;
+            }, self.typingDelay);
+        }
     }
 }
 

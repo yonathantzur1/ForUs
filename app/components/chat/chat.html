@@ -6,6 +6,9 @@
                 {{chatData.friend.firstName + " " + chatData.friend.lastName}}
             </span>
             <div class="online-icon" *ngIf="chatData.friend.isOnline"></div>
+            <span *ngIf="chatData.friend.isTyping" class="friend-typing-title">
+                מקליד/ה...
+            </span>
             <span (click)="CloseChat()" class="glyphicon glyphicon-remove exit-chat" aria-hidden="true"></span>
         </div>
         <div class="chat-body-container">

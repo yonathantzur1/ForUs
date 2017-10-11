@@ -65,6 +65,9 @@ var ChatComponent = /** @class */ (function () {
             else if (event.keyCode == 27) {
                 this.CloseChat();
             }
+            else {
+                this.socket.emit("ServerFriendTyping", this.chatData.friend._id, this.token);
+            }
         };
         this.ScrollToBottom = function () {
             $("#chat-body-sector")[0].scrollTop = $("#chat-body-sector")[0].scrollHeight;

@@ -27,11 +27,12 @@
             </div>
           </form>
           <div (click)="OpenChat(friend)" class="friend-container" *ngFor="let friend of (GetFilteredFriends(friendSearchInput))">
+            <div *ngIf="friend.isTyping" title="{{friend.firstName}} מקליד/ה" class="typing-icon">...</div>
             <div *ngIf="friend.isOnline" class="online-icon"></div>
             <img class="friend-profile" src="{{friend.profileImage ? friend.profileImage : defaultProfileImage}}">
             <span [ngClass]="{'bold-friend-name' : GetFriendUnreadMessagesNumberText(friend._id)}" class="friend-name-container" title="{{friend.firstName + ' ' + friend.lastName}}">
               <span>{{friend.firstName + " " + friend.lastName}}</span>
-            <span>{{GetFriendUnreadMessagesNumberText(friend._id)}}</span>
+              <span>{{GetFriendUnreadMessagesNumberText(friend._id)}}</span>
             </span>
           </div>
         </div>
@@ -44,30 +45,34 @@
       <div class="col-xs-8 navbar-right-container">
         <img (click)="ShowHideSidenav()" src="../logo/icon.png" class="head-icon">
         <span class="search-sector col-md-6 col-xs-9">
-        <input type="text" class="search-input" placeholder="חיפוש" [(ngModel)]="searchInput" (ngModelChange)="SearchChange(searchInput)" (focus)="ClickSearchInput(searchInput)" 
-        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-        <span class="glyphicon glyphicon-search search-icon" [ngClass]="{'search-icon-active':isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0}"></span>
-        <div class="search-results-container" *ngIf="isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0">
-          <div class="search-result" *ngFor="let result of GetFilteredSearchResults(searchInput)" title="{{result.fullName}}">
-            <img *ngIf="result.profile && result.profile != -1" src="{{result.profile}}" class="search-result-image">
-            <img *ngIf="!result.profile" src="/app/components/profilePicture/pictures/empty-profile.png" class="search-result-image">
-            <span *ngIf="result.profile == -1" class="search-result-image-loading">
-              <p class="load-image-icon"><i class="fa fa-circle" aria-hidden="true"></i> <i class="fa fa-circle" aria-hidden="true"></i> <i class="fa fa-circle" aria-hidden="true"></i></p>
-            </span>
-            <span class="search-result-name">{{result.fullName}}</span>
-            <i *ngIf="IsShowAddFriendRequestBtn(result._id)" (click)="AddFriendRequest(result._id)" class="fa fa-plus-square-o friend-request-btn hvr-grow"
-              title="בקשת חברות" aria-hidden="true"></i>
-            <i *ngIf="IsShowRemoveFriendRequestBtn(result._id)" (click)="RemoveFriendRequest(result._id)" class="fa fa-ellipsis-h friend-request-btn remove-request"
-              title="נשלחה בקשת חברות" aria-hidden="true"></i>
-            <span *ngIf="IsShowFriendRequestConfirmSector(result._id)">
-              <i class="fa fa-user-plus friend-request-confirm-icon" title="אישור בקשת חברות" aria-hidden="true"></i>
-              <i (click)="AddFriend(result._id)" class="material-icons friend-request-confirm-btn" title="אישור">check</i>
-              <i (click)="IgnoreFriendRequest(result._id)" class="material-icons friend-request-decline-btn" title="ביטול">close</i>
-            </span>
+          <input type="text" class="search-input" placeholder="חיפוש" [(ngModel)]="searchInput" (ngModelChange)="SearchChange(searchInput)"
+            (focus)="ClickSearchInput(searchInput)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+          <span class="glyphicon glyphicon-search search-icon" [ngClass]="{'search-icon-active':isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0}"></span>
+          <div class="search-results-container" *ngIf="isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0">
+            <div class="search-result" *ngFor="let result of GetFilteredSearchResults(searchInput)" title="{{result.fullName}}">
+              <img *ngIf="result.profile && result.profile != -1" src="{{result.profile}}" class="search-result-image">
+              <img *ngIf="!result.profile" src="/app/components/profilePicture/pictures/empty-profile.png" class="search-result-image">
+              <span *ngIf="result.profile == -1" class="search-result-image-loading">
+                <p class="load-image-icon">
+                  <i class="fa fa-circle" aria-hidden="true"></i>
+                  <i class="fa fa-circle" aria-hidden="true"></i>
+                  <i class="fa fa-circle" aria-hidden="true"></i>
+                </p>
+              </span>
+              <span class="search-result-name">{{result.fullName}}</span>
+              <i *ngIf="IsShowAddFriendRequestBtn(result._id)" (click)="AddFriendRequest(result._id)" class="fa fa-plus-square-o friend-request-btn hvr-grow"
+                title="בקשת חברות" aria-hidden="true"></i>
+              <i *ngIf="IsShowRemoveFriendRequestBtn(result._id)" (click)="RemoveFriendRequest(result._id)" class="fa fa-ellipsis-h friend-request-btn remove-request"
+                title="נשלחה בקשת חברות" aria-hidden="true"></i>
+              <span *ngIf="IsShowFriendRequestConfirmSector(result._id)">
+                <i class="fa fa-user-plus friend-request-confirm-icon" title="אישור בקשת חברות" aria-hidden="true"></i>
+                <i (click)="AddFriend(result._id)" class="material-icons friend-request-confirm-btn" title="אישור">check</i>
+                <i (click)="IgnoreFriendRequest(result._id)" class="material-icons friend-request-decline-btn" title="ביטול">close</i>
+              </span>
+            </div>
           </div>
-        </div>
-        <i class="fa fa-bell-o notification-icon" aria-hidden="true"></i>
-        <span class="notification-icon-badget" *ngIf="false"></span>
+          <i class="fa fa-bell-o notification-icon" aria-hidden="true"></i>
+          <span class="notification-icon-badget" *ngIf="false"></span>
         </span>
       </div>
       <div style="float:left;" class="col-xs-4">
@@ -85,13 +90,16 @@
     </div>
   </div>
   <span (click)="MessageNotificationClicked()" id="notification" class="notification" *ngIf="isShowMessageNotification && !isShowFriendRequestNotification">
-    <span class="notification-name">{{messageNotificationName}}</span>: <span class="notification-text">{{messageNotificationText}}</span>
+    <span class="notification-name">{{messageNotificationName}}</span>:
+    <span class="notification-text">{{messageNotificationText}}</span>
   </span>
   <span (click)="FriendRequestNotificationClicked()" id="notification" class="notification" *ngIf="isShowFriendRequestNotification && !isShowMessageNotification">
-    <span class="notification-name">{{friendRequestNotificationName}}</span> <span class="notification-text">שלח/ה לך בקשת חברות</span>
+    <span class="notification-name">{{friendRequestNotificationName}}</span>
+    <span class="notification-text">שלח/ה לך בקשת חברות</span>
   </span>
 </div>
 
 <unreadWindow [hidden]="!isUnreadWindowOpen" [OpenChat]="OpenChat.bind(this)" [friends]="friends" [messagesNotifications]="GetToolbarItem('messages').content"></unreadWindow>
-<friendRequestsWindow [hidden]="!isFriendRequestsWindowOpen" [AddFriend]="AddFriend.bind(this)" [IgnoreFriendRequest]="IgnoreFriendRequest.bind(this)" [friendRequests]="GetToolbarItem('friendRequests').content.get"></friendRequestsWindow>
+<friendRequestsWindow [hidden]="!isFriendRequestsWindowOpen" [AddFriend]="AddFriend.bind(this)" [IgnoreFriendRequest]="IgnoreFriendRequest.bind(this)"
+  [friendRequests]="GetToolbarItem('friendRequests').content.get"></friendRequestsWindow>
 <chat *ngIf="chatData.isOpen" [chatData]="chatData"></chat>

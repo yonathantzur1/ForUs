@@ -61,9 +61,10 @@ var NavbarComponent = /** @class */ (function () {
         this.isShowSearchResults = false;
         // START CONFIG VARIABLES //
         this.searchLimit = 4;
-        this.searchInputChangeDelay = 140; // milliseconds
+        this.searchInputChangeDelay = 150; // milliseconds
         this.notificationDelay = 3800; // milliseconds
-        this.askForOnlineFriendsDelay = 30; // seconds
+        this.askForOnlineFriendsDelay = 20; // seconds
+        this.typingDelay = 2200; // milliseconds
         this.IsShowFriendFindInput = function () {
             return $(".slidenav-body-sector").hasScrollBar();
         };
@@ -406,6 +407,19 @@ var NavbarComponent = /** @class */ (function () {
                 }
             });
         };
+        this.MakeFriendTyping = function (friendId) {
+            var friendObj = this.friends.find(function (friend) {
+                return (friend._id == friendId);
+            });
+            if (friendObj) {
+                friendObj.typingTimer && clearTimeout(friendObj.typingTimer);
+                friendObj.isTyping = true;
+                var self = this;
+                friendObj.typingTimer = setTimeout(function () {
+                    friendObj.isTyping = false;
+                }, self.typingDelay);
+            }
+        };
         this.socket = globalService.socket;
         this.globalService.data.subscribe(function (value) {
             if (value["isOpenProfileEditWindow"]) {
@@ -526,6 +540,9 @@ var NavbarComponent = /** @class */ (function () {
                     self.socket.emit("ServerGetOnlineFriends", getToken());
                 }
             });
+        });
+        self.socket.on('ClientFriendTyping', function (friendId) {
+            self.MakeFriendTyping(friendId);
         });
     };
     __decorate([
