@@ -9,22 +9,14 @@
             <div class="chat-container" *ngFor="let chat of chats" (click)="OpenChat(GetFriend(chat.friendId))">
                 <span *ngIf="messagesNotifications[chat.friendId]" class="notificaiton-sign"></span>
                 <img class="chat-image" src="{{GetFriendProfile(chat.friendId) || defaultProfileImage}}">
-                <table class="details-table">
-                    <tr class="name-tr">
-                        <td class="details-td">
-                            <span class="chat-name">{{GetFriendName(chat.friendId) || "משתמש לא קיים"}}</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="details-td">
-                            <span class="chat-last-text">{{chat.lastMessage.text}}</span>
-                        </td>
-                    </tr>
-                </table>
+                <div class="details-container">
+                    <div class="chat-name">{{GetFriendName(chat.friendId) || "משתמש לא קיים"}}</div>
+                    <div class="chat-last-text">{{chat.lastMessage.text}}</div>
+                </div>
                 <div class="chat-last-time">
                     {{CalculateChatTimeString(chat)}}
-                    <span>{{chat.timeString.dateDetailsString}}</span>
-                    <span>{{chat.timeString.dateTimeString}}</span>
+                    <div>{{chat.timeString.dateDetailsString}}</div>
+                    <div>{{chat.timeString.dateTimeString}}</div>
                 </div>
             </div>
         </div>

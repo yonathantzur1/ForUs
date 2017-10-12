@@ -62,7 +62,6 @@
 
 #unreadWindow .chat-last-text {
     font-size: 12px;
-    max-width: 100%;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -72,7 +71,6 @@
     font-size: 10px;
     align-self: center;
     margin-top: 1px;
-    display: grid;
     position: absolute;
     left: 15px;
 }
@@ -89,26 +87,13 @@
 #unreadWindow .chat-name {
     font-size: 14px;
     font-weight: bold;
-    max-width: 100%;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
 }
 
-#unreadWindow .details-table {
+#unreadWindow .details-container {
     width: calc(100% - 115px);
-}
-
-#unreadWindow .details-td {
-    width: calc(100% - 10px);
-    display: grid;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-#unreadWindow .name-tr {
-    height: 18px;
 }
 
 #unreadWindow .notificaiton-sign {
