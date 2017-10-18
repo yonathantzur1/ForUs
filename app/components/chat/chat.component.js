@@ -121,11 +121,11 @@ var ChatComponent = /** @class */ (function () {
             var currDate = new Date();
             var timeDiff = Math.abs(currDate.getTime() - localDate.getTime());
             var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-            var datesDaysDiff = Math.abs(currDate.getDay() - localDate.getDay());
+            var datesDaysDiff = Math.abs(currDate.getDate() - localDate.getDate());
             var dateDetailsString = "";
             if (diffDays <= 7) {
                 if (diffDays <= 2) {
-                    if (currDate.getDay() == localDate.getDay()) {
+                    if (currDate.getDate() == localDate.getDate()) {
                         dateDetailsString = "היום";
                     }
                     else if (Math.min((7 - datesDaysDiff), datesDaysDiff) <= 1) {
@@ -141,53 +141,13 @@ var ChatComponent = /** @class */ (function () {
             }
             else {
                 if (localDate.getFullYear() == currDate.getFullYear()) {
-                    dateDetailsString = (localDate.getDay() + 1) + " ב" + this.months[localDate.getMonth()];
+                    dateDetailsString = (localDate.getDate()) + " ב" + this.months[localDate.getMonth()];
                 }
                 else {
-                    dateDetailsString = (localDate.getDay() + 1) + "." + (localDate.getMonth() + 1) + "." + localDate.getFullYear();
+                    dateDetailsString = (localDate.getDate()) + "." + (localDate.getMonth() + 1) + "." + localDate.getFullYear();
                 }
             }
             return dateDetailsString;
-        };
-        this.CalculateChatTimeString = function (chat) {
-            var localDate = new Date(chat.lastMessage.time);
-            var currDate = new Date();
-            var HH = localDate.getHours().toString();
-            var mm = localDate.getMinutes().toString();
-            if (mm.length == 1) {
-                mm = "0" + mm;
-            }
-            var dateTimeString = "";
-            var timeDiff = Math.abs(currDate.getTime() - localDate.getTime());
-            var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-            var datesDaysDiff = Math.abs(currDate.getDay() - localDate.getDay());
-            var dateDetailsString = "";
-            if (diffDays <= 7) {
-                if (diffDays <= 2) {
-                    if (currDate.getDay() == localDate.getDay()) {
-                        dateDetailsString = "היום";
-                    }
-                    else if (Math.min((7 - datesDaysDiff), datesDaysDiff) <= 1) {
-                        dateDetailsString = "אתמול";
-                    }
-                    else {
-                        dateDetailsString = this.days[localDate.getDay()];
-                    }
-                }
-                else {
-                    dateDetailsString = this.days[localDate.getDay()];
-                }
-                dateTimeString = HH + ":" + mm;
-            }
-            else {
-                if (localDate.getFullYear() == currDate.getFullYear()) {
-                    dateDetailsString = (localDate.getDay() + 1) + " ב" + this.months[localDate.getMonth()];
-                }
-                else {
-                    dateDetailsString = (localDate.getDay() + 1) + "." + (localDate.getMonth() + 1) + "." + localDate.getFullYear();
-                }
-            }
-            chat.timeString = { "dateDetailsString": dateDetailsString, "dateTimeString": dateTimeString };
         };
         this.socket = globalService.socket;
         this.globalService.data.subscribe(function (value) {
