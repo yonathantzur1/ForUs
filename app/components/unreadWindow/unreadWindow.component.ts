@@ -130,7 +130,7 @@ export class UnreadWindowComponent implements OnInit {
 
         var timeDiff = Math.abs(currDate.getTime() - localDate.getTime());
         var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        var datesDaysDiff = Math.abs(currDate.getDate() - localDate.getDate());
+        var datesDaysDiff = Math.abs(currDate.getDay() - localDate.getDay());
 
         var dateDetailsString = "";
 

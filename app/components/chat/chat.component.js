@@ -122,7 +122,7 @@ var ChatComponent = /** @class */ (function () {
             currDate.setHours(23, 59, 59, 999);
             var timeDiff = Math.abs(currDate.getTime() - localDate.getTime());
             var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-            var datesDaysDiff = Math.abs(currDate.getDate() - localDate.getDate());
+            var datesDaysDiff = Math.abs(currDate.getDay() - localDate.getDay());
             var dateDetailsString = "";
             if (diffDays <= 7) {
                 if (diffDays <= 2) {
