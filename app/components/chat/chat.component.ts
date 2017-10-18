@@ -175,6 +175,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     GetDateBubbleText = function (index: number) {
         var localDate = new Date(this.messages[index].time);
         var currDate = new Date();
+        currDate.setHours(23, 59, 59, 999);
 
         var timeDiff = Math.abs(currDate.getTime() - localDate.getTime());
         var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));

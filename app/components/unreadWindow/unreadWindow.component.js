@@ -58,6 +58,7 @@ var UnreadWindowComponent = /** @class */ (function () {
         this.CalculateChatTimeString = function (chat) {
             var localDate = new Date(chat.lastMessage.time);
             var currDate = new Date();
+            currDate.setHours(23, 59, 59, 999);
             var HH = localDate.getHours().toString();
             var mm = localDate.getMinutes().toString();
             if (mm.length == 1) {
