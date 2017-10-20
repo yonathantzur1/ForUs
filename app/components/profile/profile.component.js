@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-require("./temp.js");
 var global_service_1 = require("../../services/global/global.service");
 var profile_service_1 = require("../../services/profile/profile.service");
 var ProfileComponent = /** @class */ (function () {

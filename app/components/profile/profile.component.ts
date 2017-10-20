@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import './temp.js';
 
 import { GlobalService } from '../../services/global/global.service';
 import { ProfileService } from '../../services/profile/profile.service';
