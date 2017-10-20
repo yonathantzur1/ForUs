@@ -487,7 +487,7 @@ var NavbarComponent = /** @class */ (function () {
         setInterval(function () {
             self.socket.emit("ServerGetOnlineFriends", getToken());
         }, self.askForOnlineFriendsDelay * 1000);
-        //self.LoadFriendsData(self.user.friends);
+        self.LoadFriendsData(self.user.friends);
         // Loading user messages notifications.
         self.navbarService.GetUserMessagesNotifications().then(function (result) {
             var messagesNotifications = result.messagesNotifications ? result.messagesNotifications : {};

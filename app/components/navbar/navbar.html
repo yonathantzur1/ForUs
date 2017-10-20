@@ -21,7 +21,8 @@
           <form class="form-horizontal" *ngIf="IsShowFriendFindInput()">
             <div class="form-group">
               <div id="friend-search-container" class="col-md-12">
-                <input [(ngModel)]="friendSearchInput" id="friend-search" name="friend-search" class="form-control" type="text" placeholder="חיפוש חברים"
+                <i (click)="friendSearchInput=''" class="material-icons clear-friend-search">close</i>
+                <input [(ngModel)]="friendSearchInput" style="padding-left:20px;" id="friend-search" name="friend-search" class="form-control" type="text" placeholder="חיפוש חברים"
                   autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
               </div>
             </div>

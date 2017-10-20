@@ -510,6 +510,15 @@
     padding-bottom: 0 !important;
 }
 
+#navbar .clear-friend-search {
+    position: absolute;
+    left: 15px;
+    font-size: 18px;
+    top: 12px;
+    color: #efeded;
+    cursor: pointer;
+}
+
 #navbar #friend-search {
     background-image: linear-gradient(#D2D2D2, #D2D2D2), linear-gradient(#D2D2D2, #D2D2D2) !important;
     color: #efeded !important;
