@@ -8,6 +8,8 @@
     font-family: Rubik;
     cursor: default;
     margin-right: 10%;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 #profile .modal-title-icon {

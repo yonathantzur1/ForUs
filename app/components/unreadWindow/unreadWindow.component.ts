@@ -157,7 +157,7 @@ export class UnreadWindowComponent implements OnInit {
                 dateDetailsString = (localDate.getDate()) + " ב" + this.months[localDate.getMonth()]
             }
             else {
-                dateDetailsString = (localDate.getDate()) + "." + (localDate.getMonth() + 1) + "." + localDate.getFullYear();
+                dateDetailsString = (localDate.getDate()) + "/" + (localDate.getMonth() + 1) + "/" + localDate.getFullYear();
             }
         }
 

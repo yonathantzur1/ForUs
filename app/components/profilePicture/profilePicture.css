@@ -21,3 +21,17 @@
     text-align: center;
     line-height: 15px;
 }
+
+#profilePicture .change-image-btn {
+    width: 15px;
+    height: 15px;
+    color: #eeeeeeed;
+    border-radius: 50%;
+    position: absolute;
+    top: -5px;
+    right: -3px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 15px;
+}
