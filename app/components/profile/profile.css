@@ -98,14 +98,13 @@
 
     #profile .upload-image-container {        
         display: block;
-        border-radius: 5px;
+        border-radius: 8px;
         padding: 10px;
         cursor: pointer;
         height: 120px;
         width: 140px;
         margin: auto;
         border: 0.5px solid #7c7c7c;
-        box-shadow: 1px 1px 15px 1px #c2c2c2;
     }
 
     #profile .edit-image-preview-sector {
@@ -171,14 +170,13 @@
 
     #profile .upload-image-container {        
         display: inline-block;
-        border-radius: 5px;
+        border-radius: 8px;
         padding: 10px;
         cursor: pointer;        
         width: 120px;
         height: 120px;
         vertical-align: middle;
         border: 0.5px solid #7c7c7c;
-        box-shadow: 1px 1px 15px 1px #c2c2c2;
     }
 
     #profile .edit-image-preview-sector {
@@ -247,7 +245,7 @@
 
     #profile .upload-image-container {        
         display: inline-block;
-        border-radius: 5px;
+        border-radius: 8px;
         padding: 20px;
         padding-right: 32px;
         padding-left: 32px;
@@ -256,7 +254,6 @@
         width: 165px;
         height: 165px;
         border: 0.5px solid #7c7c7c;
-        box-shadow: 1px 1px 15px 1px #c2c2c2;
     }
 
     #profile .edit-image-preview-sector {
@@ -360,7 +357,6 @@
     top: 10px;
     font-size: 15px;
     border-radius: 5px;
-    border: 0.5px solid rgba(128, 127, 127, 0.7);
     cursor: pointer;
 }
 

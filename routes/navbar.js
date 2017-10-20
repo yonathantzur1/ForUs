@@ -10,7 +10,7 @@ module.exports = function (app, navbarBL) {
 
     // Getting search result for the main search.
     app.post(prefix + '/getMainSearchResults', function (req, res) {
-        navbarBL.GetMainSearchResults(req.body.searchInput, req.body.searchLimit, function (results) {
+        navbarBL.GetMainSearchResults(req.body.searchInput, function (results) {
             res.send(results);
         });
     });

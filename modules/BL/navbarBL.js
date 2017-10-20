@@ -4,7 +4,8 @@ var general = require('../general.js');
 var usersCollectionName = "Users";
 var profileCollectionName = "Profiles";
 
-// Define search cache variables.
+// Define search variables.
+var searchLimit = 4;
 var maxImagesInCacheAmount = 50;
 var profilesCache = {};
 var usersIdsInCache = [];
@@ -47,7 +48,7 @@ var self = module.exports = {
         })
     },
 
-    GetMainSearchResults: function (searchInput, searchLimit, callback) {
+    GetMainSearchResults: function (searchInput, callback) {
         var usersFilter = {
             $match: {
                 $or: [

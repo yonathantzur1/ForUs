@@ -45,6 +45,7 @@ var NavbarComponent = /** @class */ (function () {
         this.navbarService = navbarService;
         this.friends = [];
         this.isFriendsLoading = false;
+        this.isNewFriendsLabel = false;
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.chatData = { "isOpen": false };
         // START message notification variables //
@@ -65,6 +66,7 @@ var NavbarComponent = /** @class */ (function () {
         this.notificationDelay = 3800; // milliseconds
         this.askForOnlineFriendsDelay = 20; // seconds
         this.typingDelay = 2200; // milliseconds
+        this.newFriendsLabelDelay = 5000; // milliseconds
         this.IsShowFriendFindInput = function () {
             return $(".slidenav-body-sector").hasScrollBar();
         };
@@ -150,6 +152,7 @@ var NavbarComponent = /** @class */ (function () {
         };
         this.ShowHideSidenav = function () {
             this.isSidebarOpen = !this.isSidebarOpen;
+            this.isNewFriendsLabel = false;
             if (this.isSidebarOpen) {
                 this.HideDropMenu();
                 this.HideSearchResults();
@@ -207,6 +210,7 @@ var NavbarComponent = /** @class */ (function () {
             }
         };
         this.SearchChange = function (input) {
+            this.isNewFriendsLabel = false;
             var self = this;
             if (self.inputInterval) {
                 clearTimeout(self.inputInterval);
@@ -214,7 +218,7 @@ var NavbarComponent = /** @class */ (function () {
             self.inputInterval = setTimeout(function () {
                 if (input) {
                     input = input.trim();
-                    self.navbarService.GetMainSearchResults(input, self.searchLimit).then(function (results) {
+                    self.navbarService.GetMainSearchResults(input).then(function (results) {
                         if (results && results.length > 0 && input == self.searchInput.trim()) {
                             self.searchResults = results;
                             self.ShowSearchResults();
@@ -420,6 +424,18 @@ var NavbarComponent = /** @class */ (function () {
                 }, self.typingDelay);
             }
         };
+        this.SearchNewFriends = function () {
+            $("#search-input").focus();
+            clearTimeout(this.showNewFriendsLabelTimeout);
+            clearTimeout(this.hideNewFriendsLabelTimeout);
+            var self = this;
+            self.showNewFriendsLabelTimeout = setTimeout(function () {
+                self.isNewFriendsLabel = true;
+                self.hideNewFriendsLabelTimeout = setTimeout(function () {
+                    self.isNewFriendsLabel = false;
+                }, self.newFriendsLabelDelay);
+            }, 200);
+        };
         this.socket = globalService.socket;
         this.globalService.data.subscribe(function (value) {
             if (value["isOpenProfileEditWindow"]) {
@@ -471,7 +487,7 @@ var NavbarComponent = /** @class */ (function () {
         setInterval(function () {
             self.socket.emit("ServerGetOnlineFriends", getToken());
         }, self.askForOnlineFriendsDelay * 1000);
-        self.LoadFriendsData(self.user.friends);
+        //self.LoadFriendsData(self.user.friends);
         // Loading user messages notifications.
         self.navbarService.GetUserMessagesNotifications().then(function (result) {
             var messagesNotifications = result.messagesNotifications ? result.messagesNotifications : {};

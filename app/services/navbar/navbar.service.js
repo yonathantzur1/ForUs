@@ -28,8 +28,8 @@ var NavbarService = /** @class */ (function (_super) {
             return null;
         });
     };
-    NavbarService.prototype.GetMainSearchResults = function (searchInput, searchLimit) {
-        var details = { "searchInput": searchInput, "searchLimit": searchLimit };
+    NavbarService.prototype.GetMainSearchResults = function (searchInput) {
+        var details = { "searchInput": searchInput };
         return _super.prototype.post.call(this, this.prefix + '/getMainSearchResults', JSON.stringify(details))
             .toPromise()
             .then(function (result) {

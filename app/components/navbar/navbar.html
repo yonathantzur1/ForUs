@@ -36,8 +36,11 @@
             </span>
           </div>
         </div>
-        <div *ngIf="!isFriendsLoading && friends.length == 0 && isSidebarOpen" class="no-friends-container">
-          <i class="material-icons no-friends-icon">people</i>
+        <div *ngIf="!isFriendsLoading && friends.length == 0 && isSidebarOpen">
+          <div class="new-friends-title">חברים חדשים</div>
+          <div class="no-friends-container">
+            <i (click)="SearchNewFriends()" class="material-icons no-friends-icon">people</i>
+          </div>
         </div>
       </div>
     </div>
@@ -45,8 +48,12 @@
       <div class="col-xs-8 navbar-right-container">
         <img (click)="ShowHideSidenav()" src="../logo/icon.png" class="head-icon">
         <span class="search-sector col-md-6 col-xs-9">
-          <input type="text" class="search-input" placeholder="חיפוש" [(ngModel)]="searchInput" (ngModelChange)="SearchChange(searchInput)"
+          <input type="text" id="search-input" class="search-input" placeholder="חיפוש" [(ngModel)]="searchInput" (ngModelChange)="SearchChange(searchInput)"
             (focus)="ClickSearchInput(searchInput)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+          <div *ngIf="isNewFriendsLabel && !isSidebarOpen && !isShowSearchResults">
+            <span style="right:15px!important; color:#b2b2b2;" class="glyphicon glyphicon-triangle-top menu-top-arrow"></span>
+            <div class="new-friends-label">חיפוש חברים חדשים</div>
+          </div>
           <span class="glyphicon glyphicon-search search-icon" [ngClass]="{'search-icon-active':isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0}"></span>
           <div class="search-results-container" *ngIf="isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0">
             <div class="search-result" *ngFor="let result of GetFilteredSearchResults(searchInput)" title="{{result.fullName}}">

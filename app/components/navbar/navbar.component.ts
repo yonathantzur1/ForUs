@@ -53,6 +53,9 @@ export class NavbarComponent implements OnInit {
     @Input() user: any;
     friends: Array<Friend> = [];
     isFriendsLoading: boolean = false;
+    isNewFriendsLabel: boolean = false;
+    showNewFriendsLabelTimeout: any;
+    hideNewFriendsLabelTimeout: any;
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
     chatData: any = { "isOpen": false };
     socket: any;
@@ -93,6 +96,7 @@ export class NavbarComponent implements OnInit {
     notificationDelay: number = 3800; // milliseconds
     askForOnlineFriendsDelay: number = 20; // seconds
     typingDelay: number = 2200; // milliseconds
+    newFriendsLabelDelay: number = 5000; // milliseconds
 
     // END CONFIG VARIABLES //
 
@@ -159,7 +163,7 @@ export class NavbarComponent implements OnInit {
             self.socket.emit("ServerGetOnlineFriends", getToken());
         }, self.askForOnlineFriendsDelay * 1000);
 
-        self.LoadFriendsData(self.user.friends);
+        //self.LoadFriendsData(self.user.friends);
 
         // Loading user messages notifications.
         self.navbarService.GetUserMessagesNotifications().then((result: any) => {
@@ -350,6 +354,7 @@ export class NavbarComponent implements OnInit {
 
     ShowHideSidenav = function () {
         this.isSidebarOpen = !this.isSidebarOpen;
+        this.isNewFriendsLabel = false;
 
         if (this.isSidebarOpen) {
             this.HideDropMenu();
@@ -420,6 +425,7 @@ export class NavbarComponent implements OnInit {
     }
 
     SearchChange = function (input: string) {
+        this.isNewFriendsLabel = false;
         var self = this;
 
         if (self.inputInterval) {
@@ -429,7 +435,7 @@ export class NavbarComponent implements OnInit {
         self.inputInterval = setTimeout(function () {
             if (input) {
                 input = input.trim();
-                self.navbarService.GetMainSearchResults(input, self.searchLimit).then((results: Array<any>) => {
+                self.navbarService.GetMainSearchResults(input).then((results: Array<any>) => {
                     if (results && results.length > 0 && input == self.searchInput.trim()) {
                         self.searchResults = results;
                         self.ShowSearchResults();
@@ -674,6 +680,20 @@ export class NavbarComponent implements OnInit {
                 friendObj.isTyping = false;
             }, self.typingDelay);
         }
+    }
+
+    SearchNewFriends = function () {
+        $("#search-input").focus();
+        clearTimeout(this.showNewFriendsLabelTimeout);
+        clearTimeout(this.hideNewFriendsLabelTimeout);
+        var self = this;
+
+        self.showNewFriendsLabelTimeout = setTimeout(function () {
+            self.isNewFriendsLabel = true;
+            self.hideNewFriendsLabelTimeout = setTimeout(function () {
+                self.isNewFriendsLabel = false;
+            }, self.newFriendsLabelDelay);
+        }, 200);
     }
 }
 

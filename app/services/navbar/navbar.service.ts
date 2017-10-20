@@ -15,8 +15,8 @@ export class NavbarService extends BasicService {
             });
     }
 
-    GetMainSearchResults(searchInput: string, searchLimit: number) {
-        var details = { "searchInput": searchInput, "searchLimit": searchLimit };
+    GetMainSearchResults(searchInput: string) {
+        var details = { "searchInput": searchInput };
 
         return super.post(this.prefix + '/getMainSearchResults', JSON.stringify(details))
             .toPromise()

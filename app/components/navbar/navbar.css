@@ -160,7 +160,7 @@
     transition: 0.4s;
     user-select: none;
     -webkit-user-select: none;
-    border-top: 1px #bdb7b7 solid;
+    border-top: 0.5px #bdb7b7 solid;
     overflow-y: hidden;
 }
 
@@ -344,7 +344,7 @@
 #navbar .notification-icon {
     position: absolute;
     left: -15px;
-    top: 3px;
+    top: 4px;
     font-size: 20px;
     cursor: pointer;
 }
@@ -617,6 +617,30 @@
 
 #navbar .notification-text {
     font-size: 14px;
+}
+
+#navbar .new-friends-title {
+    position: absolute;
+    top: 50%;
+    margin-top: -95px;
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+    font-family: rubik;
+    color: #f7f7f7;
+}
+
+#navbar .new-friends-label {
+    background-color: rgba(0, 0, 0, 0.25);
+    color: white;
+    width: 140px;
+    margin-top: 12px;
+    padding: 8px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    font-family: rubik;
+    text-align: center;
+    border-top: 0.5px solid #bdb7b7;
 }
 
 #navbar ::-webkit-scrollbar-thumb {
