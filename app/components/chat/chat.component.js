@@ -20,9 +20,8 @@ var ChatComponent = /** @class */ (function () {
         this.messages = [];
         this.token = getToken();
         this.chatBodyScrollHeight = 0;
-        this.days = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
-        this.months = ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני",
-            "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"];
+        this.days = globalVariables.days;
+        this.months = globalVariables.months;
         this.InitializeChat = function () {
             var self = this;
             self.isAllowShowUnreadLine = true;

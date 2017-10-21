@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { GlobalService } from '../../services/global/global.service';
 import { ProfilePictureService } from '../../services/profilePicture/profilePicture.service';
 
-declare var isTouchDevice: boolean;
+declare var globalVariables: any;
 
 @Component({
     selector: 'profilePicture',
@@ -15,7 +15,7 @@ declare var isTouchDevice: boolean;
 export class ProfilePictureComponent {
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
     isUserHasImage: boolean = null;
-    isMobile: boolean = isTouchDevice;
+    isTouchDevice: boolean = globalVariables.isTouchDevice;
 
     @Input() isEditEnable: string;
 

@@ -19,7 +19,7 @@ var ProfilePictureComponent = /** @class */ (function () {
         this.globalService = globalService;
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.isUserHasImage = null;
-        this.isMobile = isTouchDevice;
+        this.isTouchDevice = globalVariables.isTouchDevice;
         this.globalService.data.subscribe(function (value) {
             if (value["newUploadedImage"]) {
                 globalService.userProfileImage = value["newUploadedImage"];

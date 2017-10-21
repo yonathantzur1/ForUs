@@ -3,6 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { UnreadWindowService } from '../../services/unreadWindow/unreadWindow.service';
 import { GlobalService } from '../../services/global/global.service';
 
+declare var globalVariables: any;
 
 @Component({
     selector: 'unreadWindow',
@@ -16,9 +17,8 @@ export class UnreadWindowComponent implements OnInit {
     @Input() OpenChat: Function;
 
     socket: any;
-    days: Array<string> = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
-    months: Array<string> = ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני",
-        "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"];
+    days: Array<string> = globalVariables.days;
+    months: Array<string> = globalVariables.months;
     chats: any = [];
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
     isChatsLoading: boolean;

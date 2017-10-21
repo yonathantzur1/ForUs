@@ -4,6 +4,7 @@ import { ChatService } from '../../services/chat/chat.service';
 import { GlobalService } from '../../services/global/global.service';
 
 declare var getToken: any;
+declare var globalVariables: any;
 
 @Component({
     selector: 'chat',
@@ -19,9 +20,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     isMessagesLoading: boolean;
     chatBodyScrollHeight: number = 0;
 
-    days: Array<string> = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
-    months: Array<string> = ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני",
-        "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"];
+    days: Array<string> = globalVariables.days;
+    months: Array<string> = globalVariables.months;
 
     // Unread messages line sector properties //
     isAllowShowUnreadLine: boolean;

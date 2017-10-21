@@ -2,7 +2,7 @@
     position: fixed;
     top: 131px;
     right: 165px;
-    width: 55%;
+    width: calc(100% - 168px);
     max-width: 310px;
     height: 230px;
     max-height: calc(100% - 135px);
@@ -72,7 +72,7 @@
     align-self: center;
     margin-top: 1px;
     position: absolute;
-    left: 15px;
+    left: 12px;
 }
 
 #unreadWindow .chat-image {

@@ -16,9 +16,8 @@ var UnreadWindowComponent = /** @class */ (function () {
     function UnreadWindowComponent(unreadWindowService, globalService) {
         this.unreadWindowService = unreadWindowService;
         this.globalService = globalService;
-        this.days = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
-        this.months = ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני",
-            "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"];
+        this.days = globalVariables.days;
+        this.months = globalVariables.months;
         this.chats = [];
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.isRefreshActive = false;

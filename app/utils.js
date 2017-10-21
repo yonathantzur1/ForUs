@@ -8,4 +8,8 @@ $(window).on('popstate', function () {
     }
 })(jQuery);
 
-var isTouchDevice = (('ontouchstart' in window || navigator.maxTouchPoints) ? true : false);
+var globalVariables = {
+    isTouchDevice: (('ontouchstart' in window || navigator.maxTouchPoints) ? true : false),
+    days: ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"],
+    months: ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני", "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"]
+};
