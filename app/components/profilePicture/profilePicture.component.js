@@ -26,7 +26,7 @@ var ProfilePictureComponent = /** @class */ (function () {
                 _this.isUserHasImage = true;
             }
             if (value["isImageDeleted"]) {
-                globalService.userProfileImage = _this.defaultProfileImage;
+                globalService.userProfileImage = null;
                 _this.isUserHasImage = false;
                 _this.globalService.setData("userImage", null);
             }

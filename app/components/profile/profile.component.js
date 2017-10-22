@@ -14,7 +14,8 @@ require("./jsProfileFunctions.js");
 var global_service_1 = require("../../services/global/global.service");
 var profile_service_1 = require("../../services/profile/profile.service");
 var ProfileComponent = /** @class */ (function () {
-    function ProfileComponent(profileService, globalService) {
+    function ProfileComponent(applicationRef, profileService, globalService) {
+        this.applicationRef = applicationRef;
         this.profileService = profileService;
         this.globalService = globalService;
         this.isLoading = false;
@@ -202,6 +203,7 @@ var ProfileComponent = /** @class */ (function () {
         // In case the user is not in the select part.
         if (!this.isNewPhoto) {
             this.isLoading = true;
+            this.applicationRef.tick();
             var self = this;
             GetCroppedBase64Image().then(function (img) {
                 var imgBase64 = img["0"].currentSrc;
@@ -210,8 +212,11 @@ var ProfileComponent = /** @class */ (function () {
                     // In case of error or the user was not fount.
                     if (!result) {
                         $("#upload-failed").snackbar("show");
+                        self.CloseWindow();
                     }
                     else {
+                        // Disable modal close fade animation, close modal and return the fade animation. 
+                        $("#profile-modal").removeClass("fade");
                         $("#profile-modal").modal("hide");
                         self.globalService.setData("newUploadedImage", imgBase64);
                         swal({
@@ -221,6 +226,8 @@ var ProfileComponent = /** @class */ (function () {
                             imageHeight: 150,
                             animation: false,
                             confirmButtonText: "אוקיי"
+                        }).then(function () {
+                            self.CloseWindow();
                         });
                         setToken(result.token);
                     }
@@ -233,7 +240,6 @@ var ProfileComponent = /** @class */ (function () {
         // Disable modal close fade animation, close modal and return the fade animation. 
         $("#profile-modal").removeClass("fade");
         $("#profile-modal").modal("hide");
-        $("#profile-modal").addClass("fade");
         var self = this;
         swal({
             html: '<span style="font-weight:bold;">למחוק את התמונה</span> <i class="fa fa-question" aria-hidden="true"></i>',
@@ -257,13 +263,14 @@ var ProfileComponent = /** @class */ (function () {
                     html: '<span style="font-weight:bold;">התמונה נמחקה בהצלחה</span> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
                     type: "success",
                     confirmButtonText: "אוקיי"
+                }).then(function () {
+                    self.CloseWindow();
                 });
                 setToken(result.token);
             }
         }, function (dismiss) {
             $("#profile-modal").removeClass("fade");
             $("#profile-modal").modal("show");
-            $("#profile-modal").addClass("fade");
         });
     };
     ProfileComponent = __decorate([
@@ -272,7 +279,7 @@ var ProfileComponent = /** @class */ (function () {
             templateUrl: './profile.html',
             providers: [profile_service_1.ProfileService]
         }),
-        __metadata("design:paramtypes", [profile_service_1.ProfileService, global_service_1.GlobalService])
+        __metadata("design:paramtypes", [core_1.ApplicationRef, profile_service_1.ProfileService, global_service_1.GlobalService])
     ], ProfileComponent);
     return ProfileComponent;
 }());

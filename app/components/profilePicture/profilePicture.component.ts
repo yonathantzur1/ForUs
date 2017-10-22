@@ -27,7 +27,7 @@ export class ProfilePictureComponent {
             }
 
             if (value["isImageDeleted"]) {
-                globalService.userProfileImage = this.defaultProfileImage;
+                globalService.userProfileImage = null;
                 this.isUserHasImage = false;
                 this.globalService.setData("userImage", null);
             }

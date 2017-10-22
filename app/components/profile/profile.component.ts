@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ApplicationRef } from '@angular/core';
 import { Router } from '@angular/router';
 import './jsProfileFunctions.js'
 
@@ -17,7 +17,7 @@ declare function GetCroppedBase64Image(): any;
 })
 
 export class ProfileComponent implements OnInit {
-    constructor(private profileService: ProfileService, private globalService: GlobalService) { }
+    constructor(private applicationRef: ApplicationRef, private profileService: ProfileService, private globalService: GlobalService) { }
 
     isLoading: boolean = false;
     userImage: string;
@@ -224,6 +224,7 @@ export class ProfileComponent implements OnInit {
         // In case the user is not in the select part.
         if (!this.isNewPhoto) {
             this.isLoading = true;
+            this.applicationRef.tick();
             var self = this;
 
             GetCroppedBase64Image().then(function (img: any) {
@@ -234,9 +235,13 @@ export class ProfileComponent implements OnInit {
                     // In case of error or the user was not fount.
                     if (!result) {
                         $("#upload-failed").snackbar("show");
+                        self.CloseWindow();
                     }
                     else {
+                        // Disable modal close fade animation, close modal and return the fade animation. 
+                        $("#profile-modal").removeClass("fade");
                         $("#profile-modal").modal("hide");
+
                         self.globalService.setData("newUploadedImage", imgBase64);
 
                         swal({
@@ -246,6 +251,8 @@ export class ProfileComponent implements OnInit {
                             imageHeight: 150,
                             animation: false,
                             confirmButtonText: "אוקיי"
+                        }).then(function () {
+                            self.CloseWindow();
                         });
 
                         setToken(result.token);
@@ -259,7 +266,6 @@ export class ProfileComponent implements OnInit {
         // Disable modal close fade animation, close modal and return the fade animation. 
         $("#profile-modal").removeClass("fade");
         $("#profile-modal").modal("hide");
-        $("#profile-modal").addClass("fade");
 
         var self = this;
 
@@ -286,6 +292,8 @@ export class ProfileComponent implements OnInit {
                     html: '<span style="font-weight:bold;">התמונה נמחקה בהצלחה</span> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
                     type: "success",
                     confirmButtonText: "אוקיי"
+                }).then(function () {
+                    self.CloseWindow();
                 });
 
                 setToken(result.token);
@@ -293,7 +301,6 @@ export class ProfileComponent implements OnInit {
         }, function (dismiss: any) {
             $("#profile-modal").removeClass("fade");
             $("#profile-modal").modal("show");
-            $("#profile-modal").addClass("fade");
         });
     }
 
