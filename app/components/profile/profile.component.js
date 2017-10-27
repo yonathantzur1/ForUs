@@ -14,8 +14,7 @@ require("./jsProfileFunctions.js");
 var global_service_1 = require("../../services/global/global.service");
 var profile_service_1 = require("../../services/profile/profile.service");
 var ProfileComponent = /** @class */ (function () {
-    function ProfileComponent(applicationRef, profileService, globalService) {
-        this.applicationRef = applicationRef;
+    function ProfileComponent(profileService, globalService) {
         this.profileService = profileService;
         this.globalService = globalService;
         this.isLoading = false;
@@ -203,7 +202,6 @@ var ProfileComponent = /** @class */ (function () {
         // In case the user is not in the select part.
         if (!this.isNewPhoto) {
             this.isLoading = true;
-            this.applicationRef.tick();
             var self = this;
             GetCroppedBase64Image().then(function (img) {
                 var imgBase64 = img["0"].currentSrc;
@@ -279,7 +277,7 @@ var ProfileComponent = /** @class */ (function () {
             templateUrl: './profile.html',
             providers: [profile_service_1.ProfileService]
         }),
-        __metadata("design:paramtypes", [core_1.ApplicationRef, profile_service_1.ProfileService, global_service_1.GlobalService])
+        __metadata("design:paramtypes", [profile_service_1.ProfileService, global_service_1.GlobalService])
     ], ProfileComponent);
     return ProfileComponent;
 }());

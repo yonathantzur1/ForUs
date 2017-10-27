@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ApplicationRef } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import './jsProfileFunctions.js'
 
@@ -17,7 +17,7 @@ declare function GetCroppedBase64Image(): any;
 })
 
 export class ProfileComponent implements OnInit {
-    constructor(private applicationRef: ApplicationRef, private profileService: ProfileService, private globalService: GlobalService) { }
+    constructor(private profileService: ProfileService, private globalService: GlobalService) { }
 
     isLoading: boolean = false;
     userImage: string;
@@ -224,7 +224,6 @@ export class ProfileComponent implements OnInit {
         // In case the user is not in the select part.
         if (!this.isNewPhoto) {
             this.isLoading = true;
-            this.applicationRef.tick();
             var self = this;
 
             GetCroppedBase64Image().then(function (img: any) {
