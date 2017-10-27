@@ -18,7 +18,7 @@ export class UnreadWindowComponent implements OnInit {
 
     socket: any;
     days: Array<string> = globalVariables.days;
-    months: Array<string> = globalVariables.months;
+    months: Array<string> = globalVariables.shortMonths;
     chats: any = [];
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
     isChatsLoading: boolean;
@@ -154,7 +154,7 @@ export class UnreadWindowComponent implements OnInit {
         }
         else {
             if (localDate.getFullYear() == currDate.getFullYear()) {
-                dateDetailsString = (localDate.getDate()) + " ב" + this.months[localDate.getMonth()]
+                dateDetailsString = (localDate.getDate()) + " " + this.months[localDate.getMonth()]
             }
             else {
                 dateDetailsString = (localDate.getDate()) + "/" + (localDate.getMonth() + 1) + "/" + localDate.getFullYear();

@@ -17,7 +17,7 @@ var UnreadWindowComponent = /** @class */ (function () {
         this.unreadWindowService = unreadWindowService;
         this.globalService = globalService;
         this.days = globalVariables.days;
-        this.months = globalVariables.months;
+        this.months = globalVariables.shortMonths;
         this.chats = [];
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.isRefreshActive = false;
@@ -87,7 +87,7 @@ var UnreadWindowComponent = /** @class */ (function () {
             }
             else {
                 if (localDate.getFullYear() == currDate.getFullYear()) {
-                    dateDetailsString = (localDate.getDate()) + " ב" + this.months[localDate.getMonth()];
+                    dateDetailsString = (localDate.getDate()) + " " + this.months[localDate.getMonth()];
                 }
                 else {
                     dateDetailsString = (localDate.getDate()) + "/" + (localDate.getMonth() + 1) + "/" + localDate.getFullYear();

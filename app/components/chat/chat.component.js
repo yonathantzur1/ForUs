@@ -80,11 +80,12 @@ var ChatComponent = /** @class */ (function () {
             }
             return (HH + ":" + mm);
         };
-        this.IsShowUnreadLine = function (msgFromId, msgId) {
+        this.IsShowUnreadLine = function (msgFromId, msgId, msgIndex) {
             var friendMessagesNotifications = this.chatData.messagesNotifications[msgFromId];
             if (this.isAllowShowUnreadLine &&
                 friendMessagesNotifications &&
-                msgId == friendMessagesNotifications.firstUnreadMessageId) {
+                msgId == friendMessagesNotifications.firstUnreadMessageId &&
+                msgIndex != 0) {
                 this.unreadMessagesNumber = friendMessagesNotifications.unreadMessagesNumber;
                 return true;
             }

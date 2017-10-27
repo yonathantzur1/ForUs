@@ -310,6 +310,8 @@ var NavbarComponent = /** @class */ (function () {
                 if (result) {
                     self.socket.emit("ServerUpdateFriendRequests", getToken(), friendRequests);
                     self.socket.emit("SendFriendRequest", getToken(), friendId);
+                    $("#remove-friend-notification").snackbar("hide");
+                    $("#add-friend-notification").snackbar("show");
                 }
             });
         };
@@ -321,6 +323,8 @@ var NavbarComponent = /** @class */ (function () {
                 if (result) {
                     self.socket.emit("ServerUpdateFriendRequests", getToken(), friendRequests);
                     self.socket.emit("RemoveFriendRequest", self.user._id, friendId);
+                    $("#add-friend-notification").snackbar("hide");
+                    $("#remove-friend-notification").snackbar("show");
                 }
             });
         };

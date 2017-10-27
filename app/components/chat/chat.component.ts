@@ -130,12 +130,13 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         return (HH + ":" + mm);
     }
 
-    IsShowUnreadLine = function (msgFromId: string, msgId: string) {
+    IsShowUnreadLine = function (msgFromId: string, msgId: string, msgIndex: number) {
         var friendMessagesNotifications = this.chatData.messagesNotifications[msgFromId];
 
         if (this.isAllowShowUnreadLine &&
             friendMessagesNotifications &&
-            msgId == friendMessagesNotifications.firstUnreadMessageId) {
+            msgId == friendMessagesNotifications.firstUnreadMessageId &&
+            msgIndex != 0) {
             this.unreadMessagesNumber = friendMessagesNotifications.unreadMessagesNumber;
 
             return true;

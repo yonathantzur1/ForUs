@@ -111,3 +111,6 @@
 <friendRequestsWindow [hidden]="!isFriendRequestsWindowOpen" [AddFriend]="AddFriend.bind(this)" [IgnoreFriendRequest]="IgnoreFriendRequest.bind(this)"
   [friendRequests]="GetToolbarItem('friendRequests').content.get"></friendRequestsWindow>
 <chat *ngIf="chatData.isOpen" [chatData]="chatData"></chat>
+
+<span id="add-friend-notification" data-toggle="snackbar" data-content="נשלחה בקשת חברות"></span>
+<span id="remove-friend-notification" data-toggle="snackbar" data-content="בקשת החברות בוטלה"></span>

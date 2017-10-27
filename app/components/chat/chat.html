@@ -22,7 +22,7 @@
                     </p>
                 </span>
                 <div *ngFor="let message of messages; let i = index">
-                    <div *ngIf="IsShowUnreadLine(message.from, message.id)" class="bubble-message-line-sector">
+                    <div *ngIf="IsShowUnreadLine(message.from, message.id, i)" class="bubble-message-line-sector">
                         <div class="bubble-message-line">
                             <span class="bubble-message-text-container">
                                 <span class="bubble-message-text">{{GetUnreadMessagesNumberText(unreadMessagesNumber)}}</span>
