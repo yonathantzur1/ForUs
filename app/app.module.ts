@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+import { Pipe, PipeTransform } from '@angular/core';
+
 // Components import
 import { AppComponent } from './components/app/app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -25,6 +27,29 @@ import { routing } from './app.routing'
 
 import { GlobalService } from './services/global/global.service';
 
+@Pipe({
+  name: "orderByChatDates"
+})
+export class OrderByChatDates implements PipeTransform {
+  transform(array: Array<string>, args: string): Array<string> {
+    array.sort((a: any, b: any) => {
+      var firstDate = new Date(a.lastMessage.time);
+      var secondDate = new Date(b.lastMessage.time);
+
+      if (firstDate > secondDate) {
+        return -1;
+      }
+      else if (firstDate < secondDate) {
+        return 1;
+      }
+      else {
+        return 0;
+      }
+    });
+    return array;
+  }
+}
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -44,7 +69,8 @@ import { GlobalService } from './services/global/global.service';
     ProfilePictureComponent,
     ChatComponent,
     UnreadWindowComponent,
-    FriendRequestsWindowComponent
+    FriendRequestsWindowComponent,
+    OrderByChatDates
   ],
   providers: [
     AuthGuard,
