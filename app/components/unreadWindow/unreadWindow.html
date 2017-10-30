@@ -1,22 +1,24 @@
 <div id="unreadWindow">
     <span class="glyphicon glyphicon-triangle-top window-top-arrow"></span>
     <div class="unreadWindow-container">
-        <div *ngIf="!isChatsLoading" class="top-line">
+        <div *ngIf="!isChatsLoading && !isFriendsLoading" class="top-line">
             <span>{{GetUnreadMessagesNumberText()}}</span>
         </div>
         <div class="body-container">
-            <loader *ngIf="isChatsLoading" id="chats-loader" class="chats-loader"></loader>
-            <div class="chat-container" *ngFor="let chat of chats | orderByChatDates" (click)="OpenChat(GetFriend(chat.friendId))">
-                <span *ngIf="messagesNotifications[chat.friendId]" class="notificaiton-sign"></span>
-                <img class="chat-image" src="{{GetFriendProfile(chat.friendId) || defaultProfileImage}}">
-                <div class="details-container">
-                    <div class="chat-name">{{GetFriendName(chat.friendId) || "משתמש לא קיים"}}</div>
-                    <div class="chat-last-text">{{chat.lastMessage.text}}</div>
-                </div>
-                <div class="chat-last-time">
-                    {{CalculateChatTimeString(chat)}}
-                    <div>{{chat.timeString.dateDetailsString}}</div>
-                    <div>{{chat.timeString.dateTimeString}}</div>
+            <loader *ngIf="isChatsLoading || isFriendsLoading" id="chats-loader" class="chats-loader"></loader>
+            <div *ngIf="!isChatsLoading && !isFriendsLoading">
+                <div class="chat-container" *ngFor="let chat of chats | orderByChatDates" (click)="OpenChat(GetFriend(chat.friendId))">
+                    <span *ngIf="messagesNotifications[chat.friendId]" class="notificaiton-sign"></span>
+                    <img class="chat-image" src="{{GetFriendProfile(chat.friendId) || defaultProfileImage}}">
+                    <div class="details-container">
+                        <div class="chat-name">{{GetFriendName(chat.friendId) || "משתמש לא קיים"}}</div>
+                        <div class="chat-last-text">{{chat.lastMessage.text}}</div>
+                    </div>
+                    <div class="chat-last-time">
+                        {{CalculateChatTimeString(chat)}}
+                        <div>{{chat.timeString.dateDetailsString}}</div>
+                        <div>{{chat.timeString.dateTimeString}}</div>
+                    </div>
                 </div>
             </div>
         </div>

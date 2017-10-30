@@ -147,6 +147,10 @@ var UnreadWindowComponent = /** @class */ (function () {
     };
     __decorate([
         core_1.Input(),
+        __metadata("design:type", Boolean)
+    ], UnreadWindowComponent.prototype, "isFriendsLoading", void 0);
+    __decorate([
+        core_1.Input(),
         __metadata("design:type", Array)
     ], UnreadWindowComponent.prototype, "friends", void 0);
     __decorate([

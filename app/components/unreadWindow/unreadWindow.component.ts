@@ -12,6 +12,7 @@ declare var globalVariables: any;
 })
 
 export class UnreadWindowComponent implements OnInit {
+    @Input() isFriendsLoading: boolean;
     @Input() friends: Array<any>;
     @Input() messagesNotifications: Object;
     @Input() OpenChat: Function;
