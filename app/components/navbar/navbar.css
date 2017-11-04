@@ -306,7 +306,7 @@
 
 #navbar .friend-request-btn {
     align-self: center;
-    font-size: 24px;
+    font-size: 20px;
     position: absolute;
     left: 30px;
 }
@@ -344,7 +344,7 @@
 #navbar .notification-icon {
     position: absolute;
     left: -15px;
-    top: 4px;
+    top: 3px;
     font-size: 20px;
     cursor: pointer;
 }
@@ -382,7 +382,7 @@
 
     #navbar .friend-request-btn {
         left: 24px !important;
-        font-size: 30px !important;
+        font-size: 18px !important;
     }
 
     #navbar .remove-request {
@@ -413,7 +413,7 @@
 
     #navbar .notification-icon {
         left: -6px  !important;
-        top: 4px  !important;
+        top: 5px  !important;
         font-size: 16px !important;
     }
 }

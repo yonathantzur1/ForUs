@@ -317,7 +317,7 @@ var NavbarComponent = /** @class */ (function () {
         };
         this.RemoveFriendRequest = function (friendId) {
             var friendRequests = this.GetToolbarItem("friendRequests").content;
-            friendRequests.send.splice(friendRequests.send.indexOf(friendId));
+            friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
             var self = this;
             this.navbarService.RemoveFriendRequest(friendId).then(function (result) {
                 if (result) {
@@ -385,7 +385,7 @@ var NavbarComponent = /** @class */ (function () {
         this.AddFriend = function (friendId) {
             // Remove the friend request from all friend requests object.
             var friendRequests = this.GetToolbarItem("friendRequests").content;
-            friendRequests.get.splice(friendRequests.get.indexOf(friendId));
+            friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
             // Add the friend id to the user's friends array.
             var userFriends = this.user.friends;
             userFriends.push(friendId);
@@ -406,7 +406,7 @@ var NavbarComponent = /** @class */ (function () {
         this.IgnoreFriendRequest = function (friendId) {
             // Remove the friend request from all friend requests object.
             var friendRequests = this.GetToolbarItem("friendRequests").content;
-            friendRequests.get.splice(friendRequests.get.indexOf(friendId));
+            friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
             var self = this;
             this.navbarService.IgnoreFriendRequest(friendId).then(function (result) {
                 if (result) {
@@ -451,6 +451,7 @@ var NavbarComponent = /** @class */ (function () {
             {
                 id: "messages",
                 icon: "fa fa-envelope-o",
+                innerIconText: "",
                 title: "הודעות",
                 content: {},
                 isShowToolbarItemBadget: function () {
@@ -462,7 +463,8 @@ var NavbarComponent = /** @class */ (function () {
             },
             {
                 id: "friendRequests",
-                icon: "fa fa-user-plus",
+                icon: "material-icons",
+                innerIconText: "people",
                 title: "בקשות חברות",
                 content: {
                     get: [],
@@ -541,11 +543,11 @@ var NavbarComponent = /** @class */ (function () {
         });
         self.socket.on('DeleteFriendRequest', function (friendId) {
             var friendRequests = self.GetToolbarItem("friendRequests").content;
-            friendRequests.get.splice(friendRequests.get.indexOf(friendId));
+            friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
         });
         self.socket.on('ClientIgnoreFriendRequest', function (friendId) {
             var friendRequests = self.GetToolbarItem("friendRequests").content;
-            friendRequests.send.splice(friendRequests.send.indexOf(friendId));
+            friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
         });
         self.socket.on('ClientAddFriend', function (result) {
             self.AddFriendObjectToUser(result);

@@ -37,6 +37,7 @@ export class Friend {
 export class toolbarItem {
     id: string;
     icon: string;
+    innerIconText: string;
     title: string;
     content: Object;
     isShowToolbarItemBadget: Function;
@@ -118,6 +119,7 @@ export class NavbarComponent implements OnInit {
             {
                 id: "messages",
                 icon: "fa fa-envelope-o",
+                innerIconText: "",
                 title: "הודעות",
                 content: {},
                 isShowToolbarItemBadget: function () {
@@ -129,7 +131,8 @@ export class NavbarComponent implements OnInit {
             },
             {
                 id: "friendRequests",
-                icon: "fa fa-user-plus",
+                icon: "material-icons",
+                innerIconText: "people",
                 title: "בקשות חברות",
                 content: {
                     get: [],
@@ -224,12 +227,12 @@ export class NavbarComponent implements OnInit {
 
         self.socket.on('DeleteFriendRequest', function (friendId: string) {
             var friendRequests = self.GetToolbarItem("friendRequests").content;
-            friendRequests.get.splice(friendRequests.get.indexOf(friendId));
+            friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
         });
 
         self.socket.on('ClientIgnoreFriendRequest', function (friendId: string) {
             var friendRequests = self.GetToolbarItem("friendRequests").content;
-            friendRequests.send.splice(friendRequests.send.indexOf(friendId));
+            friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
         });
 
         self.socket.on('ClientAddFriend', function (result: any) {
@@ -552,7 +555,7 @@ export class NavbarComponent implements OnInit {
 
     RemoveFriendRequest = function (friendId: string) {
         var friendRequests = this.GetToolbarItem("friendRequests").content;
-        friendRequests.send.splice(friendRequests.send.indexOf(friendId));
+        friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
 
         var self = this;
         this.navbarService.RemoveFriendRequest(friendId).then(function (result: any) {
@@ -634,7 +637,7 @@ export class NavbarComponent implements OnInit {
     AddFriend = function (friendId: string) {
         // Remove the friend request from all friend requests object.
         var friendRequests = this.GetToolbarItem("friendRequests").content;
-        friendRequests.get.splice(friendRequests.get.indexOf(friendId));
+        friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
 
         // Add the friend id to the user's friends array.
         var userFriends = this.user.friends;
@@ -658,7 +661,7 @@ export class NavbarComponent implements OnInit {
     IgnoreFriendRequest = function (friendId: string) {
         // Remove the friend request from all friend requests object.
         var friendRequests = this.GetToolbarItem("friendRequests").content;
-        friendRequests.get.splice(friendRequests.get.indexOf(friendId));
+        friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
 
         var self = this;
         this.navbarService.IgnoreFriendRequest(friendId).then(function (result: any) {
