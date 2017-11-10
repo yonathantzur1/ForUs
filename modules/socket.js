@@ -74,7 +74,7 @@ function LogoutUser(io, socket) {
         }
         else {
             delete socketsDictionary[socket.id];
-            disconnectUser.socketIds.splice(disconnectUser.socketIds.indexOf(socket.id));
+            disconnectUser.socketIds.splice(disconnectUser.socketIds.indexOf(socket.id), 1);
         }
     }
 }
