@@ -11,14 +11,14 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@angular/common": "^5.0.0",
-    "@angular/compiler": "^5.0.0",
-    "@angular/core": "^5.0.0",
-    "@angular/forms": "^5.0.0",
-    "@angular/http": "^5.0.0",
-    "@angular/platform-browser": "^5.0.0",
-    "@angular/platform-browser-dynamic": "^5.0.0",
-    "@angular/router": "^5.0.0",
+    "@angular/common": "^5.0.1",
+    "@angular/compiler": "^5.0.1",
+    "@angular/core": "^5.0.1",
+    "@angular/forms": "^5.0.1",
+    "@angular/http": "^5.0.1",
+    "@angular/platform-browser": "^5.0.1",
+    "@angular/platform-browser-dynamic": "^5.0.1",
+    "@angular/router": "^5.0.1",
     "angular-in-memory-web-api": "^0.5.1",
     "body-parser": "^1.18.2",
     "bootstrap": "^3.3.7",
@@ -33,19 +33,19 @@
     "js-sha512": "^0.6.0",
     "jsonwebtoken": "^8.1.0",
     "mongodb": "^2.2.33",
-    "nodemailer": "^4.3.1",
+    "nodemailer": "^4.4.0",
     "rxjs": "^5.5.2",
     "snackbarjs": "^1.1.0",
     "socket.io": "^2.0.4",
     "socket.io-client": "^2.0.4",
-    "sweetalert2": "^6.11.4",
+    "sweetalert2": "^6.11.5",
     "systemjs": "^0.20.19",
     "zone.js": "^0.8.18"
   },
   "devDependencies": {
     "concurrently": "^3.5.0",
     "typescript": "~2.6.1",
-    "@types/node": "^8.0.47"
+    "@types/node": "^8.0.52"
   },
   "repository": {}
 }

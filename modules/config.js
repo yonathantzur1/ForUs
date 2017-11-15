@@ -6,5 +6,5 @@ module.exports = {
     jwtSecret: "pingpong",
     jwtOptions: { expiresIn: '48h' },
     encryptSecret : "zigzag",
-    encryptAlgorithm : "aes-256-ctr"
+    encryptAlgorithm : "aes192"
 };
