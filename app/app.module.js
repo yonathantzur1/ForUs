@@ -10,7 +10,6 @@ var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var forms_1 = require("@angular/forms");
 var http_1 = require("@angular/http");
-var core_2 = require("@angular/core");
 // Components import
 var app_component_1 = require("./components/app/app.component");
 var login_component_1 = require("./components/login/login.component");
@@ -28,33 +27,6 @@ var auth_service_1 = require("./services/auth/auth.service");
 var auth_guard_1 = require("./components/login/auth.guard");
 var app_routing_1 = require("./app.routing");
 var global_service_1 = require("./services/global/global.service");
-var OrderByChatDates = /** @class */ (function () {
-    function OrderByChatDates() {
-    }
-    OrderByChatDates.prototype.transform = function (array, args) {
-        array.sort(function (a, b) {
-            var firstDate = new Date(a.lastMessage.time);
-            var secondDate = new Date(b.lastMessage.time);
-            if (firstDate > secondDate) {
-                return -1;
-            }
-            else if (firstDate < secondDate) {
-                return 1;
-            }
-            else {
-                return 0;
-            }
-        });
-        return array;
-    };
-    OrderByChatDates = __decorate([
-        core_2.Pipe({
-            name: "orderByChatDates"
-        })
-    ], OrderByChatDates);
-    return OrderByChatDates;
-}());
-exports.OrderByChatDates = OrderByChatDates;
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -78,8 +50,7 @@ var AppModule = /** @class */ (function () {
                 profilePicture_component_1.ProfilePictureComponent,
                 chat_component_1.ChatComponent,
                 unreadWindow_component_1.UnreadWindowComponent,
-                friendRequestsWindow_component_1.FriendRequestsWindowComponent,
-                OrderByChatDates
+                friendRequestsWindow_component_1.FriendRequestsWindowComponent
             ],
             providers: [
                 auth_guard_1.AuthGuard,

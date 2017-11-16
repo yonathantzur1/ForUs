@@ -7,7 +7,7 @@
         <div class="body-container">
             <loader *ngIf="isChatsLoading || isFriendsLoading" id="chats-loader" class="chats-loader"></loader>
             <div *ngIf="!isChatsLoading && !isFriendsLoading">
-                <div class="chat-container" *ngFor="let chat of chats | orderByChatDates" (click)="OpenChat(GetFriend(chat.friendId))">
+                <div class="chat-container" *ngFor="let chat of SortByDate(chats)" (click)="OpenChat(GetFriend(chat.friendId))">
                     <span *ngIf="messagesNotifications[chat.friendId]" class="notificaiton-sign"></span>
                     <img class="chat-image" src="{{GetFriendProfile(chat.friendId) || defaultProfileImage}}">
                     <div class="details-container">

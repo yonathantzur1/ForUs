@@ -118,8 +118,8 @@ export class NavbarComponent implements OnInit {
         self.toolbarItems = [
             {
                 id: "messages",
-                icon: "fa fa-envelope-o",
-                innerIconText: "",
+                icon: "material-icons",
+                innerIconText: "mail_outline",
                 title: "הודעות",
                 content: {},
                 isShowToolbarItemBadget: function () {

@@ -73,13 +73,14 @@
     margin-top: 1px;
     position: absolute;
     left: 12px;
+    text-align: center;
 }
 
 #unreadWindow .chat-image {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    margin-right: 18px;
+    margin-right: 12px;
     margin-left: 5px;
     border: 0.5px solid rgba(128, 127, 127, 0.7);
 }
@@ -93,7 +94,7 @@
 }
 
 #unreadWindow .details-container {
-    width: calc(100% - 115px);
+    width: calc(100% - 105px);
 }
 
 #unreadWindow .notificaiton-sign {
@@ -102,7 +103,7 @@
     border-radius: 50%;
     background-color: #8fa8ef;
     right: 12px;
-    top: 16px;
+    top: 5px;
     position: absolute;
 }
 

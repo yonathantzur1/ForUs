@@ -232,10 +232,11 @@
     align-items: center;
     direction: ltr;
     overflow: hidden;
+    padding-left: 6px;
 }
 
 #navbar .toolbar-item {
-    margin-left: 12px;
+    margin: 4px;
     cursor: pointer;
     font-size: 20px;
 }
@@ -341,33 +342,14 @@
     top: 52px;
 }
 
-#navbar .notification-icon {
-    position: absolute;
-    left: -15px;
-    top: 3px;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-#navbar .notification-icon-badget {
-    width: 10px;
-    height: 10px;
-    background-color: red;
-    position: absolute;
-    border-radius: 50%;
-    top: 1px;
-    margin-left: -2px;
-    border: 1px solid #eee;
-}
-
 @media (max-width: 768px) {
     #navbar .search-result {
         height: 45px !important;
     }
 
     #navbar .search-result-image {
-        width: 30px !important;
-        height: 30px !important;
+        width: 35px !important;
+        height: 35px !important;
     }
 
     #navbar .search-result-name {

@@ -108,6 +108,22 @@ var UnreadWindowComponent = /** @class */ (function () {
             var friendObj = this.GetFriend(friendId);
             return friendObj ? friendObj.profileImage : null;
         };
+        this.SortByDate = function (chats) {
+            chats.sort(function (a, b) {
+                var firstDate = new Date(a.lastMessage.time);
+                var secondDate = new Date(b.lastMessage.time);
+                if (firstDate > secondDate) {
+                    return -1;
+                }
+                else if (firstDate < secondDate) {
+                    return 1;
+                }
+                else {
+                    return 0;
+                }
+            });
+            return chats;
+        };
         this.socket = globalService.socket;
     }
     UnreadWindowComponent.prototype.ngOnInit = function () {

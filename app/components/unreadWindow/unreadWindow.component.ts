@@ -182,4 +182,23 @@ export class UnreadWindowComponent implements OnInit {
 
         return friendObj ? friendObj.profileImage : null;
     }
+
+    SortByDate = function (chats: any) {
+        chats.sort((a: any, b: any) => {
+            var firstDate = new Date(a.lastMessage.time);
+            var secondDate = new Date(b.lastMessage.time);
+
+            if (firstDate > secondDate) {
+                return -1;
+            }
+            else if (firstDate < secondDate) {
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        });
+
+        return chats;
+    }
 }
