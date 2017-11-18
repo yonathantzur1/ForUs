@@ -14,6 +14,7 @@ var router_1 = require("@angular/router");
 var global_service_1 = require("../../services/global/global.service");
 var auth_service_1 = require("../../services/auth/auth.service");
 var navbar_service_1 = require("../../services/navbar/navbar.service");
+var slideout;
 var DropMenuData = /** @class */ (function () {
     function DropMenuData(link, text, action) {
         this.link = link;
@@ -153,22 +154,15 @@ var NavbarComponent = /** @class */ (function () {
         this.ShowHideSidenav = function () {
             this.isSidebarOpen = !this.isSidebarOpen;
             this.isNewFriendsLabel = false;
-            if (this.isSidebarOpen) {
-                this.HideDropMenu();
-                this.HideSearchResults();
-                document.getElementById("sidenav").style.width = "210px";
-            }
-            else {
-                this.HideUnreadWindow();
-                this.HideFriendRequestsWindow();
-                document.getElementById("sidenav").style.width = "0";
-            }
+            this.HideDropMenu();
+            this.HideSearchResults();
+            slideout.toggle();
         };
         this.HideSidenav = function () {
             this.HideUnreadWindow();
             this.HideFriendRequestsWindow();
             this.isSidebarOpen = false;
-            document.getElementById("sidenav").style.width = "0";
+            slideout.close();
         };
         this.ShowHideDropMenu = function () {
             this.isDropMenuOpen = !this.isDropMenuOpen;
@@ -488,8 +482,26 @@ var NavbarComponent = /** @class */ (function () {
         ];
     }
     NavbarComponent.prototype.ngOnInit = function () {
-        this.socket.emit('login', getToken());
         var self = this;
+        slideout = new Slideout({
+            'panel': document.getElementById('panel'),
+            'menu': document.getElementById('menu'),
+            'padding': 210,
+            'tolerance': 70,
+            'side': 'right'
+        });
+        slideout
+            .on('beforeopen', function () {
+            this.panel.classList.add('panel-open');
+        })
+            .on('open', function () {
+            this.panel.addEventListener('click', close);
+        })
+            .on('beforeclose', function () {
+            this.panel.classList.remove('panel-open');
+            this.panel.removeEventListener('click', close);
+        });
+        self.socket.emit('login', getToken());
         setInterval(function () {
             self.socket.emit("ServerGetOnlineFriends", getToken());
         }, self.askForOnlineFriendsDelay * 1000);
@@ -602,5 +614,9 @@ function GetResultsIds(results) {
         "resultsIdsWithNoProfile": resultsIdsWithNoProfile
     };
     return data;
+}
+function close(e) {
+    e.preventDefault();
+    slideout.close();
 }
 //# sourceMappingURL=navbar.component.js.map

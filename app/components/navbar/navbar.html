@@ -1,8 +1,8 @@
-<div class="slidenav-overlay" [ngClass]="{'overlay-background' : isSidebarOpen, 'slidenav-overlay-top' : (isUnreadWindowOpen || isFriendRequestsWindowOpen)}"
-  *ngIf="isSidebarOpen || isDropMenuOpen || isShowSearchResults" (click)="OverlayClicked()"></div>
+<div class="slidenav-overlay" [ngClass]="{'slidenav-overlay-top' : (isUnreadWindowOpen || isFriendRequestsWindowOpen)}" *ngIf="isDropMenuOpen || isShowSearchResults"
+  (click)="OverlayClicked()"></div>
 <div id="navbar">
   <div class="navbar-container">
-    <div id="sidenav" class="sidenav" [ngClass]="{'sidenav-shadow' : isSidebarOpen}">
+    <div id="menu" class="sidenav">
       <div class="slidenav-head-sector">
         <div class="slidenav-header">
           <profilePicture class="profile-picture" [isEditEnable]="true"></profilePicture>
@@ -22,8 +22,8 @@
             <div class="form-group">
               <div id="friend-search-container" class="col-md-12">
                 <i (click)="friendSearchInput=''" class="material-icons clear-friend-search">close</i>
-                <input [(ngModel)]="friendSearchInput" style="padding-left:20px;" id="friend-search" name="friend-search" class="form-control" type="text" placeholder="חיפוש חברים"
-                  autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                <input [(ngModel)]="friendSearchInput" style="padding-left:20px;" id="friend-search" name="friend-search" class="form-control"
+                  type="text" placeholder="חיפוש חברים" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
               </div>
             </div>
           </form>
@@ -37,7 +37,7 @@
             </span>
           </div>
         </div>
-        <div *ngIf="!isFriendsLoading && friends.length == 0 && isSidebarOpen">
+        <div style="position:relative;" *ngIf="!isFriendsLoading && friends.length == 0 && isSidebarOpen">
           <div class="new-friends-title">חברים חדשים</div>
           <div class="no-friends-container">
             <i (click)="SearchNewFriends()" class="material-icons no-friends-icon">people</i>
@@ -105,7 +105,8 @@
   </span>
 </div>
 
-<unreadWindow [hidden]="!isUnreadWindowOpen" [isFriendsLoading]="isFriendsLoading" [OpenChat]="OpenChat.bind(this)" [friends]="friends" [messagesNotifications]="GetToolbarItem('messages').content"></unreadWindow>
+<unreadWindow [hidden]="!isUnreadWindowOpen" [isFriendsLoading]="isFriendsLoading" [OpenChat]="OpenChat.bind(this)" [friends]="friends"
+  [messagesNotifications]="GetToolbarItem('messages').content"></unreadWindow>
 <friendRequestsWindow [hidden]="!isFriendRequestsWindowOpen" [AddFriend]="AddFriend.bind(this)" [IgnoreFriendRequest]="IgnoreFriendRequest.bind(this)"
   [friendRequests]="GetToolbarItem('friendRequests').content.get"></friendRequestsWindow>
 <chat *ngIf="chatData.isOpen" [chatData]="chatData"></chat>
