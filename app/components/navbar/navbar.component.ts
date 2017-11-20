@@ -10,8 +10,6 @@ declare var setToken: any;
 declare var deleteToken: any;
 declare var socket: any;
 declare var io: any;
-declare var Slideout: any;
-var slideout: any;
 
 export class DropMenuData {
     constructor(link: string, text: string, action: Function) {
@@ -160,29 +158,9 @@ export class NavbarComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.socket.emit('login', getToken());
+
         var self = this;
-
-        slideout = new Slideout({
-            'panel': document.getElementById('panel'),
-            'menu': document.getElementById('menu'),
-            'padding': 210,
-            'tolerance': 70,
-            'side': 'right'
-        });
-
-        slideout
-            .on('beforeopen', function () {
-                this.panel.classList.add('panel-open');
-            })
-            .on('open', function () {
-                this.panel.addEventListener('click', close);
-            })
-            .on('beforeclose', function () {
-                this.panel.classList.remove('panel-open');
-                this.panel.removeEventListener('click', close);
-            });
-
-        self.socket.emit('login', getToken());
 
         setInterval(function () {
             self.socket.emit("ServerGetOnlineFriends", getToken());
@@ -381,17 +359,23 @@ export class NavbarComponent implements OnInit {
         this.isSidebarOpen = !this.isSidebarOpen;
         this.isNewFriendsLabel = false;
 
-        this.HideDropMenu();
-        this.HideSearchResults();
-
-        slideout.toggle();
+        if (this.isSidebarOpen) {
+            this.HideDropMenu();
+            this.HideSearchResults();
+            document.getElementById("sidenav").style.width = "210px";
+        }
+        else {
+            this.HideUnreadWindow();
+            this.HideFriendRequestsWindow();
+            document.getElementById("sidenav").style.width = "0";
+        }
     }
 
     HideSidenav = function () {
         this.HideUnreadWindow();
         this.HideFriendRequestsWindow();
         this.isSidebarOpen = false;
-        slideout.close();
+        document.getElementById("sidenav").style.width = "0";
     }
 
     ShowHideDropMenu = function () {
@@ -741,9 +725,4 @@ function GetResultsIds(results: Array<any>) {
     };
 
     return data;
-}
-
-function close(e: any) {
-    e.preventDefault();
-    slideout.close();
 }
