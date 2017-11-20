@@ -9,10 +9,10 @@ export class ChatService extends BasicService {
 
         return super.post(this.prefix + '/getChat', JSON.stringify(details))
             .toPromise()
-            .then((result) => {
-                return result.json();
+            .then((result: any) => {
+                return result;
             })
-            .catch((result) => {
+            .catch((result: any) => {
                 return null;
             });
     }

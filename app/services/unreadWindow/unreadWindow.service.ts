@@ -7,10 +7,10 @@ export class UnreadWindowService extends BasicService {
     GetAllChats() {
         return super.get(this.prefix + '/getAllChats')
             .toPromise()
-            .then((result) => {
-                return result.json();
+            .then((result: any) => {
+                return result;
             })
-            .catch((result) => {
+            .catch((result: any) => {
                 return null;
             });
     }

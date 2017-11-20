@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var forms_1 = require("@angular/forms");
-var http_1 = require("@angular/http");
+var http_1 = require("@angular/common/http");
 // Components import
 var app_component_1 = require("./components/app/app.component");
 var login_component_1 = require("./components/login/login.component");
@@ -35,7 +35,7 @@ var AppModule = /** @class */ (function () {
             imports: [
                 platform_browser_1.BrowserModule,
                 forms_1.FormsModule,
-                http_1.HttpModule,
+                http_1.HttpClientModule,
                 app_routing_1.routing
             ],
             declarations: [

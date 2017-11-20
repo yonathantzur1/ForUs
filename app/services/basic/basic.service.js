@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var http_1 = require("@angular/http");
+var http_1 = require("@angular/common/http");
 require("rxjs/add/operator/toPromise");
 var BasicService = /** @class */ (function () {
     function BasicService(http) {
@@ -29,12 +29,12 @@ var BasicService = /** @class */ (function () {
         return this.http.delete(url);
     };
     BasicService.prototype.getRequestOptions = function () {
-        var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
-        return (new http_1.RequestOptions({ 'headers': headers }));
+        var headers = new http_1.HttpHeaders({ 'Content-Type': 'application/json' });
+        return { 'headers': headers };
     };
     BasicService = __decorate([
         core_1.Injectable(),
-        __metadata("design:paramtypes", [http_1.Http])
+        __metadata("design:paramtypes", [http_1.HttpClient])
     ], BasicService);
     return BasicService;
 }());

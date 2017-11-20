@@ -7,10 +7,10 @@ export class ProfilePictureService extends BasicService {
     GetUserProfileImage() {
         return super.get(this.prefix + '/getUserProfileImage')
             .toPromise()
-            .then((result) => {
-                return result.json();
+            .then((result: any) => {
+                return result;
             })
-            .catch((result) => {
+            .catch((result: any) => {
                 return null;
             });
     }

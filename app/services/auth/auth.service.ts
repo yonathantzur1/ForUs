@@ -6,10 +6,10 @@ export class AuthService extends BasicService {
     IsUserOnSession() {
         return super.get(this.prefix + '/isUserOnSession')
             .toPromise()
-            .then((result) => {
-                return result.json();
+            .then((result: any) => {
+                return result;
             })
-            .catch((result) => {
+            .catch((result: any) => {
                 return null;
             });
     }
@@ -17,10 +17,10 @@ export class AuthService extends BasicService {
     GetCurrUser() {
         return super.get(this.prefix + '/getCurrUser')
             .toPromise()
-            .then((result) => {
-                return result.json();
+            .then((result: any) => {
+                return result;
             })
-            .catch((result) => {
+            .catch((result: any) => {
                 return null;
             });
     }
@@ -28,10 +28,10 @@ export class AuthService extends BasicService {
     GetCurrUserToken() {
         return super.get(this.prefix + '/getCurrUserToken')
             .toPromise()
-            .then((result) => {
-                return result.json();
+            .then((result: any) => {
+                return result;
             })
-            .catch((result) => {
+            .catch((result: any) => {
                 return null;
             });
     }

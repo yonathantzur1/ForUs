@@ -23,7 +23,7 @@ var ChatService = /** @class */ (function (_super) {
         return _super.prototype.post.call(this, this.prefix + '/getChat', JSON.stringify(details))
             .toPromise()
             .then(function (result) {
-            return result.json();
+            return result;
         })
             .catch(function (result) {
             return null;

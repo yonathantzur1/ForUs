@@ -7,10 +7,10 @@ export class NavbarService extends BasicService {
     GetFriends(friendsIds: Array<string>) {
         return super.post(this.prefix + '/getFriends', JSON.stringify(friendsIds))
             .toPromise()
-            .then((result) => {
-                return result.json();
+            .then((result: any) => {
+                return result;
             })
-            .catch((result) => {
+            .catch((result: any) => {
                 return null;
             });
     }
@@ -20,10 +20,10 @@ export class NavbarService extends BasicService {
 
         return super.post(this.prefix + '/getMainSearchResults', JSON.stringify(details))
             .toPromise()
-            .then((result) => {
-                return result.json();
+            .then((result: any) => {
+                return result;
             })
-            .catch((result) => {
+            .catch((result: any) => {
                 return null;
             });
     }
@@ -33,10 +33,10 @@ export class NavbarService extends BasicService {
 
         return super.post(this.prefix + '/getMainSearchResultsWithImages', JSON.stringify(details))
             .toPromise()
-            .then((result) => {
-                return result.json();
+            .then((result: any) => {
+                return result;
             })
-            .catch((result) => {
+            .catch((result: any) => {
                 return null;
             });
     }
@@ -44,10 +44,10 @@ export class NavbarService extends BasicService {
     GetUserMessagesNotifications() {
         return super.get(this.prefix + '/getUserMessagesNotifications')
             .toPromise()
-            .then((result) => {
-                return result.json();
+            .then((result: any) => {
+                return result;
             })
-            .catch((result) => {
+            .catch((result: any) => {
                 return null;
             });
     }
@@ -67,10 +67,10 @@ export class NavbarService extends BasicService {
     GetUserFriendRequests() {
         return super.get(this.prefix + '/getUserFriendRequests')
             .toPromise()
-            .then((result) => {
-                return result.json();
+            .then((result: any) => {
+                return result;
             })
-            .catch((result) => {
+            .catch((result: any) => {
                 return null;
             });
     }
@@ -80,10 +80,10 @@ export class NavbarService extends BasicService {
 
         return super.post(this.prefix + '/addFriendRequest', JSON.stringify(details))
             .toPromise()
-            .then((result) => {
-                return result.json();
+            .then((result: any) => {
+                return result;
             })
-            .catch((result) => {
+            .catch((result: any) => {
                 return null;
             });
     }
@@ -93,10 +93,10 @@ export class NavbarService extends BasicService {
 
         return super.post(this.prefix + '/removeFriendRequest', JSON.stringify(details))
             .toPromise()
-            .then((result) => {
-                return result.json();
+            .then((result: any) => {
+                return result;
             })
-            .catch((result) => {
+            .catch((result: any) => {
                 return null;
             });
     }
@@ -106,10 +106,10 @@ export class NavbarService extends BasicService {
 
         return super.post(this.prefix + '/ignoreFriendRequest', JSON.stringify(details))
             .toPromise()
-            .then((result) => {
-                return result.json();
+            .then((result: any) => {
+                return result;
             })
-            .catch((result) => {
+            .catch((result: any) => {
                 return null;
             });
     }
@@ -119,10 +119,10 @@ export class NavbarService extends BasicService {
 
         return super.post(this.prefix + '/addFriend', JSON.stringify(details))
             .toPromise()
-            .then((result) => {
-                return result.json();
+            .then((result: any) => {
+                return result;
             })
-            .catch((result) => {
+            .catch((result: any) => {
                 return null;
             });
     }

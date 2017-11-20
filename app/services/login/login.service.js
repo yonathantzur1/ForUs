@@ -23,7 +23,7 @@ var LoginService = /** @class */ (function (_super) {
         return _super.prototype.post.call(this, this.prefix + '/login', JSON.stringify(user))
             .toPromise()
             .then(function (result) {
-            return result.json();
+            return result;
         })
             .catch(function (result) {
             return null;
@@ -39,7 +39,7 @@ var LoginService = /** @class */ (function (_super) {
         return _super.prototype.post.call(this, this.prefix + '/register', JSON.stringify(details))
             .toPromise()
             .then(function (result) {
-            return result.json();
+            return result;
         })
             .catch(function (result) {
             return null;
@@ -50,7 +50,7 @@ var LoginService = /** @class */ (function (_super) {
         return _super.prototype.put.call(this, this.prefix + '/forgot', JSON.stringify(details))
             .toPromise()
             .then(function (result) {
-            return result.json();
+            return result;
         })
             .catch(function (result) {
             return null;
@@ -65,7 +65,7 @@ var LoginService = /** @class */ (function (_super) {
         return _super.prototype.put.call(this, this.prefix + '/resetPassword', JSON.stringify(details))
             .toPromise()
             .then(function (result) {
-            return result.json();
+            return result;
         })
             .catch(function (result) {
             return null;

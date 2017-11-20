@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class BasicService {
 
-    constructor(public http: Http) { }
+    constructor(public http: HttpClient) { }
 
     get(url: string) {
         return this.http.get(url);
@@ -24,9 +25,9 @@ export class BasicService {
         return this.http.delete(url);
     }
 
-    getRequestOptions(): RequestOptions {
-        var headers = new Headers({ 'Content-Type': 'application/json' });
-        return (new RequestOptions({ 'headers': headers }));
+    getRequestOptions(): any {
+        var headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return { 'headers': headers };
     }
 
 }

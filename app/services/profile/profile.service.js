@@ -25,7 +25,7 @@ var ProfileService = /** @class */ (function (_super) {
         return _super.prototype.post.call(this, this.prefix + '/saveImage', JSON.stringify(image))
             .toPromise()
             .then(function (result) {
-            return result.json();
+            return result;
         })
             .catch(function (result) {
             return null;
@@ -35,7 +35,7 @@ var ProfileService = /** @class */ (function (_super) {
         return _super.prototype.delete.call(this, this.prefix + '/deleteImage')
             .toPromise()
             .then(function (result) {
-            return result.json();
+            return result;
         })
             .catch(function (result) {
             return null;

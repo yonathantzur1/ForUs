@@ -11,10 +11,10 @@ export class ProfileService extends BasicService {
 
         return super.post(this.prefix + '/saveImage', JSON.stringify(image))
             .toPromise()
-            .then((result) => {
-                return result.json();
+            .then((result: any) => {
+                return result;
             })
-            .catch((result) => {
+            .catch((result: any) => {
                 return null;
             });
     }
@@ -22,10 +22,10 @@ export class ProfileService extends BasicService {
     DeleteImage() {
         return super.delete(this.prefix + '/deleteImage')
             .toPromise()
-            .then((result) => {
-                return result.json();
+            .then((result: any) => {
+                return result;
             })
-            .catch((result) => {
+            .catch((result: any) => {
                 return null;
             });
     }

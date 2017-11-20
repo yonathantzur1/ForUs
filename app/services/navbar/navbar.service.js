@@ -22,7 +22,7 @@ var NavbarService = /** @class */ (function (_super) {
         return _super.prototype.post.call(this, this.prefix + '/getFriends', JSON.stringify(friendsIds))
             .toPromise()
             .then(function (result) {
-            return result.json();
+            return result;
         })
             .catch(function (result) {
             return null;
@@ -33,7 +33,7 @@ var NavbarService = /** @class */ (function (_super) {
         return _super.prototype.post.call(this, this.prefix + '/getMainSearchResults', JSON.stringify(details))
             .toPromise()
             .then(function (result) {
-            return result.json();
+            return result;
         })
             .catch(function (result) {
             return null;
@@ -44,7 +44,7 @@ var NavbarService = /** @class */ (function (_super) {
         return _super.prototype.post.call(this, this.prefix + '/getMainSearchResultsWithImages', JSON.stringify(details))
             .toPromise()
             .then(function (result) {
-            return result.json();
+            return result;
         })
             .catch(function (result) {
             return null;
@@ -54,7 +54,7 @@ var NavbarService = /** @class */ (function (_super) {
         return _super.prototype.get.call(this, this.prefix + '/getUserMessagesNotifications')
             .toPromise()
             .then(function (result) {
-            return result.json();
+            return result;
         })
             .catch(function (result) {
             return null;
@@ -72,7 +72,7 @@ var NavbarService = /** @class */ (function (_super) {
         return _super.prototype.get.call(this, this.prefix + '/getUserFriendRequests')
             .toPromise()
             .then(function (result) {
-            return result.json();
+            return result;
         })
             .catch(function (result) {
             return null;
@@ -83,7 +83,7 @@ var NavbarService = /** @class */ (function (_super) {
         return _super.prototype.post.call(this, this.prefix + '/addFriendRequest', JSON.stringify(details))
             .toPromise()
             .then(function (result) {
-            return result.json();
+            return result;
         })
             .catch(function (result) {
             return null;
@@ -94,7 +94,7 @@ var NavbarService = /** @class */ (function (_super) {
         return _super.prototype.post.call(this, this.prefix + '/removeFriendRequest', JSON.stringify(details))
             .toPromise()
             .then(function (result) {
-            return result.json();
+            return result;
         })
             .catch(function (result) {
             return null;
@@ -105,7 +105,7 @@ var NavbarService = /** @class */ (function (_super) {
         return _super.prototype.post.call(this, this.prefix + '/ignoreFriendRequest', JSON.stringify(details))
             .toPromise()
             .then(function (result) {
-            return result.json();
+            return result;
         })
             .catch(function (result) {
             return null;
@@ -116,7 +116,7 @@ var NavbarService = /** @class */ (function (_super) {
         return _super.prototype.post.call(this, this.prefix + '/addFriend', JSON.stringify(details))
             .toPromise()
             .then(function (result) {
-            return result.json();
+            return result;
         })
             .catch(function (result) {
             return null;

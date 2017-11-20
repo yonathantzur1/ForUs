@@ -22,7 +22,7 @@ var UnreadWindowService = /** @class */ (function (_super) {
         return _super.prototype.get.call(this, this.prefix + '/getAllChats')
             .toPromise()
             .then(function (result) {
-            return result.json();
+            return result;
         })
             .catch(function (result) {
             return null;

@@ -10,10 +10,10 @@ export class LoginService extends BasicService {
     Login(user: User) {
         return super.post(this.prefix + '/login', JSON.stringify(user))
             .toPromise()
-            .then((result) => {
-                return result.json();
+            .then((result: any) => {
+                return result;
             })
-            .catch((result) => {
+            .catch((result: any) => {
                 return null;
             });
     }
@@ -28,10 +28,10 @@ export class LoginService extends BasicService {
 
         return super.post(this.prefix + '/register', JSON.stringify(details))
             .toPromise()
-            .then((result) => {
-                return result.json();
+            .then((result: any) => {
+                return result;
             })
-            .catch((result) => {
+            .catch((result: any) => {
                 return null;
             });
     }
@@ -41,10 +41,10 @@ export class LoginService extends BasicService {
 
         return super.put(this.prefix + '/forgot', JSON.stringify(details))
             .toPromise()
-            .then((result) => {
-                return result.json();
+            .then((result: any) => {
+                return result;
             })
-            .catch((result) => {
+            .catch((result: any) => {
                 return null;
             });
     }
@@ -58,10 +58,10 @@ export class LoginService extends BasicService {
 
         return super.put(this.prefix + '/resetPassword', JSON.stringify(details))
             .toPromise()
-            .then((result) => {
-                return result.json();
+            .then((result: any) => {
+                return result;
             })
-            .catch((result) => {
+            .catch((result: any) => {
                 return null;
             });
     }
