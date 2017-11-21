@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, RequestOptions } from '@angular/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import 'rxjs/add/operator/toPromise';
@@ -27,7 +26,7 @@ export class BasicService {
 
     getRequestOptions(): any {
         var headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-        return { 'headers': headers };
+        return { headers };
     }
 
 }

@@ -30,7 +30,7 @@ var BasicService = /** @class */ (function () {
     };
     BasicService.prototype.getRequestOptions = function () {
         var headers = new http_1.HttpHeaders({ 'Content-Type': 'application/json' });
-        return { 'headers': headers };
+        return { headers: headers };
     };
     BasicService = __decorate([
         core_1.Injectable(),

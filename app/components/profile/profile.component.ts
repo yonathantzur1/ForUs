@@ -285,21 +285,24 @@ export class ProfileComponent implements OnInit {
             }
         }).then(function (result: any) {
             if (result) {
-                self.globalService.setData("isImageDeleted", true);
+                if (result.value) {
+                    self.globalService.setData("isImageDeleted", true);
 
-                swal({
-                    html: '<span style="font-weight:bold;">התמונה נמחקה בהצלחה</span> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
-                    type: "success",
-                    confirmButtonText: "אוקיי"
-                }).then(function () {
-                    self.CloseWindow();
-                });
+                    swal({
+                        html: '<span style="font-weight:bold;">התמונה נמחקה בהצלחה</span> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
+                        type: "success",
+                        confirmButtonText: "אוקיי"
+                    }).then(function () {
+                        self.CloseWindow();
+                    });
 
-                setToken(result.token);
+                    setToken(result.value.token);
+                }
+                else if (result.dismiss) {
+                    $("#profile-modal").removeClass("fade");
+                    $("#profile-modal").modal("show");
+                }
             }
-        }, function (dismiss: any) {
-            $("#profile-modal").removeClass("fade");
-            $("#profile-modal").modal("show");
         });
     }
 

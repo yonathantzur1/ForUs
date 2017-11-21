@@ -256,19 +256,22 @@ var ProfileComponent = /** @class */ (function () {
             }
         }).then(function (result) {
             if (result) {
-                self.globalService.setData("isImageDeleted", true);
-                swal({
-                    html: '<span style="font-weight:bold;">התמונה נמחקה בהצלחה</span> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
-                    type: "success",
-                    confirmButtonText: "אוקיי"
-                }).then(function () {
-                    self.CloseWindow();
-                });
-                setToken(result.token);
+                if (result.value) {
+                    self.globalService.setData("isImageDeleted", true);
+                    swal({
+                        html: '<span style="font-weight:bold;">התמונה נמחקה בהצלחה</span> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
+                        type: "success",
+                        confirmButtonText: "אוקיי"
+                    }).then(function () {
+                        self.CloseWindow();
+                    });
+                    setToken(result.value.token);
+                }
+                else if (result.dismiss) {
+                    $("#profile-modal").removeClass("fade");
+                    $("#profile-modal").modal("show");
+                }
             }
-        }, function (dismiss) {
-            $("#profile-modal").removeClass("fade");
-            $("#profile-modal").modal("show");
         });
     };
     ProfileComponent = __decorate([
