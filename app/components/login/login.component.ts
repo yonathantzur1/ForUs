@@ -102,7 +102,8 @@ export class LoginComponent {
       this.isLoading = true;
       var self = this;
 
-      this.loginService.Login(this.user).then((result) => {
+      this.loginService.Login(this.user).then((data) => {
+        var result = data.result;
         this.isLoading = false;
 
         // In case of server error.
@@ -122,14 +123,16 @@ export class LoginComponent {
             showCloseButton: true,
             showCancelButton: true,
             confirmButtonText:
-            '<i class="fa fa-thumbs-up"></i>',
+              '<i class="fa fa-thumbs-up"></i>',
             cancelButtonText:
-            '<i class="fa fa-thumbs-down"></i>'
-          }).then(function () {
-            $("#register-modal").modal("show");
-            var userEmail = self.user.email;
-            self.OpenModal();
-            self.newUser.email = userEmail;
+              '<i class="fa fa-thumbs-down"></i>'
+          }).then(function (result: any) {
+            if (result && result.value) {
+              $("#register-modal").modal("show");
+              var userEmail = self.user.email;
+              self.OpenModal();
+              self.newUser.email = userEmail;
+            }
           })
         }
         else {
@@ -152,7 +155,8 @@ export class LoginComponent {
     if (this.Validation(registerValidationFuncs, this.newUser)) {
       this.isLoading = true;
 
-      this.loginService.Register(this.newUser).then((result) => {
+      this.loginService.Register(this.newUser).then((data) => {
+        var result = data.result;
         this.isLoading = false;
 
         // In case of server error.
@@ -181,7 +185,8 @@ export class LoginComponent {
 
       // In case the user is in the first stage of reset password.
       if (this.forgotUser.showResetCodeField == false) {
-        this.loginService.Forgot(this.forgotUser.email).then((result) => {
+        this.loginService.Forgot(this.forgotUser.email).then((data) => {
+          var result = data.result;
           this.isLoading = false;
 
           // In case of server error.
@@ -203,7 +208,8 @@ export class LoginComponent {
       }
       // In case the user is in the second stage of reset password.
       else {
-        this.loginService.ResetPassword(this.forgotUser).then((result) => {
+        this.loginService.ResetPassword(this.forgotUser).then((data) => {
+          var result = data.result;
           this.isLoading = false;
 
           // In case of server error.

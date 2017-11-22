@@ -57,18 +57,18 @@ module.exports = function (app, loginBL, mailer, sha512) {
                 if (result && result != "-1") {
                     req.brute.reset(function () {
                         var token = general.GetTokenFromUserObject(result);
-                        res.send({ "token": token });
+                        res.send({ "result": { "token": token } });
                     });
                 }
                 else {
                     // In case the user is not exists.
                     if (result == "-1") {
                         req.brute.reset(function () {
-                            res.send(result);
+                            res.send({ result });
                         });
                     }
                     else {
-                        res.send(result);
+                        res.send({ result });
                     }
                 }
             });
@@ -82,11 +82,11 @@ module.exports = function (app, loginBL, mailer, sha512) {
         loginBL.CheckIfUserExists(email, function (result) {
             // In case of error.
             if (result == null) {
-                res.send(null);
+                res.send({ result });
             }
             // In case the user is already exists.
             else if (result == true) {
-                res.send(false);
+                res.send({ "result": false });
             }
             else {
                 // Add user to DB.
@@ -96,10 +96,10 @@ module.exports = function (app, loginBL, mailer, sha512) {
                         // Sending welcome mail to the new user.
                         mailer.SendMail(req.body.email, mailer.GetRegisterMailContent(req.body.firstName));
                         var token = general.GetTokenFromUserObject(result);
-                        res.send({ "token": token });
+                        res.send({ "result": { "token": token } });
                     }
                     else {
-                        res.send(result);
+                        res.send({ result });
                     }
                 });
             }
@@ -113,12 +113,12 @@ module.exports = function (app, loginBL, mailer, sha512) {
         loginBL.AddResetCode(email, function (result) {
             if (result) {
                 mailer.SendMail(req.body.email, mailer.GetForgotMailContent(result.firstName, result.resetCode.code));
-                res.send(true);
+                res.send({ "result": true });
             }
             else {
-                // Return to the client false in case the email was not fount,
+                // Return to the client false in case the email was not found,
                 // or null in case of error.
-                res.send(result);
+                res.send({ result });
             }
         });
     });
@@ -126,7 +126,7 @@ module.exports = function (app, loginBL, mailer, sha512) {
     // Changing user password in db.
     app.put(prefix + '/resetPassword', function (req, res) {
         loginBL.ResetPassword(req.body, sha512, function (result) {
-            res.send(result);
+            res.send({ result });
         });
     });
 

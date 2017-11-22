@@ -92,7 +92,8 @@ var LoginComponent = /** @class */ (function () {
         if (this.Validation(loginValidationFuncs, this.user)) {
             this.isLoading = true;
             var self = this;
-            this.loginService.Login(this.user).then(function (result) {
+            this.loginService.Login(this.user).then(function (data) {
+                var result = data.result;
                 _this.isLoading = false;
                 // In case of server error.
                 if (result == null) {
@@ -110,11 +111,13 @@ var LoginComponent = /** @class */ (function () {
                         showCancelButton: true,
                         confirmButtonText: '<i class="fa fa-thumbs-up"></i>',
                         cancelButtonText: '<i class="fa fa-thumbs-down"></i>'
-                    }).then(function () {
-                        $("#register-modal").modal("show");
-                        var userEmail = self.user.email;
-                        self.OpenModal();
-                        self.newUser.email = userEmail;
+                    }).then(function (result) {
+                        if (result && result.value) {
+                            $("#register-modal").modal("show");
+                            var userEmail = self.user.email;
+                            self.OpenModal();
+                            self.newUser.email = userEmail;
+                        }
                     });
                 }
                 else {
@@ -136,7 +139,8 @@ var LoginComponent = /** @class */ (function () {
         // In case the register modal fields are valid.
         if (this.Validation(registerValidationFuncs, this.newUser)) {
             this.isLoading = true;
-            this.loginService.Register(this.newUser).then(function (result) {
+            this.loginService.Register(this.newUser).then(function (data) {
+                var result = data.result;
                 _this.isLoading = false;
                 // In case of server error.
                 if (result == null) {
@@ -162,7 +166,8 @@ var LoginComponent = /** @class */ (function () {
             this.isLoading = true;
             // In case the user is in the first stage of reset password.
             if (this.forgotUser.showResetCodeField == false) {
-                this.loginService.Forgot(this.forgotUser.email).then(function (result) {
+                this.loginService.Forgot(this.forgotUser.email).then(function (data) {
+                    var result = data.result;
                     _this.isLoading = false;
                     // In case of server error.
                     if (result == null) {
@@ -180,7 +185,8 @@ var LoginComponent = /** @class */ (function () {
                 });
             }
             else {
-                this.loginService.ResetPassword(this.forgotUser).then(function (result) {
+                this.loginService.ResetPassword(this.forgotUser).then(function (data) {
+                    var result = data.result;
                     _this.isLoading = false;
                     // In case of server error.
                     if (result == null) {
