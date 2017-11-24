@@ -12,6 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var chat_service_1 = require("../../services/chat/chat.service");
 var global_service_1 = require("../../services/global/global.service");
+var topIcon = /** @class */ (function () {
+    function topIcon() {
+    }
+    return topIcon;
+}());
+exports.topIcon = topIcon;
 var ChatComponent = /** @class */ (function () {
     function ChatComponent(chatService, globalService) {
         var _this = this;
@@ -39,7 +45,7 @@ var ChatComponent = /** @class */ (function () {
             this.chatData.isOpen = false;
         };
         this.SendMessage = function () {
-            if (!this.isMessagesLoading) {
+            if (!this.isMessagesLoading && this.msghInput) {
                 // Delete spaces from the start and the end of the message text.
                 this.msghInput = this.msghInput.trim();
                 if (this.msghInput) {
@@ -158,6 +164,35 @@ var ChatComponent = /** @class */ (function () {
                 _this.InitializeChat();
             }
         });
+        var self = this;
+        self.topIcons = [
+            {
+                id: "chat",
+                class: "material-icons top-chat-icon",
+                innerIconText: "chat",
+                title: "צ'אט",
+                isSelected: true,
+                onClick: function () {
+                    selectTopIcon(this);
+                }
+            },
+            {
+                id: "canvas",
+                class: "material-icons top-canvas-icon",
+                innerIconText: "brush",
+                title: "צייר",
+                isSelected: false,
+                onClick: function () {
+                    selectTopIcon(this);
+                }
+            }
+        ];
+        function selectTopIcon(selfIconObj) {
+            self.topIcons.forEach(function (iconObj) {
+                iconObj.isSelected = false;
+            });
+            selfIconObj.isSelected = true;
+        }
     }
     ChatComponent.prototype.ngOnInit = function () {
         var self = this;

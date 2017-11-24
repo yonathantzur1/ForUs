@@ -6,6 +6,15 @@ import { GlobalService } from '../../services/global/global.service';
 declare var getToken: any;
 declare var globalVariables: any;
 
+export class topIcon {
+    id: string;
+    class: string;
+    innerIconText: string;
+    title: string;
+    isSelected: boolean;
+    onClick: Function;
+}
+
 @Component({
     selector: 'chat',
     templateUrl: './chat.html',
@@ -19,6 +28,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     token: any = getToken();
     isMessagesLoading: boolean;
     chatBodyScrollHeight: number = 0;
+    topIcons: Array<topIcon>;
 
     days: Array<string> = globalVariables.days;
     months: Array<string> = globalVariables.months;
@@ -37,6 +47,39 @@ export class ChatComponent implements OnInit, AfterViewChecked {
                 this.InitializeChat();
             }
         });
+
+        var self = this;
+
+        self.topIcons = [
+            {
+                id: "chat",
+                class: "material-icons top-chat-icon",
+                innerIconText: "chat",
+                title: "צ'אט",
+                isSelected: true,
+                onClick: function () {
+                    selectTopIcon(this);
+                }
+            },
+            {
+                id: "canvas",
+                class: "material-icons top-canvas-icon",
+                innerIconText: "brush",
+                title: "צייר",
+                isSelected: false,
+                onClick: function () {
+                    selectTopIcon(this);
+                }
+            }
+        ];
+
+        function selectTopIcon(selfIconObj: any) {
+            self.topIcons.forEach((iconObj: topIcon) => {
+                iconObj.isSelected = false;
+            });
+
+            selfIconObj.isSelected = true;
+        }
     }
 
     ngOnInit() {
@@ -78,7 +121,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     }
 
     SendMessage = function () {
-        if (!this.isMessagesLoading) {
+        if (!this.isMessagesLoading && this.msghInput) {
             // Delete spaces from the start and the end of the message text.
             this.msghInput = this.msghInput.trim();
 

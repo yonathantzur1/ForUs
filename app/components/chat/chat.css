@@ -42,7 +42,7 @@
     height: 30px;
     border-radius: 5px;
     margin-right: 10px;
-    margin-top: 5px;
+    align-self: center;
     -webkit-user-select: none;
     user-select: none;
 }
@@ -73,7 +73,7 @@
 #chat .exit-chat {
     position: absolute;
     left: 12px;
-    top: 12px;
+    align-self: center;
     font-size: 16px;
     color: #ebebeb;
     cursor: pointer;
@@ -276,6 +276,29 @@
     font-family: Rubik;
 }
 
+#chat .top-icon {
+    position: absolute;
+    align-self: center;
+    color: #ebebeb;
+    cursor: pointer;
+    font-size: 18px;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#chat .top-chat-icon {
+    left: 85px;
+}
+
+#chat .top-canvas-icon {
+    left: 55px;
+}
+
+#chat .selected-top-icon {
+    color: white;
+    font-size: 24px;
+}
+
 @keyframes blink {
     /**
      * At the start of the animation the dot
@@ -300,7 +323,7 @@
     }
 }
 
-#chat .load-image-icon i {
+#chat .load-chat-icon i {
     /**
      * Use the blink animation, which is defined above
      */
@@ -323,7 +346,7 @@
     animation-fill-mode: both;
 }
 
-#chat .load-image-icon i:nth-child(2) {
+#chat .load-chat-icon i:nth-child(2) {
     /**
      * Starts the animation of the third dot
      * with a delay of .2s, otherwise all dots
@@ -332,7 +355,7 @@
     animation-delay: .2s;
 }
 
-#chat .load-image-icon i:nth-child(3) {
+#chat .load-chat-icon i:nth-child(3) {
     /**
      * Starts the animation of the third dot
      * with a delay of .4s, otherwise all dots
