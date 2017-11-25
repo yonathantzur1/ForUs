@@ -8,7 +8,7 @@ module.exports = {
     GetAllChats: function (userId, callback) {
         var sortObj = { "lastMessage.time": -1 };
         var queryObj = {
-            "membersIds": { $in: [userId] },
+            "membersIds": userId,
             "messages": { $ne: [] }
         };
 

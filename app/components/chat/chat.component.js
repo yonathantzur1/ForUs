@@ -156,6 +156,43 @@ var ChatComponent = /** @class */ (function () {
             }
             return dateDetailsString;
         };
+        this.GetTopIconById = function (id) {
+            for (var i = 0; i < this.topIcons.length; i++) {
+                if (this.topIcons[i].id == id) {
+                    return this.topIcons[i];
+                }
+            }
+            return null;
+        };
+        this.InitializeCanvas = function () {
+            this.canvas = document.getElementById("sig-canvas");
+            var canvasContainer = document.getElementById("canvas-body-sector");
+            this.canvas.width = canvasContainer.offsetWidth;
+            this.canvas.height = canvasContainer.offsetHeight;
+            this.ctx = this.canvas.getContext("2d");
+            this.ctx.strokeStyle = "#222222";
+            this.ctx.lineWith = 2;
+            this.drawing = false;
+            this.mousePos = { x: 0, y: 0 };
+            this.lastPos = this.mousePos;
+        };
+        // Get the position of the mouse relative to the canvas
+        this.GetMousePos = function (canvasDom, mouseEvent) {
+            var rect = canvasDom.getBoundingClientRect();
+            return {
+                x: mouseEvent.clientX - rect.left,
+                y: mouseEvent.clientY - rect.top
+            };
+        };
+        this.RenderCanvas = function () {
+            if (this.drawing) {
+                var offset = $("#sig-canvas").offset();
+                this.ctx.moveTo(this.lastPos.x - offset.left, this.lastPos.y);
+                this.ctx.lineTo(this.mousePos.x - offset.left, this.mousePos.y);
+                this.ctx.stroke();
+                this.lastPos = this.mousePos;
+            }
+        };
         this.socket = globalService.socket;
         this.globalService.data.subscribe(function (value) {
             if (value["chatData"]) {
@@ -202,12 +239,79 @@ var ChatComponent = /** @class */ (function () {
                 self.messages.push(msgData);
             }
         });
+        this.InitializeCanvas();
+        this.canvas.addEventListener("mousedown", function (e) {
+            self.drawing = true;
+            self.lastPos = self.GetMousePos(self.canvas, e);
+        }, false);
+        this.canvas.addEventListener("mouseup", function (e) {
+            self.drawing = false;
+        }, false);
+        this.canvas.addEventListener("mousemove", function (e) {
+            self.mousePos = self.GetMousePos(self.canvas, e);
+        }, false);
+        // Set up touch events for mobile, etc
+        this.canvas.addEventListener("touchstart", function (e) {
+            self.mousePos = self.GetTouchPos(self.canvas, e);
+            var touch = e.touches[0];
+            var mouseEvent = new MouseEvent("mousedown", {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            self.canvas.dispatchEvent(mouseEvent);
+        }, false);
+        this.canvas.addEventListener("touchend", function (e) {
+            var mouseEvent = new MouseEvent("mouseup", {});
+            self.canvas.dispatchEvent(mouseEvent);
+        }, false);
+        this.canvas.addEventListener("touchmove", function (e) {
+            var touch = e.touches[0];
+            var mouseEvent = new MouseEvent("mousemove", {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            self.canvas.dispatchEvent(mouseEvent);
+        }, false);
+        $(window).resize(function () {
+            var image = new Image;
+            image.src = self.canvas.toDataURL();
+            var canvasContainer = document.getElementById("canvas-body-sector");
+            self.canvas.width = canvasContainer.offsetWidth;
+            self.canvas.height = canvasContainer.offsetHeight;
+            image.onload = function () {
+                self.ctx.drawImage(image, 0, 0, self.canvas.width, self.canvas.height);
+            };
+        });
+        // Get a regular interval for drawing to the screen
+        window.requestAnimFrame = (function () {
+            return window.requestAnimationFrame ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame ||
+                window.oRequestAnimationFrame ||
+                window.msRequestAnimaitonFrame ||
+                function (callback) {
+                    window.setTimeout(callback, 1000 / 60);
+                };
+        })();
+        // Allow for animation
+        (function drawLoop() {
+            window.requestAnimFrame(drawLoop);
+            self.RenderCanvas();
+        })();
     };
     ChatComponent.prototype.ngAfterViewChecked = function () {
         if ($("#chat-body-sector")[0].scrollHeight != this.chatBodyScrollHeight) {
             this.ScrollToBottom();
             this.chatBodyScrollHeight = $("#chat-body-sector")[0].scrollHeight;
         }
+    };
+    // Get the position of a touch relative to the canvas
+    ChatComponent.prototype.GetTouchPos = function (canvasDom, touchEvent) {
+        var rect = canvasDom.getBoundingClientRect();
+        return {
+            x: touchEvent.touches[0].clientX - rect.left,
+            y: touchEvent.touches[0].clientY - rect.top
+        };
     };
     __decorate([
         core_1.Input(),
