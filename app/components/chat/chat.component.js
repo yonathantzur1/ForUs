@@ -240,39 +240,66 @@ var ChatComponent = /** @class */ (function () {
             }
         });
         this.InitializeCanvas();
-        this.canvas.addEventListener("mousedown", function (e) {
-            self.drawing = true;
-            self.lastPos = self.GetMousePos(self.canvas, e);
-        }, false);
-        this.canvas.addEventListener("mouseup", function (e) {
-            self.drawing = false;
-        }, false);
-        this.canvas.addEventListener("mousemove", function (e) {
-            self.mousePos = self.GetMousePos(self.canvas, e);
-        }, false);
-        // Set up touch events for mobile, etc
-        this.canvas.addEventListener("touchstart", function (e) {
-            self.mousePos = self.GetTouchPos(self.canvas, e);
-            var touch = e.touches[0];
-            var mouseEvent = new MouseEvent("mousedown", {
-                clientX: touch.clientX,
-                clientY: touch.clientY
-            });
-            self.canvas.dispatchEvent(mouseEvent);
-        }, false);
-        this.canvas.addEventListener("touchend", function (e) {
-            var mouseEvent = new MouseEvent("mouseup", {});
-            self.canvas.dispatchEvent(mouseEvent);
-        }, false);
-        this.canvas.addEventListener("touchmove", function (e) {
-            var touch = e.touches[0];
-            var mouseEvent = new MouseEvent("mousemove", {
-                clientX: touch.clientX,
-                clientY: touch.clientY
-            });
-            self.canvas.dispatchEvent(mouseEvent);
-        }, false);
-        $(window).resize(function () {
+        this.canvasEvents = {
+            "mousedown": function (e) {
+                self.drawing = true;
+                self.lastPos = self.GetMousePos(self.canvas, e);
+            },
+            "mouseup": function (e) {
+                self.drawing = false;
+            },
+            "mousemove": function (e) {
+                self.mousePos = self.GetMousePos(self.canvas, e);
+            },
+            "mouseout": function (e) {
+                self.drawing = false;
+            },
+            "touchstart": function (e) {
+                self.mousePos = self.GetTouchPos(self.canvas, e);
+                var touch = e.touches[0];
+                var mouseEvent = new MouseEvent("mousedown", {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+                self.canvas.dispatchEvent(mouseEvent);
+            },
+            "touchend": function (e) {
+                var mouseEvent = new MouseEvent("mouseup", {});
+                self.canvas.dispatchEvent(mouseEvent);
+            },
+            "touchmove": function (e) {
+                var touch = e.touches[0];
+                var mouseEvent = new MouseEvent("mousemove", {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+                self.canvas.dispatchEvent(mouseEvent);
+            }
+        };
+        Object.keys(this.canvasEvents).forEach(function (key) {
+            self.canvas.addEventListener(key, self.canvasEvents[key], false);
+        });
+        this.documentEvents = {
+            "touchstart": function (e) {
+                if (e.target == self.canvas) {
+                    e.preventDefault();
+                }
+            },
+            "touchend": function (e) {
+                if (e.target == self.canvas) {
+                    e.preventDefault();
+                }
+            },
+            "touchmove": function (e) {
+                if (e.target == self.canvas) {
+                    e.preventDefault();
+                }
+            }
+        };
+        Object.keys(this.documentEvents).forEach(function (key) {
+            document.body.addEventListener(key, self.documentEvents[key], false);
+        });
+        this.onResizeFunc = function () {
             var image = new Image;
             image.src = self.canvas.toDataURL();
             var canvasContainer = document.getElementById("canvas-body-sector");
@@ -281,7 +308,8 @@ var ChatComponent = /** @class */ (function () {
             image.onload = function () {
                 self.ctx.drawImage(image, 0, 0, self.canvas.width, self.canvas.height);
             };
-        });
+        };
+        $(window).resize(self.onResizeFunc);
         // Get a regular interval for drawing to the screen
         window.requestAnimFrame = (function () {
             return window.requestAnimationFrame ||
@@ -298,6 +326,16 @@ var ChatComponent = /** @class */ (function () {
             window.requestAnimFrame(drawLoop);
             self.RenderCanvas();
         })();
+    };
+    ChatComponent.prototype.ngOnDestroy = function () {
+        var self = this;
+        Object.keys(this.canvasEvents).forEach(function (key) {
+            self.canvas.removeEventListener(key, self.canvasEvents[key], false);
+        });
+        Object.keys(this.documentEvents).forEach(function (key) {
+            document.body.removeEventListener(key, self.documentEvents[key], false);
+        });
+        $(window).off("resize", self.onResizeFunc);
     };
     ChatComponent.prototype.ngAfterViewChecked = function () {
         if ($("#chat-body-sector")[0].scrollHeight != this.chatBodyScrollHeight) {

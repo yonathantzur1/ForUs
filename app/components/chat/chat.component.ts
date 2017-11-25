@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, AfterViewChecked } from '@angular/core';
 
 import { ChatService } from '../../services/chat/chat.service';
 import { GlobalService } from '../../services/global/global.service';
@@ -23,7 +23,7 @@ export class topIcon {
     providers: [ChatService]
 })
 
-export class ChatComponent implements OnInit, AfterViewChecked {
+export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     @Input() chatData: any;
     socket: any;
     messages: Array<any> = [];
@@ -45,6 +45,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     drawing: boolean;
     mousePos: any;
     lastPos: any;
+
+    canvasEvents: any;
+    documentEvents: any;
+    onResizeFunc: any;
 
     constructor(private chatService: ChatService, private globalService: GlobalService) {
         this.socket = globalService.socket;
@@ -103,43 +107,71 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
         this.InitializeCanvas();
 
-        this.canvas.addEventListener("mousedown", function (e: any) {
-            self.drawing = true;
-            self.lastPos = self.GetMousePos(self.canvas, e);
-        }, false);
-        this.canvas.addEventListener("mouseup", function (e: any) {
-            self.drawing = false;
-        }, false);
-        this.canvas.addEventListener("mousemove", function (e: any) {
-            self.mousePos = self.GetMousePos(self.canvas, e);
-        }, false);
+        this.canvasEvents = {
+            "mousedown": function (e: any) {
+                self.drawing = true;
+                self.lastPos = self.GetMousePos(self.canvas, e);
+            },
+            "mouseup": function (e: any) {
+                self.drawing = false;
+            },
+            "mousemove": function (e: any) {
+                self.mousePos = self.GetMousePos(self.canvas, e);
+            },
+            "mouseout": function (e: any) {
+                self.drawing = false;
+            },
+            "touchstart": function (e: any) {
+                self.mousePos = self.GetTouchPos(self.canvas, e);
+                var touch = e.touches[0];
+                var mouseEvent = new MouseEvent("mousedown", {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+                self.canvas.dispatchEvent(mouseEvent);
+            },
+            "touchend": function (e: any) {
+                var mouseEvent = new MouseEvent("mouseup", {});
+                self.canvas.dispatchEvent(mouseEvent);
+            },
+            "touchmove": function (e: any) {
+                var touch = e.touches[0];
+                var mouseEvent = new MouseEvent("mousemove", {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+                self.canvas.dispatchEvent(mouseEvent);
+            }
+        };
+
+        Object.keys(this.canvasEvents).forEach(key => {
+            self.canvas.addEventListener(key, self.canvasEvents[key], false);
+        });
+
+        this.documentEvents = {
+            "touchstart": function (e: any) {
+                if (e.target == self.canvas) {
+                    e.preventDefault();
+                }
+            },
+            "touchend": function (e: any) {
+                if (e.target == self.canvas) {
+                    e.preventDefault();
+                }
+            },
+            "touchmove": function (e: any) {
+                if (e.target == self.canvas) {
+                    e.preventDefault();
+                }
+            }
+        };
+
+        Object.keys(this.documentEvents).forEach(key => {
+            document.body.addEventListener(key, self.documentEvents[key], false);
+        });
 
 
-        // Set up touch events for mobile, etc
-        this.canvas.addEventListener("touchstart", function (e: any) {
-            self.mousePos = self.GetTouchPos(self.canvas, e);
-            var touch = e.touches[0];
-            var mouseEvent = new MouseEvent("mousedown", {
-                clientX: touch.clientX,
-                clientY: touch.clientY
-            });
-            self.canvas.dispatchEvent(mouseEvent);
-        }, false);
-        this.canvas.addEventListener("touchend", function (e: any) {
-            var mouseEvent = new MouseEvent("mouseup", {});
-            self.canvas.dispatchEvent(mouseEvent);
-        }, false);
-        this.canvas.addEventListener("touchmove", function (e: any) {
-            var touch = e.touches[0];
-            var mouseEvent = new MouseEvent("mousemove", {
-                clientX: touch.clientX,
-                clientY: touch.clientY
-            });
-            self.canvas.dispatchEvent(mouseEvent);
-        }, false);
-
-
-        $(window).resize(function () {
+        this.onResizeFunc = function () {
             var image = new Image;
             image.src = self.canvas.toDataURL();
 
@@ -151,7 +183,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
             image.onload = function () {
                 self.ctx.drawImage(image, 0, 0, self.canvas.width, self.canvas.height)
             }
-        });
+        };
+
+        $(window).resize(self.onResizeFunc);
 
         // Get a regular interval for drawing to the screen
         window.requestAnimFrame = (function () {
@@ -170,6 +204,20 @@ export class ChatComponent implements OnInit, AfterViewChecked {
             window.requestAnimFrame(drawLoop);
             self.RenderCanvas();
         })();
+    }
+
+    ngOnDestroy() {
+        var self = this;
+
+        Object.keys(this.canvasEvents).forEach(key => {
+            self.canvas.removeEventListener(key, self.canvasEvents[key], false);
+        });
+
+        Object.keys(this.documentEvents).forEach(key => {
+            document.body.removeEventListener(key, self.documentEvents[key], false);
+        });
+
+        $(window).off("resize", self.onResizeFunc);
     }
 
     ngAfterViewChecked() {
