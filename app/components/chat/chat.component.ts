@@ -40,6 +40,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     unreadMessagesNumber: number;
 
     // Cavas sector properties //
+    isCanvasInitialize: boolean = false;
     canvas: any;
     ctx: any;
     drawing: boolean;
@@ -49,6 +50,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     canvasEvents: any;
     documentEvents: any;
     onResizeFunc: any;
+
+    colorBtns: Array<string>;
+    canvasSelectedColorIndex: number = 0;
 
     constructor(private chatService: ChatService, private globalService: GlobalService) {
         this.socket = globalService.socket;
@@ -71,7 +75,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 title: "צ'אט",
                 isSelected: true,
                 onClick: function () {
-                    selectTopIcon(this);
+                    self.SelectTopIcon(this);
                 }
             },
             {
@@ -81,18 +85,14 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 title: "צייר",
                 isSelected: false,
                 onClick: function () {
-                    selectTopIcon(this);
+                    self.SelectTopIcon(this);
                 }
             }
         ];
 
-        function selectTopIcon(selfIconObj: any) {
-            self.topIcons.forEach((iconObj: topIcon) => {
-                iconObj.isSelected = false;
-            });
-
-            selfIconObj.isSelected = true;
-        }
+        this.colorBtns = ["#333", "#777", "#8a6d3b", "#3c763d",
+            "#4caf50", "#009688", "#03a9f4", "#337ab7",
+            "#3f51b5", "#a94442", "#dbdb00", "#ff5722"];
     }
 
     ngOnInit() {
@@ -111,6 +111,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             "mousedown": function (e: any) {
                 self.drawing = true;
                 self.lastPos = self.GetMousePos(self.canvas, e);
+                self.ctx.fillRect(self.lastPos.x, self.lastPos.y, 1, 1);
             },
             "mouseup": function (e: any) {
                 self.drawing = false;
@@ -229,6 +230,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     InitializeChat = function () {
         var self = this;
+
+        if (this.isCanvasInitialize) {
+            self.SelectTopIcon(self.GetTopIconById("chat"));
+            this.InitializeCanvas();
+        }
 
         self.isAllowShowUnreadLine = true;
         self.chatBodyScrollHeight = 0;
@@ -393,18 +399,28 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         return null;
     }
 
+    SelectTopIcon(selfIconObj: any) {
+        this.topIcons.forEach((iconObj: topIcon) => {
+            iconObj.isSelected = false;
+        });
+
+        selfIconObj.isSelected = true;
+    }
+
     InitializeCanvas = function () {
         this.canvas = document.getElementById("sig-canvas");
         var canvasContainer = document.getElementById("canvas-body-sector");
         this.canvas.width = canvasContainer.offsetWidth;
         this.canvas.height = canvasContainer.offsetHeight;
         this.ctx = this.canvas.getContext("2d");
-        this.ctx.strokeStyle = "#222222";
+        this.canvasSelectedColorIndex = 0;
+        this.ctx.strokeStyle = this.colorBtns[0];
         this.ctx.lineWith = 2;
 
         this.drawing = false;
         this.mousePos = { x: 0, y: 0 };
         this.lastPos = this.mousePos;
+        this.isCanvasInitialize = true;
     }
 
     // Get the position of the mouse relative to the canvas
@@ -422,16 +438,22 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             this.ctx.moveTo(this.lastPos.x - offset.left, this.lastPos.y);
             this.ctx.lineTo(this.mousePos.x - offset.left, this.mousePos.y);
             this.ctx.stroke();
+            this.ctx.beginPath();
             this.lastPos = this.mousePos;
         }
     }
 
     // Get the position of a touch relative to the canvas
-    GetTouchPos(canvasDom: any, touchEvent: any) {
+    GetTouchPos = function (canvasDom: any, touchEvent: any) {
         var rect = canvasDom.getBoundingClientRect();
         return {
             x: touchEvent.touches[0].clientX - rect.left,
             y: touchEvent.touches[0].clientY - rect.top
         };
+    }
+
+    ChangeCanvasColor = function (colorIndex: number) {
+        this.canvasSelectedColorIndex = colorIndex;
+        this.ctx.strokeStyle = this.colorBtns[colorIndex];
     }
 }

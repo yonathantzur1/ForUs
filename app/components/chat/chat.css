@@ -308,15 +308,68 @@
 }
 
 #chat .canvas-body-sector {
-    height: calc(100% - 30px);
+    height: calc(100% - 40px);
     border-bottom: 1px solid #cacaca;
     -webkit-user-select: none;
     user-select: none;
 }
 
 #chat .canvas {
-    width: 100%;
+    cursor: crosshair;
+}
+
+#chat .canvas-bar-sector {
+    height: 40px;
+    background-color: #f7f7f7;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#chat .color-btn {
+    width: 12px;
+    height: 12px;
+    align-self: center;
+    margin: 5px;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+#chat .color-btns-sector {
+    width: calc(100% - 50px);
     height: 100%;
+    display: flex;
+    float: right;
+    padding-right: 5px;
+}
+
+#chat .send-canvas-sector {
+    width: 50px;
+    height: 100%;
+    display: flex;
+    float: left;
+}
+
+#chat .send-canvas-btn {
+    width: 25px;
+    height: 25px;
+    background-color: #4654fc;
+    border-radius: 50%;
+    align-self: center;
+    margin: auto;
+    cursor: pointer;
+}
+
+#chat .send-canvas-btn-icon {
+    color: white;
+    line-height: 1.6;
+    padding-right: 7px;
+}
+
+#chat .selected-color-line {
+    width: 12px;
+    height: 2px;
+    position: absolute;
+    bottom: 9px;
 }
 
 /* END CANVAS SECTOR */

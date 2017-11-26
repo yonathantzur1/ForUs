@@ -28,8 +28,15 @@ var ChatComponent = /** @class */ (function () {
         this.chatBodyScrollHeight = 0;
         this.days = globalVariables.days;
         this.months = globalVariables.months;
+        // Cavas sector properties //
+        this.isCanvasInitialize = false;
+        this.canvasSelectedColorIndex = 0;
         this.InitializeChat = function () {
             var self = this;
+            if (this.isCanvasInitialize) {
+                self.SelectTopIcon(self.GetTopIconById("chat"));
+                this.InitializeCanvas();
+            }
             self.isAllowShowUnreadLine = true;
             self.chatBodyScrollHeight = 0;
             self.isMessagesLoading = true;
@@ -170,11 +177,13 @@ var ChatComponent = /** @class */ (function () {
             this.canvas.width = canvasContainer.offsetWidth;
             this.canvas.height = canvasContainer.offsetHeight;
             this.ctx = this.canvas.getContext("2d");
-            this.ctx.strokeStyle = "#222222";
+            this.canvasSelectedColorIndex = 0;
+            this.ctx.strokeStyle = this.colorBtns[0];
             this.ctx.lineWith = 2;
             this.drawing = false;
             this.mousePos = { x: 0, y: 0 };
             this.lastPos = this.mousePos;
+            this.isCanvasInitialize = true;
         };
         // Get the position of the mouse relative to the canvas
         this.GetMousePos = function (canvasDom, mouseEvent) {
@@ -190,8 +199,21 @@ var ChatComponent = /** @class */ (function () {
                 this.ctx.moveTo(this.lastPos.x - offset.left, this.lastPos.y);
                 this.ctx.lineTo(this.mousePos.x - offset.left, this.mousePos.y);
                 this.ctx.stroke();
+                this.ctx.beginPath();
                 this.lastPos = this.mousePos;
             }
+        };
+        // Get the position of a touch relative to the canvas
+        this.GetTouchPos = function (canvasDom, touchEvent) {
+            var rect = canvasDom.getBoundingClientRect();
+            return {
+                x: touchEvent.touches[0].clientX - rect.left,
+                y: touchEvent.touches[0].clientY - rect.top
+            };
+        };
+        this.ChangeCanvasColor = function (colorIndex) {
+            this.canvasSelectedColorIndex = colorIndex;
+            this.ctx.strokeStyle = this.colorBtns[colorIndex];
         };
         this.socket = globalService.socket;
         this.globalService.data.subscribe(function (value) {
@@ -210,7 +232,7 @@ var ChatComponent = /** @class */ (function () {
                 title: "צ'אט",
                 isSelected: true,
                 onClick: function () {
-                    selectTopIcon(this);
+                    self.SelectTopIcon(this);
                 }
             },
             {
@@ -220,16 +242,13 @@ var ChatComponent = /** @class */ (function () {
                 title: "צייר",
                 isSelected: false,
                 onClick: function () {
-                    selectTopIcon(this);
+                    self.SelectTopIcon(this);
                 }
             }
         ];
-        function selectTopIcon(selfIconObj) {
-            self.topIcons.forEach(function (iconObj) {
-                iconObj.isSelected = false;
-            });
-            selfIconObj.isSelected = true;
-        }
+        this.colorBtns = ["#333", "#777", "#8a6d3b", "#3c763d",
+            "#4caf50", "#009688", "#03a9f4", "#337ab7",
+            "#3f51b5", "#a94442", "#dbdb00", "#ff5722"];
     }
     ChatComponent.prototype.ngOnInit = function () {
         var self = this;
@@ -244,6 +263,7 @@ var ChatComponent = /** @class */ (function () {
             "mousedown": function (e) {
                 self.drawing = true;
                 self.lastPos = self.GetMousePos(self.canvas, e);
+                self.ctx.fillRect(self.lastPos.x, self.lastPos.y, 1, 1);
             },
             "mouseup": function (e) {
                 self.drawing = false;
@@ -343,13 +363,11 @@ var ChatComponent = /** @class */ (function () {
             this.chatBodyScrollHeight = $("#chat-body-sector")[0].scrollHeight;
         }
     };
-    // Get the position of a touch relative to the canvas
-    ChatComponent.prototype.GetTouchPos = function (canvasDom, touchEvent) {
-        var rect = canvasDom.getBoundingClientRect();
-        return {
-            x: touchEvent.touches[0].clientX - rect.left,
-            y: touchEvent.touches[0].clientY - rect.top
-        };
+    ChatComponent.prototype.SelectTopIcon = function (selfIconObj) {
+        this.topIcons.forEach(function (iconObj) {
+            iconObj.isSelected = false;
+        });
+        selfIconObj.isSelected = true;
     };
     __decorate([
         core_1.Input(),

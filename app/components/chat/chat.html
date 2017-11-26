@@ -15,9 +15,19 @@
         </div>
         <div [hidden]="!GetTopIconById('canvas').isSelected" class="canvas-body-container">
             <div id="canvas-body-sector" class="canvas-body-sector">
-                <canvas id="sig-canvas">
-                    
-                </canvas>
+                <canvas id="sig-canvas" class="canvas"></canvas>
+            </div>
+            <div class="canvas-bar-sector">
+                <div class="color-btns-sector">
+                    <div *ngFor="let colorBtn of colorBtns; let i = index" (click)="ChangeCanvasColor(i)" [ngStyle]="{'backgroundColor': colorBtn}" class="color-btn">
+                        <span *ngIf="canvasSelectedColorIndex == i" class="selected-color-line" [ngStyle]="{'backgroundColor': colorBtn}"></span>
+                    </div>
+                </div>
+                <div class="send-canvas-sector">
+                    <div class="send-canvas-btn">
+                        <span class="glyphicon glyphicon-triangle-left send-canvas-btn-icon" aria-hidden="true"></span>
+                    </div>
+                </div>
             </div>
         </div>
         <div [hidden]="!GetTopIconById('chat').isSelected" class="chat-body-container">
