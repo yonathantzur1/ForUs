@@ -233,7 +233,7 @@ var ChatComponent = /** @class */ (function () {
                 class: "material-icons top-chat-icon",
                 innerIconText: "chat",
                 title: "צ'אט",
-                isSelected: false,
+                isSelected: true,
                 onClick: function () {
                     self.SelectTopIcon(this);
                 }
@@ -243,16 +243,15 @@ var ChatComponent = /** @class */ (function () {
                 class: "material-icons top-canvas-icon",
                 innerIconText: "brush",
                 title: "צייר",
-                isSelected: true,
+                isSelected: false,
                 onClick: function () {
                     self.SelectTopIcon(this);
                 }
             }
         ];
         this.colorBtns = ["#333", "#777", "#8a6d3b", "#3c763d",
-            "#4caf50", "#009688", "#03a9f4", "#337ab7",
-            "#3f51b5", "#6f0891", "#cf56d7", "#a94442",
-            "#dbdb00", "#ff5722"];
+            "#4caf50", "#03a9f4", "#3f51b5", "#6f0891",
+            "#cf56d7", "#a94442", "#dbdb00", "#ff5722"];
     }
     ChatComponent.prototype.ngOnInit = function () {
         var self = this;
@@ -267,6 +266,7 @@ var ChatComponent = /** @class */ (function () {
             "mousedown": function (e) {
                 self.drawing = true;
                 self.lastPos = self.GetMousePos(self.canvas, e);
+                self.ctx.fillStyle = self.colorBtns[self.canvasSelectedColorIndex];
                 self.ctx.fillRect(self.lastPos.x, self.lastPos.y, 1, 1);
             },
             "mouseup": function (e) {
@@ -332,6 +332,7 @@ var ChatComponent = /** @class */ (function () {
             image.onload = function () {
                 self.ctx.drawImage(image, 0, 0);
             };
+            self.ctx.strokeStyle = self.colorBtns[self.canvasSelectedColorIndex];
         };
         $(window).resize(self.onResizeFunc);
         // Get a regular interval for drawing to the screen
