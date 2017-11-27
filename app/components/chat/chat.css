@@ -34,6 +34,8 @@
     background-color: rgba(62, 62, 62, 0.55);
     right: 0;
     display: flex;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 #chat .friend-chat-profile {
@@ -42,8 +44,6 @@
     border-radius: 5px;
     margin-right: 10px;
     align-self: center;
-    -webkit-user-select: none;
-    user-select: none;
 }
 
 #chat .friend-chat-name {
@@ -323,6 +323,7 @@
     background-color: #f7f7f7;
     -webkit-user-select: none;
     user-select: none;
+    display: flex;
 }
 
 #chat .color-btn {
@@ -332,21 +333,21 @@
     margin: 5px;
     border-radius: 2px;
     cursor: pointer;
+    flex-shrink: 0;
 }
 
 #chat .color-btns-sector {
-    width: calc(100% - 50px);
+    width: calc(100% - 90px);
     height: 100%;
     display: flex;
-    float: right;
     padding-right: 5px;
+    overflow-x: hidden;
 }
 
 #chat .send-canvas-sector {
     width: 50px;
     height: 100%;
     display: flex;
-    float: left;
 }
 
 #chat .send-canvas-btn {
@@ -370,6 +371,20 @@
     height: 2px;
     position: absolute;
     bottom: 9px;
+}
+
+#chat .canvas-options-sector {
+    width: 40px;
+    height: 100%;
+    display: flex;
+}
+
+#chat .clean-canvas-icon {
+    margin: auto;
+    border-left: 1px solid #333;
+    padding-left: 4px;
+    cursor: pointer;
+    color: #333;
 }
 
 /* END CANVAS SECTOR */

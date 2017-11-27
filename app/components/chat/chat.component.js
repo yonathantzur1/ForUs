@@ -179,7 +179,7 @@ var ChatComponent = /** @class */ (function () {
             this.ctx = this.canvas.getContext("2d");
             this.canvasSelectedColorIndex = 0;
             this.ctx.strokeStyle = this.colorBtns[0];
-            this.ctx.lineWith = 2;
+            this.ctx.lineWith = 4;
             this.drawing = false;
             this.mousePos = { x: 0, y: 0 };
             this.lastPos = this.mousePos;
@@ -215,6 +215,9 @@ var ChatComponent = /** @class */ (function () {
             this.canvasSelectedColorIndex = colorIndex;
             this.ctx.strokeStyle = this.colorBtns[colorIndex];
         };
+        this.ClearCanvas = function () {
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        };
         this.socket = globalService.socket;
         this.globalService.data.subscribe(function (value) {
             if (value["chatData"]) {
@@ -230,7 +233,7 @@ var ChatComponent = /** @class */ (function () {
                 class: "material-icons top-chat-icon",
                 innerIconText: "chat",
                 title: "צ'אט",
-                isSelected: true,
+                isSelected: false,
                 onClick: function () {
                     self.SelectTopIcon(this);
                 }
@@ -240,7 +243,7 @@ var ChatComponent = /** @class */ (function () {
                 class: "material-icons top-canvas-icon",
                 innerIconText: "brush",
                 title: "צייר",
-                isSelected: false,
+                isSelected: true,
                 onClick: function () {
                     self.SelectTopIcon(this);
                 }
@@ -248,7 +251,8 @@ var ChatComponent = /** @class */ (function () {
         ];
         this.colorBtns = ["#333", "#777", "#8a6d3b", "#3c763d",
             "#4caf50", "#009688", "#03a9f4", "#337ab7",
-            "#3f51b5", "#a94442", "#dbdb00", "#ff5722"];
+            "#3f51b5", "#6f0891", "#cf56d7", "#a94442",
+            "#dbdb00", "#ff5722"];
     }
     ChatComponent.prototype.ngOnInit = function () {
         var self = this;
@@ -326,7 +330,7 @@ var ChatComponent = /** @class */ (function () {
             self.canvas.width = canvasContainer.offsetWidth;
             self.canvas.height = canvasContainer.offsetHeight;
             image.onload = function () {
-                self.ctx.drawImage(image, 0, 0, self.canvas.width, self.canvas.height);
+                self.ctx.drawImage(image, 0, 0);
             };
         };
         $(window).resize(self.onResizeFunc);

@@ -9,7 +9,7 @@
           <div class="user-name" title="{{user.firstName + ' ' + user.lastName}}">{{user.firstName + " " + user.lastName}}</div>
           <div class="toolbar-menu">
             <span class="toolbar-item" *ngFor="let item of toolbarItems">
-              <i title="{{item.title}}" (click)="item.onClick()" class="{{item.icon}}" aria-hidden="true">{{item.innerIconText}}</i>
+              <i title="{{item.title}}" (click)="item.onClick()" class="{{item.icon}}">{{item.innerIconText}}</i>
               <span class="badget-icon" *ngIf="item.isShowToolbarItemBadget()"></span>
             </span>
           </div>

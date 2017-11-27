@@ -18,8 +18,12 @@
                 <canvas id="sig-canvas" class="canvas"></canvas>
             </div>
             <div class="canvas-bar-sector">
+                <div class="canvas-options-sector">
+                    <i (click)="ClearCanvas()" class="material-icons clean-canvas-icon">delete_forever</i>
+                </div>
                 <div class="color-btns-sector">
-                    <div *ngFor="let colorBtn of colorBtns; let i = index" (click)="ChangeCanvasColor(i)" [ngStyle]="{'backgroundColor': colorBtn}" class="color-btn">
+                    <div *ngFor="let colorBtn of colorBtns; let i = index" (click)="ChangeCanvasColor(i)" [ngStyle]="{'backgroundColor': colorBtn}"
+                        class="color-btn">
                         <span *ngIf="canvasSelectedColorIndex == i" class="selected-color-line" [ngStyle]="{'backgroundColor': colorBtn}"></span>
                     </div>
                 </div>
