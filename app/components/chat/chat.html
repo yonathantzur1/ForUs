@@ -52,19 +52,19 @@
                     </p>
                 </span>
                 <div *ngFor="let message of messages; let i = index">
-                    <span *ngIf="!message.isImage">
-                        <div *ngIf="IsShowUnreadLine(message.from, message.id, i)" class="bubble-message-line-sector">
-                            <div class="bubble-message-line">
-                                <span class="bubble-message-text-container">
-                                    <span class="bubble-message-text">{{GetUnreadMessagesNumberText(unreadMessagesNumber)}}</span>
-                                </span>
-                            </div>
-                        </div>
-                        <div *ngIf="IsShowDateBubble(i)" class="bubble-message-line-sector">
-                            <span class="bubble-date-text-container">
-                                <span class="bubble-message-text">{{GetDateBubbleText(i)}}</span>
+                    <div *ngIf="IsShowUnreadLine(message.from, message.id, i)" class="bubble-message-line-sector">
+                        <div class="bubble-message-line">
+                            <span class="bubble-message-text-container">
+                                <span class="bubble-message-text">{{GetUnreadMessagesNumberText(unreadMessagesNumber)}}</span>
                             </span>
                         </div>
+                    </div>
+                    <div *ngIf="IsShowDateBubble(i)" class="bubble-message-line-sector">
+                        <span class="bubble-date-text-container">
+                            <span class="bubble-message-text">{{GetDateBubbleText(i)}}</span>
+                        </span>
+                    </div>
+                    <span *ngIf="!message.isImage">
                         <div class="message-container">
                             <div id="message-time-container" class="message-time-container" [ngClass]="{'user-message-time' : message.from == chatData.user._id, 'friend-message-time': message.from == chatData.friend._id}">
                                 <span class="message-time">
