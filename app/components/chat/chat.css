@@ -17,7 +17,9 @@
     #chat .chat-window-container {
         background-color: #f2f0f0;
         height: 70%;
+        max-height: 430px;
         width: 32%;
+        max-width: 420px;
         position: fixed;
         z-index: 997;
         left: 0;
@@ -381,10 +383,27 @@
 
 #chat .clean-canvas-icon {
     margin: auto;
-    border-left: 1px solid #333;
+    border-left: 1px solid #807d7d;
     padding-left: 4px;
     cursor: pointer;
-    color: #333;
+    color: #534141;
+}
+
+#chat .message-img {
+    width: 180px;
+    height: 180px;
+    border: 0.5px solid #9d9d9d;
+    background-color: white;
+}
+
+#chat .user-message-img {
+    float: right;
+    margin-right: 30px;
+}
+
+#chat .friend-message-img {
+    float: left;
+    margin-left: 30px;
 }
 
 /* END CANVAS SECTOR */

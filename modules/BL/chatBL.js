@@ -55,7 +55,7 @@ var self = module.exports = {
 
         var chatUpdateQuery = {
             $push: { "messages": msgData },
-            $set: { "lastMessage": { "text": msgData.text, "time": msgData.time } }
+            $set: { "lastMessage": { "text": (msgData.isImage ? "" : msgData.text), "time": msgData.time, "isImage": (msgData.isImage ? true : false) } }
         }
 
         DAL.UpdateOne(collectionName, chatFilter, chatUpdateQuery, function (result) {

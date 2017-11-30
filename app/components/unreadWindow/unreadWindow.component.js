@@ -135,8 +135,9 @@ var UnreadWindowComponent = /** @class */ (function () {
             for (var i = 0; i < self.chats.length; i++) {
                 var chat = self.chats[i];
                 if (chat.friendId == msgData.to) {
-                    chat.lastMessage.text = msgData.text;
+                    chat.lastMessage.text = msgData.isImage ? "" : msgData.text;
                     chat.lastMessage.time = (new Date()).toISOString();
+                    chat.lastMessage.isImage = msgData.isImage ? true : false;
                     isChatUpdated = true;
                     break;
                 }
@@ -150,8 +151,9 @@ var UnreadWindowComponent = /** @class */ (function () {
             for (var i = 0; i < self.chats.length; i++) {
                 var chat = self.chats[i];
                 if (chat.friendId == msgData.from) {
-                    chat.lastMessage.text = msgData.text;
+                    chat.lastMessage.text = msgData.isImage ? "" : msgData.text;
                     chat.lastMessage.time = (new Date()).toISOString();
+                    chat.lastMessage.isImage = msgData.isImage ? true : false;
                     isChatUpdated = true;
                     break;
                 }

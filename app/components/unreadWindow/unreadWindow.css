@@ -107,6 +107,11 @@
     position: absolute;
 }
 
+#unreadWindow .img-sign {
+    font-size: 14px;
+    color: #403c52;
+}
+
 #unreadWindow .chats-loader {
     position: absolute;
     top: 50%;

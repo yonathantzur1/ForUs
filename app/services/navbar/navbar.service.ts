@@ -55,13 +55,19 @@ export class NavbarService extends BasicService {
     UpdateMessagesNotifications(messagesNotifications: any, friendId: string) {
         var details = { messagesNotifications };
 
-        super.post(this.prefix + '/updateMessagesNotifications', JSON.stringify(details)).toPromise();
+        super.post(this.prefix + '/updateMessagesNotifications', JSON.stringify(details))
+            .toPromise()
+            .then((result: any) => { })
+            .catch((result: any) => { });
     }
 
     RemoveMessagesNotifications(messagesNotifications: any) {
         var details = { messagesNotifications };
 
-        super.post(this.prefix + '/removeMessagesNotifications', JSON.stringify(details)).toPromise();
+        super.post(this.prefix + '/removeMessagesNotifications', JSON.stringify(details))
+            .toPromise()
+            .then((result: any) => { })
+            .catch((result: any) => { });
     }
 
     GetUserFriendRequests() {

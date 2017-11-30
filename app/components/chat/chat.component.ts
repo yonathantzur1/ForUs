@@ -92,7 +92,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
         this.colorBtns = ["#333", "#777", "#8a6d3b", "#3c763d",
             "#4caf50", "#03a9f4", "#3f51b5", "#6f0891",
-            "#cf56d7", "#a94442", "#dbdb00", "#ff5722"];
+            "#cf56d7", "#dbdb00", "#ff5722", "#eb1000"];
     }
 
     ngOnInit() {
@@ -236,7 +236,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
         if (this.isCanvasInitialize) {
             self.SelectTopIcon(self.GetTopIconById("chat"));
-            this.InitializeCanvas();
+
+            if (document.getElementById("sig-canvas")) {
+                this.InitializeCanvas();
+            }
         }
 
         self.isAllowShowUnreadLine = true;
@@ -402,12 +405,12 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         return null;
     }
 
-    SelectTopIcon(selfIconObj: any) {
-        this.topIcons.forEach((iconObj: topIcon) => {
-            iconObj.isSelected = false;
+    SelectTopIcon(iconObj: any) {
+        this.topIcons.forEach((obj: topIcon) => {
+            obj.isSelected = false;
         });
 
-        selfIconObj.isSelected = true;
+        iconObj.isSelected = true;
     }
 
     InitializeCanvas = function () {
@@ -463,5 +466,24 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     ClearCanvas = function () {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+    }
+
+    SendCanvas = function () {
+        if (!this.isMessagesLoading) {
+            var imageBase64 = this.canvas.toDataURL();
+            this.InitializeCanvas();
+            this.SelectTopIcon(this.GetTopIconById("chat"));
+
+            var msgData = {
+                "from": this.chatData.user._id,
+                "to": this.chatData.friend._id,
+                "text": imageBase64,
+                "isImage": true,
+                "time": new Date()
+            };
+
+            this.messages.push(msgData);
+            this.socket.emit("SendMessage", msgData, this.token);
+        }
     }
 }

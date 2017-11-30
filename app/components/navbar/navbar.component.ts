@@ -66,6 +66,7 @@ export class NavbarComponent implements OnInit {
     isShowMessageNotification: boolean = false;
     messageNotificationName: string;
     messageNotificationText: string;
+    isMessageNotificationImage: boolean;
     messageNotificationFriendId: string;
     messageNotificationInterval: any;
 
@@ -192,7 +193,7 @@ export class NavbarComponent implements OnInit {
                         self.messageNotificationInterval = null;
                     }
 
-                    self.ShowMessageNotification(self.GetFriendNameById(msgData.from), msgData.text, msgData.from);
+                    self.ShowMessageNotification(self.GetFriendNameById(msgData.from), msgData.text, msgData.isImage, msgData.from);
                 }
             }
         });
@@ -295,10 +296,11 @@ export class NavbarComponent implements OnInit {
         }
     }
 
-    ShowMessageNotification = function (name: string, text: string, friendId: string) {
+    ShowMessageNotification = function (name: string, text: string, isImage: boolean, friendId: string) {
         if (name && text) {
             this.messageNotificationName = name;
             this.messageNotificationText = text;
+            this.isMessageNotificationImage = isImage;
             this.messageNotificationFriendId = friendId;
             this.isShowMessageNotification = true;
 

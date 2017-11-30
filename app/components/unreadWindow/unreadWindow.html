@@ -12,7 +12,10 @@
                     <img class="chat-image" src="{{GetFriendProfile(chat.friendId) || defaultProfileImage}}">
                     <div class="details-container">
                         <div class="chat-name">{{GetFriendName(chat.friendId) || "משתמש לא קיים"}}</div>
-                        <div class="chat-last-text">{{chat.lastMessage.text}}</div>
+                        <div *ngIf="!chat.lastMessage.isImage" class="chat-last-text">{{chat.lastMessage.text}}</div>
+                        <div *ngIf="chat.lastMessage.isImage" class="chat-last-text">
+                            <span class="glyphicon glyphicon-camera img-sign" aria-hidden="true"></span>
+                        </div>
                     </div>
                     <div class="chat-last-time">
                         {{CalculateChatTimeString(chat)}}

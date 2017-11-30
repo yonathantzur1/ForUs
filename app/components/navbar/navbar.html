@@ -97,7 +97,8 @@
   </div>
   <span (click)="MessageNotificationClicked()" id="notification" class="notification" *ngIf="isShowMessageNotification && !isShowFriendRequestNotification">
     <span class="notification-name">{{messageNotificationName}}</span>:
-    <span class="notification-text">{{messageNotificationText}}</span>
+    <span *ngIf="!isMessageNotificationImage" class="notification-text">{{messageNotificationText}}</span>
+    <span *ngIf="isMessageNotificationImage" class="notification-text">שלח/ה לך תמונה</span>
   </span>
   <span (click)="FriendRequestNotificationClicked()" id="notification" class="notification" *ngIf="isShowFriendRequestNotification && !isShowMessageNotification">
     <span class="notification-name">{{friendRequestNotificationName}}</span>

@@ -15,7 +15,14 @@
         </div>
         <div [hidden]="!GetTopIconById('canvas').isSelected" class="canvas-body-container">
             <div id="canvas-body-sector" class="canvas-body-sector">
-                <canvas id="sig-canvas" class="canvas"></canvas>
+                <span *ngIf="isMessagesLoading" class="chat-loading-container">
+                    <p class="load-chat-icon" style="padding-top:10px;">
+                        <i class="fa fa-circle" aria-hidden="true"></i>
+                        <i class="fa fa-circle" aria-hidden="true"></i>
+                        <i class="fa fa-circle" aria-hidden="true"></i>
+                    </p>
+                </span>
+                <canvas [hidden]="isMessagesLoading" id="sig-canvas" class="canvas"></canvas>
             </div>
             <div class="canvas-bar-sector">
                 <div class="canvas-options-sector">
@@ -29,7 +36,7 @@
                 </div>
                 <div class="send-canvas-sector">
                     <div class="send-canvas-btn">
-                        <span class="glyphicon glyphicon-triangle-left send-canvas-btn-icon" aria-hidden="true"></span>
+                        <span (click)="SendCanvas()" class="glyphicon glyphicon-triangle-left send-canvas-btn-icon" aria-hidden="true"></span>
                     </div>
                 </div>
             </div>
@@ -45,30 +52,42 @@
                     </p>
                 </span>
                 <div *ngFor="let message of messages; let i = index">
-                    <div *ngIf="IsShowUnreadLine(message.from, message.id, i)" class="bubble-message-line-sector">
-                        <div class="bubble-message-line">
-                            <span class="bubble-message-text-container">
-                                <span class="bubble-message-text">{{GetUnreadMessagesNumberText(unreadMessagesNumber)}}</span>
-                            </span>
-                        </div>
-                    </div>
-                    <div *ngIf="IsShowDateBubble(i)" class="bubble-message-line-sector">
-                        <span class="bubble-date-text-container">
-                            <span class="bubble-message-text">{{GetDateBubbleText(i)}}</span>
-                        </span>
-                    </div>
-                    <div class="message-container">
-                        <div id="message-time-container" class="message-time-container" [ngClass]="{'user-message-time' : message.from == chatData.user._id, 'friend-message-time': message.from == chatData.friend._id}">
-                            <span class="message-time">
-                                {{GetTimeString(message.time)}}
-                            </span>
-                        </div>
-                        <span class="message" [ngClass]="{'user-message' : message.from == chatData.user._id, 'friend-message': message.from == chatData.friend._id}">
-                            <div class="message-text">
-                                {{message.text}}
+                    <span *ngIf="!message.isImage">
+                        <div *ngIf="IsShowUnreadLine(message.from, message.id, i)" class="bubble-message-line-sector">
+                            <div class="bubble-message-line">
+                                <span class="bubble-message-text-container">
+                                    <span class="bubble-message-text">{{GetUnreadMessagesNumberText(unreadMessagesNumber)}}</span>
+                                </span>
                             </div>
-                        </span>
-                    </div>
+                        </div>
+                        <div *ngIf="IsShowDateBubble(i)" class="bubble-message-line-sector">
+                            <span class="bubble-date-text-container">
+                                <span class="bubble-message-text">{{GetDateBubbleText(i)}}</span>
+                            </span>
+                        </div>
+                        <div class="message-container">
+                            <div id="message-time-container" class="message-time-container" [ngClass]="{'user-message-time' : message.from == chatData.user._id, 'friend-message-time': message.from == chatData.friend._id}">
+                                <span class="message-time">
+                                    {{GetTimeString(message.time)}}
+                                </span>
+                            </div>
+                            <span class="message" [ngClass]="{'user-message' : message.from == chatData.user._id, 'friend-message': message.from == chatData.friend._id}">
+                                <div class="message-text">
+                                    {{message.text}}
+                                </div>
+                            </span>
+                        </div>
+                    </span>
+                    <span *ngIf="message.isImage">
+                        <div class="message-container">
+                            <div id="message-time-container" class="message-time-container" [ngClass]="{'user-message-time' : message.from == chatData.user._id, 'friend-message-time': message.from == chatData.friend._id}">
+                                <span class="message-time">
+                                    {{GetTimeString(message.time)}}
+                                </span>
+                            </div>
+                            <img class="message-img" src="{{message.text}}" [ngClass]="{'user-message-img' : message.from == chatData.user._id, 'friend-message-img': message.from == chatData.friend._id}">
+                        </div>
+                    </span>
                 </div>
             </div>
             <div class="chat-write-sector">

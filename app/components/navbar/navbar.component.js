@@ -99,10 +99,11 @@ var NavbarComponent = /** @class */ (function () {
                 }
             }
         };
-        this.ShowMessageNotification = function (name, text, friendId) {
+        this.ShowMessageNotification = function (name, text, isImage, friendId) {
             if (name && text) {
                 this.messageNotificationName = name;
                 this.messageNotificationText = text;
+                this.isMessageNotificationImage = isImage;
                 this.messageNotificationFriendId = friendId;
                 this.isShowMessageNotification = true;
                 var self = this;
@@ -513,7 +514,7 @@ var NavbarComponent = /** @class */ (function () {
                         clearInterval(self.messageNotificationInterval);
                         self.messageNotificationInterval = null;
                     }
-                    self.ShowMessageNotification(self.GetFriendNameById(msgData.from), msgData.text, msgData.from);
+                    self.ShowMessageNotification(self.GetFriendNameById(msgData.from), msgData.text, msgData.isImage, msgData.from);
                 }
             }
         });

@@ -8,9 +8,9 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
         var originalMsgData = Object.assign({}, msgData);
 
         // Delete spaces from the start and the end of the message text.
-        msgData.text = msgData.text.trim();
         msgData.time = new Date();
         msgData.id = general.GenerateId();
+        msgData.text = (msgData.isImage) ? msgData.text : msgData.text.trim();
         token = general.DecodeToken(token);
 
         jwt.verify(token, config.jwtSecret, function (err, decoded) {
@@ -70,7 +70,7 @@ function ValidateMessage(msgData, user) {
     if (user._id == msgData.from &&
         user.friends.indexOf(msgData.to) != -1 &&
         msgData.text &&
-        msgData.text.length <= 600) {
+        (msgData.isImage || msgData.text.length <= 600)) {
         return true;
     }
     else {
