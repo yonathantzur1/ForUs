@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div class="send-canvas-sector">
-                    <div class="send-canvas-btn">
+                    <div class="send-canvas-btn" [ngClass]="{'send-canvas-btn-disabled' : isCanvasEmpty}">
                         <span (click)="SendCanvas()" class="glyphicon glyphicon-triangle-left send-canvas-btn-icon" aria-hidden="true"></span>
                     </div>
                 </div>

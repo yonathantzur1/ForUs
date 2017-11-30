@@ -46,13 +46,13 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     drawing: boolean;
     mousePos: any;
     lastPos: any;
+    colorBtns: Array<string>;
+    isCanvasEmpty: boolean;
+    canvasSelectedColorIndex: number;
 
     canvasEvents: any;
     documentEvents: any;
-    onResizeFunc: any;
-
-    colorBtns: Array<string>;
-    canvasSelectedColorIndex: number = 0;
+    CanvasResizeFunc: any;
 
     constructor(private chatService: ChatService, private globalService: GlobalService) {
         this.socket = globalService.socket;
@@ -113,6 +113,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 self.lastPos = self.GetMousePos(self.canvas, e);
                 self.ctx.fillStyle = self.colorBtns[self.canvasSelectedColorIndex];
                 self.ctx.fillRect(self.lastPos.x, self.lastPos.y, 1, 1);
+                self.isCanvasEmpty = false;
             },
             "mouseup": function (e: any) {
                 self.drawing = false;
@@ -173,7 +174,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         });
 
 
-        this.onResizeFunc = function () {
+        this.CanvasResizeFunc = function () {
             var image = new Image;
             image.src = self.canvas.toDataURL();
 
@@ -189,7 +190,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             self.ctx.strokeStyle = self.colorBtns[self.canvasSelectedColorIndex];
         };
 
-        $(window).resize(self.onResizeFunc);
+        $(window).resize(self.CanvasResizeFunc);
 
         // Get a regular interval for drawing to the screen
         window.requestAnimFrame = (function () {
@@ -221,7 +222,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             document.body.removeEventListener(key, self.documentEvents[key], false);
         });
 
-        $(window).off("resize", self.onResizeFunc);
+        $(window).off("resize", self.CanvasResizeFunc);
     }
 
     ngAfterViewChecked() {
@@ -427,6 +428,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.mousePos = { x: 0, y: 0 };
         this.lastPos = this.mousePos;
         this.isCanvasInitialize = true;
+        this.isCanvasEmpty = true;
     }
 
     // Get the position of the mouse relative to the canvas
@@ -465,11 +467,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     ClearCanvas = function () {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
+        this.isCanvasEmpty = true;
     }
 
     SendCanvas = function () {
-        if (!this.isMessagesLoading) {
+        if (!this.isMessagesLoading && !this.isCanvasEmpty) {
             var imageBase64 = this.canvas.toDataURL();
             this.InitializeCanvas();
             this.SelectTopIcon(this.GetTopIconById("chat"));

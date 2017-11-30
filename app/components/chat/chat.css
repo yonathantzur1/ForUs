@@ -362,6 +362,11 @@
     cursor: pointer;
 }
 
+#chat .send-canvas-btn-disabled {
+    background-color: #a5a5a5 !important;
+    cursor: default !important;
+}
+
 #chat .send-canvas-btn-icon {
     color: white;
     line-height: 1.6;

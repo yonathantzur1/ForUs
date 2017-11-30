@@ -30,7 +30,6 @@ var ChatComponent = /** @class */ (function () {
         this.months = globalVariables.months;
         // Cavas sector properties //
         this.isCanvasInitialize = false;
-        this.canvasSelectedColorIndex = 0;
         this.InitializeChat = function () {
             var self = this;
             if (this.isCanvasInitialize) {
@@ -186,6 +185,7 @@ var ChatComponent = /** @class */ (function () {
             this.mousePos = { x: 0, y: 0 };
             this.lastPos = this.mousePos;
             this.isCanvasInitialize = true;
+            this.isCanvasEmpty = true;
         };
         // Get the position of the mouse relative to the canvas
         this.GetMousePos = function (canvasDom, mouseEvent) {
@@ -219,9 +219,10 @@ var ChatComponent = /** @class */ (function () {
         };
         this.ClearCanvas = function () {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.isCanvasEmpty = true;
         };
         this.SendCanvas = function () {
-            if (!this.isMessagesLoading) {
+            if (!this.isMessagesLoading && !this.isCanvasEmpty) {
                 var imageBase64 = this.canvas.toDataURL();
                 this.InitializeCanvas();
                 this.SelectTopIcon(this.GetTopIconById("chat"));
@@ -286,6 +287,7 @@ var ChatComponent = /** @class */ (function () {
                 self.lastPos = self.GetMousePos(self.canvas, e);
                 self.ctx.fillStyle = self.colorBtns[self.canvasSelectedColorIndex];
                 self.ctx.fillRect(self.lastPos.x, self.lastPos.y, 1, 1);
+                self.isCanvasEmpty = false;
             },
             "mouseup": function (e) {
                 self.drawing = false;
@@ -341,7 +343,7 @@ var ChatComponent = /** @class */ (function () {
         Object.keys(this.documentEvents).forEach(function (key) {
             document.body.addEventListener(key, self.documentEvents[key], false);
         });
-        this.onResizeFunc = function () {
+        this.CanvasResizeFunc = function () {
             var image = new Image;
             image.src = self.canvas.toDataURL();
             var canvasContainer = document.getElementById("canvas-body-sector");
@@ -352,7 +354,7 @@ var ChatComponent = /** @class */ (function () {
             };
             self.ctx.strokeStyle = self.colorBtns[self.canvasSelectedColorIndex];
         };
-        $(window).resize(self.onResizeFunc);
+        $(window).resize(self.CanvasResizeFunc);
         // Get a regular interval for drawing to the screen
         window.requestAnimFrame = (function () {
             return window.requestAnimationFrame ||
@@ -378,7 +380,7 @@ var ChatComponent = /** @class */ (function () {
         Object.keys(this.documentEvents).forEach(function (key) {
             document.body.removeEventListener(key, self.documentEvents[key], false);
         });
-        $(window).off("resize", self.onResizeFunc);
+        $(window).off("resize", self.CanvasResizeFunc);
     };
     ChatComponent.prototype.ngAfterViewChecked = function () {
         if ($("#chat-body-sector")[0].scrollHeight != this.chatBodyScrollHeight) {
