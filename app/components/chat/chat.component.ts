@@ -236,7 +236,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
         if (this.GetTopIconById("canvas").isSelected &&
             this.canvas &&
-            (this.canvas.width == 0 || this.canvas.width == 0)) {
+            (this.canvas.width == 0 || this.canvas.height == 0)) {
             this.InitializeCanvas();
         }
     }

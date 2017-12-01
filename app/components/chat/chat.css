@@ -96,6 +96,7 @@
 #chat .chat-body-sector {
     height: calc(100% - 30px);
     overflow-y: overlay;
+    overflow-x: hidden;
     border-bottom: 1px solid #cacaca;
     -webkit-user-select: none;
     user-select: none;
@@ -403,12 +404,12 @@
 
 #chat .user-message-img {
     float: right;
-    margin-right: 30px;
+    margin-right: 28px;
 }
 
 #chat .friend-message-img {
     float: left;
-    margin-left: 30px;
+    margin-left: 28px;
 }
 
 /* END CANVAS SECTOR */
