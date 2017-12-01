@@ -40,7 +40,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     unreadMessagesNumber: number;
 
     // Cavas sector properties //
-    isCanvasInitialize: boolean = false;
+    isCanvasInitialize: boolean;
     canvas: any;
     ctx: any;
     drawing: boolean;
@@ -85,14 +85,17 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 title: "צייר",
                 isSelected: false,
                 onClick: function () {
+                    self.isAllowShowUnreadLine = false;
                     self.SelectTopIcon(this);
                 }
             }
         ];
 
-        this.colorBtns = ["#333", "#777", "#8a6d3b", "#3c763d",
+        self.colorBtns = ["#333", "#777", "#8a6d3b", "#3c763d",
             "#4caf50", "#03a9f4", "#3f51b5", "#6f0891",
             "#cf56d7", "#dbdb00", "#ff5722", "#eb1000"];
+
+        self.isCanvasInitialize = false;
     }
 
     ngOnInit() {
@@ -105,9 +108,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             }
         });
 
-        this.InitializeCanvas();
+        self.InitializeCanvas();
 
-        this.canvasEvents = {
+        self.canvasEvents = {
             "mousedown": function (e: any) {
                 self.drawing = true;
                 self.lastPos = self.GetMousePos(self.canvas, e);
@@ -147,11 +150,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             }
         };
 
-        Object.keys(this.canvasEvents).forEach(key => {
-            self.canvas.addEventListener(key, self.canvasEvents[key], false);
-        });
-
-        this.documentEvents = {
+        self.documentEvents = {
             "touchstart": function (e: any) {
                 if (e.target == self.canvas) {
                     e.preventDefault();
@@ -169,12 +168,16 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             }
         };
 
-        Object.keys(this.documentEvents).forEach(key => {
+        Object.keys(self.canvasEvents).forEach(key => {
+            self.canvas.addEventListener(key, self.canvasEvents[key], false);
+        });
+
+        Object.keys(self.documentEvents).forEach(key => {
             document.body.addEventListener(key, self.documentEvents[key], false);
         });
 
 
-        this.CanvasResizeFunc = function () {
+        self.CanvasResizeFunc = function () {
             var image = new Image;
             image.src = self.canvas.toDataURL();
 
@@ -230,6 +233,12 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             this.ScrollToBottom();
             this.chatBodyScrollHeight = $("#chat-body-sector")[0].scrollHeight;
         }
+
+        if (this.GetTopIconById("canvas").isSelected &&
+            this.canvas &&
+            (this.canvas.width == 0 || this.canvas.width == 0)) {
+            this.InitializeCanvas();
+        }
     }
 
     InitializeChat = function () {
@@ -237,10 +246,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
         if (this.isCanvasInitialize) {
             self.SelectTopIcon(self.GetTopIconById("chat"));
-
-            if (document.getElementById("sig-canvas")) {
-                this.InitializeCanvas();
-            }
+            this.InitializeCanvas();
         }
 
         self.isAllowShowUnreadLine = true;
