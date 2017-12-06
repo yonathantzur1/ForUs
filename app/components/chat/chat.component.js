@@ -379,6 +379,7 @@ var ChatComponent = /** @class */ (function () {
             document.body.removeEventListener(key, self.documentEvents[key], false);
         });
         $(window).off("resize", self.CanvasResizeFunc);
+        this.isCanvasInitialize = false;
     };
     ChatComponent.prototype.ngAfterViewChecked = function () {
         if ($("#chat-body-sector")[0].scrollHeight != this.chatBodyScrollHeight) {

@@ -186,7 +186,7 @@ export class UnreadWindowComponent implements OnInit {
     }
 
     SortByDate = function (chats: any) {
-        chats.sort((a: any, b: any) => {
+        chats = chats.sort((a: any, b: any) => {
             var firstDate = new Date(a.lastMessage.time);
             var secondDate = new Date(b.lastMessage.time);
 

@@ -109,7 +109,7 @@ var UnreadWindowComponent = /** @class */ (function () {
             return friendObj ? friendObj.profileImage : null;
         };
         this.SortByDate = function (chats) {
-            chats.sort(function (a, b) {
+            chats = chats.sort(function (a, b) {
                 var firstDate = new Date(a.lastMessage.time);
                 var secondDate = new Date(b.lastMessage.time);
                 if (firstDate > secondDate) {

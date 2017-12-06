@@ -1,5 +1,4 @@
 module.exports = function (app, unreadWindowBL) {
-
     prefix = "/api/unreadWindow";
 
     // Get all not empty chats order by last message time.

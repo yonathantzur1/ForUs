@@ -1,6 +1,4 @@
-var general = require('../modules/general.js');
-
-module.exports = function (app, profileBL) {
+module.exports = function (app, profileBL, general) {
 
     prefix = "/api/profile";
 

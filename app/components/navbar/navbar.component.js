@@ -247,10 +247,11 @@ var NavbarComponent = /** @class */ (function () {
             }
             else {
                 searchInput = searchInput.trim();
-                return this.searchResults.filter(function (result) {
+                this.searchResult = this.searchResults.filter(function (result) {
                     return ((result.fullName.indexOf(searchInput) == 0) ||
                         ((result.lastName + " " + result.firstName).indexOf(searchInput) == 0));
                 });
+                return this.searchResult;
             }
         };
         this.GetFilteredFriends = function (friendSearchInput) {

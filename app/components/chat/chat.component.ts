@@ -226,6 +226,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         });
 
         $(window).off("resize", self.CanvasResizeFunc);
+
+        this.isCanvasInitialize = false;
     }
 
     ngAfterViewChecked() {

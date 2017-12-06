@@ -17,12 +17,12 @@ var self = module.exports = {
         var friendsFilter = { $match: { "_id": { $in: friendsObjectIds } } };
         var joinFilter = {
             $lookup:
-            {
-                from: profileCollectionName,
-                localField: 'profile',
-                foreignField: '_id',
-                as: 'profileImage'
-            }
+                {
+                    from: profileCollectionName,
+                    localField: 'profile',
+                    foreignField: '_id',
+                    as: 'profileImage'
+                }
         }
         var lookupToObject = { $unwind: "$profileImage" };
         var friendsFileds = { $project: { "firstName": 1, "lastName": 1, "profileImage.image": 1 } };
@@ -82,6 +82,21 @@ var self = module.exports = {
                 }
 
                 results = GetResultsImagesFromCache(results);
+
+                results = results.sort((a, b) => {
+                    var aIndex = a.fullName.indexOf(searchInput);
+                    var bIndex = b.fullName.indexOf(searchInput);
+
+                    if (aIndex < bIndex) {
+                        return -1;
+                    }
+                    else if (aIndex > bIndex) {
+                        return 1;
+                    }
+                    else {
+                        return 0;
+                    }
+                });
 
                 callback(results);
             }

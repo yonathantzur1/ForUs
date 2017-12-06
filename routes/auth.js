@@ -1,7 +1,4 @@
-var loginBL = require('../modules/BL/loginBL.js');
-var general = require('../modules/general.js');
-
-module.exports = function (app) {
+module.exports = function (app, loginBL, general) {
     prefix = "/api/auth";
 
     // Checking if the session of the user is open.

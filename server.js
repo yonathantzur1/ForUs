@@ -76,13 +76,13 @@ app.use('/api', function (req, res, next) {
     }
 });
 
-var server = http.listen((process.env.PORT || 8000), function () {
+http.listen((process.env.PORT || 8000), function () {
     console.log("Server is up!");
 });
 
-require('./routes/auth.js')(app);
-require('./routes/login.js')(app, loginBL, mailer, sha512);
-require('./routes/profile.js')(app, profileBL);
+require('./routes/auth.js')(app, loginBL, general);
+require('./routes/login.js')(app, loginBL, mailer, sha512, general);
+require('./routes/profile.js')(app, profileBL, general);
 require('./routes/profilePicture.js')(app, profilePictureBL);
 require('./routes/navbar.js')(app, navbarBL);
 require('./routes/chat.js')(app, chatBL);

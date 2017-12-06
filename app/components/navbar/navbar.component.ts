@@ -468,12 +468,15 @@ export class NavbarComponent implements OnInit {
     GetFilteredSearchResults = function (searchInput: string): Array<any> {
         if (!searchInput) {
             return this.searchResults;
-        } else {
+        }
+        else {
             searchInput = searchInput.trim();
-            return this.searchResults.filter(function (result: any) {
+            this.searchResult = this.searchResults.filter(function (result: any) {
                 return ((result.fullName.indexOf(searchInput) == 0) ||
                     ((result.lastName + " " + result.firstName).indexOf(searchInput) == 0));
             });
+
+            return this.searchResult;
         }
     }
 

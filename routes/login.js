@@ -1,5 +1,3 @@
-var general = require('../modules/general.js');
-
 var ExpressBrute = require('express-brute'),
     store = new ExpressBrute.MemoryStore();
 
@@ -39,7 +37,7 @@ var globalBruteforce = new ExpressBrute(store, {
 });
 
 
-module.exports = function (app, loginBL, mailer, sha512) {
+module.exports = function (app, loginBL, mailer, sha512, general) {
 
     prefix = "/login";
 
