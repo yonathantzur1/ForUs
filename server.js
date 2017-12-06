@@ -7,6 +7,7 @@ var path = require('path');
 var mailer = require('./modules/mailer.js');
 var sha512 = require('js-sha512');
 var jwt = require('jsonwebtoken');
+var compression = require('compression');
 var config = require('./modules/config.js');
 var general = require('./modules/general.js');
 
@@ -27,6 +28,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.static('./'));
 app.use(express.static('public'));
+app.use(compression());
 
 // Import socket.io mudule
 var socket = require('./modules/socket.js')(io, jwt, config);
@@ -36,7 +38,7 @@ function redirectToLogin(req, res) {
         res.redirect('/login');
     }
     else {
-        res.status(401).send();
+        res.status(401).end();
     }
 }
 

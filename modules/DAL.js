@@ -3,22 +3,23 @@ var MongoClient = require('mongodb').MongoClient, assert = require('assert');
 var ObjectId = require('mongodb').ObjectId;
 
 // Connection URL
-var url = config.connectionString;
+var connectionString = config.db.connectionString;
+var dbName = config.db.dbName;
 var db;
-var maxConnectRetry = 5;
+var maxConnectionAttemptsNumber = config.db.maxConnectionAttemptsNumber;
 var retryCount = 0;
 
 GetDB = function (callback) {
     // In case there is no connected db.
     if (!db || !db.serverConfig || !db.serverConfig.isConnected()) {
-        MongoClient.connect(url, function (err, database) {
+        MongoClient.connect(connectionString, function (err, client) {
             if (err == null) {
-                db = database;
+                db = client.db(dbName);
                 callback(null, db);
             }
             else {
                 // In case number of retries is smaller then maximum
-                if (retryCount < maxConnectRetry) {
+                if (retryCount < maxConnectionAttemptsNumber) {
                     retryCount++;
                     GetDB(callback);
                 }
