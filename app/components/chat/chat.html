@@ -24,9 +24,18 @@
                 </span>
                 <canvas [hidden]="isMessagesLoading" id="sig-canvas" class="canvas"></canvas>
             </div>
+            <div id="canvas-top-bar-sector" class="canvas-top-bar-sector">
+                <table class="canvas-top-bar-tabel">
+                    <tr>
+                        <td *ngFor="let iconObj of canvasTopIcons">
+                            <i title="{{iconObj.title}}" (click)="iconObj.onClick()" class="material-icons canvas-top-bar-icon">{{iconObj.icon}}</i>
+                        </td>
+                    </tr>
+                </table>
+            </div>
             <div class="canvas-bar-sector">
-                <div class="canvas-options-sector">
-                    <i (click)="ClearCanvas()" class="material-icons clean-canvas-icon">delete_forever</i>
+                <div (click)="ShowHideCanvasTopSector()" class="canvas-options-sector">
+                    <i class="material-icons open-canvas-icon">{{!isCanvasTopOpen ? "keyboard_arrow_up" : "keyboard_arrow_down"}}</i>
                 </div>
                 <div class="color-btns-sector">
                     <div *ngFor="let colorBtn of colorBtns; let i = index" (click)="ChangeCanvasColor(i)" [ngStyle]="{'backgroundColor': colorBtn}"

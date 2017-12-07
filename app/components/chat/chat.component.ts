@@ -17,6 +17,12 @@ export class topIcon {
     onClick: Function;
 }
 
+export class canvasTopIcon {
+    icon: string;
+    title: string;
+    onClick: Function;
+}
+
 @Component({
     selector: 'chat',
     templateUrl: './chat.html',
@@ -30,8 +36,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     token: any = getToken();
     isMessagesLoading: boolean;
     chatBodyScrollHeight: number = 0;
-    topIcons: Array<topIcon>;
 
+    topIcons: Array<topIcon>;
     days: Array<string> = globalVariables.days;
     months: Array<string> = globalVariables.months;
 
@@ -43,12 +49,17 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     isCanvasInitialize: boolean;
     canvas: any;
     ctx: any;
+    canvasTopBar: any;
     drawing: boolean;
     mousePos: any;
     lastPos: any;
     colorBtns: Array<string>;
     isCanvasEmpty: boolean;
     canvasSelectedColorIndex: number;
+    isCanvasTopOpen: boolean;
+
+    canvasTopIcons: Array<canvasTopIcon>;
+    undoArray: Array<string>;
 
     canvasEvents: any;
     documentEvents: any;
@@ -86,7 +97,44 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 isSelected: false,
                 onClick: function () {
                     self.isAllowShowUnreadLine = false;
+                    self.HideCanvasTopSector();
                     self.SelectTopIcon(this);
+                }
+            }
+        ];
+
+        self.canvasTopIcons = [
+            {
+                icon: "delete_forever",
+                title: "איפוס",
+                onClick: function () {
+                    self.undoArray.push(self.canvas.toDataURL());
+                    self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
+                    self.isCanvasEmpty = true;
+                }
+            },
+            {
+                icon: "undo",
+                title: "ביטול",
+                onClick: function () {
+                    self.undoArray.pop();
+
+                    if (self.undoArray.length > 0) {
+                        var image = new Image;
+                        image.src = self.undoArray[self.undoArray.length - 1];
+
+                        image.onload = function () {
+                            self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
+                            self.ctx.drawImage(image, 0, 0);
+                            self.isCanvasEmpty = false;
+                        }
+                    }
+                    else {
+                        self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
+                        self.isCanvasEmpty = true;
+                    }
+
+                    self.ctx.strokeStyle = self.colorBtns[self.canvasSelectedColorIndex];
                 }
             }
         ];
@@ -94,8 +142,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         self.colorBtns = ["#333", "#777", "#8a6d3b", "#3c763d",
             "#4caf50", "#03a9f4", "#3f51b5", "#6f0891",
             "#cf56d7", "#dbdb00", "#ff5722", "#eb1000"];
-
         self.isCanvasInitialize = false;
+        self.isCanvasTopOpen = false;
     }
 
     ngOnInit() {
@@ -116,10 +164,16 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 self.lastPos = self.GetMousePos(self.canvas, e);
                 self.ctx.fillStyle = self.colorBtns[self.canvasSelectedColorIndex];
                 self.ctx.fillRect(self.lastPos.x, self.lastPos.y, 1, 1);
-                self.isCanvasEmpty = false;
+                self.HideCanvasTopSector();
+
+                if (self.isCanvasEmpty) {
+                    self.isCanvasEmpty = false;
+                    self.undoArray = [];
+                }
             },
             "mouseup": function (e: any) {
                 self.drawing = false;
+                self.undoArray.push(self.canvas.toDataURL());
             },
             "mousemove": function (e: any) {
                 self.mousePos = self.GetMousePos(self.canvas, e);
@@ -424,6 +478,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     InitializeCanvas = function () {
         this.canvas = document.getElementById("sig-canvas");
+        this.canvasTopBar = document.getElementById("canvas-top-bar-sector");
         var canvasContainer = document.getElementById("canvas-body-sector");
         this.canvas.width = canvasContainer.offsetWidth;
         this.canvas.height = canvasContainer.offsetHeight;
@@ -437,6 +492,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.lastPos = this.mousePos;
         this.isCanvasInitialize = true;
         this.isCanvasEmpty = true;
+        this.undoArray = [];
     }
 
     // Get the position of the mouse relative to the canvas
@@ -473,11 +529,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.ctx.strokeStyle = this.colorBtns[colorIndex];
     }
 
-    ClearCanvas = function () {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.isCanvasEmpty = true;
-    }
-
     SendCanvas = function () {
         if (!this.isMessagesLoading && !this.isCanvasEmpty) {
             var imageBase64 = this.canvas.toDataURL();
@@ -494,6 +545,24 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
             this.messages.push(msgData);
             this.socket.emit("SendMessage", msgData, this.token);
+        }
+    }
+
+    ShowHideCanvasTopSector = function () {
+        if (this.isCanvasTopOpen) {
+            this.canvasTopBar.style.bottom = "0px";
+        }
+        else {
+            this.canvasTopBar.style.bottom = "40px";
+        }
+
+        this.isCanvasTopOpen = !this.isCanvasTopOpen;
+    }
+
+    HideCanvasTopSector = function () {
+        if (this.isCanvasTopOpen) {
+            this.canvasTopBar.style.bottom = "0px";
+            this.isCanvasTopOpen = false;
         }
     }
 }
