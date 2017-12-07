@@ -67,7 +67,7 @@ module.exports = function (app, navbarBL) {
     app.post(prefix + '/addFriend', function (req, res) {
         navbarBL.AddFriend(req.user, req.body.friendId, function (result) {
             if (result) {
-                general.SetTokenOnCookie(result.token);
+                general.SetTokenOnCookie(result.token, res);
                 res.send(result.friend);
             }
         });

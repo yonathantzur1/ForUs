@@ -309,7 +309,7 @@
     align-self: center;
     font-size: 20px;
     position: absolute;
-    left: 30px;
+    left: 35px;
 }
 
 #navbar .remove-request {
@@ -325,21 +325,19 @@
 #navbar .friend-request-confirm-icon {
     font-size: 16px;
     position: absolute;
-    left: 32px;
+    left: 36px;
 }
 
 #navbar .friend-request-confirm-btn {
     font-size: 22px;
-    position: absolute;
-    left: 42px;
-    top: 52px;
+    margin-top: 18px;
+    float: right;
 }
 
 #navbar .friend-request-decline-btn {
     font-size: 22px;
-    position: absolute;
-    left: 18px;
-    top: 52px;
+    margin-top: 18px;
+    float: left;
 }
 
 @media (max-width: 768px) {
@@ -363,7 +361,6 @@
     }
 
     #navbar .friend-request-btn {
-        left: 24px !important;
         font-size: 18px !important;
     }
 
@@ -376,17 +373,11 @@
     }
 
     #navbar .friend-request-confirm-btn {
-        font-size: 22px !important;
-        top: 46px !important;
-        left: 40px !important;
-        border: none !important;
+        font-size: 18px !important;
     }
-
+    
     #navbar .friend-request-decline-btn {
-        font-size: 22px !important;
-        top: 46px !important;
-        left: 16px !important;
-        border: none !important;
+        font-size: 18px !important;
     }
 
     #navbar .search-result-image-loading {
