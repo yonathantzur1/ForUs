@@ -1,3 +1,5 @@
+var general = require("../modules/general.js");
+
 module.exports = function (app, navbarBL) {
 
     prefix = "/api/navbar";
@@ -64,7 +66,10 @@ module.exports = function (app, navbarBL) {
 
     app.post(prefix + '/addFriend', function (req, res) {
         navbarBL.AddFriend(req.user, req.body.friendId, function (result) {
-            res.send(result);
+            if (result) {
+                general.SetTokenOnCookie(result.token);
+                res.send(result.friend);
+            }
         });
     });
 };

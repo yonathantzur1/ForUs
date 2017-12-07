@@ -24,13 +24,21 @@ module.exports = {
         return encryption.decrypt(token);
     },
 
-    GetCookieFromReq: function (cname, reqCookie) {
-        if (!reqCookie) {
+    SetTokenOnCookie: function (token, res) {
+        res.cookie(config.token.cookieName, token, { maxAge: config.token.maxAge, httpOnly: true });
+    },
+
+    DeleteTokenFromCookie: function (res) {
+        res.clearCookie(config.token.cookieName);
+    },
+
+    GetCookieByName: function (cname, cookie) {
+        if (!cookie) {
             return "";
         }
 
         var name = cname + "=";
-        var ca = reqCookie.split(';');
+        var ca = cookie.split(';');
 
         for (var i = 0; i < ca.length; i++) {
             var c = ca[i];
@@ -45,6 +53,18 @@ module.exports = {
         }
 
         return "";
+    },
+
+    GetTokenFromCookie: function (cookie) {
+        return this.GetCookieByName(config.token.cookieName, cookie);
+    },
+
+    GetTokenFromSocket: function (socket) {
+        return this.GetCookieByName(config.token.cookieName, socket.request.headers.cookie);
+    },
+
+    GetTokenFromRequest: function (request) {
+        return this.GetCookieByName(config.token.cookieName, request.headers.cookie);
     },
 
     GenerateId: function () {

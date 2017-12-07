@@ -2,19 +2,18 @@ import { Injectable, NgModule } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
 
 import { AuthService } from '../../services/auth/auth.service';
+import { GlobalService } from '../../services/global/global.service';
 
 import { User } from './login.component';
 
-declare var setToken: any;
-
 @Injectable()
 export class AuthGuard implements CanActivate {
-    constructor(private router: Router, private authService: AuthService) { }
+    constructor(private router: Router, private authService: AuthService, private globalService: GlobalService) { }
 
     canActivate() {
         return this.authService.IsUserOnSession().then((result) => {
             if (result) {
-                setToken(result.token);
+                this.globalService.InitializeSocket();
                 return true;
             }
             else {

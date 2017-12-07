@@ -4,14 +4,14 @@ var general = require('./general.js');
 
 module.exports = function (io, jwt, config, socket, socketsDictionary, connectedUsers) {
 
-    socket.on('SendMessage', function (msgData, token) {
+    socket.on('SendMessage', function (msgData) {
         var originalMsgData = Object.assign({}, msgData);
 
         // Delete spaces from the start and the end of the message text.
         msgData.time = new Date();
         msgData.id = general.GenerateId();
         msgData.text = (msgData.isImage) ? msgData.text : msgData.text.trim();
-        token = general.DecodeToken(token);
+        var token = general.DecodeToken(general.GetTokenFromSocket(socket));
 
         jwt.verify(token, config.jwt.secret, function (err, decoded) {
             // In case the token is valid and the message is to the user friend.
@@ -34,8 +34,8 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
         });
     });
 
-    socket.on('ServerGetOnlineFriends', function (token) {
-        token = general.DecodeToken(token);
+    socket.on('ServerGetOnlineFriends', function () {
+        var token = general.DecodeToken(general.GetTokenFromSocket(socket));
 
         jwt.verify(token, config.jwt.secret, function (err, decoded) {
             // In case the token is valid.
@@ -54,8 +54,8 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
         });
     });
 
-    socket.on('ServerFriendTyping', function (friendId, token) {
-        token = general.DecodeToken(token);
+    socket.on('ServerFriendTyping', function (friendId) {
+        var token = general.DecodeToken(general.GetTokenFromSocket(socket));
 
         jwt.verify(token, config.jwt.secret, function (err, decoded) {
             // In case the token is valid.

@@ -147,7 +147,7 @@ var NavbarComponent = /** @class */ (function () {
                 this.navbarService.GetFriends(friendsIds).then(function (friendsResult) {
                     _this.friends = friendsResult;
                     _this.isFriendsLoading = false;
-                    _this.socket.emit("ServerGetOnlineFriends", getToken());
+                    _this.socket.emit("ServerGetOnlineFriends");
                 });
             }
         };
@@ -310,8 +310,8 @@ var NavbarComponent = /** @class */ (function () {
             var self = this;
             self.navbarService.AddFriendRequest(friendId).then(function (result) {
                 if (result) {
-                    self.socket.emit("ServerUpdateFriendRequests", getToken(), friendRequests);
-                    self.socket.emit("SendFriendRequest", getToken(), friendId);
+                    self.socket.emit("ServerUpdateFriendRequests", friendRequests);
+                    self.socket.emit("SendFriendRequest", friendId);
                     $("#remove-friend-notification").snackbar("hide");
                     $("#add-friend-notification").snackbar("show");
                 }
@@ -323,7 +323,7 @@ var NavbarComponent = /** @class */ (function () {
             var self = this;
             this.navbarService.RemoveFriendRequest(friendId).then(function (result) {
                 if (result) {
-                    self.socket.emit("ServerUpdateFriendRequests", getToken(), friendRequests);
+                    self.socket.emit("ServerUpdateFriendRequests", friendRequests);
                     self.socket.emit("RemoveFriendRequest", self.user._id, friendId);
                     $("#add-friend-notification").snackbar("hide");
                     $("#remove-friend-notification").snackbar("show");
@@ -370,19 +370,16 @@ var NavbarComponent = /** @class */ (function () {
                 return false;
             }
         };
-        this.AddFriendObjectToUser = function (data) {
-            var friend = data.friend;
+        this.AddFriendObjectToUser = function (friend) {
             var userFriends = this.user.friends;
             if (userFriends.indexOf(friend._id) == -1) {
                 // Add the friend id to the user's friends array.
                 userFriends.push(friend._id);
             }
-            // Setting the new token on the client.
-            setToken(data.token);
             // Add the friend client object to the friends array.
             this.friends.push(friend);
-            this.socket.emit("ServerGetOnlineFriends", getToken());
-            this.socket.emit("ServerFriendAddedUpdate", getToken(), friend._id);
+            this.socket.emit("ServerGetOnlineFriends");
+            this.socket.emit("ServerFriendAddedUpdate", friend._id);
         };
         this.AddFriend = function (friendId) {
             // Remove the friend request from all friend requests object.
@@ -392,16 +389,16 @@ var NavbarComponent = /** @class */ (function () {
             var userFriends = this.user.friends;
             userFriends.push(friendId);
             var self = this;
-            self.navbarService.AddFriend(friendId).then(function (result) {
-                if (result) {
-                    self.socket.emit("ServerUpdateFriendRequests", getToken(), friendRequests);
-                    self.socket.emit("ServerAddFriend", getToken(), result);
+            self.navbarService.AddFriend(friendId).then(function (friend) {
+                if (friend) {
+                    self.socket.emit("ServerUpdateFriendRequests", friendRequests);
+                    self.socket.emit("ServerAddFriend", friend);
                 }
                 else {
                     //  Recover the actions in case the server is fail to add the friend. 
                     friendRequests.get.push(friendId);
                     userFriends.slice(userFriends.indexOf(friendId));
-                    self.socket.emit("ServerUpdateFriendRequests", getToken(), friendRequests);
+                    self.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 }
             });
         };
@@ -412,7 +409,7 @@ var NavbarComponent = /** @class */ (function () {
             var self = this;
             this.navbarService.IgnoreFriendRequest(friendId).then(function (result) {
                 if (result) {
-                    self.socket.emit("ServerUpdateFriendRequests", getToken(), friendRequests);
+                    self.socket.emit("ServerUpdateFriendRequests", friendRequests);
                     self.socket.emit("ServerIgnoreFriendRequest", self.user._id, friendId);
                 }
             });
@@ -483,17 +480,20 @@ var NavbarComponent = /** @class */ (function () {
         self.dropMenuDataList = [
             new DropMenuData("#", "הגדרות", null),
             new DropMenuData("/login", "התנתקות", function (link) {
-                deleteToken();
-                self.globalService.ResetGlobalVariables();
-                self.router.navigateByUrl(link);
+                self.authService.DeleteTokenFromCookie().then(function (result) {
+                    if (result) {
+                        self.globalService.ResetGlobalVariables();
+                        self.router.navigateByUrl(link);
+                    }
+                });
             })
         ];
     }
     NavbarComponent.prototype.ngOnInit = function () {
-        this.socket.emit('login', getToken());
+        this.socket.emit('login');
         var self = this;
         setInterval(function () {
-            self.socket.emit("ServerGetOnlineFriends", getToken());
+            self.socket.emit("ServerGetOnlineFriends");
         }, self.askForOnlineFriendsDelay * 1000);
         self.LoadFriendsData(self.user.friends);
         // Loading user messages notifications.
@@ -551,17 +551,16 @@ var NavbarComponent = /** @class */ (function () {
             var friendRequests = self.GetToolbarItem("friendRequests").content;
             friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
         });
-        self.socket.on('ClientAddFriend', function (result) {
-            self.AddFriendObjectToUser(result);
+        self.socket.on('ClientAddFriend', function (friend) {
+            self.AddFriendObjectToUser(friend);
         });
         self.socket.on('ClientFriendAddedUpdate', function (friend) {
-            self.authService.GetCurrUserToken().then(function (result) {
-                if (result.token) {
+            self.authService.SetCurrUserToken().then(function (result) {
+                if (result) {
                     self.RemoveFriendRequest(friend._id);
-                    setToken(result.token);
                     self.user.friends.push(friend._id);
                     self.friends.push(friend);
-                    self.socket.emit("ServerGetOnlineFriends", getToken());
+                    self.socket.emit("ServerGetOnlineFriends");
                 }
             });
         });

@@ -43,7 +43,7 @@ function redirectToLogin(req, res) {
 }
 
 app.use('/api', function (req, res, next) {
-    var token = general.GetCookieFromReq('tk', req.headers.cookie);
+    var token = general.GetTokenFromRequest(req);
 
     if (!token) {
         redirectToLogin(req, res);
@@ -89,7 +89,7 @@ require('./routes/chat.js')(app, chatBL);
 require('./routes/unreadWindow.js')(app, unreadWindowBL);
 
 app.get('/login', function (req, res, next) {
-    var token = general.GetCookieFromReq('tk', req.headers.cookie);
+    var token = general.GetTokenFromRequest(req);
 
     if (!token) {
         next();

@@ -4,8 +4,8 @@ export class ChatService extends BasicService {
 
     prefix = "/api/chat";
 
-    GetChat(idsArray: Array<string>, token: any) {
-        var details = { "membersIds": idsArray, "token": token };
+    GetChat(idsArray: Array<string>) {
+        var details = { "membersIds": idsArray };
 
         return super.post(this.prefix + '/getChat', JSON.stringify(details))
             .toPromise()

@@ -4,8 +4,6 @@ import { GlobalService } from '../../services/global/global.service';
 import { FriendRequestsWindowService } from '../../services/friendRequestsWindow/friendRequestsWindow.service';
 import { NavbarService } from '../../services/navbar/navbar.service';
 
-declare var getToken: any;
-
 @Component({
     selector: 'friendRequestsWindow',
     templateUrl: './friendRequestsWindow.html',
@@ -88,6 +86,6 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     }
 
     FriendRequestBtnClicked = function (friendId: string) {
-        this.socket.emit("ServerUpdateFriendRequestsStatus", getToken(), friendId);
+        this.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
     }
 }

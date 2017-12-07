@@ -126,7 +126,6 @@ var LoginComponent = /** @class */ (function () {
                         _this.snackbarId = $("#lock-user").snackbar("show");
                     }
                     else {
-                        setToken(result.token);
                         _this.router.navigateByUrl('');
                     }
                 }
@@ -152,7 +151,6 @@ var LoginComponent = /** @class */ (function () {
                 }
                 else {
                     $("#register-modal").modal('hide');
-                    setToken(result.token);
                     _this.router.navigateByUrl('');
                 }
             });

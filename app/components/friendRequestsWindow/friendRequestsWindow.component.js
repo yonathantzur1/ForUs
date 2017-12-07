@@ -48,7 +48,7 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
             }
         };
         this.FriendRequestBtnClicked = function (friendId) {
-            this.socket.emit("ServerUpdateFriendRequestsStatus", getToken(), friendId);
+            this.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
         };
         this.socket = globalService.socket;
     }

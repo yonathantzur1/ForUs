@@ -30,7 +30,6 @@ var ChatComponent = /** @class */ (function () {
         this.chatService = chatService;
         this.globalService = globalService;
         this.messages = [];
-        this.token = getToken();
         this.chatBodyScrollHeight = 0;
         this.days = globalVariables.days;
         this.months = globalVariables.months;
@@ -43,7 +42,7 @@ var ChatComponent = /** @class */ (function () {
             self.isAllowShowUnreadLine = true;
             self.chatBodyScrollHeight = 0;
             self.isMessagesLoading = true;
-            self.chatService.GetChat([self.chatData.user._id, self.chatData.friend._id], getToken()).then(function (chat) {
+            self.chatService.GetChat([self.chatData.user._id, self.chatData.friend._id]).then(function (chat) {
                 if (chat) {
                     self.messages = chat.messages;
                 }
@@ -68,7 +67,7 @@ var ChatComponent = /** @class */ (function () {
                     this.msghInput = "";
                     this.isAllowShowUnreadLine = false;
                     this.messages.push(msgData);
-                    this.socket.emit("SendMessage", msgData, this.token);
+                    this.socket.emit("SendMessage", msgData);
                 }
             }
         };
@@ -81,7 +80,7 @@ var ChatComponent = /** @class */ (function () {
                 this.CloseChat();
             }
             else {
-                this.socket.emit("ServerFriendTyping", this.chatData.friend._id, this.token);
+                this.socket.emit("ServerFriendTyping", this.chatData.friend._id);
             }
         };
         this.ScrollToBottom = function () {
@@ -234,7 +233,7 @@ var ChatComponent = /** @class */ (function () {
                     "time": new Date()
                 };
                 this.messages.push(msgData);
-                this.socket.emit("SendMessage", msgData, this.token);
+                this.socket.emit("SendMessage", msgData);
             }
         };
         this.ShowHideCanvasTopSector = function () {

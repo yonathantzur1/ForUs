@@ -12,7 +12,8 @@ module.exports = function (app, profileBL, general) {
             if (result) {
                 req.user.profile = result.profile.toString();
                 var token = general.GetTokenFromUserObject(req.user);
-                res.send({ "token": token });
+                general.SetTokenOnCookie(token, res);
+                res.send(true);
             }
             else {
                 res.send(result);
@@ -29,7 +30,8 @@ module.exports = function (app, profileBL, general) {
             if (result) {
                 delete req.user.profile;
                 var token = general.GetTokenFromUserObject(req.user);
-                res.send({ "token": token });
+                general.SetTokenOnCookie(token, res);
+                res.send(true);
             }
             else {
                 res.send(result);

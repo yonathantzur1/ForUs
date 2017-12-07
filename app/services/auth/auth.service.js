@@ -38,14 +38,24 @@ var AuthService = /** @class */ (function (_super) {
             return null;
         });
     };
-    AuthService.prototype.GetCurrUserToken = function () {
-        return _super.prototype.get.call(this, this.prefix + '/getCurrUserToken')
+    AuthService.prototype.SetCurrUserToken = function () {
+        return _super.prototype.get.call(this, this.prefix + '/setCurrUserToken')
             .toPromise()
             .then(function (result) {
             return result;
         })
             .catch(function (result) {
             return null;
+        });
+    };
+    AuthService.prototype.DeleteTokenFromCookie = function () {
+        return _super.prototype.delete.call(this, this.prefix + '/deleteToken')
+            .toPromise()
+            .then(function () {
+            return true;
+        })
+            .catch(function () {
+            return false;
         });
     };
     return AuthService;

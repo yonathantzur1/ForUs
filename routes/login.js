@@ -56,7 +56,8 @@ module.exports = function (app, loginBL, mailer, sha512, general) {
                 if (result && result != "-1") {
                     req.brute.reset(function () {
                         var token = general.GetTokenFromUserObject(result);
-                        res.send({ "result": { "token": token } });
+                        general.SetTokenOnCookie(token, res);
+                        res.send({ "result": true });
                     });
                 }
                 else {
@@ -95,7 +96,8 @@ module.exports = function (app, loginBL, mailer, sha512, general) {
                         // Sending welcome mail to the new user.
                         mailer.SendMail(req.body.email, mailer.GetRegisterMailContent(req.body.firstName));
                         var token = general.GetTokenFromUserObject(result);
-                        res.send({ "result": { "token": token } });
+                        general.SetTokenOnCookie(token, res);
+                        res.send({ "result": true });
                     }
                     else {
                         res.send({ result });

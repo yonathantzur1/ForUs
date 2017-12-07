@@ -8,12 +8,18 @@ declare var io: any;
 export class GlobalService {
     // use this property for property binding
     public data: BehaviorSubject<boolean> = new BehaviorSubject<any>({});
-    public socket = io();
+    public socket: any;
     public userProfileImage: string;
+
+    InitializeSocket() {
+        if (!this.socket) {
+            this.socket = io();
+        }
+    }
 
     ResetGlobalVariables() {
         this.socket && this.socket.destroy();
-        this.socket = io();
+        this.socket = null;
         this.data = new BehaviorSubject<any>({});
         this.userProfileImage = null;
     }

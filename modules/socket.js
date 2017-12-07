@@ -6,8 +6,8 @@ var connectedUsers = {};
 module.exports = function (io, jwt, config) {
     io.on('connection', function (socket) {
 
-        socket.on('login', function (token) {
-            token = general.DecodeToken(token);
+        socket.on('login', function () {
+            var token = general.DecodeToken(general.GetTokenFromSocket(socket));
 
             jwt.verify(token, config.jwt.secret, function (err, decoded) {
                 // In case the token is valid.

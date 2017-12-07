@@ -7,11 +7,15 @@ var GlobalService = /** @class */ (function () {
     function GlobalService() {
         // use this property for property binding
         this.data = new BehaviorSubject_1.BehaviorSubject({});
-        this.socket = io();
     }
+    GlobalService.prototype.InitializeSocket = function () {
+        if (!this.socket) {
+            this.socket = io();
+        }
+    };
     GlobalService.prototype.ResetGlobalVariables = function () {
         this.socket && this.socket.destroy();
-        this.socket = io();
+        this.socket = null;
         this.data = new BehaviorSubject_1.BehaviorSubject({});
         this.userProfileImage = null;
     };

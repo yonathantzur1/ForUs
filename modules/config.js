@@ -15,5 +15,9 @@ module.exports = {
     expressBrute: {
         minWait: 1 * 60 * 1000, // 1 minutes 
         maxWait: 5 * 60 * 1000 // 5 minutes 
+    },
+    token: {
+        cookieName: "tk",
+        maxAge: 48 * 60 * 60 * 1000 // 2 days
     }
 };

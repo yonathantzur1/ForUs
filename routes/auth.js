@@ -5,7 +5,8 @@ module.exports = function (app, loginBL, general) {
     app.get(prefix + '/isUserOnSession', function (req, res) {
         if (req.user) {
             var token = general.GetTokenFromUserObject(req.user);
-            res.send({ "token": token });
+            general.SetTokenOnCookie(token, res);
+            res.send(true);
         }
         else {
             res.send(false);
@@ -17,21 +18,28 @@ module.exports = function (app, loginBL, general) {
         res.send(req.user);
     });
 
-    // Getting the current login user token.
-    app.get(prefix + '/getCurrUserToken', function (req, res) {
+    // Set the current login user token.
+    app.get(prefix + '/setCurrUserToken', function (req, res) {
         if (req.user) {
             loginBL.GetUserById(req.user._id, function (user) {
                 if (user) {
                     var token = general.GetTokenFromUserObject(user);
-                    res.send({ "token": token });
+                    general.SetTokenOnCookie(token, res);
+                    res.send(true);
                 }
                 else {
-                    res.send(null);
+                    res.send(false);
                 }
             });
         }
         else {
             res.send(null);
         }
+    });
+
+    // Delete token from cookies.
+    app.delete(prefix + '/deleteToken', function (req, res) {
+        general.DeleteTokenFromCookie(res);
+        res.end();
     });
 };

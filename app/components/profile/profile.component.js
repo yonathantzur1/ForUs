@@ -227,7 +227,6 @@ var ProfileComponent = /** @class */ (function () {
                         }).then(function () {
                             self.CloseWindow();
                         });
-                        setToken(result.token);
                     }
                 });
             });
@@ -265,7 +264,6 @@ var ProfileComponent = /** @class */ (function () {
                     }).then(function () {
                         self.CloseWindow();
                     });
-                    setToken(result.value.token);
                 }
                 else if (result.dismiss) {
                     $("#profile-modal").removeClass("fade");

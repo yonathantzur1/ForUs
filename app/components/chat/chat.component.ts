@@ -3,7 +3,6 @@ import { Component, OnInit, OnDestroy, Input, AfterViewChecked } from '@angular/
 import { ChatService } from '../../services/chat/chat.service';
 import { GlobalService } from '../../services/global/global.service';
 
-declare var getToken: any;
 declare var globalVariables: any;
 
 declare var window: any;
@@ -33,7 +32,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     @Input() chatData: any;
     socket: any;
     messages: Array<any> = [];
-    token: any = getToken();
     isMessagesLoading: boolean;
     chatBodyScrollHeight: number = 0;
 
@@ -308,7 +306,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         self.isAllowShowUnreadLine = true;
         self.chatBodyScrollHeight = 0;
         self.isMessagesLoading = true;
-        self.chatService.GetChat([self.chatData.user._id, self.chatData.friend._id], getToken()).then((chat: any) => {
+        self.chatService.GetChat([self.chatData.user._id, self.chatData.friend._id]).then((chat: any) => {
             if (chat) {
                 self.messages = chat.messages;
             }
@@ -339,7 +337,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.isAllowShowUnreadLine = false;
 
                 this.messages.push(msgData);
-                this.socket.emit("SendMessage", msgData, this.token);
+                this.socket.emit("SendMessage", msgData);
             }
         }
     }
@@ -354,7 +352,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             this.CloseChat();
         }
         else {
-            this.socket.emit("ServerFriendTyping", this.chatData.friend._id, this.token);
+            this.socket.emit("ServerFriendTyping", this.chatData.friend._id);
         }
     }
 
@@ -544,7 +542,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             };
 
             this.messages.push(msgData);
-            this.socket.emit("SendMessage", msgData, this.token);
+            this.socket.emit("SendMessage", msgData);
         }
     }
 

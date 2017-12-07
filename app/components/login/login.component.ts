@@ -6,7 +6,6 @@ import { GlobalService } from '../../services/global/global.service';
 import { LoginService } from '../../services/login/login.service';
 
 declare var swal: any;
-declare var setToken: any;
 declare var $: any;
 
 export class User {
@@ -141,7 +140,6 @@ export class LoginComponent {
             this.snackbarId = $("#lock-user").snackbar("show");
           }
           else {
-            setToken(result.token);
             this.router.navigateByUrl('');
           }
         }
@@ -170,7 +168,6 @@ export class LoginComponent {
         }
         else {
           $("#register-modal").modal('hide');
-          setToken(result.token);
           this.router.navigateByUrl('');
         }
       });

@@ -5,9 +5,6 @@ import { GlobalService } from '../../services/global/global.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { NavbarService } from '../../services/navbar/navbar.service';
 
-declare var getToken: any;
-declare var setToken: any;
-declare var deleteToken: any;
 declare var socket: any;
 declare var io: any;
 
@@ -151,20 +148,23 @@ export class NavbarComponent implements OnInit {
         self.dropMenuDataList = [
             new DropMenuData("#", "הגדרות", null),
             new DropMenuData("/login", "התנתקות", function (link: string) {
-                deleteToken();
-                self.globalService.ResetGlobalVariables();
-                self.router.navigateByUrl(link);
+                self.authService.DeleteTokenFromCookie().then((result: boolean) => {
+                    if (result) {
+                        self.globalService.ResetGlobalVariables();
+                        self.router.navigateByUrl(link);
+                    }
+                });
             })
         ];
     }
 
     ngOnInit() {
-        this.socket.emit('login', getToken());
+        this.socket.emit('login');
 
         var self = this;
 
         setInterval(function () {
-            self.socket.emit("ServerGetOnlineFriends", getToken());
+            self.socket.emit("ServerGetOnlineFriends");
         }, self.askForOnlineFriendsDelay * 1000);
 
         self.LoadFriendsData(self.user.friends);
@@ -236,18 +236,17 @@ export class NavbarComponent implements OnInit {
             friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
         });
 
-        self.socket.on('ClientAddFriend', function (result: any) {
-            self.AddFriendObjectToUser(result);
+        self.socket.on('ClientAddFriend', function (friend: any) {
+            self.AddFriendObjectToUser(friend);
         });
 
         self.socket.on('ClientFriendAddedUpdate', function (friend: any) {
-            self.authService.GetCurrUserToken().then((result: any) => {
-                if (result.token) {
+            self.authService.SetCurrUserToken().then((result: any) => {
+                if (result) {
                     self.RemoveFriendRequest(friend._id);
-                    setToken(result.token);
                     self.user.friends.push(friend._id);
                     self.friends.push(friend);
-                    self.socket.emit("ServerGetOnlineFriends", getToken());
+                    self.socket.emit("ServerGetOnlineFriends");
                 }
             });
         });
@@ -352,7 +351,7 @@ export class NavbarComponent implements OnInit {
             this.navbarService.GetFriends(friendsIds).then((friendsResult: Array<Friend>) => {
                 this.friends = friendsResult;
                 this.isFriendsLoading = false;
-                this.socket.emit("ServerGetOnlineFriends", getToken());
+                this.socket.emit("ServerGetOnlineFriends");
             });
         }
     }
@@ -550,8 +549,8 @@ export class NavbarComponent implements OnInit {
         var self = this;
         self.navbarService.AddFriendRequest(friendId).then(function (result: any) {
             if (result) {
-                self.socket.emit("ServerUpdateFriendRequests", getToken(), friendRequests);
-                self.socket.emit("SendFriendRequest", getToken(), friendId);
+                self.socket.emit("ServerUpdateFriendRequests", friendRequests);
+                self.socket.emit("SendFriendRequest", friendId);
                 $("#remove-friend-notification").snackbar("hide");
                 $("#add-friend-notification").snackbar("show");
             }
@@ -565,7 +564,7 @@ export class NavbarComponent implements OnInit {
         var self = this;
         this.navbarService.RemoveFriendRequest(friendId).then(function (result: any) {
             if (result) {
-                self.socket.emit("ServerUpdateFriendRequests", getToken(), friendRequests);
+                self.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.socket.emit("RemoveFriendRequest", self.user._id, friendId);
                 $("#add-friend-notification").snackbar("hide");
                 $("#remove-friend-notification").snackbar("show");
@@ -621,8 +620,7 @@ export class NavbarComponent implements OnInit {
         }
     }
 
-    AddFriendObjectToUser = function (data: any) {
-        var friend = data.friend;
+    AddFriendObjectToUser = function (friend: any) {
         var userFriends = this.user.friends;
 
         if (userFriends.indexOf(friend._id) == -1) {
@@ -630,13 +628,10 @@ export class NavbarComponent implements OnInit {
             userFriends.push(friend._id);
         }
 
-        // Setting the new token on the client.
-        setToken(data.token);
-
         // Add the friend client object to the friends array.
         this.friends.push(friend);
-        this.socket.emit("ServerGetOnlineFriends", getToken());
-        this.socket.emit("ServerFriendAddedUpdate", getToken(), friend._id);
+        this.socket.emit("ServerGetOnlineFriends");
+        this.socket.emit("ServerFriendAddedUpdate", friend._id);
     }
 
     AddFriend = function (friendId: string) {
@@ -649,16 +644,16 @@ export class NavbarComponent implements OnInit {
         userFriends.push(friendId);
 
         var self = this;
-        self.navbarService.AddFriend(friendId).then(function (result: any) {
-            if (result) {
-                self.socket.emit("ServerUpdateFriendRequests", getToken(), friendRequests);
-                self.socket.emit("ServerAddFriend", getToken(), result);
+        self.navbarService.AddFriend(friendId).then(function (friend: any) {
+            if (friend) {
+                self.socket.emit("ServerUpdateFriendRequests", friendRequests);
+                self.socket.emit("ServerAddFriend", friend);
             }
             else {
                 //  Recover the actions in case the server is fail to add the friend. 
                 friendRequests.get.push(friendId);
                 userFriends.slice(userFriends.indexOf(friendId));
-                self.socket.emit("ServerUpdateFriendRequests", getToken(), friendRequests);
+                self.socket.emit("ServerUpdateFriendRequests", friendRequests);
             }
         });
     }
@@ -671,7 +666,7 @@ export class NavbarComponent implements OnInit {
         var self = this;
         this.navbarService.IgnoreFriendRequest(friendId).then(function (result: any) {
             if (result) {
-                self.socket.emit("ServerUpdateFriendRequests", getToken(), friendRequests);
+                self.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.socket.emit("ServerIgnoreFriendRequest", self.user._id, friendId);
             }
         });

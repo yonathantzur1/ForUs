@@ -6,7 +6,6 @@ import { GlobalService } from '../../services/global/global.service';
 import { ProfileService } from '../../services/profile/profile.service';
 
 declare var swal: any;
-declare var setToken: any;
 declare function UploadPhoto(options: Object): boolean;
 declare function GetCroppedBase64Image(): any;
 
@@ -253,8 +252,6 @@ export class ProfileComponent implements OnInit {
                         }).then(function () {
                             self.CloseWindow();
                         });
-
-                        setToken(result.token);
                     }
                 });
             });;
@@ -295,8 +292,6 @@ export class ProfileComponent implements OnInit {
                     }).then(function () {
                         self.CloseWindow();
                     });
-
-                    setToken(result.value.token);
                 }
                 else if (result.dismiss) {
                     $("#profile-modal").removeClass("fade");

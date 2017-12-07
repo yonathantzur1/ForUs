@@ -18,8 +18,8 @@ var ChatService = /** @class */ (function (_super) {
         _this.prefix = "/api/chat";
         return _this;
     }
-    ChatService.prototype.GetChat = function (idsArray, token) {
-        var details = { "membersIds": idsArray, "token": token };
+    ChatService.prototype.GetChat = function (idsArray) {
+        var details = { "membersIds": idsArray };
         return _super.prototype.post.call(this, this.prefix + '/getChat', JSON.stringify(details))
             .toPromise()
             .then(function (result) {

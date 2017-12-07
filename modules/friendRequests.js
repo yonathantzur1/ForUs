@@ -2,8 +2,8 @@ var profilePictureBL = require('./BL/profilePictureBL');
 var general = require('./general.js');
 
 module.exports = function (io, jwt, config, socket, socketsDictionary, connectedUsers) {
-    socket.on('ServerUpdateFriendRequestsStatus', function (token, friendId) {
-        token = general.DecodeToken(token);
+    socket.on('ServerUpdateFriendRequestsStatus', function (friendId) {
+        var token = general.DecodeToken(general.GetTokenFromSocket(socket));
 
         jwt.verify(token, config.jwt.secret, function (err, decoded) {
             // In case the token is valid.
@@ -13,8 +13,8 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
         });
     });
 
-    socket.on('ServerUpdateFriendRequests', function (token, friendRequests) {
-        token = general.DecodeToken(token);
+    socket.on('ServerUpdateFriendRequests', function (friendRequests) {
+        var token = general.DecodeToken(general.GetTokenFromSocket(socket));
 
         jwt.verify(token, config.jwt.secret, function (err, decoded) {
             // In case the token is valid.
@@ -24,8 +24,8 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
         });
     });
 
-    socket.on('SendFriendRequest', function (token, friendId) {
-        token = general.DecodeToken(token);
+    socket.on('SendFriendRequest', function (friendId) {
+        var token = general.DecodeToken(general.GetTokenFromSocket(socket));
 
         jwt.verify(token, config.jwt.secret, function (err, decoded) {
             // In case the token is valid.
@@ -45,20 +45,20 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
         io.to(friendId).emit('ClientIgnoreFriendRequest', userId);
     });
 
-    socket.on('ServerAddFriend', function (token, result) {
-        token = general.DecodeToken(token);
+    socket.on('ServerAddFriend', function (friend) {
+        var token = general.DecodeToken(general.GetTokenFromSocket(socket));
 
         jwt.verify(token, config.jwt.secret, function (err, decoded) {
             // In case the token is valid.
             if (!err && decoded) {
-                io.to(decoded.user._id).emit('ClientAddFriend', result);
+                io.to(decoded.user._id).emit('ClientAddFriend', friend);
             }
         });
 
     });
 
-    socket.on('ServerFriendAddedUpdate', function (token, friendId) {
-        token = general.DecodeToken(token);
+    socket.on('ServerFriendAddedUpdate', function (friendId) {
+        var token = general.DecodeToken(general.GetTokenFromSocket(socket));
 
         jwt.verify(token, config.jwt.secret, function (err, decoded) {
             // In case the token is valid.

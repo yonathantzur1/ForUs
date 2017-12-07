@@ -25,14 +25,25 @@ export class AuthService extends BasicService {
             });
     }
 
-    GetCurrUserToken() {
-        return super.get(this.prefix + '/getCurrUserToken')
+    SetCurrUserToken() {
+        return super.get(this.prefix + '/setCurrUserToken')
             .toPromise()
             .then((result: any) => {
                 return result;
             })
             .catch((result: any) => {
                 return null;
+            });
+    }
+
+    DeleteTokenFromCookie() {
+        return super.delete(this.prefix + '/deleteToken')
+            .toPromise()
+            .then(() => {
+                return true;
+            })
+            .catch(() => {
+                return false;
             });
     }
 }

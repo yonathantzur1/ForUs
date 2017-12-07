@@ -12,16 +12,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var auth_service_1 = require("../../services/auth/auth.service");
+var global_service_1 = require("../../services/global/global.service");
 var AuthGuard = /** @class */ (function () {
-    function AuthGuard(router, authService) {
+    function AuthGuard(router, authService, globalService) {
         this.router = router;
         this.authService = authService;
+        this.globalService = globalService;
     }
     AuthGuard.prototype.canActivate = function () {
         var _this = this;
         return this.authService.IsUserOnSession().then(function (result) {
             if (result) {
-                setToken(result.token);
+                _this.globalService.InitializeSocket();
                 return true;
             }
             else {
@@ -32,7 +34,7 @@ var AuthGuard = /** @class */ (function () {
     };
     AuthGuard = __decorate([
         core_1.Injectable(),
-        __metadata("design:paramtypes", [router_1.Router, auth_service_1.AuthService])
+        __metadata("design:paramtypes", [router_1.Router, auth_service_1.AuthService, global_service_1.GlobalService])
     ], AuthGuard);
     return AuthGuard;
 }());
