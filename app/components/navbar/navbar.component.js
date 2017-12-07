@@ -442,7 +442,7 @@ var NavbarComponent = /** @class */ (function () {
                 }, self.newFriendsLabelDelay);
             }, 200);
         };
-        this.socket = globalService.socket;
+        this.socket = this.globalService.socket;
         this.globalService.data.subscribe(function (value) {
             if (value["isOpenProfileEditWindow"]) {
                 _this.ClosePopups();

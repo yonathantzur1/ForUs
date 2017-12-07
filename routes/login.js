@@ -1,3 +1,4 @@
+var config = require('../modules/config.js');
 var ExpressBrute = require('express-brute'),
     store = new ExpressBrute.MemoryStore();
 
@@ -18,8 +19,8 @@ var handleStoreError = function (error) {
 // Start slowing requests after 5 failed attempts.
 var userBruteforce = new ExpressBrute(store, {
     freeRetries: 10,
-    minWait: 1 * 60 * 1000, // 1 minutes 
-    maxWait: 5 * 60 * 1000, // 5 minutes 
+    minWait: config.expressBrute.minWait,
+    maxWait: config.expressBrute.maxWait,
     failCallback: failCallback,
     handleStoreError: handleStoreError
 });

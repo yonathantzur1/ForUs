@@ -9,7 +9,7 @@ module.exports = function (io, jwt, config) {
         socket.on('login', function (token) {
             token = general.DecodeToken(token);
 
-            jwt.verify(token, config.jwtSecret, function (err, decoded) {
+            jwt.verify(token, config.jwt.secret, function (err, decoded) {
                 // In case the token is valid.
                 if (!err && decoded) {
                     var user = decoded.user;

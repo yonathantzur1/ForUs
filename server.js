@@ -51,7 +51,7 @@ app.use('/api', function (req, res, next) {
     else {
         token = general.DecodeToken(token);
 
-        jwt.verify(token, config.jwtSecret, function (err, decoded) {
+        jwt.verify(token, config.jwt.secret, function (err, decoded) {
             if (err || !decoded) {
                 redirectToLogin(req, res);
             }
@@ -97,7 +97,7 @@ app.get('/login', function (req, res, next) {
     else {
         token = general.DecodeToken(token);
 
-        jwt.verify(token, config.jwtSecret, function (err, decoded) {
+        jwt.verify(token, config.jwt.secret, function (err, decoded) {
             if (err || !decoded) {
                 next();
             }

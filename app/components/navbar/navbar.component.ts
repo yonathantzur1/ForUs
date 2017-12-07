@@ -106,7 +106,7 @@ export class NavbarComponent implements OnInit {
         private authService: AuthService,
         private globalService: GlobalService,
         private navbarService: NavbarService) {
-        this.socket = globalService.socket;
+        this.socket = this.globalService.socket;
 
         this.globalService.data.subscribe(value => {
             if (value["isOpenProfileEditWindow"]) {

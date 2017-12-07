@@ -5,7 +5,7 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
     socket.on('ServerUpdateFriendRequestsStatus', function (token, friendId) {
         token = general.DecodeToken(token);
 
-        jwt.verify(token, config.jwtSecret, function (err, decoded) {
+        jwt.verify(token, config.jwt.secret, function (err, decoded) {
             // In case the token is valid.
             if (!err && decoded) {
                 io.to(decoded.user._id).emit('ClientUpdateFriendRequestsStatus', friendId);
@@ -16,7 +16,7 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
     socket.on('ServerUpdateFriendRequests', function (token, friendRequests) {
         token = general.DecodeToken(token);
 
-        jwt.verify(token, config.jwtSecret, function (err, decoded) {
+        jwt.verify(token, config.jwt.secret, function (err, decoded) {
             // In case the token is valid.
             if (!err && decoded) {
                 io.to(decoded.user._id).emit('ClientUpdateFriendRequests', friendRequests);
@@ -27,7 +27,7 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
     socket.on('SendFriendRequest', function (token, friendId) {
         token = general.DecodeToken(token);
 
-        jwt.verify(token, config.jwtSecret, function (err, decoded) {
+        jwt.verify(token, config.jwt.secret, function (err, decoded) {
             // In case the token is valid.
             if (!err && decoded) {
                 var user = decoded.user;
@@ -48,7 +48,7 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
     socket.on('ServerAddFriend', function (token, result) {
         token = general.DecodeToken(token);
 
-        jwt.verify(token, config.jwtSecret, function (err, decoded) {
+        jwt.verify(token, config.jwt.secret, function (err, decoded) {
             // In case the token is valid.
             if (!err && decoded) {
                 io.to(decoded.user._id).emit('ClientAddFriend', result);
@@ -60,7 +60,7 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
     socket.on('ServerFriendAddedUpdate', function (token, friendId) {
         token = general.DecodeToken(token);
 
-        jwt.verify(token, config.jwtSecret, function (err, decoded) {
+        jwt.verify(token, config.jwt.secret, function (err, decoded) {
             // In case the token is valid.
             if (!err && decoded) {
                 var user = decoded.user;

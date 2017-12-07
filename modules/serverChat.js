@@ -13,7 +13,7 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
         msgData.text = (msgData.isImage) ? msgData.text : msgData.text.trim();
         token = general.DecodeToken(token);
 
-        jwt.verify(token, config.jwtSecret, function (err, decoded) {
+        jwt.verify(token, config.jwt.secret, function (err, decoded) {
             // In case the token is valid and the message is to the user friend.
             if (!err && decoded && ValidateMessage(msgData, decoded.user)) {
                 // In case the friend is online.
@@ -37,7 +37,7 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
     socket.on('ServerGetOnlineFriends', function (token) {
         token = general.DecodeToken(token);
 
-        jwt.verify(token, config.jwtSecret, function (err, decoded) {
+        jwt.verify(token, config.jwt.secret, function (err, decoded) {
             // In case the token is valid.
             if (!err && decoded) {
                 var user = decoded.user;
@@ -57,7 +57,7 @@ module.exports = function (io, jwt, config, socket, socketsDictionary, connected
     socket.on('ServerFriendTyping', function (friendId, token) {
         token = general.DecodeToken(token);
 
-        jwt.verify(token, config.jwtSecret, function (err, decoded) {
+        jwt.verify(token, config.jwt.secret, function (err, decoded) {
             // In case the token is valid.
             if (!err && decoded) {
                 io.to(friendId).emit('ClientFriendTyping', decoded.user._id);

@@ -15,7 +15,7 @@ module.exports = {
         }
 
         var tokenObject = { "user": tokenUserObject };
-        var token = encryption.encrypt(jwt.sign(tokenObject, config.jwtSecret, config.jwtOptions));
+        var token = encryption.encrypt(jwt.sign(tokenObject, config.jwt.secret, config.jwt.options));
 
         return token;
     },

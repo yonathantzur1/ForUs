@@ -10,7 +10,7 @@ var self = module.exports = {
     GetChat: function (membersIds, token, callback) {
         token = general.DecodeToken(token);
 
-        jwt.verify(token, config.jwtSecret, function (err, decoded) {
+        jwt.verify(token, config.jwt.secret, function (err, decoded) {
             if (!err && decoded && ValidateUserGetChat(membersIds, decoded.user.friends, decoded.user._id)) {
                 var chatQueryFilter = {
                     "membersIds": { $all: membersIds }
