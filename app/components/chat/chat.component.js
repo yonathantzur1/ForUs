@@ -289,7 +289,9 @@ var ChatComponent = /** @class */ (function () {
                 icon: "delete_forever",
                 title: "איפוס",
                 onClick: function () {
-                    self.undoArray.push(self.canvas.toDataURL());
+                    if (!self.isCanvasEmpty) {
+                        self.undoArray.push(self.canvas.toDataURL());
+                    }
                     self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
                     self.isCanvasEmpty = true;
                 }
