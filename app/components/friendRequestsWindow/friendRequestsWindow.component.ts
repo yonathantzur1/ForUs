@@ -32,7 +32,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
 
         self.socket.on('ClientUpdateFriendRequestsStatus', function (friendId: string) {
             self.friendRequestsObjects = self.friendRequestsObjects.filter((request: any) => {
-                request._id != friendId;
+                return (request._id != friendId);
             });
         });
 
@@ -42,7 +42,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
 
         self.socket.on('DeleteFriendRequest', function (friendId: string) {
             self.friendRequestsObjects = self.friendRequestsObjects.filter((request: any) => {
-                request._id != friendId;
+                return (request._id != friendId);
             });
         });
     }

@@ -56,7 +56,7 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         var self = this;
         self.socket.on('ClientUpdateFriendRequestsStatus', function (friendId) {
             self.friendRequestsObjects = self.friendRequestsObjects.filter(function (request) {
-                request._id != friendId;
+                return (request._id != friendId);
             });
         });
         self.socket.on('GetFriendRequest', function () {
@@ -64,7 +64,7 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         });
         self.socket.on('DeleteFriendRequest', function (friendId) {
             self.friendRequestsObjects = self.friendRequestsObjects.filter(function (request) {
-                request._id != friendId;
+                return (request._id != friendId);
             });
         });
     };
