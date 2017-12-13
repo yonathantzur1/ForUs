@@ -63,10 +63,12 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     documentEvents: any;
     CanvasResizeFunc: any;
 
+    subscribeObj: any;
+
     constructor(private chatService: ChatService, private globalService: GlobalService) {
         this.socket = globalService.socket;
 
-        this.globalService.data.subscribe(value => {
+        this.subscribeObj = this.globalService.data.subscribe(value => {
             if (value["chatData"]) {
                 this.messages = [];
                 this.chatData = value["chatData"];
@@ -271,6 +273,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     ngOnDestroy() {
         var self = this;
+
+        self.subscribeObj.unsubscribe();
 
         Object.keys(this.canvasEvents).forEach(key => {
             self.canvas.removeEventListener(key, self.canvasEvents[key], false);

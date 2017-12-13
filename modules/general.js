@@ -1,6 +1,6 @@
 var jwt = require('jsonwebtoken');
-var config = require('../modules/config.js');
-var encryption = require('../modules/encryption.js');
+var config = require('./config.js');
+var encryption = require('./encryption.js');
 
 module.exports = {
     GetTokenFromUserObject: function (user) {
@@ -21,7 +21,12 @@ module.exports = {
     },
 
     DecodeToken: function (token) {
-        return encryption.decrypt(token);
+        try {
+            return jwt.verify(encryption.decrypt(token), config.jwt.secret);
+        }
+        catch (err) {
+            return null;
+        }
     },
 
     SetTokenOnCookie: function (token, res) {

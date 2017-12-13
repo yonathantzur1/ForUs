@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
@@ -47,7 +47,7 @@ export class toolbarItem {
     providers: [NavbarService]
 })
 
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
     @Input() user: any;
     friends: Array<Friend> = [];
     isFriendsLoading: boolean = false;
@@ -99,13 +99,15 @@ export class NavbarComponent implements OnInit {
 
     // END CONFIG VARIABLES //
 
+    subscribeObj: any;
+
     constructor(private router: Router,
         private authService: AuthService,
         private globalService: GlobalService,
         private navbarService: NavbarService) {
         this.socket = this.globalService.socket;
 
-        this.globalService.data.subscribe(value => {
+        this.subscribeObj = this.globalService.data.subscribe(value => {
             if (value["isOpenProfileEditWindow"]) {
                 this.ClosePopups();
             }
@@ -254,6 +256,10 @@ export class NavbarComponent implements OnInit {
         self.socket.on('ClientFriendTyping', function (friendId: string) {
             self.MakeFriendTyping(friendId);
         });
+    }
+
+    ngOnDestroy() {
+        this.subscribeObj.unsubscribe();
     }
 
     IsShowFriendFindInput = function () {

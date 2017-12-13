@@ -2,12 +2,12 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 var http = require('http').Server(app);
-var io = require('socket.io')(http);
 var path = require('path');
-var mailer = require('./modules/mailer.js');
 var sha512 = require('js-sha512');
 var jwt = require('jsonwebtoken');
 var compression = require('compression');
+var io = require('socket.io')(http);
+var mailer = require('./modules/mailer.js');
 var config = require('./modules/config.js');
 var general = require('./modules/general.js');
 
@@ -31,7 +31,7 @@ app.use(express.static('public'));
 app.use(compression());
 
 // Import socket.io mudule
-var socket = require('./modules/socket.js')(io, jwt, config);
+var socket = require('./modules/sockets/socket.js')(io, jwt, config, general);
 
 function redirectToLogin(req, res) {
     if (req.method == "GET") {
@@ -43,36 +43,27 @@ function redirectToLogin(req, res) {
 }
 
 app.use('/api', function (req, res, next) {
-    var token = general.GetTokenFromRequest(req);
+    var token = general.DecodeToken(general.GetTokenFromRequest(req));
 
     if (!token) {
         redirectToLogin(req, res);
     }
     else {
-        token = general.DecodeToken(token);
-
-        jwt.verify(token, config.jwt.secret, function (err, decoded) {
-            if (err || !decoded) {
-                redirectToLogin(req, res);
-            }
-            else {
-                if (req.originalUrl == '/api/auth/isUserOnSession') {
-                    loginBL.GetUserById(decoded.user._id, function (user) {
-                        if (user) {
-                            req.user = user;
-                            next();
-                        }
-                        else {
-                            redirectToLogin(req, res);
-                        }
-                    });
-                }
-                else {
-                    req.user = decoded.user;
+        if (req.originalUrl == '/api/auth/isUserOnSession') {
+            loginBL.GetUserById(token.user._id, function (user) {
+                if (user) {
+                    req.user = user;
                     next();
                 }
-            }
-        });
+                else {
+                    redirectToLogin(req, res);
+                }
+            });
+        }
+        else {
+            req.user = token.user;
+            next();
+        }
     }
 });
 
@@ -89,22 +80,13 @@ require('./routes/chat.js')(app, chatBL);
 require('./routes/unreadWindow.js')(app, unreadWindowBL);
 
 app.get('/login', function (req, res, next) {
-    var token = general.GetTokenFromRequest(req);
+    var token = general.DecodeToken(general.GetTokenFromRequest(req));
 
     if (!token) {
         next();
     }
     else {
-        token = general.DecodeToken(token);
-
-        jwt.verify(token, config.jwt.secret, function (err, decoded) {
-            if (err || !decoded) {
-                next();
-            }
-            else {
-                res.redirect('/');
-            }
-        });
+        res.redirect('/');
     }
 });
 

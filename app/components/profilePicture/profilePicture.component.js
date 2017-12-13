@@ -20,7 +20,7 @@ var ProfilePictureComponent = /** @class */ (function () {
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.isUserHasImage = null;
         this.isTouchDevice = globalVariables.isTouchDevice;
-        this.globalService.data.subscribe(function (value) {
+        this.subscribeObj = this.globalService.data.subscribe(function (value) {
             if (value["newUploadedImage"]) {
                 globalService.userProfileImage = value["newUploadedImage"];
                 _this.isUserHasImage = true;
@@ -40,6 +40,9 @@ var ProfilePictureComponent = /** @class */ (function () {
             }
         });
     }
+    ProfilePictureComponent.prototype.ngOnDestroy = function () {
+        this.subscribeObj.unsubscribe();
+    };
     ProfilePictureComponent.prototype.OpenEditWindow = function () {
         if (this.isEditEnable && this.isUserHasImage != null) {
             this.globalService.setData("isOpenProfileEditWindow", true);

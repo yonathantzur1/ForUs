@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
@@ -12,15 +12,17 @@ declare var globalVariables: any;
     providers: [ProfilePictureService]
 })
 
-export class ProfilePictureComponent {
+export class ProfilePictureComponent implements OnDestroy {
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
     isUserHasImage: boolean = null;
     isTouchDevice: boolean = globalVariables.isTouchDevice;
 
     @Input() isEditEnable: string;
 
+    subscribeObj: any;
+
     constructor(private profilePictureService: ProfilePictureService, private globalService: GlobalService) {
-        this.globalService.data.subscribe(value => {
+        this.subscribeObj = this.globalService.data.subscribe(value => {
             if (value["newUploadedImage"]) {
                 globalService.userProfileImage = value["newUploadedImage"];
                 this.isUserHasImage = true;
@@ -41,6 +43,10 @@ export class ProfilePictureComponent {
                 }
             }
         });
+    }
+
+    ngOnDestroy() {
+        this.subscribeObj.unsubscribe();
     }
 
     OpenEditWindow() {

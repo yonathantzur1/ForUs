@@ -252,7 +252,7 @@ var ChatComponent = /** @class */ (function () {
             }
         };
         this.socket = globalService.socket;
-        this.globalService.data.subscribe(function (value) {
+        this.subscribeObj = this.globalService.data.subscribe(function (value) {
             if (value["chatData"]) {
                 _this.messages = [];
                 _this.chatData = value["chatData"];
@@ -431,6 +431,7 @@ var ChatComponent = /** @class */ (function () {
     };
     ChatComponent.prototype.ngOnDestroy = function () {
         var self = this;
+        self.subscribeObj.unsubscribe();
         Object.keys(this.canvasEvents).forEach(function (key) {
             self.canvas.removeEventListener(key, self.canvasEvents[key], false);
         });

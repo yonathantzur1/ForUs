@@ -10,27 +10,25 @@ var self = module.exports = {
     GetChat: function (membersIds, token, callback) {
         token = general.DecodeToken(token);
 
-        jwt.verify(token, config.jwt.secret, function (err, decoded) {
-            if (!err && decoded && ValidateUserGetChat(membersIds, decoded.user.friends, decoded.user._id)) {
-                var chatQueryFilter = {
-                    "membersIds": { $all: membersIds }
+        if (token && ValidateUserGetChat(membersIds, token.user.friends, token.user._id)) {
+            var chatQueryFilter = {
+                "membersIds": { $all: membersIds }
+            }
+
+            DAL.FindOne(collectionName, chatQueryFilter, function (chat) {
+                if (!chat) {
+                    self.CreateChat(membersIds);
+                }
+                else {
+                    chat.messages = DecryptChatMessages(chat.messages);
                 }
 
-                DAL.FindOne(collectionName, chatQueryFilter, function (chat) {
-                    if (!chat) {
-                        self.CreateChat(membersIds);
-                    }
-                    else {
-                        chat.messages = DecryptChatMessages(chat.messages);
-                    }
-
-                    callback(chat);
-                });
-            }
-            else {
-                callback(null);
-            }
-        });
+                callback(chat);
+            });
+        }
+        else {
+            callback(null);
+        }
     },
 
     CreateChat: function (membersIds) {

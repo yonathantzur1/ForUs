@@ -25,7 +25,7 @@ var HomeComponent = /** @class */ (function () {
         this.globalService = globalService;
         this.isOpenProfileEditWindow = false;
         this.currUser = null;
-        this.globalService.data.subscribe(function (value) {
+        this.subscribeObj = this.globalService.data.subscribe(function (value) {
             if (value["isOpenProfileEditWindow"] == true ||
                 value["isOpenProfileEditWindow"] == false) {
                 _this.isOpenProfileEditWindow = value["isOpenProfileEditWindow"];
@@ -43,6 +43,9 @@ var HomeComponent = /** @class */ (function () {
             }
             self.globalService.setData("userProfileImageLoaded", true);
         });
+    };
+    HomeComponent.prototype.ngOnDestroy = function () {
+        this.subscribeObj.unsubscribe();
     };
     HomeComponent = __decorate([
         core_1.Component({

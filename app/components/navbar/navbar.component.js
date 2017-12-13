@@ -36,7 +36,6 @@ var toolbarItem = /** @class */ (function () {
 }());
 exports.toolbarItem = toolbarItem;
 var NavbarComponent = /** @class */ (function () {
-    // END CONFIG VARIABLES //
     function NavbarComponent(router, authService, globalService, navbarService) {
         var _this = this;
         this.router = router;
@@ -440,7 +439,7 @@ var NavbarComponent = /** @class */ (function () {
             }, 200);
         };
         this.socket = this.globalService.socket;
-        this.globalService.data.subscribe(function (value) {
+        this.subscribeObj = this.globalService.data.subscribe(function (value) {
             if (value["isOpenProfileEditWindow"]) {
                 _this.ClosePopups();
             }
@@ -567,6 +566,9 @@ var NavbarComponent = /** @class */ (function () {
         self.socket.on('ClientFriendTyping', function (friendId) {
             self.MakeFriendTyping(friendId);
         });
+    };
+    NavbarComponent.prototype.ngOnDestroy = function () {
+        this.subscribeObj.unsubscribe();
     };
     __decorate([
         core_1.Input(),

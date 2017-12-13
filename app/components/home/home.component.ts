@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
@@ -12,13 +12,16 @@ import { HomeService } from '../../services/home/home.service';
     providers: [HomeService, ProfilePictureService]
 })
 
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
+
+    subscribeObj: any;
+
     constructor(private router: Router,
         private authService: AuthService,
         private profilePictureService: ProfilePictureService,
         private homeService: HomeService,
         private globalService: GlobalService) {
-        this.globalService.data.subscribe(value => {
+        this.subscribeObj = this.globalService.data.subscribe(value => {
             if (value["isOpenProfileEditWindow"] == true ||
                 value["isOpenProfileEditWindow"] == false) {
                 this.isOpenProfileEditWindow = value["isOpenProfileEditWindow"];
@@ -43,5 +46,9 @@ export class HomeComponent implements OnInit {
 
             self.globalService.setData("userProfileImageLoaded", true);
         });
+    }
+
+    ngOnDestroy() {
+        this.subscribeObj.unsubscribe();
     }
 }
