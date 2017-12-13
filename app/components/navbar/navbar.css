@@ -545,20 +545,20 @@
 }
 
 #navbar .typing-icon {
-    width: 18px;
-    height: 12px;
+    width: 16px;
+    height: 14px;
     border: 0.5px solid grey;
     border-radius: 50%;
     background-color: #ffffff;
     align-self: flex-start;
     position: absolute;
-    right: 30px;
-    margin-top: 28px;
+    right: 32px;
+    margin-top: 26px;
     font-weight: bold;
     font-size: 18px;
-    line-height: 0.1;
     text-align: center;
     font-family: initial;
+    line-height: 0.2;
 }
 
 #navbar .notification {
