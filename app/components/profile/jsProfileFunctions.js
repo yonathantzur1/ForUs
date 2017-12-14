@@ -30,7 +30,9 @@ function UploadPhoto(options) {
                 return false;
             }
         }
-
+        else {
+            return false;
+        }
     }
     else {
         $inputImage.prop('disabled', true).parent().addClass('disabled');
@@ -40,10 +42,10 @@ function UploadPhoto(options) {
 }
 
 function GetCroppedBase64Image() {
-    return resizeBase64Img($('#main-img').cropper('getCroppedCanvas').toDataURL(), 300, 300);
+    return ResizeBase64Img($('#main-img').cropper('getCroppedCanvas').toDataURL(), 300, 300);
 }
 
-function resizeBase64Img(base64, width, height) {
+function ResizeBase64Img(base64, width, height) {
     var canvas = document.createElement("canvas");
     canvas.width = width;
     canvas.height = height;

@@ -204,7 +204,7 @@ var ProfileComponent = /** @class */ (function () {
             this.isLoading = true;
             var self = this;
             GetCroppedBase64Image().then(function (img) {
-                var imgBase64 = img["0"].currentSrc;
+                var imgBase64 = img[0].currentSrc;
                 self.profileService.SaveImage(imgBase64).then(function (result) {
                     self.isLoading = false;
                     // In case of error or the user was not fount.

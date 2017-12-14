@@ -13,7 +13,10 @@
                 [ngClass]="{'selected-top-icon' : iconObj.isSelected}" aria-hidden="true">{{iconObj.innerIconText}}</i>
             <i (click)="CloseChat()" class="material-icons exit-chat">close</i>
         </div>
+
+        <!-- START CANVAS SECTOR -->
         <div [hidden]="!GetTopIconById('canvas').isSelected" class="canvas-body-container">
+            <input (change)="UploadImage()" style="display:none;" type="file" id="chatImage" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
             <div id="canvas-body-sector" class="canvas-body-sector">
                 <span *ngIf="isMessagesLoading" class="chat-loading-container">
                     <p class="load-chat-icon" style="padding-top:10px;">
@@ -50,6 +53,9 @@
                 </div>
             </div>
         </div>
+        <!-- END CANVAS SECTOR -->
+
+        <!-- START CHAT SECTOR -->
         <div [hidden]="!GetTopIconById('chat').isSelected" class="chat-body-container">
             <div id="chat-body-sector" class="chat-body-sector">
                 <div class="top-space-line"></div>
@@ -109,5 +115,6 @@
                 </div>
             </div>
         </div>
+        <!-- END CHAT SECTOR -->
     </div>
 </div>

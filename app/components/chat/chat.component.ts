@@ -1,11 +1,13 @@
 import { Component, OnInit, OnDestroy, Input, AfterViewChecked } from '@angular/core';
 
+import '../profile/jsProfileFunctions.js'
+
 import { ChatService } from '../../services/chat/chat.service';
 import { GlobalService } from '../../services/global/global.service';
 
 declare var globalVariables: any;
-
 declare var window: any;
+declare function ResizeBase64Img(base64: any, width: number, height: number): any;
 
 export class topIcon {
     id: string;
@@ -105,15 +107,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
         self.canvasTopIcons = [
             {
-                icon: "delete_forever",
-                title: "איפוס",
+                icon: "add_a_photo",
+                title: "העלאת תמונה",
                 onClick: function () {
-                    if (!self.isCanvasEmpty) {
-                        self.undoArray.push(self.canvas.toDataURL());
-                    }
-                    
-                    self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
-                    self.isCanvasEmpty = true;
+                    $("#chatImage").trigger("click");
                 }
             },
             {
@@ -138,6 +135,18 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                     }
 
                     self.ctx.strokeStyle = self.colorBtns[self.canvasSelectedColorIndex];
+                }
+            },
+            {
+                icon: "delete_forever",
+                title: "איפוס",
+                onClick: function () {
+                    if (!self.isCanvasEmpty) {
+                        self.undoArray.push(self.canvas.toDataURL());
+                    }
+
+                    self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
+                    self.isCanvasEmpty = true;
                 }
             }
         ];
@@ -182,6 +191,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 self.mousePos = self.GetMousePos(self.canvas, e);
             },
             "mouseout": function (e: any) {
+                if (self.drawing) {
+                    self.undoArray.push(self.canvas.toDataURL());
+                }
+
                 self.drawing = false;
             },
             "touchstart": function (e: any) {
@@ -569,5 +582,47 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             this.canvasTopBar.style.bottom = "0px";
             this.isCanvasTopOpen = false;
         }
+    }
+
+    UploadImage = function () {
+        var self = this;
+        var URL = window.URL;
+        var $chatImage: any = $('#chatImage');
+        var uploadedImageURL;
+
+        if (URL) {
+            var files = $chatImage[0].files;
+            var file;
+
+            if (files && files.length) {
+                file = files[0];
+
+                if (/^image\/\w+$/.test(file.type)) {
+                    if (uploadedImageURL) {
+                        URL.revokeObjectURL(uploadedImageURL);
+                    }
+
+                    uploadedImageURL = URL.createObjectURL(file);
+
+                    var image: any = new Image;
+                    image.src = uploadedImageURL;
+
+                    image.onload = function () {
+                        ResizeBase64Img(image.src, self.canvas.width, self.canvas.height).then((img: any) => {
+                            self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
+                            self.ctx.drawImage(img[0], 0, 0);
+                            self.undoArray.push(self.canvas.toDataURL());
+                            self.isCanvasEmpty = false;
+                        });
+                    }
+
+                    $chatImage.val('');
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

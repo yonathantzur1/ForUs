@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+require("../profile/jsProfileFunctions.js");
 var chat_service_1 = require("../../services/chat/chat.service");
 var global_service_1 = require("../../services/global/global.service");
 var topIcon = /** @class */ (function () {
@@ -251,6 +252,38 @@ var ChatComponent = /** @class */ (function () {
                 this.isCanvasTopOpen = false;
             }
         };
+        this.UploadImage = function () {
+            var self = this;
+            var URL = window.URL;
+            var $chatImage = $('#chatImage');
+            var uploadedImageURL;
+            if (URL) {
+                var files = $chatImage[0].files;
+                var file;
+                if (files && files.length) {
+                    file = files[0];
+                    if (/^image\/\w+$/.test(file.type)) {
+                        if (uploadedImageURL) {
+                            URL.revokeObjectURL(uploadedImageURL);
+                        }
+                        uploadedImageURL = URL.createObjectURL(file);
+                        var image = new Image;
+                        image.src = uploadedImageURL;
+                        image.onload = function () {
+                            ResizeBase64Img(image.src, self.canvas.width, self.canvas.height).then(function (img) {
+                                self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
+                                self.ctx.drawImage(img[0], 0, 0);
+                                self.undoArray.push(self.canvas.toDataURL());
+                                self.isCanvasEmpty = false;
+                            });
+                        };
+                        $chatImage.val('');
+                        return true;
+                    }
+                }
+            }
+            return false;
+        };
         this.socket = globalService.socket;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
             if (value["chatData"]) {
@@ -286,14 +319,10 @@ var ChatComponent = /** @class */ (function () {
         ];
         self.canvasTopIcons = [
             {
-                icon: "delete_forever",
-                title: "איפוס",
+                icon: "add_a_photo",
+                title: "העלאת תמונה",
                 onClick: function () {
-                    if (!self.isCanvasEmpty) {
-                        self.undoArray.push(self.canvas.toDataURL());
-                    }
-                    self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
-                    self.isCanvasEmpty = true;
+                    $("#chatImage").trigger("click");
                 }
             },
             {
@@ -315,6 +344,17 @@ var ChatComponent = /** @class */ (function () {
                         self.isCanvasEmpty = true;
                     }
                     self.ctx.strokeStyle = self.colorBtns[self.canvasSelectedColorIndex];
+                }
+            },
+            {
+                icon: "delete_forever",
+                title: "איפוס",
+                onClick: function () {
+                    if (!self.isCanvasEmpty) {
+                        self.undoArray.push(self.canvas.toDataURL());
+                    }
+                    self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
+                    self.isCanvasEmpty = true;
                 }
             }
         ];
@@ -353,6 +393,9 @@ var ChatComponent = /** @class */ (function () {
                 self.mousePos = self.GetMousePos(self.canvas, e);
             },
             "mouseout": function (e) {
+                if (self.drawing) {
+                    self.undoArray.push(self.canvas.toDataURL());
+                }
                 self.drawing = false;
             },
             "touchstart": function (e) {

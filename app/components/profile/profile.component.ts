@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
 import './jsProfileFunctions.js'
 
 import { GlobalService } from '../../services/global/global.service';
@@ -225,8 +226,8 @@ export class ProfileComponent implements OnInit {
             this.isLoading = true;
             var self = this;
 
-            GetCroppedBase64Image().then(function (img: any) {
-                var imgBase64 = img["0"].currentSrc;
+            GetCroppedBase64Image().then((img: any) => {
+                var imgBase64 = img[0].currentSrc;
                 self.profileService.SaveImage(imgBase64).then((result: any) => {
                     self.isLoading = false;
 
