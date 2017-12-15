@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, Input, AfterViewChecked } from '@angular/core';
 
-import '../profile/jsProfileFunctions.js'
+import '../profile/jsProfileFunctions.js';
+import './exif.js';
 
 import { ChatService } from '../../services/chat/chat.service';
 import { GlobalService } from '../../services/global/global.service';
@@ -8,6 +9,7 @@ import { GlobalService } from '../../services/global/global.service';
 declare var globalVariables: any;
 declare var window: any;
 declare function ResizeBase64Img(base64: any, width: number, height: number): any;
+declare var EXIF: any;
 
 export class topIcon {
     id: string;
@@ -610,9 +612,35 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                     image.onload = function () {
                         ResizeBase64Img(image.src, self.canvas.width, self.canvas.height).then((img: any) => {
                             self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
-                            self.ctx.drawImage(img[0], 0, 0);
+
+                            EXIF.getData(img[0], function () {
+                                var exifTag = parseInt(EXIF.getTag(img[0], "Orientation"));
+                                if (!exifTag) {
+                                    self.ctx.drawImage(img[0], 0, 0);
+                                }
+                                else {
+                                    switch (exifTag) {
+                                        case 2: // flip
+                                            self.RotateImage(img, Math.PI); break;
+                                        case 3: // rotate-180
+                                            self.RotateImage(img, Math.PI); break;
+                                        case 4: // flip-and-rotate-180
+                                            self.RotateImage(img, Math.PI); break;
+                                        case 5: // flip-and-rotate-270
+                                            self.RotateImage(img, Math.PI); break;
+                                        case 6: // rotate-90
+                                            self.RotateImage(img, Math.PI); break;
+                                        case 7: // flip-and-rotate-90
+                                            self.RotateImage(img, Math.PI); break;
+                                        case 8: // rotate-270
+                                            self.RotateImage(img, Math.PI); break;
+                                    }
+                                }
+                            });
+
                             self.undoArray.push(self.canvas.toDataURL());
                             self.isCanvasEmpty = false;
+                            self.HideCanvasTopSector();
                         });
                     }
 
@@ -624,5 +652,26 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
 
         return false;
+    }
+
+    RotateImage = function (img: any, deg: number) {
+        var self = this;
+
+        var canvas = document.createElement("canvas");
+        canvas.width = self.canvas.width;
+        canvas.height = self.canvas.height;
+        var ctx = canvas.getContext("2d");
+        var image = new Image();
+        image.src = img[0].src;
+        image.onload = function () {
+            ctx.translate(image.width, image.height);
+            ctx.rotate(deg);
+            ctx.drawImage(image, 0, 0);
+            image = new Image();
+            image.src = canvas.toDataURL();
+            image.onload = function () {
+                self.ctx.drawImage(image, 0, 0);
+            };
+        };
     }
 }
