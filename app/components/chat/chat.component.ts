@@ -84,7 +84,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 class: "material-icons top-chat-icon",
                 innerIconText: "chat",
                 title: "צ'אט",
-                isSelected: true,
+                isSelected: false,
                 onClick: function () {
                     self.SelectTopIcon(this);
                 }
@@ -94,7 +94,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 class: "material-icons top-canvas-icon",
                 innerIconText: "brush",
                 title: "צייר",
-                isSelected: false,
+                isSelected: true,
                 onClick: function () {
                     self.isAllowShowUnreadLine = false;
                     self.HideCanvasTopSector();
@@ -599,13 +599,17 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                         file,
                         function (img: any) {
                             self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
-                            self.ctx.drawImage(img, 0, 0);
+                            self.ctx.drawImage(img,
+                                (self.canvas.width - img.width) / 2,
+                                (self.canvas.height - img.height) / 2);
                             self.undoArray.push(self.canvas.toDataURL());
                             self.isCanvasEmpty = false;
                         },
                         {
-                            "maxWidth": self.canvas.width,
-                            "maxHeight": self.canvas.height
+                            maxWidth: self.canvas.width,
+                            maxHeight: self.canvas.height,
+                            canvas: true,
+                            orientation: true,
                         });
 
                     $chatImage.val('');
