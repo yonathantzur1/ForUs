@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-require("../profile/jsProfileFunctions.js");
 var chat_service_1 = require("../../services/chat/chat.service");
 var global_service_1 = require("../../services/global/global.service");
 var topIcon = /** @class */ (function () {
@@ -256,27 +255,21 @@ var ChatComponent = /** @class */ (function () {
             var self = this;
             var URL = window.URL;
             var $chatImage = $('#chatImage');
-            var uploadedImageURL;
             if (URL) {
                 var files = $chatImage[0].files;
                 var file;
                 if (files && files.length) {
                     file = files[0];
                     if (/^image\/\w+$/.test(file.type)) {
-                        if (uploadedImageURL) {
-                            URL.revokeObjectURL(uploadedImageURL);
-                        }
-                        uploadedImageURL = URL.createObjectURL(file);
-                        var image = new Image;
-                        image.src = uploadedImageURL;
-                        image.onload = function () {
-                            ResizeBase64Img(image.src, self.canvas.width, self.canvas.height).then(function (img) {
-                                self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
-                                self.ctx.drawImage(img[0], 0, 0);
-                                self.undoArray.push(self.canvas.toDataURL());
-                                self.isCanvasEmpty = false;
-                            });
-                        };
+                        loadImage(file, function (img) {
+                            self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
+                            self.ctx.drawImage(img, 0, 0);
+                            self.undoArray.push(self.canvas.toDataURL());
+                            self.isCanvasEmpty = false;
+                        }, {
+                            "maxWidth": self.canvas.width,
+                            "maxHeight": self.canvas.height
+                        });
                         $chatImage.val('');
                         return true;
                     }

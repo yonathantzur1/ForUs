@@ -1,13 +1,11 @@
 import { Component, OnInit, OnDestroy, Input, AfterViewChecked } from '@angular/core';
 
-import '../profile/jsProfileFunctions.js'
-
 import { ChatService } from '../../services/chat/chat.service';
 import { GlobalService } from '../../services/global/global.service';
 
 declare var globalVariables: any;
 declare var window: any;
-declare function ResizeBase64Img(base64: any, width: number, height: number): any;
+declare var loadImage: any;
 
 export class topIcon {
     id: string;
@@ -588,7 +586,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         var self = this;
         var URL = window.URL;
         var $chatImage: any = $('#chatImage');
-        var uploadedImageURL;
 
         if (URL) {
             var files = $chatImage[0].files;
@@ -598,23 +595,18 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 file = files[0];
 
                 if (/^image\/\w+$/.test(file.type)) {
-                    if (uploadedImageURL) {
-                        URL.revokeObjectURL(uploadedImageURL);
-                    }
-
-                    uploadedImageURL = URL.createObjectURL(file);
-
-                    var image: any = new Image;
-                    image.src = uploadedImageURL;
-
-                    image.onload = function () {
-                        ResizeBase64Img(image.src, self.canvas.width, self.canvas.height).then((img: any) => {
+                    loadImage(
+                        file,
+                        function (img: any) {
                             self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
-                            self.ctx.drawImage(img[0], 0, 0);
+                            self.ctx.drawImage(img, 0, 0);
                             self.undoArray.push(self.canvas.toDataURL());
                             self.isCanvasEmpty = false;
+                        },
+                        {
+                            "maxWidth": self.canvas.width,
+                            "maxHeight": self.canvas.height
                         });
-                    }
 
                     $chatImage.val('');
 

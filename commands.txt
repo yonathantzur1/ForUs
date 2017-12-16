@@ -16,6 +16,7 @@ npm install socket.io-client --save
 npm install hover.css --save
 npm install express-brute --save
 npm install compression --save
+npm install blueimp-load-image --save
 npm install @angular/common --save
 npm install @angular/compiler --save
 npm install @angular/core --save
