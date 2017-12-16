@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 require("../profile/jsProfileFunctions.js");
-require("./exif.js");
 var chat_service_1 = require("../../services/chat/chat.service");
 var global_service_1 = require("../../services/global/global.service");
 var topIcon = /** @class */ (function () {
@@ -273,40 +272,9 @@ var ChatComponent = /** @class */ (function () {
                         image.onload = function () {
                             ResizeBase64Img(image.src, self.canvas.width, self.canvas.height).then(function (img) {
                                 self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
-                                EXIF.getData(img[0], function () {
-                                    var exifTag = parseInt(EXIF.getTag(img[0], "Orientation"));
-                                    if (!exifTag) {
-                                        self.ctx.drawImage(img[0], 0, 0);
-                                    }
-                                    else {
-                                        switch (exifTag) {
-                                            case 2:// flip
-                                                self.RotateImage(img, Math.PI);
-                                                break;
-                                            case 3:// rotate-180
-                                                self.RotateImage(img, Math.PI);
-                                                break;
-                                            case 4:// flip-and-rotate-180
-                                                self.RotateImage(img, Math.PI);
-                                                break;
-                                            case 5:// flip-and-rotate-270
-                                                self.RotateImage(img, Math.PI);
-                                                break;
-                                            case 6:// rotate-90
-                                                self.RotateImage(img, Math.PI);
-                                                break;
-                                            case 7:// flip-and-rotate-90
-                                                self.RotateImage(img, Math.PI);
-                                                break;
-                                            case 8:// rotate-270
-                                                self.RotateImage(img, Math.PI);
-                                                break;
-                                        }
-                                    }
-                                });
+                                self.ctx.drawImage(img[0], 0, 0);
                                 self.undoArray.push(self.canvas.toDataURL());
                                 self.isCanvasEmpty = false;
-                                self.HideCanvasTopSector();
                             });
                         };
                         $chatImage.val('');
@@ -315,25 +283,6 @@ var ChatComponent = /** @class */ (function () {
                 }
             }
             return false;
-        };
-        this.RotateImage = function (img, deg) {
-            var self = this;
-            var canvas = document.createElement("canvas");
-            canvas.width = self.canvas.width;
-            canvas.height = self.canvas.height;
-            var ctx = canvas.getContext("2d");
-            var image = new Image();
-            image.src = img[0].src;
-            image.onload = function () {
-                ctx.translate(image.width, image.height);
-                ctx.rotate(deg);
-                ctx.drawImage(image, 0, 0);
-                image = new Image();
-                image.src = canvas.toDataURL();
-                image.onload = function () {
-                    self.ctx.drawImage(image, 0, 0);
-                };
-            };
         };
         this.socket = globalService.socket;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {

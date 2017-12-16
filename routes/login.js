@@ -5,7 +5,7 @@ var ExpressBrute = require('express-brute'),
 var failCallback = function (req, res, next, nextValidRequestDate) {
     var minutesLockTime =
         Math.ceil((nextValidRequestDate.getTime() - (new Date()).getTime()) / (1000 * 60));
-    res.send({ "result": { "lock": minutesLockTime } });
+    res.send({ "lock": minutesLockTime });
 };
 
 var handleStoreError = function (error) {
