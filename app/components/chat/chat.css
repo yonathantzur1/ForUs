@@ -393,8 +393,9 @@
 #chat .open-canvas-icon {
     margin: auto;
     border-left: 1px solid #807d7d;
-    padding-left: 4px;
-    color: #534141;
+    padding-left: 6px;
+    padding-right: 6px;
+    color: #534141;    
 }
 
 #chat .message-img {
@@ -433,7 +434,7 @@
 }
 
 #chat .canvas-top-bar-icon {
-    padding: 5px;
+    padding: 7px;
     cursor: pointer;
     border-left: 0.5px solid black;
 }

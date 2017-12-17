@@ -294,7 +294,7 @@ var ChatComponent = /** @class */ (function () {
                 class: "material-icons top-chat-icon",
                 innerIconText: "chat",
                 title: "צ'אט",
-                isSelected: false,
+                isSelected: true,
                 onClick: function () {
                     self.SelectTopIcon(this);
                 }
@@ -304,7 +304,7 @@ var ChatComponent = /** @class */ (function () {
                 class: "material-icons top-canvas-icon",
                 innerIconText: "brush",
                 title: "צייר",
-                isSelected: true,
+                isSelected: false,
                 onClick: function () {
                     self.isAllowShowUnreadLine = false;
                     self.HideCanvasTopSector();

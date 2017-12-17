@@ -1,7 +1,7 @@
 module.exports = {
     db: {
-        dbName: "forus",
-        connectionString: 'mongodb://forusdb:Aa123456@ds159274.mlab.com:59274/forus?maxPoolSize=10',
+        dbName: "forus",        
+        connectionString: 'mongodb://forusdb:Aa123456@forus-shard-00-00-zyjmc.mongodb.net:27017,forus-shard-00-01-zyjmc.mongodb.net:27017,forus-shard-00-02-zyjmc.mongodb.net:27017/forus?ssl=true&replicaSet=forus-shard-0&authSource=admin&maxPoolSize=10',
         maxConnectionAttemptsNumber: 5
     },
     jwt: {
@@ -13,11 +13,12 @@ module.exports = {
         algorithm: "aes192"
     },
     expressBrute: {
-        minWait: 1 * 60 * 1000, // 1 minutes 
-        maxWait: 10 * 60 * 1000 // 10 minutes 
+        freeRetries: 8,
+        minWait: 60000, // (1 * 60 * 1000) - 1 minutes 
+        maxWait: 600000 // (10 * 60 * 1000) - 10 minutes 
     },
     token: {
         cookieName: "tk",
-        maxAge: 48 * 60 * 60 * 1000 // 2 days
+        maxAge: 172800000 // (48 * 60 * 60 * 1000) - 2 days
     }
 };
