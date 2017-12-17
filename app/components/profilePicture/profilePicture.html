@@ -4,6 +4,8 @@
         <div title="שינוי תמונת פרופיל" *ngIf="isEditEnable && isUserHasImage == true && (isImageHover || isTouchDevice)">
             <i class="material-icons change-image-btn">photo_camera</i>
         </div>
-        <div title="הוספת תמונת פרופיל" class="add-image-btn" *ngIf="isEditEnable && isUserHasImage == false">+</div>
+        <div title="הוספת תמונת פרופיל" class="add-image-btn" *ngIf="isEditEnable && isUserHasImage == false">
+            <span class="add-image-btn-icon">+</span>
+        </div>
     </div>
 </div>

@@ -18,8 +18,14 @@
     top: 0;
     font-size: 18px;
     font-weight: bold;
+    display: flex;
+}
+
+#profilePicture .add-image-btn-icon {
+    align-self: center;
     text-align: center;
-    line-height: 16px;
+    width: 100%;
+    margin-top: 2px;
 }
 
 #profilePicture .change-image-btn {
