@@ -7,6 +7,7 @@ import { NavbarService } from '../../services/navbar/navbar.service';
 
 declare var socket: any;
 declare var io: any;
+declare function deleteCookieByName(name: string): void;
 
 export class DropMenuData {
     constructor(link: string, text: string, action: Function) {
@@ -90,12 +91,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     // START CONFIG VARIABLES //
 
-    searchLimit: number = 4;
     searchInputChangeDelay: number = 150; // milliseconds
     notificationDelay: number = 3800; // milliseconds
     askForOnlineFriendsDelay: number = 20; // seconds
-    typingDelay: number = 2200; // milliseconds
-    newFriendsLabelDelay: number = 5000; // milliseconds
+    chatTypingDelay: number = 2200; // milliseconds
+    newFriendsLabelDelay: number = 4000; // milliseconds
 
     // END CONFIG VARIABLES //
 
@@ -150,12 +150,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
         self.dropMenuDataList = [
             new DropMenuData("#", "הגדרות", null),
             new DropMenuData("/login", "התנתקות", function (link: string) {
-                self.authService.DeleteTokenFromCookie().then((result: boolean) => {
-                    if (result) {
-                        self.globalService.ResetGlobalVariables();
-                        self.router.navigateByUrl(link);
-                    }
-                });
+                deleteCookieByName("ui");
+                self.authService.DeleteTokenFromCookie().then((result: boolean) => { });
+                self.globalService.ResetGlobalVariables();
+                self.router.navigateByUrl(link);
             })
         ];
     }
@@ -691,7 +689,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
             friendObj.typingTimer = setTimeout(function () {
                 friendObj.isTyping = false;
-            }, self.typingDelay);
+            }, self.chatTypingDelay);
         }
     }
 

@@ -41,6 +41,15 @@ module.exports = {
         });
     },
 
+    UpdateLastLogin: function (userId, callback) {
+        var findObj = { "_id": DAL.GetObjectId(userId) };
+        var lastLoginTimeObj = { $set: { "lastLoginTime": new Date() } };
+
+        DAL.UpdateOne(collectionName, findObj, lastLoginTimeObj, function (result) {
+            callback(result);
+        });
+    },
+
     // Check if user is exists in DB.
     CheckIfUserExists: function (email, callback) {
         DAL.Find(collectionName, email, function (result) {
@@ -74,9 +83,9 @@ module.exports = {
                 "salt": salt,
                 "creationDate": new Date(),
                 "friends": [],
-                "friendRequests" : {
-                    "get" : [],
-                    "send" : []
+                "friendRequests": {
+                    "get": [],
+                    "send": []
                 }
             };
 
@@ -99,7 +108,7 @@ module.exports = {
     AddResetCode: function (emailObj, callback) {
         var code = generator.GenerateId(resetCodeNumOfDigits);
 
-        var resetCode = { $set: { resetCode: { "code": code, "date": new Date(), tryNum: 0, isUsed: false } } };
+        var resetCode = { $set: { "resetCode": { "code": code, "date": new Date(), "tryNum": 0, "isUsed": false } } };
 
         DAL.UpdateOne(collectionName, emailObj, resetCode, function (result) {
             callback(result);

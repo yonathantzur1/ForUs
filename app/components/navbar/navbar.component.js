@@ -60,12 +60,11 @@ var NavbarComponent = /** @class */ (function () {
         this.searchResults = [];
         this.isShowSearchResults = false;
         // START CONFIG VARIABLES //
-        this.searchLimit = 4;
         this.searchInputChangeDelay = 150; // milliseconds
         this.notificationDelay = 3800; // milliseconds
         this.askForOnlineFriendsDelay = 20; // seconds
-        this.typingDelay = 2200; // milliseconds
-        this.newFriendsLabelDelay = 5000; // milliseconds
+        this.chatTypingDelay = 2200; // milliseconds
+        this.newFriendsLabelDelay = 4000; // milliseconds
         this.IsShowFriendFindInput = function () {
             return $(".slidenav-body-sector").hasScrollBar();
         };
@@ -423,7 +422,7 @@ var NavbarComponent = /** @class */ (function () {
                 var self = this;
                 friendObj.typingTimer = setTimeout(function () {
                     friendObj.isTyping = false;
-                }, self.typingDelay);
+                }, self.chatTypingDelay);
             }
         };
         this.SearchNewFriends = function () {
@@ -479,12 +478,10 @@ var NavbarComponent = /** @class */ (function () {
         self.dropMenuDataList = [
             new DropMenuData("#", "הגדרות", null),
             new DropMenuData("/login", "התנתקות", function (link) {
-                self.authService.DeleteTokenFromCookie().then(function (result) {
-                    if (result) {
-                        self.globalService.ResetGlobalVariables();
-                        self.router.navigateByUrl(link);
-                    }
-                });
+                deleteCookieByName("ui");
+                self.authService.DeleteTokenFromCookie().then(function (result) { });
+                self.globalService.ResetGlobalVariables();
+                self.router.navigateByUrl(link);
             })
         ];
     }

@@ -55,7 +55,7 @@ var AuthService = /** @class */ (function (_super) {
             return true;
         })
             .catch(function () {
-            return false;
+            return null;
         });
     };
     return AuthService;

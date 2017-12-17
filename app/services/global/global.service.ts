@@ -3,17 +3,21 @@ import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/startWith';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
+import { LoginService } from '../login/login.service';
+
 declare var io: any;
 
-export class GlobalService {
-    // use this property for property binding
+export class GlobalService extends LoginService {
+
+    // Use this property for property binding
     public data: BehaviorSubject<boolean> = new BehaviorSubject<any>({});
     public socket: any;
-    public userProfileImage: string;
+    public userProfileImage: string;    
 
     InitializeSocket() {
         if (!this.socket) {
             this.socket = io();
+            super.UpdateLastLogin();
         }
     }
 

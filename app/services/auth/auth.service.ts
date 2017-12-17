@@ -43,7 +43,7 @@ export class AuthService extends BasicService {
                 return true;
             })
             .catch(() => {
-                return false;
+                return null;
             });
     }
 }

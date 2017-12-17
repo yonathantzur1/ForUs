@@ -74,6 +74,16 @@ module.exports = function (app, loginBL, mailer, sha512, general) {
             });
         });
 
+    app.post(prefix + '/updateLastLogin', function (req, res) {
+        var token = general.DecodeToken(general.GetTokenFromRequest(req));
+
+        if (token) {
+            loginBL.UpdateLastLogin(token.user._id, function (result) { });
+        }
+
+        res.end();
+    });
+
     // Add new user to the db and make sure the email is not already exists.
     app.post(prefix + '/register', function (req, res) {
         var email = { "email": req.body.email };

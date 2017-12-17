@@ -1,16 +1,31 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 require("rxjs/add/operator/share");
 require("rxjs/add/operator/startWith");
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
-var GlobalService = /** @class */ (function () {
+var login_service_1 = require("../login/login.service");
+var GlobalService = /** @class */ (function (_super) {
+    __extends(GlobalService, _super);
     function GlobalService() {
-        // use this property for property binding
-        this.data = new BehaviorSubject_1.BehaviorSubject({});
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        // Use this property for property binding
+        _this.data = new BehaviorSubject_1.BehaviorSubject({});
+        return _this;
     }
     GlobalService.prototype.InitializeSocket = function () {
         if (!this.socket) {
             this.socket = io();
+            _super.prototype.UpdateLastLogin.call(this);
         }
     };
     GlobalService.prototype.ResetGlobalVariables = function () {
@@ -34,6 +49,6 @@ var GlobalService = /** @class */ (function () {
         this.data.next(currData);
     };
     return GlobalService;
-}());
+}(login_service_1.LoginService));
 exports.GlobalService = GlobalService;
 //# sourceMappingURL=global.service.js.map

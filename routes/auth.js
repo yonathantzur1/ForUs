@@ -3,12 +3,13 @@ module.exports = function (app, loginBL, general) {
 
     // Checking if the session of the user is open.
     app.get(prefix + '/isUserOnSession', function (req, res) {
-        if (req.user) {
+        if (req.user && req.user._id.toString() == general.GetUserIdFromRequest(req)) {
             var token = general.GetTokenFromUserObject(req.user);
             general.SetTokenOnCookie(token, res);
             res.send(true);
         }
         else {
+            general.DeleteAuthCookies(res);
             res.send(false);
         }
     });

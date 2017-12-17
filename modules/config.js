@@ -19,6 +19,7 @@ module.exports = {
     },
     token: {
         cookieName: "tk",
+        userIdCookieName: "ui",
         maxAge: 172800000 // (48 * 60 * 60 * 1000) - 2 days
     }
 };
