@@ -626,7 +626,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     ChangeImage = function () {
-        var isSuccess = this.UploadPhoto();
+        var isSuccess = this.UploadImage();
 
         if (isSuccess == false) {
             $("#canvas-image-failed").snackbar("show");

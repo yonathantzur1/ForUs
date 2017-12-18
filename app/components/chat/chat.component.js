@@ -283,7 +283,7 @@ var ChatComponent = /** @class */ (function () {
             return null;
         };
         this.ChangeImage = function () {
-            var isSuccess = this.UploadPhoto();
+            var isSuccess = this.UploadImage();
             if (isSuccess == false) {
                 $("#canvas-image-failed").snackbar("show");
             }
