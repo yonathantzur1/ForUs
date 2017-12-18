@@ -275,9 +275,21 @@ var ChatComponent = /** @class */ (function () {
                         $chatImage.val('');
                         return true;
                     }
+                    else {
+                        return false;
+                    }
                 }
             }
-            return false;
+            return null;
+        };
+        this.ChangeImage = function () {
+            var isSuccess = this.UploadPhoto();
+            if (isSuccess == false) {
+                $("#canvas-image-failed").snackbar("show");
+            }
+            else if (isSuccess == null) {
+                $("#canvas-upload-failed").snackbar("show");
+            }
         };
         this.socket = globalService.socket;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
