@@ -616,9 +616,23 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
                     return true;
                 }
+                else {
+                    return false;
+                }
             }
         }
 
-        return false;
+        return null;
+    }
+
+    ChangeImage = function () {
+        var isSuccess = this.UploadPhoto();
+
+        if (isSuccess == false) {
+            $("#canvas-image-failed").snackbar("show");
+        }
+        else if (isSuccess == null) {
+            $("#canvas-upload-failed").snackbar("show");
+        }
     }
 }

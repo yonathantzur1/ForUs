@@ -38,7 +38,7 @@ module.exports = function (io, jwt, config, general) {
         });
 
         require('./serverChat.js')(io, jwt, config, socket, socketsDictionary, connectedUsers, general);
-        require('./friendRequests.js')(io, jwt, config, socket, socketsDictionary, connectedUsers, general);
+        require('./serverFriendRequests.js')(io, jwt, config, socket, socketsDictionary, connectedUsers, general);
 
         socket.on('disconnect', function () {
             LogoutUser(io, socket);

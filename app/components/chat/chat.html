@@ -16,7 +16,7 @@
 
         <!-- START CANVAS SECTOR -->
         <div [hidden]="!GetTopIconById('canvas').isSelected" class="canvas-body-container">
-            <input (change)="UploadImage()" style="display:none;" type="file" id="chatImage" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
+            <input (change)="ChangeImage()" style="display:none;" type="file" id="chatImage" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
             <div id="canvas-body-sector" class="canvas-body-sector">
                 <span *ngIf="isMessagesLoading" class="chat-loading-container">
                     <p class="load-chat-icon" style="padding-top:10px;">
@@ -53,6 +53,8 @@
                 </div>
             </div>
         </div>
+        <span id="canvas-image-failed" data-toggle="snackbar" data-content="הקובץ שנבחר אינו תמונה"></span>
+        <span id="canvas-upload-failed" data-toggle="snackbar" data-content="שגיאה בהעלאת התמונה"></span>
         <!-- END CANVAS SECTOR -->
 
         <!-- START CHAT SECTOR -->
