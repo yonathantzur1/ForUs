@@ -10,7 +10,7 @@
           <div class="toolbar-menu">
             <span class="toolbar-item" *ngFor="let item of toolbarItems">
               <i title="{{item.title}}" (click)="item.onClick()" class="{{item.icon}}">{{item.innerIconText}}</i>
-              <span class="badget-icon" *ngIf="item.isShowToolbarItemBadget()"></span>
+              <span class="badget-icon" (click)="item.onClick()" *ngIf="item.isShowToolbarItemBadget()"></span>
             </span>
           </div>
         </div>

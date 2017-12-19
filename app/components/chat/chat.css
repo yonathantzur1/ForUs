@@ -360,8 +360,8 @@
     height: 25px;
     background-color: #4654fc;
     border-radius: 50%;
-    align-self: center;
     margin: auto;
+    display: flex;
     cursor: pointer;
 }
 
@@ -372,8 +372,11 @@
 
 #chat .send-canvas-btn-icon {
     color: white;
-    line-height: 1.7;
-    padding-right: 7px;
+    text-align: center;
+    width: 100%;
+    align-self: center;
+    margin-right: 3px;
+    margin-top: -2px;
 }
 
 #chat .selected-color-line {

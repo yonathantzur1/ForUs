@@ -151,7 +151,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             new DropMenuData("#", "הגדרות", null),
             new DropMenuData("/login", "התנתקות", function (link: string) {
                 deleteCookieByName("ui");
-                self.authService.DeleteTokenFromCookie().then((result: boolean) => { });
+                self.authService.DeleteTokenFromCookie().then((result: any) => { });
                 self.globalService.ResetGlobalVariables();
                 self.router.navigateByUrl(link);
             })
@@ -639,6 +639,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     AddFriend = function (friendId: string) {
+        this.isFriendsLoading = true;
+
         // Remove the friend request from all friend requests object.
         var friendRequests = this.GetToolbarItem("friendRequests").content;
         friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
@@ -649,6 +651,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
         var self = this;
         self.navbarService.AddFriend(friendId).then(function (friend: any) {
+            self.isFriendsLoading = false;
+
             if (friend) {
                 self.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.socket.emit("ServerAddFriend", friend);
@@ -656,7 +660,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             else {
                 //  Recover the actions in case the server is fail to add the friend. 
                 friendRequests.get.push(friendId);
-                userFriends.slice(userFriends.indexOf(friendId));
+                userFriends.splice(userFriends.indexOf(friendId), 1);
                 self.socket.emit("ServerUpdateFriendRequests", friendRequests);
             }
         });

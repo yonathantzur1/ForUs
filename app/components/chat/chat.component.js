@@ -39,6 +39,7 @@ var ChatComponent = /** @class */ (function () {
                 self.SelectTopIcon(self.GetTopIconById("chat"));
                 this.InitializeCanvas();
             }
+            self.msghInput = "";
             self.isAllowShowUnreadLine = true;
             self.chatBodyScrollHeight = 0;
             self.isMessagesLoading = true;

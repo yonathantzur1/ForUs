@@ -321,9 +321,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             this.InitializeCanvas();
         }
 
+        self.msghInput = "";
         self.isAllowShowUnreadLine = true;
         self.chatBodyScrollHeight = 0;
         self.isMessagesLoading = true;
+
         self.chatService.GetChat([self.chatData.user._id, self.chatData.friend._id]).then((chat: any) => {
             if (chat) {
                 self.messages = chat.messages;

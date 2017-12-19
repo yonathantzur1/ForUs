@@ -380,6 +380,7 @@ var NavbarComponent = /** @class */ (function () {
             this.socket.emit("ServerFriendAddedUpdate", friend._id);
         };
         this.AddFriend = function (friendId) {
+            this.isFriendsLoading = true;
             // Remove the friend request from all friend requests object.
             var friendRequests = this.GetToolbarItem("friendRequests").content;
             friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
@@ -388,6 +389,7 @@ var NavbarComponent = /** @class */ (function () {
             userFriends.push(friendId);
             var self = this;
             self.navbarService.AddFriend(friendId).then(function (friend) {
+                self.isFriendsLoading = false;
                 if (friend) {
                     self.socket.emit("ServerUpdateFriendRequests", friendRequests);
                     self.socket.emit("ServerAddFriend", friend);
@@ -395,7 +397,7 @@ var NavbarComponent = /** @class */ (function () {
                 else {
                     //  Recover the actions in case the server is fail to add the friend. 
                     friendRequests.get.push(friendId);
-                    userFriends.slice(userFriends.indexOf(friendId));
+                    userFriends.splice(userFriends.indexOf(friendId), 1);
                     self.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 }
             });
