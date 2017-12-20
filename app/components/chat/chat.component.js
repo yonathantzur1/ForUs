@@ -33,6 +33,8 @@ var ChatComponent = /** @class */ (function () {
         this.chatBodyScrollHeight = 0;
         this.days = globalVariables.days;
         this.months = globalVariables.months;
+        this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
+        this.messageNotificationDelay = 9800; // milliseconds
         this.InitializeChat = function () {
             var self = this;
             if (this.isCanvasInitialize) {
@@ -292,6 +294,24 @@ var ChatComponent = /** @class */ (function () {
                 $("#canvas-upload-failed").snackbar("show");
             }
         };
+        this.ShowChatNotification = function (msgData) {
+            this.messageNotificationFriendObj = this.GetFriendById(msgData.from);
+            this.messageNotificationText = msgData.text;
+            this.isShowMessageNotification = true;
+            var self = this;
+            self.messageNotificationInterval = setInterval(function () {
+                self.isShowMessageNotification = false;
+                clearInterval(self.messageNotificationInterval);
+                self.messageNotificationInterval = null;
+            }, self.messageNotificationDelay);
+        };
+        this.ClickChatNotification = function () {
+            this.isShowMessageNotification = false;
+            if (this.messageNotificationInterval) {
+                clearInterval(this.messageNotificationInterval);
+            }
+            this.OpenChat(this.messageNotificationFriendObj);
+        };
         this.socket = globalService.socket;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
             if (value["chatData"]) {
@@ -378,6 +398,9 @@ var ChatComponent = /** @class */ (function () {
             if (msgData.from == self.chatData.friend._id) {
                 msgData.time = new Date();
                 self.messages.push(msgData);
+            }
+            else {
+                self.ShowChatNotification(msgData);
             }
         });
         self.InitializeCanvas();
@@ -513,6 +536,14 @@ var ChatComponent = /** @class */ (function () {
         core_1.Input(),
         __metadata("design:type", Object)
     ], ChatComponent.prototype, "chatData", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Function)
+    ], ChatComponent.prototype, "GetFriendById", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Function)
+    ], ChatComponent.prototype, "OpenChat", void 0);
     ChatComponent = __decorate([
         core_1.Component({
             selector: 'chat',

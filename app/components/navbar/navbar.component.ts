@@ -312,7 +312,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 self.isShowMessageNotification = false;
                 clearInterval(self.messageNotificationInterval);
                 self.messageNotificationInterval = null;
-            }, this.notificationDelay);
+            }, self.notificationDelay);
         }
     }
 

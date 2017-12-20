@@ -109,7 +109,7 @@ var NavbarComponent = /** @class */ (function () {
                     self.isShowMessageNotification = false;
                     clearInterval(self.messageNotificationInterval);
                     self.messageNotificationInterval = null;
-                }, this.notificationDelay);
+                }, self.notificationDelay);
             }
         };
         this.GetFriendNameById = function (id) {

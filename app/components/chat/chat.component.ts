@@ -30,6 +30,8 @@ export class canvasTopIcon {
 
 export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     @Input() chatData: any;
+    @Input() GetFriendById: Function;
+    @Input() OpenChat: Function;
     socket: any;
     messages: Array<any> = [];
     isMessagesLoading: boolean;
@@ -42,6 +44,14 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     // Unread messages line sector properties //
     isAllowShowUnreadLine: boolean;
     unreadMessagesNumber: number;
+
+    // Chat notification properties //
+    isShowMessageNotification: boolean;    
+    messageNotificationText: string;
+    messageNotificationFriendObj: any;
+    defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
+    messageNotificationDelay: number = 9800; // milliseconds
+    messageNotificationInterval: any;
 
     // Cavas sector properties //
     isCanvasInitialize: boolean;
@@ -163,6 +173,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             if (msgData.from == self.chatData.friend._id) {
                 msgData.time = new Date();
                 self.messages.push(msgData);
+            }
+            else {
+                self.ShowChatNotification(msgData);
             }
         });
 
@@ -636,5 +649,29 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         else if (isSuccess == null) {
             $("#canvas-upload-failed").snackbar("show");
         }
+    }
+
+    ShowChatNotification = function (msgData: any) {
+        this.messageNotificationFriendObj = this.GetFriendById(msgData.from);        
+        this.messageNotificationText = msgData.text;
+        this.isShowMessageNotification = true;
+
+        var self = this;
+
+        self.messageNotificationInterval = setInterval(function () {
+            self.isShowMessageNotification = false;
+            clearInterval(self.messageNotificationInterval);
+            self.messageNotificationInterval = null;
+        }, self.messageNotificationDelay);
+    }
+
+    ClickChatNotification = function () {
+        this.isShowMessageNotification = false;
+
+        if (this.messageNotificationInterval) {
+            clearInterval(this.messageNotificationInterval);
+        }
+
+        this.OpenChat(this.messageNotificationFriendObj);
     }
 }
