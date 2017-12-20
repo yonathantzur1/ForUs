@@ -50,7 +50,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     messageNotificationText: string;
     messageNotificationFriendObj: any;
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
-    messageNotificationDelay: number = 9800; // milliseconds
+    messageNotificationDelay: number = 3800; // milliseconds
     messageNotificationInterval: any;
 
     // Cavas sector properties //
@@ -652,6 +652,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     ShowChatNotification = function (msgData: any) {
+        if (this.messageNotificationInterval) {
+            clearInterval(this.messageNotificationInterval);
+        }
+        
         this.messageNotificationFriendObj = this.GetFriendById(msgData.from);        
         this.messageNotificationText = msgData.text;
         this.isShowMessageNotification = true;

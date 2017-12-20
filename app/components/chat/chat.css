@@ -341,12 +341,12 @@
 
 @keyframes show-notification-animation {
     from {opacity: 0.1;}
-    to {background-color: 0.7;}
+    to {opacity: 0.9;}
 }
 
 #chat .show-notification {
     animation-name: show-notification-animation;
-    animation-duration: 0.5s;
+    animation-duration: 0.4s;
 }
 
 /* START CANVAS SECTOR */

@@ -34,7 +34,7 @@ var ChatComponent = /** @class */ (function () {
         this.days = globalVariables.days;
         this.months = globalVariables.months;
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
-        this.messageNotificationDelay = 9800; // milliseconds
+        this.messageNotificationDelay = 3800; // milliseconds
         this.InitializeChat = function () {
             var self = this;
             if (this.isCanvasInitialize) {
@@ -295,6 +295,9 @@ var ChatComponent = /** @class */ (function () {
             }
         };
         this.ShowChatNotification = function (msgData) {
+            if (this.messageNotificationInterval) {
+                clearInterval(this.messageNotificationInterval);
+            }
             this.messageNotificationFriendObj = this.GetFriendById(msgData.from);
             this.messageNotificationText = msgData.text;
             this.isShowMessageNotification = true;
