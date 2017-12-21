@@ -46,7 +46,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     unreadMessagesNumber: number;
 
     // Chat notification properties //
-    isShowMessageNotification: boolean;    
+    isShowMessageNotification: boolean;
+    isSelfMessageNotification: boolean;
     messageNotificationText: string;
     messageNotificationFriendObj: any;
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
@@ -173,9 +174,14 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             if (msgData.from == self.chatData.friend._id) {
                 msgData.time = new Date();
                 self.messages.push(msgData);
+
+                // In case the chat is on canvas mode.
+                if (self.GetTopIconById("canvas").isSelected) {
+                    self.ShowChatNotification(msgData, true);
+                }
             }
             else {
-                self.ShowChatNotification(msgData);
+                self.ShowChatNotification(msgData, false);
             }
         });
 
@@ -651,12 +657,13 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
     }
 
-    ShowChatNotification = function (msgData: any) {
+    ShowChatNotification = function (msgData: any, isSelfMessageNotification: boolean) {
         if (this.messageNotificationInterval) {
             clearInterval(this.messageNotificationInterval);
         }
-        
-        this.messageNotificationFriendObj = this.GetFriendById(msgData.from);        
+
+        this.isSelfMessageNotification = isSelfMessageNotification;
+        this.messageNotificationFriendObj = this.GetFriendById(msgData.from);
         this.messageNotificationText = msgData.text;
         this.isShowMessageNotification = true;
 
@@ -676,6 +683,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             clearInterval(this.messageNotificationInterval);
         }
 
-        this.OpenChat(this.messageNotificationFriendObj);
+        if (this.isSelfMessageNotification) {
+            this.GetTopIconById("chat").onClick();
+        }
+        else {
+            this.OpenChat(this.messageNotificationFriendObj);
+        }
     }
 }

@@ -294,10 +294,11 @@ var ChatComponent = /** @class */ (function () {
                 $("#canvas-upload-failed").snackbar("show");
             }
         };
-        this.ShowChatNotification = function (msgData) {
+        this.ShowChatNotification = function (msgData, isSelfMessageNotification) {
             if (this.messageNotificationInterval) {
                 clearInterval(this.messageNotificationInterval);
             }
+            this.isSelfMessageNotification = isSelfMessageNotification;
             this.messageNotificationFriendObj = this.GetFriendById(msgData.from);
             this.messageNotificationText = msgData.text;
             this.isShowMessageNotification = true;
@@ -313,7 +314,12 @@ var ChatComponent = /** @class */ (function () {
             if (this.messageNotificationInterval) {
                 clearInterval(this.messageNotificationInterval);
             }
-            this.OpenChat(this.messageNotificationFriendObj);
+            if (this.isSelfMessageNotification) {
+                this.GetTopIconById("chat").onClick();
+            }
+            else {
+                this.OpenChat(this.messageNotificationFriendObj);
+            }
         };
         this.socket = globalService.socket;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
@@ -401,9 +407,13 @@ var ChatComponent = /** @class */ (function () {
             if (msgData.from == self.chatData.friend._id) {
                 msgData.time = new Date();
                 self.messages.push(msgData);
+                // In case the chat is on canvas mode.
+                if (self.GetTopIconById("canvas").isSelected) {
+                    self.ShowChatNotification(msgData, true);
+                }
             }
             else {
-                self.ShowChatNotification(msgData);
+                self.ShowChatNotification(msgData, false);
             }
         });
         self.InitializeCanvas();
