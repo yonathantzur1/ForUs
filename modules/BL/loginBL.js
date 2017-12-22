@@ -1,6 +1,7 @@
 var DAL = require('../DAL.js');
 
 var collectionName = "Users";
+var permissionsCollectionName = "Permissions";
 var generator = require('../generator.js');
 var resetCodeNumOfDigits = 8;
 var resetCodeNumOfHoursValid = 24;
@@ -9,8 +10,33 @@ var maxTryNum = 3;
 module.exports = {
 
     GetUserById: function (id, callback) {
-        DAL.FindOne(collectionName, { _id: DAL.GetObjectId(id) }, function (result) {
-            callback(result);
+        var userFilter = { $match: { "_id": DAL.GetObjectId(id) } };
+        var joinFilter = {
+            $lookup:
+                {
+                    from: permissionsCollectionName,
+                    localField: '_id',
+                    foreignField: 'members',
+                    as: 'permissions'
+                }
+        }
+        var userFileds = { $project: { "permissions._id": 0, "permissions.members": 0 } };
+
+        var aggregateArray = [userFilter, joinFilter, userFileds];
+
+        DAL.Aggregate(collectionName, aggregateArray, function (result) {
+            if (result && result.length > 0) {
+                var user = result[0];
+
+                user.permissions = user.permissions.map(permission => {
+                    return permission.type;
+                });
+
+                callback(user);
+            }
+            else {
+                callback(null);
+            }
         });
     },
 

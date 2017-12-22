@@ -1,6 +1,7 @@
-var general = require("../modules/general.js");
+var navbarBL = require('../modules/BL/navbarBL');
+var general = require("../modules/general");
 
-module.exports = function (app, navbarBL) {
+module.exports = function (app) {
 
     prefix = "/api/navbar";
 

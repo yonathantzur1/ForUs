@@ -1,4 +1,6 @@
-module.exports = function (app, profilePictureBL) {
+var profilePictureBL = require('../modules/BL/profilePictureBL');
+
+module.exports = function (app) {
     prefix = "/api/profilePicture";
 
     // Get user profile image.

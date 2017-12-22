@@ -1,6 +1,7 @@
-var general = require('../modules/general.js');
+var chatBL = require('../modules/BL/chatBL');
+var general = require('../modules/general');
 
-module.exports = function (app, chatBL) {
+module.exports = function (app) {
     prefix = "/api/chat";
 
     // Checking if the session of the user is open.

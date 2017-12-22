@@ -1,4 +1,6 @@
-module.exports = function (app, unreadWindowBL) {
+var unreadWindowBL = require('../modules/BL/unreadWindowBL');
+
+module.exports = function (app) {
     prefix = "/api/unreadWindow";
 
     // Get all not empty chats order by last message time.

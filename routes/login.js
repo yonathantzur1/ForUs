@@ -1,4 +1,8 @@
-var config = require('../modules/config.js');
+var loginBL = require('../modules/BL/loginBL');
+var mailer = require('../modules/mailer');
+var general = require('../modules/general');
+var config = require('../modules/config');
+var sha512 = require('js-sha512');
 var ExpressBrute = require('express-brute'),
     store = new ExpressBrute.MemoryStore();
 
@@ -37,8 +41,7 @@ var globalBruteforce = new ExpressBrute(store, {
     handleStoreError: handleStoreError
 });
 
-
-module.exports = function (app, loginBL, mailer, sha512, general) {
+module.exports = function (app) {
 
     prefix = "/login";
 

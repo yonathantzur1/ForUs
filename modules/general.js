@@ -11,7 +11,8 @@ module.exports = {
             "email": user.email,
             "creationDate": user.creationDate,
             "profile": user.profile,
-            "friends": user.friends
+            "friends": user.friends,
+            "permissions": user.permissions
         }
 
         var tokenObject = { "user": tokenUserObject };

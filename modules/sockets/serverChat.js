@@ -1,7 +1,10 @@
 var chatBL = require('../BL/chatBL.js');
 var navbarBL = require('../BL/navbarBL.js');
+var config = require('../config');
+var general = require('../general');
+var jwt = require('jsonwebtoken');
 
-module.exports = function (io, jwt, config, socket, socketsDictionary, connectedUsers, general) {
+module.exports = function (io, socket, socketsDictionary, connectedUsers) {
 
     socket.on('SendMessage', function (msgData) {
         var originalMsgData = Object.assign({}, msgData);

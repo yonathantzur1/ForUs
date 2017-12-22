@@ -1,4 +1,7 @@
-module.exports = function (app, profileBL, general) {
+var profileBL = require('../modules/BL/profileBL');
+var general = require("../modules/general");
+
+module.exports = function (app) {
 
     prefix = "/api/profile";
 

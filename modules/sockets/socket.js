@@ -1,7 +1,11 @@
+var config = require('../config');
+var general = require('../general');
+var jwt = require('jsonwebtoken');
+
 var socketsDictionary = {};
 var connectedUsers = {};
 
-module.exports = function (io, jwt, config, general) {
+module.exports = function (io) {
     io.on('connection', function (socket) {
 
         socket.on('login', function () {
@@ -37,8 +41,8 @@ module.exports = function (io, jwt, config, general) {
             }
         });
 
-        require('./serverChat.js')(io, jwt, config, socket, socketsDictionary, connectedUsers, general);
-        require('./serverFriendRequests.js')(io, jwt, config, socket, socketsDictionary, connectedUsers, general);
+        require('./serverChat.js')(io, socket, socketsDictionary, connectedUsers);
+        require('./serverFriendRequests.js')(io, socket, socketsDictionary, connectedUsers);
 
         socket.on('disconnect', function () {
             LogoutUser(io, socket);
