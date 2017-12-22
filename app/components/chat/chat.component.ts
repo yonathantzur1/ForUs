@@ -639,6 +639,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                         });
 
                     $chatImage.val('');
+                    self.HideCanvasTopSector();
 
                     return true;
                 }

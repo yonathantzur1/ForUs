@@ -276,6 +276,7 @@ var ChatComponent = /** @class */ (function () {
                             orientation: true,
                         });
                         $chatImage.val('');
+                        self.HideCanvasTopSector();
                         return true;
                     }
                     else {
