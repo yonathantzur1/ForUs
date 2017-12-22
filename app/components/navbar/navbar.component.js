@@ -215,8 +215,7 @@ var NavbarComponent = /** @class */ (function () {
                 clearTimeout(self.inputInterval);
             }
             self.inputInterval = setTimeout(function () {
-                if (input) {
-                    input = input.trim();
+                if (input && (input = input.trim())) {
                     self.navbarService.GetMainSearchResults(input).then(function (results) {
                         if (results && results.length > 0 && input == self.searchInput.trim()) {
                             self.searchResults = results;

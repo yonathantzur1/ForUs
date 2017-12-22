@@ -177,7 +177,7 @@ export class ProfileComponent implements OnInit {
                 , dt = t2 - t1
                 , fingers = e.touches.length;
             $(this).data('lastTouch', t2);
-            if (!dt || dt > 500 || fingers > 1) return; // not double-tap
+            if (!dt || dt > 400 || fingers > 1) return; // not double-tap
 
             e.preventDefault(); // double tap - prevent the zoom
             // also synthesize click events we just swallowed up

@@ -263,6 +263,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             document.body.addEventListener(key, self.documentEvents[key], false);
         });
 
+        $("#canvas-top-bar-sector").bind('touchstart', preventZoom);
+        $("#canvas-bar-sector").bind('touchstart', preventZoom);
 
         self.CanvasResizeFunc = function () {
             var image = new Image;
@@ -313,6 +315,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         Object.keys(this.documentEvents).forEach(key => {
             document.body.removeEventListener(key, self.documentEvents[key], false);
         });
+
+        $("#canvas-top-bar-sector").unbind('touchstart', preventZoom);
+        $("#canvas-bar-sector").unbind('touchstart', preventZoom);
 
         $(window).off("resize", self.CanvasResizeFunc);
 
@@ -690,4 +695,17 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             this.OpenChat(this.messageNotificationFriendObj);
         }
     }
+}
+
+function preventZoom(e: any) {
+    var t2 = e.timeStamp
+        , t1 = $(this).data('lastTouch') || t2
+        , dt = t2 - t1
+        , fingers = e.touches.length;
+    $(this).data('lastTouch', t2);
+    if (!dt || dt > 400 || fingers > 1) return; // not double-tap
+
+    e.preventDefault(); // double tap - prevent the zoom
+    // also synthesize click events we just swallowed up
+    $(this).trigger('click').trigger('click');
 }
