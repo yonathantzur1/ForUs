@@ -1,7 +1,7 @@
 <div id="dropMenu">
     <ul class="drop-menu">
-        <li class="menu-option" (click)="ActiveAction(option.action, option.link)" *ngFor="let option of options">
-            <span class="option-link">
+        <li class="menu-option" *ngFor="let option of options" (click)="ActiveAction(option.action, option.link)">
+            <span class="option-link" *ngIf="option.showFunction()">
                 <span class="option-sector">
                     {{option.text}}
                 </span>

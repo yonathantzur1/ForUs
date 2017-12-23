@@ -5,7 +5,7 @@ var http = require('http').Server(app);
 var path = require('path');
 var compression = require('compression');
 var io = require('socket.io')(http);
-var general = require('./modules/general.js');
+var general = require('./modules/general');
 
 // app define
 app.set('trust proxy', 1);

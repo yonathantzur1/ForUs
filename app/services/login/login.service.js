@@ -31,6 +31,16 @@ var LoginService = /** @class */ (function (_super) {
     LoginService.prototype.UpdateLastLogin = function () {
         _super.prototype.post.call(this, this.prefix + '/updateLastLogin', null).toPromise();
     };
+    LoginService.prototype.GetUserPermissions = function () {
+        return _super.prototype.get.call(this, this.prefix + '/getUserPermissions')
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
     LoginService.prototype.Register = function (newUser) {
         var details = {
             "firstName": newUser.firstName,

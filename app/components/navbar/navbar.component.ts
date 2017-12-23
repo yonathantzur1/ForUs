@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
+import { Permissions } from '../../services/global/global.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { NavbarService } from '../../services/navbar/navbar.service';
 
@@ -10,16 +11,23 @@ declare var io: any;
 declare function deleteCookieByName(name: string): void;
 
 export class DropMenuData {
-    constructor(link: string, text: string, action: Function) {
-        this.link = link;
-        this.text = text;
-        this.action = action;
-    }
-
     link: string;
     text: string;
     action: Function;
-    object: any;
+    showFunction: Function;
+
+    constructor(link: string, text: string, action: Function, showFunction?: Function) {
+        this.link = link;
+        this.text = text;
+        this.action = action;
+
+        if (showFunction) {
+            this.showFunction = showFunction;
+        }
+        else {
+            this.showFunction = function () { return true; }
+        }
+    }
 }
 
 export class Friend {
@@ -148,7 +156,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
         ];
 
         self.dropMenuDataList = [
-            new DropMenuData("#", "הגדרות", null),
+            new DropMenuData("#", "הגדרות", null, function () {
+                return (self.globalService.userPermissions.indexOf(Permissions.ADMIN) != -1);
+            }),
+            new DropMenuData("#", "פרופיל", null),
             new DropMenuData("/login", "התנתקות", function (link: string) {
                 deleteCookieByName("ui");
                 self.authService.DeleteTokenFromCookie().then((result: any) => { });

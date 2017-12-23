@@ -7,17 +7,27 @@ import { LoginService } from '../login/login.service';
 
 declare var io: any;
 
+export enum Permissions {
+    ADMIN = "admin"
+}
+
 export class GlobalService extends LoginService {
 
     // Use this property for property binding
     public data: BehaviorSubject<boolean> = new BehaviorSubject<any>({});
     public socket: any;
-    public userProfileImage: string;    
+    public userProfileImage: string;
+    public userPermissions: Array<string> = [];
 
-    InitializeSocket() {
+    Initialize() {
         if (!this.socket) {
             this.socket = io();
             super.UpdateLastLogin();
+
+            var self = this;
+            super.GetUserPermissions().then(function (result) {
+                result && (self.userPermissions = result);
+            });
         }
     }
 
@@ -26,6 +36,7 @@ export class GlobalService extends LoginService {
         this.socket = null;
         this.data = new BehaviorSubject<any>({});
         this.userProfileImage = null;
+        this.userPermissions = [];
     }
 
     setData(key: string, value: any) {

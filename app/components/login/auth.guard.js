@@ -23,7 +23,7 @@ var AuthGuard = /** @class */ (function () {
         var _this = this;
         return this.authService.IsUserOnSession().then(function (result) {
             if (result) {
-                _this.globalService.InitializeSocket();
+                _this.globalService.Initialize();
                 return true;
             }
             else {

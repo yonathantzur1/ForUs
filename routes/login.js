@@ -77,14 +77,29 @@ module.exports = function (app) {
             });
         });
 
+    // Update user last login time in DB.
     app.post(prefix + '/updateLastLogin', function (req, res) {
         var token = general.DecodeToken(general.GetTokenFromRequest(req));
 
         if (token) {
             loginBL.UpdateLastLogin(token.user._id, function (result) { });
+            res.end();
         }
+        else {
+            res.status(401).end();
+        }
+    });
 
-        res.end();
+    // Get user permissions from token.
+    app.get(prefix + '/getUserPermissions', function (req, res) {
+        var token = general.DecodeToken(general.GetTokenFromRequest(req));
+
+        if (token) {
+            res.send(token.user.permissions);
+        }
+        else {
+            res.status(401).end();
+        }
     });
 
     // Add new user to the db and make sure the email is not already exists.

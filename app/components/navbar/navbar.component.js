@@ -12,13 +12,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var global_service_1 = require("../../services/global/global.service");
+var global_service_2 = require("../../services/global/global.service");
 var auth_service_1 = require("../../services/auth/auth.service");
 var navbar_service_1 = require("../../services/navbar/navbar.service");
 var DropMenuData = /** @class */ (function () {
-    function DropMenuData(link, text, action) {
+    function DropMenuData(link, text, action, showFunction) {
         this.link = link;
         this.text = text;
         this.action = action;
+        if (showFunction) {
+            this.showFunction = showFunction;
+        }
+        else {
+            this.showFunction = function () { return true; };
+        }
     }
     return DropMenuData;
 }());
@@ -477,7 +484,10 @@ var NavbarComponent = /** @class */ (function () {
             }
         ];
         self.dropMenuDataList = [
-            new DropMenuData("#", "הגדרות", null),
+            new DropMenuData("#", "הגדרות", null, function () {
+                return (self.globalService.userPermissions.indexOf(global_service_2.Permissions.ADMIN) != -1);
+            }),
+            new DropMenuData("#", "פרופיל", null),
             new DropMenuData("/login", "התנתקות", function (link) {
                 deleteCookieByName("ui");
                 self.authService.DeleteTokenFromCookie().then(function (result) { });

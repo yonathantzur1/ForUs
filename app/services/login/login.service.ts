@@ -22,6 +22,17 @@ export class LoginService extends BasicService {
         super.post(this.prefix + '/updateLastLogin', null).toPromise();
     }
 
+    GetUserPermissions() {
+        return super.get(this.prefix + '/getUserPermissions')
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((result: any) => {
+                return null;
+            });
+    }
+
     Register(newUser: NewUser) {
         var details = {
             "firstName": newUser.firstName,
