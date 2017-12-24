@@ -15,11 +15,12 @@ import { ProfilePictureComponent } from './components/profilePicture/profilePict
 import { ChatComponent } from './components/chat/chat.component';
 import { UnreadWindowComponent } from './components/unreadWindow/unreadWindow.component';
 import { FriendRequestsWindowComponent } from './components/friendRequestsWindow/friendRequestsWindow.component';
+import { ManagementComponent } from './components/management/management.component';
 
 import { PageNotFoundComponent } from './components/pageNotFound/pageNotFound.component';
 
+import { AuthGuard, AdminAuthGuard } from './auth/auth.guard';
 import { AuthService } from './services/auth/auth.service';
-import { AuthGuard } from './components/login/auth.guard';
 
 import { routing } from './app.routing'
 
@@ -44,10 +45,12 @@ import { GlobalService } from './services/global/global.service';
     ProfilePictureComponent,
     ChatComponent,
     UnreadWindowComponent,
-    FriendRequestsWindowComponent
+    FriendRequestsWindowComponent,
+    ManagementComponent
   ],
   providers: [
     AuthGuard,
+    AdminAuthGuard,
     AuthService,
     GlobalService
   ],

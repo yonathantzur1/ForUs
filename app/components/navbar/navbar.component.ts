@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { GlobalService } from '../../services/global/global.service';
-import { Permissions } from '../../services/global/global.service';
+import { GlobalService, PERMISSIONS } from '../../services/global/global.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { NavbarService } from '../../services/navbar/navbar.service';
 
@@ -156,10 +155,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
         ];
 
         self.dropMenuDataList = [
-            new DropMenuData("#", "הגדרות", null, function () {
-                return (self.globalService.userPermissions.indexOf(Permissions.ADMIN) != -1);
+            new DropMenuData("/management", "ניהול", null, function () {
+                return (self.globalService.userPermissions.indexOf(PERMISSIONS.ADMIN) != -1);
             }),
-            new DropMenuData("#", "פרופיל", null),
+            new DropMenuData("#", "הפרופיל שלי", null),
+            new DropMenuData("#", "הגדרות", null),
             new DropMenuData("/login", "התנתקות", function (link: string) {
                 deleteCookieByName("ui");
                 self.authService.DeleteTokenFromCookie().then((result: any) => { });

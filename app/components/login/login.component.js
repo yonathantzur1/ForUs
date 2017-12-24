@@ -122,7 +122,7 @@ var LoginComponent = /** @class */ (function () {
                 }
                 else {
                     if (result.lock != null) {
-                        $("#lock-user").attr("data-content", "המשתמש ננעל למשך " + result.lock + " דקות");
+                        $("#lock-user").attr("data-content", "החשבון ננעל למשך " + result.lock + " דקות");
                         _this.snackbarId = $("#lock-user").snackbar("show");
                     }
                     else {

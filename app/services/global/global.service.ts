@@ -7,7 +7,7 @@ import { LoginService } from '../login/login.service';
 
 declare var io: any;
 
-export enum Permissions {
+export enum PERMISSIONS {
     ADMIN = "admin"
 }
 

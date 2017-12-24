@@ -28,6 +28,16 @@ var AuthService = /** @class */ (function (_super) {
             return null;
         });
     };
+    AuthService.prototype.IsUserAdmin = function () {
+        return _super.prototype.get.call(this, this.prefix + '/isUserAdmin')
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
     AuthService.prototype.GetCurrUser = function () {
         return _super.prototype.get.call(this, this.prefix + '/getCurrUser')
             .toPromise()

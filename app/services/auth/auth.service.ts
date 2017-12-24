@@ -14,6 +14,17 @@ export class AuthService extends BasicService {
             });
     }
 
+    IsUserAdmin() {
+        return super.get(this.prefix + '/isUserAdmin')
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((result: any) => {
+                return null;
+            });
+    }
+
     GetCurrUser() {
         return super.get(this.prefix + '/getCurrUser')
             .toPromise()

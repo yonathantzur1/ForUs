@@ -3,6 +3,10 @@ var config = require('./config.js');
 var encryption = require('./encryption.js');
 
 module.exports = {
+    PERMISSIONS: {
+        ADMIN: "admin"
+    },
+
     GetTokenFromUserObject: function (user) {
         var tokenUserObject = {
             "_id": user._id,

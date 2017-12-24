@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var global_service_1 = require("../../services/global/global.service");
-var global_service_2 = require("../../services/global/global.service");
 var auth_service_1 = require("../../services/auth/auth.service");
 var navbar_service_1 = require("../../services/navbar/navbar.service");
 var DropMenuData = /** @class */ (function () {
@@ -484,10 +483,11 @@ var NavbarComponent = /** @class */ (function () {
             }
         ];
         self.dropMenuDataList = [
-            new DropMenuData("#", "הגדרות", null, function () {
-                return (self.globalService.userPermissions.indexOf(global_service_2.Permissions.ADMIN) != -1);
+            new DropMenuData("/management", "ניהול", null, function () {
+                return (self.globalService.userPermissions.indexOf(global_service_1.PERMISSIONS.ADMIN) != -1);
             }),
-            new DropMenuData("#", "פרופיל", null),
+            new DropMenuData("#", "הפרופיל שלי", null),
+            new DropMenuData("#", "הגדרות", null),
             new DropMenuData("/login", "התנתקות", function (link) {
                 deleteCookieByName("ui");
                 self.authService.DeleteTokenFromCookie().then(function (result) { });

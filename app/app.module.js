@@ -22,9 +22,10 @@ var profilePicture_component_1 = require("./components/profilePicture/profilePic
 var chat_component_1 = require("./components/chat/chat.component");
 var unreadWindow_component_1 = require("./components/unreadWindow/unreadWindow.component");
 var friendRequestsWindow_component_1 = require("./components/friendRequestsWindow/friendRequestsWindow.component");
+var management_component_1 = require("./components/management/management.component");
 var pageNotFound_component_1 = require("./components/pageNotFound/pageNotFound.component");
+var auth_guard_1 = require("./auth/auth.guard");
 var auth_service_1 = require("./services/auth/auth.service");
-var auth_guard_1 = require("./components/login/auth.guard");
 var app_routing_1 = require("./app.routing");
 var global_service_1 = require("./services/global/global.service");
 var AppModule = /** @class */ (function () {
@@ -50,10 +51,12 @@ var AppModule = /** @class */ (function () {
                 profilePicture_component_1.ProfilePictureComponent,
                 chat_component_1.ChatComponent,
                 unreadWindow_component_1.UnreadWindowComponent,
-                friendRequestsWindow_component_1.FriendRequestsWindowComponent
+                friendRequestsWindow_component_1.FriendRequestsWindowComponent,
+                management_component_1.ManagementComponent
             ],
             providers: [
                 auth_guard_1.AuthGuard,
+                auth_guard_1.AdminAuthGuard,
                 auth_service_1.AuthService,
                 global_service_1.GlobalService
             ],

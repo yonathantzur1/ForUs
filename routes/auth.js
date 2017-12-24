@@ -17,6 +17,11 @@ module.exports = function (app) {
         }
     });
 
+    // Checking if user has ADMIN permission.
+    app.get(prefix + '/isUserAdmin', function (req, res) {
+        res.send((req.user && (req.user.permissions.indexOf(general.PERMISSIONS.ADMIN) != -1)));
+    });
+
     // Getting the current login user.
     app.get(prefix + '/getCurrUser', function (req, res) {
         res.send(req.user);

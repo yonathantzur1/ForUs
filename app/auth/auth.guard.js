@@ -11,15 +11,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var auth_service_1 = require("../../services/auth/auth.service");
-var global_service_1 = require("../../services/global/global.service");
+var auth_service_1 = require("../services/auth/auth.service");
+var global_service_1 = require("../services/global/global.service");
 var AuthGuard = /** @class */ (function () {
     function AuthGuard(router, authService, globalService) {
         this.router = router;
         this.authService = authService;
         this.globalService = globalService;
     }
-    AuthGuard.prototype.canActivate = function () {
+    AuthGuard.prototype.canActivate = function (route, state) {
         var _this = this;
         return this.authService.IsUserOnSession().then(function (result) {
             if (result) {
@@ -39,4 +39,29 @@ var AuthGuard = /** @class */ (function () {
     return AuthGuard;
 }());
 exports.AuthGuard = AuthGuard;
+var AdminAuthGuard = /** @class */ (function () {
+    function AdminAuthGuard(router, authService, globalService) {
+        this.router = router;
+        this.authService = authService;
+        this.globalService = globalService;
+    }
+    AdminAuthGuard.prototype.canActivate = function (route, state) {
+        var _this = this;
+        return this.authService.IsUserAdmin().then(function (result) {
+            if (result) {
+                return true;
+            }
+            else {
+                _this.router.navigateByUrl('');
+                return false;
+            }
+        });
+    };
+    AdminAuthGuard = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [router_1.Router, auth_service_1.AuthService, global_service_1.GlobalService])
+    ], AdminAuthGuard);
+    return AdminAuthGuard;
+}());
+exports.AdminAuthGuard = AdminAuthGuard;
 //# sourceMappingURL=auth.guard.js.map
