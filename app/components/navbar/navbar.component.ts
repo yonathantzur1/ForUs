@@ -273,7 +273,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     IsShowFriendFindInput = function () {
-        return $(".slidenav-body-sector").hasScrollBar();
+        return $(".sidenav-body-sector").hasScrollBar();
     }
 
     AddMessageToToolbarMessages = function (msgData: any) {
@@ -380,13 +380,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.HideDropMenu();
             this.HideSearchResults();
             document.getElementById("sidenav").style.width = "210px";
-            $("#open-slidenav-btn").removeClass("close-slidenav");
+            $("#open-sidenav-btn").removeClass("close-sidenav");
         }
         else {
             this.HideUnreadWindow();
             this.HideFriendRequestsWindow();
             document.getElementById("sidenav").style.width = "0";
-            $("#open-slidenav-btn").addClass("close-slidenav");
+            $("#open-sidenav-btn").addClass("close-sidenav");
         }
     }
 
@@ -396,7 +396,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.HideFriendRequestsWindow();
             this.isSidebarOpen = false;
             document.getElementById("sidenav").style.width = "0";
-            $("#open-slidenav-btn").addClass("close-slidenav");
+            $("#open-sidenav-btn").addClass("close-sidenav");
         }
     }
 

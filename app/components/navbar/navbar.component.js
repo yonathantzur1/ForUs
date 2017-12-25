@@ -71,7 +71,7 @@ var NavbarComponent = /** @class */ (function () {
         this.chatTypingDelay = 2200; // milliseconds
         this.newFriendsLabelDelay = 4000; // milliseconds
         this.IsShowFriendFindInput = function () {
-            return $(".slidenav-body-sector").hasScrollBar();
+            return $(".sidenav-body-sector").hasScrollBar();
         };
         this.AddMessageToToolbarMessages = function (msgData) {
             var notificationsMessages = this.GetToolbarItem("messages").content;
@@ -161,13 +161,13 @@ var NavbarComponent = /** @class */ (function () {
                 this.HideDropMenu();
                 this.HideSearchResults();
                 document.getElementById("sidenav").style.width = "210px";
-                $("#open-slidenav-btn").removeClass("close-slidenav");
+                $("#open-sidenav-btn").removeClass("close-sidenav");
             }
             else {
                 this.HideUnreadWindow();
                 this.HideFriendRequestsWindow();
                 document.getElementById("sidenav").style.width = "0";
-                $("#open-slidenav-btn").addClass("close-slidenav");
+                $("#open-sidenav-btn").addClass("close-sidenav");
             }
         };
         this.HideSidenav = function () {
@@ -176,7 +176,7 @@ var NavbarComponent = /** @class */ (function () {
                 this.HideFriendRequestsWindow();
                 this.isSidebarOpen = false;
                 document.getElementById("sidenav").style.width = "0";
-                $("#open-slidenav-btn").addClass("close-slidenav");
+                $("#open-sidenav-btn").addClass("close-sidenav");
             }
         };
         this.ShowHideDropMenu = function () {

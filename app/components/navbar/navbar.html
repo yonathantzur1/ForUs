@@ -1,10 +1,10 @@
-<div class="slidenav-overlay" [ngClass]="{'overlay-background' : isSidebarOpen, 'slidenav-overlay-top' : (isUnreadWindowOpen || isFriendRequestsWindowOpen)}"
+<div class="sidenav-overlay" [ngClass]="{'overlay-background' : isSidebarOpen, 'sidenav-overlay-top' : (isUnreadWindowOpen || isFriendRequestsWindowOpen)}"
   *ngIf="isSidebarOpen || isDropMenuOpen || isShowSearchResults" (click)="OverlayClicked()"></div>
 <div id="navbar">
   <div class="navbar-container">
     <div id="sidenav" class="sidenav" [ngClass]="{'sidenav-shadow' : isSidebarOpen}">
-      <div class="slidenav-head-sector">
-        <div class="slidenav-header">
+      <div class="sidenav-head-sector">
+        <div class="sidenav-header">
           <profilePicture class="profile-picture" [isEditEnable]="true"></profilePicture>
           <div class="user-name" title="{{user.firstName + ' ' + user.lastName}}">{{user.firstName + " " + user.lastName}}</div>
           <div class="toolbar-menu">
@@ -15,7 +15,7 @@
           </div>
         </div>
       </div>
-      <div class="slidenav-body-sector">
+      <div class="sidenav-body-sector">
         <loader id="friends-loader" class="friends-loader" *ngIf="isFriendsLoading"></loader>
         <div id="friends-sector" class="friends-sector" *ngIf="!isFriendsLoading && friends.length > 0">
           <form class="form-horizontal" *ngIf="IsShowFriendFindInput()">
@@ -104,8 +104,8 @@
     <span class="notification-text">שלח/ה לך בקשת חברות</span>
   </span>
 
-  <div id="open-slidenav-btn" class="open-slidenav-btn" [ngClass]="{'open-slidenav' : isSidebarOpen}" (click)="ShowHideSidenav()">
-    <i class="material-icons open-slidenav-icon">{{isSidebarOpen ? 'keyboard_arrow_right': 'keyboard_arrow_left'}}</i>
+  <div id="open-sidenav-btn" class="open-sidenav-btn" [ngClass]="{'open-sidenav' : isSidebarOpen}" (click)="ShowHideSidenav()">
+    <i class="material-icons open-sidenav-icon">{{isSidebarOpen ? 'keyboard_arrow_right': 'keyboard_arrow_left'}}</i>
   </div>
 </div>
 

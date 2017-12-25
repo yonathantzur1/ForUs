@@ -1,4 +1,4 @@
-.slidenav-overlay {
+.sidenav-overlay {
     position: fixed;
     top: 50px;
     right: 0;
@@ -7,7 +7,7 @@
     z-index: 998;
 }
 
-.slidenav-overlay-top {
+.sidenav-overlay-top {
     z-index: 1000 !important;
 }
 
@@ -40,7 +40,7 @@
     -webkit-user-select: none;
 }
 
-#navbar .slidenav-body-sector {
+#navbar .sidenav-body-sector {
     height: calc(100% - 130px);
     overflow-y: auto;
     overflow-x: hidden;
@@ -183,7 +183,7 @@
     font-weight: bold;
 }
 
-#navbar .slidenav-head-sector {
+#navbar .sidenav-head-sector {
     background-color: #115c94;
     width: 100%;
     height: 75px;
@@ -191,7 +191,7 @@
     padding-top: 0;
 }
 
-#navbar .slidenav-header {
+#navbar .sidenav-header {
     font-size: 26px !important;
     cursor: default !important;
     color: #f1f1f1 !important;
@@ -625,7 +625,7 @@
     border-top: 0.5px solid #bdb7b7;
 }
 
-#navbar .open-slidenav-btn {
+#navbar .open-sidenav-btn {
     width: 25px;
     height: 35px;
     position: fixed;
@@ -642,34 +642,34 @@
     z-index: 999;
 }
 
-#navbar .open-slidenav-btn:hover {
+#navbar .open-sidenav-btn:hover {
     background-color: #0079e3;
 }
 
-#navbar .open-slidenav-icon {
+#navbar .open-sidenav-icon {
     color: white;
     font-weight: bold;
     align-self: center;
 }
 
-#navbar .open-slidenav {
-    animation-name: openSlidenav;
+#navbar .open-sidenav {
+    animation-name: opensidenav;
     animation-duration: 0.4s;
     right: 210px;
 }
 
-@keyframes openSlidenav {
+@keyframes opensidenav {
     from {right: 0;}
     to {right: 210px;}
 }
 
-#navbar .close-slidenav {
-    animation-name: closeSlidenav;
+#navbar .close-sidenav {
+    animation-name: closesidenav;
     animation-duration: 0.4s;
     right: 0;
 }
 
-@keyframes closeSlidenav {
+@keyframes closesidenav {
     from {right: 210px;}
     to {right: 0;}
 }
