@@ -89,7 +89,10 @@
               <profilePicture [isEditEnable]="false"></profilePicture>
             </span> {{user.firstName}}
           </span>
-          <dropMenu class="dropMenuPosition col-md-2 col-xs-4" [isDropMenuOpen]="isDropMenuOpen" [options]="dropMenuDataList"></dropMenu>
+          <span *ngIf="isDropMenuOpen">
+            <span class="glyphicon glyphicon-triangle-top menu-top-arrow"></span>
+            <dropMenu class="dropMenuPosition col-md-2 col-xs-4" [options]="dropMenuDataList"></dropMenu>
+          </span>
         </div>
       </div>
     </div>
@@ -105,6 +108,9 @@
   </span>
 
   <div id="open-sidenav-btn" class="open-sidenav-btn" [ngClass]="{'open-sidenav' : isSidebarOpen}" (click)="ShowHideSidenav()">
+    <div class="notifications-budget" *ngIf="!isSidenavOpened && GetNotificationsNumber() > 0">
+      <span class="notifications-number">{{GetNotificationsNumber()}}</span>
+    </div>
     <i class="material-icons open-sidenav-icon">{{isSidebarOpen ? 'keyboard_arrow_right': 'keyboard_arrow_left'}}</i>
   </div>
 </div>

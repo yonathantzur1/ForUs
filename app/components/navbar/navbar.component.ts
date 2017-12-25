@@ -39,12 +39,13 @@ export class Friend {
     typingTimer: any;
 }
 
-export class toolbarItem {
+export class ToolbarItem {
     id: string;
     icon: string;
     innerIconText: string;
     title: string;
     content: Object;
+    getNotificationsNumber: Function;
     isShowToolbarItemBadget: Function;
     onClick: Function;
 }
@@ -65,6 +66,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
     chatData: any = { "isOpen": false };
     isOpenProfileEditWindow: boolean;
+    isSidenavOpened: boolean = false;
     socket: any;
 
     // START message notification variables //
@@ -89,12 +91,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
     isUnreadWindowOpen: boolean = false;
     isFriendRequestsWindowOpen: boolean = false;
     isSidebarOpen: boolean;
-    isDropMenuOpen: boolean = false;
+    isDropMenuOpen: boolean;
     searchResults: Array<any> = [];
     isShowSearchResults: boolean = false;
     inputInterval: any;
 
-    toolbarItems: Array<toolbarItem>;
+    toolbarItems: Array<ToolbarItem>;
     dropMenuDataList: Array<DropMenuData>;
 
     // START CONFIG VARIABLES //
@@ -116,9 +118,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.socket = this.globalService.socket;
 
         this.subscribeObj = this.globalService.data.subscribe(value => {
+            // In case isOpenProfileEditWindow is true or false
             if (value["isOpenProfileEditWindow"] != null) {
                 value["isOpenProfileEditWindow"] && this.ClosePopups();
                 this.isOpenProfileEditWindow = value["isOpenProfileEditWindow"];
+            }
+
+            if (value["closeDropMenu"]) {
+                this.isDropMenuOpen = false;
             }
         });
 
@@ -131,8 +138,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 innerIconText: "mail_outline",
                 title: "הודעות",
                 content: {},
+                getNotificationsNumber: function () {
+                    return Object.keys(this.content).length;
+                },
                 isShowToolbarItemBadget: function () {
-                    return (Object.keys(this.content).length > 0);
+                    return (this.getNotificationsNumber() > 0);
                 },
                 onClick: function () {
                     self.ShowHideUnreadWindow();
@@ -147,8 +157,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
                     get: [],
                     send: []
                 },
+                getNotificationsNumber: function () {
+                    return this.content.get.length;
+                },
                 isShowToolbarItemBadget: function () {
-                    return (this.content.get.length > 0);
+                    return (this.getNotificationsNumber() > 0);
                 },
                 onClick: function () {
                     self.ShowHideFriendRequestsWindow();
@@ -159,7 +172,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         self.dropMenuDataList = [
             new DropMenuData("/management", "ניהול", null, function () {
                 return (self.globalService.userPermissions.indexOf(PERMISSIONS.ADMIN) != -1);
-            }),            
+            }),
             new DropMenuData("#", "הגדרות", null),
             new DropMenuData("/login", "התנתקות", function (link: string) {
                 deleteCookieByName("ui");
@@ -379,8 +392,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
         if (this.isSidebarOpen) {
             this.HideDropMenu();
             this.HideSearchResults();
+            this.isSidenavOpened = true;
             document.getElementById("sidenav").style.width = "210px";
-            $("#open-sidenav-btn").removeClass("close-sidenav");
+            $("#open-sidenav-btn").removeClass("close-sidenav");            
         }
         else {
             this.HideUnreadWindow();
@@ -729,6 +743,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     NavigateMain = function () {
         this.router.navigateByUrl('');
+    }
+
+    GetNotificationsNumber = function () {
+        var notificationsAmount = 0;
+
+        this.toolbarItems.forEach((item: ToolbarItem) => {
+            notificationsAmount += item.getNotificationsNumber();
+        });
+
+        return notificationsAmount;
     }
 }
 

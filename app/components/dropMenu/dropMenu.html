@@ -1,5 +1,4 @@
-<div id="dropMenu" *ngIf="isDropMenuOpen">
-    <span class="glyphicon glyphicon-triangle-top menu-top-arrow"></span>
+<div id="dropMenu">
     <ul class="drop-menu">
         <li class="menu-option" *ngFor="let option of options" (click)="ActiveAction(option.action, option.link)">
             <span class="option-link" *ngIf="option.showFunction()">

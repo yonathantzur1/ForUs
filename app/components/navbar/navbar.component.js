@@ -35,12 +35,12 @@ var Friend = /** @class */ (function () {
     return Friend;
 }());
 exports.Friend = Friend;
-var toolbarItem = /** @class */ (function () {
-    function toolbarItem() {
+var ToolbarItem = /** @class */ (function () {
+    function ToolbarItem() {
     }
-    return toolbarItem;
+    return ToolbarItem;
 }());
-exports.toolbarItem = toolbarItem;
+exports.ToolbarItem = ToolbarItem;
 var NavbarComponent = /** @class */ (function () {
     function NavbarComponent(router, authService, globalService, navbarService) {
         var _this = this;
@@ -53,6 +53,7 @@ var NavbarComponent = /** @class */ (function () {
         this.isNewFriendsLabel = false;
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.chatData = { "isOpen": false };
+        this.isSidenavOpened = false;
         // START message notification variables //
         this.isShowMessageNotification = false;
         // END message notification variables //
@@ -61,7 +62,6 @@ var NavbarComponent = /** @class */ (function () {
         // END friend-request notification variables //
         this.isUnreadWindowOpen = false;
         this.isFriendRequestsWindowOpen = false;
-        this.isDropMenuOpen = false;
         this.searchResults = [];
         this.isShowSearchResults = false;
         // START CONFIG VARIABLES //
@@ -160,6 +160,7 @@ var NavbarComponent = /** @class */ (function () {
             if (this.isSidebarOpen) {
                 this.HideDropMenu();
                 this.HideSearchResults();
+                this.isSidenavOpened = true;
                 document.getElementById("sidenav").style.width = "210px";
                 $("#open-sidenav-btn").removeClass("close-sidenav");
             }
@@ -451,11 +452,22 @@ var NavbarComponent = /** @class */ (function () {
         this.NavigateMain = function () {
             this.router.navigateByUrl('');
         };
+        this.GetNotificationsNumber = function () {
+            var notificationsAmount = 0;
+            this.toolbarItems.forEach(function (item) {
+                notificationsAmount += item.getNotificationsNumber();
+            });
+            return notificationsAmount;
+        };
         this.socket = this.globalService.socket;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
+            // In case isOpenProfileEditWindow is true or false
             if (value["isOpenProfileEditWindow"] != null) {
                 value["isOpenProfileEditWindow"] && _this.ClosePopups();
                 _this.isOpenProfileEditWindow = value["isOpenProfileEditWindow"];
+            }
+            if (value["closeDropMenu"]) {
+                _this.isDropMenuOpen = false;
             }
         });
         var self = this;
@@ -466,8 +478,11 @@ var NavbarComponent = /** @class */ (function () {
                 innerIconText: "mail_outline",
                 title: "הודעות",
                 content: {},
+                getNotificationsNumber: function () {
+                    return Object.keys(this.content).length;
+                },
                 isShowToolbarItemBadget: function () {
-                    return (Object.keys(this.content).length > 0);
+                    return (this.getNotificationsNumber() > 0);
                 },
                 onClick: function () {
                     self.ShowHideUnreadWindow();
@@ -482,8 +497,11 @@ var NavbarComponent = /** @class */ (function () {
                     get: [],
                     send: []
                 },
+                getNotificationsNumber: function () {
+                    return this.content.get.length;
+                },
                 isShowToolbarItemBadget: function () {
-                    return (this.content.get.length > 0);
+                    return (this.getNotificationsNumber() > 0);
                 },
                 onClick: function () {
                     self.ShowHideFriendRequestsWindow();

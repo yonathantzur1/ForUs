@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { GlobalService } from '../../services/global/global.service';
 import { DropMenuData } from '../navbar/navbar.component';
 
 @Component({
@@ -10,10 +11,9 @@ import { DropMenuData } from '../navbar/navbar.component';
 })
 
 export class DropMenuComponent {
-    constructor(private router: Router) { }
+    constructor(private router: Router, private globalService: GlobalService) { }
 
     @Input() options: DropMenuData[];
-    @Input() isDropMenuOpen: boolean;
 
     ActiveAction = function (action: Function, link: string) {
         if (action) {
@@ -23,6 +23,6 @@ export class DropMenuComponent {
             this.router.navigateByUrl(link);
         }
 
-        this.isDropMenuOpen = false;
+        this.globalService.setData("closeDropMenu", true);
     }
 }
