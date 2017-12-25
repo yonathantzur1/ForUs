@@ -628,7 +628,7 @@
 #navbar .open-slidenav-btn {
     width: 25px;
     height: 35px;
-    position: absolute;
+    position: fixed;
     top: 65px;
     right: 0;
     border-top-left-radius: 5px;
@@ -642,8 +642,13 @@
     z-index: 999;
 }
 
+#navbar .open-slidenav-btn:hover {
+    background-color: #0079e3;
+}
+
 #navbar .open-slidenav-icon {
     color: white;
+    font-weight: bold;
     align-self: center;
 }
 
