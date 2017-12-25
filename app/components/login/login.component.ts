@@ -48,13 +48,13 @@ export class ForgotUser {
 })
 
 export class LoginComponent {
-  constructor(private router: Router, private globalService: GlobalService, private loginService: LoginService) { }
-
   user: User = new User();
   newUser: NewUser = new NewUser();
   forgotUser: ForgotUser = new ForgotUser();
   isLoading: boolean = false;
   snackbarId: any;
+  
+  constructor(private router: Router, private globalService: GlobalService, private loginService: LoginService) { }
 
   // Running on the array of validation functions and make sure all valid.
   // Getting validation array and object to valid.

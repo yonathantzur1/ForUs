@@ -446,8 +446,9 @@ var NavbarComponent = /** @class */ (function () {
         };
         this.socket = this.globalService.socket;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
-            if (value["isOpenProfileEditWindow"]) {
-                _this.ClosePopups();
+            if (value["isOpenProfileEditWindow"] != null) {
+                value["isOpenProfileEditWindow"] && _this.ClosePopups();
+                _this.isOpenProfileEditWindow = value["isOpenProfileEditWindow"];
             }
         });
         var self = this;

@@ -106,6 +106,7 @@
   </span>
 </div>
 
+<profile *ngIf="isOpenProfileEditWindow"></profile>
 <unreadWindow [hidden]="!isUnreadWindowOpen" [isFriendsLoading]="isFriendsLoading" [OpenChat]="OpenChat.bind(this)" [friends]="friends"
   [messagesNotifications]="GetToolbarItem('messages').content"></unreadWindow>
 <friendRequestsWindow [hidden]="!isFriendRequestsWindowOpen" [AddFriend]="AddFriend.bind(this)" [IgnoreFriendRequest]="IgnoreFriendRequest.bind(this)"

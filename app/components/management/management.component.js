@@ -11,9 +11,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var User = /** @class */ (function () {
+    function User() {
+    }
+    return User;
+}());
 var ManagementComponent = /** @class */ (function () {
     function ManagementComponent(router) {
         this.router = router;
+        this.Users = [];
     }
     ManagementComponent = __decorate([
         core_1.Component({

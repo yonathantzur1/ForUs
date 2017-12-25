@@ -84,6 +84,7 @@
 
 #chat .exit-chat:hover {
     color: #ffffff;
+    font-weight: bold;
 }
 
 #chat .chat-body-container {

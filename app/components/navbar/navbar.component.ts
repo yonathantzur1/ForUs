@@ -64,6 +64,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     hideNewFriendsLabelTimeout: any;
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
     chatData: any = { "isOpen": false };
+    isOpenProfileEditWindow: boolean;
     socket: any;
 
     // START message notification variables //
@@ -115,8 +116,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.socket = this.globalService.socket;
 
         this.subscribeObj = this.globalService.data.subscribe(value => {
-            if (value["isOpenProfileEditWindow"]) {
-                this.ClosePopups();
+            if (value["isOpenProfileEditWindow"] != null) {
+                value["isOpenProfileEditWindow"] && this.ClosePopups();
+                this.isOpenProfileEditWindow = value["isOpenProfileEditWindow"];
             }
         });
 

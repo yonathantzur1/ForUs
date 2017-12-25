@@ -17,12 +17,12 @@ declare function GetCroppedBase64Image(): any;
 })
 
 export class ProfileComponent implements OnInit {
-    constructor(private profileService: ProfileService, private globalService: GlobalService) { }
 
     isLoading: boolean = false;
     userImage: string;
-    isOpenProfileEditWindow: boolean;
     isNewPhoto: boolean = true;
+
+    constructor(private profileService: ProfileService, private globalService: GlobalService) { }
 
     options = {
         aspectRatio: 1 / 1,
