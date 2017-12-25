@@ -47,7 +47,7 @@
     </div>
     <div class="container-fluid navbar">
       <div class="col-xs-8 navbar-right-container">
-        <img (click)="ShowHideSidenav()" src="../logo/icon.png" class="head-icon">
+        <img src="../logo/icon.png" class="head-icon" (click)="NavigateMain()">
         <span class="search-sector col-md-6 col-xs-10">
           <input type="text" id="search-input" class="search-input" placeholder="חיפוש" [(ngModel)]="searchInput" (ngModelChange)="SearchChange(searchInput)"
             (focus)="ClickSearchInput(searchInput)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
@@ -89,8 +89,7 @@
               <profilePicture [isEditEnable]="false"></profilePicture>
             </span> {{user.firstName}}
           </span>
-          <span class="glyphicon glyphicon-triangle-top menu-top-arrow" *ngIf="isDropMenuOpen"></span>
-          <dropMenu class="dropMenuPosition col-md-2 col-xs-4" *ngIf="isDropMenuOpen" [options]="dropMenuDataList"></dropMenu>
+          <dropMenu class="dropMenuPosition col-md-2 col-xs-4" [isDropMenuOpen]="isDropMenuOpen" [options]="dropMenuDataList"></dropMenu>
         </div>
       </div>
     </div>
@@ -104,6 +103,10 @@
     <span class="notification-name">{{friendRequestNotificationName}}</span>
     <span class="notification-text">שלח/ה לך בקשת חברות</span>
   </span>
+
+  <div id="open-slidenav-btn" class="open-slidenav-btn" [ngClass]="{'open-slidenav' : isSidebarOpen}" (click)="ShowHideSidenav()">
+    <i class="material-icons open-slidenav-icon">{{isSidebarOpen ? 'keyboard_arrow_right': 'keyboard_arrow_left'}}</i>
+  </div>
 </div>
 
 <profile *ngIf="isOpenProfileEditWindow"></profile>

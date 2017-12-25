@@ -32,12 +32,12 @@
     position: fixed;
     right: 0;
     top: 0;
-    cursor: default;
-    user-select: none;
-    -webkit-user-select: none;
     z-index: 1000;
     padding-right: 10px;
     padding-left: 10px;
+    cursor: default;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 #navbar .slidenav-body-sector {
@@ -134,9 +134,9 @@
 #navbar .menu-top-arrow {
     position: absolute;
     color: #fefff4;
-    left: -1px;
+    left: 4px;
     font-size: 16px;
-    top: 24px;
+    top: -12px;
     z-index: 1;
 }
 
@@ -186,7 +186,7 @@
 #navbar .slidenav-head-sector {
     background-color: #115c94;
     width: 100%;
-    height: 80px;
+    height: 75px;
     top: 0;
     padding-top: 0;
 }
@@ -623,6 +623,50 @@
     font-family: rubik;
     text-align: center;
     border-top: 0.5px solid #bdb7b7;
+}
+
+#navbar .open-slidenav-btn {
+    width: 25px;
+    height: 35px;
+    position: absolute;
+    top: 65px;
+    right: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    display: flex;
+    background-color: #0375d8;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    box-shadow: -2px 0px 5px 0px #b6b6b6;
+    z-index: 999;
+}
+
+#navbar .open-slidenav-icon {
+    color: white;
+    align-self: center;
+}
+
+#navbar .open-slidenav {
+    animation-name: openSlidenav;
+    animation-duration: 0.4s;
+    right: 210px;
+}
+
+@keyframes openSlidenav {
+    from {right: 0;}
+    to {right: 210px;}
+}
+
+#navbar .close-slidenav {
+    animation-name: closeSlidenav;
+    animation-duration: 0.4s;
+    right: 0;
+}
+
+@keyframes closeSlidenav {
+    from {right: 210px;}
+    to {right: 0;}
 }
 
 #navbar ::-webkit-scrollbar-thumb {

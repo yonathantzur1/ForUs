@@ -32,7 +32,7 @@ export class AdminAuthGuard implements CanActivate {
                 return true;
             }
             else {
-                this.router.navigateByUrl('');
+                this.router.navigateByUrl('/page-not-found');
                 return false;
             }
         });

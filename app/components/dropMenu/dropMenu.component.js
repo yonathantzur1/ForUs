@@ -21,12 +21,17 @@ var DropMenuComponent = /** @class */ (function () {
             else {
                 this.router.navigateByUrl(link);
             }
+            this.isDropMenuOpen = false;
         };
     }
     __decorate([
         core_1.Input(),
         __metadata("design:type", Array)
     ], DropMenuComponent.prototype, "options", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Boolean)
+    ], DropMenuComponent.prototype, "isDropMenuOpen", void 0);
     DropMenuComponent = __decorate([
         core_1.Component({
             selector: 'dropMenu',

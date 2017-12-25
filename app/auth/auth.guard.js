@@ -52,7 +52,7 @@ var AdminAuthGuard = /** @class */ (function () {
                 return true;
             }
             else {
-                _this.router.navigateByUrl('');
+                _this.router.navigateByUrl('/page-not-found');
                 return false;
             }
         });

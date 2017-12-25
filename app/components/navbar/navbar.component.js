@@ -61,7 +61,6 @@ var NavbarComponent = /** @class */ (function () {
         // END friend-request notification variables //
         this.isUnreadWindowOpen = false;
         this.isFriendRequestsWindowOpen = false;
-        this.isSidebarOpen = false;
         this.isDropMenuOpen = false;
         this.searchResults = [];
         this.isShowSearchResults = false;
@@ -162,18 +161,23 @@ var NavbarComponent = /** @class */ (function () {
                 this.HideDropMenu();
                 this.HideSearchResults();
                 document.getElementById("sidenav").style.width = "210px";
+                $("#open-slidenav-btn").removeClass("close-slidenav");
             }
             else {
                 this.HideUnreadWindow();
                 this.HideFriendRequestsWindow();
                 document.getElementById("sidenav").style.width = "0";
+                $("#open-slidenav-btn").addClass("close-slidenav");
             }
         };
         this.HideSidenav = function () {
-            this.HideUnreadWindow();
-            this.HideFriendRequestsWindow();
-            this.isSidebarOpen = false;
-            document.getElementById("sidenav").style.width = "0";
+            if (this.isSidebarOpen) {
+                this.HideUnreadWindow();
+                this.HideFriendRequestsWindow();
+                this.isSidebarOpen = false;
+                document.getElementById("sidenav").style.width = "0";
+                $("#open-slidenav-btn").addClass("close-slidenav");
+            }
         };
         this.ShowHideDropMenu = function () {
             this.isDropMenuOpen = !this.isDropMenuOpen;
@@ -444,6 +448,9 @@ var NavbarComponent = /** @class */ (function () {
                 }, self.newFriendsLabelDelay);
             }, 200);
         };
+        this.NavigateMain = function () {
+            this.router.navigateByUrl('');
+        };
         this.socket = this.globalService.socket;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
             if (value["isOpenProfileEditWindow"] != null) {
@@ -487,7 +494,6 @@ var NavbarComponent = /** @class */ (function () {
             new DropMenuData("/management", "ניהול", null, function () {
                 return (self.globalService.userPermissions.indexOf(global_service_1.PERMISSIONS.ADMIN) != -1);
             }),
-            new DropMenuData("#", "הפרופיל שלי", null),
             new DropMenuData("#", "הגדרות", null),
             new DropMenuData("/login", "התנתקות", function (link) {
                 deleteCookieByName("ui");

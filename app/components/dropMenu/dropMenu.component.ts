@@ -13,6 +13,7 @@ export class DropMenuComponent {
     constructor(private router: Router) { }
 
     @Input() options: DropMenuData[];
+    @Input() isDropMenuOpen: boolean;
 
     ActiveAction = function (action: Function, link: string) {
         if (action) {
@@ -21,5 +22,7 @@ export class DropMenuComponent {
         else {
             this.router.navigateByUrl(link);
         }
+
+        this.isDropMenuOpen = false;
     }
 }

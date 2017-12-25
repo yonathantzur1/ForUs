@@ -88,7 +88,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     isUnreadWindowOpen: boolean = false;
     isFriendRequestsWindowOpen: boolean = false;
-    isSidebarOpen: boolean = false;
+    isSidebarOpen: boolean;
     isDropMenuOpen: boolean = false;
     searchResults: Array<any> = [];
     isShowSearchResults: boolean = false;
@@ -159,8 +159,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         self.dropMenuDataList = [
             new DropMenuData("/management", "ניהול", null, function () {
                 return (self.globalService.userPermissions.indexOf(PERMISSIONS.ADMIN) != -1);
-            }),
-            new DropMenuData("#", "הפרופיל שלי", null),
+            }),            
             new DropMenuData("#", "הגדרות", null),
             new DropMenuData("/login", "התנתקות", function (link: string) {
                 deleteCookieByName("ui");
@@ -381,19 +380,24 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.HideDropMenu();
             this.HideSearchResults();
             document.getElementById("sidenav").style.width = "210px";
+            $("#open-slidenav-btn").removeClass("close-slidenav");
         }
         else {
             this.HideUnreadWindow();
             this.HideFriendRequestsWindow();
             document.getElementById("sidenav").style.width = "0";
+            $("#open-slidenav-btn").addClass("close-slidenav");
         }
     }
 
     HideSidenav = function () {
-        this.HideUnreadWindow();
-        this.HideFriendRequestsWindow();
-        this.isSidebarOpen = false;
-        document.getElementById("sidenav").style.width = "0";
+        if (this.isSidebarOpen) {
+            this.HideUnreadWindow();
+            this.HideFriendRequestsWindow();
+            this.isSidebarOpen = false;
+            document.getElementById("sidenav").style.width = "0";
+            $("#open-slidenav-btn").addClass("close-slidenav");
+        }
     }
 
     ShowHideDropMenu = function () {
@@ -721,6 +725,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 self.isNewFriendsLabel = false;
             }, self.newFriendsLabelDelay);
         }, 200);
+    }
+
+    NavigateMain = function () {
+        this.router.navigateByUrl('');
     }
 }
 

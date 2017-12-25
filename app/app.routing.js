@@ -16,7 +16,8 @@ var appRoutes = [
         canActivate: [auth_guard_1.AuthGuard]
     },
     { path: 'login', component: login_component_1.LoginComponent },
-    { path: '**', component: pageNotFound_component_1.PageNotFoundComponent }
+    { path: 'page-not-found', component: pageNotFound_component_1.PageNotFoundComponent },
+    { path: '**', redirectTo: 'page-not-found' }
 ];
 exports.routing = router_1.RouterModule.forRoot(appRoutes);
 //# sourceMappingURL=app.routing.js.map

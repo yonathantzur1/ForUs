@@ -1,7 +1,7 @@
 #friendRequestsWindow .friendRequestsWindow-container {
     position: fixed;
-    top: 131px;
-    right: 135px;
+    top: 128px;
+    right: 133px;
     width: 55%;
     max-width: 310px;
     height: 230px;
@@ -12,8 +12,8 @@
 }
 
 #friendRequestsWindow .window-top-arrow {
-    top: 118px;
-    right: 144px;
+    top: 115px;
+    right: 142px;
     z-index: 1002;
     font-size: 20px;
     color: white;

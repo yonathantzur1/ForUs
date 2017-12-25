@@ -18,8 +18,8 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard]
   },
   { path: 'login', component: LoginComponent },
-
-  { path: '**', component: PageNotFoundComponent }
+  { path: 'page-not-found', component: PageNotFoundComponent },
+  { path: '**', redirectTo: 'page-not-found' }
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);
