@@ -1,17 +1,17 @@
 
 #management ::-webkit-input-placeholder
 {
-    font-size: 14px;
+    font-size: 16px;
 }
 
 @media (max-width: 450px) {
     #management ::-webkit-input-placeholder
     {
-        font-size: 11px !important;
+        font-size: 12px !important;
     }
 
     #management .search-input {
-        font-size: 11px !important;
+        font-size: 12px !important;
     }
 }
 
@@ -25,50 +25,38 @@
     margin: auto;
     border: 0.5px solid #6c6c6c;
     background-color: #f7f7f7;
+    position: relative;
 }
 
 #management .search-input {
-    font-size: 14px;
+    font-size: 16px;
     width: 90%;
     margin: auto;
     padding-bottom: 0 !important;
 }
 
-#management .serch-container {
-    float: right;
-    position: relative;
-    width: 30%;
-    height: 100%;
-    border-left: 0.5px solid #6c6c6c;
-}
-
-#management .data-container {
-    float: left;
-    position: relative;
-    width: 70%;
-    height: 100%;
-}
-
-#management .search-user-btn {
+#management .search-user-btn-container {
     width: 100%;
-    height: 40px;
+    height: 60px;
     position: absolute;
-    bottom: 0;
-    border-top: 0.5px solid #6c6c6c;
-    display: flex;
-    cursor: pointer;
+    bottom: 0;    
+    display: flex;    
 }
 
 #management .search-user-btn-content {
-    margin: auto;
+    margin-right: 15px;
     display: flex;
-    align-self: center;
-}
-
-#management .search-user-btn-text {
-    align-self: center;
+    box-shadow: 1px 1px 12px 2px #c2c2c2;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    background-color: #4799ff;
 }
 
 #management .search-user-btn-icon {    
-
+    align-self: center;
+    font-size: 30px;
+    color: #f3f3f3;
 }
