@@ -742,6 +742,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     NavigateMain = function () {
+        this.ClosePopups();
         this.router.navigateByUrl('');
     }
 

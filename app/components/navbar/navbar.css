@@ -100,11 +100,11 @@
 }
 
 #navbar .search-icon {
-    font-size: 16px;
-    top: 4px;
+    font-size: 22px;
+    top: 1px;
     position: absolute;
     color: #7b7878;
-    left: 20px;
+    left: 18px;
 }
 
 #navbar .search-icon-active {
@@ -136,7 +136,7 @@
     color: #fefff4;
     left: -1px;
     font-size: 16px;
-    top: 23px;
+    top: 24px;
     z-index: 1;
 }
 

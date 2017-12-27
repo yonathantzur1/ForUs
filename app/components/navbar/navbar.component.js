@@ -450,6 +450,7 @@ var NavbarComponent = /** @class */ (function () {
             }, 200);
         };
         this.NavigateMain = function () {
+            this.ClosePopups();
             this.router.navigateByUrl('');
         };
         this.GetNotificationsNumber = function () {

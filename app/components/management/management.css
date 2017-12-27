@@ -1,0 +1,74 @@
+
+#management ::-webkit-input-placeholder
+{
+    font-size: 14px;
+}
+
+@media (max-width: 450px) {
+    #management ::-webkit-input-placeholder
+    {
+        font-size: 11px !important;
+    }
+
+    #management .search-input {
+        font-size: 11px !important;
+    }
+}
+
+#management .form-group {
+    margin-top: 10px !important;
+}
+
+#management .users-container {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    border: 0.5px solid #6c6c6c;
+    background-color: #f7f7f7;
+}
+
+#management .search-input {
+    font-size: 14px;
+    width: 90%;
+    margin: auto;
+    padding-bottom: 0 !important;
+}
+
+#management .serch-container {
+    float: right;
+    position: relative;
+    width: 30%;
+    height: 100%;
+    border-left: 0.5px solid #6c6c6c;
+}
+
+#management .data-container {
+    float: left;
+    position: relative;
+    width: 70%;
+    height: 100%;
+}
+
+#management .search-user-btn {
+    width: 100%;
+    height: 40px;
+    position: absolute;
+    bottom: 0;
+    border-top: 0.5px solid #6c6c6c;
+    display: flex;
+    cursor: pointer;
+}
+
+#management .search-user-btn-content {
+    margin: auto;
+    display: flex;
+    align-self: center;
+}
+
+#management .search-user-btn-text {
+    align-self: center;
+}
+
+#management .search-user-btn-icon {    
+
+}

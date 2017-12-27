@@ -19,6 +19,13 @@ a, a:hover, a:focus {
 
 /* END OVERRIDE BOOTSTRAP MATERIAL CSS */
 
+.main-container {
+    width: calc(100% - 60px);
+    height: calc(100% - 50px);
+    margin: auto;
+    padding: 10px;
+}
+
 .loader {
     background-color: darkgray;
     width: 70px;

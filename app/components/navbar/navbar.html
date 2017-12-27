@@ -55,7 +55,7 @@
             <span style="right:15px!important; color:#b2b2b2;" class="glyphicon glyphicon-triangle-top menu-top-arrow"></span>
             <div class="new-friends-label">חיפוש חברים חדשים</div>
           </div>
-          <span class="glyphicon glyphicon-search search-icon" [ngClass]="{'search-icon-active':isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0}"></span>
+          <i class="material-icons search-icon" [ngClass]="{'search-icon-active':isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0}">search</i>          
           <div class="search-results-container" *ngIf="isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0">
             <div class="search-result" *ngFor="let result of GetFilteredSearchResults(searchInput)" title="{{result.fullName}}">
               <img *ngIf="result.profile && result.profile != -1" src="{{result.profile}}" class="search-result-image">
