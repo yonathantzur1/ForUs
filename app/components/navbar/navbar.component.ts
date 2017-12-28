@@ -67,6 +67,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     chatData: any = { "isOpen": false };
     isOpenProfileEditWindow: boolean;
     isSidenavOpened: boolean = false;
+    isSidenavOpenAnimation: boolean = false;
+    
     socket: any;
 
     // START message notification variables //
@@ -106,6 +108,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     askForOnlineFriendsDelay: number = 30; // seconds
     chatTypingDelay: number = 2200; // milliseconds
     newFriendsLabelDelay: number = 4000; // milliseconds
+    sidenavOpenTimeAnimation = 400; // milliseconds
+    sidenavWidth: string = "210px";
 
     // END CONFIG VARIABLES //
 
@@ -393,19 +397,24 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.HideDropMenu();
             this.HideSearchResults();
             this.isSidenavOpened = true;
-            document.getElementById("sidenav").style.width = "210px";
-            $("#open-sidenav-btn").removeClass("close-sidenav");            
+            document.getElementById("sidenav").style.width = this.sidenavWidth;
+            this.isSidenavOpenAnimation = true;
+            $("#open-sidenav-btn").removeClass("close-sidenav");
+
+            var self = this;
+
+            // Prevent closing the sidenav while openning animation is working.
+            setTimeout(function () {
+                self.isSidenavOpenAnimation = false;
+            }, this.sidenavOpenTimeAnimation);            
         }
         else {
-            this.HideUnreadWindow();
-            this.HideFriendRequestsWindow();
-            document.getElementById("sidenav").style.width = "0";
-            $("#open-sidenav-btn").addClass("close-sidenav");
+            this.HideSidenav();
         }
     }
 
     HideSidenav = function () {
-        if (this.isSidebarOpen) {
+        if (this.isSidebarOpen && !this.isSidenavOpenAnimation) {
             this.HideUnreadWindow();
             this.HideFriendRequestsWindow();
             this.isSidebarOpen = false;

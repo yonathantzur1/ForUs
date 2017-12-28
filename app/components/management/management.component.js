@@ -20,6 +20,8 @@ var ManagementComponent = /** @class */ (function () {
     function ManagementComponent(router) {
         this.router = router;
         this.Users = [];
+        this.SearchUser = function () {
+        };
     }
     ManagementComponent = __decorate([
         core_1.Component({

@@ -54,6 +54,7 @@ var NavbarComponent = /** @class */ (function () {
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.chatData = { "isOpen": false };
         this.isSidenavOpened = false;
+        this.isSidenavOpenAnimation = false;
         // START message notification variables //
         this.isShowMessageNotification = false;
         // END message notification variables //
@@ -70,6 +71,8 @@ var NavbarComponent = /** @class */ (function () {
         this.askForOnlineFriendsDelay = 30; // seconds
         this.chatTypingDelay = 2200; // milliseconds
         this.newFriendsLabelDelay = 4000; // milliseconds
+        this.sidenavOpenTimeAnimation = 400; // milliseconds
+        this.sidenavWidth = "210px";
         this.IsShowFriendFindInput = function () {
             return $(".sidenav-body-sector").hasScrollBar();
         };
@@ -161,18 +164,21 @@ var NavbarComponent = /** @class */ (function () {
                 this.HideDropMenu();
                 this.HideSearchResults();
                 this.isSidenavOpened = true;
-                document.getElementById("sidenav").style.width = "210px";
+                document.getElementById("sidenav").style.width = this.sidenavWidth;
+                this.isSidenavOpenAnimation = true;
                 $("#open-sidenav-btn").removeClass("close-sidenav");
+                var self = this;
+                // Prevent closing the sidenav while openning animation is working.
+                setTimeout(function () {
+                    self.isSidenavOpenAnimation = false;
+                }, this.sidenavOpenTimeAnimation);
             }
             else {
-                this.HideUnreadWindow();
-                this.HideFriendRequestsWindow();
-                document.getElementById("sidenav").style.width = "0";
-                $("#open-sidenav-btn").addClass("close-sidenav");
+                this.HideSidenav();
             }
         };
         this.HideSidenav = function () {
-            if (this.isSidebarOpen) {
+            if (this.isSidebarOpen && !this.isSidenavOpenAnimation) {
                 this.HideUnreadWindow();
                 this.HideFriendRequestsWindow();
                 this.isSidebarOpen = false;

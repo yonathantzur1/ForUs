@@ -15,4 +15,8 @@ export class ManagementComponent {
     Users: Array<User> = [];
 
     constructor(private router: Router) { }
+
+    SearchUser = function () {
+
+    }
 }

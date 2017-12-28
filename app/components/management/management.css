@@ -1,62 +1,58 @@
+#management .form-control, .form-group .form-control {
+    background-image: linear-gradient(#7882b6, #7882b6), linear-gradient(#747474, #747474) !important;
+}
 
 #management ::-webkit-input-placeholder
 {
+    color: #afafaf;
     font-size: 16px;
-}
-
-@media (max-width: 450px) {
-    #management ::-webkit-input-placeholder
-    {
-        font-size: 12px !important;
-    }
-
-    #management .search-input {
-        font-size: 12px !important;
-    }
 }
 
 #management .form-group {
     margin-top: 10px !important;
+    display: flex;
 }
 
 #management .users-container {
     width: 100%;
     height: 100%;
     margin: auto;
-    border: 0.5px solid #6c6c6c;
-    background-color: #f7f7f7;
     position: relative;
 }
 
 #management .search-input {
     font-size: 16px;
-    width: 90%;
-    margin: auto;
+    width: calc(100% - 70px);
+    margin-right: 20px;
     padding-bottom: 0 !important;
+    display: inline-block;
 }
 
-#management .search-user-btn-container {
-    width: 100%;
-    height: 60px;
-    position: absolute;
-    bottom: 0;    
-    display: flex;    
-}
-
-#management .search-user-btn-content {
+#management .search-user-btn {
     margin-right: 15px;
-    display: flex;
     box-shadow: 1px 1px 12px 2px #c2c2c2;
-    height: 50px;
-    width: 50px;
+    height: 35px;
+    width: 35px;
     border-radius: 50%;
-    padding: 10px;
+    display: inline-block;
     cursor: pointer;
     background-color: #4799ff;
+    font-size: 22px;
+    align-self: center;
 }
 
-#management .search-user-btn-icon {    
-    align-self: center;
-    font-size: 30px;
+#management .search-user-btn-icon {
     color: #f3f3f3;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+#management .user-card {
+    width: 300px;
+    height: 300px;    
+    margin: auto;
+    margin-top: 50px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 1px 1px 6px 1px #c9c9c9;
 }
