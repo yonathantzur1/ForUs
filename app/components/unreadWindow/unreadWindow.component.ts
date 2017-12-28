@@ -78,7 +78,7 @@ export class UnreadWindowComponent implements OnInit {
         });
     }
 
-    LoadChatsObjects = function () {
+    LoadChatsObjects() {
         var self = this;
 
         self.unreadWindowService.GetAllChats().then(function (chats: any) {
@@ -88,7 +88,7 @@ export class UnreadWindowComponent implements OnInit {
         });
     }
 
-    GetUnreadMessagesNumber = function () {
+    GetUnreadMessagesNumber() {
         var counter = 0;
 
         Object.keys(this.messagesNotifications).forEach((id: any) => {
@@ -98,7 +98,7 @@ export class UnreadWindowComponent implements OnInit {
         return counter;
     }
 
-    GetUnreadMessagesNumberText = function () {
+    GetUnreadMessagesNumberText() {
         if (this.chats.length == 0) {
             return "אין הודעות חדשות";
         }
@@ -117,7 +117,7 @@ export class UnreadWindowComponent implements OnInit {
         }
     }
 
-    CalculateChatTimeString = function (chat: any) {
+    CalculateChatTimeString(chat: any) {
         var localDate = new Date(chat.lastMessage.time);
         var currDate = new Date();
         currDate.setHours(23, 59, 59, 999);
@@ -167,25 +167,25 @@ export class UnreadWindowComponent implements OnInit {
         chat.timeString = { "dateDetailsString": dateDetailsString, "dateTimeString": dateTimeString };
     }
 
-    GetFriend = function (friendId: string) {
+    GetFriend(friendId: string) {
         return (this.friends.find(function (friend: any) {
             return (friend._id == friendId);
         }));
     }
 
-    GetFriendName = function (friendId: string) {
+    GetFriendName(friendId: string) {
         var friendObj = this.GetFriend(friendId);
 
         return friendObj ? (friendObj.firstName + " " + friendObj.lastName) : "";
     }
 
-    GetFriendProfile = function (friendId: string) {
+    GetFriendProfile(friendId: string) {
         var friendObj = this.GetFriend(friendId);
 
         return friendObj ? friendObj.profileImage : null;
     }
 
-    SortByDate = function (chats: any) {
+    SortByDate(chats: any) {
         chats = chats.sort((a: any, b: any) => {
             var firstDate = new Date(a.lastMessage.time);
             var secondDate = new Date(b.lastMessage.time);

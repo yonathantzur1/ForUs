@@ -16,16 +16,16 @@ var DropMenuComponent = /** @class */ (function () {
     function DropMenuComponent(router, globalService) {
         this.router = router;
         this.globalService = globalService;
-        this.ActiveAction = function (action, link) {
-            if (action) {
-                action(link);
-            }
-            else {
-                this.router.navigateByUrl(link);
-            }
-            this.globalService.setData("closeDropMenu", true);
-        };
     }
+    DropMenuComponent.prototype.ActiveAction = function (action, link) {
+        if (action) {
+            action(link);
+        }
+        else {
+            this.router.navigateByUrl(link);
+        }
+        this.globalService.setData("closeDropMenu", true);
+    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", Array)

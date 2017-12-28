@@ -73,399 +73,6 @@ var NavbarComponent = /** @class */ (function () {
         this.newFriendsLabelDelay = 4000; // milliseconds
         this.sidenavOpenTimeAnimation = 400; // milliseconds
         this.sidenavWidth = "210px";
-        this.IsShowFriendFindInput = function () {
-            return $(".sidenav-body-sector").hasScrollBar();
-        };
-        this.AddMessageToToolbarMessages = function (msgData) {
-            var notificationsMessages = this.GetToolbarItem("messages").content;
-            var friendMessages = notificationsMessages[msgData.from];
-            if (friendMessages) {
-                friendMessages.unreadMessagesNumber++;
-            }
-            else {
-                notificationsMessages[msgData.from] = {
-                    "unreadMessagesNumber": 1,
-                    "firstUnreadMessageId": msgData.id
-                };
-            }
-            this.navbarService.UpdateMessagesNotifications(notificationsMessages);
-        };
-        this.RemoveFriendMessagesFromToolbarMessages = function (friendId) {
-            var notificationsMessages = this.GetToolbarItem("messages").content;
-            if (notificationsMessages[friendId]) {
-                delete (notificationsMessages[friendId]);
-                this.navbarService.RemoveMessagesNotifications(notificationsMessages);
-            }
-        };
-        // Return item object from toolbar items array by its id.
-        this.GetToolbarItem = function (id) {
-            for (var i = 0; i < this.toolbarItems.length; i++) {
-                if (this.toolbarItems[i].id == id) {
-                    return this.toolbarItems[i];
-                }
-            }
-        };
-        this.ShowMessageNotification = function (name, text, isImage, friendId) {
-            if (name && text) {
-                this.messageNotificationName = name;
-                this.messageNotificationText = text;
-                this.isMessageNotificationImage = isImage;
-                this.messageNotificationFriendId = friendId;
-                this.isShowMessageNotification = true;
-                var self = this;
-                self.messageNotificationInterval = setInterval(function () {
-                    self.isShowMessageNotification = false;
-                    clearInterval(self.messageNotificationInterval);
-                    self.messageNotificationInterval = null;
-                }, self.notificationDelay);
-            }
-        };
-        this.GetFriendNameById = function (id) {
-            for (var i = 0; i < this.friends.length; i++) {
-                if (this.friends[i]._id == id) {
-                    return (this.friends[i].firstName + " " + this.friends[i].lastName);
-                }
-            }
-            return null;
-        };
-        this.GetFriendById = function (id) {
-            for (var i = 0; i < this.friends.length; i++) {
-                if (this.friends[i]._id == id) {
-                    return this.friends[i];
-                }
-            }
-            return null;
-        };
-        this.MessageNotificationClicked = function () {
-            // Turn off the open notification.
-            this.isShowMessageNotification = false;
-            if (this.messageNotificationInterval) {
-                clearInterval(this.messageNotificationInterval);
-                this.messageNotificationInterval = null;
-            }
-            this.OpenChat(this.GetFriendById(this.messageNotificationFriendId));
-        };
-        // Loading full friends objects to friends array.
-        this.LoadFriendsData = function (friendsIds) {
-            var _this = this;
-            if (friendsIds.length > 0) {
-                this.isFriendsLoading = true;
-                this.navbarService.GetFriends(friendsIds).then(function (friendsResult) {
-                    _this.friends = friendsResult;
-                    _this.isFriendsLoading = false;
-                    _this.socket.emit("ServerGetOnlineFriends");
-                });
-            }
-        };
-        this.ShowHideSidenav = function () {
-            this.isSidebarOpen = !this.isSidebarOpen;
-            this.isNewFriendsLabel = false;
-            if (this.isSidebarOpen) {
-                this.HideDropMenu();
-                this.HideSearchResults();
-                this.isSidenavOpened = true;
-                document.getElementById("sidenav").style.width = this.sidenavWidth;
-                this.isSidenavOpenAnimation = true;
-                $("#open-sidenav-btn").removeClass("close-sidenav");
-                var self = this;
-                // Prevent closing the sidenav while openning animation is working.
-                setTimeout(function () {
-                    self.isSidenavOpenAnimation = false;
-                }, this.sidenavOpenTimeAnimation);
-            }
-            else {
-                this.HideSidenav();
-            }
-        };
-        this.HideSidenav = function () {
-            if (this.isSidebarOpen && !this.isSidenavOpenAnimation) {
-                this.HideUnreadWindow();
-                this.HideFriendRequestsWindow();
-                this.isSidebarOpen = false;
-                document.getElementById("sidenav").style.width = "0";
-                $("#open-sidenav-btn").addClass("close-sidenav");
-            }
-        };
-        this.ShowHideDropMenu = function () {
-            this.isDropMenuOpen = !this.isDropMenuOpen;
-            if (this.isDropMenuOpen) {
-                this.HideSidenav();
-                this.HideSearchResults();
-            }
-        };
-        this.HideDropMenu = function () {
-            this.isDropMenuOpen = false;
-        };
-        this.ShowSearchResults = function () {
-            this.isShowSearchResults = true;
-            if (this.isShowSearchResults) {
-                this.HideSidenav();
-                this.HideDropMenu();
-            }
-        };
-        this.HideSearchResults = function () {
-            this.isShowSearchResults = false;
-        };
-        this.ClickSearchInput = function (input) {
-            this.isShowSearchResults = input ? true : false;
-            this.HideSidenav();
-            this.HideDropMenu();
-        };
-        this.ClosePopups = function () {
-            this.HideSidenav();
-            this.HideDropMenu();
-            this.HideSearchResults();
-        };
-        this.OverlayClicked = function () {
-            if (this.isUnreadWindowOpen || this.isFriendRequestsWindowOpen) {
-                this.HideUnreadWindow();
-                this.HideFriendRequestsWindow();
-            }
-            else {
-                this.ClosePopups();
-            }
-        };
-        this.SearchChange = function (input) {
-            this.isNewFriendsLabel = false;
-            var self = this;
-            if (self.inputInterval) {
-                clearTimeout(self.inputInterval);
-            }
-            self.inputInterval = setTimeout(function () {
-                if (input && (input = input.trim())) {
-                    self.navbarService.GetMainSearchResults(input).then(function (results) {
-                        if (results && results.length > 0 && input == self.searchInput.trim()) {
-                            self.searchResults = results;
-                            self.ShowSearchResults();
-                            self.navbarService.GetMainSearchResultsWithImages(GetResultsIds(results)).then(function (profiles) {
-                                if (profiles && Object.keys(profiles).length > 0 && input == self.searchInput.trim()) {
-                                    self.searchResults.forEach(function (result) {
-                                        if (result.originalProfile) {
-                                            result.profile = profiles[result.originalProfile];
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
-                }
-                else {
-                    self.HideSearchResults();
-                    self.searchResults = [];
-                }
-            }, self.searchInputChangeDelay);
-        };
-        this.GetFilteredSearchResults = function (searchInput) {
-            if (!searchInput) {
-                return this.searchResults;
-            }
-            else {
-                searchInput = searchInput.trim();
-                this.searchResult = this.searchResults.filter(function (result) {
-                    return ((result.fullName.indexOf(searchInput) == 0) ||
-                        ((result.lastName + " " + result.firstName).indexOf(searchInput) == 0));
-                });
-                return this.searchResult;
-            }
-        };
-        this.GetFilteredFriends = function (friendSearchInput) {
-            if (!friendSearchInput) {
-                return this.friends;
-            }
-            else {
-                friendSearchInput = friendSearchInput.trim();
-                return this.friends.filter(function (friend) {
-                    return (((friend.firstName + " " + friend.lastName).indexOf(friendSearchInput) == 0) ||
-                        ((friend.lastName + " " + friend.firstName).indexOf(friendSearchInput) == 0));
-                });
-            }
-        };
-        this.GetFriendUnreadMessagesNumberText = function (friendId) {
-            var friendNotificationsMessages = this.GetToolbarItem("messages").content[friendId];
-            if (friendNotificationsMessages) {
-                return "(" + friendNotificationsMessages.unreadMessagesNumber + ")";
-            }
-            else {
-                return "";
-            }
-        };
-        this.OpenChat = function (friend) {
-            this.HideSidenav();
-            if (!this.chatData.isOpen || !this.chatData.friend || this.chatData.friend._id != friend._id) {
-                var messagesNotifications = Object.assign({}, this.GetToolbarItem("messages").content);
-                // Empty unread messages notifications from the currend friend.
-                this.RemoveFriendMessagesFromToolbarMessages(friend._id);
-                // Put default profile in case the friend has no profile image.
-                if (!friend.profileImage) {
-                    friend.profileImage = this.defaultProfileImage;
-                }
-                this.chatData.friend = friend;
-                this.chatData.user = this.user;
-                this.chatData.messagesNotifications = messagesNotifications;
-                this.chatData.isOpen = true;
-                this.globalService.setData("chatData", this.chatData);
-            }
-        };
-        this.ShowHideUnreadWindow = function () {
-            this.isUnreadWindowOpen = !this.isUnreadWindowOpen;
-        };
-        this.HideUnreadWindow = function () {
-            this.isUnreadWindowOpen = false;
-        };
-        this.ShowHideFriendRequestsWindow = function () {
-            this.isFriendRequestsWindowOpen = !this.isFriendRequestsWindowOpen;
-        };
-        this.HideFriendRequestsWindow = function () {
-            this.isFriendRequestsWindowOpen = false;
-        };
-        this.AddFriendRequest = function (friendId) {
-            var friendRequests = this.GetToolbarItem("friendRequests").content;
-            friendRequests.send.push(friendId);
-            var self = this;
-            self.navbarService.AddFriendRequest(friendId).then(function (result) {
-                if (result) {
-                    self.socket.emit("ServerUpdateFriendRequests", friendRequests);
-                    self.socket.emit("SendFriendRequest", friendId);
-                    $("#remove-friend-notification").snackbar("hide");
-                    $("#add-friend-notification").snackbar("show");
-                }
-            });
-        };
-        this.RemoveFriendRequest = function (friendId) {
-            var friendRequests = this.GetToolbarItem("friendRequests").content;
-            friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
-            var self = this;
-            this.navbarService.RemoveFriendRequest(friendId).then(function (result) {
-                if (result) {
-                    self.socket.emit("ServerUpdateFriendRequests", friendRequests);
-                    self.socket.emit("RemoveFriendRequest", self.user._id, friendId);
-                    $("#add-friend-notification").snackbar("hide");
-                    $("#remove-friend-notification").snackbar("show");
-                }
-            });
-        };
-        this.ShowFriendRequestNotification = function (name) {
-            this.friendRequestNotificationName = name;
-            this.isShowFriendRequestNotification = true;
-            var self = this;
-            self.friendRequestNotificationInterval = setInterval(function () {
-                self.isShowFriendRequestNotification = false;
-                clearInterval(self.friendRequestNotificationInterval);
-                self.friendRequestNotificationInterval = null;
-            }, this.notificationDelay);
-        };
-        this.IsShowAddFriendRequestBtn = function (friendId) {
-            var friendRequests = this.GetToolbarItem("friendRequests").content;
-            if (friendId != this.user._id &&
-                this.user.friends.indexOf(friendId) == -1 &&
-                friendRequests.send.indexOf(friendId) == -1 &&
-                friendRequests.get.indexOf(friendId) == -1) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        };
-        this.IsShowRemoveFriendRequestBtn = function (friendId) {
-            var friendRequests = this.GetToolbarItem("friendRequests").content;
-            if (friendRequests.send.indexOf(friendId) != -1) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        };
-        this.IsShowFriendRequestConfirmSector = function (friendId) {
-            var friendRequests = this.GetToolbarItem("friendRequests").content;
-            if (friendRequests.get.indexOf(friendId) != -1) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        };
-        this.AddFriendObjectToUser = function (friend) {
-            var userFriends = this.user.friends;
-            if (userFriends.indexOf(friend._id) == -1) {
-                // Add the friend id to the user's friends array.
-                userFriends.push(friend._id);
-            }
-            // Add the friend client object to the friends array.
-            this.friends.push(friend);
-            this.socket.emit("ServerGetOnlineFriends");
-            this.socket.emit("ServerFriendAddedUpdate", friend._id);
-        };
-        this.AddFriend = function (friendId) {
-            this.isFriendsLoading = true;
-            // Remove the friend request from all friend requests object.
-            var friendRequests = this.GetToolbarItem("friendRequests").content;
-            friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
-            // Add the friend id to the user's friends array.
-            var userFriends = this.user.friends;
-            userFriends.push(friendId);
-            var self = this;
-            self.navbarService.AddFriend(friendId).then(function (friend) {
-                self.isFriendsLoading = false;
-                if (friend) {
-                    self.socket.emit("ServerUpdateFriendRequests", friendRequests);
-                    self.socket.emit("ServerAddFriend", friend);
-                }
-                else {
-                    //  Recover the actions in case the server is fail to add the friend. 
-                    friendRequests.get.push(friendId);
-                    userFriends.splice(userFriends.indexOf(friendId), 1);
-                    self.socket.emit("ServerUpdateFriendRequests", friendRequests);
-                }
-            });
-        };
-        this.IgnoreFriendRequest = function (friendId) {
-            // Remove the friend request from all friend requests object.
-            var friendRequests = this.GetToolbarItem("friendRequests").content;
-            friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
-            var self = this;
-            this.navbarService.IgnoreFriendRequest(friendId).then(function (result) {
-                if (result) {
-                    self.socket.emit("ServerUpdateFriendRequests", friendRequests);
-                    self.socket.emit("ServerIgnoreFriendRequest", self.user._id, friendId);
-                }
-            });
-        };
-        this.MakeFriendTyping = function (friendId) {
-            var friendObj = this.friends.find(function (friend) {
-                return (friend._id == friendId);
-            });
-            if (friendObj) {
-                friendObj.typingTimer && clearTimeout(friendObj.typingTimer);
-                friendObj.isTyping = true;
-                var self = this;
-                friendObj.typingTimer = setTimeout(function () {
-                    friendObj.isTyping = false;
-                }, self.chatTypingDelay);
-            }
-        };
-        this.SearchNewFriends = function () {
-            $("#search-input").focus();
-            clearTimeout(this.showNewFriendsLabelTimeout);
-            clearTimeout(this.hideNewFriendsLabelTimeout);
-            var self = this;
-            self.showNewFriendsLabelTimeout = setTimeout(function () {
-                self.isNewFriendsLabel = true;
-                self.hideNewFriendsLabelTimeout = setTimeout(function () {
-                    self.isNewFriendsLabel = false;
-                }, self.newFriendsLabelDelay);
-            }, 200);
-        };
-        this.NavigateMain = function () {
-            this.ClosePopups();
-            this.router.navigateByUrl('');
-        };
-        this.GetNotificationsNumber = function () {
-            var notificationsAmount = 0;
-            this.toolbarItems.forEach(function (item) {
-                notificationsAmount += item.getNotificationsNumber();
-            });
-            return notificationsAmount;
-        };
         this.socket = this.globalService.socket;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
             // In case isOpenProfileEditWindow is true or false
@@ -609,6 +216,399 @@ var NavbarComponent = /** @class */ (function () {
     };
     NavbarComponent.prototype.ngOnDestroy = function () {
         this.subscribeObj.unsubscribe();
+    };
+    NavbarComponent.prototype.IsShowFriendFindInput = function () {
+        return $(".sidenav-body-sector").hasScrollBar();
+    };
+    NavbarComponent.prototype.AddMessageToToolbarMessages = function (msgData) {
+        var notificationsMessages = this.GetToolbarItem("messages").content;
+        var friendMessages = notificationsMessages[msgData.from];
+        if (friendMessages) {
+            friendMessages.unreadMessagesNumber++;
+        }
+        else {
+            notificationsMessages[msgData.from] = {
+                "unreadMessagesNumber": 1,
+                "firstUnreadMessageId": msgData.id
+            };
+        }
+        this.navbarService.UpdateMessagesNotifications(notificationsMessages);
+    };
+    NavbarComponent.prototype.RemoveFriendMessagesFromToolbarMessages = function (friendId) {
+        var notificationsMessages = this.GetToolbarItem("messages").content;
+        if (notificationsMessages[friendId]) {
+            delete (notificationsMessages[friendId]);
+            this.navbarService.RemoveMessagesNotifications(notificationsMessages);
+        }
+    };
+    // Return item object from toolbar items array by its id.
+    NavbarComponent.prototype.GetToolbarItem = function (id) {
+        for (var i = 0; i < this.toolbarItems.length; i++) {
+            if (this.toolbarItems[i].id == id) {
+                return this.toolbarItems[i];
+            }
+        }
+    };
+    NavbarComponent.prototype.ShowMessageNotification = function (name, text, isImage, friendId) {
+        if (name && text) {
+            this.messageNotificationName = name;
+            this.messageNotificationText = text;
+            this.isMessageNotificationImage = isImage;
+            this.messageNotificationFriendId = friendId;
+            this.isShowMessageNotification = true;
+            var self = this;
+            self.messageNotificationInterval = setInterval(function () {
+                self.isShowMessageNotification = false;
+                clearInterval(self.messageNotificationInterval);
+                self.messageNotificationInterval = null;
+            }, self.notificationDelay);
+        }
+    };
+    NavbarComponent.prototype.GetFriendNameById = function (id) {
+        for (var i = 0; i < this.friends.length; i++) {
+            if (this.friends[i]._id == id) {
+                return (this.friends[i].firstName + " " + this.friends[i].lastName);
+            }
+        }
+        return null;
+    };
+    NavbarComponent.prototype.GetFriendById = function (id) {
+        for (var i = 0; i < this.friends.length; i++) {
+            if (this.friends[i]._id == id) {
+                return this.friends[i];
+            }
+        }
+        return null;
+    };
+    NavbarComponent.prototype.MessageNotificationClicked = function () {
+        // Turn off the open notification.
+        this.isShowMessageNotification = false;
+        if (this.messageNotificationInterval) {
+            clearInterval(this.messageNotificationInterval);
+            this.messageNotificationInterval = null;
+        }
+        this.OpenChat(this.GetFriendById(this.messageNotificationFriendId));
+    };
+    // Loading full friends objects to friends array.
+    NavbarComponent.prototype.LoadFriendsData = function (friendsIds) {
+        var _this = this;
+        if (friendsIds.length > 0) {
+            this.isFriendsLoading = true;
+            this.navbarService.GetFriends(friendsIds).then(function (friendsResult) {
+                _this.friends = friendsResult;
+                _this.isFriendsLoading = false;
+                _this.socket.emit("ServerGetOnlineFriends");
+            });
+        }
+    };
+    NavbarComponent.prototype.ShowHideSidenav = function () {
+        this.isSidebarOpen = !this.isSidebarOpen;
+        this.isNewFriendsLabel = false;
+        if (this.isSidebarOpen) {
+            this.HideDropMenu();
+            this.HideSearchResults();
+            this.isSidenavOpened = true;
+            document.getElementById("sidenav").style.width = this.sidenavWidth;
+            this.isSidenavOpenAnimation = true;
+            $("#open-sidenav-btn").removeClass("close-sidenav");
+            var self = this;
+            // Prevent closing the sidenav while openning animation is working.
+            setTimeout(function () {
+                self.isSidenavOpenAnimation = false;
+            }, this.sidenavOpenTimeAnimation);
+        }
+        else {
+            this.HideSidenav();
+        }
+    };
+    NavbarComponent.prototype.HideSidenav = function () {
+        if (this.isSidebarOpen && !this.isSidenavOpenAnimation) {
+            this.HideUnreadWindow();
+            this.HideFriendRequestsWindow();
+            this.isSidebarOpen = false;
+            document.getElementById("sidenav").style.width = "0";
+            $("#open-sidenav-btn").addClass("close-sidenav");
+        }
+    };
+    NavbarComponent.prototype.ShowHideDropMenu = function () {
+        this.isDropMenuOpen = !this.isDropMenuOpen;
+        if (this.isDropMenuOpen) {
+            this.HideSidenav();
+            this.HideSearchResults();
+        }
+    };
+    NavbarComponent.prototype.HideDropMenu = function () {
+        this.isDropMenuOpen = false;
+    };
+    NavbarComponent.prototype.ShowSearchResults = function () {
+        this.isShowSearchResults = true;
+        if (this.isShowSearchResults) {
+            this.HideSidenav();
+            this.HideDropMenu();
+        }
+    };
+    NavbarComponent.prototype.HideSearchResults = function () {
+        this.isShowSearchResults = false;
+    };
+    NavbarComponent.prototype.ClickSearchInput = function (input) {
+        this.isShowSearchResults = input ? true : false;
+        this.HideSidenav();
+        this.HideDropMenu();
+    };
+    NavbarComponent.prototype.ClosePopups = function () {
+        this.HideSidenav();
+        this.HideDropMenu();
+        this.HideSearchResults();
+    };
+    NavbarComponent.prototype.OverlayClicked = function () {
+        if (this.isUnreadWindowOpen || this.isFriendRequestsWindowOpen) {
+            this.HideUnreadWindow();
+            this.HideFriendRequestsWindow();
+        }
+        else {
+            this.ClosePopups();
+        }
+    };
+    NavbarComponent.prototype.SearchChange = function (input) {
+        this.isNewFriendsLabel = false;
+        var self = this;
+        if (self.inputInterval) {
+            clearTimeout(self.inputInterval);
+        }
+        self.inputInterval = setTimeout(function () {
+            if (input && (input = input.trim())) {
+                self.navbarService.GetMainSearchResults(input).then(function (results) {
+                    if (results && results.length > 0 && input == self.searchInput.trim()) {
+                        self.searchResults = results;
+                        self.ShowSearchResults();
+                        self.navbarService.GetMainSearchResultsWithImages(GetResultsIds(results)).then(function (profiles) {
+                            if (profiles && Object.keys(profiles).length > 0 && input == self.searchInput.trim()) {
+                                self.searchResults.forEach(function (result) {
+                                    if (result.originalProfile) {
+                                        result.profile = profiles[result.originalProfile];
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+            else {
+                self.HideSearchResults();
+                self.searchResults = [];
+            }
+        }, self.searchInputChangeDelay);
+    };
+    NavbarComponent.prototype.GetFilteredSearchResults = function (searchInput) {
+        if (!searchInput) {
+            return this.searchResults;
+        }
+        else {
+            searchInput = searchInput.trim();
+            this.searchResults = this.searchResults.filter(function (result) {
+                return ((result.fullName.indexOf(searchInput) == 0) ||
+                    ((result.lastName + " " + result.firstName).indexOf(searchInput) == 0));
+            });
+            return this.searchResults;
+        }
+    };
+    NavbarComponent.prototype.GetFilteredFriends = function (friendSearchInput) {
+        if (!friendSearchInput) {
+            return this.friends;
+        }
+        else {
+            friendSearchInput = friendSearchInput.trim();
+            return this.friends.filter(function (friend) {
+                return (((friend.firstName + " " + friend.lastName).indexOf(friendSearchInput) == 0) ||
+                    ((friend.lastName + " " + friend.firstName).indexOf(friendSearchInput) == 0));
+            });
+        }
+    };
+    NavbarComponent.prototype.GetFriendUnreadMessagesNumberText = function (friendId) {
+        var friendNotificationsMessages = this.GetToolbarItem("messages").content[friendId];
+        if (friendNotificationsMessages) {
+            return "(" + friendNotificationsMessages.unreadMessagesNumber + ")";
+        }
+        else {
+            return "";
+        }
+    };
+    NavbarComponent.prototype.OpenChat = function (friend) {
+        this.HideSidenav();
+        if (!this.chatData.isOpen || !this.chatData.friend || this.chatData.friend._id != friend._id) {
+            var messagesNotifications = Object.assign({}, this.GetToolbarItem("messages").content);
+            // Empty unread messages notifications from the currend friend.
+            this.RemoveFriendMessagesFromToolbarMessages(friend._id);
+            // Put default profile in case the friend has no profile image.
+            if (!friend.profileImage) {
+                friend.profileImage = this.defaultProfileImage;
+            }
+            this.chatData.friend = friend;
+            this.chatData.user = this.user;
+            this.chatData.messagesNotifications = messagesNotifications;
+            this.chatData.isOpen = true;
+            this.globalService.setData("chatData", this.chatData);
+        }
+    };
+    NavbarComponent.prototype.ShowHideUnreadWindow = function () {
+        this.isUnreadWindowOpen = !this.isUnreadWindowOpen;
+    };
+    NavbarComponent.prototype.HideUnreadWindow = function () {
+        this.isUnreadWindowOpen = false;
+    };
+    NavbarComponent.prototype.ShowHideFriendRequestsWindow = function () {
+        this.isFriendRequestsWindowOpen = !this.isFriendRequestsWindowOpen;
+    };
+    NavbarComponent.prototype.HideFriendRequestsWindow = function () {
+        this.isFriendRequestsWindowOpen = false;
+    };
+    NavbarComponent.prototype.AddFriendRequest = function (friendId) {
+        var friendRequests = this.GetToolbarItem("friendRequests").content;
+        friendRequests.send.push(friendId);
+        var self = this;
+        self.navbarService.AddFriendRequest(friendId).then(function (result) {
+            if (result) {
+                self.socket.emit("ServerUpdateFriendRequests", friendRequests);
+                self.socket.emit("SendFriendRequest", friendId);
+                $("#remove-friend-notification").snackbar("hide");
+                $("#add-friend-notification").snackbar("show");
+            }
+        });
+    };
+    NavbarComponent.prototype.RemoveFriendRequest = function (friendId) {
+        var friendRequests = this.GetToolbarItem("friendRequests").content;
+        friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
+        var self = this;
+        this.navbarService.RemoveFriendRequest(friendId).then(function (result) {
+            if (result) {
+                self.socket.emit("ServerUpdateFriendRequests", friendRequests);
+                self.socket.emit("RemoveFriendRequest", self.user._id, friendId);
+                $("#add-friend-notification").snackbar("hide");
+                $("#remove-friend-notification").snackbar("show");
+            }
+        });
+    };
+    NavbarComponent.prototype.ShowFriendRequestNotification = function (name) {
+        this.friendRequestNotificationName = name;
+        this.isShowFriendRequestNotification = true;
+        var self = this;
+        self.friendRequestNotificationInterval = setInterval(function () {
+            self.isShowFriendRequestNotification = false;
+            clearInterval(self.friendRequestNotificationInterval);
+            self.friendRequestNotificationInterval = null;
+        }, this.notificationDelay);
+    };
+    NavbarComponent.prototype.IsShowAddFriendRequestBtn = function (friendId) {
+        var friendRequests = this.GetToolbarItem("friendRequests").content;
+        if (friendId != this.user._id &&
+            this.user.friends.indexOf(friendId) == -1 &&
+            friendRequests.send.indexOf(friendId) == -1 &&
+            friendRequests.get.indexOf(friendId) == -1) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
+    NavbarComponent.prototype.IsShowRemoveFriendRequestBtn = function (friendId) {
+        var friendRequests = this.GetToolbarItem("friendRequests").content;
+        if (friendRequests.send.indexOf(friendId) != -1) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
+    NavbarComponent.prototype.IsShowFriendRequestConfirmSector = function (friendId) {
+        var friendRequests = this.GetToolbarItem("friendRequests").content;
+        if (friendRequests.get.indexOf(friendId) != -1) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
+    NavbarComponent.prototype.AddFriendObjectToUser = function (friend) {
+        var userFriends = this.user.friends;
+        if (userFriends.indexOf(friend._id) == -1) {
+            // Add the friend id to the user's friends array.
+            userFriends.push(friend._id);
+        }
+        // Add the friend client object to the friends array.
+        this.friends.push(friend);
+        this.socket.emit("ServerGetOnlineFriends");
+        this.socket.emit("ServerFriendAddedUpdate", friend._id);
+    };
+    NavbarComponent.prototype.AddFriend = function (friendId) {
+        this.isFriendsLoading = true;
+        // Remove the friend request from all friend requests object.
+        var friendRequests = this.GetToolbarItem("friendRequests").content;
+        friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
+        // Add the friend id to the user's friends array.
+        var userFriends = this.user.friends;
+        userFriends.push(friendId);
+        var self = this;
+        self.navbarService.AddFriend(friendId).then(function (friend) {
+            self.isFriendsLoading = false;
+            if (friend) {
+                self.socket.emit("ServerUpdateFriendRequests", friendRequests);
+                self.socket.emit("ServerAddFriend", friend);
+            }
+            else {
+                //  Recover the actions in case the server is fail to add the friend. 
+                friendRequests.get.push(friendId);
+                userFriends.splice(userFriends.indexOf(friendId), 1);
+                self.socket.emit("ServerUpdateFriendRequests", friendRequests);
+            }
+        });
+    };
+    NavbarComponent.prototype.IgnoreFriendRequest = function (friendId) {
+        // Remove the friend request from all friend requests object.
+        var friendRequests = this.GetToolbarItem("friendRequests").content;
+        friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
+        var self = this;
+        this.navbarService.IgnoreFriendRequest(friendId).then(function (result) {
+            if (result) {
+                self.socket.emit("ServerUpdateFriendRequests", friendRequests);
+                self.socket.emit("ServerIgnoreFriendRequest", self.user._id, friendId);
+            }
+        });
+    };
+    NavbarComponent.prototype.MakeFriendTyping = function (friendId) {
+        var friendObj = this.friends.find(function (friend) {
+            return (friend._id == friendId);
+        });
+        if (friendObj) {
+            friendObj.typingTimer && clearTimeout(friendObj.typingTimer);
+            friendObj.isTyping = true;
+            var self = this;
+            friendObj.typingTimer = setTimeout(function () {
+                friendObj.isTyping = false;
+            }, self.chatTypingDelay);
+        }
+    };
+    NavbarComponent.prototype.SearchNewFriends = function () {
+        $("#search-input").focus();
+        clearTimeout(this.showNewFriendsLabelTimeout);
+        clearTimeout(this.hideNewFriendsLabelTimeout);
+        var self = this;
+        self.showNewFriendsLabelTimeout = setTimeout(function () {
+            self.isNewFriendsLabel = true;
+            self.hideNewFriendsLabelTimeout = setTimeout(function () {
+                self.isNewFriendsLabel = false;
+            }, self.newFriendsLabelDelay);
+        }, 200);
+    };
+    NavbarComponent.prototype.NavigateMain = function () {
+        this.ClosePopups();
+        this.router.navigateByUrl('');
+    };
+    NavbarComponent.prototype.GetNotificationsNumber = function () {
+        var notificationsAmount = 0;
+        this.toolbarItems.forEach(function (item) {
+            notificationsAmount += item.getNotificationsNumber();
+        });
+        return notificationsAmount;
     };
     __decorate([
         core_1.Input(),

@@ -15,7 +15,7 @@ export class DropMenuComponent {
 
     @Input() options: DropMenuData[];
 
-    ActiveAction = function (action: Function, link: string) {
+    ActiveAction(action: Function, link: string) {
         if (action) {
             action(link);
         }

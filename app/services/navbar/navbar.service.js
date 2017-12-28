@@ -60,7 +60,7 @@ var NavbarService = /** @class */ (function (_super) {
             return null;
         });
     };
-    NavbarService.prototype.UpdateMessagesNotifications = function (messagesNotifications, friendId) {
+    NavbarService.prototype.UpdateMessagesNotifications = function (messagesNotifications) {
         var details = { messagesNotifications: messagesNotifications };
         _super.prototype.post.call(this, this.prefix + '/updateMessagesNotifications', JSON.stringify(details))
             .toPromise()

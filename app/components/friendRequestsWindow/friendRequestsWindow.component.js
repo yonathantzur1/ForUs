@@ -22,34 +22,6 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         this.friendRequestsObjects = [];
         this.isFirstFriendRequestsObjectsLoaded = false;
         this.isFriendRequestsLoading = false;
-        this.LoadFriendRequestsObjects = function () {
-            var _this = this;
-            if (this.friendRequests.length > 0) {
-                this.navbarService.GetFriends(this.friendRequests).then(function (friendsResult) {
-                    _this.friendRequestsObjects = friendsResult;
-                    _this.isFriendRequestsLoading = false;
-                });
-            }
-            else {
-                this.friendRequestsObjects = [];
-                this.isFriendRequestsLoading = false;
-            }
-        };
-        this.GetFriendRequestsNumberText = function () {
-            var friendRequestsNumber = this.friendRequests.length;
-            if (friendRequestsNumber == 0) {
-                return "אין בקשות חברות חדשות";
-            }
-            else if (friendRequestsNumber == 1) {
-                return "בקשת חברות חדשה";
-            }
-            else {
-                return (friendRequestsNumber + " בקשות חברות חדשות");
-            }
-        };
-        this.FriendRequestBtnClicked = function (friendId) {
-            this.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
-        };
         this.socket = globalService.socket;
     }
     FriendRequestsWindowComponent.prototype.ngOnInit = function () {
@@ -77,6 +49,34 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
             this.isFriendRequestsLoading = true;
             this.LoadFriendRequestsObjects();
         }
+    };
+    FriendRequestsWindowComponent.prototype.LoadFriendRequestsObjects = function () {
+        var _this = this;
+        if (this.friendRequests.length > 0) {
+            this.navbarService.GetFriends(this.friendRequests).then(function (friendsResult) {
+                _this.friendRequestsObjects = friendsResult;
+                _this.isFriendRequestsLoading = false;
+            });
+        }
+        else {
+            this.friendRequestsObjects = [];
+            this.isFriendRequestsLoading = false;
+        }
+    };
+    FriendRequestsWindowComponent.prototype.GetFriendRequestsNumberText = function () {
+        var friendRequestsNumber = this.friendRequests.length;
+        if (friendRequestsNumber == 0) {
+            return "אין בקשות חברות חדשות";
+        }
+        else if (friendRequestsNumber == 1) {
+            return "בקשת חברות חדשה";
+        }
+        else {
+            return (friendRequestsNumber + " בקשות חברות חדשות");
+        }
+    };
+    FriendRequestsWindowComponent.prototype.FriendRequestBtnClicked = function (friendId) {
+        this.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
     };
     __decorate([
         core_1.Input(),

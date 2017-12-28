@@ -35,293 +35,6 @@ var ChatComponent = /** @class */ (function () {
         this.months = globalVariables.months;
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.messageNotificationDelay = 3800; // milliseconds
-        this.InitializeChat = function () {
-            var self = this;
-            if (this.isCanvasInitialize) {
-                self.SelectTopIcon(self.GetTopIconById("chat"));
-                this.InitializeCanvas();
-            }
-            self.msghInput = "";
-            self.isAllowShowUnreadLine = true;
-            self.chatBodyScrollHeight = 0;
-            self.isMessagesLoading = true;
-            self.chatService.GetChat([self.chatData.user._id, self.chatData.friend._id]).then(function (chat) {
-                if (chat) {
-                    self.messages = chat.messages;
-                }
-                self.isMessagesLoading = false;
-                $("#msg-input").focus();
-            });
-        };
-        this.CloseChat = function () {
-            this.chatData.isOpen = false;
-        };
-        this.SendMessage = function () {
-            if (!this.isMessagesLoading && this.msghInput) {
-                // Delete spaces from the start and the end of the message text.
-                this.msghInput = this.msghInput.trim();
-                if (this.msghInput) {
-                    var msgData = {
-                        "from": this.chatData.user._id,
-                        "to": this.chatData.friend._id,
-                        "text": this.msghInput,
-                        "time": new Date()
-                    };
-                    this.msghInput = "";
-                    this.isAllowShowUnreadLine = false;
-                    this.messages.push(msgData);
-                    this.socket.emit("SendMessage", msgData);
-                }
-            }
-        };
-        this.MsgInputKeyup = function (event) {
-            // In case of pressing ENTER.
-            if (event.keyCode == 13) {
-                this.SendMessage();
-            }
-            else if (event.keyCode == 27) {
-                this.CloseChat();
-            }
-            else {
-                this.socket.emit("ServerFriendTyping", this.chatData.friend._id);
-            }
-        };
-        this.ScrollToBottom = function () {
-            $("#chat-body-sector")[0].scrollTop = $("#chat-body-sector")[0].scrollHeight;
-        };
-        this.GetTimeString = function (date) {
-            var localDate = new Date(date);
-            var HH = localDate.getHours().toString();
-            var mm = localDate.getMinutes().toString();
-            if (mm.length == 1) {
-                mm = "0" + mm;
-            }
-            return (HH + ":" + mm);
-        };
-        this.IsShowUnreadLine = function (msgFromId, msgId, msgIndex) {
-            var friendMessagesNotifications = this.chatData.messagesNotifications[msgFromId];
-            if (this.isAllowShowUnreadLine &&
-                friendMessagesNotifications &&
-                msgId == friendMessagesNotifications.firstUnreadMessageId &&
-                msgIndex != 0) {
-                this.unreadMessagesNumber = friendMessagesNotifications.unreadMessagesNumber;
-                return true;
-            }
-            else {
-                return false;
-            }
-        };
-        this.GetUnreadMessagesNumberText = function (unreadMessagesNumber) {
-            if (unreadMessagesNumber == 1) {
-                return ("הודעה 1 שלא נקראה");
-            }
-            else {
-                return (unreadMessagesNumber + " הודעות שלא נקראו");
-            }
-        };
-        this.IsShowDateBubble = function (index) {
-            if (index == 0) {
-                return true;
-            }
-            else if (index > 0) {
-                var currMessageDate = new Date(this.messages[index].time);
-                var beforeMessageDate = new Date(this.messages[index - 1].time);
-                if (currMessageDate.getDay() != beforeMessageDate.getDay() ||
-                    currMessageDate.getMonth() != beforeMessageDate.getMonth() ||
-                    currMessageDate.getFullYear() != beforeMessageDate.getFullYear()) {
-                    return true;
-                }
-            }
-            return false;
-        };
-        this.GetDateBubbleText = function (index) {
-            var localDate = new Date(this.messages[index].time);
-            var currDate = new Date();
-            currDate.setHours(23, 59, 59, 999);
-            var timeDiff = Math.abs(currDate.getTime() - localDate.getTime());
-            var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-            var datesDaysDiff = Math.abs(currDate.getDay() - localDate.getDay());
-            var dateDetailsString = "";
-            if (diffDays <= 7) {
-                if (diffDays <= 2) {
-                    if (currDate.getDate() == localDate.getDate()) {
-                        dateDetailsString = "היום";
-                    }
-                    else if (Math.min((7 - datesDaysDiff), datesDaysDiff) <= 1) {
-                        dateDetailsString = "אתמול";
-                    }
-                    else {
-                        dateDetailsString = this.days[localDate.getDay()];
-                    }
-                }
-                else {
-                    dateDetailsString = this.days[localDate.getDay()];
-                }
-            }
-            else {
-                if (localDate.getFullYear() == currDate.getFullYear()) {
-                    dateDetailsString = (localDate.getDate()) + " ב" + this.months[localDate.getMonth()];
-                }
-                else {
-                    dateDetailsString = (localDate.getDate()) + "/" + (localDate.getMonth() + 1) + "/" + localDate.getFullYear();
-                }
-            }
-            return dateDetailsString;
-        };
-        this.GetTopIconById = function (id) {
-            for (var i = 0; i < this.topIcons.length; i++) {
-                if (this.topIcons[i].id == id) {
-                    return this.topIcons[i];
-                }
-            }
-            return null;
-        };
-        this.InitializeCanvas = function () {
-            this.canvas = document.getElementById("sig-canvas");
-            this.canvasTopBar = document.getElementById("canvas-top-bar-sector");
-            var canvasContainer = document.getElementById("canvas-body-sector");
-            this.canvas.width = canvasContainer.offsetWidth;
-            this.canvas.height = canvasContainer.offsetHeight;
-            this.ctx = this.canvas.getContext("2d");
-            this.canvasSelectedColorIndex = 0;
-            this.ctx.strokeStyle = this.colorBtns[0];
-            this.ctx.lineWith = 4;
-            this.drawing = false;
-            this.mousePos = { x: 0, y: 0 };
-            this.lastPos = this.mousePos;
-            this.isCanvasInitialize = true;
-            this.isCanvasEmpty = true;
-            this.undoArray = [];
-        };
-        // Get the position of the mouse relative to the canvas
-        this.GetMousePos = function (canvasDom, mouseEvent) {
-            var rect = canvasDom.getBoundingClientRect();
-            return {
-                x: mouseEvent.clientX - rect.left,
-                y: mouseEvent.clientY - rect.top
-            };
-        };
-        this.RenderCanvas = function () {
-            if (this.drawing) {
-                var offset = $("#sig-canvas").offset();
-                this.ctx.moveTo(this.lastPos.x - offset.left, this.lastPos.y);
-                this.ctx.lineTo(this.mousePos.x - offset.left, this.mousePos.y);
-                this.ctx.stroke();
-                this.ctx.beginPath();
-                this.lastPos = this.mousePos;
-            }
-        };
-        // Get the position of a touch relative to the canvas
-        this.GetTouchPos = function (canvasDom, touchEvent) {
-            var rect = canvasDom.getBoundingClientRect();
-            return {
-                x: touchEvent.touches[0].clientX - rect.left,
-                y: touchEvent.touches[0].clientY - rect.top
-            };
-        };
-        this.ChangeCanvasColor = function (colorIndex) {
-            this.canvasSelectedColorIndex = colorIndex;
-            this.ctx.strokeStyle = this.colorBtns[colorIndex];
-        };
-        this.SendCanvas = function () {
-            if (!this.isMessagesLoading && !this.isCanvasEmpty) {
-                var imageBase64 = this.canvas.toDataURL();
-                this.InitializeCanvas();
-                this.SelectTopIcon(this.GetTopIconById("chat"));
-                var msgData = {
-                    "from": this.chatData.user._id,
-                    "to": this.chatData.friend._id,
-                    "text": imageBase64,
-                    "isImage": true,
-                    "time": new Date()
-                };
-                this.messages.push(msgData);
-                this.socket.emit("SendMessage", msgData);
-            }
-        };
-        this.ShowHideCanvasTopSector = function () {
-            if (this.isCanvasTopOpen) {
-                this.canvasTopBar.style.bottom = "0px";
-            }
-            else {
-                this.canvasTopBar.style.bottom = "40px";
-            }
-            this.isCanvasTopOpen = !this.isCanvasTopOpen;
-        };
-        this.HideCanvasTopSector = function () {
-            if (this.isCanvasTopOpen) {
-                this.canvasTopBar.style.bottom = "0px";
-                this.isCanvasTopOpen = false;
-            }
-        };
-        this.UploadImage = function () {
-            var self = this;
-            var URL = window.URL;
-            var $chatImage = $('#chatImage');
-            if (URL) {
-                var files = $chatImage[0].files;
-                var file;
-                if (files && files.length) {
-                    file = files[0];
-                    if (/^image\/\w+$/.test(file.type)) {
-                        loadImage(file, function (img) {
-                            self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
-                            self.ctx.drawImage(img, (self.canvas.width - img.width) / 2, (self.canvas.height - img.height) / 2);
-                            self.undoArray.push(self.canvas.toDataURL());
-                            self.isCanvasEmpty = false;
-                        }, {
-                            maxWidth: self.canvas.width,
-                            maxHeight: self.canvas.height,
-                            canvas: true,
-                            orientation: true,
-                        });
-                        $chatImage.val('');
-                        self.HideCanvasTopSector();
-                        return true;
-                    }
-                    else {
-                        return false;
-                    }
-                }
-            }
-            return null;
-        };
-        this.ChangeImage = function () {
-            var isSuccess = this.UploadImage();
-            if (isSuccess == false) {
-                $("#canvas-image-failed").snackbar("show");
-            }
-            else if (isSuccess == null) {
-                $("#canvas-upload-failed").snackbar("show");
-            }
-        };
-        this.ShowChatNotification = function (msgData, isSelfMessageNotification) {
-            if (this.messageNotificationInterval) {
-                clearInterval(this.messageNotificationInterval);
-            }
-            this.isSelfMessageNotification = isSelfMessageNotification;
-            this.messageNotificationFriendObj = this.GetFriendById(msgData.from);
-            this.messageNotificationText = msgData.text;
-            this.isShowMessageNotification = true;
-            var self = this;
-            self.messageNotificationInterval = setInterval(function () {
-                self.isShowMessageNotification = false;
-                clearInterval(self.messageNotificationInterval);
-                self.messageNotificationInterval = null;
-            }, self.messageNotificationDelay);
-        };
-        this.ClickChatNotification = function () {
-            this.isShowMessageNotification = false;
-            if (this.messageNotificationInterval) {
-                clearInterval(this.messageNotificationInterval);
-            }
-            if (this.isSelfMessageNotification) {
-                this.GetTopIconById("chat").onClick();
-            }
-            else {
-                this.OpenChat(this.messageNotificationFriendObj);
-            }
-        };
         this.socket = globalService.socket;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
             if (value["chatData"]) {
@@ -544,11 +257,298 @@ var ChatComponent = /** @class */ (function () {
             this.InitializeCanvas();
         }
     };
+    ChatComponent.prototype.InitializeChat = function () {
+        var self = this;
+        if (this.isCanvasInitialize) {
+            self.SelectTopIcon(self.GetTopIconById("chat"));
+            this.InitializeCanvas();
+        }
+        self.msghInput = "";
+        self.isAllowShowUnreadLine = true;
+        self.chatBodyScrollHeight = 0;
+        self.isMessagesLoading = true;
+        self.chatService.GetChat([self.chatData.user._id, self.chatData.friend._id]).then(function (chat) {
+            if (chat) {
+                self.messages = chat.messages;
+            }
+            self.isMessagesLoading = false;
+            $("#msg-input").focus();
+        });
+    };
+    ChatComponent.prototype.CloseChat = function () {
+        this.chatData.isOpen = false;
+    };
+    ChatComponent.prototype.SendMessage = function () {
+        if (!this.isMessagesLoading && this.msghInput) {
+            // Delete spaces from the start and the end of the message text.
+            this.msghInput = this.msghInput.trim();
+            if (this.msghInput) {
+                var msgData = {
+                    "from": this.chatData.user._id,
+                    "to": this.chatData.friend._id,
+                    "text": this.msghInput,
+                    "time": new Date()
+                };
+                this.msghInput = "";
+                this.isAllowShowUnreadLine = false;
+                this.messages.push(msgData);
+                this.socket.emit("SendMessage", msgData);
+            }
+        }
+    };
+    ChatComponent.prototype.MsgInputKeyup = function (event) {
+        // In case of pressing ENTER.
+        if (event.keyCode == 13) {
+            this.SendMessage();
+        }
+        else if (event.keyCode == 27) {
+            this.CloseChat();
+        }
+        else {
+            this.socket.emit("ServerFriendTyping", this.chatData.friend._id);
+        }
+    };
+    ChatComponent.prototype.ScrollToBottom = function () {
+        $("#chat-body-sector")[0].scrollTop = $("#chat-body-sector")[0].scrollHeight;
+    };
+    ChatComponent.prototype.GetTimeString = function (date) {
+        var localDate = new Date(date);
+        var HH = localDate.getHours().toString();
+        var mm = localDate.getMinutes().toString();
+        if (mm.length == 1) {
+            mm = "0" + mm;
+        }
+        return (HH + ":" + mm);
+    };
+    ChatComponent.prototype.IsShowUnreadLine = function (msgFromId, msgId, msgIndex) {
+        var friendMessagesNotifications = this.chatData.messagesNotifications[msgFromId];
+        if (this.isAllowShowUnreadLine &&
+            friendMessagesNotifications &&
+            msgId == friendMessagesNotifications.firstUnreadMessageId &&
+            msgIndex != 0) {
+            this.unreadMessagesNumber = friendMessagesNotifications.unreadMessagesNumber;
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
+    ChatComponent.prototype.GetUnreadMessagesNumberText = function (unreadMessagesNumber) {
+        if (unreadMessagesNumber == 1) {
+            return ("הודעה 1 שלא נקראה");
+        }
+        else {
+            return (unreadMessagesNumber + " הודעות שלא נקראו");
+        }
+    };
+    ChatComponent.prototype.IsShowDateBubble = function (index) {
+        if (index == 0) {
+            return true;
+        }
+        else if (index > 0) {
+            var currMessageDate = new Date(this.messages[index].time);
+            var beforeMessageDate = new Date(this.messages[index - 1].time);
+            if (currMessageDate.getDay() != beforeMessageDate.getDay() ||
+                currMessageDate.getMonth() != beforeMessageDate.getMonth() ||
+                currMessageDate.getFullYear() != beforeMessageDate.getFullYear()) {
+                return true;
+            }
+        }
+        return false;
+    };
+    ChatComponent.prototype.GetDateBubbleText = function (index) {
+        var localDate = new Date(this.messages[index].time);
+        var currDate = new Date();
+        currDate.setHours(23, 59, 59, 999);
+        var timeDiff = Math.abs(currDate.getTime() - localDate.getTime());
+        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        var datesDaysDiff = Math.abs(currDate.getDay() - localDate.getDay());
+        var dateDetailsString = "";
+        if (diffDays <= 7) {
+            if (diffDays <= 2) {
+                if (currDate.getDate() == localDate.getDate()) {
+                    dateDetailsString = "היום";
+                }
+                else if (Math.min((7 - datesDaysDiff), datesDaysDiff) <= 1) {
+                    dateDetailsString = "אתמול";
+                }
+                else {
+                    dateDetailsString = this.days[localDate.getDay()];
+                }
+            }
+            else {
+                dateDetailsString = this.days[localDate.getDay()];
+            }
+        }
+        else {
+            if (localDate.getFullYear() == currDate.getFullYear()) {
+                dateDetailsString = (localDate.getDate()) + " ב" + this.months[localDate.getMonth()];
+            }
+            else {
+                dateDetailsString = (localDate.getDate()) + "/" + (localDate.getMonth() + 1) + "/" + localDate.getFullYear();
+            }
+        }
+        return dateDetailsString;
+    };
+    ChatComponent.prototype.GetTopIconById = function (id) {
+        for (var i = 0; i < this.topIcons.length; i++) {
+            if (this.topIcons[i].id == id) {
+                return this.topIcons[i];
+            }
+        }
+        return null;
+    };
     ChatComponent.prototype.SelectTopIcon = function (iconObj) {
         this.topIcons.forEach(function (obj) {
             obj.isSelected = false;
         });
         iconObj.isSelected = true;
+    };
+    ChatComponent.prototype.InitializeCanvas = function () {
+        this.canvas = document.getElementById("sig-canvas");
+        this.canvasTopBar = document.getElementById("canvas-top-bar-sector");
+        var canvasContainer = document.getElementById("canvas-body-sector");
+        this.canvas.width = canvasContainer.offsetWidth;
+        this.canvas.height = canvasContainer.offsetHeight;
+        this.ctx = this.canvas.getContext("2d");
+        this.canvasSelectedColorIndex = 0;
+        this.ctx.strokeStyle = this.colorBtns[0];
+        this.ctx.lineWith = 4;
+        this.drawing = false;
+        this.mousePos = { x: 0, y: 0 };
+        this.lastPos = this.mousePos;
+        this.isCanvasInitialize = true;
+        this.isCanvasEmpty = true;
+        this.undoArray = [];
+    };
+    // Get the position of the mouse relative to the canvas
+    ChatComponent.prototype.GetMousePos = function (canvasDom, mouseEvent) {
+        var rect = canvasDom.getBoundingClientRect();
+        return {
+            x: mouseEvent.clientX - rect.left,
+            y: mouseEvent.clientY - rect.top
+        };
+    };
+    ChatComponent.prototype.RenderCanvas = function () {
+        if (this.drawing) {
+            var offset = $("#sig-canvas").offset();
+            this.ctx.moveTo(this.lastPos.x - offset.left, this.lastPos.y);
+            this.ctx.lineTo(this.mousePos.x - offset.left, this.mousePos.y);
+            this.ctx.stroke();
+            this.ctx.beginPath();
+            this.lastPos = this.mousePos;
+        }
+    };
+    // Get the position of a touch relative to the canvas
+    ChatComponent.prototype.GetTouchPos = function (canvasDom, touchEvent) {
+        var rect = canvasDom.getBoundingClientRect();
+        return {
+            x: touchEvent.touches[0].clientX - rect.left,
+            y: touchEvent.touches[0].clientY - rect.top
+        };
+    };
+    ChatComponent.prototype.ChangeCanvasColor = function (colorIndex) {
+        this.canvasSelectedColorIndex = colorIndex;
+        this.ctx.strokeStyle = this.colorBtns[colorIndex];
+    };
+    ChatComponent.prototype.SendCanvas = function () {
+        if (!this.isMessagesLoading && !this.isCanvasEmpty) {
+            var imageBase64 = this.canvas.toDataURL();
+            this.InitializeCanvas();
+            this.SelectTopIcon(this.GetTopIconById("chat"));
+            var msgData = {
+                "from": this.chatData.user._id,
+                "to": this.chatData.friend._id,
+                "text": imageBase64,
+                "isImage": true,
+                "time": new Date()
+            };
+            this.messages.push(msgData);
+            this.socket.emit("SendMessage", msgData);
+        }
+    };
+    ChatComponent.prototype.ShowHideCanvasTopSector = function () {
+        if (this.isCanvasTopOpen) {
+            this.canvasTopBar.style.bottom = "0px";
+        }
+        else {
+            this.canvasTopBar.style.bottom = "40px";
+        }
+        this.isCanvasTopOpen = !this.isCanvasTopOpen;
+    };
+    ChatComponent.prototype.HideCanvasTopSector = function () {
+        if (this.isCanvasTopOpen) {
+            this.canvasTopBar.style.bottom = "0px";
+            this.isCanvasTopOpen = false;
+        }
+    };
+    ChatComponent.prototype.UploadImage = function () {
+        var self = this;
+        var URL = window.URL;
+        var $chatImage = $('#chatImage');
+        if (URL) {
+            var files = $chatImage[0].files;
+            var file;
+            if (files && files.length) {
+                file = files[0];
+                if (/^image\/\w+$/.test(file.type)) {
+                    loadImage(file, function (img) {
+                        self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
+                        self.ctx.drawImage(img, (self.canvas.width - img.width) / 2, (self.canvas.height - img.height) / 2);
+                        self.undoArray.push(self.canvas.toDataURL());
+                        self.isCanvasEmpty = false;
+                    }, {
+                        maxWidth: self.canvas.width,
+                        maxHeight: self.canvas.height,
+                        canvas: true,
+                        orientation: true,
+                    });
+                    $chatImage.val('');
+                    self.HideCanvasTopSector();
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+        }
+        return null;
+    };
+    ChatComponent.prototype.ChangeImage = function () {
+        var isSuccess = this.UploadImage();
+        if (isSuccess == false) {
+            $("#canvas-image-failed").snackbar("show");
+        }
+        else if (isSuccess == null) {
+            $("#canvas-upload-failed").snackbar("show");
+        }
+    };
+    ChatComponent.prototype.ShowChatNotification = function (msgData, isSelfMessageNotification) {
+        if (this.messageNotificationInterval) {
+            clearInterval(this.messageNotificationInterval);
+        }
+        this.isSelfMessageNotification = isSelfMessageNotification;
+        this.messageNotificationFriendObj = this.GetFriendById(msgData.from);
+        this.messageNotificationText = msgData.text;
+        this.isShowMessageNotification = true;
+        var self = this;
+        self.messageNotificationInterval = setInterval(function () {
+            self.isShowMessageNotification = false;
+            clearInterval(self.messageNotificationInterval);
+            self.messageNotificationInterval = null;
+        }, self.messageNotificationDelay);
+    };
+    ChatComponent.prototype.ClickChatNotification = function () {
+        this.isShowMessageNotification = false;
+        if (this.messageNotificationInterval) {
+            clearInterval(this.messageNotificationInterval);
+        }
+        if (this.isSelfMessageNotification) {
+            this.GetTopIconById("chat").onClick();
+        }
+        else {
+            this.OpenChat(this.messageNotificationFriendObj);
+        }
     };
     __decorate([
         core_1.Input(),

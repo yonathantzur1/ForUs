@@ -52,7 +52,7 @@ export class NavbarService extends BasicService {
             });
     }
 
-    UpdateMessagesNotifications(messagesNotifications: any, friendId: string) {
+    UpdateMessagesNotifications(messagesNotifications: any) {
         var details = { messagesNotifications };
 
         super.post(this.prefix + '/updateMessagesNotifications', JSON.stringify(details))

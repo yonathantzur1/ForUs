@@ -58,6 +58,7 @@ export class ToolbarItem {
 
 export class NavbarComponent implements OnInit, OnDestroy {
     @Input() user: any;
+    searchInput: string;
     friends: Array<Friend> = [];
     isFriendsLoading: boolean = false;
     isNewFriendsLabel: boolean = false;
@@ -250,18 +251,18 @@ export class NavbarComponent implements OnInit, OnDestroy {
         });
 
         self.socket.on('GetFriendRequest', function (friendId: string, friendFullName: string) {
-            var friendRequests = self.GetToolbarItem("friendRequests").content;
+            var friendRequests: any = self.GetToolbarItem("friendRequests").content;
             friendRequests.get.push(friendId);
             self.ShowFriendRequestNotification(friendFullName);
         });
 
         self.socket.on('DeleteFriendRequest', function (friendId: string) {
-            var friendRequests = self.GetToolbarItem("friendRequests").content;
+            var friendRequests: any = self.GetToolbarItem("friendRequests").content;
             friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
         });
 
         self.socket.on('ClientIgnoreFriendRequest', function (friendId: string) {
-            var friendRequests = self.GetToolbarItem("friendRequests").content;
+            var friendRequests: any = self.GetToolbarItem("friendRequests").content;
             friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
         });
 
@@ -289,11 +290,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.subscribeObj.unsubscribe();
     }
 
-    IsShowFriendFindInput = function () {
+    IsShowFriendFindInput() {
         return $(".sidenav-body-sector").hasScrollBar();
     }
 
-    AddMessageToToolbarMessages = function (msgData: any) {
+    AddMessageToToolbarMessages(msgData: any) {
         var notificationsMessages = this.GetToolbarItem("messages").content;
         var friendMessages = notificationsMessages[msgData.from];
 
@@ -310,7 +311,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.navbarService.UpdateMessagesNotifications(notificationsMessages);
     }
 
-    RemoveFriendMessagesFromToolbarMessages = function (friendId: string) {
+    RemoveFriendMessagesFromToolbarMessages(friendId: string) {
         var notificationsMessages = this.GetToolbarItem("messages").content;
 
         if (notificationsMessages[friendId]) {
@@ -320,7 +321,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     // Return item object from toolbar items array by its id.
-    GetToolbarItem = function (id: string) {
+    GetToolbarItem(id: string) {
         for (var i = 0; i < this.toolbarItems.length; i++) {
             if (this.toolbarItems[i].id == id) {
                 return this.toolbarItems[i];
@@ -328,7 +329,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    ShowMessageNotification = function (name: string, text: string, isImage: boolean, friendId: string) {
+    ShowMessageNotification(name: string, text: string, isImage: boolean, friendId: string) {
         if (name && text) {
             this.messageNotificationName = name;
             this.messageNotificationText = text;
@@ -345,7 +346,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    GetFriendNameById = function (id: string): string {
+    GetFriendNameById(id: string): string {
         for (var i = 0; i < this.friends.length; i++) {
             if (this.friends[i]._id == id) {
                 return (this.friends[i].firstName + " " + this.friends[i].lastName);
@@ -355,7 +356,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         return null;
     }
 
-    GetFriendById = function (id: string): Friend {
+    GetFriendById(id: string): Friend {
         for (var i = 0; i < this.friends.length; i++) {
             if (this.friends[i]._id == id) {
                 return this.friends[i];
@@ -365,7 +366,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         return null;
     }
 
-    MessageNotificationClicked = function () {
+    MessageNotificationClicked() {
         // Turn off the open notification.
         this.isShowMessageNotification = false;
 
@@ -378,7 +379,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     // Loading full friends objects to friends array.
-    LoadFriendsData = function (friendsIds: Array<string>) {
+    LoadFriendsData(friendsIds: Array<string>) {
         if (friendsIds.length > 0) {
             this.isFriendsLoading = true;
             this.navbarService.GetFriends(friendsIds).then((friendsResult: Array<Friend>) => {
@@ -389,7 +390,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    ShowHideSidenav = function () {
+    ShowHideSidenav() {
         this.isSidebarOpen = !this.isSidebarOpen;
         this.isNewFriendsLabel = false;
 
@@ -413,7 +414,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    HideSidenav = function () {
+    HideSidenav() {
         if (this.isSidebarOpen && !this.isSidenavOpenAnimation) {
             this.HideUnreadWindow();
             this.HideFriendRequestsWindow();
@@ -423,7 +424,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    ShowHideDropMenu = function () {
+    ShowHideDropMenu() {
         this.isDropMenuOpen = !this.isDropMenuOpen;
 
         if (this.isDropMenuOpen) {
@@ -432,11 +433,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    HideDropMenu = function () {
+    HideDropMenu() {
         this.isDropMenuOpen = false;
     }
 
-    ShowSearchResults = function () {
+    ShowSearchResults() {
         this.isShowSearchResults = true;
 
         if (this.isShowSearchResults) {
@@ -445,24 +446,24 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    HideSearchResults = function () {
+    HideSearchResults() {
         this.isShowSearchResults = false;
     }
 
-    ClickSearchInput = function (input: string) {
+    ClickSearchInput(input: string) {
         this.isShowSearchResults = input ? true : false;
 
         this.HideSidenav();
         this.HideDropMenu();
     }
 
-    ClosePopups = function () {
+    ClosePopups() {
         this.HideSidenav();
         this.HideDropMenu();
         this.HideSearchResults();
     }
 
-    OverlayClicked = function () {
+    OverlayClicked() {
         if (this.isUnreadWindowOpen || this.isFriendRequestsWindowOpen) {
             this.HideUnreadWindow();
             this.HideFriendRequestsWindow();
@@ -472,7 +473,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    SearchChange = function (input: string) {
+    SearchChange(input: string) {
         this.isNewFriendsLabel = false;
         var self = this;
 
@@ -507,22 +508,22 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
 
-    GetFilteredSearchResults = function (searchInput: string): Array<any> {
+    GetFilteredSearchResults(searchInput: string): Array<any> {
         if (!searchInput) {
             return this.searchResults;
         }
         else {
             searchInput = searchInput.trim();
-            this.searchResult = this.searchResults.filter(function (result: any) {
+            this.searchResults = this.searchResults.filter(function (result: any) {
                 return ((result.fullName.indexOf(searchInput) == 0) ||
                     ((result.lastName + " " + result.firstName).indexOf(searchInput) == 0));
             });
 
-            return this.searchResult;
+            return this.searchResults;
         }
     }
 
-    GetFilteredFriends = function (friendSearchInput: string): Array<any> {
+    GetFilteredFriends(friendSearchInput: string): Array<any> {
         if (!friendSearchInput) {
             return this.friends;
         }
@@ -535,7 +536,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    GetFriendUnreadMessagesNumberText = function (friendId: string) {
+    GetFriendUnreadMessagesNumberText(friendId: string) {
         var friendNotificationsMessages = this.GetToolbarItem("messages").content[friendId];
 
         if (friendNotificationsMessages) {
@@ -546,7 +547,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    OpenChat = function (friend: Friend) {
+    OpenChat(friend: Friend) {
         this.HideSidenav();
 
         if (!this.chatData.isOpen || !this.chatData.friend || this.chatData.friend._id != friend._id) {
@@ -569,24 +570,24 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    ShowHideUnreadWindow = function () {
+    ShowHideUnreadWindow() {
         this.isUnreadWindowOpen = !this.isUnreadWindowOpen;
     }
 
-    HideUnreadWindow = function () {
+    HideUnreadWindow() {
         this.isUnreadWindowOpen = false;
     }
 
-    ShowHideFriendRequestsWindow = function () {
+    ShowHideFriendRequestsWindow() {
         this.isFriendRequestsWindowOpen = !this.isFriendRequestsWindowOpen;
     }
 
-    HideFriendRequestsWindow = function () {
+    HideFriendRequestsWindow() {
         this.isFriendRequestsWindowOpen = false;
     }
 
-    AddFriendRequest = function (friendId: string) {
-        var friendRequests = this.GetToolbarItem("friendRequests").content;
+    AddFriendRequest(friendId: string) {
+        var friendRequests: any = this.GetToolbarItem("friendRequests").content;
         friendRequests.send.push(friendId);
 
         var self = this;
@@ -600,8 +601,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
         });
     }
 
-    RemoveFriendRequest = function (friendId: string) {
-        var friendRequests = this.GetToolbarItem("friendRequests").content;
+    RemoveFriendRequest(friendId: string) {
+        var friendRequests: any = this.GetToolbarItem("friendRequests").content;
         friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
 
         var self = this;
@@ -615,7 +616,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         });
     }
 
-    ShowFriendRequestNotification = function (name: string) {
+    ShowFriendRequestNotification(name: string) {
         this.friendRequestNotificationName = name;
         this.isShowFriendRequestNotification = true;
 
@@ -627,8 +628,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }, this.notificationDelay);
     }
 
-    IsShowAddFriendRequestBtn = function (friendId: string) {
-        var friendRequests = this.GetToolbarItem("friendRequests").content;
+    IsShowAddFriendRequestBtn(friendId: string) {
+        var friendRequests: any = this.GetToolbarItem("friendRequests").content;
 
         if (friendId != this.user._id &&
             this.user.friends.indexOf(friendId) == -1 &&
@@ -641,8 +642,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    IsShowRemoveFriendRequestBtn = function (friendId: string) {
-        var friendRequests = this.GetToolbarItem("friendRequests").content;
+    IsShowRemoveFriendRequestBtn(friendId: string) {
+        var friendRequests: any = this.GetToolbarItem("friendRequests").content;
 
         if (friendRequests.send.indexOf(friendId) != -1) {
             return true;
@@ -652,8 +653,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    IsShowFriendRequestConfirmSector = function (friendId: string) {
-        var friendRequests = this.GetToolbarItem("friendRequests").content;
+    IsShowFriendRequestConfirmSector(friendId: string) {
+        var friendRequests: any = this.GetToolbarItem("friendRequests").content;
 
         if (friendRequests.get.indexOf(friendId) != -1) {
             return true;
@@ -663,7 +664,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    AddFriendObjectToUser = function (friend: any) {
+    AddFriendObjectToUser(friend: any) {
         var userFriends = this.user.friends;
 
         if (userFriends.indexOf(friend._id) == -1) {
@@ -677,11 +678,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.socket.emit("ServerFriendAddedUpdate", friend._id);
     }
 
-    AddFriend = function (friendId: string) {
+    AddFriend(friendId: string) {
         this.isFriendsLoading = true;
 
         // Remove the friend request from all friend requests object.
-        var friendRequests = this.GetToolbarItem("friendRequests").content;
+        var friendRequests: any = this.GetToolbarItem("friendRequests").content;
         friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
 
         // Add the friend id to the user's friends array.
@@ -705,9 +706,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
         });
     }
 
-    IgnoreFriendRequest = function (friendId: string) {
+    IgnoreFriendRequest(friendId: string) {
         // Remove the friend request from all friend requests object.
-        var friendRequests = this.GetToolbarItem("friendRequests").content;
+        var friendRequests: any = this.GetToolbarItem("friendRequests").content;
         friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
 
         var self = this;
@@ -719,7 +720,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         });
     }
 
-    MakeFriendTyping = function (friendId: string) {
+    MakeFriendTyping(friendId: string) {
         var friendObj: Friend = this.friends.find((friend: Friend) => {
             return (friend._id == friendId);
         });
@@ -736,7 +737,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    SearchNewFriends = function () {
+    SearchNewFriends() {
         $("#search-input").focus();
         clearTimeout(this.showNewFriendsLabelTimeout);
         clearTimeout(this.hideNewFriendsLabelTimeout);
@@ -750,12 +751,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }, 200);
     }
 
-    NavigateMain = function () {
+    NavigateMain() {
         this.ClosePopups();
         this.router.navigateByUrl('');
     }
 
-    GetNotificationsNumber = function () {
+    GetNotificationsNumber() {
         var notificationsAmount = 0;
 
         this.toolbarItems.forEach((item: ToolbarItem) => {

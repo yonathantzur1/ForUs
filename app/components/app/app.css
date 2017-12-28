@@ -21,9 +21,9 @@ a, a:hover, a:focus {
 
 .main-container {
     width: calc(100% - 40px);
-    height: calc(100% - 50px);
+    height: calc(100% - 50px); /* Height is minus 50px because of the top navbar */
     margin: auto;
-    padding: 10px;
+    padding: 10px;    
 }
 
 .loader {

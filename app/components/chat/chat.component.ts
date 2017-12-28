@@ -33,6 +33,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     @Input() GetFriendById: Function;
     @Input() OpenChat: Function;
     socket: any;
+    msghInput: string;
     messages: Array<any> = [];
     isMessagesLoading: boolean;
     chatBodyScrollHeight: number = 0;
@@ -337,7 +338,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
     }
 
-    InitializeChat = function () {
+    InitializeChat() {
         var self = this;
 
         if (this.isCanvasInitialize) {
@@ -360,11 +361,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         });
     }
 
-    CloseChat = function () {
+    CloseChat() {
         this.chatData.isOpen = false;
     }
 
-    SendMessage = function () {
+    SendMessage() {
         if (!this.isMessagesLoading && this.msghInput) {
             // Delete spaces from the start and the end of the message text.
             this.msghInput = this.msghInput.trim();
@@ -386,7 +387,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
     }
 
-    MsgInputKeyup = function (event: any) {
+    MsgInputKeyup(event: any) {
         // In case of pressing ENTER.
         if (event.keyCode == 13) {
             this.SendMessage();
@@ -400,11 +401,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
     }
 
-    ScrollToBottom = function () {
+    ScrollToBottom() {
         $("#chat-body-sector")[0].scrollTop = $("#chat-body-sector")[0].scrollHeight;
     }
 
-    GetTimeString = function (date: Date) {
+    GetTimeString(date: Date) {
         var localDate = new Date(date);
 
         var HH = localDate.getHours().toString();
@@ -417,7 +418,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         return (HH + ":" + mm);
     }
 
-    IsShowUnreadLine = function (msgFromId: string, msgId: string, msgIndex: number) {
+    IsShowUnreadLine(msgFromId: string, msgId: string, msgIndex: number) {
         var friendMessagesNotifications = this.chatData.messagesNotifications[msgFromId];
 
         if (this.isAllowShowUnreadLine &&
@@ -433,7 +434,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
     }
 
-    GetUnreadMessagesNumberText = function (unreadMessagesNumber: number) {
+    GetUnreadMessagesNumberText(unreadMessagesNumber: number) {
         if (unreadMessagesNumber == 1) {
             return ("הודעה 1 שלא נקראה");
         }
@@ -442,7 +443,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
     }
 
-    IsShowDateBubble = function (index: number) {
+    IsShowDateBubble(index: number) {
         if (index == 0) {
             return true
         }
@@ -460,7 +461,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         return false;
     }
 
-    GetDateBubbleText = function (index: number) {
+    GetDateBubbleText(index: number) {
         var localDate = new Date(this.messages[index].time);
         var currDate = new Date();
         currDate.setHours(23, 59, 59, 999);
@@ -500,7 +501,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         return dateDetailsString;
     }
 
-    GetTopIconById = function (id: string): topIcon {
+    GetTopIconById(id: string): topIcon {
         for (var i = 0; i < this.topIcons.length; i++) {
             if (this.topIcons[i].id == id) {
                 return this.topIcons[i];
@@ -518,7 +519,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         iconObj.isSelected = true;
     }
 
-    InitializeCanvas = function () {
+    InitializeCanvas() {
         this.canvas = document.getElementById("sig-canvas");
         this.canvasTopBar = document.getElementById("canvas-top-bar-sector");
         var canvasContainer = document.getElementById("canvas-body-sector");
@@ -538,7 +539,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     // Get the position of the mouse relative to the canvas
-    GetMousePos = function (canvasDom: any, mouseEvent: any) {
+    GetMousePos(canvasDom: any, mouseEvent: any) {
         var rect = canvasDom.getBoundingClientRect();
         return {
             x: mouseEvent.clientX - rect.left,
@@ -546,7 +547,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         };
     }
 
-    RenderCanvas = function () {
+    RenderCanvas() {
         if (this.drawing) {
             var offset = $("#sig-canvas").offset();
             this.ctx.moveTo(this.lastPos.x - offset.left, this.lastPos.y);
@@ -558,7 +559,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     // Get the position of a touch relative to the canvas
-    GetTouchPos = function (canvasDom: any, touchEvent: any) {
+    GetTouchPos(canvasDom: any, touchEvent: any) {
         var rect = canvasDom.getBoundingClientRect();
         return {
             x: touchEvent.touches[0].clientX - rect.left,
@@ -566,12 +567,12 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         };
     }
 
-    ChangeCanvasColor = function (colorIndex: number) {
+    ChangeCanvasColor(colorIndex: number) {
         this.canvasSelectedColorIndex = colorIndex;
         this.ctx.strokeStyle = this.colorBtns[colorIndex];
     }
 
-    SendCanvas = function () {
+    SendCanvas() {
         if (!this.isMessagesLoading && !this.isCanvasEmpty) {
             var imageBase64 = this.canvas.toDataURL();
             this.InitializeCanvas();
@@ -590,7 +591,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
     }
 
-    ShowHideCanvasTopSector = function () {
+    ShowHideCanvasTopSector() {
         if (this.isCanvasTopOpen) {
             this.canvasTopBar.style.bottom = "0px";
         }
@@ -601,14 +602,14 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.isCanvasTopOpen = !this.isCanvasTopOpen;
     }
 
-    HideCanvasTopSector = function () {
+    HideCanvasTopSector() {
         if (this.isCanvasTopOpen) {
             this.canvasTopBar.style.bottom = "0px";
             this.isCanvasTopOpen = false;
         }
     }
 
-    UploadImage = function () {
+    UploadImage() {
         var self = this;
         var URL = window.URL;
         var $chatImage: any = $('#chatImage');
@@ -652,7 +653,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         return null;
     }
 
-    ChangeImage = function () {
+    ChangeImage() {
         var isSuccess = this.UploadImage();
 
         if (isSuccess == false) {
@@ -663,7 +664,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
     }
 
-    ShowChatNotification = function (msgData: any, isSelfMessageNotification: boolean) {
+    ShowChatNotification(msgData: any, isSelfMessageNotification: boolean) {
         if (this.messageNotificationInterval) {
             clearInterval(this.messageNotificationInterval);
         }
@@ -682,7 +683,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }, self.messageNotificationDelay);
     }
 
-    ClickChatNotification = function () {
+    ClickChatNotification() {
         this.isShowMessageNotification = false;
 
         if (this.messageNotificationInterval) {

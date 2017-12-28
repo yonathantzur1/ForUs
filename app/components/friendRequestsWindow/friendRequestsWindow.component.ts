@@ -58,7 +58,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
         }
     }
 
-    LoadFriendRequestsObjects = function () {
+    LoadFriendRequestsObjects() {
         if (this.friendRequests.length > 0) {
             this.navbarService.GetFriends(this.friendRequests).then((friendsResult: Array<any>) => {
                 this.friendRequestsObjects = friendsResult;
@@ -71,7 +71,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
         }
     }
 
-    GetFriendRequestsNumberText = function () {
+    GetFriendRequestsNumberText() {
         var friendRequestsNumber = this.friendRequests.length;
 
         if (friendRequestsNumber == 0) {
@@ -85,7 +85,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
         }
     }
 
-    FriendRequestBtnClicked = function (friendId: string) {
+    FriendRequestBtnClicked(friendId: string) {
         this.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
     }
 }
