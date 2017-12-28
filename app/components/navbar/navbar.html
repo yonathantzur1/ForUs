@@ -1,8 +1,8 @@
-<div class="sidenav-overlay" [ngClass]="{'overlay-background' : isSidebarOpen, 'sidenav-overlay-top' : (isUnreadWindowOpen || isFriendRequestsWindowOpen)}"
-  *ngIf="isSidebarOpen || isDropMenuOpen || isShowSearchResults" (click)="OverlayClicked()"></div>
+<div class="sidenav-overlay" [ngClass]="{'overlay-background' : isSidenavOpen, 'sidenav-overlay-top' : (isUnreadWindowOpen || isFriendRequestsWindowOpen)}"
+  *ngIf="isSidenavOpen || isDropMenuOpen || isShowSearchResults" (click)="OverlayClicked()"></div>
 <div id="navbar">
   <div class="navbar-container">
-    <div id="sidenav" class="sidenav" [ngClass]="{'sidenav-shadow' : isSidebarOpen}">
+    <div id="sidenav" class="sidenav" [ngClass]="{'sidenav-shadow' : isSidenavOpen}">
       <div class="sidenav-head-sector">
         <div class="sidenav-header">
           <profilePicture class="profile-picture" [isEditEnable]="true"></profilePicture>
@@ -37,7 +37,7 @@
             </span>
           </div>
         </div>
-        <div style="position:relative;" *ngIf="!isFriendsLoading && friends.length == 0 && isSidebarOpen">
+        <div style="position:relative;" *ngIf="!isFriendsLoading && friends.length == 0 && isSidenavOpen">
           <div class="new-friends-title">חברים חדשים</div>
           <div class="no-friends-container">
             <i (click)="SearchNewFriends()" class="material-icons no-friends-icon">people</i>
@@ -51,7 +51,7 @@
         <span class="search-sector col-md-6 col-xs-10">
           <input type="text" id="search-input" class="search-input" placeholder="חיפוש" [(ngModel)]="searchInput" (ngModelChange)="SearchChange(searchInput)"
             (focus)="ClickSearchInput(searchInput)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-          <div *ngIf="isNewFriendsLabel && !isSidebarOpen && !isShowSearchResults">
+          <div *ngIf="isNewFriendsLabel && !isSidenavOpen && !isShowSearchResults">
             <span style="right:15px!important; color:#b2b2b2;" class="glyphicon glyphicon-triangle-top menu-top-arrow"></span>
             <div class="new-friends-label">חיפוש חברים חדשים</div>
           </div>
@@ -107,11 +107,11 @@
     <span class="notification-text">שלח/ה לך בקשת חברות</span>
   </span>
 
-  <div id="open-sidenav-btn" class="open-sidenav-btn" [ngClass]="{'open-sidenav' : isSidebarOpen}" (click)="ShowHideSidenav()">
-    <div class="notifications-budget" *ngIf="!isSidenavOpened && GetNotificationsNumber() > 0">
+  <div id="open-sidenav-btn" class="open-sidenav-btn" [ngClass]="{'open-sidenav' : isSidenavOpen}" (click)="ShowHideSidenav()">
+    <div class="notifications-budget" *ngIf="!isSidenavOpenFirstTime && GetNotificationsNumber() > 0">
       <span class="notifications-number">{{GetNotificationsNumber()}}</span>
     </div>
-    <i class="material-icons open-sidenav-icon">{{isSidebarOpen ? 'keyboard_arrow_right': 'keyboard_arrow_left'}}</i>
+    <i class="material-icons open-sidenav-icon">{{isSidenavOpen ? 'keyboard_arrow_right': 'keyboard_arrow_left'}}</i>
   </div>
 </div>
 

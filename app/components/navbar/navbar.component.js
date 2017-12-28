@@ -53,8 +53,6 @@ var NavbarComponent = /** @class */ (function () {
         this.isNewFriendsLabel = false;
         this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.chatData = { "isOpen": false };
-        this.isSidenavOpened = false;
-        this.isSidenavOpenAnimation = false;
         // START message notification variables //
         this.isShowMessageNotification = false;
         // END message notification variables //
@@ -63,6 +61,9 @@ var NavbarComponent = /** @class */ (function () {
         // END friend-request notification variables //
         this.isUnreadWindowOpen = false;
         this.isFriendRequestsWindowOpen = false;
+        this.isSidenavOpen = false;
+        this.isSidenavOpenFirstTime = false;
+        this.isSidenavOpenAnimation = false;
         this.searchResults = [];
         this.isShowSearchResults = false;
         // START CONFIG VARIABLES //
@@ -82,6 +83,9 @@ var NavbarComponent = /** @class */ (function () {
             }
             if (value["closeDropMenu"]) {
                 _this.isDropMenuOpen = false;
+            }
+            if (value["openNewWindow"]) {
+                _this.OpenNewWindow();
             }
         });
         var self = this;
@@ -302,12 +306,15 @@ var NavbarComponent = /** @class */ (function () {
         }
     };
     NavbarComponent.prototype.ShowHideSidenav = function () {
-        this.isSidebarOpen = !this.isSidebarOpen;
         this.isNewFriendsLabel = false;
-        if (this.isSidebarOpen) {
+        if (this.isSidenavOpen) {
+            this.HideSidenav();
+        }
+        else {
+            this.isSidenavOpen = true;
+            this.isSidenavOpenFirstTime = true;
             this.HideDropMenu();
             this.HideSearchResults();
-            this.isSidenavOpened = true;
             document.getElementById("sidenav").style.width = this.sidenavWidth;
             this.isSidenavOpenAnimation = true;
             $("#open-sidenav-btn").removeClass("close-sidenav");
@@ -317,15 +324,12 @@ var NavbarComponent = /** @class */ (function () {
                 self.isSidenavOpenAnimation = false;
             }, this.sidenavOpenTimeAnimation);
         }
-        else {
-            this.HideSidenav();
-        }
     };
     NavbarComponent.prototype.HideSidenav = function () {
-        if (this.isSidebarOpen && !this.isSidenavOpenAnimation) {
+        if (this.isSidenavOpen && !this.isSidenavOpenAnimation) {
             this.HideUnreadWindow();
             this.HideFriendRequestsWindow();
-            this.isSidebarOpen = false;
+            this.isSidenavOpen = false;
             document.getElementById("sidenav").style.width = "0";
             $("#open-sidenav-btn").addClass("close-sidenav");
         }
@@ -599,8 +603,12 @@ var NavbarComponent = /** @class */ (function () {
             }, self.newFriendsLabelDelay);
         }, 200);
     };
+    NavbarComponent.prototype.CloseChatWindow = function () {
+        this.chatData.isOpen = false;
+    };
     NavbarComponent.prototype.NavigateMain = function () {
         this.ClosePopups();
+        this.CloseChatWindow();
         this.router.navigateByUrl('');
     };
     NavbarComponent.prototype.GetNotificationsNumber = function () {
@@ -609,6 +617,10 @@ var NavbarComponent = /** @class */ (function () {
             notificationsAmount += item.getNotificationsNumber();
         });
         return notificationsAmount;
+    };
+    NavbarComponent.prototype.OpenNewWindow = function () {
+        this.ClosePopups();
+        this.CloseChatWindow();
     };
     __decorate([
         core_1.Input(),

@@ -25,6 +25,7 @@ var DropMenuComponent = /** @class */ (function () {
             this.router.navigateByUrl(link);
         }
         this.globalService.setData("closeDropMenu", true);
+        this.globalService.setData("openNewWindow", true);
     };
     __decorate([
         core_1.Input(),

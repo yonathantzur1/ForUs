@@ -67,9 +67,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
     chatData: any = { "isOpen": false };
     isOpenProfileEditWindow: boolean;
-    isSidenavOpened: boolean = false;
-    isSidenavOpenAnimation: boolean = false;
-    
+
     socket: any;
 
     // START message notification variables //
@@ -93,7 +91,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     isUnreadWindowOpen: boolean = false;
     isFriendRequestsWindowOpen: boolean = false;
-    isSidebarOpen: boolean;
+    isSidenavOpen: boolean = false;
+    isSidenavOpenFirstTime: boolean = false;
+    isSidenavOpenAnimation: boolean = false;
     isDropMenuOpen: boolean;
     searchResults: Array<any> = [];
     isShowSearchResults: boolean = false;
@@ -131,6 +131,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
             if (value["closeDropMenu"]) {
                 this.isDropMenuOpen = false;
+            }
+
+            if (value["openNewWindow"]) {
+                this.OpenNewWindow();
             }
         });
 
@@ -391,13 +395,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     ShowHideSidenav() {
-        this.isSidebarOpen = !this.isSidebarOpen;
         this.isNewFriendsLabel = false;
 
-        if (this.isSidebarOpen) {
+        if (this.isSidenavOpen) {
+            this.HideSidenav();
+        }
+        else {
+            this.isSidenavOpen = true;
+            this.isSidenavOpenFirstTime = true;
             this.HideDropMenu();
             this.HideSearchResults();
-            this.isSidenavOpened = true;
             document.getElementById("sidenav").style.width = this.sidenavWidth;
             this.isSidenavOpenAnimation = true;
             $("#open-sidenav-btn").removeClass("close-sidenav");
@@ -407,18 +414,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
             // Prevent closing the sidenav while openning animation is working.
             setTimeout(function () {
                 self.isSidenavOpenAnimation = false;
-            }, this.sidenavOpenTimeAnimation);            
-        }
-        else {
-            this.HideSidenav();
+            }, this.sidenavOpenTimeAnimation);
         }
     }
 
     HideSidenav() {
-        if (this.isSidebarOpen && !this.isSidenavOpenAnimation) {
+        if (this.isSidenavOpen && !this.isSidenavOpenAnimation) {
             this.HideUnreadWindow();
             this.HideFriendRequestsWindow();
-            this.isSidebarOpen = false;
+            this.isSidenavOpen = false;
             document.getElementById("sidenav").style.width = "0";
             $("#open-sidenav-btn").addClass("close-sidenav");
         }
@@ -751,8 +755,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }, 200);
     }
 
+    CloseChatWindow() {
+        this.chatData.isOpen = false;
+    }
+
     NavigateMain() {
         this.ClosePopups();
+        this.CloseChatWindow();
         this.router.navigateByUrl('');
     }
 
@@ -764,6 +773,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
         });
 
         return notificationsAmount;
+    }
+
+    OpenNewWindow() {
+        this.ClosePopups();
+        this.CloseChatWindow();
     }
 }
 

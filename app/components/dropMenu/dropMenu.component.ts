@@ -12,10 +12,11 @@ import { DropMenuData } from '../navbar/navbar.component';
 
 export class DropMenuComponent {
     constructor(private router: Router, private globalService: GlobalService) { }
-
+    
     @Input() options: DropMenuData[];
 
     ActiveAction(action: Function, link: string) {
+
         if (action) {
             action(link);
         }
@@ -24,5 +25,6 @@ export class DropMenuComponent {
         }
 
         this.globalService.setData("closeDropMenu", true);
+        this.globalService.setData("openNewWindow", true);
     }
 }
