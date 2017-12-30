@@ -23,12 +23,7 @@ var ManagementComponent = /** @class */ (function () {
             this.managementService.GetUserByName(this.searchInput).then(function (results) {
                 _this.isLoadingUsers = false;
                 if (results != null) {
-                    if (results.length == 1) {
-                        _this.user = results[0];
-                    }
-                    else {
-                        _this.users = results;
-                    }
+                    _this.users = results;
                 }
             });
         }

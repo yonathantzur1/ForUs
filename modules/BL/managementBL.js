@@ -56,6 +56,21 @@ module.exports = {
         ];
 
         DAL.Aggregate(usersCollectionName, aggregateArray, function (users) {
+            users = users.sort((a, b) => {
+                var aIndex = (a.firstName + " " + a.lastName).indexOf(searchInput);
+                var bIndex = (b.firstName + " " + b.lastName).indexOf(searchInput);
+
+                if (aIndex < bIndex) {
+                    return -1;
+                }
+                else if (aIndex > bIndex) {
+                    return 1;
+                }
+                else {
+                    return 0;
+                }
+            });
+
             callback(users);
         });
     }

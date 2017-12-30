@@ -19,6 +19,8 @@
     height: 545px;
     margin: auto;
     position: relative;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 #management .search-input {
@@ -50,13 +52,15 @@
 
 #management .user-card {
     width: 100%;    
-    height: calc(100% - 90px);    
+    height: 90px;    
     margin: auto;
     margin-top: 10px;
     background-color: white;
     border-radius: 20px;
     box-shadow: 1px 1px 6px 1px #c9c9c9;
     padding: 15px;
+    display: flex;
+    cursor: pointer;
 }
 
 #management .user-loading-container {
@@ -64,7 +68,10 @@
 }
 
 #management .user-name-container {
-    text-align: center;
+    width: 100%;
+    align-self: center;
+    display: flex;
+    justify-content: center;
 }
 
 #management .user-name {
@@ -72,6 +79,7 @@
     font-family: Rubik;
     font-weight: bold;
     color: #3d3d3d;
+    align-self: center;
 }
 
 #management .user-profile-image {

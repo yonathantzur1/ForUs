@@ -12,7 +12,6 @@ export class ManagementComponent {
     isLoadingUsers: boolean;
     searchInput: string;
     users: Array<any> = [];
-    user: any;
 
     constructor(private managementService: ManagementService) { }
 
@@ -24,12 +23,7 @@ export class ManagementComponent {
                 this.isLoadingUsers = false;
 
                 if (results != null) {
-                    if (results.length == 1) {
-                        this.user = results[0];
-                    }
-                    else {
-                        this.users = results;
-                    }
+                    this.users = results;
                 }
             });
         }
@@ -37,7 +31,7 @@ export class ManagementComponent {
 
     InputKeyup(event: any) {
         // In case of pressing ENTER.
-        if (event.keyCode == 13) {            
+        if (event.keyCode == 13) {
             this.SearchUser();
         }
     }

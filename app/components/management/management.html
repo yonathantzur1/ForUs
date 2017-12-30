@@ -7,27 +7,18 @@
                 <i class="material-icons search-user-btn-icon">search</i>
             </div>
         </div>
-        <div class="user-card">
-            <div *ngIf="isLoadingUsers" class="user-loading-container">
-                <p class="load-icon" style="padding-top:10px;">
-                    <i class="fa fa-circle" aria-hidden="true"></i>
-                    <i class="fa fa-circle" aria-hidden="true"></i>
-                    <i class="fa fa-circle" aria-hidden="true"></i>
-                </p>
-            </div>
-            <div *ngIf="!isLoadingUsers">
-                <!-- In case some users were found -->
-                <div *ngIf="!user">
-                    <div *ngFor="let user of users">
-
-                    </div>
-                </div>
-                <!-- In case one user was found -->
-                <div *ngIf="user">
-                    <div class="user-name-container">
-                        <span class="user-name">{{user.firstName + " " + user.lastName}}</span>
-                        <img class="user-profile-image" src="{{user.profileImage.image}}">
-                    </div>
+        <div *ngIf="isLoadingUsers" class="user-loading-container">
+            <p class="load-icon" style="padding-top:20px;">
+                <i class="fa fa-circle" aria-hidden="true"></i>
+                <i class="fa fa-circle" aria-hidden="true"></i>
+                <i class="fa fa-circle" aria-hidden="true"></i>
+            </p>
+        </div>
+        <div *ngIf="!isLoadingUsers">
+            <div class="user-card" *ngFor="let user of users">
+                <div class="user-name-container">
+                    <span class="user-name">{{user.firstName + " " + user.lastName}}</span>
+                    <img class="user-profile-image" src="{{user.profileImage.image}}">
                 </div>
             </div>
         </div>
