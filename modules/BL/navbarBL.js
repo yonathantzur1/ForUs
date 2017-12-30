@@ -24,10 +24,10 @@ var self = module.exports = {
                     as: 'profileImage'
                 }
         }
-        var lookupToObject = { $unwind: "$profileImage" };
+        var unwindObject = { $unwind: "$profileImage" };
         var friendsFileds = { $project: { "firstName": 1, "lastName": 1, "profileImage.image": 1 } };
 
-        var aggregateArray = [friendsFilter, joinFilter, lookupToObject, friendsFileds];
+        var aggregateArray = [friendsFilter, joinFilter, unwindObject, friendsFileds];
 
         DAL.Aggregate(usersCollectionName, aggregateArray, function (friendsWithProfile) {
             friendsWithProfile.forEach(friend => {

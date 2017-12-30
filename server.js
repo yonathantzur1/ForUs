@@ -78,6 +78,7 @@ require('./routes/profilePicture.js')(app);
 require('./routes/navbar.js')(app);
 require('./routes/chat.js')(app);
 require('./routes/unreadWindow.js')(app);
+require('./routes/management.js')(app);
 
 // Import socket.io mudule
 require('./modules/sockets/socket.js')(io);

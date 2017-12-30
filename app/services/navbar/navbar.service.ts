@@ -16,7 +16,7 @@ export class NavbarService extends BasicService {
     }
 
     GetMainSearchResults(searchInput: string) {
-        var details = { "searchInput": searchInput };
+        var details = { searchInput };
 
         return super.post(this.prefix + '/getMainSearchResults', JSON.stringify(details))
             .toPromise()

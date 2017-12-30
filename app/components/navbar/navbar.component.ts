@@ -479,11 +479,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     SearchChange(input: string) {
         this.isNewFriendsLabel = false;
-        var self = this;
+        this.inputInterval && clearTimeout(this.inputInterval);
 
-        if (self.inputInterval) {
-            clearTimeout(self.inputInterval);
-        }
+        var self = this;
 
         self.inputInterval = setTimeout(function () {
             if (input && (input = input.trim())) {
@@ -494,7 +492,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
                         self.navbarService.GetMainSearchResultsWithImages(GetResultsIds(results)).then((profiles: any) => {
                             if (profiles && Object.keys(profiles).length > 0 && input == self.searchInput.trim()) {
-                                self.searchResults.forEach(function (result: any) {
+                                self.searchResults.forEach((result: any) => {
                                     if (result.originalProfile) {
                                         result.profile = profiles[result.originalProfile];
                                     }

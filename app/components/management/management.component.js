@@ -10,26 +10,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
+var management_service_1 = require("../../services/management/management.service");
 var User = /** @class */ (function () {
     function User() {
     }
     return User;
 }());
 var ManagementComponent = /** @class */ (function () {
-    function ManagementComponent(router) {
-        this.router = router;
+    function ManagementComponent(managementService) {
+        this.managementService = managementService;
         this.Users = [];
-        this.SearchUser = function () {
-        };
     }
+    ManagementComponent.prototype.SearchUser = function () {
+        this.managementService.GetUserByName(this.searchInput).then(function (result) {
+            var x = result;
+        });
+    };
     ManagementComponent = __decorate([
         core_1.Component({
             selector: 'management',
             templateUrl: './management.html',
-            providers: []
+            providers: [management_service_1.ManagementService]
         }),
-        __metadata("design:paramtypes", [router_1.Router])
+        __metadata("design:paramtypes", [management_service_1.ManagementService])
     ], ManagementComponent);
     return ManagementComponent;
 }());

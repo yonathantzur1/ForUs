@@ -375,10 +375,8 @@ var NavbarComponent = /** @class */ (function () {
     };
     NavbarComponent.prototype.SearchChange = function (input) {
         this.isNewFriendsLabel = false;
+        this.inputInterval && clearTimeout(this.inputInterval);
         var self = this;
-        if (self.inputInterval) {
-            clearTimeout(self.inputInterval);
-        }
         self.inputInterval = setTimeout(function () {
             if (input && (input = input.trim())) {
                 self.navbarService.GetMainSearchResults(input).then(function (results) {

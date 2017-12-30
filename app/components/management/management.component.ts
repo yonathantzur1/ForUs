@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+
+import { ManagementService } from '../../services/management/management.service';
 
 class User {
 
@@ -8,15 +9,18 @@ class User {
 @Component({
     selector: 'management',
     templateUrl: './management.html',
-    providers: []
+    providers: [ManagementService]
 })
 
 export class ManagementComponent {
+    searchInput: string;
     Users: Array<User> = [];
 
-    constructor(private router: Router) { }
+    constructor(private managementService: ManagementService) { }
 
-    SearchUser = function () {
-
+    SearchUser() {
+        this.managementService.GetUserByName(this.searchInput).then((result: Array<User>) => {
+            var x = result;
+        });
     }
 }
