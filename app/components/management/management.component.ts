@@ -2,10 +2,6 @@ import { Component } from '@angular/core';
 
 import { ManagementService } from '../../services/management/management.service';
 
-class User {
-
-}
-
 @Component({
     selector: 'management',
     templateUrl: './management.html',
@@ -13,14 +9,36 @@ class User {
 })
 
 export class ManagementComponent {
+    isLoadingUsers: boolean;
     searchInput: string;
-    Users: Array<User> = [];
+    users: Array<any> = [];
+    user: any;
 
     constructor(private managementService: ManagementService) { }
 
     SearchUser() {
-        this.managementService.GetUserByName(this.searchInput).then((result: Array<User>) => {
-            var x = result;
-        });
+        if (this.searchInput && (this.searchInput = this.searchInput.trim())) {
+            this.isLoadingUsers = true;
+
+            this.managementService.GetUserByName(this.searchInput).then((results: Array<any>) => {
+                this.isLoadingUsers = false;
+
+                if (results != null) {
+                    if (results.length == 1) {
+                        this.user = results[0];
+                    }
+                    else {
+                        this.users = results;
+                    }
+                }
+            });
+        }
+    }
+
+    InputKeyup(event: any) {
+        // In case of pressing ENTER.
+        if (event.keyCode == 13) {            
+            this.SearchUser();
+        }
     }
 }

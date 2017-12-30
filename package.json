@@ -45,9 +45,10 @@
     "zone.js": "^0.8.18"
   },
   "devDependencies": {
+    "@types/node": "^8.5.1",
     "concurrently": "^3.5.1",
-    "typescript": "~2.6.2",
-    "@types/node": "^8.5.1"
+    "nodemon": "^1.14.6",
+    "typescript": "~2.6.2"
   },
   "repository": {}
 }

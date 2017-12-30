@@ -11,20 +11,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var management_service_1 = require("../../services/management/management.service");
-var User = /** @class */ (function () {
-    function User() {
-    }
-    return User;
-}());
 var ManagementComponent = /** @class */ (function () {
     function ManagementComponent(managementService) {
         this.managementService = managementService;
-        this.Users = [];
+        this.users = [];
     }
     ManagementComponent.prototype.SearchUser = function () {
-        this.managementService.GetUserByName(this.searchInput).then(function (result) {
-            var x = result;
-        });
+        var _this = this;
+        if (this.searchInput && (this.searchInput = this.searchInput.trim())) {
+            this.isLoadingUsers = true;
+            this.managementService.GetUserByName(this.searchInput).then(function (results) {
+                _this.isLoadingUsers = false;
+                if (results != null) {
+                    if (results.length == 1) {
+                        _this.user = results[0];
+                    }
+                    else {
+                        _this.users = results;
+                    }
+                }
+            });
+        }
+    };
+    ManagementComponent.prototype.InputKeyup = function (event) {
+        // In case of pressing ENTER.
+        if (event.keyCode == 13) {
+            this.SearchUser();
+        }
     };
     ManagementComponent = __decorate([
         core_1.Component({
