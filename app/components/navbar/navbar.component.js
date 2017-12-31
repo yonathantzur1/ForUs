@@ -72,7 +72,7 @@ var NavbarComponent = /** @class */ (function () {
         this.askForOnlineFriendsDelay = 30; // seconds
         this.chatTypingDelay = 2200; // milliseconds
         this.newFriendsLabelDelay = 4000; // milliseconds
-        this.sidenavOpenTimeAnimation = 400; // milliseconds
+        this.sidenavOpenAnimationTime = 400; // milliseconds
         this.sidenavWidth = "210px";
         this.socket = this.globalService.socket;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
@@ -322,7 +322,7 @@ var NavbarComponent = /** @class */ (function () {
             // Prevent closing the sidenav while openning animation is working.
             setTimeout(function () {
                 self.isSidenavOpenAnimation = false;
-            }, this.sidenavOpenTimeAnimation);
+            }, this.sidenavOpenAnimationTime);
         }
     };
     NavbarComponent.prototype.HideSidenav = function () {

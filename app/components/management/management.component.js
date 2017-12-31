@@ -24,6 +24,8 @@ var ManagementComponent = /** @class */ (function () {
                 _this.isLoadingUsers = false;
                 if (results != null) {
                     _this.users = results;
+                    // Open user card in case only one result found.
+                    (_this.users.length == 1) && (_this.users[0].isOpen = true);
                 }
             });
         }
@@ -32,6 +34,15 @@ var ManagementComponent = /** @class */ (function () {
         // In case of pressing ENTER.
         if (event.keyCode == 13) {
             this.SearchUser();
+        }
+    };
+    ManagementComponent.prototype.ShowHideUserCard = function (user) {
+        // In case the card is close.
+        if (!user.isOpen) {
+            user.isOpen = true;
+        }
+        else {
+            user.isOpen = false;
         }
     };
     ManagementComponent = __decorate([

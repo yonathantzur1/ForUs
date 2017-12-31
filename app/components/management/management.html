@@ -15,10 +15,17 @@
             </p>
         </div>
         <div *ngIf="!isLoadingUsers">
-            <div class="user-card" *ngFor="let user of users">
-                <div class="user-name-container">
-                    <span class="user-name">{{user.firstName + " " + user.lastName}}</span>
-                    <img class="user-profile-image" src="{{user.profileImage.image}}">
+            <div class="card-container" *ngFor="let user of users">
+                <div class="user-card">
+                    <div class="user-name-container">
+                        <span class="user-name">{{user.firstName + " " + user.lastName}}</span>
+                        <img class="user-profile-image" src="{{user.profileImage.image}}">
+                    </div>
+                </div>
+                <div class="user-info-container" [ngClass]="{'user-info-container-open': user.isOpen, 'user-info-container-close': (user.isOpen == false)}">
+                    <div class="user-info-btn" (click)="ShowHideUserCard(user)">
+                        <i class="material-icons">{{user.isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</i>
+                    </div>
                 </div>
             </div>
         </div>

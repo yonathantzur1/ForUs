@@ -109,7 +109,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     askForOnlineFriendsDelay: number = 30; // seconds
     chatTypingDelay: number = 2200; // milliseconds
     newFriendsLabelDelay: number = 4000; // milliseconds
-    sidenavOpenTimeAnimation = 400; // milliseconds
+    sidenavOpenAnimationTime = 400; // milliseconds
     sidenavWidth: string = "210px";
 
     // END CONFIG VARIABLES //
@@ -414,7 +414,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             // Prevent closing the sidenav while openning animation is working.
             setTimeout(function () {
                 self.isSidenavOpenAnimation = false;
-            }, this.sidenavOpenTimeAnimation);
+            }, this.sidenavOpenAnimationTime);
         }
     }
 

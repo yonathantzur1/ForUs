@@ -24,6 +24,9 @@ export class ManagementComponent {
 
                 if (results != null) {
                     this.users = results;
+
+                    // Open user card in case only one result found.
+                    (this.users.length == 1) && (this.users[0].isOpen = true);
                 }
             });
         }
@@ -33,6 +36,16 @@ export class ManagementComponent {
         // In case of pressing ENTER.
         if (event.keyCode == 13) {
             this.SearchUser();
+        }
+    }
+
+    ShowHideUserCard(user: any) {
+        // In case the card is close.
+        if (!user.isOpen) {
+            user.isOpen = true;
+        }
+        else {
+            user.isOpen = false;
         }
     }
 }

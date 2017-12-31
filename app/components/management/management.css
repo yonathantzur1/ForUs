@@ -50,17 +50,21 @@
     margin-top: 5px;
 }
 
+#management .card-container {
+    
+    box-shadow: 1px 1px 6px 1px #c9c9c9;
+    background-color: white;
+}
+
 #management .user-card {
     width: 100%;    
-    height: 90px;    
+    height: 100px;    
     margin: auto;
-    margin-top: 10px;
+    margin-top: 10px;    
     background-color: white;
-    border-radius: 20px;
-    box-shadow: 1px 1px 6px 1px #c9c9c9;
     padding: 15px;
-    display: flex;
-    cursor: pointer;
+    display: flex;    
+    position: relative;
 }
 
 #management .user-loading-container {
@@ -87,4 +91,39 @@
     height: 60px;
     border-radius: 50%;
     margin-right: 10px;
+}
+
+#management .user-info-container {
+    background-color: white;
+    position: relative;
+}
+
+@keyframes opencard {
+    from {height: 0;}
+    to {height: 300px;}
+}
+
+#management .user-info-container-open {
+    animation-name: opencard;
+    animation-duration: 0.4s;
+    height: 300px;
+}
+
+@keyframes closecard {
+    from {height: 300;}
+    to {height: 0px;}
+}
+
+#management .user-info-container-close {
+    animation-name: closecard;
+    animation-duration: 0.4s;
+}
+
+#management .user-info-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+    width: 100%;
+    cursor: pointer;
 }
