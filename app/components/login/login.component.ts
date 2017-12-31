@@ -1,12 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
+import { AuthService } from '../../services/auth/auth.service';
 
 import { LoginService } from '../../services/login/login.service';
 
 declare var swal: any;
 declare var $: any;
+declare function deleteCookieByName(name: string): void;
 
 export class User {
   constructor() { this.email = ""; this.password = ""; }
@@ -47,14 +49,19 @@ export class ForgotUser {
   providers: [LoginService]
 })
 
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   user: User = new User();
   newUser: NewUser = new NewUser();
   forgotUser: ForgotUser = new ForgotUser();
   isLoading: boolean = false;
   snackbarId: any;
-  
-  constructor(private router: Router, private globalService: GlobalService, private loginService: LoginService) { }
+
+  constructor(private router: Router, private globalService: GlobalService, private authService: AuthService, private loginService: LoginService) { }
+
+  ngOnInit() {
+    deleteCookieByName("ui");    
+    this.globalService.ResetGlobalVariables();
+  }
 
   // Running on the array of validation functions and make sure all valid.
   // Getting validation array and object to valid.
