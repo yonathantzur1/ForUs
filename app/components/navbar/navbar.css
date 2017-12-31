@@ -157,7 +157,7 @@
     right: 0;
     background-image: linear-gradient(145deg, #0375d8, #1d8865);
     overflow-x: hidden;
-    transition: 0.4s; /* Change sidenavOpenTimeAnimation property if changing this */
+    transition: 0.4s; /* Change sidenavOpenAnimationTime property if changing this */
     user-select: none;
     -webkit-user-select: none;
     border-top: 0.5px #bdb7b7 solid;

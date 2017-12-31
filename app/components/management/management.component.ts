@@ -10,8 +10,13 @@ import { ManagementService } from '../../services/management/management.service'
 
 export class ManagementComponent {
     isLoadingUsers: boolean;
+    isPreventFirstOpenCardAnimation: boolean;
     searchInput: string;
     users: Array<any> = [];
+
+    // Animation properties
+    isOpenCardAnimationActive: boolean = false; 
+    openCardAnimationTime: number = 200;
 
     constructor(private managementService: ManagementService) { }
 
@@ -26,7 +31,10 @@ export class ManagementComponent {
                     this.users = results;
 
                     // Open user card in case only one result found.
-                    (this.users.length == 1) && (this.users[0].isOpen = true);
+                    if (this.users.length == 1) {
+                        this.users[0].isOpen = true;
+                        this.isPreventFirstOpenCardAnimation = true;
+                    }
                 }
             });
         }
@@ -43,9 +51,34 @@ export class ManagementComponent {
         // In case the card is close.
         if (!user.isOpen) {
             user.isOpen = true;
+            this.isOpenCardAnimationActive = true;
+
+            var self = this;
+
+            setTimeout(function () {
+                self.isOpenCardAnimationActive = false;
+            }, this.openCardAnimationTime);
         }
         else {
             user.isOpen = false;
+            this.isPreventFirstOpenCardAnimation = false;
         }
+    }
+
+    GetInfoDateString(date: string) {
+        var dateObj = new Date(date);
+
+        var dateString = (dateObj.getDate()) + "/" + (dateObj.getMonth() + 1) + "/" + dateObj.getFullYear();
+
+        var HH = dateObj.getHours().toString();
+        var mm = dateObj.getMinutes().toString();
+
+        if (mm.length == 1) {
+            mm = "0" + mm;
+        }
+
+        var timeString = (HH + ":" + mm);
+
+        return (dateString + " - " + timeString);
     }
 }

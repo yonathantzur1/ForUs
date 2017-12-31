@@ -15,6 +15,9 @@ var ManagementComponent = /** @class */ (function () {
     function ManagementComponent(managementService) {
         this.managementService = managementService;
         this.users = [];
+        // Animation properties
+        this.isOpenCardAnimationActive = false;
+        this.openCardAnimationTime = 200;
     }
     ManagementComponent.prototype.SearchUser = function () {
         var _this = this;
@@ -25,7 +28,10 @@ var ManagementComponent = /** @class */ (function () {
                 if (results != null) {
                     _this.users = results;
                     // Open user card in case only one result found.
-                    (_this.users.length == 1) && (_this.users[0].isOpen = true);
+                    if (_this.users.length == 1) {
+                        _this.users[0].isOpen = true;
+                        _this.isPreventFirstOpenCardAnimation = true;
+                    }
                 }
             });
         }
@@ -40,10 +46,27 @@ var ManagementComponent = /** @class */ (function () {
         // In case the card is close.
         if (!user.isOpen) {
             user.isOpen = true;
+            this.isOpenCardAnimationActive = true;
+            var self = this;
+            setTimeout(function () {
+                self.isOpenCardAnimationActive = false;
+            }, this.openCardAnimationTime);
         }
         else {
             user.isOpen = false;
+            this.isPreventFirstOpenCardAnimation = false;
         }
+    };
+    ManagementComponent.prototype.GetInfoDateString = function (date) {
+        var dateObj = new Date(date);
+        var dateString = (dateObj.getDate()) + "/" + (dateObj.getMonth() + 1) + "/" + dateObj.getFullYear();
+        var HH = dateObj.getHours().toString();
+        var mm = dateObj.getMinutes().toString();
+        if (mm.length == 1) {
+            mm = "0" + mm;
+        }
+        var timeString = (HH + ":" + mm);
+        return (dateString + " - " + timeString);
     };
     ManagementComponent = __decorate([
         core_1.Component({
