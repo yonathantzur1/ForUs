@@ -3,10 +3,6 @@
     #management .info-table {
         font-size: 12px !important;
     }
-
-    #management .email-address {
-        font-size: 10px !important;
-    }
 }
 
 #management .form-control, #management .form-group .form-control {
