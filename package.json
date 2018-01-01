@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "ForUs website",
   "scripts": {
-    "start": "tsc && concurrently \"node server.js\" \"tsc -w\" ",
+    "start": "tsc && concurrently \"nodemon --ignore app/ server.js\" \"tsc -w\" ",
     "tsc": "tsc",
     "tsc:w": "tsc -w"
   },

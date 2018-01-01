@@ -43,9 +43,9 @@
                                 <td>
                                     <div class="more-info-sector">
                                         <div class="info-title">
-                                            <i class="material-icons more-info-icon">info_outline</i>
+                                            <i class="fa fa-users more-info-icon" aria-hidden="true"></i>
                                         </div>
-                                        <div class="info-data">מידע נוסף</div>
+                                        <div class="info-data">{{(user.friendsNumber == 1) ? 'חבר 1' : (user.friendsNumber + ' חברים')}}</div>
                                     </div>
                                 </td>
                             </tr>
