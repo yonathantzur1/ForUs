@@ -96,7 +96,12 @@ var NavbarComponent = /** @class */ (function () {
                 title: "הודעות",
                 content: {},
                 getNotificationsNumber: function () {
-                    return Object.keys(this.content).length;
+                    var _this = this;
+                    var counter = 0;
+                    Object.keys(this.content).forEach(function (id) {
+                        counter += _this.content[id].unreadMessagesNumber;
+                    });
+                    return counter;
                 },
                 isShowToolbarItemBadget: function () {
                     return (this.getNotificationsNumber() > 0);

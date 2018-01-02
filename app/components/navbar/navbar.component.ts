@@ -63,7 +63,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     isFriendsLoading: boolean = false;
     isNewFriendsLabel: boolean = false;
     showNewFriendsLabelTimeout: any;
-    hideNewFriendsLabelTimeout: any;    
+    hideNewFriendsLabelTimeout: any;
     chatData: any = { "isOpen": false };
     isOpenProfileEditWindow: boolean;
 
@@ -147,7 +147,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 title: "הודעות",
                 content: {},
                 getNotificationsNumber: function () {
-                    return Object.keys(this.content).length;
+                    var counter = 0;
+
+                    Object.keys(this.content).forEach(id => {
+                        counter += this.content[id].unreadMessagesNumber;
+                    })
+
+                    return counter;
                 },
                 isShowToolbarItemBadget: function () {
                     return (this.getNotificationsNumber() > 0);
