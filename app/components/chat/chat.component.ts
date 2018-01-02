@@ -51,7 +51,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     isSelfMessageNotification: boolean;
     messageNotificationText: string;
     messageNotificationFriendObj: any;
-    defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
     messageNotificationDelay: number = 3800; // milliseconds
     messageNotificationInterval: any;
 

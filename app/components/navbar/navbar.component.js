@@ -51,7 +51,6 @@ var NavbarComponent = /** @class */ (function () {
         this.friends = [];
         this.isFriendsLoading = false;
         this.isNewFriendsLabel = false;
-        this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.chatData = { "isOpen": false };
         // START message notification variables //
         this.isShowMessageNotification = false;
@@ -443,7 +442,7 @@ var NavbarComponent = /** @class */ (function () {
             this.RemoveFriendMessagesFromToolbarMessages(friend._id);
             // Put default profile in case the friend has no profile image.
             if (!friend.profileImage) {
-                friend.profileImage = this.defaultProfileImage;
+                friend.profileImage = this.globalService.defaultProfileImage;
             }
             this.chatData.friend = friend;
             this.chatData.user = this.user;

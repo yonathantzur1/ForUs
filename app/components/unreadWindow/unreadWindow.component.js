@@ -19,7 +19,6 @@ var UnreadWindowComponent = /** @class */ (function () {
         this.days = globalVariables.days;
         this.months = globalVariables.shortMonths;
         this.chats = [];
-        this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.isRefreshActive = false;
         this.socket = globalService.socket;
     }

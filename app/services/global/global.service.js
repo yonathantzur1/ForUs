@@ -25,6 +25,7 @@ var GlobalService = /** @class */ (function (_super) {
         // Use this property for property binding
         _this.data = new BehaviorSubject_1.BehaviorSubject({});
         _this.userPermissions = [];
+        _this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         return _this;
     }
     GlobalService.prototype.Initialize = function () {

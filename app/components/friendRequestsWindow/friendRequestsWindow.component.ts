@@ -15,8 +15,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     @Input() AddFriend: Function;
     @Input() IgnoreFriendRequest: Function;
 
-    socket: any;
-    defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
+    socket: any;    
     friendRequestsObjects: Array<any> = [];
     isFirstFriendRequestsObjectsLoaded: boolean = false;
     isFriendRequestsLoading: boolean = false;

@@ -17,7 +17,6 @@ var ProfilePictureComponent = /** @class */ (function () {
         var _this = this;
         this.profilePictureService = profilePictureService;
         this.globalService = globalService;
-        this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.isUserHasImage = null;
         this.isTouchDevice = globalVariables.isTouchDevice;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {

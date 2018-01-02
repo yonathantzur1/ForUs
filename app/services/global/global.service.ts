@@ -18,6 +18,7 @@ export class GlobalService extends LoginService {
     public socket: any;
     public userProfileImage: string;
     public userPermissions: Array<string> = [];
+    public defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
 
     Initialize() {
         if (!this.socket) {

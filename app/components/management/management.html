@@ -19,11 +19,11 @@
                 <div class="user-card">
                     <div class="user-name-container">
                         <span class="user-name">{{user.firstName + " " + user.lastName}}</span>
-                        <img class="user-profile-image" src="{{user.profileImage.image}}">
+                        <img class="user-profile-image" src="{{user.profileImage ? user.profileImage.image : globalService.defaultProfileImage}}">
                     </div>
                 </div>
                 <div class="user-info-container" [ngClass]="{'user-info-container-open': user.isOpen && isPreventFirstOpenCardAnimation, 'user-info-container-open-animation': user.isOpen && !isPreventFirstOpenCardAnimation, 'user-info-container-close': (user.isOpen == false)}">
-                    <div id="user-info" *ngIf="user.isOpen && !isOpenCardAnimationActive">
+                    <div id="user-info" class="user-info-card-open" *ngIf="user.isOpen && !user.isOpenCardAnimationActive">
                         <table id="info-table" class="info-table">
                             <tr>
                                 <td>

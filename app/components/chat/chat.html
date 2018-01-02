@@ -14,7 +14,7 @@
             <i (click)="CloseChat()" class="material-icons exit-chat">close</i>
         </div>
         <div *ngIf="isShowMessageNotification" (click)="ClickChatNotification()" [ngClass]="{'show-notification' : isShowMessageNotification}" class="notification-sector">
-            <img class="notification-img" src="{{messageNotificationFriendObj.profileImage ? messageNotificationFriendObj.profileImage : defaultProfileImage}}">
+            <img class="notification-img" src="{{messageNotificationFriendObj.profileImage || globalService.defaultProfileImage}}">
             <div class="notification-text">
                 <span class="notification-name">{{messageNotificationFriendObj.firstName + " " + messageNotificationFriendObj.lastName}}:</span>
                 <span class="notification-msg">{{messageNotificationText}}</span>

@@ -20,8 +20,7 @@ export class UnreadWindowComponent implements OnInit {
     socket: any;
     days: Array<string> = globalVariables.days;
     months: Array<string> = globalVariables.shortMonths;
-    chats: any = [];
-    defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
+    chats: any = [];    
     isChatsLoading: boolean;
     isRefreshActive: boolean = false;
 

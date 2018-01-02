@@ -12,8 +12,7 @@ declare var globalVariables: any;
     providers: [ProfilePictureService]
 })
 
-export class ProfilePictureComponent implements OnDestroy {
-    defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
+export class ProfilePictureComponent implements OnDestroy {    
     isUserHasImage: boolean = null;
     isTouchDevice: boolean = globalVariables.isTouchDevice;
 

@@ -18,7 +18,6 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         this.navbarService = navbarService;
         this.friendRequestsWindowService = friendRequestsWindowService;
         this.globalService = globalService;
-        this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.friendRequestsObjects = [];
         this.isFirstFriendRequestsObjectsLoaded = false;
         this.isFriendRequestsLoading = false;

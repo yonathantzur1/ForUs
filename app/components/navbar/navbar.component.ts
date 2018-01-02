@@ -63,8 +63,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     isFriendsLoading: boolean = false;
     isNewFriendsLabel: boolean = false;
     showNewFriendsLabelTimeout: any;
-    hideNewFriendsLabelTimeout: any;
-    defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
+    hideNewFriendsLabelTimeout: any;    
     chatData: any = { "isOpen": false };
     isOpenProfileEditWindow: boolean;
 
@@ -560,7 +559,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
             // Put default profile in case the friend has no profile image.
             if (!friend.profileImage) {
-                friend.profileImage = this.defaultProfileImage;
+                friend.profileImage = this.globalService.defaultProfileImage;
             }
 
             this.chatData.friend = friend;

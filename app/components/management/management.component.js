@@ -11,12 +11,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var management_service_1 = require("../../services/management/management.service");
+var global_service_1 = require("../../services/global/global.service");
 var ManagementComponent = /** @class */ (function () {
-    function ManagementComponent(managementService) {
+    function ManagementComponent(globalService, managementService) {
+        this.globalService = globalService;
         this.managementService = managementService;
         this.users = [];
-        // Animation properties
-        this.isOpenCardAnimationActive = false;
+        // Animation properties    
         this.openCardAnimationTime = 200;
     }
     ManagementComponent.prototype.SearchUser = function () {
@@ -46,10 +47,9 @@ var ManagementComponent = /** @class */ (function () {
         // In case the card is close.
         if (!user.isOpen) {
             user.isOpen = true;
-            this.isOpenCardAnimationActive = true;
-            var self = this;
+            user.isOpenCardAnimationActive = true;
             setTimeout(function () {
-                self.isOpenCardAnimationActive = false;
+                user.isOpenCardAnimationActive = false;
             }, this.openCardAnimationTime);
         }
         else {
@@ -74,7 +74,7 @@ var ManagementComponent = /** @class */ (function () {
             templateUrl: './management.html',
             providers: [management_service_1.ManagementService]
         }),
-        __metadata("design:paramtypes", [management_service_1.ManagementService])
+        __metadata("design:paramtypes", [global_service_1.GlobalService, management_service_1.ManagementService])
     ], ManagementComponent);
     return ManagementComponent;
 }());

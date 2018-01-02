@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { ManagementService } from '../../services/management/management.service';
+import { GlobalService } from '../../services/global/global.service';
 
 @Component({
     selector: 'management',
@@ -14,11 +15,10 @@ export class ManagementComponent {
     searchInput: string;
     users: Array<any> = [];
 
-    // Animation properties
-    isOpenCardAnimationActive: boolean = false; 
+    // Animation properties    
     openCardAnimationTime: number = 200;
 
-    constructor(private managementService: ManagementService) { }
+    constructor(private globalService: GlobalService, private managementService: ManagementService) { }
 
     SearchUser() {
         if (this.searchInput && (this.searchInput = this.searchInput.trim())) {
@@ -51,12 +51,10 @@ export class ManagementComponent {
         // In case the card is close.
         if (!user.isOpen) {
             user.isOpen = true;
-            this.isOpenCardAnimationActive = true;
-
-            var self = this;
+            user.isOpenCardAnimationActive = true;            
 
             setTimeout(function () {
-                self.isOpenCardAnimationActive = false;
+                user.isOpenCardAnimationActive = false;
             }, this.openCardAnimationTime);
         }
         else {

@@ -33,7 +33,6 @@ var ChatComponent = /** @class */ (function () {
         this.chatBodyScrollHeight = 0;
         this.days = globalVariables.days;
         this.months = globalVariables.months;
-        this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         this.messageNotificationDelay = 3800; // milliseconds
         this.socket = globalService.socket;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {

@@ -13,11 +13,13 @@ module.exports = {
                 ]
             }
         };
-        var $lookup = {
-            from: profileCollectionName,
-            localField: 'profile',
-            foreignField: '_id',
-            as: 'profileImage'
+        var joinFilter = {
+            $lookup: {
+                from: profileCollectionName,
+                localField: 'profile',
+                foreignField: '_id',
+                as: 'profileImage'
+            }
         }
 
         var aggregateArray = [
@@ -25,7 +27,7 @@ module.exports = {
                 $project: {
                     fullName: { $concat: ["$firstName", " ", "$lastName"] },
                     fullNameReversed: { $concat: ["$lastName", " ", "$firstName"] },
-                    friendsNumber: {$size: "$friends"},
+                    friendsNumber: { $size: "$friends" },
                     "firstName": 1,
                     "lastName": 1,
                     "email": 1,
@@ -35,8 +37,7 @@ module.exports = {
                 }
             },
             usersFilter,
-            { $lookup },
-            { $unwind: "$profileImage" },
+            joinFilter,
             {
                 $project: {
                     // Should be here and on $project above because how aggregate works.
@@ -71,6 +72,12 @@ module.exports = {
                 else {
                     return 0;
                 }
+            });
+
+            users = users.map(user => {
+                user.profileImage = (user.profileImage.length != 0) ? user.profileImage[0] : null;
+                
+                return user;
             });
 
             callback(users);
