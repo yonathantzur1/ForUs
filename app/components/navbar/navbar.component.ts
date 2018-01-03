@@ -575,6 +575,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
             this.globalService.setData("chatData", this.chatData);
         }
+        else {
+            this.globalService.setData("moveToChatWindow", true);
+        }
     }
 
     ShowHideUnreadWindow() {

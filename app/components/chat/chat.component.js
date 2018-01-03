@@ -41,6 +41,9 @@ var ChatComponent = /** @class */ (function () {
                 _this.chatData = value["chatData"];
                 _this.InitializeChat();
             }
+            if (value["moveToChatWindow"]) {
+                _this.SelectTopIcon(_this.GetTopIconById("chat"));
+            }
         });
         var self = this;
         self.topIcons = [

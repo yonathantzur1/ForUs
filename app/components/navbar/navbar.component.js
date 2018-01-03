@@ -455,6 +455,9 @@ var NavbarComponent = /** @class */ (function () {
             this.chatData.isOpen = true;
             this.globalService.setData("chatData", this.chatData);
         }
+        else {
+            this.globalService.setData("moveToChatWindow", true);
+        }
     };
     NavbarComponent.prototype.ShowHideUnreadWindow = function () {
         this.isUnreadWindowOpen = !this.isUnreadWindowOpen;
