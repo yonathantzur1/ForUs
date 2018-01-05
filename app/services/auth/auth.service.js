@@ -58,16 +58,6 @@ var AuthService = /** @class */ (function (_super) {
             return null;
         });
     };
-    AuthService.prototype.DeleteTokenFromCookie = function () {
-        return _super.prototype.delete.call(this, this.prefix + '/deleteToken')
-            .toPromise()
-            .then(function () {
-            return true;
-        })
-            .catch(function () {
-            return null;
-        });
-    };
     return AuthService;
 }(basic_service_1.BasicService));
 exports.AuthService = AuthService;

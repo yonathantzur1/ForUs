@@ -24,7 +24,7 @@ export class NewUser {
   password: string;
 }
 
-var forgotBtnTextObj = { searchText: "חיפוש", resetPassText: "אפס סיסמא" };
+var forgotBtnTextObj = { searchText: "חיפוש", resetPassText: "איפוס סיסמא" };
 
 export class ForgotUser {
   constructor() {
@@ -59,7 +59,8 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router, private globalService: GlobalService, private authService: AuthService, private loginService: LoginService) { }
 
   ngOnInit() {
-    deleteCookieByName("ui");    
+    deleteCookieByName("ui");
+    this.loginService.DeleteTokenFromCookie().then((result: any) => { });
     this.globalService.ResetGlobalVariables();
   }
 
@@ -243,11 +244,15 @@ export class LoginComponent implements OnInit {
           // In case the password has been changed.
           else {
             $("#forgot-modal").modal('hide');
-            swal(
-              'איפוס סיסמא',
-              'הסיסמא הוחלפה בהצלחה!',
-              'success'
-            );
+
+            swal({
+              title: 'איפוס סיסמא',
+              text: 'הסיסמא הוחלפה בהצלחה!',
+              type: 'success',
+              confirmButtonText: 'אישור'
+            }).then(() => {
+              this.router.navigateByUrl('');
+            });
           }
         });
       }

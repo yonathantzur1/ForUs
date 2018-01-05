@@ -45,10 +45,4 @@ module.exports = function (app) {
             res.send(null);
         }
     });
-
-    // Delete token from cookies.
-    app.delete(prefix + '/deleteToken', function (req, res) {
-        general.DeleteTokenFromCookie(res);
-        res.end();
-    });
 };

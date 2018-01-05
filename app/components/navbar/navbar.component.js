@@ -13,6 +13,7 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var global_service_1 = require("../../services/global/global.service");
 var auth_service_1 = require("../../services/auth/auth.service");
+var login_service_1 = require("../../services/login/login.service");
 var navbar_service_1 = require("../../services/navbar/navbar.service");
 var DropMenuData = /** @class */ (function () {
     function DropMenuData(link, text, action, showFunction) {
@@ -42,10 +43,11 @@ var ToolbarItem = /** @class */ (function () {
 }());
 exports.ToolbarItem = ToolbarItem;
 var NavbarComponent = /** @class */ (function () {
-    function NavbarComponent(router, authService, globalService, navbarService) {
+    function NavbarComponent(router, authService, loginService, globalService, navbarService) {
         var _this = this;
         this.router = router;
         this.authService = authService;
+        this.loginService = loginService;
         this.globalService = globalService;
         this.navbarService = navbarService;
         this.friends = [];
@@ -137,7 +139,7 @@ var NavbarComponent = /** @class */ (function () {
             new DropMenuData("#", "הגדרות", null),
             new DropMenuData("/login", "התנתקות", function (link) {
                 deleteCookieByName("ui");
-                self.authService.DeleteTokenFromCookie().then(function (result) { });
+                self.loginService.DeleteTokenFromCookie().then(function (result) { });
                 self.globalService.ResetGlobalVariables();
                 self.router.navigateByUrl(link);
             })
@@ -635,10 +637,11 @@ var NavbarComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'navbar',
             templateUrl: './navbar.html',
-            providers: [navbar_service_1.NavbarService]
+            providers: [navbar_service_1.NavbarService, login_service_1.LoginService]
         }),
         __metadata("design:paramtypes", [router_1.Router,
             auth_service_1.AuthService,
+            login_service_1.LoginService,
             global_service_1.GlobalService,
             navbar_service_1.NavbarService])
     ], NavbarComponent);

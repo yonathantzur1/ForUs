@@ -424,8 +424,8 @@
     text-align: center;
     width: 100%;
     align-self: center;
-    margin-right: 3px;
-    margin-top: -2px;
+    margin-right: 2px;
+    margin-bottom: 2px;
 }
 
 #chat .selected-color-line {

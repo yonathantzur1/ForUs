@@ -131,7 +131,7 @@ module.exports = {
     },
 
     // Add reset password code to the DB and return the name of the user.
-    AddResetCode: function (emailObj, callback) {
+    SetUserResetCode: function (emailObj, callback) {
         var code = generator.GenerateId(resetCodeNumOfDigits);
 
         var resetCode = { $set: { "resetCode": { "code": code, "date": new Date(), "tryNum": 0, "isUsed": false } } };
@@ -193,17 +193,11 @@ module.exports = {
 
                 // Update num of tries to the code.
                 DAL.UpdateOne(collectionName, emailObj, updateCodeObj, function (updateResult) {
-                    if (updateResult != null && updateResult != false) {
-                        callback(errorsObj);
-                    }
-                    else {
-                        callback(updateResult);
-                    }
+                    updateResult ? callback(errorsObj) : callback(updateResult);
                 });
             }
-            // In case the reset code is valid.
+            // In case the reset code is valid, change the user password.
             else {
-                // Change the user password.
                 var updateUser = result[0];
                 updateUser.salt = generator.GenerateId(resetCodeNumOfDigits);
                 updateUser.password = sha512(forgotUser.newPassword + updateUser.salt);
@@ -213,12 +207,7 @@ module.exports = {
                 updateUserObj = { $set: updateUser };
 
                 DAL.UpdateOne(collectionName, emailObj, updateUserObj, function (updateResult) {
-                    if (updateResult != null && updateResult != false) {
-                        callback(true);
-                    }
-                    else {
-                        callback(updateResult);
-                    }
+                    updateResult ? callback({ "isChanged": true, "user": updateResult }) : callback(updateResult);
                 });
             }
         });

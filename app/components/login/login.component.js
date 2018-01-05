@@ -32,7 +32,7 @@ var NewUser = /** @class */ (function () {
     return NewUser;
 }());
 exports.NewUser = NewUser;
-var forgotBtnTextObj = { searchText: "חיפוש", resetPassText: "אפס סיסמא" };
+var forgotBtnTextObj = { searchText: "חיפוש", resetPassText: "איפוס סיסמא" };
 var ForgotUser = /** @class */ (function () {
     function ForgotUser() {
         this.email = "";
@@ -58,6 +58,7 @@ var LoginComponent = /** @class */ (function () {
     }
     LoginComponent.prototype.ngOnInit = function () {
         deleteCookieByName("ui");
+        this.loginService.DeleteTokenFromCookie().then(function (result) { });
         this.globalService.ResetGlobalVariables();
     };
     // Running on the array of validation functions and make sure all valid.
@@ -213,7 +214,14 @@ var LoginComponent = /** @class */ (function () {
                     }
                     else {
                         $("#forgot-modal").modal('hide');
-                        swal('איפוס סיסמא', 'הסיסמא הוחלפה בהצלחה!', 'success');
+                        swal({
+                            title: 'איפוס סיסמא',
+                            text: 'הסיסמא הוחלפה בהצלחה!',
+                            type: 'success',
+                            confirmButtonText: 'אישור'
+                        }).then(function () {
+                            _this.router.navigateByUrl('');
+                        });
                     }
                 });
             }

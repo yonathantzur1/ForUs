@@ -121,7 +121,7 @@ module.exports = function (app) {
                 loginBL.AddUser(req.body, sha512, function (result) {
                     // In case all register progress was succeeded.
                     if (result) {
-                        // Sending welcome mail to the new user.
+                        // Sending a welcome mail to the new user.
                         mailer.SendMail(req.body.email, mailer.GetRegisterMailContent(req.body.firstName));
                         var token = general.GetTokenFromUserObject(result);
                         general.SetTokenOnCookie(token, res);
@@ -139,7 +139,7 @@ module.exports = function (app) {
     app.put(prefix + '/forgot', function (req, res) {
         var email = { "email": req.body.email };
 
-        loginBL.AddResetCode(email, function (result) {
+        loginBL.SetUserResetCode(email, function (result) {
             if (result) {
                 mailer.SendMail(req.body.email, mailer.GetForgotMailContent(result.firstName, result.resetCode.code));
                 res.send({ "result": true });
@@ -155,8 +155,21 @@ module.exports = function (app) {
     // Changing user password in db.
     app.put(prefix + '/resetPassword', function (req, res) {
         loginBL.ResetPassword(req.body, sha512, function (result) {
-            res.send({ result });
+            if (result && result.isChanged) {
+                var token = general.GetTokenFromUserObject(result.user);
+                general.SetTokenOnCookie(token, res);
+
+                res.send({ "result": true });
+            }
+            else {
+                res.send({ result });
+            }
         });
     });
 
+    // Delete token from cookies.
+    app.delete(prefix + '/deleteToken', function (req, res) {
+        general.DeleteTokenFromCookie(res);
+        res.end();
+    });
 };

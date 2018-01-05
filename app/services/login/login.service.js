@@ -83,6 +83,16 @@ var LoginService = /** @class */ (function (_super) {
             return null;
         });
     };
+    LoginService.prototype.DeleteTokenFromCookie = function () {
+        return _super.prototype.delete.call(this, this.prefix + '/deleteToken')
+            .toPromise()
+            .then(function () {
+            return true;
+        })
+            .catch(function () {
+            return null;
+        });
+    };
     return LoginService;
 }(basic_service_1.BasicService));
 exports.LoginService = LoginService;

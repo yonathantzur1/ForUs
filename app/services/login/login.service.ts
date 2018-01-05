@@ -80,4 +80,15 @@ export class LoginService extends BasicService {
                 return null;
             });
     }
+
+    DeleteTokenFromCookie() {
+        return super.delete(this.prefix + '/deleteToken')
+            .toPromise()
+            .then(() => {
+                return true;
+            })
+            .catch(() => {
+                return null;
+            });
+    }
 }
