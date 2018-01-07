@@ -284,7 +284,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         self.socket.on('ClientFriendAddedUpdate', function (friend: any) {
             self.authService.SetCurrUserToken().then((result: any) => {
                 if (result) {
-                    self.RemoveFriendRequest(friend._id);
+                    self.RemoveFriendRequest(friend._id, true);
                     self.user.friends.push(friend._id);
                     self.friends.push(friend);
                     self.socket.emit("ServerGetOnlineFriends");
@@ -613,7 +613,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         });
     }
 
-    RemoveFriendRequest(friendId: string) {
+    RemoveFriendRequest(friendId: string, isHideMessageText?: boolean) {
         var friendRequests: any = this.GetToolbarItem("friendRequests").content;
         friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
 
@@ -623,7 +623,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 self.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.socket.emit("RemoveFriendRequest", self.user._id, friendId);
                 $("#add-friend-notification").snackbar("hide");
-                $("#remove-friend-notification").snackbar("show");
+                !isHideMessageText && $("#remove-friend-notification").snackbar("show");
             }
         });
     }

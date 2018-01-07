@@ -13,11 +13,15 @@
                 [ngClass]="{'selected-top-icon' : iconObj.isSelected}" aria-hidden="true">{{iconObj.innerIconText}}</i>
             <i (click)="CloseChat()" class="material-icons exit-chat">close</i>
         </div>
-        <div *ngIf="isShowMessageNotification" (click)="ClickChatNotification()" [ngClass]="{'show-notification' : isShowMessageNotification}" class="notification-sector">
+        <div *ngIf="isShowMessageNotification" (click)="ClickChatNotification()" [ngClass]="{'show-notification' : isShowMessageNotification}"
+            class="notification-sector">
             <img class="notification-img" src="{{messageNotificationFriendObj.profileImage || globalService.defaultProfileImage}}">
             <div class="notification-text">
                 <span class="notification-name">{{messageNotificationFriendObj.firstName + " " + messageNotificationFriendObj.lastName}}:</span>
-                <span class="notification-msg">{{messageNotificationText}}</span>
+                <span class="notification-msg" *ngIf="messageNotificationText">{{messageNotificationText}}</span>
+                <span class="notification-msg" *ngIf="!messageNotificationText">
+                    <span class="glyphicon glyphicon-camera img-sign" aria-hidden="true"></span>
+                </span>
             </div>
         </div>
 

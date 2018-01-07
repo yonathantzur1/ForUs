@@ -213,7 +213,7 @@ var NavbarComponent = /** @class */ (function () {
         self.socket.on('ClientFriendAddedUpdate', function (friend) {
             self.authService.SetCurrUserToken().then(function (result) {
                 if (result) {
-                    self.RemoveFriendRequest(friend._id);
+                    self.RemoveFriendRequest(friend._id, true);
                     self.user.friends.push(friend._id);
                     self.friends.push(friend);
                     self.socket.emit("ServerGetOnlineFriends");
@@ -486,7 +486,7 @@ var NavbarComponent = /** @class */ (function () {
             }
         });
     };
-    NavbarComponent.prototype.RemoveFriendRequest = function (friendId) {
+    NavbarComponent.prototype.RemoveFriendRequest = function (friendId, isHideMessageText) {
         var friendRequests = this.GetToolbarItem("friendRequests").content;
         friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
         var self = this;
@@ -495,7 +495,7 @@ var NavbarComponent = /** @class */ (function () {
                 self.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.socket.emit("RemoveFriendRequest", self.user._id, friendId);
                 $("#add-friend-notification").snackbar("hide");
-                $("#remove-friend-notification").snackbar("show");
+                !isHideMessageText && $("#remove-friend-notification").snackbar("show");
             }
         });
     };

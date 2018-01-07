@@ -531,7 +531,7 @@ var ChatComponent = /** @class */ (function () {
         }
         this.isSelfMessageNotification = isSelfMessageNotification;
         this.messageNotificationFriendObj = this.GetFriendById(msgData.from);
-        this.messageNotificationText = msgData.text;
+        this.messageNotificationText = msgData.isImage ? null : msgData.text;
         this.isShowMessageNotification = true;
         var self = this;
         self.messageNotificationInterval = setInterval(function () {

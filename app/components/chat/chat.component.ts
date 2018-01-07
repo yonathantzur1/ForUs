@@ -673,7 +673,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
         this.isSelfMessageNotification = isSelfMessageNotification;
         this.messageNotificationFriendObj = this.GetFriendById(msgData.from);
-        this.messageNotificationText = msgData.text;
+        this.messageNotificationText = msgData.isImage ? null : msgData.text;
         this.isShowMessageNotification = true;
 
         var self = this;
