@@ -18,7 +18,7 @@
       <div class="sidenav-body-sector">
         <loader id="friends-loader" class="friends-loader" *ngIf="isFriendsLoading"></loader>
         <div id="friends-sector" class="friends-sector" *ngIf="!isFriendsLoading && friends.length > 0">
-          <form class="form-horizontal" *ngIf="IsShowFriendFindInput()">
+          <form class="form-horizontal" *ngIf="IsShowFriendFindInput() || friendSearchInput">
             <div class="form-group">
               <div id="friend-search-container" class="col-md-12">
                 <i (click)="friendSearchInput=''" class="material-icons clear-friend-search">close</i>

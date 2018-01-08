@@ -10,6 +10,11 @@
         top: 50px;
         border-bottom: 1px solid #cacaca;
     }
+
+    #chat .notification-sector {
+        width: 100% - 25px;
+        margin-right: 25px
+    }
 }
 
 /* Css design for large screens. */
@@ -24,7 +29,7 @@
         z-index: 997;
         left: 0;
         bottom: 0px;
-        box-shadow: 3px 5px 20px 5px #969696;
+        box-shadow: 3px 5px 10px 5px #969696;
         border-radius: 3px;
     }
 }
