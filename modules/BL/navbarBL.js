@@ -280,6 +280,7 @@ var self = module.exports = {
             DAL.UpdateOne(usersCollectionName, userIdObject, { $push: { "friends": friendId } }, function (updatedUser) {
                 if (updatedUser) {
                     // Getting a new token from the user object with the friend.
+                    updatedUser.permissions = user.permissions;
                     var newToken = general.GetTokenFromUserObject(updatedUser);
 
                     // Add the user to the friend as a friend.
