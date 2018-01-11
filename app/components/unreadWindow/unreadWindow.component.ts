@@ -3,7 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { UnreadWindowService } from '../../services/unreadWindow/unreadWindow.service';
 import { GlobalService } from '../../services/global/global.service';
 
-declare var globalVariables: any;
+declare function GetDateDetailsString(localDate: Date, currDate: Date, isShortMonths: boolean): string;
 
 @Component({
     selector: 'unreadWindow',
@@ -18,9 +18,7 @@ export class UnreadWindowComponent implements OnInit {
     @Input() OpenChat: Function;
 
     socket: any;
-    days: Array<string> = globalVariables.days;
-    months: Array<string> = globalVariables.shortMonths;
-    chats: any = [];    
+    chats: any = [];
     isChatsLoading: boolean;
     isRefreshActive: boolean = false;
 
@@ -132,38 +130,12 @@ export class UnreadWindowComponent implements OnInit {
 
         var timeDiff = Math.abs(currDate.getTime() - localDate.getTime());
         var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        var datesDaysDiff = Math.abs(currDate.getDay() - localDate.getDay());
-
-        var dateDetailsString = "";
 
         if (diffDays <= 7) {
-            if (diffDays <= 2) {
-                if (currDate.getDate() == localDate.getDate()) {
-                    dateDetailsString = "היום";
-                }
-                else if (Math.min((7 - datesDaysDiff), datesDaysDiff) <= 1) {
-                    dateDetailsString = "אתמול";
-                }
-                else {
-                    dateDetailsString = this.days[localDate.getDay()];
-                }
-            }
-            else {
-                dateDetailsString = this.days[localDate.getDay()];
-            }
-
             dateTimeString = HH + ":" + mm;
         }
-        else {
-            if (localDate.getFullYear() == currDate.getFullYear()) {
-                dateDetailsString = (localDate.getDate()) + " " + this.months[localDate.getMonth()]
-            }
-            else {
-                dateDetailsString = (localDate.getDate()) + "/" + (localDate.getMonth() + 1) + "/" + localDate.getFullYear();
-            }
-        }
 
-        chat.timeString = { "dateDetailsString": dateDetailsString, "dateTimeString": dateTimeString };
+        chat.timeString = { "dateDetailsString": GetDateDetailsString(localDate, currDate, true), "dateTimeString": dateTimeString };
     }
 
     GetFriend(friendId: string) {

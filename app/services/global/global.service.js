@@ -38,6 +38,11 @@ var GlobalService = /** @class */ (function (_super) {
             });
         }
     };
+    GlobalService.prototype.Logout = function () {
+        deleteCookieByName("ui");
+        this.DeleteTokenFromCookie().then(function (result) { });
+        this.ResetGlobalVariables();
+    };
     GlobalService.prototype.ResetGlobalVariables = function () {
         this.socket && this.socket.destroy();
         this.socket = null;

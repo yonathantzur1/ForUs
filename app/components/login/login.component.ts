@@ -8,7 +8,6 @@ import { LoginService } from '../../services/login/login.service';
 
 declare var swal: any;
 declare var $: any;
-declare function deleteCookieByName(name: string): void;
 
 export class User {
   constructor() { this.email = ""; this.password = ""; }
@@ -59,9 +58,7 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router, private globalService: GlobalService, private authService: AuthService, private loginService: LoginService) { }
 
   ngOnInit() {
-    deleteCookieByName("ui");
-    this.loginService.DeleteTokenFromCookie().then((result: any) => { });
-    this.globalService.ResetGlobalVariables();
+    this.globalService.Logout();
   }
 
   // Running on the array of validation functions and make sure all valid.

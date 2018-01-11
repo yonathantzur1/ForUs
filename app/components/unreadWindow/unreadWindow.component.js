@@ -16,8 +16,6 @@ var UnreadWindowComponent = /** @class */ (function () {
     function UnreadWindowComponent(unreadWindowService, globalService) {
         this.unreadWindowService = unreadWindowService;
         this.globalService = globalService;
-        this.days = globalVariables.days;
-        this.months = globalVariables.shortMonths;
         this.chats = [];
         this.isRefreshActive = false;
         this.socket = globalService.socket;
@@ -104,34 +102,10 @@ var UnreadWindowComponent = /** @class */ (function () {
         var dateTimeString = "";
         var timeDiff = Math.abs(currDate.getTime() - localDate.getTime());
         var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        var datesDaysDiff = Math.abs(currDate.getDay() - localDate.getDay());
-        var dateDetailsString = "";
         if (diffDays <= 7) {
-            if (diffDays <= 2) {
-                if (currDate.getDate() == localDate.getDate()) {
-                    dateDetailsString = "היום";
-                }
-                else if (Math.min((7 - datesDaysDiff), datesDaysDiff) <= 1) {
-                    dateDetailsString = "אתמול";
-                }
-                else {
-                    dateDetailsString = this.days[localDate.getDay()];
-                }
-            }
-            else {
-                dateDetailsString = this.days[localDate.getDay()];
-            }
             dateTimeString = HH + ":" + mm;
         }
-        else {
-            if (localDate.getFullYear() == currDate.getFullYear()) {
-                dateDetailsString = (localDate.getDate()) + " " + this.months[localDate.getMonth()];
-            }
-            else {
-                dateDetailsString = (localDate.getDate()) + "/" + (localDate.getMonth() + 1) + "/" + localDate.getFullYear();
-            }
-        }
-        chat.timeString = { "dateDetailsString": dateDetailsString, "dateTimeString": dateTimeString };
+        chat.timeString = { "dateDetailsString": GetDateDetailsString(localDate, currDate, true), "dateTimeString": dateTimeString };
     };
     UnreadWindowComponent.prototype.GetFriend = function (friendId) {
         return (this.friends.find(function (friend) {

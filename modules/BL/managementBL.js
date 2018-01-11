@@ -43,6 +43,8 @@ module.exports = {
                     // Should be here and on $project above because how aggregate works.
                     "firstName": 1,
                     "lastName": 1,
+                    "fullName": 1,
+                    "fullNameReversed": 1,
                     "email": 1,
                     "creationDate": 1,
                     "lastLoginTime": 1,
@@ -54,14 +56,14 @@ module.exports = {
                 }
             },
             {
-                $sort: { "fullName": 1 }
+                $sort: { "fullName": 1, "fullNameReversed": 1 }
             }
         ];
 
         DAL.Aggregate(usersCollectionName, aggregateArray, function (users) {
             users = users.sort((a, b) => {
-                var aIndex = (a.firstName + " " + a.lastName).indexOf(searchInput);
-                var bIndex = (b.firstName + " " + b.lastName).indexOf(searchInput);
+                var aIndex = a.fullName.indexOf(searchInput);
+                var bIndex = b.fullName.indexOf(searchInput);
 
                 if (aIndex < bIndex) {
                     return -1;
@@ -76,7 +78,7 @@ module.exports = {
 
             users = users.map(user => {
                 user.profileImage = (user.profileImage.length != 0) ? user.profileImage[0] : null;
-                
+
                 return user;
             });
 

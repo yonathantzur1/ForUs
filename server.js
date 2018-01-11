@@ -23,6 +23,7 @@ var loginBL = require('./modules/BL/loginBL.js');
 
 function RedirectToLogin(req, res) {
     if (req.method == "GET") {
+        general.DeleteAuthCookies(res);
         res.redirect('/login');
     }
     else {
@@ -32,26 +33,14 @@ function RedirectToLogin(req, res) {
 
 app.use('/api', function (req, res, next) {
     var token = general.DecodeToken(general.GetTokenFromRequest(req));
+    var cookieUserId = general.GetUserIdFromRequest(req);
 
-    if (!token) {
-        RedirectToLogin(req, res);
+    if (token && token.user._id == cookieUserId) {
+        req.user = token.user;
+        next();
     }
     else {
-        if (req.originalUrl == '/api/auth/isUserOnSession') {
-            loginBL.GetUserById(token.user._id, function (user) {
-                if (user) {
-                    req.user = user;
-                    next();
-                }
-                else {
-                    RedirectToLogin(req, res);
-                }
-            });
-        }
-        else {
-            req.user = token.user;
-            next();
-        }
+        (req.originalUrl == '/api/auth/isUserOnSession') ? res.send(false) : RedirectToLogin(req, res);
     }
 });
 

@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { LoginService } from '../login/login.service';
 
 declare var io: any;
+declare function deleteCookieByName(name: string): void;
 
 export enum PERMISSIONS {
     ADMIN = "admin"
@@ -30,6 +31,12 @@ export class GlobalService extends LoginService {
                 result && (self.userPermissions = result);
             });
         }
+    }
+
+    Logout() {
+        deleteCookieByName("ui");
+        this.DeleteTokenFromCookie().then((result: any) => { });
+        this.ResetGlobalVariables();
     }
 
     ResetGlobalVariables() {

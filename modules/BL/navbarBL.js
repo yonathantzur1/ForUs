@@ -68,7 +68,7 @@ var self = module.exports = {
             }
         }, usersFilter,
         { $limit: searchLimit },
-        { $sort: { "fullName": 1 } }];
+        { $sort: { "fullName": 1, "fullNameReversed": 1 } }];
 
         DAL.Aggregate(usersCollectionName, aggregateArray, function (results) {
             if (!results) {

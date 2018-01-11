@@ -3,12 +3,10 @@ import { Router } from '@angular/router';
 
 import { GlobalService, PERMISSIONS } from '../../services/global/global.service';
 import { AuthService } from '../../services/auth/auth.service';
-import { LoginService } from '../../services/login/login.service';
 import { NavbarService } from '../../services/navbar/navbar.service';
 
 declare var socket: any;
 declare var io: any;
-declare function deleteCookieByName(name: string): void;
 
 export class DropMenuData {
     link: string;
@@ -54,7 +52,7 @@ export class ToolbarItem {
 @Component({
     selector: 'navbar',
     templateUrl: './navbar.html',
-    providers: [NavbarService, LoginService]
+    providers: [NavbarService]
 })
 
 export class NavbarComponent implements OnInit, OnDestroy {
@@ -118,7 +116,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     constructor(private router: Router,
         private authService: AuthService,
-        private loginService: LoginService,
         private globalService: GlobalService,
         private navbarService: NavbarService) {
         this.socket = this.globalService.socket;
@@ -191,9 +188,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             }),
             new DropMenuData("#", "הגדרות", null),
             new DropMenuData("/login", "התנתקות", function (link: string) {
-                deleteCookieByName("ui");
-                self.loginService.DeleteTokenFromCookie().then((result: any) => { });
-                self.globalService.ResetGlobalVariables();
+                self.globalService.Logout();
                 self.router.navigateByUrl(link);
             })
         ];
@@ -525,7 +520,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             searchInput = searchInput.trim();
             this.searchResults = this.searchResults.filter(function (result: any) {
                 return ((result.fullName.indexOf(searchInput) == 0) ||
-                    ((result.lastName + " " + result.firstName).indexOf(searchInput) == 0));
+                    (result.fullNameReversed.indexOf(searchInput) == 0));
             });
 
             return this.searchResults;

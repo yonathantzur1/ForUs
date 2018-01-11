@@ -31,8 +31,6 @@ var ChatComponent = /** @class */ (function () {
         this.globalService = globalService;
         this.messages = [];
         this.chatBodyScrollHeight = 0;
-        this.days = globalVariables.days;
-        this.months = globalVariables.months;
         this.messageNotificationDelay = 3800; // milliseconds
         this.socket = globalService.socket;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
@@ -359,38 +357,7 @@ var ChatComponent = /** @class */ (function () {
         return false;
     };
     ChatComponent.prototype.GetDateBubbleText = function (index) {
-        var localDate = new Date(this.messages[index].time);
-        var currDate = new Date();
-        currDate.setHours(23, 59, 59, 999);
-        var timeDiff = Math.abs(currDate.getTime() - localDate.getTime());
-        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        var datesDaysDiff = Math.abs(currDate.getDay() - localDate.getDay());
-        var dateDetailsString = "";
-        if (diffDays <= 7) {
-            if (diffDays <= 2) {
-                if (currDate.getDate() == localDate.getDate()) {
-                    dateDetailsString = "היום";
-                }
-                else if (Math.min((7 - datesDaysDiff), datesDaysDiff) <= 1) {
-                    dateDetailsString = "אתמול";
-                }
-                else {
-                    dateDetailsString = this.days[localDate.getDay()];
-                }
-            }
-            else {
-                dateDetailsString = this.days[localDate.getDay()];
-            }
-        }
-        else {
-            if (localDate.getFullYear() == currDate.getFullYear()) {
-                dateDetailsString = (localDate.getDate()) + " ב" + this.months[localDate.getMonth()];
-            }
-            else {
-                dateDetailsString = (localDate.getDate()) + "/" + (localDate.getMonth() + 1) + "/" + localDate.getFullYear();
-            }
-        }
-        return dateDetailsString;
+        return GetDateDetailsString(new Date(this.messages[index].time), new Date(), false);
     };
     ChatComponent.prototype.GetTopIconById = function (id) {
         for (var i = 0; i < this.topIcons.length; i++) {

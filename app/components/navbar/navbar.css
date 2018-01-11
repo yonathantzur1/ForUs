@@ -640,6 +640,7 @@
     -webkit-user-select: none;
     box-shadow: -2px 0px 5px 0px #b6b6b6;
     z-index: 999;
+    transition: 0.4s;
 }
 
 #navbar .open-sidenav-btn:hover {
@@ -653,25 +654,11 @@
 }
 
 #navbar .open-sidenav {
-    animation-name: opensidenav;
-    animation-duration: 0.4s;
     right: 210px;
 }
 
-@keyframes opensidenav {
-    from {right: 0;}
-    to {right: 210px;}
-}
-
 #navbar .close-sidenav {
-    animation-name: closesidenav;
-    animation-duration: 0.4s;
     right: 0;
-}
-
-@keyframes closesidenav {
-    from {right: 210px;}
-    to {right: 0;}
 }
 
 #navbar .notifications-budget {

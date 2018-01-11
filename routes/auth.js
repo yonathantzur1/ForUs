@@ -6,15 +6,16 @@ module.exports = function (app) {
 
     // Checking if the session of the user is open.
     app.get(prefix + '/isUserOnSession', function (req, res) {
-        if (req.user && req.user._id.toString() == general.GetUserIdFromRequest(req)) {
-            var token = general.GetTokenFromUserObject(req.user);
-            general.SetTokenOnCookie(token, res);
-            res.send(true);
-        }
-        else {
-            general.DeleteAuthCookies(res);
-            res.send(false);
-        }
+        loginBL.GetUserById(req.user._id, function (user) {
+            if (user) {
+                general.SetTokenOnCookie(general.GetTokenFromUserObject(user), res);
+                res.send(true);
+            }
+            else {
+                res.send(false);
+            }
+        });
+
     });
 
     // Checking if user has ADMIN permission.

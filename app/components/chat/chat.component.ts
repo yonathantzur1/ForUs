@@ -3,9 +3,9 @@ import { Component, OnInit, OnDestroy, Input, AfterViewChecked } from '@angular/
 import { ChatService } from '../../services/chat/chat.service';
 import { GlobalService } from '../../services/global/global.service';
 
-declare var globalVariables: any;
 declare var window: any;
 declare var loadImage: any;
+declare function GetDateDetailsString(localDate: Date, currDate: Date, isShortMonths: boolean): string;
 
 export class topIcon {
     id: string;
@@ -37,10 +37,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     messages: Array<any> = [];
     isMessagesLoading: boolean;
     chatBodyScrollHeight: number = 0;
-
     topIcons: Array<topIcon>;
-    days: Array<string> = globalVariables.days;
-    months: Array<string> = globalVariables.months;
 
     // Unread messages line sector properties //
     isAllowShowUnreadLine: boolean;
@@ -464,43 +461,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     GetDateBubbleText(index: number) {
-        var localDate = new Date(this.messages[index].time);
-        var currDate = new Date();
-        currDate.setHours(23, 59, 59, 999);
-
-        var timeDiff = Math.abs(currDate.getTime() - localDate.getTime());
-        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        var datesDaysDiff = Math.abs(currDate.getDay() - localDate.getDay());
-
-        var dateDetailsString = "";
-
-        if (diffDays <= 7) {
-            if (diffDays <= 2) {
-                if (currDate.getDate() == localDate.getDate()) {
-                    dateDetailsString = "היום";
-                }
-                else if (Math.min((7 - datesDaysDiff), datesDaysDiff) <= 1) {
-                    dateDetailsString = "אתמול";
-                }
-                else {
-                    dateDetailsString = this.days[localDate.getDay()];
-                }
-            }
-            else {
-                dateDetailsString = this.days[localDate.getDay()];
-            }
-        }
-        else {
-            if (localDate.getFullYear() == currDate.getFullYear()) {
-                dateDetailsString = (localDate.getDate()) + " ב" + this.months[localDate.getMonth()]
-            }
-            else {
-                dateDetailsString = (localDate.getDate()) + "/" + (localDate.getMonth() + 1) + "/" + localDate.getFullYear();
-            }
-        }
-
-
-        return dateDetailsString;
+        return GetDateDetailsString(new Date(this.messages[index].time), new Date(), false);
     }
 
     GetTopIconById(id: string): topIcon {
