@@ -1,4 +1,4 @@
-var DAL = require('../DAL.js');
+const DAL = require('../DAL.js');
 
 module.exports = {
 };

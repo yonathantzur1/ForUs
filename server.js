@@ -1,11 +1,11 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var app = express();
-var http = require('http').Server(app);
-var path = require('path');
-var compression = require('compression');
-var io = require('socket.io')(http);
-var general = require('./modules/general');
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+const http = require('http').Server(app);
+const path = require('path');
+const compression = require('compression');
+const io = require('socket.io')(http);
+const general = require('./modules/general');
 
 // app define
 app.set('trust proxy', 1);
@@ -19,7 +19,7 @@ app.use(express.static('public'));
 app.use(compression());
 
 // BL requires
-var loginBL = require('./modules/BL/loginBL.js');
+const loginBL = require('./modules/BL/loginBL.js');
 
 function RedirectToLogin(req, res) {
     if (req.method == "GET") {

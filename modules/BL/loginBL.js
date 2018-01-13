@@ -1,11 +1,11 @@
-var DAL = require('../DAL.js');
+const DAL = require('../DAL.js');
 
-var collectionName = "Users";
-var permissionsCollectionName = "Permissions";
-var generator = require('../generator.js');
-var resetCodeNumOfDigits = 8;
-var resetCodeNumOfHoursValid = 24;
-var maxTryNum = 3;
+const collectionName = "Users";
+const permissionsCollectionName = "Permissions";
+const generator = require('../generator.js');
+const resetCodeNumOfDigits = 8;
+const resetCodeNumOfHoursValid = 24;
+const maxTryNum = 3;
 
 module.exports = {
 

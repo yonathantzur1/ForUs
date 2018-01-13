@@ -1,8 +1,8 @@
-var chatBL = require('../BL/chatBL.js');
-var navbarBL = require('../BL/navbarBL.js');
-var config = require('../config');
-var general = require('../general');
-var jwt = require('jsonwebtoken');
+const chatBL = require('../BL/chatBL.js');
+const navbarBL = require('../BL/navbarBL.js');
+const config = require('../config');
+const general = require('../general');
+const jwt = require('jsonwebtoken');
 
 module.exports = function (io, socket, socketsDictionary, connectedUsers) {
 

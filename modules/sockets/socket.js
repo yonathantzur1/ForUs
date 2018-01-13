@@ -1,6 +1,6 @@
-var config = require('../config');
-var general = require('../general');
-var jwt = require('jsonwebtoken');
+const config = require('../config');
+const general = require('../general');
+const jwt = require('jsonwebtoken');
 
 var socketsDictionary = {};
 var connectedUsers = {};

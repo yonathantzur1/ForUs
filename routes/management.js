@@ -1,5 +1,5 @@
-var managementBL = require('../modules/BL/managementBL');
-var general = require('../modules/general');
+const managementBL = require('../modules/BL/managementBL');
+const general = require('../modules/general');
 
 module.exports = function (app) {
     prefix = "/api/management";

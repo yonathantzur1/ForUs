@@ -1,7 +1,7 @@
-var profilePictureBL = require('../BL/profilePictureBL.js');
-var config = require('../config');
-var general = require('../general');
-var jwt = require('jsonwebtoken');
+const profilePictureBL = require('../BL/profilePictureBL.js');
+const config = require('../config');
+const general = require('../general');
+const jwt = require('jsonwebtoken');
 
 module.exports = function (io, socket, socketsDictionary, connectedUsers) {
     socket.on('ServerUpdateFriendRequestsStatus', function (friendId) {

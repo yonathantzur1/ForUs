@@ -1,6 +1,6 @@
-var DAL = require('../DAL.js');
+const DAL = require('../DAL.js');
 
-var collectionName = "Profiles";
+const collectionName = "Profiles";
 
 module.exports = {
     GetUserProfileImage: function (profileId, callback) {

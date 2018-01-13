@@ -1,7 +1,7 @@
-var DAL = require('../DAL.js');
+const DAL = require('../DAL.js');
 
-var usersCollectionName = "Users";
-var profileCollectionName = "Profiles";
+const usersCollectionName = "Users";
+const profileCollectionName = "Profiles";
 
 module.exports = {
     GetUserByName: function (searchInput, callback) {

@@ -1,10 +1,10 @@
-var DAL = require('../DAL.js');
-var jwt = require('jsonwebtoken');
-var config = require('../config.js');
-var general = require('../general.js');
-var encryption = require('../encryption.js');
+const DAL = require('../DAL.js');
+const jwt = require('jsonwebtoken');
+const config = require('../config.js');
+const general = require('../general.js');
+const encryption = require('../encryption.js');
 
-var collectionName = "Chats";
+const collectionName = "Chats";
 
 var self = module.exports = {
     GetChat: function (membersIds, token, callback) {

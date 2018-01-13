@@ -1,12 +1,14 @@
-var DAL = require('../DAL.js');
-var general = require('../general.js');
+const DAL = require('../DAL.js');
+const general = require('../general.js');
 
-var usersCollectionName = "Users";
-var profileCollectionName = "Profiles";
+const usersCollectionName = "Users";
+const profileCollectionName = "Profiles";
+
+// Define search consts.
+const searchLimit = 4;
+const maxImagesInCacheAmount = 20;
 
 // Define search variables.
-var searchLimit = 4;
-var maxImagesInCacheAmount = 50;
 var profilesCache = {};
 var usersIdsInCache = [];
 

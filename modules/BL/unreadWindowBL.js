@@ -1,8 +1,8 @@
-var DAL = require('../DAL.js');
-var config = require('../config.js');
-var encryption = require('../encryption.js');
+const DAL = require('../DAL.js');
+const config = require('../config.js');
+const encryption = require('../encryption.js');
 
-var collectionName = "Chats";
+const collectionName = "Chats";
 
 module.exports = {
     GetAllChats: function (userId, callback) {

@@ -1,9 +1,9 @@
-var loginBL = require('../modules/BL/loginBL');
-var mailer = require('../modules/mailer');
-var general = require('../modules/general');
-var config = require('../modules/config');
-var sha512 = require('js-sha512');
-var ExpressBrute = require('express-brute'),
+const loginBL = require('../modules/BL/loginBL');
+const mailer = require('../modules/mailer');
+const general = require('../modules/general');
+const config = require('../modules/config');
+const sha512 = require('js-sha512');
+const ExpressBrute = require('express-brute'),
     store = new ExpressBrute.MemoryStore();
 
 var failCallback = function (req, res, next, nextValidRequestDate) {

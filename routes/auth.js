@@ -1,5 +1,5 @@
-var loginBL = require('../modules/BL/loginBL');
-var general = require('../modules/general');
+const loginBL = require('../modules/BL/loginBL');
+const general = require('../modules/general');
 
 module.exports = function (app) {
     prefix = "/api/auth";

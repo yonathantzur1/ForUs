@@ -1,4 +1,4 @@
-var unreadWindowBL = require('../modules/BL/unreadWindowBL');
+const unreadWindowBL = require('../modules/BL/unreadWindowBL');
 
 module.exports = function (app) {
     prefix = "/api/unreadWindow";

@@ -1,5 +1,5 @@
-var chatBL = require('../modules/BL/chatBL');
-var general = require('../modules/general');
+const chatBL = require('../modules/BL/chatBL');
+const general = require('../modules/general');
 
 module.exports = function (app) {
     prefix = "/api/chat";

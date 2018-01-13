@@ -1,5 +1,5 @@
-var navbarBL = require('../modules/BL/navbarBL');
-var general = require("../modules/general");
+const navbarBL = require('../modules/BL/navbarBL');
+const general = require("../modules/general");
 
 module.exports = function (app) {
 
