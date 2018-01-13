@@ -8,7 +8,7 @@ export class LoginService extends BasicService {
     prefix = "/login";
 
     Login(user: User) {
-        return super.post(this.prefix + '/login', JSON.stringify(user))
+        return super.post(this.prefix + '/userLogin', JSON.stringify(user))
             .toPromise()
             .then((result: any) => {
                 return result;

@@ -19,7 +19,7 @@ var LoginService = /** @class */ (function (_super) {
         return _this;
     }
     LoginService.prototype.Login = function (user) {
-        return _super.prototype.post.call(this, this.prefix + '/login', JSON.stringify(user))
+        return _super.prototype.post.call(this, this.prefix + '/userLogin', JSON.stringify(user))
             .toPromise()
             .then(function (result) {
             return result;

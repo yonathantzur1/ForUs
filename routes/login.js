@@ -2,6 +2,7 @@ const loginBL = require('../modules/BL/loginBL');
 const mailer = require('../modules/mailer');
 const general = require('../modules/general');
 const config = require('../modules/config');
+const validate = require('../modules/validate');
 const sha512 = require('js-sha512');
 const ExpressBrute = require('express-brute'),
     store = new ExpressBrute.MemoryStore();
@@ -46,33 +47,35 @@ module.exports = function (app) {
     prefix = "/login";
 
     // Validate the user details and login the user.
-    app.post(prefix + '/login',
+    app.post(prefix + '/userLogin',
+        validate,
         globalBruteforce.prevent,
         userBruteforce.getMiddleware({
             key: function (req, res, next) {
                 next(req.body.email);
             }
         }),
-        function (req, res, next) {
+        function (req, res) {
             loginBL.GetUser(req.body, sha512, function (result) {
-                // In case the user email and password are valid.
-                if (result && result != "-1") {
-                    req.brute.reset(function () {
-                        var token = general.GetTokenFromUserObject(result);
-                        general.SetTokenOnCookie(token, res);
-                        res.send({ "result": true });
-                    });
-                }
-                else {
+                if (result) {
                     // In case the user is not exists.
                     if (result == "-1") {
-                        req.brute.reset(function () {
+                        req.brute.reset(() => {
                             res.send({ result });
                         });
                     }
+                    // In case the user email and password are valid.
                     else {
-                        res.send({ result });
+                        req.brute.reset(() => {
+                            var token = general.GetTokenFromUserObject(result);
+                            general.SetTokenOnCookie(token, res);
+                            res.send({ "result": true });
+                        });
                     }
+                }
+                // In case of error
+                else {
+                    res.send({ result });
                 }
             });
         });
@@ -103,69 +106,75 @@ module.exports = function (app) {
     });
 
     // Add new user to the db and make sure the email is not already exists.
-    app.post(prefix + '/register', function (req, res) {
-        var email = { "email": req.body.email };
+    app.post(prefix + '/register',
+        validate,
+        function (req, res) {
+            var email = { "email": req.body.email };
 
-        // Check if the email is exists in the DB.
-        loginBL.CheckIfUserExists(email, function (result) {
-            // In case of error.
-            if (result == null) {
-                res.send({ result });
-            }
-            // In case the user is already exists.
-            else if (result == true) {
-                res.send({ "result": false });
-            }
-            else {
-                // Add user to DB.
-                loginBL.AddUser(req.body, sha512, function (result) {
-                    // In case all register progress was succeeded.
-                    if (result) {
-                        // Sending a welcome mail to the new user.
-                        mailer.SendMail(req.body.email, mailer.GetRegisterMailContent(req.body.firstName));
-                        var token = general.GetTokenFromUserObject(result);
-                        general.SetTokenOnCookie(token, res);
-                        res.send({ "result": true });
-                    }
-                    else {
-                        res.send({ result });
-                    }
-                });
-            }
+            // Check if the email is exists in the DB.
+            loginBL.CheckIfUserExists(email, function (result) {
+                // In case of error.
+                if (result == null) {
+                    res.send({ result });
+                }
+                // In case the user is already exists.
+                else if (result == true) {
+                    res.send({ "result": false });
+                }
+                else {
+                    // Add user to DB.
+                    loginBL.AddUser(req.body, sha512, function (result) {
+                        // In case all register progress was succeeded.
+                        if (result) {
+                            // Sending a welcome mail to the new user.
+                            mailer.SendMail(req.body.email, mailer.GetRegisterMailContent(req.body.firstName));
+                            var token = general.GetTokenFromUserObject(result);
+                            general.SetTokenOnCookie(token, res);
+                            res.send({ "result": true });
+                        }
+                        else {
+                            res.send({ result });
+                        }
+                    });
+                }
+            });
         });
-    });
 
     // Sending to the user an email with code to reset his password.
-    app.put(prefix + '/forgot', function (req, res) {
-        var email = { "email": req.body.email };
+    app.put(prefix + '/forgot',
+        validate,
+        function (req, res) {
+            var email = { "email": req.body.email };
 
-        loginBL.SetUserResetCode(email, function (result) {
-            if (result) {
-                mailer.SendMail(req.body.email, mailer.GetForgotMailContent(result.firstName, result.resetCode.code));
-                res.send({ "result": true });
-            }
-            else {
-                // Return to the client false in case the email was not found,
-                // or null in case of error.
-                res.send({ result });
-            }
+            loginBL.SetUserResetCode(email, function (result) {
+                if (result) {
+                    mailer.SendMail(req.body.email, mailer.GetForgotMailContent(result.firstName, result.resetCode.code));
+                    res.send({ "result": true });
+                }
+                else {
+                    // Return to the client false in case the email was not found,
+                    // or null in case of error.
+                    res.send({ result });
+                }
+            });
         });
-    });
 
     // Changing user password in db.
-    app.put(prefix + '/resetPassword', function (req, res) {
-        loginBL.ResetPassword(req.body, sha512, function (result) {
-            if (result && result.isChanged) {
-                var token = general.GetTokenFromUserObject(result.user);
-                general.SetTokenOnCookie(token, res);
+    app.put(prefix + '/resetPassword',
+        validate,
+        function (req, res) {
+            loginBL.ResetPassword(req.body, sha512, function (result) {
+                if (result && result.isChanged) {
+                    var token = general.GetTokenFromUserObject(result.user);
+                    general.SetTokenOnCookie(token, res);
 
-                res.send({ "result": true });
-            }
-            else {
-                res.send({ result });
-            }
+                    res.send({ "result": true });
+                }
+                else {
+                    res.send({ result });
+                }
+            });
         });
-    });
 
     // Delete token from cookies.
     app.delete(prefix + '/deleteToken', function (req, res) {

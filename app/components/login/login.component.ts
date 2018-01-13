@@ -107,7 +107,7 @@ export class LoginComponent implements OnInit {
       var self = this;
 
       this.loginService.Login(this.user).then((data) => {
-        var result = data.result;
+        var result = data ? data.result: null;
         this.isLoading = false;
 
         // In case of server error.
@@ -159,7 +159,7 @@ export class LoginComponent implements OnInit {
       this.isLoading = true;
 
       this.loginService.Register(this.newUser).then((data) => {
-        var result = data.result;
+        var result = data ? data.result: null;
         this.isLoading = false;
 
         // In case of server error.
@@ -188,7 +188,7 @@ export class LoginComponent implements OnInit {
       // In case the user is in the first stage of reset password.
       if (this.forgotUser.showResetCodeField == false) {
         this.loginService.Forgot(this.forgotUser.email).then((data) => {
-          var result = data.result;
+          var result = data ? data.result: null;
           this.isLoading = false;
 
           // In case of server error.
@@ -211,7 +211,7 @@ export class LoginComponent implements OnInit {
       // In case the user is in the second stage of reset password.
       else {
         this.loginService.ResetPassword(this.forgotUser).then((data) => {
-          var result = data.result;
+          var result = data ? data.result: null;
           this.isLoading = false;
 
           // In case of server error.
