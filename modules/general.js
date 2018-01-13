@@ -1,6 +1,6 @@
-var jwt = require('jsonwebtoken');
-var config = require('./config.js');
-var encryption = require('./encryption.js');
+const jwt = require('jsonwebtoken');
+const config = require('./config.js');
+const encryption = require('./encryption.js');
 
 module.exports = {
     PERMISSIONS: {

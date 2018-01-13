@@ -1,4 +1,4 @@
-var nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');
 
 // Create reusable transporter object using the default SMTP transport
 var transporter = nodemailer.createTransport('smtps://forusmailer%40gmail.com:popCorn1@smtp.gmail.com');

@@ -1,4 +1,4 @@
-var joi = require('joi');
+const joi = require('joi');
 
 module.exports = function (req, res, next) {
     var schemaPath = req.originalUrl.split('/');

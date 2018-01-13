@@ -97,7 +97,7 @@ module.exports = {
     // Add user to the DB.
     AddUser: function (newUser, sha512, callback) {
         if (ValidateUserObject(newUser)) {
-            var salt = generator.GenerateId(resetCodeNumOfDigits);
+            var salt = generator.GenerateCode(resetCodeNumOfDigits);
             newUser.password = sha512(newUser.password + salt);
 
             // Creat the new user object.
@@ -132,7 +132,7 @@ module.exports = {
 
     // Add reset password code to the DB and return the name of the user.
     SetUserResetCode: function (emailObj, callback) {
-        var code = generator.GenerateId(resetCodeNumOfDigits);
+        var code = generator.GenerateCode(resetCodeNumOfDigits, true);
 
         var resetCode = { $set: { "resetCode": { "code": code, "date": new Date(), "tryNum": 0, "isUsed": false } } };
 
@@ -199,7 +199,7 @@ module.exports = {
             // In case the reset code is valid, change the user password.
             else {
                 var updateUser = result[0];
-                updateUser.salt = generator.GenerateId(resetCodeNumOfDigits);
+                updateUser.salt = generator.GenerateCode(resetCodeNumOfDigits);
                 updateUser.password = sha512(forgotUser.newPassword + updateUser.salt);
                 updateUser.resetCode.isUsed = true;
                 updateUser.resetCode.tryNum++;

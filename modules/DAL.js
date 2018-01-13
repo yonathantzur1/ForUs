@@ -1,13 +1,14 @@
-var config = require('./config.js');
-var MongoClient = require('mongodb').MongoClient, assert = require('assert');
-var ObjectId = require('mongodb').ObjectId;
+const config = require('./config.js');
+const MongoClient = require('mongodb').MongoClient, assert = require('assert');
+const ObjectId = require('mongodb').ObjectId;
 
 // Connection URL
-var connectionString = config.db.connectionString;
-var dbName = config.db.dbName;
+const connectionString = config.db.connectionString;
+const dbName = config.db.dbName;
+const maxConnectionAttemptsNumber = config.db.maxConnectionAttemptsNumber;
+const retryCount = 0;
+
 var db;
-var maxConnectionAttemptsNumber = config.db.maxConnectionAttemptsNumber;
-var retryCount = 0;
 
 GetDB = function (callback) {
     // In case there is no connected db.
