@@ -11,6 +11,10 @@
     #management .friends-number {
         font-size: 12px !important;
     }
+
+    #management .friends-info-sector {
+        margin-bottom: 12px !important;
+    }
 }
 
 #management .form-control, #management .form-group .form-control {
@@ -170,19 +174,19 @@
     cursor: pointer;
 }
 
-@keyframes infocard {
+@keyframes showinfo {
     from {opacity: 0;}
     to {opacity: 1;}
 }
 
 #management .user-info-card-open {
-    animation-name: infocard;
+    animation-name: showinfo;
     animation-duration: 0.2s;
 }
 
 #management .info-table {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 24px);
     font-family: Rubik;
     font-size: 16px
 }
@@ -202,11 +206,22 @@
     display: inline-block;
 }
 
+#management .friends-info-td {
+    cursor: pointer;
+}
+
 #management .friends-info-sector {
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 }
 
 #management .friends-info-icon {
     font-size: 30px;
     color: #4a4a4a;
+}
+
+#management .user-settings-icon {
+    left: 18px;
+    top: 15px;
+    position: absolute;
+    cursor: pointer;
 }

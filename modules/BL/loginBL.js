@@ -3,7 +3,8 @@ const DAL = require('../DAL.js');
 const collectionName = "Users";
 const permissionsCollectionName = "Permissions";
 const generator = require('../generator.js');
-const resetCodeNumOfDigits = 8;
+const saltNumOfDigits = 8;
+const resetCodeNumOfDigits = 6;
 const resetCodeNumOfHoursValid = 24;
 const maxTryNum = 3;
 
@@ -97,7 +98,7 @@ module.exports = {
     // Add user to the DB.
     AddUser: function (newUser, sha512, callback) {
         if (ValidateUserObject(newUser)) {
-            var salt = generator.GenerateCode(resetCodeNumOfDigits);
+            var salt = generator.GenerateCode(saltNumOfDigits);
             newUser.password = sha512(newUser.password + salt);
 
             // Creat the new user object.
@@ -199,7 +200,7 @@ module.exports = {
             // In case the reset code is valid, change the user password.
             else {
                 var updateUser = result[0];
-                updateUser.salt = generator.GenerateCode(resetCodeNumOfDigits);
+                updateUser.salt = generator.GenerateCode(saltNumOfDigits);
                 updateUser.password = sha512(forgotUser.newPassword + updateUser.salt);
                 updateUser.resetCode.isUsed = true;
                 updateUser.resetCode.tryNum++;

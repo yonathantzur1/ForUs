@@ -20,11 +20,12 @@
                     <div class="user-name-container">
                         <span class="user-name">{{user.firstName + " " + user.lastName}}</span>
                         <img class="user-profile-image" src="{{user.profileImage ? user.profileImage.image : globalService.defaultProfileImage}}">
+                        <i *ngIf="user.isOpen && !user.isOpenCardAnimationActive" class="material-icons user-settings-icon user-info-card-open rotating">settings</i>
                     </div>
                 </div>
                 <div class="user-info-container" [ngClass]="{'user-info-container-open': user.isOpen && isPreventFirstOpenCardAnimation, 'user-info-container-open-animation': user.isOpen && !isPreventFirstOpenCardAnimation, 'user-info-container-close': (user.isOpen == false)}">
                     <div id="user-info" class="user-info-card-open" *ngIf="user.isOpen && !user.isOpenCardAnimationActive">
-                        <table id="info-table" class="info-table">
+                        <table id="info-table" class="info-table" *ngIf="!user.openFriendsScreen">
                             <tr>
                                 <td>
                                     <div class="info-title">תאריך רישום:</div>
@@ -40,7 +41,7 @@
                                     <div class="info-title">אימייל:</div>
                                     <div class="info-data email-address">{{user.email}}</div>
                                 </td>
-                                <td>
+                                <td class="friends-info-td" (click)="OpenFriendsScreen(user)">
                                     <div class="friends-info-sector">
                                         <div class="info-title">
                                             <i class="fa fa-users friends-info-icon" aria-hidden="true"></i>

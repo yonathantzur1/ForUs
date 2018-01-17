@@ -13,6 +13,7 @@ module.exports = {
                 ]
             }
         };
+
         var joinFilter = {
             $lookup: {
                 from: profileCollectionName,
@@ -33,7 +34,8 @@ module.exports = {
                     "email": 1,
                     "profile": 1,
                     "creationDate": 1,
-                    "lastLoginTime": 1
+                    "lastLoginTime": 1,
+                    "friends": 1
                 }
             },
             usersFilter,
@@ -49,6 +51,7 @@ module.exports = {
                     "creationDate": 1,
                     "lastLoginTime": 1,
                     "friendsNumber": 1,
+                    "friends": 1,
 
                     // Taking only specific fields from the document.
                     "profileImage.image": 1,
@@ -61,28 +64,84 @@ module.exports = {
         ];
 
         DAL.Aggregate(usersCollectionName, aggregateArray, function (users) {
-            users = users.sort((a, b) => {
-                var aIndex = a.fullName.indexOf(searchInput);
-                var bIndex = b.fullName.indexOf(searchInput);
+            // In case of error.
+            if (!users) {
+                callback(null);
+            }
+            else {
+                users = users.sort((a, b) => {
+                    var aIndex = a.fullName.indexOf(searchInput);
+                    var bIndex = b.fullName.indexOf(searchInput);
 
-                if (aIndex < bIndex) {
-                    return -1;
+                    if (aIndex < bIndex) {
+                        return -1;
+                    }
+                    else if (aIndex > bIndex) {
+                        return 1;
+                    }
+                    else {
+                        return 0;
+                    }
+                });
+
+                users = users.map(user => {
+                    user.profileImage = (user.profileImage.length != 0) ? user.profileImage[0] : null;
+
+                    return user;
+                });
+
+                callback(users);
+            }
+        });
+    },
+
+    GetUserFriends: function (friendsIds, callback) {
+        friendsIds = friendsIds.map((id) => {
+            return DAL.GetObjectId(id);
+        });
+
+        var usersFilter = {
+            $match: { "_id": { $in: friendsIds } }
+        };
+
+        var joinFilter = {
+            $lookup: {
+                from: profileCollectionName,
+                localField: 'profile',
+                foreignField: '_id',
+                as: 'profileImage'
+            }
+        }
+
+        var aggregateArray = [
+            usersFilter,
+            joinFilter,
+            {
+                $project: {
+                    fullName: { $concat: ["$firstName", " ", "$lastName"] },
+                    fullNameReversed: { $concat: ["$lastName", " ", "$firstName"] },
+                    "profileImage.image": 1
                 }
-                else if (aIndex > bIndex) {
-                    return 1;
-                }
-                else {
-                    return 0;
-                }
-            });
+            },
+            {
+                $sort: { "fullName": 1, "fullNameReversed": 1 }
+            }
+        ];
 
-            users = users.map(user => {
-                user.profileImage = (user.profileImage.length != 0) ? user.profileImage[0] : null;
+        DAL.Aggregate(usersCollectionName, aggregateArray, function (friends) {
+            // In case of error.
+            if (!friends) {
+                callback(null);
+            }
+            else {
+                friends = friends.map(friend => {
+                    friend.profileImage = (friend.profileImage.length != 0) ? friend.profileImage[0] : null;
 
-                return user;
-            });
+                    return friend;
+                });
 
-            callback(users);
+                callback(friends);
+            }
         });
     }
 };

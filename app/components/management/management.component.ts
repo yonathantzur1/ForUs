@@ -48,17 +48,19 @@ export class ManagementComponent {
     }
 
     ShowHideUserCard(user: any) {
-        // In case the card is close.
+        // Open the card in case it is close.
         if (!user.isOpen) {
             user.isOpen = true;
-            user.isOpenCardAnimationActive = true;            
+            user.isOpenCardAnimationActive = true;
 
             setTimeout(function () {
                 user.isOpenCardAnimationActive = false;
             }, this.openCardAnimationTime);
         }
+        // Close the card in case it is open.
         else {
             user.isOpen = false;
+            user.openFriendsScreen = false;
             this.isPreventFirstOpenCardAnimation = false;
         }
     }
@@ -78,5 +80,15 @@ export class ManagementComponent {
         var timeString = (HH + ":" + mm);
 
         return (dateString + " - " + timeString);
+    }
+
+    OpenFriendsScreen(user: any) {
+        user.openFriendsScreen = true;
+
+        this.managementService.GetUserFriends(user.friends).then((friends: any) => {
+            if (friends) {
+                user.friends = friends;
+            }
+        });
     }
 }

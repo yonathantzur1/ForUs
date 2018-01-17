@@ -22,4 +22,12 @@ module.exports = function (app) {
         });
     });
 
+    app.post(prefix + '/getUserFriends', function (req, res) {
+        var friendsIds = req.body.friendsIds;
+
+        managementBL.GetUserFriends(friendsIds, function (result) {
+            res.send(result);
+        });
+    });
+
 };

@@ -15,4 +15,17 @@ export class ManagementService extends BasicService {
                 return null;
             });
     }
+
+    GetUserFriends(friendsIds: Array<string>) {
+        var details = { friendsIds };
+
+        return super.post(this.prefix + '/getUserFriends', details)
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((result: any) => {
+                return null;
+            });
+    }
 }

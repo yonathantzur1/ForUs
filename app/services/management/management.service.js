@@ -29,6 +29,17 @@ var ManagementService = /** @class */ (function (_super) {
             return null;
         });
     };
+    ManagementService.prototype.GetUserFriends = function (friendsIds) {
+        var details = { friendsIds: friendsIds };
+        return _super.prototype.post.call(this, this.prefix + '/getUserFriends', details)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
     return ManagementService;
 }(basic_service_1.BasicService));
 exports.ManagementService = ManagementService;

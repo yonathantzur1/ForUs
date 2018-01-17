@@ -1,7 +1,7 @@
 <div class="sidenav-overlay" [ngClass]="{'overlay-background' : isSidenavOpen, 'sidenav-overlay-top' : (isUnreadWindowOpen || isFriendRequestsWindowOpen)}"
   *ngIf="isSidenavOpen || isDropMenuOpen || isShowSearchResults" (click)="OverlayClicked()"></div>
 <div id="navbar">
-  <div class="navbar-container">
+  <div id="navbar-container">
     <div id="sidenav" class="sidenav" [ngClass]="{'sidenav-shadow' : isSidenavOpen}">
       <div class="sidenav-head-sector">
         <div class="sidenav-header">

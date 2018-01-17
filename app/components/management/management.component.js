@@ -44,7 +44,7 @@ var ManagementComponent = /** @class */ (function () {
         }
     };
     ManagementComponent.prototype.ShowHideUserCard = function (user) {
-        // In case the card is close.
+        // Open the card in case it is close.
         if (!user.isOpen) {
             user.isOpen = true;
             user.isOpenCardAnimationActive = true;
@@ -54,6 +54,7 @@ var ManagementComponent = /** @class */ (function () {
         }
         else {
             user.isOpen = false;
+            user.openFriendsScreen = false;
             this.isPreventFirstOpenCardAnimation = false;
         }
     };
@@ -67,6 +68,14 @@ var ManagementComponent = /** @class */ (function () {
         }
         var timeString = (HH + ":" + mm);
         return (dateString + " - " + timeString);
+    };
+    ManagementComponent.prototype.OpenFriendsScreen = function (user) {
+        user.openFriendsScreen = true;
+        this.managementService.GetUserFriends(user.friends).then(function (friends) {
+            if (friends) {
+                user.friends = friends;
+            }
+        });
     };
     ManagementComponent = __decorate([
         core_1.Component({
