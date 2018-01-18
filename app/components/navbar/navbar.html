@@ -1,4 +1,4 @@
-<div class="sidenav-overlay" [ngClass]="{'overlay-background' : isSidenavOpen, 'sidenav-overlay-top' : (isUnreadWindowOpen || isFriendRequestsWindowOpen)}"
+<div class="sidenav-overlay" [ngClass]="{'overlay-background' : isSidenavOpen, 'sidenav-overlay-top' : (isChatsWindowOpen || isFriendRequestsWindowOpen)}"
   *ngIf="isSidenavOpen || isDropMenuOpen || isShowSearchResults" (click)="OverlayClicked()"></div>
 <div id="navbar">
   <div id="navbar-container">
@@ -116,8 +116,8 @@
 </div>
 
 <profile *ngIf="isOpenProfileEditWindow"></profile>
-<unreadWindow [hidden]="!isUnreadWindowOpen" [isFriendsLoading]="isFriendsLoading" [OpenChat]="OpenChat.bind(this)" [friends]="friends"
-  [messagesNotifications]="GetToolbarItem('messages').content"></unreadWindow>
+<chatsWindow [hidden]="!isChatsWindowOpen" [isFriendsLoading]="isFriendsLoading" [OpenChat]="OpenChat.bind(this)" [friends]="friends"
+  [messagesNotifications]="GetToolbarItem('messages').content"></chatsWindow>
 <friendRequestsWindow [hidden]="!isFriendRequestsWindowOpen" [AddFriend]="AddFriend.bind(this)" [IgnoreFriendRequest]="IgnoreFriendRequest.bind(this)"
   [friendRequests]="GetToolbarItem('friendRequests').content.get"></friendRequestsWindow>
 <chat *ngIf="chatData.isOpen" [chatData]="chatData" [GetFriendById]="GetFriendById.bind(this)" [OpenChat]="OpenChat.bind(this)"></chat>

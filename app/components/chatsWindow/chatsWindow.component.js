@@ -10,17 +10,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var unreadWindow_service_1 = require("../../services/unreadWindow/unreadWindow.service");
+var chatsWindow_service_1 = require("../../services/chatsWindow/chatsWindow.service");
 var global_service_1 = require("../../services/global/global.service");
-var UnreadWindowComponent = /** @class */ (function () {
-    function UnreadWindowComponent(unreadWindowService, globalService) {
-        this.unreadWindowService = unreadWindowService;
+var ChatsWindowComponent = /** @class */ (function () {
+    function ChatsWindowComponent(chatsWindowService, globalService) {
+        this.chatsWindowService = chatsWindowService;
         this.globalService = globalService;
         this.chats = [];
         this.isRefreshActive = false;
         this.socket = globalService.socket;
     }
-    UnreadWindowComponent.prototype.ngOnInit = function () {
+    ChatsWindowComponent.prototype.ngOnInit = function () {
         var self = this;
         this.isChatsLoading = true;
         this.LoadChatsObjects();
@@ -57,15 +57,15 @@ var UnreadWindowComponent = /** @class */ (function () {
             }
         });
     };
-    UnreadWindowComponent.prototype.LoadChatsObjects = function () {
+    ChatsWindowComponent.prototype.LoadChatsObjects = function () {
         var self = this;
-        self.unreadWindowService.GetAllChats().then(function (chats) {
+        self.chatsWindowService.GetAllChats().then(function (chats) {
             self.chats = chats;
             self.isChatsLoading = false;
             self.isRefreshActive = false;
         });
     };
-    UnreadWindowComponent.prototype.GetUnreadMessagesNumber = function () {
+    ChatsWindowComponent.prototype.GetUnreadMessagesNumber = function () {
         var _this = this;
         var counter = 0;
         Object.keys(this.messagesNotifications).forEach(function (id) {
@@ -73,7 +73,7 @@ var UnreadWindowComponent = /** @class */ (function () {
         });
         return counter;
     };
-    UnreadWindowComponent.prototype.GetUnreadMessagesNumberText = function () {
+    ChatsWindowComponent.prototype.GetUnreadMessagesNumberText = function () {
         if (this.chats.length == 0) {
             return "אין הודעות חדשות";
         }
@@ -90,7 +90,7 @@ var UnreadWindowComponent = /** @class */ (function () {
             }
         }
     };
-    UnreadWindowComponent.prototype.CalculateChatTimeString = function (chat) {
+    ChatsWindowComponent.prototype.CalculateChatTimeString = function (chat) {
         var localDate = new Date(chat.lastMessage.time);
         var currDate = new Date();
         currDate.setHours(23, 59, 59, 999);
@@ -107,20 +107,20 @@ var UnreadWindowComponent = /** @class */ (function () {
         }
         chat.timeString = { "dateDetailsString": GetDateDetailsString(localDate, currDate, true), "dateTimeString": dateTimeString };
     };
-    UnreadWindowComponent.prototype.GetFriend = function (friendId) {
+    ChatsWindowComponent.prototype.GetFriend = function (friendId) {
         return (this.friends.find(function (friend) {
             return (friend._id == friendId);
         }));
     };
-    UnreadWindowComponent.prototype.GetFriendName = function (friendId) {
+    ChatsWindowComponent.prototype.GetFriendName = function (friendId) {
         var friendObj = this.GetFriend(friendId);
         return friendObj ? (friendObj.firstName + " " + friendObj.lastName) : "";
     };
-    UnreadWindowComponent.prototype.GetFriendProfile = function (friendId) {
+    ChatsWindowComponent.prototype.GetFriendProfile = function (friendId) {
         var friendObj = this.GetFriend(friendId);
         return friendObj ? friendObj.profileImage : null;
     };
-    UnreadWindowComponent.prototype.SortByDate = function (chats) {
+    ChatsWindowComponent.prototype.SortByDate = function (chats) {
         chats = chats.sort(function (a, b) {
             var firstDate = new Date(a.lastMessage.time);
             var secondDate = new Date(b.lastMessage.time);
@@ -139,28 +139,28 @@ var UnreadWindowComponent = /** @class */ (function () {
     __decorate([
         core_1.Input(),
         __metadata("design:type", Boolean)
-    ], UnreadWindowComponent.prototype, "isFriendsLoading", void 0);
+    ], ChatsWindowComponent.prototype, "isFriendsLoading", void 0);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Array)
-    ], UnreadWindowComponent.prototype, "friends", void 0);
+    ], ChatsWindowComponent.prototype, "friends", void 0);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object)
-    ], UnreadWindowComponent.prototype, "messagesNotifications", void 0);
+    ], ChatsWindowComponent.prototype, "messagesNotifications", void 0);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Function)
-    ], UnreadWindowComponent.prototype, "OpenChat", void 0);
-    UnreadWindowComponent = __decorate([
+    ], ChatsWindowComponent.prototype, "OpenChat", void 0);
+    ChatsWindowComponent = __decorate([
         core_1.Component({
-            selector: 'unreadWindow',
-            templateUrl: './unreadWindow.html',
-            providers: [unreadWindow_service_1.UnreadWindowService]
+            selector: 'chatsWindow',
+            templateUrl: './chatsWindow.html',
+            providers: [chatsWindow_service_1.ChatsWindowService]
         }),
-        __metadata("design:paramtypes", [unreadWindow_service_1.UnreadWindowService, global_service_1.GlobalService])
-    ], UnreadWindowComponent);
-    return UnreadWindowComponent;
+        __metadata("design:paramtypes", [chatsWindow_service_1.ChatsWindowService, global_service_1.GlobalService])
+    ], ChatsWindowComponent);
+    return ChatsWindowComponent;
 }());
-exports.UnreadWindowComponent = UnreadWindowComponent;
-//# sourceMappingURL=unreadWindow.component.js.map
+exports.ChatsWindowComponent = ChatsWindowComponent;
+//# sourceMappingURL=chatsWindow.component.js.map

@@ -1,17 +1,17 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { UnreadWindowService } from '../../services/unreadWindow/unreadWindow.service';
+import { ChatsWindowService } from '../../services/chatsWindow/chatsWindow.service';
 import { GlobalService } from '../../services/global/global.service';
 
 declare function GetDateDetailsString(localDate: Date, currDate: Date, isShortMonths: boolean): string;
 
 @Component({
-    selector: 'unreadWindow',
-    templateUrl: './unreadWindow.html',
-    providers: [UnreadWindowService]
+    selector: 'chatsWindow',
+    templateUrl: './chatsWindow.html',
+    providers: [ChatsWindowService]
 })
 
-export class UnreadWindowComponent implements OnInit {
+export class ChatsWindowComponent implements OnInit {
     @Input() isFriendsLoading: boolean;
     @Input() friends: Array<any>;
     @Input() messagesNotifications: Object;
@@ -22,7 +22,7 @@ export class UnreadWindowComponent implements OnInit {
     isChatsLoading: boolean;
     isRefreshActive: boolean = false;
 
-    constructor(private unreadWindowService: UnreadWindowService, private globalService: GlobalService) {
+    constructor(private chatsWindowService: ChatsWindowService, private globalService: GlobalService) {
         this.socket = globalService.socket;
     }
 
@@ -78,7 +78,7 @@ export class UnreadWindowComponent implements OnInit {
     LoadChatsObjects() {
         var self = this;
 
-        self.unreadWindowService.GetAllChats().then(function (chats: any) {
+        self.chatsWindowService.GetAllChats().then(function (chats: any) {
             self.chats = chats;
             self.isChatsLoading = false;
             self.isRefreshActive = false;

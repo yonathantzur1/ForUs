@@ -58,7 +58,7 @@ var NavbarComponent = /** @class */ (function () {
         // START friend-request notification variables //
         this.isShowFriendRequestNotification = false;
         // END friend-request notification variables //
-        this.isUnreadWindowOpen = false;
+        this.isChatsWindowOpen = false;
         this.isFriendRequestsWindowOpen = false;
         this.isSidenavOpen = false;
         this.isSidenavOpenFirstTime = false;
@@ -107,7 +107,7 @@ var NavbarComponent = /** @class */ (function () {
                     return (this.getNotificationsNumber() > 0);
                 },
                 onClick: function () {
-                    self.ShowHideUnreadWindow();
+                    self.ShowHideChatsWindow();
                 }
             },
             {
@@ -329,7 +329,7 @@ var NavbarComponent = /** @class */ (function () {
     };
     NavbarComponent.prototype.HideSidenav = function () {
         if (this.isSidenavOpen && !this.isSidenavOpenAnimation) {
-            this.HideUnreadWindow();
+            this.HideChatsWindow();
             this.HideFriendRequestsWindow();
             this.isSidenavOpen = false;
             document.getElementById("sidenav").style.width = "0";
@@ -367,8 +367,8 @@ var NavbarComponent = /** @class */ (function () {
         this.HideSearchResults();
     };
     NavbarComponent.prototype.OverlayClicked = function () {
-        if (this.isUnreadWindowOpen || this.isFriendRequestsWindowOpen) {
-            this.HideUnreadWindow();
+        if (this.isChatsWindowOpen || this.isFriendRequestsWindowOpen) {
+            this.HideChatsWindow();
             this.HideFriendRequestsWindow();
         }
         else {
@@ -457,11 +457,11 @@ var NavbarComponent = /** @class */ (function () {
             this.globalService.setData("moveToChatWindow", true);
         }
     };
-    NavbarComponent.prototype.ShowHideUnreadWindow = function () {
-        this.isUnreadWindowOpen = !this.isUnreadWindowOpen;
+    NavbarComponent.prototype.ShowHideChatsWindow = function () {
+        this.isChatsWindowOpen = !this.isChatsWindowOpen;
     };
-    NavbarComponent.prototype.HideUnreadWindow = function () {
-        this.isUnreadWindowOpen = false;
+    NavbarComponent.prototype.HideChatsWindow = function () {
+        this.isChatsWindowOpen = false;
     };
     NavbarComponent.prototype.ShowHideFriendRequestsWindow = function () {
         this.isFriendRequestsWindowOpen = !this.isFriendRequestsWindowOpen;

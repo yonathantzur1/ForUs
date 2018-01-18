@@ -1,8 +1,8 @@
 import { BasicService } from '../basic/basic.service';
 
-export class UnreadWindowService extends BasicService {
+export class ChatsWindowService extends BasicService {
 
-    prefix = "/api/unreadWindow";
+    prefix = "/api/chatsWindow";
 
     GetAllChats() {
         return super.get(this.prefix + '/getAllChats')

@@ -87,7 +87,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     // END friend-request notification variables //
 
-    isUnreadWindowOpen: boolean = false;
+    isChatsWindowOpen: boolean = false;
     isFriendRequestsWindowOpen: boolean = false;
     isSidenavOpen: boolean = false;
     isSidenavOpenFirstTime: boolean = false;
@@ -158,7 +158,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                     return (this.getNotificationsNumber() > 0);
                 },
                 onClick: function () {
-                    self.ShowHideUnreadWindow();
+                    self.ShowHideChatsWindow();
                 }
             },
             {
@@ -422,7 +422,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     HideSidenav() {
         if (this.isSidenavOpen && !this.isSidenavOpenAnimation) {
-            this.HideUnreadWindow();
+            this.HideChatsWindow();
             this.HideFriendRequestsWindow();
             this.isSidenavOpen = false;
             document.getElementById("sidenav").style.width = "0";
@@ -470,8 +470,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     OverlayClicked() {
-        if (this.isUnreadWindowOpen || this.isFriendRequestsWindowOpen) {
-            this.HideUnreadWindow();
+        if (this.isChatsWindowOpen || this.isFriendRequestsWindowOpen) {
+            this.HideChatsWindow();
             this.HideFriendRequestsWindow();
         }
         else {
@@ -577,12 +577,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    ShowHideUnreadWindow() {
-        this.isUnreadWindowOpen = !this.isUnreadWindowOpen;
+    ShowHideChatsWindow() {
+        this.isChatsWindowOpen = !this.isChatsWindowOpen;
     }
 
-    HideUnreadWindow() {
-        this.isUnreadWindowOpen = false;
+    HideChatsWindow() {
+        this.isChatsWindowOpen = false;
     }
 
     ShowHideFriendRequestsWindow() {

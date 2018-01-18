@@ -8,7 +8,7 @@
 }
 
 #dropMenu .menu-option {
-    color: black;
+    color: #2a2a2a;
     text-decoration: none;
     list-style-type: none;
     cursor: pointer;
@@ -21,6 +21,7 @@
 #dropMenu .option-sector {
     display: block;
     padding: 5px;
+    color: #2a2a2a;
 }
 
 #dropMenu .option-sector:hover {

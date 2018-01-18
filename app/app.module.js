@@ -20,7 +20,7 @@ var dropMenu_component_1 = require("./components/dropMenu/dropMenu.component");
 var profile_component_1 = require("./components/profile/profile.component");
 var profilePicture_component_1 = require("./components/profilePicture/profilePicture.component");
 var chat_component_1 = require("./components/chat/chat.component");
-var unreadWindow_component_1 = require("./components/unreadWindow/unreadWindow.component");
+var chatsWindow_component_1 = require("./components/chatsWindow/chatsWindow.component");
 var friendRequestsWindow_component_1 = require("./components/friendRequestsWindow/friendRequestsWindow.component");
 var management_component_1 = require("./components/management/management.component");
 var pageNotFound_component_1 = require("./components/pageNotFound/pageNotFound.component");
@@ -50,7 +50,7 @@ var AppModule = /** @class */ (function () {
                 profile_component_1.ProfileComponent,
                 profilePicture_component_1.ProfilePictureComponent,
                 chat_component_1.ChatComponent,
-                unreadWindow_component_1.UnreadWindowComponent,
+                chatsWindow_component_1.ChatsWindowComponent,
                 friendRequestsWindow_component_1.FriendRequestsWindowComponent,
                 management_component_1.ManagementComponent
             ],

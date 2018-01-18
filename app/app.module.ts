@@ -13,7 +13,7 @@ import { DropMenuComponent } from './components/dropMenu/dropMenu.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ProfilePictureComponent } from './components/profilePicture/profilePicture.component';
 import { ChatComponent } from './components/chat/chat.component';
-import { UnreadWindowComponent } from './components/unreadWindow/unreadWindow.component';
+import { ChatsWindowComponent } from './components/chatsWindow/chatsWindow.component';
 import { FriendRequestsWindowComponent } from './components/friendRequestsWindow/friendRequestsWindow.component';
 import { ManagementComponent } from './components/management/management.component';
 
@@ -44,7 +44,7 @@ import { GlobalService } from './services/global/global.service';
     ProfileComponent,
     ProfilePictureComponent,
     ChatComponent,
-    UnreadWindowComponent,
+    ChatsWindowComponent,
     FriendRequestsWindowComponent,
     ManagementComponent
   ],

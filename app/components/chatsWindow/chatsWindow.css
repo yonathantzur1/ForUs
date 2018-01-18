@@ -1,4 +1,4 @@
-#unreadWindow .unreadWindow-container {
+#chatsWindow .chatsWindow-container {
     position: fixed;
     top: 126px;
     right: 165px;
@@ -11,7 +11,7 @@
     z-index: 1001;
 }
 
-#unreadWindow .window-top-arrow {
+#chatsWindow .window-top-arrow {
     top: 113px;
     right: 174px;
     z-index: 1002;
@@ -20,7 +20,7 @@
     position: fixed;
 }
 
-#unreadWindow .top-line {
+#chatsWindow .top-line {
     height: 20px;
     width: 100%;
     border-bottom: 1px solid #d2d2d2;
@@ -36,13 +36,13 @@
     padding-right: 10px;
 }
 
-#unreadWindow .body-container {
+#chatsWindow .body-container {
     height: calc(100% - 20px) !important;
     width: 100%;
     overflow-y: overlay;
 }
 
-#unreadWindow .chat-container {
+#chatsWindow .chat-container {
     width: 100%;
     height: 42px;
     border-bottom: 1px solid #d2d2d2;
@@ -56,18 +56,18 @@
     position: relative;
 }
 
-#unreadWindow .chat-container:hover {
+#chatsWindow .chat-container:hover {
     background-color: #f7f7f7;
 }
 
-#unreadWindow .chat-last-text {
+#chatsWindow .chat-last-text {
     font-size: 12px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
 }
 
-#unreadWindow .chat-last-time {
+#chatsWindow .chat-last-time {
     font-size: 10px;
     align-self: center;
     margin-top: 1px;
@@ -76,28 +76,29 @@
     text-align: center;
 }
 
-#unreadWindow .chat-image {
+#chatsWindow .chat-image {
     width: 30px;
     height: 30px;
     border-radius: 50%;
     margin-right: 12px;
     margin-left: 5px;
-    border: 0.5px solid rgba(128, 127, 127, 0.7);
+    border: 0.5px solid 0.5px solid #c6c6c6;
 }
 
-#unreadWindow .chat-name {
+#chatsWindow .chat-name {
     font-size: 14px;
     font-weight: bold;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    color: #2a2a2a;
 }
 
-#unreadWindow .details-container {
+#chatsWindow .details-container {
     width: calc(100% - 105px);
 }
 
-#unreadWindow .notificaiton-sign {
+#chatsWindow .notificaiton-sign {
     height: 8px;
     width: 8px;
     border-radius: 50%;
@@ -107,12 +108,12 @@
     position: absolute;
 }
 
-#unreadWindow .img-sign {
+#chatsWindow .img-sign {
     font-size: 14px;
     color: #403c52;
 }
 
-#unreadWindow .chats-loader {
+#chatsWindow .chats-loader {
     position: absolute;
     top: 50%;
     right: 50%;
@@ -120,13 +121,13 @@
     margin-top: -35px;
 }
 
-#unreadWindow #chats-loader .loader {
+#chatsWindow #chats-loader .loader {
     background-color: transparent !important;
 }
 
 /* Css design for small screens. */
 @media (max-width: 800px) {
-    #unreadWindow .chat-name {
+    #chatsWindow .chat-name {
         font-size: 12px !important;
     }
 }

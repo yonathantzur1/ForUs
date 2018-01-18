@@ -201,11 +201,6 @@ a, a:hover, a:focus {
 /* Fonts imports */
 
 @font-face {
-    font-family: Mona Shark;
-    src: url('../../../fonts/Mona_Shark.woff');
-}
-
-@font-face {
     font-family: 'Material Icons';
     font-style: normal;
     font-weight: 400;
@@ -226,6 +221,11 @@ a, a:hover, a:focus {
     direction: ltr;
     -webkit-font-feature-settings: 'liga';
     -webkit-font-smoothing: antialiased;
+}
+
+@font-face {
+    font-family: Mona Shark;
+    src: url('../../../fonts/Mona_Shark.woff');
 }
 
 /* cyrillic */

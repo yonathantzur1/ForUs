@@ -60,17 +60,17 @@ app.get('/login', function (req, res, next) {
 });
 
 // Routes requires
-require('./routes/auth.js')(app);
-require('./routes/login.js')(app);
-require('./routes/profile.js')(app);
-require('./routes/profilePicture.js')(app);
-require('./routes/navbar.js')(app);
-require('./routes/chat.js')(app);
-require('./routes/unreadWindow.js')(app);
-require('./routes/management.js')(app);
+require('./routes/auth')(app);
+require('./routes/login')(app);
+require('./routes/profile')(app);
+require('./routes/profilePicture')(app);
+require('./routes/navbar')(app);
+require('./routes/chat')(app);
+require('./routes/chatsWindow')(app);
+require('./routes/management')(app);
 
 // Import socket.io mudule
-require('./modules/sockets/socket.js')(io);
+require('./modules/sockets/socket')(io);
 
 // Redirect angular requests back to client side.
 app.get('**', function (req, res) {

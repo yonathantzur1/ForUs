@@ -1,11 +1,11 @@
-const unreadWindowBL = require('../modules/BL/unreadWindowBL');
+const chatsWindowBL = require('../modules/BL/chatsWindowBL');
 
 module.exports = function (app) {
-    prefix = "/api/unreadWindow";
+    prefix = "/api/chatsWindow";
 
     // Get all not empty chats order by last message time.
     app.get(prefix + '/getAllChats', function (req, res) {
-        unreadWindowBL.GetAllChats(req.user._id, function (chats) {
+        chatsWindowBL.GetAllChats(req.user._id, function (chats) {
             res.send(chats);
         });
     });
