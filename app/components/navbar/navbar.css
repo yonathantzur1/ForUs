@@ -83,7 +83,7 @@
 }
 
 #navbar .search-input {
-    color: #2a2a2a;
+    color: #363636;
     padding-right: 5px;
     font-family: rubik;
     border-radius: 3px;
@@ -625,7 +625,7 @@
     width: 25px;
     height: 35px;
     position: fixed;
-    top: 90.5px;
+    top: 90px;
     right: 0;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -633,8 +633,7 @@
     background-color: #0375d8;
     cursor: pointer;
     user-select: none;
-    -webkit-user-select: none;
-    box-shadow: -2px 0px 5px 0px #b6b6b6;
+    -webkit-user-select: none;    
     z-index: 999;
     transition: 0.4s;
 }

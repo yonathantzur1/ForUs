@@ -33,18 +33,25 @@ export class GlobalService extends LoginService {
         }
     }
 
-    Logout() {
-        deleteCookieByName("ui");
-        this.DeleteTokenFromCookie().then((result: any) => { });
-        this.ResetGlobalVariables();
-    }
-
     ResetGlobalVariables() {
         this.socket && this.socket.destroy();
         this.socket = null;
         this.data = new BehaviorSubject<any>({});
         this.userProfileImage = null;
         this.userPermissions = [];
+    }
+
+    RefreshSocket() {
+        this.socket && this.socket.destroy();
+        this.socket = io();
+
+        return this.socket;
+    }
+
+    Logout() {
+        deleteCookieByName("ui");
+        this.DeleteTokenFromCookie().then((result: any) => { });
+        this.ResetGlobalVariables();
     }
 
     setData(key: string, value: any) {

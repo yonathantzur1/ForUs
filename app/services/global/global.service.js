@@ -38,17 +38,22 @@ var GlobalService = /** @class */ (function (_super) {
             });
         }
     };
-    GlobalService.prototype.Logout = function () {
-        deleteCookieByName("ui");
-        this.DeleteTokenFromCookie().then(function (result) { });
-        this.ResetGlobalVariables();
-    };
     GlobalService.prototype.ResetGlobalVariables = function () {
         this.socket && this.socket.destroy();
         this.socket = null;
         this.data = new BehaviorSubject_1.BehaviorSubject({});
         this.userProfileImage = null;
         this.userPermissions = [];
+    };
+    GlobalService.prototype.RefreshSocket = function () {
+        this.socket && this.socket.destroy();
+        this.socket = io();
+        return this.socket;
+    };
+    GlobalService.prototype.Logout = function () {
+        deleteCookieByName("ui");
+        this.DeleteTokenFromCookie().then(function (result) { });
+        this.ResetGlobalVariables();
     };
     GlobalService.prototype.setData = function (key, value) {
         var currData = this.data.value;

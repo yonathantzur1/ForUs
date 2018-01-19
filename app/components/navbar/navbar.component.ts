@@ -279,6 +279,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         self.socket.on('ClientFriendAddedUpdate', function (friend: any) {
             self.authService.SetCurrUserToken().then((result: any) => {
                 if (result) {
+                    self.socket = self.globalService.RefreshSocket();
                     self.RemoveFriendRequest(friend._id, true);
                     self.user.friends.push(friend._id);
                     self.friends.push(friend);
@@ -701,6 +702,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             self.isFriendsLoading = false;
 
             if (friend) {
+                self.socket = self.globalService.RefreshSocket();
                 self.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.socket.emit("ServerAddFriend", friend);
             }
