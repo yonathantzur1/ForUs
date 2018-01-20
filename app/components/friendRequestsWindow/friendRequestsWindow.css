@@ -77,7 +77,7 @@
 }
 
 #friendRequestsWindow .friend-request-response-btn {
-    border: 1px solid #363636;
+    border: 1px solid var(--main-text-color);
     border-radius: 5px;
     font-size: 20px;
 }

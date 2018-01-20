@@ -32,7 +32,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     @Input() chatData: any;
     @Input() GetFriendById: Function;
     @Input() OpenChat: Function;
-    socket: any;
     msghInput: string;
     messages: Array<any> = [];
     isMessagesLoading: boolean;
@@ -74,7 +73,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     subscribeObj: any;
 
     constructor(private chatService: ChatService, private globalService: GlobalService) {
-        this.socket = globalService.socket;
 
         this.subscribeObj = this.globalService.data.subscribe(value => {
             if (value["chatData"]) {
@@ -170,7 +168,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     ngOnInit() {
         var self = this;
 
-        self.socket.on('GetMessage', function (msgData: any) {
+        self.globalService.SocketOn('GetMessage', function (msgData: any) {
             if (msgData.from == self.chatData.friend._id) {
                 msgData.time = new Date();
                 self.messages.push(msgData);
@@ -381,7 +379,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.isAllowShowUnreadLine = false;
 
                 this.messages.push(msgData);
-                this.socket.emit("SendMessage", msgData);
+                this.globalService.socket.emit("SendMessage", msgData);
             }
         }
     }
@@ -396,7 +394,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             this.CloseChat();
         }
         else {
-            this.socket.emit("ServerFriendTyping", this.chatData.friend._id);
+            this.globalService.socket.emit("ServerFriendTyping", this.chatData.friend._id);
         }
     }
 
@@ -550,7 +548,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             };
 
             this.messages.push(msgData);
-            this.socket.emit("SendMessage", msgData);
+            this.globalService.socket.emit("SendMessage", msgData);
         }
     }
 

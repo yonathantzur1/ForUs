@@ -17,6 +17,7 @@ export class GlobalService extends LoginService {
     // Use this property for property binding
     public data: BehaviorSubject<boolean> = new BehaviorSubject<any>({});
     public socket: any;
+    public socketOnDictionary: any = {};
     public userProfileImage: string;
     public userPermissions: Array<string> = [];
     public defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
@@ -41,11 +42,24 @@ export class GlobalService extends LoginService {
         this.userPermissions = [];
     }
 
+    // This function should be called in order to refresh
+    // the client cookies (token) that the socket object contains.
     RefreshSocket() {
         this.socket && this.socket.destroy();
         this.socket = io();
+        this.socket.emit('login');
 
-        return this.socket;
+        var self = this;
+
+        // Listen to all socket events on the new socket object.
+        Object.keys(self.socketOnDictionary).forEach((name: string) => {
+            self.socket.on(name, self.socketOnDictionary[name]);
+        });
+    }
+
+    SocketOn(name: string, func: Function) {
+        this.socketOnDictionary[name] = func;
+        this.socket.on(name, func);
     }
 
     Logout() {

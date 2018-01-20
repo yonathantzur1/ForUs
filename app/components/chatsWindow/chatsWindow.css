@@ -91,11 +91,11 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    color: #363636;
 }
 
 #chatsWindow .details-container {
     width: calc(100% - 105px);
+    color: var(--main-text-color);
 }
 
 #chatsWindow .notificaiton-sign {

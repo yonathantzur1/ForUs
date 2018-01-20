@@ -14,32 +14,30 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     @Input() friendRequests: Array<string>;
     @Input() AddFriend: Function;
     @Input() IgnoreFriendRequest: Function;
-
-    socket: any;    
+ 
     friendRequestsObjects: Array<any> = [];
     isFirstFriendRequestsObjectsLoaded: boolean = false;
     isFriendRequestsLoading: boolean = false;
 
     constructor(private navbarService: NavbarService,
         private friendRequestsWindowService: FriendRequestsWindowService,
-        private globalService: GlobalService) {
-        this.socket = globalService.socket;
+        private globalService: GlobalService) {        
     }
 
     ngOnInit() {
         var self = this;
 
-        self.socket.on('ClientUpdateFriendRequestsStatus', function (friendId: string) {
+        self.globalService.SocketOn('ClientUpdateFriendRequestsStatus', function (friendId: string) {
             self.friendRequestsObjects = self.friendRequestsObjects.filter((request: any) => {
                 return (request._id != friendId);
             });
         });
 
-        self.socket.on('GetFriendRequest', function () {
+        self.globalService.SocketOn('GetFriendRequest', function () {
             self.LoadFriendRequestsObjects();
         });
 
-        self.socket.on('DeleteFriendRequest', function (friendId: string) {
+        self.globalService.SocketOn('DeleteFriendRequest', function (friendId: string) {
             self.friendRequestsObjects = self.friendRequestsObjects.filter((request: any) => {
                 return (request._id != friendId);
             });
@@ -85,6 +83,6 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     }
 
     FriendRequestBtnClicked(friendId: string) {
-        this.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
+        this.globalService.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
     }
 }

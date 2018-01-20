@@ -68,12 +68,12 @@ var NavbarComponent = /** @class */ (function () {
         // START CONFIG VARIABLES //
         this.searchInputChangeDelay = 250; // milliseconds
         this.notificationDelay = 3800; // milliseconds
-        this.askForOnlineFriendsDelay = 30; // seconds
+        this.askForOnlineFriendsDelay = 60; // seconds
         this.chatTypingDelay = 2200; // milliseconds
         this.newFriendsLabelDelay = 4000; // milliseconds
         this.sidenavOpenAnimationTime = 400; // milliseconds
         this.sidenavWidth = "210px";
-        this.socket = this.globalService.socket;
+        ;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
             // In case isOpenProfileEditWindow is true or false
             if (value["isOpenProfileEditWindow"] != null) {
@@ -142,10 +142,10 @@ var NavbarComponent = /** @class */ (function () {
         ];
     }
     NavbarComponent.prototype.ngOnInit = function () {
-        this.socket.emit('login');
+        this.globalService.socket.emit('login');
         var self = this;
-        setInterval(function () {
-            self.socket.emit("ServerGetOnlineFriends");
+        self.askForOnlineFriendsInterval = setInterval(function () {
+            self.globalService.socket.emit("ServerGetOnlineFriends");
         }, self.askForOnlineFriendsDelay * 1000);
         self.LoadFriendsData(self.user.friends);
         // Loading user messages notifications.
@@ -157,7 +157,7 @@ var NavbarComponent = /** @class */ (function () {
         self.navbarService.GetUserFriendRequests().then(function (result) {
             self.GetToolbarItem("friendRequests").content = result.friendRequests;
         });
-        self.socket.on('GetMessage', function (msgData) {
+        self.globalService.SocketOn('GetMessage', function (msgData) {
             if (!self.chatData.isOpen || msgData.from != self.chatData.friend._id) {
                 self.AddMessageToToolbarMessages(msgData);
                 if (!self.chatData.isOpen) {
@@ -171,7 +171,7 @@ var NavbarComponent = /** @class */ (function () {
                 }
             }
         });
-        self.socket.on('ClientGetOnlineFriends', function (onlineFriendsIds) {
+        self.globalService.SocketOn('ClientGetOnlineFriends', function (onlineFriendsIds) {
             if (onlineFriendsIds.length > 0) {
                 self.friends.forEach(function (friend) {
                     if (onlineFriendsIds.indexOf(friend._id) != -1) {
@@ -180,49 +180,50 @@ var NavbarComponent = /** @class */ (function () {
                 });
             }
         });
-        self.socket.on('GetFriendConnectionStatus', function (statusObj) {
+        self.globalService.SocketOn('GetFriendConnectionStatus', function (statusObj) {
             self.friends.forEach(function (friend) {
                 if (friend._id == statusObj.friendId) {
                     friend.isOnline = statusObj.isOnline;
                 }
             });
         });
-        self.socket.on('ClientUpdateFriendRequests', function (friendRequests) {
+        self.globalService.SocketOn('ClientUpdateFriendRequests', function (friendRequests) {
             self.GetToolbarItem("friendRequests").content = friendRequests;
         });
-        self.socket.on('GetFriendRequest', function (friendId, friendFullName) {
+        self.globalService.SocketOn('GetFriendRequest', function (friendId, friendFullName) {
             var friendRequests = self.GetToolbarItem("friendRequests").content;
             friendRequests.get.push(friendId);
             self.ShowFriendRequestNotification(friendFullName);
         });
-        self.socket.on('DeleteFriendRequest', function (friendId) {
+        self.globalService.SocketOn('DeleteFriendRequest', function (friendId) {
             var friendRequests = self.GetToolbarItem("friendRequests").content;
             friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
         });
-        self.socket.on('ClientIgnoreFriendRequest', function (friendId) {
+        self.globalService.SocketOn('ClientIgnoreFriendRequest', function (friendId) {
             var friendRequests = self.GetToolbarItem("friendRequests").content;
             friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
         });
-        self.socket.on('ClientAddFriend', function (friend) {
+        self.globalService.SocketOn('ClientAddFriend', function (friend) {
             self.AddFriendObjectToUser(friend);
         });
-        self.socket.on('ClientFriendAddedUpdate', function (friend) {
+        self.globalService.SocketOn('ClientFriendAddedUpdate', function (friend) {
             self.authService.SetCurrUserToken().then(function (result) {
                 if (result) {
-                    self.socket = self.globalService.RefreshSocket();
+                    self.globalService.RefreshSocket();
                     self.RemoveFriendRequest(friend._id, true);
                     self.user.friends.push(friend._id);
                     self.friends.push(friend);
-                    self.socket.emit("ServerGetOnlineFriends");
+                    self.globalService.socket.emit("ServerGetOnlineFriends");
                 }
             });
         });
-        self.socket.on('ClientFriendTyping', function (friendId) {
+        self.globalService.SocketOn('ClientFriendTyping', function (friendId) {
             self.MakeFriendTyping(friendId);
         });
     };
     NavbarComponent.prototype.ngOnDestroy = function () {
         this.subscribeObj.unsubscribe();
+        clearInterval(this.askForOnlineFriendsInterval);
     };
     NavbarComponent.prototype.IsShowFriendFindInput = function () {
         return $(".sidenav-body-sector").hasScrollBar();
@@ -304,7 +305,7 @@ var NavbarComponent = /** @class */ (function () {
             this.navbarService.GetFriends(friendsIds).then(function (friendsResult) {
                 _this.friends = friendsResult;
                 _this.isFriendsLoading = false;
-                _this.socket.emit("ServerGetOnlineFriends");
+                _this.globalService.socket.emit("ServerGetOnlineFriends");
             });
         }
     };
@@ -476,8 +477,8 @@ var NavbarComponent = /** @class */ (function () {
         var self = this;
         self.navbarService.AddFriendRequest(friendId).then(function (result) {
             if (result) {
-                self.socket.emit("ServerUpdateFriendRequests", friendRequests);
-                self.socket.emit("SendFriendRequest", friendId);
+                self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
+                self.globalService.socket.emit("SendFriendRequest", friendId);
                 $("#remove-friend-notification").snackbar("hide");
                 $("#add-friend-notification").snackbar("show");
             }
@@ -489,8 +490,8 @@ var NavbarComponent = /** @class */ (function () {
         var self = this;
         this.navbarService.RemoveFriendRequest(friendId).then(function (result) {
             if (result) {
-                self.socket.emit("ServerUpdateFriendRequests", friendRequests);
-                self.socket.emit("RemoveFriendRequest", self.user._id, friendId);
+                self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
+                self.globalService.socket.emit("RemoveFriendRequest", self.user._id, friendId);
                 $("#add-friend-notification").snackbar("hide");
                 !isHideMessageText && $("#remove-friend-notification").snackbar("show");
             }
@@ -544,8 +545,8 @@ var NavbarComponent = /** @class */ (function () {
         }
         // Add the friend client object to the friends array.
         this.friends.push(friend);
-        this.socket.emit("ServerGetOnlineFriends");
-        this.socket.emit("ServerFriendAddedUpdate", friend._id);
+        this.globalService.socket.emit("ServerGetOnlineFriends");
+        this.globalService.socket.emit("ServerFriendAddedUpdate", friend._id);
     };
     NavbarComponent.prototype.AddFriend = function (friendId) {
         this.isFriendsLoading = true;
@@ -559,15 +560,15 @@ var NavbarComponent = /** @class */ (function () {
         self.navbarService.AddFriend(friendId).then(function (friend) {
             self.isFriendsLoading = false;
             if (friend) {
-                self.socket = self.globalService.RefreshSocket();
-                self.socket.emit("ServerUpdateFriendRequests", friendRequests);
-                self.socket.emit("ServerAddFriend", friend);
+                self.globalService.RefreshSocket();
+                self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
+                self.globalService.socket.emit("ServerAddFriend", friend);
             }
             else {
                 //  Recover the actions in case the server is fail to add the friend. 
                 friendRequests.get.push(friendId);
                 userFriends.splice(userFriends.indexOf(friendId), 1);
-                self.socket.emit("ServerUpdateFriendRequests", friendRequests);
+                self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
             }
         });
     };
@@ -578,8 +579,8 @@ var NavbarComponent = /** @class */ (function () {
         var self = this;
         this.navbarService.IgnoreFriendRequest(friendId).then(function (result) {
             if (result) {
-                self.socket.emit("ServerUpdateFriendRequests", friendRequests);
-                self.socket.emit("ServerIgnoreFriendRequest", self.user._id, friendId);
+                self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
+                self.globalService.socket.emit("ServerIgnoreFriendRequest", self.user._id, friendId);
             }
         });
     };

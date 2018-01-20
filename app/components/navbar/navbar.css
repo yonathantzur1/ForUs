@@ -83,7 +83,7 @@
 }
 
 #navbar .search-input {
-    color: #363636;
+    color: var(--main-text-color);
     padding-right: 5px;
     font-family: rubik;
     border-radius: 3px;

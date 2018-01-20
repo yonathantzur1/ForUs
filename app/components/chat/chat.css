@@ -474,7 +474,7 @@
 
 #chat .canvas-top-bar-sector {
     height: 35px;
-    border-top: 0.5px solid #363636;
+    border-top: 0.5px solid var(--main-text-color);
     position: absolute;
     bottom: 0px;
     display: flex;
@@ -493,7 +493,7 @@
 #chat .canvas-top-bar-icon {
     padding: 7px;
     cursor: pointer;
-    border-left: 0.5px solid #363636;
+    border-left: 0.5px solid var(--main-text-color);
     margin-top: 3px;
 }
 

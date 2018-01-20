@@ -18,13 +18,12 @@ var ChatsWindowComponent = /** @class */ (function () {
         this.globalService = globalService;
         this.chats = [];
         this.isRefreshActive = false;
-        this.socket = globalService.socket;
     }
     ChatsWindowComponent.prototype.ngOnInit = function () {
         var self = this;
         this.isChatsLoading = true;
         this.LoadChatsObjects();
-        self.socket.on('ClientUpdateSendMessage', function (msgData) {
+        self.globalService.SocketOn('ClientUpdateSendMessage', function (msgData) {
             var isChatUpdated = false;
             for (var i = 0; i < self.chats.length; i++) {
                 var chat = self.chats[i];
@@ -40,7 +39,7 @@ var ChatsWindowComponent = /** @class */ (function () {
                 self.LoadChatsObjects();
             }
         });
-        self.socket.on('ClientUpdateGetMessage', function (msgData) {
+        self.globalService.SocketOn('ClientUpdateGetMessage', function (msgData) {
             var isChatUpdated = false;
             for (var i = 0; i < self.chats.length; i++) {
                 var chat = self.chats[i];

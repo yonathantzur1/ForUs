@@ -10,6 +10,7 @@
     margin-right: 10%;
     -webkit-user-select: none;
     user-select: none;
+    color: var(--main-text-color);
 }
 
 #profile .modal-title-icon {
@@ -78,7 +79,7 @@
     }
 
     #profile .img-btn {
-        border: 1px solid #363636;
+        border: 1px solid var(--main-text-color);
         width: 28px;
         height: 28px;
         text-align: center;
@@ -88,6 +89,7 @@
         cursor: pointer;
         font-size: 12px;
         margin: 4px;
+        color: var(--main-text-color);
     }
 
     #profile .image-tool-bar {
@@ -149,7 +151,7 @@
     }
 
     #profile .img-btn {
-        border: 1px solid #363636;
+        border: 1px solid var(--main-text-color);
         width: 27px;
         height: 27px;
         text-align: center;
@@ -159,6 +161,7 @@
         cursor: pointer;
         font-size: 12px;
         margin: 5px;
+        color: var(--main-text-color);
     }
 
     #profile .image-tool-bar {
@@ -220,7 +223,7 @@
     }
 
     #profile .img-btn {
-        border: 1px solid #363636;
+        border: 1px solid var(--main-text-color);
         width: 30px;
         height: 30px;
         text-align: center;
@@ -231,6 +234,7 @@
         margin: 0;
         margin-right: 4px;
         font-size: 14px;
+        color: var(--main-text-color);
     }
 
     #profile .img-btn:hover {
@@ -318,7 +322,7 @@
 #profile .new-image-text {
     font-size: 16px;
     font-family: rubik;
-    color: #494a38;
+    color: var(--main-text-color);
 }
 
 #profile .img-loader {
@@ -343,7 +347,6 @@
         padding-bottom: 4px !important;
         top: 14px !important;
         font-size: 12px !important;
-        cursor: pointer !important;
     }
 }
 
@@ -358,6 +361,7 @@
     font-size: 15px;
     border-radius: 5px;
     cursor: pointer;
+    color: var(--main-text-color);
 }
 
 #profile .delete-profile-btn:hover {

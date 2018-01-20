@@ -24,6 +24,7 @@ var GlobalService = /** @class */ (function (_super) {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         // Use this property for property binding
         _this.data = new BehaviorSubject_1.BehaviorSubject({});
+        _this.socketOnDictionary = {};
         _this.userPermissions = [];
         _this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
         return _this;
@@ -45,10 +46,21 @@ var GlobalService = /** @class */ (function (_super) {
         this.userProfileImage = null;
         this.userPermissions = [];
     };
+    // This function should be called in order to refresh
+    // the client cookies (token) that the socket object contains.
     GlobalService.prototype.RefreshSocket = function () {
         this.socket && this.socket.destroy();
         this.socket = io();
-        return this.socket;
+        this.socket.emit('login');
+        var self = this;
+        // Listen to all socket events on the new socket object.
+        Object.keys(self.socketOnDictionary).forEach(function (name) {
+            self.socket.on(name, self.socketOnDictionary[name]);
+        });
+    };
+    GlobalService.prototype.SocketOn = function (name, func) {
+        this.socketOnDictionary[name] = func;
+        this.socket.on(name, func);
     };
     GlobalService.prototype.Logout = function () {
         deleteCookieByName("ui");

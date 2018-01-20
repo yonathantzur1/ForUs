@@ -32,7 +32,6 @@ var ChatComponent = /** @class */ (function () {
         this.messages = [];
         this.chatBodyScrollHeight = 0;
         this.messageNotificationDelay = 3800; // milliseconds
-        this.socket = globalService.socket;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
             if (value["chatData"]) {
                 _this.messages = [];
@@ -117,7 +116,7 @@ var ChatComponent = /** @class */ (function () {
     }
     ChatComponent.prototype.ngOnInit = function () {
         var self = this;
-        self.socket.on('GetMessage', function (msgData) {
+        self.globalService.SocketOn('GetMessage', function (msgData) {
             if (msgData.from == self.chatData.friend._id) {
                 msgData.time = new Date();
                 self.messages.push(msgData);
@@ -292,7 +291,7 @@ var ChatComponent = /** @class */ (function () {
                 this.msghInput = "";
                 this.isAllowShowUnreadLine = false;
                 this.messages.push(msgData);
-                this.socket.emit("SendMessage", msgData);
+                this.globalService.socket.emit("SendMessage", msgData);
             }
         }
     };
@@ -305,7 +304,7 @@ var ChatComponent = /** @class */ (function () {
             this.CloseChat();
         }
         else {
-            this.socket.emit("ServerFriendTyping", this.chatData.friend._id);
+            this.globalService.socket.emit("ServerFriendTyping", this.chatData.friend._id);
         }
     };
     ChatComponent.prototype.ScrollToBottom = function () {
@@ -433,7 +432,7 @@ var ChatComponent = /** @class */ (function () {
                 "time": new Date()
             };
             this.messages.push(msgData);
-            this.socket.emit("SendMessage", msgData);
+            this.globalService.socket.emit("SendMessage", msgData);
         }
     };
     ChatComponent.prototype.ShowHideCanvasTopSector = function () {

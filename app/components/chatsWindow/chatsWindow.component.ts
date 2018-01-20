@@ -17,14 +17,11 @@ export class ChatsWindowComponent implements OnInit {
     @Input() messagesNotifications: Object;
     @Input() OpenChat: Function;
 
-    socket: any;
     chats: any = [];
     isChatsLoading: boolean;
     isRefreshActive: boolean = false;
 
-    constructor(private chatsWindowService: ChatsWindowService, private globalService: GlobalService) {
-        this.socket = globalService.socket;
-    }
+    constructor(private chatsWindowService: ChatsWindowService, private globalService: GlobalService) { }
 
     ngOnInit() {
         var self = this;
@@ -32,7 +29,7 @@ export class ChatsWindowComponent implements OnInit {
 
         this.LoadChatsObjects();
 
-        self.socket.on('ClientUpdateSendMessage', function (msgData: any) {
+        self.globalService.SocketOn('ClientUpdateSendMessage', function (msgData: any) {
             var isChatUpdated = false;
 
             for (var i = 0; i < self.chats.length; i++) {
@@ -53,7 +50,7 @@ export class ChatsWindowComponent implements OnInit {
             }
         });
 
-        self.socket.on('ClientUpdateGetMessage', function (msgData: any) {
+        self.globalService.SocketOn('ClientUpdateGetMessage', function (msgData: any) {
             var isChatUpdated = false;
 
             for (var i = 0; i < self.chats.length; i++) {

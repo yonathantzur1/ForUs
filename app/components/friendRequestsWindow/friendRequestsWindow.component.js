@@ -21,19 +21,18 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         this.friendRequestsObjects = [];
         this.isFirstFriendRequestsObjectsLoaded = false;
         this.isFriendRequestsLoading = false;
-        this.socket = globalService.socket;
     }
     FriendRequestsWindowComponent.prototype.ngOnInit = function () {
         var self = this;
-        self.socket.on('ClientUpdateFriendRequestsStatus', function (friendId) {
+        self.globalService.SocketOn('ClientUpdateFriendRequestsStatus', function (friendId) {
             self.friendRequestsObjects = self.friendRequestsObjects.filter(function (request) {
                 return (request._id != friendId);
             });
         });
-        self.socket.on('GetFriendRequest', function () {
+        self.globalService.SocketOn('GetFriendRequest', function () {
             self.LoadFriendRequestsObjects();
         });
-        self.socket.on('DeleteFriendRequest', function (friendId) {
+        self.globalService.SocketOn('DeleteFriendRequest', function (friendId) {
             self.friendRequestsObjects = self.friendRequestsObjects.filter(function (request) {
                 return (request._id != friendId);
             });
@@ -75,7 +74,7 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         }
     };
     FriendRequestsWindowComponent.prototype.FriendRequestBtnClicked = function (friendId) {
-        this.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
+        this.globalService.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
     };
     __decorate([
         core_1.Input(),
