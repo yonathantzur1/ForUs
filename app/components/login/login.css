@@ -70,6 +70,7 @@
     font-family: Rubik;
     cursor: default;
     margin-right: 10%;
+    color: var(--main-text-color);
 }
 
 #login .modal-footer-buttons {
@@ -88,6 +89,7 @@
     position: absolute;
     top: 18px;
     padding-right: 10px;
+    color: var(--main-text-color);
 }
 
 #login .modal-content {
