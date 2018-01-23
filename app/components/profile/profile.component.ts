@@ -269,8 +269,8 @@ export class ProfileComponent implements OnInit {
         swal({
             html: '<span style="font-weight:bold;">למחוק את התמונה</span> <i class="fa fa-question" aria-hidden="true"></i>',
             imageUrl: this.userImage,
-            imageWidth: 150,
-            imageHeight: 150,
+            imageWidth: 80,
+            imageHeight: 80,
             animation: false,
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",

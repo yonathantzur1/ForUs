@@ -31,6 +31,5 @@ npm install core-js --save
 npm install rxjs --save
 npm install systemjs --save
 npm install zone.js --save
-npm install nodemon --save-dev
 
 npm install
