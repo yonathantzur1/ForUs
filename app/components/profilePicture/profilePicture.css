@@ -30,7 +30,7 @@
 #profilePicture .change-image-btn {
     width: 15px;
     height: 15px;
-    color: rgba(255,255,255, 0.84);
+    color: white;
     border-radius: 50%;
     position: absolute;
     top: -5px;

@@ -39,7 +39,7 @@
     margin: auto;
     position: relative;
     -webkit-user-select: none;
-    user-select: none;
+    user-select: none;    
 }
 
 #management .search-input {
@@ -48,6 +48,7 @@
     margin-right: 10px;
     padding-bottom: 0 !important;
     display: inline-block;
+    color: var(--main-text-color);
 }
 
 #management .search-user-btn {
@@ -123,8 +124,8 @@
     font-size: 22px;
     font-family: Rubik;
     font-weight: bold;
-    color: #3d3d3d;
     align-self: center;
+    color: var(--main-text-color);
 }
 
 #management .user-profile-image {
@@ -199,15 +200,13 @@
 
 #management .info-title {
     margin-bottom: 5px;
+    color: var(--main-text-color);
 }
 
 #management .info-data {
     width: 100%;
     display: inline-block;
-}
-
-#management .friends-info-td {
-    cursor: pointer;
+    color: var(--main-text-color);
 }
 
 #management .friends-info-sector {
@@ -216,7 +215,8 @@
 
 #management .friends-info-icon {
     font-size: 30px;
-    color: #4a4a4a;
+    cursor: pointer;
+    color: var(--main-text-color);
 }
 
 #management .user-settings-icon {
@@ -224,4 +224,9 @@
     top: 15px;
     position: absolute;
     cursor: pointer;
+    color: var(--main-text-color);
+}
+
+#management .open-user-card-icon {
+    color: var(--main-text-color);
 }

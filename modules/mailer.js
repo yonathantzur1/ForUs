@@ -1,13 +1,14 @@
 const nodemailer = require('nodemailer');
+const config = require('./config');
 
 // Create reusable transporter object using the default SMTP transport
-var transporter = nodemailer.createTransport('smtps://forusmailer%40gmail.com:popCorn1@smtp.gmail.com');
+var transporter = nodemailer.createTransport(config.addresses.mainConnectionString);
 
 module.exports = {
     SendMail: function (p_destMail, p_mailContent) {
         // Setup email data with unicode symbols
         var mailOptions = {
-            from: '"ForUs" <forusmailer@gmail.com>', // Sender address
+            from: "'ForUs' <" + config.addresses.mail + ">", // Sender address
             to: p_destMail, // List of receivers
             subject: p_mailContent.title, // Subject line
             html: "<div dir='rtl'>" + p_mailContent.text + "</div>" // html body
@@ -36,5 +37,13 @@ module.exports = {
         };
 
         return content;
-    }
+    },
+    GetMessageNotificationAlertContent: function (p_name) {
+        var content = {
+            title: "הודעה חדשה",
+            text: "שלום " + p_name + ", ממתינה עבורך הודעה חדשה!" + "<br>" + config.addresses.site
+        };
+
+        return content;
+    },
 };

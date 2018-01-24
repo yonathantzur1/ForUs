@@ -1,7 +1,7 @@
 <div id="profilePicture">
-    <div (click)="OpenEditWindow()" (mouseenter)="isImageHover=true;" (mouseleave)="isImageHover=false;">
+    <div (click)="OpenEditWindow()">
         <img class="profile-image" [ngClass]="{'profile-image-border': isUserHasImage}" src="{{globalService.userProfileImage || globalService.defaultProfileImage}}">
-        <div title="שינוי תמונת פרופיל" *ngIf="isEditEnable && isUserHasImage == true && (isImageHover || isTouchDevice)">
+        <div title="שינוי תמונת פרופיל" *ngIf="isEditEnable && isUserHasImage == true">
             <i class="material-icons change-image-btn">photo_camera</i>
         </div>
         <div title="הוספת תמונת פרופיל" class="add-image-btn" *ngIf="isEditEnable && isUserHasImage == false">

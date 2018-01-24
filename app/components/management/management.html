@@ -41,10 +41,10 @@
                                     <div class="info-title">אימייל:</div>
                                     <div class="info-data email-address">{{user.email}}</div>
                                 </td>
-                                <td class="friends-info-td" (click)="OpenFriendsScreen(user)">
+                                <td>
                                     <div class="friends-info-sector">
                                         <div class="info-title">
-                                            <i class="fa fa-users friends-info-icon" aria-hidden="true"></i>
+                                            <i (click)="OpenFriendsScreen(user)" class="fa fa-users friends-info-icon" aria-hidden="true"></i>
                                         </div>
                                         <div class="info-data friends-number">{{(user.friendsNumber == 1) ? 'חבר 1' : (user.friendsNumber + ' חברים')}}</div>
                                     </div>
@@ -53,7 +53,7 @@
                         </table>
                     </div>
                     <div class="user-info-btn" (click)="ShowHideUserCard(user)">
-                        <i class="material-icons">{{user.isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</i>
+                        <i class="material-icons open-user-card-icon">{{user.isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</i>
                     </div>
                 </div>
             </div>

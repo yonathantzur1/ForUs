@@ -1,5 +1,6 @@
-const DAL = require('../DAL.js');
-const general = require('../general.js');
+const DAL = require('../DAL');
+const general = require('../general');
+const mailer = require('../mailer')
 
 const usersCollectionName = "Users";
 const profileCollectionName = "Profiles";
@@ -143,24 +144,38 @@ var self = module.exports = {
         var friendIdObject = {
             "_id": DAL.GetObjectId(friendId)
         }
+        
+        // Specific fields for friend query.
+        friendSelectFields = {
+            email: 1,
+            firstName: 1,
+            messagesNotifications: 1
+        }
 
-        DAL.FindOneSpecific(usersCollectionName, friendIdObject, { "messagesNotifications": 1 }, function (result) {
-            var messagesNotifications = result.messagesNotifications;
+        DAL.FindOneSpecific(usersCollectionName, friendIdObject, friendSelectFields, function (friendObj) {
+            if (friendObj) {
+                var messagesNotifications = friendObj.messagesNotifications;
 
-            var friendMessagesNotifications = messagesNotifications ? messagesNotifications[userId] : null;
-
-            if (friendMessagesNotifications) {
-                friendMessagesNotifications.unreadMessagesNumber++;
-            }
-            else {
-                messagesNotifications = messagesNotifications ? messagesNotifications : {};
-                messagesNotifications[userId] = {
-                    "unreadMessagesNumber": 1,
-                    "firstUnreadMessageId": msgId
+                // Send email in case no notification exists
+                if (messagesNotifications && Object.keys(messagesNotifications).length == 0) {
+                    mailer.SendMail(friendObj.email, mailer.GetMessageNotificationAlertContent(friendObj.firstName));
                 }
-            }
 
-            DAL.UpdateOne(usersCollectionName, friendIdObject, { $set: { "messagesNotifications": messagesNotifications } }, function (result) { });
+                var friendMessagesNotifications = messagesNotifications ? messagesNotifications[userId] : null;
+
+                if (friendMessagesNotifications) {
+                    friendMessagesNotifications.unreadMessagesNumber++;
+                }
+                else {
+                    messagesNotifications = messagesNotifications ? messagesNotifications : {};
+                    messagesNotifications[userId] = {
+                        "unreadMessagesNumber": 1,
+                        "firstUnreadMessageId": msgId
+                    }
+                }
+
+                DAL.UpdateOne(usersCollectionName, friendIdObject, { $set: { "messagesNotifications": messagesNotifications } }, function (result) { });
+            }
         });
     },
 
