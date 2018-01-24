@@ -60,7 +60,7 @@ export class ManagementComponent {
         // Close the card in case it is open.
         else {
             user.isOpen = false;
-            user.openFriendsScreen = false;
+            user.isFriendsScreenOpen = false;
             this.isPreventFirstOpenCardAnimation = false;
         }
     }
@@ -83,12 +83,12 @@ export class ManagementComponent {
     }
 
     OpenFriendsScreen(user: any) {
-        user.openFriendsScreen = true;
+        if (!user.friendsObjects) {
+            this.managementService.GetUserFriends(user.friends).then((friends: any) => {
+                friends && (user.friendsObjects = friends);
+            });
+        }
 
-        this.managementService.GetUserFriends(user.friends).then((friends: any) => {
-            if (friends) {
-                user.friends = friends;
-            }
-        });
+        user.isFriendsScreenOpen = true;
     }
 }

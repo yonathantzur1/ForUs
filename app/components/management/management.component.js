@@ -54,7 +54,7 @@ var ManagementComponent = /** @class */ (function () {
         }
         else {
             user.isOpen = false;
-            user.openFriendsScreen = false;
+            user.isFriendsScreenOpen = false;
             this.isPreventFirstOpenCardAnimation = false;
         }
     };
@@ -70,12 +70,12 @@ var ManagementComponent = /** @class */ (function () {
         return (dateString + " - " + timeString);
     };
     ManagementComponent.prototype.OpenFriendsScreen = function (user) {
-        user.openFriendsScreen = true;
-        this.managementService.GetUserFriends(user.friends).then(function (friends) {
-            if (friends) {
-                user.friends = friends;
-            }
-        });
+        if (!user.friendsObjects) {
+            this.managementService.GetUserFriends(user.friends).then(function (friends) {
+                friends && (user.friendsObjects = friends);
+            });
+        }
+        user.isFriendsScreenOpen = true;
     };
     ManagementComponent = __decorate([
         core_1.Component({

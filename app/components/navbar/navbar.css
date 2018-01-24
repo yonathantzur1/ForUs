@@ -161,7 +161,7 @@
 }
 
 #navbar .sidenav-shadow {
-    box-shadow: -3px 0px 15px 3px #999999;   
+    box-shadow: 0px 0px 15px 5px gray;   
 }
 
 #navbar .friend-name-container {

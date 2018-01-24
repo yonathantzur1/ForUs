@@ -230,3 +230,17 @@
 #management .open-user-card-icon {
     color: var(--main-text-color);
 }
+
+#management .friends-container {
+    overflow-y: auto;
+    height: calc(100% - 30px);
+    text-align: center;
+}
+
+#management .user-friend-container {
+    width: 85px;
+    height: 85px;
+    background-color: red;
+    display: inline-block;
+    margin: 10px;
+}
