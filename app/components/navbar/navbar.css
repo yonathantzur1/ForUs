@@ -314,7 +314,7 @@
     padding-left: 3px;
     padding-right: 3px;
     padding-top: 2px;
-    left: 28px !important;
+    left: 32px !important;
     font-size: 18px !important;
 }
 
@@ -354,14 +354,6 @@
     #navbar .search-result-image-loading {
         width: 35px !important;
         height: 35px !important;
-    }
-
-    #navbar .friend-request-btn {
-        font-size: 18px !important;
-    }
-
-    #navbar .remove-request {
-        font-size: 22px !important;
     }
 
     #navbar .friend-request-confirm-icon {

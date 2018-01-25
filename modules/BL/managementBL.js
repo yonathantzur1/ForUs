@@ -135,7 +135,7 @@ module.exports = {
             }
             else {
                 friends = friends.map(friend => {
-                    friend.profileImage = (friend.profileImage.length != 0) ? friend.profileImage[0] : null;
+                    friend.profileImage = (friend.profileImage.length != 0) ? friend.profileImage[0].image : null;
 
                     return friend;
                 });

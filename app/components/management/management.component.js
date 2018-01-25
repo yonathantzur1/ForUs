@@ -70,12 +70,27 @@ var ManagementComponent = /** @class */ (function () {
         return (dateString + " - " + timeString);
     };
     ManagementComponent.prototype.OpenFriendsScreen = function (user) {
+        user.isFriendsScreenOpen = true;
         if (!user.friendsObjects) {
             this.managementService.GetUserFriends(user.friends).then(function (friends) {
-                friends && (user.friendsObjects = friends);
+                if (friends) {
+                    user.friendsObjects = friends;
+                }
             });
         }
-        user.isFriendsScreenOpen = true;
+    };
+    // Calculate align friends elements to center of screen.
+    ManagementComponent.prototype.CalculateFriendsElementsPadding = function () {
+        var friendElementSpace = 85 + 5 + 5; // width: 85 + margin (left and right): 5 + 5
+        var containerWidth = $("#friends-container")[0].clientWidth;
+        var maxElementsOnRow = friendElementSpace;
+        var counter = 0;
+        while (maxElementsOnRow < containerWidth) {
+            counter++;
+            maxElementsOnRow += friendElementSpace;
+        }
+        var freeWidthSpace = containerWidth - (counter * friendElementSpace);
+        return (freeWidthSpace / 2);
     };
     ManagementComponent = __decorate([
         core_1.Component({

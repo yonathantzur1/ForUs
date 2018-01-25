@@ -1,6 +1,8 @@
-const profilePictureBL = require('../BL/profilePictureBL.js');
+const loginBL = require('../BL/loginBL');
+const profilePictureBL = require('../BL/profilePictureBL');
 const config = require('../config');
 const general = require('../general');
+const mailer = require('../mailer');
 const jwt = require('jsonwebtoken');
 
 module.exports = function (io, socket, socketsDictionary, connectedUsers) {
@@ -24,9 +26,21 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
         var token = general.DecodeToken(general.GetTokenFromSocket(socket));
 
         if (token) {
-            var user = token.user;
-            var userFullName = user.firstName + " " + user.lastName;
-            io.to(friendId).emit('GetFriendRequest', user._id, userFullName);
+            // In case the friend is online.
+            if (connectedUsers[friendId]) {
+                var user = token.user;
+                var userFullName = user.firstName + " " + user.lastName;
+                io.to(friendId).emit('GetFriendRequest', user._id, userFullName);
+            }
+            else {
+                loginBL.GetUserById(friendId, function (friendObj) {
+                    // In case this is the only friend request of the friend in the DB.
+                    if (friendObj && friendObj.friendRequests.get.length == 1) {
+                        mailer.SendMail(friendObj.email,
+                            mailer.GetFriendRequestAlertContent(friendObj.firstName));
+                    }
+                })
+            }
         }
     });
 

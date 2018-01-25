@@ -46,4 +46,12 @@ module.exports = {
 
         return content;
     },
+    GetFriendRequestAlertContent: function (p_name) {
+        var content = {
+            title: "בקשת חברות",
+            text: "שלום " + p_name + ", בקשת חברות חדשה הגיעה :)" + "<br>" + config.addresses.site
+        };
+
+        return content;
+    }
 };

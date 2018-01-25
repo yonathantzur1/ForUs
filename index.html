@@ -1,82 +1,84 @@
 <html dir="rtl">
 
-    <head>
-        <base href="/">
-        <title>ForUs</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <link rel="icon" href="logo/icon.png">
+<head>
+    <base href="/">
+    <title>ForUs</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="icon" href="logo/icon.png">
 
-        <!-- START application css import -->
-        <link rel="stylesheet" href="./app/components/app/app.css">
-        <link rel="stylesheet" href="./app/components/login/login.css">
-        <link rel="stylesheet" href="./app/components/navbar/navbar.css">
-        <link rel="stylesheet" href="./app/components/dropMenu/dropMenu.css">
-        <link rel="stylesheet" href="./app/components/profile/profile.css">
-        <link rel="stylesheet" href="./app/components/profilePicture/profilePicture.css">
-        <link rel="stylesheet" href="./app/components/home/home.css">
-        <link rel="stylesheet" href="./app/components/chat/chat.css">
-        <link rel="stylesheet" href="./app/components/chatsWindow/chatsWindow.css">
-        <link rel="stylesheet" href="./app/components/friendRequestsWindow/friendRequestsWindow.css">
-        <link rel="stylesheet" href="./app/components/management/management.css">
-        <!-- END application css import -->
+    <!-- START application css import -->
+    <link rel="stylesheet" href="./app/components/app/app.css">
+    <link rel="stylesheet" href="./app/components/login/login.css">
+    <link rel="stylesheet" href="./app/components/navbar/navbar.css">
+    <link rel="stylesheet" href="./app/components/dropMenu/dropMenu.css">
+    <link rel="stylesheet" href="./app/components/profile/profile.css">
+    <link rel="stylesheet" href="./app/components/profilePicture/profilePicture.css">
+    <link rel="stylesheet" href="./app/components/home/home.css">
+    <link rel="stylesheet" href="./app/components/chat/chat.css">
+    <link rel="stylesheet" href="./app/components/chatsWindow/chatsWindow.css">
+    <link rel="stylesheet" href="./app/components/friendRequestsWindow/friendRequestsWindow.css">
+    <link rel="stylesheet" href="./app/components/management/management.css">
+    <!-- END application css import -->
 
-        <!-- START fonts import -->
-        <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
-        <!-- END fonts import -->
+    <!-- START fonts import -->
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+    <!-- END fonts import -->
 
-        <!-- START libraries css -->
-        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="node_modules/bootstrap-material-design/dist/css/bootstrap-material-design.css">
-        <link rel="stylesheet" href="node_modules/bootstrap-material-design/dist/css/ripples.min.css">
-        <link rel="stylesheet" href="node_modules/cropper/dist/cropper.css">
-        <link rel="stylesheet" href="node_modules/snackbarjs/dist/snackbar.min.css">
-        <link rel="stylesheet" href="node_modules/snackbarjs/themes-css/material.css">
-        <!-- END libraries css -->
+    <!-- START libraries css -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-material-design/dist/css/bootstrap-material-design.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-material-design/dist/css/ripples.min.css">
+    <link rel="stylesheet" href="node_modules/cropper/dist/cropper.css">
+    <link rel="stylesheet" href="node_modules/snackbarjs/dist/snackbar.min.css">
+    <link rel="stylesheet" href="node_modules/snackbarjs/themes-css/material.css">
+    <!-- END libraries css -->
 
-        <script src="node_modules/jquery/dist/jquery.min.js"></script>
-        <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
-        <script src="node_modules/cropper/dist/cropper.js"></script>
-        <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="node_modules/snackbarjs/dist/snackbar.min.js"></script>
-        <script src="node_modules/bootstrap-material-design/dist/js/material.min.js"></script>
-        <script src="node_modules/bootstrap-material-design/dist/js/ripples.min.js"></script>
-        <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
-        <script src="node_modules/blueimp-load-image/js/load-image.all.min.js"></script>
-        <script src="./app/utils.js"></script>
-        <script src="./app/cooikesManagement.js"></script>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
+    <script src="node_modules/cropper/dist/cropper.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="node_modules/snackbarjs/dist/snackbar.min.js"></script>
+    <script src="node_modules/bootstrap-material-design/dist/js/material.min.js"></script>
+    <script src="node_modules/bootstrap-material-design/dist/js/ripples.min.js"></script>
+    <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <script src="node_modules/blueimp-load-image/js/load-image.all.min.js"></script>
+    <script src="./app/utils.js"></script>
+    <script src="./app/cooikesManagement.js"></script>
 
-        <!-- 1. Load libraries -->
-        <!-- Polyfill(s) for older browsers -->
-        <script src="node_modules/core-js/client/shim.min.js"></script>
-        <script src="node_modules/zone.js/dist/zone.js"></script>
-        <script src="node_modules/systemjs/dist/system.src.js"></script>
-        <!-- 2. Configure SystemJS -->
-        <script src="systemjs.config.js"></script>
-        <script>
-            $(document).ready(function () {
-                $(function () {
-                    $.material.init();
-                });
-
-                System.import('./app/main.js').catch(function (err) { console.error(err); });
+    <!-- 1. Load libraries -->
+    <!-- Polyfill(s) for older browsers -->
+    <script src="node_modules/core-js/client/shim.min.js"></script>
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+    <!-- 2. Configure SystemJS -->
+    <script src="systemjs.config.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                $.material.init();
             });
-        </script>
-    </head>
+        });
 
-    <body>
-        <app>
-            <div class="main-loader-align">
-                <img src="./logo/icon.png" class="main-loading-image">
-                <span class="main-loading">
-                    <p class="load-icon">
-                        <i class="fa fa-circle" aria-hidden="true"></i>
-                        <i class="fa fa-circle" aria-hidden="true"></i>
-                        <i class="fa fa-circle" aria-hidden="true"></i>
-                    </p>
-                </span>
-            </div>
-        </app>
-    </body>
+        $(window).on('load', function () {
+            System.import('./app/main.js').catch(function (err) { console.error(err); });
+        });
+    </script>
+</head>
+
+<body>
+    <app>
+        <div class="main-loader-align">
+            <img src="./logo/icon.png" class="main-loading-image">
+            <span class="main-loading">
+                <p class="load-icon">
+                    <i class="fa fa-circle" aria-hidden="true"></i>
+                    <i class="fa fa-circle" aria-hidden="true"></i>
+                    <i class="fa fa-circle" aria-hidden="true"></i>
+                </p>
+            </span>
+        </div>
+    </app>
+</body>
 
 </html>

@@ -59,9 +59,10 @@
                                     <i class="fa fa-circle" aria-hidden="true"></i>
                                 </p>
                             </div>
-                            <div class="friends-container" *ngIf="user.friendsObjects">
-                                <div class="user-friend-container" *ngFor="let friends of user.friendsObjects">
-
+                            <div id="friends-container" class="friends-container" *ngIf="user.friendsObjects" [ngStyle]="{'padding-right': CalculateFriendsElementsPadding()}">
+                                <div class="user-friend-container" *ngFor="let friend of user.friendsObjects">
+                                    <img class="friend-profile-image" src="{{friend.profileImage || friend.defaultProfileImage}}">
+                                    <div class="friend-name">{{friend.fullName}}</div>
                                 </div>
                             </div>
                         </div>
