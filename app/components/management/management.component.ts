@@ -14,6 +14,7 @@ export class ManagementComponent {
     isPreventFirstOpenCardAnimation: boolean;
     searchInput: string;
     users: Array<any> = [];
+    friendsCache: Object = {};
 
     // Animation properties    
     openCardAnimationTime: number = 200;
@@ -29,6 +30,9 @@ export class ManagementComponent {
 
                 if (results != null) {
                     this.users = results;
+
+                    // Empty old result friends cache.
+                    this.friendsCache = {};
 
                     // Open user card in case only one result found.
                     if (this.users.length == 1) {
@@ -86,12 +90,37 @@ export class ManagementComponent {
         user.isFriendsScreenOpen = true;
 
         if (!user.friendsObjects) {
-            this.managementService.GetUserFriends(user.friends).then((friends: any) => {
+            var friendsObjectsOnCache: Array<any> = [];
+
+            this.managementService.GetUserFriends(this.GetNoneCachedFriendsIds(user.friends, friendsObjectsOnCache)).then((friends: any) => {
                 if (friends) {
-                    user.friendsObjects = friends;
+                    friends.forEach((friend: any) => {
+                        this.friendsCache[friend._id] = friend;
+                    });
+
+                    user.friendsObjects = friends.concat(friendsObjectsOnCache);
                 }
             });
         }
+    }
+
+    CloseFriendsScreen(user: any) {
+        user.isFriendsScreenOpen = false;
+    }
+
+    GetNoneCachedFriendsIds(friendsIds: Array<string>, friendsObjectsOnCache: Array<any>): Array<string> {
+        var self = this;
+
+        return friendsIds.filter(id => {
+            if (self.friendsCache[id]) {
+                friendsObjectsOnCache.push(self.friendsCache[id]);
+
+                return false;
+            }
+            else {
+                return true;
+            }
+        });
     }
 
     // Calculate align friends elements to center of screen.

@@ -3,6 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
+// Pipes import
+import { SortObjects } from './pipes/sort/sort.pipe';
+
 // Components import
 import { AppComponent } from './components/app/app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -46,7 +49,8 @@ import { GlobalService } from './services/global/global.service';
     ChatComponent,
     ChatsWindowComponent,
     FriendRequestsWindowComponent,
-    ManagementComponent
+    ManagementComponent,
+    SortObjects
   ],
   providers: [
     AuthGuard,

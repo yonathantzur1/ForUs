@@ -17,6 +17,7 @@ var ManagementComponent = /** @class */ (function () {
         this.globalService = globalService;
         this.managementService = managementService;
         this.users = [];
+        this.friendsCache = {};
         // Animation properties    
         this.openCardAnimationTime = 200;
     }
@@ -28,6 +29,8 @@ var ManagementComponent = /** @class */ (function () {
                 _this.isLoadingUsers = false;
                 if (results != null) {
                     _this.users = results;
+                    // Empty old result friends cache.
+                    _this.friendsCache = {};
                     // Open user card in case only one result found.
                     if (_this.users.length == 1) {
                         _this.users[0].isOpen = true;
@@ -70,14 +73,34 @@ var ManagementComponent = /** @class */ (function () {
         return (dateString + " - " + timeString);
     };
     ManagementComponent.prototype.OpenFriendsScreen = function (user) {
+        var _this = this;
         user.isFriendsScreenOpen = true;
         if (!user.friendsObjects) {
-            this.managementService.GetUserFriends(user.friends).then(function (friends) {
+            var friendsObjectsOnCache = [];
+            this.managementService.GetUserFriends(this.GetNoneCachedFriendsIds(user.friends, friendsObjectsOnCache)).then(function (friends) {
                 if (friends) {
-                    user.friendsObjects = friends;
+                    friends.forEach(function (friend) {
+                        _this.friendsCache[friend._id] = friend;
+                    });
+                    user.friendsObjects = friends.concat(friendsObjectsOnCache);
                 }
             });
         }
+    };
+    ManagementComponent.prototype.CloseFriendsScreen = function (user) {
+        user.isFriendsScreenOpen = false;
+    };
+    ManagementComponent.prototype.GetNoneCachedFriendsIds = function (friendsIds, friendsObjectsOnCache) {
+        var self = this;
+        return friendsIds.filter(function (id) {
+            if (self.friendsCache[id]) {
+                friendsObjectsOnCache.push(self.friendsCache[id]);
+                return false;
+            }
+            else {
+                return true;
+            }
+        });
     };
     // Calculate align friends elements to center of screen.
     ManagementComponent.prototype.CalculateFriendsElementsPadding = function () {

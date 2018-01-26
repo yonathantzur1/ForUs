@@ -10,6 +10,8 @@ var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var forms_1 = require("@angular/forms");
 var http_1 = require("@angular/common/http");
+// Pipes import
+var sort_pipe_1 = require("./pipes/sort/sort.pipe");
 // Components import
 var app_component_1 = require("./components/app/app.component");
 var login_component_1 = require("./components/login/login.component");
@@ -52,7 +54,8 @@ var AppModule = /** @class */ (function () {
                 chat_component_1.ChatComponent,
                 chatsWindow_component_1.ChatsWindowComponent,
                 friendRequestsWindow_component_1.FriendRequestsWindowComponent,
-                management_component_1.ManagementComponent
+                management_component_1.ManagementComponent,
+                sort_pipe_1.SortObjects
             ],
             providers: [
                 auth_guard_1.AuthGuard,

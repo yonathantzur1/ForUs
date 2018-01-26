@@ -228,6 +228,14 @@
     color: var(--main-text-color);
 }
 
+#management .user-card-back-icon {
+    right: 18px;
+    top: 15px;
+    position: absolute;
+    cursor: pointer;
+    color: var(--main-text-color);
+}
+
 #management .open-user-card-icon {
     color: var(--main-text-color);
 }
