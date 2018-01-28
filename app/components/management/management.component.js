@@ -75,14 +75,13 @@ var ManagementComponent = /** @class */ (function () {
     ManagementComponent.prototype.OpenFriendsScreen = function (user) {
         var _this = this;
         user.isFriendsScreenOpen = true;
-        if (!user.friendsObjects) {
-            var friendsObjectsOnCache = [];
-            this.managementService.GetUserFriends(this.GetNoneCachedFriendsIds(user.friends, friendsObjectsOnCache)).then(function (friends) {
+        if (!user.isFriendsObjectsLoaded) {
+            this.managementService.GetUserFriends(this.GetNoneCachedFriendsIds(user.friends)).then(function (friends) {
                 if (friends) {
                     friends.forEach(function (friend) {
                         _this.friendsCache[friend._id] = friend;
                     });
-                    user.friendsObjects = friends.concat(friendsObjectsOnCache);
+                    user.isFriendsObjectsLoaded = true;
                 }
             });
         }
@@ -90,16 +89,16 @@ var ManagementComponent = /** @class */ (function () {
     ManagementComponent.prototype.CloseFriendsScreen = function (user) {
         user.isFriendsScreenOpen = false;
     };
-    ManagementComponent.prototype.GetNoneCachedFriendsIds = function (friendsIds, friendsObjectsOnCache) {
+    ManagementComponent.prototype.GetNoneCachedFriendsIds = function (friendsIds) {
         var self = this;
         return friendsIds.filter(function (id) {
-            if (self.friendsCache[id]) {
-                friendsObjectsOnCache.push(self.friendsCache[id]);
-                return false;
-            }
-            else {
-                return true;
-            }
+            return (self.friendsCache[id] == null);
+        });
+    };
+    ManagementComponent.prototype.GetFriendsObjectsFromIds = function (friendsIds) {
+        var self = this;
+        return friendsIds.map(function (id) {
+            return self.friendsCache[id];
         });
     };
     // Calculate align friends elements to center of screen.

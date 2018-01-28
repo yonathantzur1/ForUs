@@ -89,16 +89,14 @@ export class ManagementComponent {
     OpenFriendsScreen(user: any) {
         user.isFriendsScreenOpen = true;
 
-        if (!user.friendsObjects) {
-            var friendsObjectsOnCache: Array<any> = [];
-
-            this.managementService.GetUserFriends(this.GetNoneCachedFriendsIds(user.friends, friendsObjectsOnCache)).then((friends: any) => {
+        if (!user.isFriendsObjectsLoaded) {
+            this.managementService.GetUserFriends(this.GetNoneCachedFriendsIds(user.friends)).then((friends: any) => {
                 if (friends) {
                     friends.forEach((friend: any) => {
                         this.friendsCache[friend._id] = friend;
                     });
 
-                    user.friendsObjects = friends.concat(friendsObjectsOnCache);
+                    user.isFriendsObjectsLoaded = true;
                 }
             });
         }
@@ -108,18 +106,19 @@ export class ManagementComponent {
         user.isFriendsScreenOpen = false;
     }
 
-    GetNoneCachedFriendsIds(friendsIds: Array<string>, friendsObjectsOnCache: Array<any>): Array<string> {
+    GetNoneCachedFriendsIds(friendsIds: Array<string>): Array<string> {
         var self = this;
 
         return friendsIds.filter(id => {
-            if (self.friendsCache[id]) {
-                friendsObjectsOnCache.push(self.friendsCache[id]);
+            return (self.friendsCache[id] == null);
+        });
+    }
 
-                return false;
-            }
-            else {
-                return true;
-            }
+    GetFriendsObjectsFromIds(friendsIds: Array<string>) {
+        var self = this;
+
+        return friendsIds.map(id => {
+            return self.friendsCache[id];
         });
     }
 

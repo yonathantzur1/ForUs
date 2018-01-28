@@ -12,8 +12,8 @@ var SortObjects = /** @class */ (function () {
     }
     SortObjects.prototype.transform = function (arr, property) {
         return arr.sort(function (a, b) {
-            var aValue = a[property];
-            var bValue = b[property];
+            var aValue = property ? a[property] : a;
+            var bValue = property ? b[property] : b;
             if (aValue < bValue) {
                 return -1;
             }
