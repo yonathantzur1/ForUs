@@ -11,7 +11,7 @@ module.exports = {
     },
     jwt: {
         secret: "pingpong",
-        options: { expiresIn: '48h' }
+        options: { expiresIn: '90d' }
     },
     encrypt: {
         secret: "zigzag",
@@ -25,6 +25,6 @@ module.exports = {
     token: {
         cookieName: "tk",
         userIdCookieName: "ui",
-        maxAge: 172800000 // (48 * 60 * 60 * 1000) - 2 days
+        maxAge: 7776000000 // (90 * 24 * 60 * 60 * 1000) - 90 days
     }
 };

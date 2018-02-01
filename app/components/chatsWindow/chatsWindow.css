@@ -123,10 +123,3 @@
 #chatsWindow #chats-loader .loader {
     background-color: transparent !important;
 }
-
-/* Css design for small screens. */
-@media (max-width: 800px) {
-    #chatsWindow .chat-name {
-        font-size: 12px !important;
-    }
-}
