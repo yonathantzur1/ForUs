@@ -90,15 +90,20 @@ export class ManagementComponent {
         user.isFriendsScreenOpen = true;
 
         if (!user.isFriendsObjectsLoaded) {
-            this.managementService.GetUserFriends(this.GetNoneCachedFriendsIds(user.friends)).then((friends: any) => {
-                if (friends) {
-                    friends.forEach((friend: any) => {
+            var noneCachedFriendsIds = this.GetNoneCachedFriendsIds(user.friends);
+
+            if (noneCachedFriendsIds.length > 0) {
+                this.managementService.GetUserFriends(noneCachedFriendsIds).then((friends: any) => {
+                    friends && friends.forEach((friend: any) => {
                         this.friendsCache[friend._id] = friend;
                     });
 
                     user.isFriendsObjectsLoaded = true;
-                }
-            });
+                });
+            }
+            else {
+                user.isFriendsObjectsLoaded = true;
+            }
         }
     }
 

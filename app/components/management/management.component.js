@@ -76,14 +76,18 @@ var ManagementComponent = /** @class */ (function () {
         var _this = this;
         user.isFriendsScreenOpen = true;
         if (!user.isFriendsObjectsLoaded) {
-            this.managementService.GetUserFriends(this.GetNoneCachedFriendsIds(user.friends)).then(function (friends) {
-                if (friends) {
-                    friends.forEach(function (friend) {
+            var noneCachedFriendsIds = this.GetNoneCachedFriendsIds(user.friends);
+            if (noneCachedFriendsIds.length > 0) {
+                this.managementService.GetUserFriends(noneCachedFriendsIds).then(function (friends) {
+                    friends && friends.forEach(function (friend) {
                         _this.friendsCache[friend._id] = friend;
                     });
                     user.isFriendsObjectsLoaded = true;
-                }
-            });
+                });
+            }
+            else {
+                user.isFriendsObjectsLoaded = true;
+            }
         }
     };
     ManagementComponent.prototype.CloseFriendsScreen = function (user) {
