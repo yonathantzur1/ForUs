@@ -1,0 +1,24 @@
+<div id="alert">
+    <div class="background-container">
+        <div class="box-container">
+            <div class="title">
+                {{alertService.title}}
+            </div>
+            <div class="body">
+                <div class="alert-text" *ngIf="alertService.text">{{alertService.text}}</div>
+                <div class="alert-img-container" *ngIf="alertService.image">
+                    <img class="alert-img" src="{{alertService.image}}">
+                </div>
+            </div>
+            <div class="btns-sector">
+                <div class="alert-btn confirm-btn" (click)="ConfirmClick()">
+                    <span *ngIf="!alertService.isLoading">{{alertService.confirmBtnText}}</span>
+                    <div class="loader mini-loader alert-loader" *ngIf="alertService.isLoading">
+                        <div class="loader-spinner mini-loader-spinner"></div>
+                    </div>
+                </div>
+                <div class="alert-btn close-btn" *ngIf="alertService.showCancelButton" (click)="CloseClick()">{{alertService.closeBtnText}}</div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,108 @@
+#alert .background-container {
+    position: fixed;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: 1001;
+}
+
+#alert .box-container {
+    position: relative;
+    background-color: #ededed;
+    color: var(--main-text-color);
+    width: calc(100% - 30px);
+    max-width: 500px;
+    min-height: 190px;
+    margin: auto;
+    bottom: 40px;
+    border-radius: 8px;
+    font-family: Rubik;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#alert .title {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 24px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding-right: 20px;
+    border-bottom: 0.5px solid #b8b8b8;
+}
+
+#alert .body {    
+    width: 100%;
+    min-height: 70px;
+    text-align: right;
+    font-size: 18px;
+    padding-top: 10px;
+    display: flex;
+}
+
+#alert .btns-sector {    
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: flex-end;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+#alert .alert-btn {
+    width: 80px;
+    height: 45px;
+    color: white;
+    margin-left: 10px;
+    align-self: center;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#alert .confirm-btn {
+    background-color: #3085d6;
+}
+
+#alert .confirm-btn:hover {
+    background-color: #2c79c3;
+}
+
+#alert .close-btn {
+    background-color: #b4b4b4;
+}
+
+#alert .close-btn:hover {
+    background-color: #a4a4a4;
+}
+
+#alert .alert-text {
+    overflow-y: auto;
+    width: 100%;    
+    padding-right: 20px;
+}
+
+#alert .alert-img-container {
+    width: 100%;    
+    display: flex;
+}
+
+#alert .alert-img {
+    width: 120px;
+    height: 120px;
+    margin: auto;
+    border-radius: 10px;
+}
+
+#alert .alert-loader {
+    position: relative;
+}

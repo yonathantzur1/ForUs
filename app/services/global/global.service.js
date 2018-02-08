@@ -14,10 +14,10 @@ require("rxjs/add/operator/share");
 require("rxjs/add/operator/startWith");
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 var login_service_1 = require("../login/login.service");
-var PERMISSIONS;
-(function (PERMISSIONS) {
-    PERMISSIONS["ADMIN"] = "admin";
-})(PERMISSIONS = exports.PERMISSIONS || (exports.PERMISSIONS = {}));
+var PERMISSION;
+(function (PERMISSION) {
+    PERMISSION["ADMIN"] = "admin";
+})(PERMISSION = exports.PERMISSION || (exports.PERMISSION = {}));
 var GlobalService = /** @class */ (function (_super) {
     __extends(GlobalService, _super);
     function GlobalService() {

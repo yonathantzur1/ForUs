@@ -8,7 +8,7 @@ import { LoginService } from '../login/login.service';
 declare var io: any;
 declare function deleteCookieByName(name: string): void;
 
-export enum PERMISSIONS {
+export enum PERMISSION {
     ADMIN = "admin"
 }
 

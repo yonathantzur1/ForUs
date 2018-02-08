@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import './jsProfileFunctions.js';
 
 import { GlobalService } from '../../services/global/global.service';
+import { AlertService } from '../../services/alert/alert.service';
 import { ProfileService } from '../../services/profile/profile.service';
 
-declare var swal: any;
 declare function UploadPhoto(options: Object): boolean;
 declare function GetCroppedBase64Image(): any;
 
@@ -22,7 +22,7 @@ export class ProfileComponent implements OnInit {
     userImage: string;
     isNewPhoto: boolean = true;
 
-    constructor(private profileService: ProfileService, private globalService: GlobalService) { }
+    constructor(private profileService: ProfileService, private alertService: AlertService, private globalService: GlobalService) { }
 
     options = {
         aspectRatio: 1 / 1,
@@ -243,15 +243,15 @@ export class ProfileComponent implements OnInit {
 
                         self.globalService.setData("newUploadedImage", imgBase64);
 
-                        swal({
-                            html: '<span style="font-weight:bold;">התמונה הוחלפה בהצלחה</span> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
-                            imageUrl: imgBase64,
-                            imageWidth: 150,
-                            imageHeight: 150,
-                            animation: false,
-                            confirmButtonText: "אוקיי"
-                        }).then(function () {
-                            self.CloseWindow();
+                        self.alertService.Alert({
+                            title: "התמונה הוחלפה בהצלחה",
+                            image: imgBase64,
+                            showCancelButton: false,
+                            type: "info",
+                            confirmBtnText: "אוקיי",
+                            confirmFunc: function () {
+                                self.CloseWindow();
+                            }
                         });
                     }
                 });
@@ -266,38 +266,20 @@ export class ProfileComponent implements OnInit {
 
         var self = this;
 
-        swal({
-            html: '<span style="font-weight:bold;">למחוק את התמונה</span> <i class="fa fa-question" aria-hidden="true"></i>',
-            imageUrl: this.userImage,
-            imageWidth: 80,
-            imageHeight: 80,
-            animation: false,
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "כן",
-            cancelButtonText: "לא",
-            showLoaderOnConfirm: true,
-            allowOutsideClick: false,
-            preConfirm: function (): any {
+        this.alertService.Alert({
+            title: "למחוק את התמונה?",
+            image: this.userImage,
+            type: "warning",
+            preConfirm: function () {
                 return self.profileService.DeleteImage();
-            }
-        }).then(function (result: any) {
-            if (result) {
-                if (result.value) {
-                    self.globalService.setData("isImageDeleted", true);
-
-                    swal({
-                        html: '<span style="font-weight:bold;">התמונה נמחקה בהצלחה</span> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
-                        type: "success",
-                        confirmButtonText: "אוקיי"
-                    }).then(function () {
-                        self.CloseWindow();
-                    });
-                }
-                else if (result.dismiss) {
-                    $("#profile-modal").removeClass("fade");
-                    $("#profile-modal").modal("show");
-                }
+            },
+            confirmFunc: function () {
+                self.globalService.setData("isImageDeleted", true);
+                self.CloseWindow();
+            },
+            closeFunc: function () {
+                $("#profile-modal").removeClass("fade");
+                $("#profile-modal").modal("show");
             }
         });
     }

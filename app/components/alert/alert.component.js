@@ -11,18 +11,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var alert_service_1 = require("../../services/alert/alert.service");
-var AppComponent = /** @class */ (function () {
-    function AppComponent(alertService) {
+var AlertComponent = /** @class */ (function () {
+    function AlertComponent(alertService) {
         this.alertService = alertService;
     }
-    AppComponent = __decorate([
+    AlertComponent.prototype.ConfirmClick = function () {
+        this.alertService.Confirm();
+    };
+    AlertComponent.prototype.CloseClick = function () {
+        this.alertService.Close();
+    };
+    AlertComponent = __decorate([
         core_1.Component({
-            selector: 'app',
-            templateUrl: './main.html'
+            selector: 'alert',
+            templateUrl: './alert.html',
+            providers: []
         }),
         __metadata("design:paramtypes", [alert_service_1.AlertService])
-    ], AppComponent);
-    return AppComponent;
+    ], AlertComponent);
+    return AlertComponent;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.AlertComponent = AlertComponent;
+//# sourceMappingURL=alert.component.js.map

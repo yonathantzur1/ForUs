@@ -12,10 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 require("./jsProfileFunctions.js");
 var global_service_1 = require("../../services/global/global.service");
+var alert_service_1 = require("../../services/alert/alert.service");
 var profile_service_1 = require("../../services/profile/profile.service");
 var ProfileComponent = /** @class */ (function () {
-    function ProfileComponent(profileService, globalService) {
+    function ProfileComponent(profileService, alertService, globalService) {
         this.profileService = profileService;
+        this.alertService = alertService;
         this.globalService = globalService;
         this.isLoading = false;
         this.isNewPhoto = true;
@@ -217,15 +219,15 @@ var ProfileComponent = /** @class */ (function () {
                         $("#profile-modal").removeClass("fade");
                         $("#profile-modal").modal("hide");
                         self.globalService.setData("newUploadedImage", imgBase64);
-                        swal({
-                            html: '<span style="font-weight:bold;">התמונה הוחלפה בהצלחה</span> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
-                            imageUrl: imgBase64,
-                            imageWidth: 150,
-                            imageHeight: 150,
-                            animation: false,
-                            confirmButtonText: "אוקיי"
-                        }).then(function () {
-                            self.CloseWindow();
+                        self.alertService.Alert({
+                            title: "התמונה הוחלפה בהצלחה",
+                            image: imgBase64,
+                            showCancelButton: false,
+                            type: "info",
+                            confirmBtnText: "אוקיי",
+                            confirmFunc: function () {
+                                self.CloseWindow();
+                            }
                         });
                     }
                 });
@@ -238,37 +240,20 @@ var ProfileComponent = /** @class */ (function () {
         $("#profile-modal").removeClass("fade");
         $("#profile-modal").modal("hide");
         var self = this;
-        swal({
-            html: '<span style="font-weight:bold;">למחוק את התמונה</span> <i class="fa fa-question" aria-hidden="true"></i>',
-            imageUrl: this.userImage,
-            imageWidth: 80,
-            imageHeight: 80,
-            animation: false,
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "כן",
-            cancelButtonText: "לא",
-            showLoaderOnConfirm: true,
-            allowOutsideClick: false,
+        this.alertService.Alert({
+            title: "למחוק את התמונה?",
+            image: this.userImage,
+            type: "warning",
             preConfirm: function () {
                 return self.profileService.DeleteImage();
-            }
-        }).then(function (result) {
-            if (result) {
-                if (result.value) {
-                    self.globalService.setData("isImageDeleted", true);
-                    swal({
-                        html: '<span style="font-weight:bold;">התמונה נמחקה בהצלחה</span> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
-                        type: "success",
-                        confirmButtonText: "אוקיי"
-                    }).then(function () {
-                        self.CloseWindow();
-                    });
-                }
-                else if (result.dismiss) {
-                    $("#profile-modal").removeClass("fade");
-                    $("#profile-modal").modal("show");
-                }
+            },
+            confirmFunc: function () {
+                self.globalService.setData("isImageDeleted", true);
+                self.CloseWindow();
+            },
+            closeFunc: function () {
+                $("#profile-modal").removeClass("fade");
+                $("#profile-modal").modal("show");
             }
         });
     };
@@ -278,7 +263,7 @@ var ProfileComponent = /** @class */ (function () {
             templateUrl: './profile.html',
             providers: [profile_service_1.ProfileService]
         }),
-        __metadata("design:paramtypes", [profile_service_1.ProfileService, global_service_1.GlobalService])
+        __metadata("design:paramtypes", [profile_service_1.ProfileService, alert_service_1.AlertService, global_service_1.GlobalService])
     ], ProfileComponent);
     return ProfileComponent;
 }());

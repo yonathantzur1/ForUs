@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { GlobalService, PERMISSIONS } from '../../services/global/global.service';
+import { GlobalService, PERMISSION } from '../../services/global/global.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { NavbarService } from '../../services/navbar/navbar.service';
 
@@ -180,7 +180,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
         self.dropMenuDataList = [
             new DropMenuData("/management", "ניהול", null, function () {
-                return (self.globalService.userPermissions.indexOf(PERMISSIONS.ADMIN) != -1);
+                return (self.globalService.userPermissions.indexOf(PERMISSION.ADMIN) != -1);
             }),
             new DropMenuData("#", "הגדרות", null),
             new DropMenuData("/login", "התנתקות", function (link: string) {

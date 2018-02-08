@@ -6,21 +6,25 @@ module.exports = function (app) {
 
     // Checking if the session of the user is open.
     app.get(prefix + '/isUserOnSession', function (req, res) {
-        loginBL.GetUserById(req.user._id, function (user) {
-            if (user) {
-                general.SetTokenOnCookie(general.GetTokenFromUserObject(user), res);
-                res.send(true);
-            }
-            else {
-                res.send(false);
-            }
-        });
-
+        if (!req.user) {
+            res.send(false);
+        }
+        else {
+            loginBL.GetUserById(req.user._id, function (user) {
+                if (user) {
+                    general.SetTokenOnCookie(general.GetTokenFromUserObject(user), res);
+                    res.send(true);
+                }
+                else {
+                    res.send(false);
+                }
+            });
+        }
     });
 
     // Checking if user has ADMIN permission.
     app.get(prefix + '/isUserAdmin', function (req, res) {
-        res.send((req.user && (req.user.permissions.indexOf(general.PERMISSIONS.ADMIN) != -1)));
+        res.send((req.user && (req.user.permissions.indexOf(general.PERMISSION.ADMIN) != -1)));
     });
 
     // Getting the current login user.

@@ -8,6 +8,7 @@ import { SortObjects } from './pipes/sort/sort.pipe';
 
 // Components import
 import { AppComponent } from './components/app/app.component';
+import { AlertComponent } from './components/alert/alert.component';
 import { LoginComponent } from './components/login/login.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { HomeComponent } from './components/home/home.component';
@@ -28,6 +29,7 @@ import { AuthService } from './services/auth/auth.service';
 import { routing } from './app.routing'
 
 import { GlobalService } from './services/global/global.service';
+import { AlertService } from './services/alert/alert.service';
 
 @NgModule({
   imports: [
@@ -37,7 +39,9 @@ import { GlobalService } from './services/global/global.service';
     routing
   ],
   declarations: [
+    // ---------Components---------
     AppComponent,
+    AlertComponent,
     LoginComponent,
     LoaderComponent,
     HomeComponent,
@@ -50,13 +54,15 @@ import { GlobalService } from './services/global/global.service';
     ChatsWindowComponent,
     FriendRequestsWindowComponent,
     ManagementComponent,
+    // ---------Pipes---------
     SortObjects
   ],
   providers: [
     AuthGuard,
     AdminAuthGuard,
     AuthService,
-    GlobalService
+    GlobalService,
+    AlertService
   ],
   bootstrap: [AppComponent]
 })

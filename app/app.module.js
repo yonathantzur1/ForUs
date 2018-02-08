@@ -14,6 +14,7 @@ var http_1 = require("@angular/common/http");
 var sort_pipe_1 = require("./pipes/sort/sort.pipe");
 // Components import
 var app_component_1 = require("./components/app/app.component");
+var alert_component_1 = require("./components/alert/alert.component");
 var login_component_1 = require("./components/login/login.component");
 var loader_component_1 = require("./components/loader/loader.component");
 var home_component_1 = require("./components/home/home.component");
@@ -30,6 +31,7 @@ var auth_guard_1 = require("./auth/auth.guard");
 var auth_service_1 = require("./services/auth/auth.service");
 var app_routing_1 = require("./app.routing");
 var global_service_1 = require("./services/global/global.service");
+var alert_service_1 = require("./services/alert/alert.service");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -42,7 +44,9 @@ var AppModule = /** @class */ (function () {
                 app_routing_1.routing
             ],
             declarations: [
+                // ---------Components---------
                 app_component_1.AppComponent,
+                alert_component_1.AlertComponent,
                 login_component_1.LoginComponent,
                 loader_component_1.LoaderComponent,
                 home_component_1.HomeComponent,
@@ -55,13 +59,15 @@ var AppModule = /** @class */ (function () {
                 chatsWindow_component_1.ChatsWindowComponent,
                 friendRequestsWindow_component_1.FriendRequestsWindowComponent,
                 management_component_1.ManagementComponent,
+                // ---------Pipes---------
                 sort_pipe_1.SortObjects
             ],
             providers: [
                 auth_guard_1.AuthGuard,
                 auth_guard_1.AdminAuthGuard,
                 auth_service_1.AuthService,
-                global_service_1.GlobalService
+                global_service_1.GlobalService,
+                alert_service_1.AlertService
             ],
             bootstrap: [app_component_1.AppComponent]
         })

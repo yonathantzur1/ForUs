@@ -132,7 +132,7 @@ var NavbarComponent = /** @class */ (function () {
         ];
         self.dropMenuDataList = [
             new DropMenuData("/management", "ניהול", null, function () {
-                return (self.globalService.userPermissions.indexOf(global_service_1.PERMISSIONS.ADMIN) != -1);
+                return (self.globalService.userPermissions.indexOf(global_service_1.PERMISSION.ADMIN) != -1);
             }),
             new DropMenuData("#", "הגדרות", null),
             new DropMenuData("/login", "התנתקות", function (link) {

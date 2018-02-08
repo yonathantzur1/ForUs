@@ -2,7 +2,6 @@ npm install express --save
 npm install body-parser --save
 npm install jquery --save
 npm install mongodb --save
-npm install sweetalert2 --save
 npm install js-sha512 --save
 npm install bootstrap@3.3.7 --save
 npm install bootstrap-material-design@0.5.10 --save

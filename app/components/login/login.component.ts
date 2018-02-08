@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
+import { AlertService } from '../../services/alert/alert.service';
 import { AuthService } from '../../services/auth/auth.service';
 
 import { LoginService } from '../../services/login/login.service';
 
-declare var swal: any;
 declare var $: any;
 
 export class User {
@@ -55,7 +55,11 @@ export class LoginComponent implements OnInit {
   isLoading: boolean = false;
   snackbarId: any;
 
-  constructor(private router: Router, private globalService: GlobalService, private authService: AuthService, private loginService: LoginService) { }
+  constructor(private router: Router,
+    private alertService: AlertService,
+    private globalService: GlobalService,
+    private authService: AuthService,
+    private loginService: LoginService) { }
 
   ngOnInit() {
     this.globalService.Logout();
@@ -107,7 +111,7 @@ export class LoginComponent implements OnInit {
       var self = this;
 
       this.loginService.Login(this.user).then((data) => {
-        var result = data ? data.result: null;
+        var result = data ? data.result : null;
         this.isLoading = false;
 
         // In case of server error.
@@ -120,24 +124,19 @@ export class LoginComponent implements OnInit {
         }
         // In case the user was not found.
         else if (result == "-1") {
-          swal({
-            title: 'משתמש לא קיים במערכת',
-            type: 'info',
-            html: 'האם ברצונך להרשם?',
-            showCloseButton: true,
-            showCancelButton: true,
-            confirmButtonText:
-              '<i class="fa fa-thumbs-up"></i>',
-            cancelButtonText:
-              '<i class="fa fa-thumbs-down"></i>'
-          }).then(function (result: any) {
-            if (result && result.value) {
+          this.alertService.Alert({
+            title: "משתמש לא קיים במערכת",
+            text: "האם ברצונך להרשם?",
+            type: "info",
+            confirmBtnText: "כן",
+            cancelBtnText: "לא",
+            confirmFunc: function () {
               $("#register-modal").modal("show");
               var userEmail = self.user.email;
               self.OpenModal();
               self.newUser.email = userEmail;
             }
-          })
+          });
         }
         else {
           if (result.lock != null) {
@@ -159,7 +158,7 @@ export class LoginComponent implements OnInit {
       this.isLoading = true;
 
       this.loginService.Register(this.newUser).then((data) => {
-        var result = data ? data.result: null;
+        var result = data ? data.result : null;
         this.isLoading = false;
 
         // In case of server error.
@@ -188,7 +187,7 @@ export class LoginComponent implements OnInit {
       // In case the user is in the first stage of reset password.
       if (this.forgotUser.showResetCodeField == false) {
         this.loginService.Forgot(this.forgotUser.email).then((data) => {
-          var result = data ? data.result: null;
+          var result = data ? data.result : null;
           this.isLoading = false;
 
           // In case of server error.
@@ -211,7 +210,7 @@ export class LoginComponent implements OnInit {
       // In case the user is in the second stage of reset password.
       else {
         this.loginService.ResetPassword(this.forgotUser).then((data) => {
-          var result = data ? data.result: null;
+          var result = data ? data.result : null;
           this.isLoading = false;
 
           // In case of server error.
@@ -242,13 +241,14 @@ export class LoginComponent implements OnInit {
           else {
             $("#forgot-modal").modal('hide');
 
-            swal({
-              title: 'איפוס סיסמא',
-              text: 'הסיסמא הוחלפה בהצלחה!',
-              type: 'success',
-              confirmButtonText: 'אישור'
-            }).then(() => {
-              this.router.navigateByUrl('');
+            this.alertService.Alert({
+              title: "איפוס סיסמא",
+              text: "הסיסמא הוחלפה בהצלחה!",
+              showCancelButton: false,
+              type: "success",
+              confirmFunc: function () {
+                this.router.navigateByUrl('');
+              }
             });
           }
         });

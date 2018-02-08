@@ -3,7 +3,7 @@ const config = require('./config.js');
 const encryption = require('./encryption.js');
 
 module.exports = {
-    PERMISSIONS: {
+    PERMISSION: {
         ADMIN: "admin"
     },
 

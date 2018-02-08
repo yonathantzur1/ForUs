@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var global_service_1 = require("../../services/global/global.service");
+var alert_service_1 = require("../../services/alert/alert.service");
 var auth_service_1 = require("../../services/auth/auth.service");
 var login_service_1 = require("../../services/login/login.service");
 var User = /** @class */ (function () {
@@ -46,8 +47,9 @@ var ForgotUser = /** @class */ (function () {
 }());
 exports.ForgotUser = ForgotUser;
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent(router, globalService, authService, loginService) {
+    function LoginComponent(router, alertService, globalService, authService, loginService) {
         this.router = router;
+        this.alertService = alertService;
         this.globalService = globalService;
         this.authService = authService;
         this.loginService = loginService;
@@ -108,16 +110,13 @@ var LoginComponent = /** @class */ (function () {
                     $("#login-failed").snackbar("show");
                 }
                 else if (result == "-1") {
-                    swal({
-                        title: 'משתמש לא קיים במערכת',
-                        type: 'info',
-                        html: 'האם ברצונך להרשם?',
-                        showCloseButton: true,
-                        showCancelButton: true,
-                        confirmButtonText: '<i class="fa fa-thumbs-up"></i>',
-                        cancelButtonText: '<i class="fa fa-thumbs-down"></i>'
-                    }).then(function (result) {
-                        if (result && result.value) {
+                    _this.alertService.Alert({
+                        title: "משתמש לא קיים במערכת",
+                        text: "האם ברצונך להרשם?",
+                        type: "info",
+                        confirmBtnText: "כן",
+                        cancelBtnText: "לא",
+                        confirmFunc: function () {
                             $("#register-modal").modal("show");
                             var userEmail = self.user.email;
                             self.OpenModal();
@@ -212,13 +211,14 @@ var LoginComponent = /** @class */ (function () {
                     }
                     else {
                         $("#forgot-modal").modal('hide');
-                        swal({
-                            title: 'איפוס סיסמא',
-                            text: 'הסיסמא הוחלפה בהצלחה!',
-                            type: 'success',
-                            confirmButtonText: 'אישור'
-                        }).then(function () {
-                            _this.router.navigateByUrl('');
+                        _this.alertService.Alert({
+                            title: "איפוס סיסמא",
+                            text: "הסיסמא הוחלפה בהצלחה!",
+                            showCancelButton: false,
+                            type: "success",
+                            confirmFunc: function () {
+                                this.router.navigateByUrl('');
+                            }
                         });
                     }
                 });
@@ -272,7 +272,11 @@ var LoginComponent = /** @class */ (function () {
             templateUrl: './login.html',
             providers: [login_service_1.LoginService]
         }),
-        __metadata("design:paramtypes", [router_1.Router, global_service_1.GlobalService, auth_service_1.AuthService, login_service_1.LoginService])
+        __metadata("design:paramtypes", [router_1.Router,
+            alert_service_1.AlertService,
+            global_service_1.GlobalService,
+            auth_service_1.AuthService,
+            login_service_1.LoginService])
     ], LoginComponent);
     return LoginComponent;
 }());
