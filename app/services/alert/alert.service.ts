@@ -1,7 +1,7 @@
 export enum AlertType {
-    CONFIRM,
-    DANGER,
-    WARNING
+    CONFIRM = "confirm",
+    DANGER = "danger",
+    WARNING = "warning"
 }
 
 export class AlertService {

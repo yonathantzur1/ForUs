@@ -5,7 +5,7 @@
 
 #profile .modal-title-label {
     font-size: 20px;
-    font-family: Rubik;
+    font-family: var(--main-font);
     cursor: default;
     margin-right: 10%;
     -webkit-user-select: none;
@@ -294,6 +294,8 @@
 
 #profile .modal-footer-buttons {
     float: left;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 #profile .change-img-btn {
@@ -303,7 +305,7 @@
 
 #profile .change-img-btn-disabled {
     color: darkgrey !important;
-    cursor: not-allowed;
+    cursor: not-allowed;    
 }
 
 #profile .cancel-change-btn {
@@ -321,7 +323,7 @@
 
 #profile .new-image-text {
     font-size: 16px;
-    font-family: rubik;
+    font-family: var(--main-font);
     color: var(--main-text-color);
 }
 

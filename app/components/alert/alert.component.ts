@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { AlertService } from '../../services/alert/alert.service';
+import { AlertService, AlertType } from '../../services/alert/alert.service';
 
 @Component({
     selector: 'alert',
@@ -9,6 +9,8 @@ import { AlertService } from '../../services/alert/alert.service';
 })
 
 export class AlertComponent {
+
+    alertType = AlertType;
 
     constructor(private alertService: AlertService) { }
 

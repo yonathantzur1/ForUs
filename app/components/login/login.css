@@ -67,7 +67,7 @@
 
 #login .modal-title-label {
     font-size: 20px;
-    font-family: Rubik;
+    font-family: var(--main-font);
     cursor: default;
     margin-right: 10%;
     color: var(--main-text-color);
@@ -157,7 +157,7 @@
 #login .forgot-email-label {
     color: #003469;
     font-size: 14px;
-    font-family: Rubik;
+    font-family: var(--main-font);
     display: block;
 }
 

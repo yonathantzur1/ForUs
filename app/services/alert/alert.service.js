@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var AlertType;
 (function (AlertType) {
-    AlertType[AlertType["CONFIRM"] = 0] = "CONFIRM";
-    AlertType[AlertType["DANGER"] = 1] = "DANGER";
-    AlertType[AlertType["WARNING"] = 2] = "WARNING";
+    AlertType["CONFIRM"] = "confirm";
+    AlertType["DANGER"] = "danger";
+    AlertType["WARNING"] = "warning";
 })(AlertType = exports.AlertType || (exports.AlertType = {}));
 var AlertService = /** @class */ (function () {
     function AlertService() {

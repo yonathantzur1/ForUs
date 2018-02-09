@@ -58,7 +58,7 @@
     font-size: 15px;
     align-self: center;
     margin-right: 8px;
-    font-family: Rubik;
+    font-family: var(--main-font);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -70,7 +70,7 @@
     font-size: 10px;
     align-self: flex-end;
     margin-right: 10px;
-    font-family: Rubik;
+    font-family: var(--main-font);
     white-space: nowrap;
     max-width: 50%;
     margin-bottom: 6px;
@@ -119,7 +119,7 @@
     width: calc(100% - 35px);
     height: 100%;
     font-size: 15px;
-    font-family: Rubik;
+    font-family: var(--main-font);
     display: inline-block;
 }
 
@@ -166,7 +166,7 @@
 }
 
 #chat .message {
-    font-family: Rubik;
+    font-family: var(--main-font);
     font-size: 14px;
     padding: 5px 8px 5px 8px;
     border-radius: 10px;
@@ -281,7 +281,7 @@
 #chat .bubble-message-text {
     align-self: center;
     font-size: 12px;
-    font-family: Rubik;
+    font-family: var(--main-font);
 }
 
 #chat .top-icon {
@@ -322,7 +322,7 @@
 #chat .notification-text {
     align-self: center;
     font-size: 14px;
-    font-family: Rubik;
+    font-family: var(--main-font);
     color: #ebe8e8;
     overflow: hidden;
     text-overflow: ellipsis;

@@ -44,7 +44,7 @@
 
 #navbar .name {
     font-size: 15px;
-    font-family: Rubik;
+    font-family: var(--main-font);
     display: inline-block;
     max-width: 78%;
     white-space: nowrap;
@@ -85,7 +85,7 @@
 #navbar .search-input {
     color: var(--main-text-color);
     padding-right: 5px;
-    font-family: rubik;
+    font-family: var(--main-font);
     border-radius: 3px;
     border: 0;
     position: relative;
@@ -260,7 +260,7 @@
     color: #1d4695;
     font-size: 14px;
     font-weight: bold;
-    font-family: Rubik;
+    font-family: var(--main-font);
     cursor: pointer;
     display: flex;
 }
@@ -565,7 +565,7 @@
     padding-left: 10px;
     -webkit-user-select: none;
     user-select: none;
-    font-family: Rubik;
+    font-family: var(--main-font);
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -596,7 +596,7 @@
     width: 100%;
     text-align: center;
     font-size: 20px;
-    font-family: rubik;
+    font-family: var(--main-font);
     color: #f7f7f7;
 }
 
@@ -608,7 +608,7 @@
     padding: 8px;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
-    font-family: rubik;
+    font-family: var(--main-font);
     text-align: center;
     border-top: 0.5px solid #bdb7b7;
 }
