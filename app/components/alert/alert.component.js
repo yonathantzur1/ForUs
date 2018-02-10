@@ -17,10 +17,10 @@ var AlertComponent = /** @class */ (function () {
         this.alertType = alert_service_1.AlertType;
     }
     AlertComponent.prototype.ConfirmClick = function () {
-        this.alertService.Confirm();
+        !this.alertService.isLoading && this.alertService.Confirm();
     };
     AlertComponent.prototype.CloseClick = function () {
-        this.alertService.Close();
+        !this.alertService.isLoading && this.alertService.Close();
     };
     AlertComponent = __decorate([
         core_1.Component({

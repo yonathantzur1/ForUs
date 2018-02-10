@@ -15,11 +15,11 @@ export class AlertComponent {
     constructor(private alertService: AlertService) { }
 
     ConfirmClick() {
-        this.alertService.Confirm();
+        !this.alertService.isLoading && this.alertService.Confirm();
     }
 
     CloseClick() {
-        this.alertService.Close();
+        !this.alertService.isLoading && this.alertService.Close();      
     }
 
 }

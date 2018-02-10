@@ -5,18 +5,18 @@ export enum AlertType {
 }
 
 export class AlertService {
-    private isShow: boolean;
-    private isLoading: boolean;
-    private showCancelButton: boolean;
-    private title: string;
-    private text: string;
-    private type: AlertType;
-    private preConfirm: Function;
-    private confirmFunc: Function;
-    private closeFunc: Function;
-    private confirmBtnText: string;
-    private closeBtnText: string;
-    private image: string;
+    public isShow: boolean;
+    public isLoading: boolean;
+    public showCancelButton: boolean;
+    public title: string;
+    public text: string;
+    public type: AlertType;
+    public preConfirm: Function;
+    public confirmFunc: Function;
+    public closeFunc: Function;
+    public confirmBtnText: string;
+    public closeBtnText: string;
+    public image: string;
 
     constructor() {
         this.Initialize();
