@@ -62,14 +62,14 @@
                             </div>
                             <div id="friends-container" class="friends-container" *ngIf="user.isFriendsObjectsLoaded" [ngStyle]="{'padding-right': CalculateFriendsElementsPadding()}">
                                 <div class="form-group friend-search-form-group">
-                                    <input id="friend-search-input" [(ngModel)]="friendSearchInput" class="form-control search-input friend-search-input" placeholder="חיפוש חברים"
+                                    <input id="friend-search-input" [(ngModel)]="user.friendSearchInput" class="form-control search-input friend-search-input" placeholder="חיפוש חברים"
                                         autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="25"
                                         type="text">
                                     <div class="search-friend-btn">
                                         <i class="material-icons search-friend-btn-icon">search</i>
                                     </div>
                                 </div>
-                                <div class="user-friend-container" *ngFor="let friend of (GetFriendsObjectsFromIds(user.friends) | sortObjects: 'fullName')">
+                                <div class="user-friend-container" *ngFor="let friend of (GetFriendsObjectsFromIds(user.friends, user.friendSearchInput) | sortObjects: 'fullName')">
                                     <img class="friend-profile-image" src="{{friend.profileImage || globalService.defaultProfileImage}}">
                                     <div class="friend-name">{{friend.fullName}}</div>
                                 </div>

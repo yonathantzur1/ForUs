@@ -92,6 +92,7 @@ var ManagementComponent = /** @class */ (function () {
     };
     ManagementComponent.prototype.CloseFriendsScreen = function (user) {
         user.isFriendsScreenOpen = false;
+        user.friendSearchInput = null;
     };
     ManagementComponent.prototype.GetNoneCachedFriendsIds = function (friendsIds) {
         var self = this;
@@ -99,13 +100,12 @@ var ManagementComponent = /** @class */ (function () {
             return (self.friendsCache[id] == null);
         });
     };
-    ManagementComponent.prototype.GetFriendsObjectsFromIds = function (friendsIds) {
+    ManagementComponent.prototype.GetFriendsObjectsFromIds = function (friendsIds, friendSearchInput) {
         var self = this;
         var friends = friendsIds.map(function (id) {
             return self.friendsCache[id];
         });
-        if (this.friendSearchInput) {
-            var friendSearchInput = this.friendSearchInput.trim();
+        if (friendSearchInput && (friendSearchInput = friendSearchInput.trim())) {
             // Filter friends by the search field.
             return friends.filter(function (friend) {
                 return (friend.fullName.indexOf(friendSearchInput) == 0 ||

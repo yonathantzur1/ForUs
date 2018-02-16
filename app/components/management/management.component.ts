@@ -13,7 +13,6 @@ export class ManagementComponent {
     isLoadingUsers: boolean;
     isPreventFirstOpenCardAnimation: boolean;
     searchInput: string;
-    friendSearchInput: string;
     users: Array<any> = [];
     friendsCache: Object = {};
 
@@ -110,6 +109,7 @@ export class ManagementComponent {
 
     CloseFriendsScreen(user: any) {
         user.isFriendsScreenOpen = false;
+        user.friendSearchInput = null;
     }
 
     GetNoneCachedFriendsIds(friendsIds: Array<string>): Array<string> {
@@ -120,16 +120,14 @@ export class ManagementComponent {
         });
     }
 
-    GetFriendsObjectsFromIds(friendsIds: Array<string>) {
+    GetFriendsObjectsFromIds(friendsIds: Array<string>, friendSearchInput: string) {
         var self = this;
 
         var friends = friendsIds.map(id => {
             return self.friendsCache[id];
         });
 
-        if (this.friendSearchInput) {
-            var friendSearchInput = this.friendSearchInput.trim();
-
+        if (friendSearchInput && (friendSearchInput = friendSearchInput.trim())) {
             // Filter friends by the search field.
             return friends.filter(friend => {
                 return (friend.fullName.indexOf(friendSearchInput) == 0 ||
