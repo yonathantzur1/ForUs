@@ -40,7 +40,7 @@ var ManagementComponent = /** @class */ (function () {
             });
         }
     };
-    ManagementComponent.prototype.InputKeyup = function (event) {
+    ManagementComponent.prototype.SearhUserInputKeyup = function (event) {
         // In case of pressing ENTER.
         if (event.keyCode == 13) {
             this.SearchUser();
@@ -101,9 +101,20 @@ var ManagementComponent = /** @class */ (function () {
     };
     ManagementComponent.prototype.GetFriendsObjectsFromIds = function (friendsIds) {
         var self = this;
-        return friendsIds.map(function (id) {
+        var friends = friendsIds.map(function (id) {
             return self.friendsCache[id];
         });
+        if (this.friendSearchInput) {
+            var friendSearchInput = this.friendSearchInput.trim();
+            // Filter friends by the search field.
+            return friends.filter(function (friend) {
+                return (friend.fullName.indexOf(friendSearchInput) == 0 ||
+                    friend.fullNameReversed.indexOf(friendSearchInput) == 0);
+            });
+        }
+        else {
+            return friends;
+        }
     };
     // Calculate align friends elements to center of screen.
     ManagementComponent.prototype.CalculateFriendsElementsPadding = function () {

@@ -32,6 +32,11 @@
     display: flex;
 }
 
+#management .friend-search-form-group {
+    margin-top: 0px !important;
+    margin-bottom: 10px;
+}
+
 #management .users-container {
     width: 660px;
     max-width: 100%;
@@ -50,6 +55,19 @@
     display: inline-block;
     color: var(--main-text-color);
     font-family: var(--main-font);
+}
+
+#management .friend-search-input {
+    width: 55% !important;
+}
+
+#management .search-friend-btn {
+    margin-right: -25px;
+    height: 35px;
+    width: 35px;
+    display: inline-block;
+    font-size: 22px;
+    align-self: center;
 }
 
 #management .search-user-btn {
@@ -91,6 +109,11 @@
 #management .search-user-btn-icon {
     color: #f3f3f3;
     margin-right: 5px;
+    margin-top: 5px;
+}
+
+#management .search-friend-btn-icon {
+    color: #777;
     margin-top: 5px;
 }
 
@@ -150,7 +173,7 @@
 #management .user-info-container-open-animation {
     animation-name: opencard;
     animation-duration: 0.4s;
-    height: 270px;
+    height: 285px;
 }
 
 #management .user-info-container-open {
@@ -243,8 +266,7 @@
 #management .friends-container {
     overflow-y: auto;
     height: calc(100% - 30px);
-    text-align: right;
-    padding-top: 10px;
+    text-align: right;    
 }
 
 #management .user-friend-container {

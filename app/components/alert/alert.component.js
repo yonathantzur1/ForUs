@@ -22,6 +22,18 @@ var AlertComponent = /** @class */ (function () {
     AlertComponent.prototype.CloseClick = function () {
         !this.alertService.isLoading && this.alertService.Close();
     };
+    AlertComponent.prototype.KeyPress = function (event) {
+        // In case of pressing escape.
+        if (event.keyCode == 27) {
+            this.CloseClick();
+        }
+    };
+    __decorate([
+        core_1.HostListener('document:keyup', ['$event']),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", void 0)
+    ], AlertComponent.prototype, "KeyPress", null);
     AlertComponent = __decorate([
         core_1.Component({
             selector: 'alert',

@@ -13,6 +13,7 @@ export class ManagementComponent {
     isLoadingUsers: boolean;
     isPreventFirstOpenCardAnimation: boolean;
     searchInput: string;
+    friendSearchInput: string;
     users: Array<any> = [];
     friendsCache: Object = {};
 
@@ -44,7 +45,7 @@ export class ManagementComponent {
         }
     }
 
-    InputKeyup(event: any) {
+    SearhUserInputKeyup(event: any) {
         // In case of pressing ENTER.
         if (event.keyCode == 13) {
             this.SearchUser();
@@ -122,9 +123,22 @@ export class ManagementComponent {
     GetFriendsObjectsFromIds(friendsIds: Array<string>) {
         var self = this;
 
-        return friendsIds.map(id => {
+        var friends = friendsIds.map(id => {
             return self.friendsCache[id];
         });
+
+        if (this.friendSearchInput) {
+            var friendSearchInput = this.friendSearchInput.trim();
+
+            // Filter friends by the search field.
+            return friends.filter(friend => {
+                return (friend.fullName.indexOf(friendSearchInput) == 0 ||
+                    friend.fullNameReversed.indexOf(friendSearchInput) == 0);
+            });
+        }
+        else {
+            return friends;
+        }
     }
 
     // Calculate align friends elements to center of screen.

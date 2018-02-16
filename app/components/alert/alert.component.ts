@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostListener } from '@angular/core';
 
 import { AlertService, AlertType } from '../../services/alert/alert.service';
 
@@ -22,4 +22,11 @@ export class AlertComponent {
         !this.alertService.isLoading && this.alertService.Close();      
     }
 
+    @HostListener('document:keyup', ['$event'])
+    KeyPress(event: any) {
+        // In case of pressing escape.
+        if (event.keyCode == 27) {
+            this.CloseClick();
+        }
+    }
 }
