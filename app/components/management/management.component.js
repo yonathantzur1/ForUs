@@ -18,6 +18,7 @@ var ManagementComponent = /** @class */ (function () {
         this.managementService = managementService;
         this.users = [];
         this.friendsCache = {};
+        this.friendsElementsPadding = 0;
         // Animation properties    
         this.openCardAnimationTime = 200;
     }
@@ -127,7 +128,8 @@ var ManagementComponent = /** @class */ (function () {
             maxElementsOnRow += friendElementSpace;
         }
         var freeWidthSpace = containerWidth - (counter * friendElementSpace);
-        return (freeWidthSpace / 2);
+        this.friendsElementsPadding = (freeWidthSpace / 2);
+        return this.friendsElementsPadding;
     };
     ManagementComponent = __decorate([
         core_1.Component({

@@ -58,7 +58,7 @@
 }
 
 #management .friend-search-input {
-    width: 55% !important;
+    width: 100% !important;    
 }
 
 #management .search-friend-btn {
@@ -265,7 +265,7 @@
 
 #management .friends-container {
     overflow-y: auto;
-    height: calc(100% - 30px);
+    height: calc(100% - 90px);
     text-align: right;    
 }
 

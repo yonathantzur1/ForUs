@@ -15,6 +15,7 @@ export class ManagementComponent {
     searchInput: string;
     users: Array<any> = [];
     friendsCache: Object = {};
+    friendsElementsPadding: number = 0;
 
     // Animation properties    
     openCardAnimationTime: number = 200;
@@ -154,6 +155,8 @@ export class ManagementComponent {
 
         var freeWidthSpace = containerWidth - (counter * friendElementSpace);
 
-        return (freeWidthSpace / 2);
+        this.friendsElementsPadding = (freeWidthSpace / 2);
+        
+        return this.friendsElementsPadding;
     }
 }

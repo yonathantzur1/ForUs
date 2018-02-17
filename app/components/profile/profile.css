@@ -1,6 +1,8 @@
 #profile .close {
     float: left;
     cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 #profile .modal-title-label {
