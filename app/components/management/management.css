@@ -34,7 +34,7 @@
 
 #management .friend-search-form-group {
     margin-top: 0px !important;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 #management .users-container {
@@ -265,7 +265,7 @@
 
 #management .friends-container {
     overflow-y: auto;
-    height: calc(100% - 90px);
+    height: calc(100% - 80px);
     text-align: right;    
 }
 
