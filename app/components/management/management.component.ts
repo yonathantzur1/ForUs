@@ -66,6 +66,7 @@ export class ManagementComponent {
         else {
             user.isOpen = false;
             user.isFriendsScreenOpen = false;
+            user.friendSearchInput = null;
             this.isPreventFirstOpenCardAnimation = false;
         }
     }

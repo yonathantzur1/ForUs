@@ -59,6 +59,7 @@ var ManagementComponent = /** @class */ (function () {
         else {
             user.isOpen = false;
             user.isFriendsScreenOpen = false;
+            user.friendSearchInput = null;
             this.isPreventFirstOpenCardAnimation = false;
         }
     };
