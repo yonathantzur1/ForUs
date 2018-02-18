@@ -13,7 +13,7 @@
     position: relative;
     background-color: #ededed;
     color: var(--main-text-color);
-    width: calc(100% - 30px);
+    width: calc(100% - 15px);
     max-width: 500px;
     min-height: 190px;
     margin: auto;

@@ -85,8 +85,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     isChatsWindowOpen: boolean = false;
     isFriendRequestsWindowOpen: boolean = false;
     isSidenavOpen: boolean = false;
-    isSidenavOpenFirstTime: boolean = false;
-    isSidenavOpenAnimation: boolean = false;
+    isSidenavOpenFirstTime: boolean = false;    
     isDropMenuOpen: boolean;
     searchResults: Array<any> = [];
     isShowSearchResults: boolean = false;
@@ -102,8 +101,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     notificationDelay: number = 3800; // milliseconds
     askForOnlineFriendsDelay: number = 60; // seconds
     chatTypingDelay: number = 2200; // milliseconds
-    newFriendsLabelDelay: number = 4000; // milliseconds
-    sidenavOpenAnimationTime = 400; // milliseconds
+    newFriendsLabelDelay: number = 4000; // milliseconds    
     sidenavWidth: string = "210px";
 
     // END CONFIG VARIABLES //
@@ -405,21 +403,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.isSidenavOpenFirstTime = true;
             this.HideDropMenu();
             this.HideSearchResults();
-            document.getElementById("sidenav").style.width = this.sidenavWidth;
-            this.isSidenavOpenAnimation = true;
-            $("#open-sidenav-btn").removeClass("close-sidenav");
-
-            var self = this;
-
-            // Prevent closing the sidenav while openning animation is working.
-            setTimeout(function () {
-                self.isSidenavOpenAnimation = false;
-            }, this.sidenavOpenAnimationTime);
+            document.getElementById("sidenav").style.width = this.sidenavWidth;            
+            $("#open-sidenav-btn").removeClass("close-sidenav");            
         }
     }
 
     HideSidenav() {
-        if (this.isSidenavOpen && !this.isSidenavOpenAnimation) {
+        if (this.isSidenavOpen) {
             this.HideChatsWindow();
             this.HideFriendRequestsWindow();
             this.isSidenavOpen = false;

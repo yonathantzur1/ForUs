@@ -62,7 +62,6 @@ var NavbarComponent = /** @class */ (function () {
         this.isFriendRequestsWindowOpen = false;
         this.isSidenavOpen = false;
         this.isSidenavOpenFirstTime = false;
-        this.isSidenavOpenAnimation = false;
         this.searchResults = [];
         this.isShowSearchResults = false;
         // START CONFIG VARIABLES //
@@ -70,8 +69,7 @@ var NavbarComponent = /** @class */ (function () {
         this.notificationDelay = 3800; // milliseconds
         this.askForOnlineFriendsDelay = 60; // seconds
         this.chatTypingDelay = 2200; // milliseconds
-        this.newFriendsLabelDelay = 4000; // milliseconds
-        this.sidenavOpenAnimationTime = 400; // milliseconds
+        this.newFriendsLabelDelay = 4000; // milliseconds    
         this.sidenavWidth = "210px";
         ;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
@@ -320,17 +318,11 @@ var NavbarComponent = /** @class */ (function () {
             this.HideDropMenu();
             this.HideSearchResults();
             document.getElementById("sidenav").style.width = this.sidenavWidth;
-            this.isSidenavOpenAnimation = true;
             $("#open-sidenav-btn").removeClass("close-sidenav");
-            var self = this;
-            // Prevent closing the sidenav while openning animation is working.
-            setTimeout(function () {
-                self.isSidenavOpenAnimation = false;
-            }, this.sidenavOpenAnimationTime);
         }
     };
     NavbarComponent.prototype.HideSidenav = function () {
-        if (this.isSidenavOpen && !this.isSidenavOpenAnimation) {
+        if (this.isSidenavOpen) {
             this.HideChatsWindow();
             this.HideFriendRequestsWindow();
             this.isSidenavOpen = false;
