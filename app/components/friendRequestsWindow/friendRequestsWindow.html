@@ -8,7 +8,7 @@
             <loader *ngIf="isFriendRequestsLoading" id="friend-requests-loader" class="friend-requests-loader"></loader>
             <div *ngIf="!isFriendRequestsLoading">
                 <div class="friend-request-container" *ngFor="let request of friendRequestsObjects">
-                    <img class="friend-request-image" src="{{request.profileImage || globalService.defaultProfileImage}}">
+                    <img class="friend-request-image" [src]="request.profileImage || globalService.defaultProfileImage">
                     <span class="friend-name">{{request.firstName + " " + request.lastName}}</span>
                     <i (click)="AddFriend(request._id);FriendRequestBtnClicked(request._id);" class="material-icons friend-request-response-btn friend-request-confirm-btn"
                         title="אישור">check</i>

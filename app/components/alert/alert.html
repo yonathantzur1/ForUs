@@ -7,7 +7,7 @@
             <div class="body">
                 <div class="alert-text" *ngIf="alertService.text">{{alertService.text}}</div>
                 <div class="alert-img-container" *ngIf="alertService.image">
-                    <img class="alert-img" src="{{alertService.image}}">
+                    <img class="alert-img" [src]="alertService.image">
                 </div>
             </div>
             <div class="btns-sector">

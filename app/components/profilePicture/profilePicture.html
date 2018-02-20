@@ -1,6 +1,6 @@
 <div id="profilePicture">
     <div (click)="OpenEditWindow()">
-        <img class="profile-image" [ngClass]="{'profile-image-border': isUserHasImage}" src="{{globalService.userProfileImage || globalService.defaultProfileImage}}">
+        <img class="profile-image" [ngClass]="{'profile-image-border': isUserHasImage}" [src]="globalService.userProfileImage || globalService.defaultProfileImage">
         <div title="שינוי תמונת פרופיל" *ngIf="isEditEnable && isUserHasImage == true">
             <i class="material-icons change-image-btn">photo_camera</i>
         </div>

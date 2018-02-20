@@ -9,7 +9,7 @@
             <div *ngIf="!isChatsLoading && !isFriendsLoading">
                 <div class="chat-container" *ngFor="let chat of SortByDate(chats)" (click)="OpenChat(GetFriend(chat.friendId))">
                     <span *ngIf="messagesNotifications[chat.friendId]" class="notificaiton-sign"></span>
-                    <img class="chat-image" src="{{GetFriendProfile(chat.friendId) || globalService.defaultProfileImage}}">
+                    <img class="chat-image" [src]="GetFriendProfile(chat.friendId) || globalService.defaultProfileImage">
                     <div class="details-container">
                         <div class="chat-name">{{GetFriendName(chat.friendId) || "משתמש לא קיים"}}</div>
                         <div *ngIf="!chat.lastMessage.isImage" class="chat-last-text">{{chat.lastMessage.text}}</div>

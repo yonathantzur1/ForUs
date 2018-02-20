@@ -19,7 +19,7 @@
                 <div class="user-card">
                     <div class="user-name-container">
                         <span class="user-name">{{user.firstName + " " + user.lastName}}</span>
-                        <img class="user-profile-image" src="{{user.profileImage ? user.profileImage.image : globalService.defaultProfileImage}}">
+                        <img class="user-profile-image" [src]="user.profileImage ? user.profileImage.image : globalService.defaultProfileImage">
                         <i *ngIf="user.isOpen && !user.isOpenCardAnimationActive && !user.isFriendsScreenOpen" class="material-icons user-settings-icon user-info-card-open">settings</i>
                         <i *ngIf="user.isFriendsScreenOpen" (click)="CloseFriendsScreen(user)" class="material-icons user-card-back-icon">arrow_forward</i>
                     </div>
@@ -71,7 +71,7 @@
                                 </div>
                                 <div id="friends-container" class="friends-container" [ngStyle]="{'padding-right': CalculateFriendsElementsPadding()}">
                                     <div class="user-friend-container" *ngFor="let friend of (GetFriendsObjectsFromIds(user.friends, user.friendSearchInput) | sortObjects: 'fullName')">
-                                        <img class="friend-profile-image" src="{{friend.profileImage || globalService.defaultProfileImage}}">
+                                        <img class="friend-profile-image" [src]="friend.profileImage || globalService.defaultProfileImage">
                                         <div class="friend-name">{{friend.fullName}}</div>
                                     </div>
                                 </div>

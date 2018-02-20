@@ -1,7 +1,7 @@
 <div id="chat">
     <div class="chat-window-container">
         <div class="top-chat-info-line">
-            <img class="friend-chat-profile" src="{{chatData.friend.profileImage}}">
+            <img class="friend-chat-profile" [src]="chatData.friend.profileImage">
             <span class="friend-chat-name" title="{{chatData.friend.firstName + ' ' + chatData.friend.lastName}}">
                 {{chatData.friend.firstName + " " + chatData.friend.lastName}}
             </span>
@@ -15,7 +15,7 @@
         </div>
         <div *ngIf="isShowMessageNotification" (click)="ClickChatNotification()" [ngClass]="{'show-notification' : isShowMessageNotification}"
             class="notification-sector">
-            <img class="notification-img" src="{{messageNotificationFriendObj.profileImage || globalService.defaultProfileImage}}">
+            <img class="notification-img" [src]="messageNotificationFriendObj.profileImage || globalService.defaultProfileImage">
             <div class="notification-text">
                 <span class="notification-name">{{messageNotificationFriendObj.firstName + " " + messageNotificationFriendObj.lastName}}:</span>
                 <span class="notification-msg" *ngIf="messageNotificationText">{{messageNotificationText}}</span>
@@ -113,7 +113,7 @@
                                     {{GetTimeString(message.time)}}
                                 </span>
                             </div>
-                            <img class="message-img" src="{{message.text}}" [ngClass]="{'user-message-img' : message.from == chatData.user._id, 'friend-message-img': message.from == chatData.friend._id}">
+                            <img class="message-img" [src]="message.text" [ngClass]="{'user-message-img' : message.from == chatData.user._id, 'friend-message-img': message.from == chatData.friend._id}">
                         </div>
                     </span>
                 </div>
