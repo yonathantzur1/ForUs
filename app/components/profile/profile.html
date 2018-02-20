@@ -42,7 +42,7 @@
                                         </div>
                                     </div>
                                     <div class="image-tool-bar">
-                                        <div *ngFor="let btn of imageBtns" title="{{btn.title}}" (click)="btn.onClick(this)" class="img-btn" [ngClass]="{'img-btn-pressed': btn.isPressed}">
+                                        <div *ngFor="let btn of imageBtns" [title]="btn.title" (click)="btn.onClick(this)" class="img-btn" [ngClass]="{'img-btn-pressed': btn.isPressed}">
                                             <i class="fa {{btn.icon}}" aria-hidden="true"></i>
                                         </div>
                                     </div>

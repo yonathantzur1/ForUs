@@ -6,10 +6,10 @@
       <div class="sidenav-head-sector">
         <div class="sidenav-header">
           <profilePicture class="profile-picture" [isEditEnable]="true"></profilePicture>
-          <div class="user-name" title="{{user.firstName + ' ' + user.lastName}}">{{user.firstName + " " + user.lastName}}</div>
+          <div class="user-name" [title]="user.firstName + ' ' + user.lastName">{{user.firstName + " " + user.lastName}}</div>
           <div class="toolbar-menu">
             <span class="toolbar-item" *ngFor="let item of toolbarItems">
-              <i title="{{item.title}}" (click)="item.onClick()" class="{{item.icon}}">{{item.innerIconText}}</i>
+              <i [title]="item.title" (click)="item.onClick()" class="{{item.icon}}">{{item.innerIconText}}</i>
               <span class="badget-icon" (click)="item.onClick()" *ngIf="item.isShowToolbarItemBadget()"></span>
             </span>
           </div>

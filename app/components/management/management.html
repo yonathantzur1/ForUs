@@ -72,7 +72,7 @@
                                 <div id="friends-container" class="friends-container" [ngStyle]="{'padding-right': CalculateFriendsElementsPadding()}">
                                     <div class="user-friend-container" *ngFor="let friend of (GetFriendsObjectsFromIds(user.friends, user.friendSearchInput) | sortObjects: 'fullName')">
                                         <img class="friend-profile-image" [src]="friend.profileImage || globalService.defaultProfileImage">
-                                        <div class="friend-name">{{friend.fullName}}</div>
+                                        <div class="friend-name" [title]="friend.fullName">{{friend.fullName}}</div>
                                     </div>
                                 </div>
                             </div>

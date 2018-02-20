@@ -2,14 +2,14 @@
     <div class="chat-window-container">
         <div class="top-chat-info-line">
             <img class="friend-chat-profile" [src]="chatData.friend.profileImage">
-            <span class="friend-chat-name" title="{{chatData.friend.firstName + ' ' + chatData.friend.lastName}}">
+            <span class="friend-chat-name" [title]="chatData.friend.firstName + ' ' + chatData.friend.lastName">
                 {{chatData.friend.firstName + " " + chatData.friend.lastName}}
             </span>
             <div class="online-icon" *ngIf="chatData.friend.isOnline"></div>
             <span *ngIf="chatData.friend.isTyping" class="friend-typing-title">
                 מקליד/ה...
             </span>
-            <i *ngFor="let iconObj of topIcons" title="{{iconObj.title}}" (click)="iconObj.onClick()" class="top-icon {{iconObj.class}}"
+            <i *ngFor="let iconObj of topIcons" [title]="iconObj.title" (click)="iconObj.onClick()" class="top-icon {{iconObj.class}}"
                 [ngClass]="{'selected-top-icon' : iconObj.isSelected}" aria-hidden="true">{{iconObj.innerIconText}}</i>
             <i (click)="CloseChat()" class="material-icons exit-chat">close</i>
         </div>
@@ -42,7 +42,7 @@
                 <table class="canvas-top-bar-tabel">
                     <tr>
                         <td *ngFor="let iconObj of canvasTopIcons">
-                            <i title="{{iconObj.title}}" (click)="iconObj.onClick()" class="material-icons canvas-top-bar-icon">{{iconObj.icon}}</i>
+                            <i [title]="iconObj.title" (click)="iconObj.onClick()" class="material-icons canvas-top-bar-icon">{{iconObj.icon}}</i>
                         </td>
                     </tr>
                 </table>
