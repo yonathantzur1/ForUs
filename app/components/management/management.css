@@ -61,6 +61,10 @@
     width: 100% !important;    
 }
 
+#management .friend-search-input::-ms-clear {
+    display: none;
+}
+
 #management .search-friend-btn {
     margin-right: -25px;
     height: 35px;
