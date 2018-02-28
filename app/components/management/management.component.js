@@ -60,6 +60,7 @@ var ManagementComponent = /** @class */ (function () {
             user.isOpen = false;
             user.isFriendsScreenOpen = false;
             user.friendSearchInput = null;
+            user.isEditScreenOpen = false;
             this.isPreventFirstOpenCardAnimation = false;
         }
     };
@@ -92,9 +93,10 @@ var ManagementComponent = /** @class */ (function () {
             }
         }
     };
-    ManagementComponent.prototype.CloseFriendsScreen = function (user) {
+    ManagementComponent.prototype.ReturnMainCard = function (user) {
         user.isFriendsScreenOpen = false;
         user.friendSearchInput = null;
+        user.isEditScreenOpen = false;
     };
     ManagementComponent.prototype.GetNoneCachedFriendsIds = function (friendsIds) {
         var self = this;
@@ -131,6 +133,56 @@ var ManagementComponent = /** @class */ (function () {
         var freeWidthSpace = containerWidth - (counter * friendElementSpace);
         this.friendsElementsPadding = (freeWidthSpace / 2);
         return this.friendsElementsPadding;
+    };
+    ManagementComponent.prototype.IsDisableSaveEdit = function (user) {
+        var editObj = user.editObj;
+        return (editObj.firstName == user.firstName &&
+            editObj.lastName == user.lastName &&
+            editObj.email == user.email &&
+            !editObj.password);
+    };
+    ManagementComponent.prototype.OpenEditScreen = function (user) {
+        user.editObj = {};
+        user.editObj.firstName = user.firstName;
+        user.editObj.lastName = user.lastName;
+        user.editObj.email = user.email;
+        user.isEditScreenOpen = true;
+    };
+    ManagementComponent.prototype.SaveEdit = function (user) {
+        var _this = this;
+        if (!this.IsDisableSaveEdit(user)) {
+            var editObj = user.editObj;
+            var updateFields = { "_id": user._id };
+            if (editObj.firstName != user.firstName) {
+                updateFields["firstName"] = editObj.firstName;
+            }
+            if (editObj.lastName != user.lastName) {
+                updateFields["lastName"] = editObj.lastName;
+            }
+            if (editObj.email != user.email) {
+                updateFields["email"] = editObj.email;
+            }
+            if (editObj.password) {
+                updateFields["password"] = editObj.password;
+            }
+            user.isEditLoader = true;
+            // Update user info.
+            this.managementService.EditUser(updateFields).then(function (result) {
+                user.isEditLoader = false;
+                // In case the user info edit succeeded. 
+                if (result) {
+                    delete updateFields["password"];
+                    Object.keys(updateFields).forEach(function (field) {
+                        user[field] = updateFields[field];
+                    });
+                    _this.ReturnMainCard(user);
+                    $("#edit-user-success").snackbar("show");
+                }
+                else {
+                    $("#edit-user-error").snackbar("show");
+                }
+            });
+        }
     };
     ManagementComponent = __decorate([
         core_1.Component({

@@ -97,7 +97,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     // START CONFIG VARIABLES //
 
-    searchInputChangeDelay: number = 250; // milliseconds
+    searchInputChangeDelay: number = 220; // milliseconds
     notificationDelay: number = 3800; // milliseconds
     askForOnlineFriendsDelay: number = 60; // seconds
     chatTypingDelay: number = 2200; // milliseconds

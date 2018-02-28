@@ -28,4 +28,17 @@ export class ManagementService extends BasicService {
                 return null;
             });
     }
+
+    EditUser(updateFields: any) {
+        var details = { updateFields };
+
+        return super.put(this.prefix + '/editUser', details)
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((result: any) => {
+                return null;
+            });
+    }
 }

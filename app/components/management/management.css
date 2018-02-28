@@ -247,12 +247,17 @@
     color: var(--main-text-color);
 }
 
-#management .user-settings-icon {
+#management .user-left-icon {
     left: 18px;
     top: 15px;
     position: absolute;
     cursor: pointer;
     color: var(--main-text-color);
+}
+
+#management .save-edit-btn-disabled {
+    color: #bdbdbd;
+    cursor: default;
 }
 
 #management .user-card-back-icon {
@@ -293,4 +298,18 @@
     text-overflow: ellipsis;
     color: var(--main-text-color);
     font-family: var(--main-font);
+}
+
+#management .edit-input {
+    width: 65%;
+    margin: auto;
+}
+
+#management .edit-input::-ms-clear {
+    display: none;
+}
+
+#management .english-input {
+    text-align: left;
+    direction: ltr;
 }

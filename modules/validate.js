@@ -22,11 +22,11 @@ module.exports = function (req, res, next) {
             next();
         }
         else {
-            res.send(null);
+            res.status(400).end();
         }
     }
     else {
-        res.send(null);
+        res.status(400).end();
     }
 }
 
@@ -38,8 +38,8 @@ var validateSchemaObj = {
                 password: joi.string().required()
             },
             "register": {
-                firstName: joi.string().regex(/^[א-ת']{2,}([ ]+[א-ת']{2,})*([-]+[א-ת']{2,})*$/i),
-                lastName: joi.string().regex(/^[א-ת']{2,}([ ]+[א-ת']{2,})*([-]+[א-ת']{2,})*$/i),
+                firstName: joi.string().regex(/^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i),
+                lastName: joi.string().regex(/^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i),
                 email: joi.string().email(),
                 password: joi.string().required()
             }

@@ -1,4 +1,7 @@
 const DAL = require('../DAL.js');
+const config = require('../config');
+const generator = require('../generator.js');
+const sha512 = require('js-sha512');
 
 const usersCollectionName = "Users";
 const profileCollectionName = "Profiles";
@@ -143,5 +146,23 @@ module.exports = {
                 callback(friends);
             }
         });
+    },
+
+    UpdateUser: function (updateFields, callback) {
+        var userId = updateFields._id;
+        delete updateFields._id;
+
+        // Generate password hash and salt.
+        if (updateFields.password) {
+            updateFields.salt = generator.GenerateCode(config.loginSecure.saltNumOfDigits);
+            updateFields.password = sha512(updateFields.password + updateFields.salt);
+        }
+
+        DAL.UpdateOne(usersCollectionName,
+            { "_id": DAL.GetObjectId(userId) },
+            { $set: updateFields },
+            function (result) {
+                callback(result);
+            });
     }
 };

@@ -5,7 +5,7 @@ module.exports = {
         mainConnectionString: "smtps://forusmailer%40gmail.com:popCorn1@smtp.gmail.com"
     },
     db: {
-        dbName: "forus",        
+        dbName: "forus",
         connectionString: 'mongodb://forusdb:Aa123456@forus-shard-00-00-fenaf.mongodb.net:27017,forus-shard-00-01-fenaf.mongodb.net:27017,forus-shard-00-02-fenaf.mongodb.net:27017/test?ssl=true&replicaSet=ForUs-shard-0&authSource=admin&maxPoolSize=100',
         maxConnectionAttemptsNumber: 5
     },
@@ -26,5 +26,11 @@ module.exports = {
         cookieName: "tk",
         userIdCookieName: "ui",
         maxAge: 7776000000 // (90 * 24 * 60 * 60 * 1000) - 90 days
+    },
+    loginSecure: {
+        saltNumOfDigits: 8,
+        resetCodeNumOfDigits: 6,
+        resetCodeNumOfHoursValid: 24,
+        resetPasswordMaxTries: 3
     }
 };

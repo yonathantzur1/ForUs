@@ -1,12 +1,14 @@
-const DAL = require('../DAL.js');
+const DAL = require('../DAL');
+const config = require('../config');
+const generator = require('../generator.js');
+const sha512 = require('js-sha512');
 
 const collectionName = "Users";
 const permissionsCollectionName = "Permissions";
-const generator = require('../generator.js');
-const saltNumOfDigits = 8;
-const resetCodeNumOfDigits = 6;
-const resetCodeNumOfHoursValid = 24;
-const maxTryNum = 3;
+const saltNumOfDigits = config.loginSecure.saltNumOfDigits;
+const resetCodeNumOfDigits = config.loginSecure.resetCodeNumOfDigits;
+const resetCodeNumOfHoursValid = config.loginSecure.resetCodeNumOfHoursValid;
+const resetPasswordMaxTries = config.loginSecure.resetPasswordMaxTries;
 
 module.exports = {
 
@@ -21,6 +23,8 @@ module.exports = {
                     as: 'permissions'
                 }
         }
+
+        // Remove unnecessary fields. 
         var userFileds = { $project: { "permissions._id": 0, "permissions.members": 0 } };
 
         var aggregateArray = [userFilter, joinFilter, userFileds];
@@ -42,7 +46,7 @@ module.exports = {
     },
 
     // Return user object if the user was found else false.
-    GetUser: function (user, sha512, callback) {
+    GetUser: function (user, callback) {
         var filter = { "email": user.email };
 
         DAL.Find(collectionName, filter, function (result) {
@@ -96,7 +100,7 @@ module.exports = {
     },
 
     // Add user to the DB.
-    AddUser: function (newUser, sha512, callback) {
+    AddUser: function (newUser, callback) {
         if (ValidateUserObject(newUser)) {
             var salt = generator.GenerateCode(saltNumOfDigits);
             newUser.password = sha512(newUser.password + salt);
@@ -143,7 +147,7 @@ module.exports = {
     },
 
     // Rest password of the user.
-    ResetPassword: function (forgotUser, sha512, callback) {
+    ResetPassword: function (forgotUser, callback) {
         var emailObj = { "email": forgotUser.email };
         var errorsObj = {
             emailNotFound: false,
@@ -174,7 +178,7 @@ module.exports = {
                 callback(errorsObj);
             }
             // In case the code is in max try.
-            else if (result[0].resetCode.tryNum >= maxTryNum) {
+            else if (result[0].resetCode.tryNum >= resetPasswordMaxTries) {
                 errorsObj.maxTry = true;
                 callback(errorsObj);
             }

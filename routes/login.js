@@ -3,7 +3,6 @@ const mailer = require('../modules/mailer');
 const general = require('../modules/general');
 const config = require('../modules/config');
 const validate = require('../modules/validate');
-const sha512 = require('js-sha512');
 const ExpressBrute = require('express-brute'),
     store = new ExpressBrute.MemoryStore();
 
@@ -56,7 +55,7 @@ module.exports = function (app) {
             }
         }),
         function (req, res) {
-            loginBL.GetUser(req.body, sha512, function (result) {
+            loginBL.GetUser(req.body, function (result) {
                 if (result) {
                     // In case the user is not exists.
                     if (result == "-1") {
@@ -123,7 +122,7 @@ module.exports = function (app) {
                 }
                 else {
                     // Add user to DB.
-                    loginBL.AddUser(req.body, sha512, function (result) {
+                    loginBL.AddUser(req.body, function (result) {
                         // In case all register progress was succeeded.
                         if (result) {
                             // Sending a welcome mail to the new user.
@@ -163,7 +162,7 @@ module.exports = function (app) {
     app.put(prefix + '/resetPassword',
         validate,
         function (req, res) {
-            loginBL.ResetPassword(req.body, sha512, function (result) {
+            loginBL.ResetPassword(req.body, function (result) {
                 if (result && result.isChanged) {
                     var token = general.GetTokenFromUserObject(result.user);
                     general.SetTokenOnCookie(token, res);

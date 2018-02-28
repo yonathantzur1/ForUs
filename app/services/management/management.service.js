@@ -40,6 +40,17 @@ var ManagementService = /** @class */ (function (_super) {
             return null;
         });
     };
+    ManagementService.prototype.EditUser = function (updateFields) {
+        var details = { updateFields: updateFields };
+        return _super.prototype.put.call(this, this.prefix + '/editUser', details)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
     return ManagementService;
 }(basic_service_1.BasicService));
 exports.ManagementService = ManagementService;

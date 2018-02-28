@@ -30,4 +30,12 @@ module.exports = function (app) {
         });
     });
 
+    app.put(prefix + '/editUser', function (req, res) {
+        var updateFields = req.body.updateFields;
+
+        managementBL.UpdateUser(updateFields, function (result) {
+            res.send(result);
+        });
+    });
+
 };
