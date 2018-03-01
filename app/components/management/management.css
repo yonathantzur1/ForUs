@@ -15,6 +15,11 @@
     #management .friends-info-sector {
         margin-bottom: 12px !important;
     }
+
+    #management .edit-input {
+        width: 80% !important;        
+        font-size: 12px !important;
+    }
 }
 
 #management .form-control, #management .form-group .form-control {
