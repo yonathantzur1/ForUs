@@ -282,7 +282,10 @@ var ChatComponent = /** @class */ (function () {
                 self.isDisableScrollToBottom = false;
                 self.isAllowPageScrollFix = true;
                 self.ChatScrollTopFunc = function () {
-                    if ($("#chat-body-sector").scrollTop() == 0 && $("#chat-body-sector").hasScrollBar() && !self.isMessagesPageLoading) {
+                    if ($("#chat-body-sector").scrollTop() == 0 &&
+                        $("#chat-body-sector").hasScrollBar() &&
+                        !self.isMessagesPageLoading &&
+                        (self.messages.length != self.totalMessagesNum)) {
                         self.isMessagesPageLoading = true;
                         self.chatService.GetChatPage([self.chatData.user._id, self.chatData.friend._id], self.messages.length, self.totalMessagesNum).then(function (chat) {
                             self.isMessagesPageLoading = false;

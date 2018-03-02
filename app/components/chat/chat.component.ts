@@ -372,7 +372,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 self.isAllowPageScrollFix = true;
 
                 self.ChatScrollTopFunc = function () {
-                    if ($("#chat-body-sector").scrollTop() == 0 && $("#chat-body-sector").hasScrollBar() && !self.isMessagesPageLoading) {
+                    if ($("#chat-body-sector").scrollTop() == 0 &&
+                        $("#chat-body-sector").hasScrollBar() &&
+                        !self.isMessagesPageLoading &&
+                        (self.messages.length != self.totalMessagesNum)) {
                         self.isMessagesPageLoading = true;
 
                         self.chatService.GetChatPage([self.chatData.user._id, self.chatData.friend._id],
