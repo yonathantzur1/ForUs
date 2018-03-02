@@ -72,6 +72,13 @@
         <div [hidden]="!GetTopIconById('chat').isSelected" class="chat-body-container">
             <div id="chat-body-sector" class="chat-body-sector">
                 <div class="top-space-line"></div>
+                <span *ngIf="isMessagesPageLoading" class="chat-loading-container">
+                    <p class="load-chat-icon">
+                        <i class="fa fa-circle" aria-hidden="true"></i>
+                        <i class="fa fa-circle" aria-hidden="true"></i>
+                        <i class="fa fa-circle" aria-hidden="true"></i>
+                    </p>
+                </span>
                 <span *ngIf="isMessagesLoading" class="chat-loading-container">
                     <p class="load-chat-icon">
                         <i class="fa fa-circle" aria-hidden="true"></i>
@@ -99,7 +106,7 @@
                                     {{GetTimeString(message.time)}}
                                 </span>
                             </div>
-                            <span class="message" [ngClass]="{'user-message' : message.from == chatData.user._id, 'friend-message': message.from == chatData.friend._id}">
+                            <span [id]="message.id" class="message" [ngClass]="{'user-message' : message.from == chatData.user._id, 'friend-message': message.from == chatData.friend._id}">
                                 <div class="message-text">
                                     {{message.text}}
                                 </div>
@@ -113,7 +120,7 @@
                                     {{GetTimeString(message.time)}}
                                 </span>
                             </div>
-                            <img class="message-img" [src]="message.text" [ngClass]="{'user-message-img' : message.from == chatData.user._id, 'friend-message-img': message.from == chatData.friend._id}">
+                            <img [id]="message.id" class="message-img" [src]="message.text" [ngClass]="{'user-message-img' : message.from == chatData.user._id, 'friend-message-img': message.from == chatData.friend._id}">
                         </div>
                     </span>
                 </div>

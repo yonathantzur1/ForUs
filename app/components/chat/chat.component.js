@@ -119,6 +119,8 @@ var ChatComponent = /** @class */ (function () {
         self.globalService.SocketOn('GetMessage', function (msgData) {
             if (msgData.from == self.chatData.friend._id) {
                 msgData.time = new Date();
+                self.isAllowPageScrollFix = true;
+                this.isDisableScrollToBottom = false;
                 self.messages.push(msgData);
                 // In case the chat is on canvas mode.
                 if (self.GetTopIconById("canvas").isSelected) {
@@ -243,12 +245,19 @@ var ChatComponent = /** @class */ (function () {
         $("#canvas-top-bar-sector").unbind('touchstart', preventZoom);
         $("#canvas-bar-sector").unbind('touchstart', preventZoom);
         $(window).off("resize", self.CanvasResizeFunc);
+        $("#chat-body-sector").off("scroll", self.ChatScrollTopFunc);
         this.isCanvasInitialize = false;
     };
     ChatComponent.prototype.ngAfterViewChecked = function () {
-        if ($("#chat-body-sector")[0].scrollHeight != this.chatBodyScrollHeight) {
+        if ($("#chat-body-sector")[0].scrollHeight != this.chatBodyScrollHeight && !this.isDisableScrollToBottom) {
             this.ScrollToBottom();
             this.chatBodyScrollHeight = $("#chat-body-sector")[0].scrollHeight;
+        }
+        // Fix page scroller position.
+        if (this.isDisableScrollToBottom && this.isAllowPageScrollFix) {
+            this.isAllowPageScrollFix = false;
+            var element = document.getElementById(this.lastPageMessageId);
+            element && element.scrollIntoView({ behavior: "instant", block: "start", inline: "nearest" });
         }
         if (this.GetTopIconById("canvas").isSelected &&
             this.canvas &&
@@ -269,6 +278,28 @@ var ChatComponent = /** @class */ (function () {
         self.chatService.GetChat([self.chatData.user._id, self.chatData.friend._id]).then(function (chat) {
             if (chat) {
                 self.messages = chat.messages;
+                self.totalMessagesNum = chat.totalMessagesNum;
+                self.isDisableScrollToBottom = false;
+                self.isAllowPageScrollFix = true;
+                self.ChatScrollTopFunc = function () {
+                    if ($("#chat-body-sector").scrollTop() == 0 && $("#chat-body-sector").hasScrollBar() && !self.isMessagesPageLoading) {
+                        self.isMessagesPageLoading = true;
+                        self.chatService.GetChatPage([self.chatData.user._id, self.chatData.friend._id], self.messages.length, self.totalMessagesNum).then(function (chat) {
+                            self.isMessagesPageLoading = false;
+                            if (chat) {
+                                self.isDisableScrollToBottom = true;
+                                self.isAllowPageScrollFix = true;
+                                self.lastPageMessageId = self.messages[0].id;
+                                self.messages = chat.messages.concat(self.messages);
+                                if (self.messages.length == self.totalMessagesNum) {
+                                    $("#chat-body-sector").off("scroll", self.ChatScrollTopFunc);
+                                }
+                            }
+                        });
+                    }
+                };
+                $("#chat-body-sector").off("scroll", self.ChatScrollTopFunc);
+                (self.messages.length != self.totalMessagesNum) && $("#chat-body-sector").scroll(self.ChatScrollTopFunc);
             }
             self.isMessagesLoading = false;
             $("#msg-input").focus();
@@ -290,6 +321,8 @@ var ChatComponent = /** @class */ (function () {
                 };
                 this.msghInput = "";
                 this.isAllowShowUnreadLine = false;
+                this.isAllowPageScrollFix = true;
+                this.isDisableScrollToBottom = false;
                 this.messages.push(msgData);
                 this.globalService.socket.emit("SendMessage", msgData);
             }
@@ -431,6 +464,8 @@ var ChatComponent = /** @class */ (function () {
                 "isImage": true,
                 "time": new Date()
             };
+            this.isAllowPageScrollFix = true;
+            this.isDisableScrollToBottom = false;
             this.messages.push(msgData);
             this.globalService.socket.emit("SendMessage", msgData);
         }

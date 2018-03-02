@@ -34,7 +34,12 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     @Input() OpenChat: Function;
     msghInput: string;
     messages: Array<any> = [];
+    totalMessagesNum: number;
     isMessagesLoading: boolean;
+    isMessagesPageLoading: boolean;
+    isDisableScrollToBottom: boolean;
+    isAllowPageScrollFix: boolean;
+    lastPageMessageId: string;
     chatBodyScrollHeight: number = 0;
     topIcons: Array<topIcon>;
 
@@ -69,6 +74,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     canvasEvents: any;
     documentEvents: any;
     CanvasResizeFunc: any;
+    ChatScrollTopFunc: any;
 
     subscribeObj: any;
 
@@ -171,6 +177,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         self.globalService.SocketOn('GetMessage', function (msgData: any) {
             if (msgData.from == self.chatData.friend._id) {
                 msgData.time = new Date();
+                self.isAllowPageScrollFix = true;
+                this.isDisableScrollToBottom = false;
                 self.messages.push(msgData);
 
                 // In case the chat is on canvas mode.
@@ -318,14 +326,22 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         $("#canvas-bar-sector").unbind('touchstart', preventZoom);
 
         $(window).off("resize", self.CanvasResizeFunc);
+        $("#chat-body-sector").off("scroll", self.ChatScrollTopFunc);
 
         this.isCanvasInitialize = false;
     }
 
     ngAfterViewChecked() {
-        if ($("#chat-body-sector")[0].scrollHeight != this.chatBodyScrollHeight) {
+        if ($("#chat-body-sector")[0].scrollHeight != this.chatBodyScrollHeight && !this.isDisableScrollToBottom) {
             this.ScrollToBottom();
             this.chatBodyScrollHeight = $("#chat-body-sector")[0].scrollHeight;
+        }
+
+        // Fix page scroller position.
+        if (this.isDisableScrollToBottom && this.isAllowPageScrollFix) {
+            this.isAllowPageScrollFix = false;
+            var element = document.getElementById(this.lastPageMessageId);
+            element && element.scrollIntoView({ behavior: "instant", block: "start", inline: "nearest" });
         }
 
         if (this.GetTopIconById("canvas").isSelected &&
@@ -351,6 +367,35 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         self.chatService.GetChat([self.chatData.user._id, self.chatData.friend._id]).then((chat: any) => {
             if (chat) {
                 self.messages = chat.messages;
+                self.totalMessagesNum = chat.totalMessagesNum;
+                self.isDisableScrollToBottom = false;
+                self.isAllowPageScrollFix = true;
+
+                self.ChatScrollTopFunc = function () {
+                    if ($("#chat-body-sector").scrollTop() == 0 && $("#chat-body-sector").hasScrollBar() && !self.isMessagesPageLoading) {
+                        self.isMessagesPageLoading = true;
+
+                        self.chatService.GetChatPage([self.chatData.user._id, self.chatData.friend._id],
+                            self.messages.length, self.totalMessagesNum).then((chat: any) => {
+                                self.isMessagesPageLoading = false;
+
+                                if (chat) {
+                                    self.isDisableScrollToBottom = true;
+                                    self.isAllowPageScrollFix = true;
+                                    self.lastPageMessageId = self.messages[0].id;
+                                    self.messages = chat.messages.concat(self.messages);
+
+                                    if (self.messages.length == self.totalMessagesNum) {
+                                        $("#chat-body-sector").off("scroll", self.ChatScrollTopFunc);
+                                    }
+                                }
+                            });
+
+                    }
+                }
+
+                $("#chat-body-sector").off("scroll", self.ChatScrollTopFunc);
+                (self.messages.length != self.totalMessagesNum) && $("#chat-body-sector").scroll(self.ChatScrollTopFunc);
             }
 
             self.isMessagesLoading = false;
@@ -378,6 +423,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.msghInput = "";
                 this.isAllowShowUnreadLine = false;
 
+                this.isAllowPageScrollFix = true;
+                this.isDisableScrollToBottom = false;
                 this.messages.push(msgData);
                 this.globalService.socket.emit("SendMessage", msgData);
             }
@@ -547,6 +594,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 "time": new Date()
             };
 
+            this.isAllowPageScrollFix = true;
+            this.isDisableScrollToBottom = false;
             this.messages.push(msgData);
             this.globalService.socket.emit("SendMessage", msgData);
         }

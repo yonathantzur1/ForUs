@@ -16,4 +16,17 @@ export class ChatService extends BasicService {
                 return null;
             });
     }
+
+    GetChatPage(idsArray: Array<string>, currMessagesNum: number, totalMessagesNum: number) {
+        var details = { "membersIds": idsArray, currMessagesNum, totalMessagesNum };
+
+        return super.post(this.prefix + '/getChatPage', JSON.stringify(details))
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((result: any) => {
+                return null;
+            });
+    }
 }

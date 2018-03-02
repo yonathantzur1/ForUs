@@ -29,6 +29,17 @@ var ChatService = /** @class */ (function (_super) {
             return null;
         });
     };
+    ChatService.prototype.GetChatPage = function (idsArray, currMessagesNum, totalMessagesNum) {
+        var details = { "membersIds": idsArray, currMessagesNum: currMessagesNum, totalMessagesNum: totalMessagesNum };
+        return _super.prototype.post.call(this, this.prefix + '/getChatPage', JSON.stringify(details))
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
     return ChatService;
 }(basic_service_1.BasicService));
 exports.ChatService = ChatService;

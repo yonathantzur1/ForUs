@@ -1,8 +1,8 @@
 const DAL = require('../DAL.js');
+const config = require('../config');
+const general = require('../general');
+const encryption = require('../encryption');
 const jwt = require('jsonwebtoken');
-const config = require('../config.js');
-const general = require('../general.js');
-const encryption = require('../encryption.js');
 
 const collectionName = "Chats";
 
@@ -12,14 +12,66 @@ var self = module.exports = {
 
         if (token && ValidateUserGetChat(membersIds, token.user.friends, token.user._id)) {
             var chatQueryFilter = {
-                "membersIds": { $all: membersIds }
+                $match: {
+                    "membersIds": { $all: membersIds }
+                }
             }
 
-            DAL.FindOne(collectionName, chatQueryFilter, function (chat) {
-                if (!chat) {
-                    self.CreateChat(membersIds);
+            var sliceObj = {
+                $project: {
+                    messages: { $slice: ["$messages", -1 * config.chat.messagesInPage] },
+                    totalMessagesNum: { $size: "$messages" }
+                }
+            }
+
+            var aggregate = [chatQueryFilter, sliceObj];
+
+            DAL.Aggregate(collectionName, aggregate, function (result) {
+                var chat;
+
+                if (!result || result.length == 0) {
+                    //self.CreateChat(membersIds);
                 }
                 else {
+                    chat = result[0];
+                    chat.messages = DecryptChatMessages(chat.messages);
+                }
+
+                callback(chat);
+            });
+        }
+        else {
+            callback(null);
+        }
+    },
+
+    GetChatPage: function (membersIds, token, currMessagesNum, totalMessagesNum, callback) {
+        token = general.DecodeToken(token);
+
+        if (token && ValidateUserGetChat(membersIds, token.user.friends, token.user._id)) {
+            var chatQueryFilter = {
+                $match: {
+                    "membersIds": { $all: membersIds }
+                }
+            }
+
+            var messagesInPage = config.chat.messagesInPage;
+            var page = (currMessagesNum / messagesInPage) + 1;
+            var selectNextNumber = Math.min(messagesInPage, (totalMessagesNum - currMessagesNum));
+
+            var sliceObj = {
+                $project: {
+                    messages: { $slice: ["$messages", (-1 * messagesInPage * page), selectNextNumber] }
+                }
+            }
+
+            var aggregate = [chatQueryFilter, sliceObj];
+
+            DAL.Aggregate(collectionName, aggregate, function (result) {
+                var chat;
+
+                if (result && result.length != 0) {
+                    chat = result[0];
                     chat.messages = DecryptChatMessages(chat.messages);
                 }
 

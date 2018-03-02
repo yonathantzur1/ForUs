@@ -4,11 +4,22 @@ const general = require('../modules/general');
 module.exports = function (app) {
     prefix = "/api/chat";
 
-    // Checking if the session of the user is open.
+    // Return the first chat page messages.
     app.post(prefix + '/getChat', function (req, res) {
         chatBL.GetChat(req.body.membersIds, general.GetTokenFromRequest(req), function (chat) {
             res.send(chat);
         })
+    });
+
+    // Return the requested chat page messages.
+    app.post(prefix + '/getChatPage', function (req, res) {
+        chatBL.GetChatPage(req.body.membersIds,
+            general.GetTokenFromRequest(req),
+            req.body.currMessagesNum,
+            req.body.totalMessagesNum,
+            function (chat) {
+                res.send(chat);
+            })
     });
 
 };

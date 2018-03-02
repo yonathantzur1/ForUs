@@ -32,5 +32,8 @@ module.exports = {
         resetCodeNumOfDigits: 6,
         resetCodeNumOfHoursValid: 24,
         resetPasswordMaxTries: 3
+    },
+    chat: {
+        messagesInPage: 30
     }
 };
