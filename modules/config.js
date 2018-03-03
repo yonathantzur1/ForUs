@@ -34,6 +34,6 @@ module.exports = {
         resetPasswordMaxTries: 3
     },
     chat: {
-        messagesInPage: 30
+        messagesInPage: 40
     }
 };

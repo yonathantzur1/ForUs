@@ -119,8 +119,7 @@ var ChatComponent = /** @class */ (function () {
         self.globalService.SocketOn('GetMessage', function (msgData) {
             if (msgData.from == self.chatData.friend._id) {
                 msgData.time = new Date();
-                self.isAllowPageScrollFix = true;
-                this.isDisableScrollToBottom = false;
+                self.isAllowScrollDown = true;
                 self.messages.push(msgData);
                 // In case the chat is on canvas mode.
                 if (self.GetTopIconById("canvas").isSelected) {
@@ -249,15 +248,9 @@ var ChatComponent = /** @class */ (function () {
         this.isCanvasInitialize = false;
     };
     ChatComponent.prototype.ngAfterViewChecked = function () {
-        if ($("#chat-body-sector")[0].scrollHeight != this.chatBodyScrollHeight && !this.isDisableScrollToBottom) {
+        if ($("#chat-body-sector")[0].scrollHeight != this.chatBodyScrollHeight && this.isAllowScrollDown) {
             this.ScrollToBottom();
             this.chatBodyScrollHeight = $("#chat-body-sector")[0].scrollHeight;
-        }
-        // Fix page scroller position.
-        if (this.isDisableScrollToBottom && this.isAllowPageScrollFix) {
-            this.isAllowPageScrollFix = false;
-            var element = document.getElementById(this.lastPageMessageId);
-            element && element.scrollIntoView({ behavior: "instant", block: "start", inline: "nearest" });
         }
         if (this.GetTopIconById("canvas").isSelected &&
             this.canvas &&
@@ -267,11 +260,12 @@ var ChatComponent = /** @class */ (function () {
     };
     ChatComponent.prototype.InitializeChat = function () {
         var self = this;
-        if (this.isCanvasInitialize) {
+        if (self.isCanvasInitialize) {
             self.SelectTopIcon(self.GetTopIconById("chat"));
-            this.InitializeCanvas();
+            self.InitializeCanvas();
         }
         self.msghInput = "";
+        self.isAllowScrollDown = true;
         self.isAllowShowUnreadLine = true;
         self.chatBodyScrollHeight = 0;
         self.isMessagesLoading = true;
@@ -279,10 +273,8 @@ var ChatComponent = /** @class */ (function () {
             if (chat) {
                 self.messages = chat.messages;
                 self.totalMessagesNum = chat.totalMessagesNum;
-                self.isDisableScrollToBottom = false;
-                self.isAllowPageScrollFix = true;
                 self.ChatScrollTopFunc = function () {
-                    if ($("#chat-body-sector").scrollTop() == 0 &&
+                    if ($("#chat-body-sector").scrollTop() < 400 &&
                         $("#chat-body-sector").hasScrollBar() &&
                         !self.isMessagesPageLoading &&
                         (self.messages.length != self.totalMessagesNum)) {
@@ -290,9 +282,8 @@ var ChatComponent = /** @class */ (function () {
                         self.chatService.GetChatPage([self.chatData.user._id, self.chatData.friend._id], self.messages.length, self.totalMessagesNum).then(function (chat) {
                             self.isMessagesPageLoading = false;
                             if (chat) {
-                                self.isDisableScrollToBottom = true;
-                                self.isAllowPageScrollFix = true;
                                 self.lastPageMessageId = self.messages[0].id;
+                                self.isAllowScrollDown = false;
                                 self.messages = chat.messages.concat(self.messages);
                                 if (self.messages.length == self.totalMessagesNum) {
                                     $("#chat-body-sector").off("scroll", self.ChatScrollTopFunc);
@@ -323,9 +314,8 @@ var ChatComponent = /** @class */ (function () {
                     "time": new Date()
                 };
                 this.msghInput = "";
+                this.isAllowScrollDown = true;
                 this.isAllowShowUnreadLine = false;
-                this.isAllowPageScrollFix = true;
-                this.isDisableScrollToBottom = false;
                 this.messages.push(msgData);
                 this.globalService.socket.emit("SendMessage", msgData);
             }
@@ -467,8 +457,7 @@ var ChatComponent = /** @class */ (function () {
                 "isImage": true,
                 "time": new Date()
             };
-            this.isAllowPageScrollFix = true;
-            this.isDisableScrollToBottom = false;
+            this.isAllowScrollDown = true;
             this.messages.push(msgData);
             this.globalService.socket.emit("SendMessage", msgData);
         }

@@ -34,11 +34,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     @Input() OpenChat: Function;
     msghInput: string;
     messages: Array<any> = [];
+    isAllowScrollDown: boolean;
     totalMessagesNum: number;
     isMessagesLoading: boolean;
     isMessagesPageLoading: boolean;
-    isDisableScrollToBottom: boolean;
-    isAllowPageScrollFix: boolean;
     lastPageMessageId: string;
     chatBodyScrollHeight: number = 0;
     topIcons: Array<topIcon>;
@@ -177,8 +176,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         self.globalService.SocketOn('GetMessage', function (msgData: any) {
             if (msgData.from == self.chatData.friend._id) {
                 msgData.time = new Date();
-                self.isAllowPageScrollFix = true;
-                this.isDisableScrollToBottom = false;
+                self.isAllowScrollDown = true;
                 self.messages.push(msgData);
 
                 // In case the chat is on canvas mode.
@@ -332,16 +330,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     ngAfterViewChecked() {
-        if ($("#chat-body-sector")[0].scrollHeight != this.chatBodyScrollHeight && !this.isDisableScrollToBottom) {
+        if ($("#chat-body-sector")[0].scrollHeight != this.chatBodyScrollHeight && this.isAllowScrollDown) {
             this.ScrollToBottom();
             this.chatBodyScrollHeight = $("#chat-body-sector")[0].scrollHeight;
-        }
-
-        // Fix page scroller position.
-        if (this.isDisableScrollToBottom && this.isAllowPageScrollFix) {
-            this.isAllowPageScrollFix = false;
-            var element = document.getElementById(this.lastPageMessageId);
-            element && element.scrollIntoView({ behavior: "instant", block: "start", inline: "nearest" });
         }
 
         if (this.GetTopIconById("canvas").isSelected &&
@@ -354,12 +345,13 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     InitializeChat() {
         var self = this;
 
-        if (this.isCanvasInitialize) {
+        if (self.isCanvasInitialize) {
             self.SelectTopIcon(self.GetTopIconById("chat"));
-            this.InitializeCanvas();
+            self.InitializeCanvas();
         }
 
         self.msghInput = "";
+        self.isAllowScrollDown = true;
         self.isAllowShowUnreadLine = true;
         self.chatBodyScrollHeight = 0;
         self.isMessagesLoading = true;
@@ -368,11 +360,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             if (chat) {
                 self.messages = chat.messages;
                 self.totalMessagesNum = chat.totalMessagesNum;
-                self.isDisableScrollToBottom = false;
-                self.isAllowPageScrollFix = true;
 
                 self.ChatScrollTopFunc = function () {
-                    if ($("#chat-body-sector").scrollTop() == 0 &&
+                    if ($("#chat-body-sector").scrollTop() < 400 &&
                         $("#chat-body-sector").hasScrollBar() &&
                         !self.isMessagesPageLoading &&
                         (self.messages.length != self.totalMessagesNum)) {
@@ -383,9 +373,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                                 self.isMessagesPageLoading = false;
 
                                 if (chat) {
-                                    self.isDisableScrollToBottom = true;
-                                    self.isAllowPageScrollFix = true;
                                     self.lastPageMessageId = self.messages[0].id;
+                                    self.isAllowScrollDown = false;
                                     self.messages = chat.messages.concat(self.messages);
 
                                     if (self.messages.length == self.totalMessagesNum) {
@@ -424,10 +413,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 };
 
                 this.msghInput = "";
+                this.isAllowScrollDown = true;
                 this.isAllowShowUnreadLine = false;
-
-                this.isAllowPageScrollFix = true;
-                this.isDisableScrollToBottom = false;
                 this.messages.push(msgData);
                 this.globalService.socket.emit("SendMessage", msgData);
             }
@@ -597,8 +584,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 "time": new Date()
             };
 
-            this.isAllowPageScrollFix = true;
-            this.isDisableScrollToBottom = false;
+            this.isAllowScrollDown = true;
             this.messages.push(msgData);
             this.globalService.socket.emit("SendMessage", msgData);
         }
