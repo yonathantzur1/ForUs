@@ -140,11 +140,11 @@ var self = module.exports = {
             });
     },
 
-    AddMessageNotification: function (userId, friendId, msgId) {
+    AddMessageNotification: function (userId, friendId, msgId, senderName) {
         var friendIdObject = {
             "_id": DAL.GetObjectId(friendId)
         }
-        
+
         // Specific fields for friend query.
         friendSelectFields = {
             email: 1,
@@ -157,8 +157,8 @@ var self = module.exports = {
                 var messagesNotifications = friendObj.messagesNotifications;
 
                 // Send email in case no notification exists
-                if (!messagesNotifications || (messagesNotifications && Object.keys(messagesNotifications).length == 0)) {
-                    mailer.SendMail(friendObj.email, mailer.GetMessageNotificationAlertContent(friendObj.firstName));
+                if (!messagesNotifications || !messagesNotifications[userId]) {
+                    mailer.SendMail(friendObj.email, mailer.GetMessageNotificationAlertContent(friendObj.firstName, senderName));
                 }
 
                 var friendMessagesNotifications = messagesNotifications ? messagesNotifications[userId] : null;

@@ -38,11 +38,13 @@ module.exports = {
 
         return content;
     },
-    GetMessageNotificationAlertContent: function (p_name) {
+    GetMessageNotificationAlertContent: function (p_name, p_senderName) {
         var content = {
             title: "הודעה חדשה",
-            text: "שלום " + p_name + ", ממתינה עבורך הודעה חדשה!" + "<br>" + config.addresses.site
+            text: "שלום " + p_name + ", " + "<br>" + "ממתינה עבורך הודעה חדשה*." + "<br>" + config.addresses.site
         };
+
+        content.text = p_senderName ? content.text.replace("*", " מ" + p_senderName) : content.text.replace("*", "");
 
         return content;
     },

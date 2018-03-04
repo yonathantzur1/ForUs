@@ -22,7 +22,9 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
                 io.to(msgData.to).emit('GetMessage', msgData);
             }
             else {
-                navbarBL.AddMessageNotification(msgData.from, msgData.to, msgData.id);
+                var senderObj = connectedUsers[msgData.from];
+                var senderName = senderObj ? (senderObj.firstName + " " + senderObj.lastName) : null;
+                navbarBL.AddMessageNotification(msgData.from, msgData.to, msgData.id, senderName);
             }
 
             chatBL.AddMessageToChat(msgData, function (result) {
