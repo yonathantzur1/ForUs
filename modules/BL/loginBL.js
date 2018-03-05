@@ -1,6 +1,7 @@
 const DAL = require('../DAL');
 const config = require('../config');
-const generator = require('../generator.js');
+const general = require('../general');
+const generator = require('../generator');
 const sha512 = require('js-sha512');
 
 const collectionName = "Users";
@@ -107,6 +108,7 @@ module.exports = {
 
             // Creat the new user object.
             var newUserObj = {
+                "uid": general.GenerateId(),
                 "firstName": newUser.firstName,
                 "lastName": newUser.lastName,
                 "email": newUser.email,
@@ -204,6 +206,7 @@ module.exports = {
             // In case the reset code is valid, change the user password.
             else {
                 var updateUser = result[0];
+                updateUser.uid = general.GenerateId();
                 updateUser.salt = generator.GenerateCode(saltNumOfDigits);
                 updateUser.password = sha512(forgotUser.newPassword + updateUser.salt);
                 updateUser.resetCode.isUsed = true;

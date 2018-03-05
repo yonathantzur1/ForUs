@@ -33,9 +33,9 @@ function RedirectToLogin(req, res) {
 
 app.use('/api', function (req, res, next) {
     var token = general.DecodeToken(general.GetTokenFromRequest(req));
-    var cookieUserId = general.GetUserIdFromRequest(req);
+    var cookieUid = general.GetUidFromRequest(req);
 
-    if (token && token.user._id == cookieUserId) {
+    if (token && token.user.uid == cookieUid) {
         req.user = token.user;
         next();
     }

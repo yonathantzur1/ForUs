@@ -63,7 +63,7 @@ var GlobalService = /** @class */ (function (_super) {
         this.socket.on(name, func);
     };
     GlobalService.prototype.Logout = function () {
-        deleteCookieByName("ui");
+        deleteCookieByName("uid");
         this.DeleteTokenFromCookie().then(function (result) { });
         this.ResetGlobalVariables();
     };

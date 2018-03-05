@@ -63,7 +63,7 @@ export class GlobalService extends LoginService {
     }
 
     Logout() {
-        deleteCookieByName("ui");
+        deleteCookieByName("uid");
         this.DeleteTokenFromCookie().then((result: any) => { });
         this.ResetGlobalVariables();
     }

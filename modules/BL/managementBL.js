@@ -1,6 +1,7 @@
 const DAL = require('../DAL.js');
 const config = require('../config');
-const generator = require('../generator.js');
+const general = require('../general');
+const generator = require('../generator');
 const sha512 = require('js-sha512');
 
 const usersCollectionName = "Users";
@@ -154,6 +155,7 @@ module.exports = {
 
         // Generate password hash and salt.
         if (updateFields.password) {
+            updateFields.uid = general.GenerateId();
             updateFields.salt = generator.GenerateCode(config.loginSecure.saltNumOfDigits);
             updateFields.password = sha512(updateFields.password + updateFields.salt);
         }

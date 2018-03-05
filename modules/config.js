@@ -24,7 +24,7 @@ module.exports = {
     },
     token: {
         cookieName: "tk",
-        userIdCookieName: "ui",
+        uidCookieName: "uid",
         maxAge: 7776000000 // (90 * 24 * 60 * 60 * 1000) - 90 days
     },
     loginSecure: {

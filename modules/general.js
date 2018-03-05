@@ -10,6 +10,7 @@ module.exports = {
     GetTokenFromUserObject: function (user) {
         var tokenUserObject = {
             "_id": user._id,
+            "uid": user.uid,
             "firstName": user.firstName,
             "lastName": user.lastName,
             "email": user.email,
@@ -35,12 +36,11 @@ module.exports = {
     },
 
     SetTokenOnCookie: function (token, res) {
-        res.cookie(config.token.cookieName, token, { maxAge: config.token.maxAge, httpOnly: true });
-
         var token = this.DecodeToken(token);
 
         if (token.user) {
-            res.cookie(config.token.userIdCookieName, token.user._id.toString(), { maxAge: config.token.maxAge, httpOnly: false });
+            res.cookie(config.token.cookieName, token, { maxAge: config.token.maxAge, httpOnly: true });
+            res.cookie(config.token.uidCookieName, token.user.uid, { maxAge: config.token.maxAge, httpOnly: false });
         }
     },
 
@@ -49,7 +49,7 @@ module.exports = {
     },
 
     DeleteUserIdFromCookie: function (res) {
-        res.clearCookie(config.token.userIdCookieName);
+        res.clearCookie(config.token.uidCookieName);
     },
 
     DeleteAuthCookies: function (res) {
@@ -92,8 +92,8 @@ module.exports = {
         return this.GetCookieByName(config.token.cookieName, request.headers.cookie);
     },
 
-    GetUserIdFromRequest: function (request) {
-        return this.GetCookieByName(config.token.userIdCookieName, request.headers.cookie);
+    GetUidFromRequest: function (request) {
+        return this.GetCookieByName(config.token.uidCookieName, request.headers.cookie);
     },
 
     GenerateId: function () {
