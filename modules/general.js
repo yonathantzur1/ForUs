@@ -35,11 +35,12 @@ module.exports = {
         }
     },
 
-    SetTokenOnCookie: function (token, res) {
+    SetTokenOnCookie: function (token, res, isDisableUidCookieUpdate) {
+        res.cookie(config.token.cookieName, token, { maxAge: config.token.maxAge, httpOnly: true });
+        
         var token = this.DecodeToken(token);
 
-        if (token.user) {
-            res.cookie(config.token.cookieName, token, { maxAge: config.token.maxAge, httpOnly: true });
+        if (token.user && !isDisableUidCookieUpdate) {            
             res.cookie(config.token.uidCookieName, token.user.uid, { maxAge: config.token.maxAge, httpOnly: false });
         }
     },

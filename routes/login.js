@@ -65,9 +65,8 @@ module.exports = function (app) {
                     }
                     // In case the user email and password are valid.
                     else {
-                        req.brute.reset(() => {
-                            var token = general.GetTokenFromUserObject(result);
-                            general.SetTokenOnCookie(token, res);
+                        req.brute.reset(() => {                            
+                            general.SetTokenOnCookie(general.GetTokenFromUserObject(result), res);
                             res.send({ "result": true });
                         });
                     }

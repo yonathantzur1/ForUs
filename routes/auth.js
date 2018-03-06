@@ -11,8 +11,12 @@ module.exports = function (app) {
         }
         else {
             loginBL.GetUserById(req.user._id, function (user) {
-                if (user) {
-                    general.SetTokenOnCookie(general.GetTokenFromUserObject(user), res);
+                var cookieUid = general.GetUidFromRequest(req);
+
+                // Double check uid (after main server token validae middleware)
+                // from the original DB user object.
+                if (user && user.uid == cookieUid) {
+                    general.SetTokenOnCookie(general.GetTokenFromUserObject(user), res, true);
                     res.send(true);
                 }
                 else {
