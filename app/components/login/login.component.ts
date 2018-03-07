@@ -241,13 +241,17 @@ export class LoginComponent implements OnInit {
           else {
             $("#forgot-modal").modal('hide');
 
-            this.alertService.Alert({
+            var self = this;
+
+            self.globalService.CallSocketFunction('LogoutUserSessionServer');
+
+            self.alertService.Alert({
               title: "איפוס סיסמא",
               text: "הסיסמא הוחלפה בהצלחה!",
               showCancelButton: false,
               type: "success",
               confirmFunc: function () {
-                this.router.navigateByUrl('');
+                self.router.navigateByUrl('');
               }
             });
           }

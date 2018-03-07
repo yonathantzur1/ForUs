@@ -211,13 +211,15 @@ var LoginComponent = /** @class */ (function () {
                     }
                     else {
                         $("#forgot-modal").modal('hide');
-                        _this.alertService.Alert({
+                        var self = _this;
+                        self.globalService.CallSocketFunction('LogoutUserSessionServer');
+                        self.alertService.Alert({
                             title: "איפוס סיסמא",
                             text: "הסיסמא הוחלפה בהצלחה!",
                             showCancelButton: false,
                             type: "success",
                             confirmFunc: function () {
-                                this.router.navigateByUrl('');
+                                self.router.navigateByUrl('');
                             }
                         });
                     }

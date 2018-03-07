@@ -22,7 +22,9 @@ export class ProfileComponent implements OnInit {
     userImage: string;
     isNewPhoto: boolean = true;
 
-    constructor(private profileService: ProfileService, private alertService: AlertService, private globalService: GlobalService) { }
+    constructor(private profileService: ProfileService,
+        private alertService: AlertService,
+        private globalService: GlobalService) { }
 
     options = {
         aspectRatio: 1 / 1,

@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService, PERMISSION } from '../../services/global/global.service';
+import { AlertService } from '../../services/alert/alert.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { NavbarService } from '../../services/navbar/navbar.service';
 
@@ -85,7 +86,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     isChatsWindowOpen: boolean = false;
     isFriendRequestsWindowOpen: boolean = false;
     isSidenavOpen: boolean = false;
-    isSidenavOpenFirstTime: boolean = false;    
+    isSidenavOpenFirstTime: boolean = false;
     isDropMenuOpen: boolean;
     searchResults: Array<any> = [];
     isShowSearchResults: boolean = false;
@@ -111,8 +112,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
     constructor(private router: Router,
         private authService: AuthService,
         private globalService: GlobalService,
+        private alertService: AlertService,
         private navbarService: NavbarService) {
-            ;
+        ;
 
         this.subscribeObj = this.globalService.data.subscribe(value => {
             // In case isOpenProfileEditWindow is true or false
@@ -177,7 +179,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         ];
 
         self.dropMenuDataList = [
-            new DropMenuData("/management", "ניהול", null, function () {
+            new DropMenuData("/management", "ניהול", null, () => {
                 return (self.globalService.userPermissions.indexOf(PERMISSION.ADMIN) != -1);
             }),
             new DropMenuData("#", "הגדרות", null),
@@ -208,6 +210,19 @@ export class NavbarComponent implements OnInit, OnDestroy {
         // Loading user friend requests.
         self.navbarService.GetUserFriendRequests().then((result: any) => {
             self.GetToolbarItem("friendRequests").content = result.friendRequests;
+        });
+
+        self.globalService.SocketOn('LogoutUserSessionClient', function (msg: string) {
+            self.globalService.Logout();
+            self.alertService.Alert({
+                title: "התנתקות מהמערכת",
+                text: msg,
+                showCancelButton: false,
+                type: "warning",
+                confirmFunc: function () {
+                    self.router.navigateByUrl('/login');
+                }
+            });
         });
 
         self.globalService.SocketOn('GetMessage', function (msgData: any) {
@@ -403,8 +418,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.isSidenavOpenFirstTime = true;
             this.HideDropMenu();
             this.HideSearchResults();
-            document.getElementById("sidenav").style.width = this.sidenavWidth;            
-            $("#open-sidenav-btn").removeClass("close-sidenav");            
+            document.getElementById("sidenav").style.width = this.sidenavWidth;
+            $("#open-sidenav-btn").removeClass("close-sidenav");
         }
     }
 

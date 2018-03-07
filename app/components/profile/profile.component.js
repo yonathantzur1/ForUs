@@ -263,7 +263,9 @@ var ProfileComponent = /** @class */ (function () {
             templateUrl: './profile.html',
             providers: [profile_service_1.ProfileService]
         }),
-        __metadata("design:paramtypes", [profile_service_1.ProfileService, alert_service_1.AlertService, global_service_1.GlobalService])
+        __metadata("design:paramtypes", [profile_service_1.ProfileService,
+            alert_service_1.AlertService,
+            global_service_1.GlobalService])
     ], ProfileComponent);
     return ProfileComponent;
 }());

@@ -210,7 +210,10 @@ export class ManagementComponent {
 
                 // In case the user info edit succeeded. 
                 if (result) {
-                    delete updateFields["password"];
+                    if (updateFields["password"]) {
+                        delete updateFields["password"];
+                        this.globalService.socket.emit("LogoutUserSessionServer", user._id);
+                    }
 
                     Object.keys(updateFields).forEach(field => {
                         user[field] = updateFields[field];

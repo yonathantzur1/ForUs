@@ -39,6 +39,14 @@ var GlobalService = /** @class */ (function (_super) {
             });
         }
     };
+    GlobalService.prototype.CallSocketFunction = function (funcName, obj) {
+        if (!this.socket) {
+            io().emit(funcName, obj);
+        }
+        else {
+            this.socket.emit(funcName, obj);
+        }
+    };
     GlobalService.prototype.ResetGlobalVariables = function () {
         this.socket && this.socket.destroy();
         this.socket = null;

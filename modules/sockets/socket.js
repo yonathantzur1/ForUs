@@ -8,6 +8,10 @@ var connectedUsers = {};
 module.exports = function (io) {
     io.on('connection', function (socket) {
 
+        // Import socket events.
+        require('./serverChat.js')(io, socket, socketsDictionary, connectedUsers);
+        require('./serverFriendRequests.js')(io, socket, socketsDictionary, connectedUsers);
+
         socket.on('login', function () {
             var token = general.DecodeToken(general.GetTokenFromSocket(socket));
 
@@ -41,8 +45,18 @@ module.exports = function (io) {
             }
         });
 
-        require('./serverChat.js')(io, socket, socketsDictionary, connectedUsers);
-        require('./serverFriendRequests.js')(io, socket, socketsDictionary, connectedUsers);
+        socket.on('LogoutUserSessionServer', function (userId) {
+            var token = general.DecodeToken(general.GetTokenFromSocket(socket));
+
+            // Logout the given user in case the sender is admin, or in case the logout is self.
+            if (token &&
+                token.user &&
+                ((token.user.permissions && token.user.permissions.indexOf(general.PERMISSION.ADMIN) != -1) ||
+                    userId == null)) {
+                var msg = "נותקת מהאתר, יש להתחבר מחדש";
+                io.to(userId || token.user._id).emit('LogoutUserSessionClient', msg);
+            }
+        });
 
         socket.on('disconnect', function () {
             LogoutUser(io, socket);

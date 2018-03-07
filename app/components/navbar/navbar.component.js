@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var global_service_1 = require("../../services/global/global.service");
+var alert_service_1 = require("../../services/alert/alert.service");
 var auth_service_1 = require("../../services/auth/auth.service");
 var navbar_service_1 = require("../../services/navbar/navbar.service");
 var DropMenuData = /** @class */ (function () {
@@ -42,11 +43,12 @@ var ToolbarItem = /** @class */ (function () {
 }());
 exports.ToolbarItem = ToolbarItem;
 var NavbarComponent = /** @class */ (function () {
-    function NavbarComponent(router, authService, globalService, navbarService) {
+    function NavbarComponent(router, authService, globalService, alertService, navbarService) {
         var _this = this;
         this.router = router;
         this.authService = authService;
         this.globalService = globalService;
+        this.alertService = alertService;
         this.navbarService = navbarService;
         this.friends = [];
         this.isFriendsLoading = false;
@@ -154,6 +156,18 @@ var NavbarComponent = /** @class */ (function () {
         // Loading user friend requests.
         self.navbarService.GetUserFriendRequests().then(function (result) {
             self.GetToolbarItem("friendRequests").content = result.friendRequests;
+        });
+        self.globalService.SocketOn('LogoutUserSessionClient', function (msg) {
+            self.globalService.Logout();
+            self.alertService.Alert({
+                title: "התנתקות מהמערכת",
+                text: msg,
+                showCancelButton: false,
+                type: "warning",
+                confirmFunc: function () {
+                    self.router.navigateByUrl('/login');
+                }
+            });
         });
         self.globalService.SocketOn('GetMessage', function (msgData) {
             if (!self.chatData.isOpen || msgData.from != self.chatData.friend._id) {
@@ -633,6 +647,7 @@ var NavbarComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [router_1.Router,
             auth_service_1.AuthService,
             global_service_1.GlobalService,
+            alert_service_1.AlertService,
             navbar_service_1.NavbarService])
     ], NavbarComponent);
     return NavbarComponent;

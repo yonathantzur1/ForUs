@@ -171,7 +171,10 @@ var ManagementComponent = /** @class */ (function () {
                 user.isEditLoader = false;
                 // In case the user info edit succeeded. 
                 if (result) {
-                    delete updateFields["password"];
+                    if (updateFields["password"]) {
+                        delete updateFields["password"];
+                        _this.globalService.socket.emit("LogoutUserSessionServer", user._id);
+                    }
                     Object.keys(updateFields).forEach(function (field) {
                         user[field] = updateFields[field];
                     });

@@ -34,6 +34,15 @@ export class GlobalService extends LoginService {
         }
     }
 
+    CallSocketFunction(funcName: string, obj?: any) {
+        if (!this.socket) {
+            io().emit(funcName, obj);
+        }
+        else {
+            this.socket.emit(funcName, obj);
+        }
+    }
+
     ResetGlobalVariables() {
         this.socket && this.socket.destroy();
         this.socket = null;
