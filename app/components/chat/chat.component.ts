@@ -1,26 +1,12 @@
 import { Component, OnInit, OnDestroy, Input, AfterViewChecked } from '@angular/core';
 
+import { topIcon, canvasTopIcon } from '../../objects/classes';
 import { ChatService } from '../../services/chat/chat.service';
 import { GlobalService } from '../../services/global/global.service';
 
 declare var window: any;
 declare var loadImage: any;
 declare function GetDateDetailsString(localDate: Date, currDate: Date, isShortMonths: boolean): string;
-
-export class topIcon {
-    id: string;
-    class: string;
-    innerIconText: string;
-    title: string;
-    isSelected: boolean;
-    onClick: Function;
-}
-
-export class canvasTopIcon {
-    icon: string;
-    title: string;
-    onClick: Function;
-}
 
 @Component({
     selector: 'chat',

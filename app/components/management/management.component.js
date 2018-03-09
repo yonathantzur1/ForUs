@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var navbar_component_1 = require("../../components/navbar/navbar.component");
 var management_service_1 = require("../../services/management/management.service");
 var global_service_1 = require("../../services/global/global.service");
 var ManagementComponent = /** @class */ (function () {
@@ -21,6 +22,19 @@ var ManagementComponent = /** @class */ (function () {
         this.friendsElementsPadding = 0;
         // Animation properties    
         this.openCardAnimationTime = 200;
+        var self = this;
+        self.dropMenuDataList = [
+            new navbar_component_1.DropMenuData(null, "עריכה", function () {
+                var user = self.GetUserWithOpenMenu();
+                user.editObj = {};
+                user.editObj.firstName = user.firstName;
+                user.editObj.lastName = user.lastName;
+                user.editObj.email = user.email;
+                user.isEditScreenOpen = true;
+            }),
+            new navbar_component_1.DropMenuData(null, "חסימת משתמש", function () {
+            })
+        ];
     }
     ManagementComponent.prototype.SearchUser = function () {
         var _this = this;
@@ -142,11 +156,8 @@ var ManagementComponent = /** @class */ (function () {
             !editObj.password);
     };
     ManagementComponent.prototype.OpenEditScreen = function (user) {
-        user.editObj = {};
-        user.editObj.firstName = user.firstName;
-        user.editObj.lastName = user.lastName;
-        user.editObj.email = user.email;
-        user.isEditScreenOpen = true;
+        this.CloseAllUsersMenu();
+        user.isMenuOpen = true;
     };
     ManagementComponent.prototype.SaveEdit = function (user) {
         var _this = this;
@@ -187,11 +198,39 @@ var ManagementComponent = /** @class */ (function () {
             });
         }
     };
+    ManagementComponent.prototype.GetUserWithOpenMenu = function () {
+        for (var i = 0; i < this.users.length; i++) {
+            if (this.users[i].isMenuOpen) {
+                return this.users[i];
+            }
+        }
+        return null;
+    };
+    ManagementComponent.prototype.CloseAllUsersMenu = function () {
+        this.users.forEach(function (user) {
+            user.isMenuOpen = false;
+        });
+    };
+    ManagementComponent.prototype.OnClick = function (event) {
+        var isClickInsideMenu = false;
+        for (var i = 0; i < event.path.length; i++) {
+            if (event.path[i].id == "user-settings-icon") {
+                isClickInsideMenu = true;
+                break;
+            }
+        }
+        if (!isClickInsideMenu) {
+            this.CloseAllUsersMenu();
+        }
+    };
     ManagementComponent = __decorate([
         core_1.Component({
             selector: 'management',
             templateUrl: './management.html',
-            providers: [management_service_1.ManagementService]
+            providers: [management_service_1.ManagementService],
+            host: {
+                '(document:click)': 'OnClick($event)'
+            }
         }),
         __metadata("design:paramtypes", [global_service_1.GlobalService, management_service_1.ManagementService])
     ], ManagementComponent);

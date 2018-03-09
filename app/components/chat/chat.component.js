@@ -12,18 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var chat_service_1 = require("../../services/chat/chat.service");
 var global_service_1 = require("../../services/global/global.service");
-var topIcon = /** @class */ (function () {
-    function topIcon() {
-    }
-    return topIcon;
-}());
-exports.topIcon = topIcon;
-var canvasTopIcon = /** @class */ (function () {
-    function canvasTopIcon() {
-    }
-    return canvasTopIcon;
-}());
-exports.canvasTopIcon = canvasTopIcon;
 var ChatComponent = /** @class */ (function () {
     function ChatComponent(chatService, globalService) {
         var _this = this;

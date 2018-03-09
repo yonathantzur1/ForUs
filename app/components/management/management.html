@@ -20,8 +20,9 @@
                     <div class="user-name-container">
                         <span class="user-name">{{user.firstName + " " + user.lastName}}</span>
                         <img class="user-profile-image" [src]="user.profileImage ? user.profileImage.image : globalService.defaultProfileImage">
-                        <i *ngIf="user.isOpen && !user.isOpenCardAnimationActive && !user.isFriendsScreenOpen && !user.isEditScreenOpen" (click)="OpenEditScreen(user)"
+                        <i id="user-settings-icon" *ngIf="user.isOpen && !user.isOpenCardAnimationActive && !user.isFriendsScreenOpen && !user.isEditScreenOpen" (click)="OpenEditScreen(user)"
                             class="material-icons user-left-icon">settings</i>
+                        <dropMenu *ngIf="user.isMenuOpen" class="dropMenuPosition col-md-2 col-xs-4" [options]="dropMenuDataList"></dropMenu>
                         <i *ngIf="user.isEditScreenOpen" class="material-icons user-left-icon" [ngClass]="{'save-edit-btn-disabled': IsDisableSaveEdit(user)}"
                             (click)="SaveEdit(user)">save</i>
                         <i *ngIf="user.isFriendsScreenOpen || user.isEditScreenOpen" (click)="ReturnMainCard(user)" class="material-icons user-card-back-icon">arrow_forward</i>

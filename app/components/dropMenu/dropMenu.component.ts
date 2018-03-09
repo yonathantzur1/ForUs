@@ -21,7 +21,7 @@ export class DropMenuComponent {
             action(link);
         }
         else {
-            this.router.navigateByUrl(link);
+            link && this.router.navigateByUrl(link);
         }
 
         this.globalService.setData("closeDropMenu", true);

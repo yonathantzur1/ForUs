@@ -20,28 +20,11 @@ var DropMenuData = /** @class */ (function () {
         this.link = link;
         this.text = text;
         this.action = action;
-        if (showFunction) {
-            this.showFunction = showFunction;
-        }
-        else {
-            this.showFunction = function () { return true; };
-        }
+        this.showFunction = showFunction ? showFunction : function () { return true; };
     }
     return DropMenuData;
 }());
 exports.DropMenuData = DropMenuData;
-var Friend = /** @class */ (function () {
-    function Friend() {
-    }
-    return Friend;
-}());
-exports.Friend = Friend;
-var ToolbarItem = /** @class */ (function () {
-    function ToolbarItem() {
-    }
-    return ToolbarItem;
-}());
-exports.ToolbarItem = ToolbarItem;
 var NavbarComponent = /** @class */ (function () {
     function NavbarComponent(router, authService, globalService, alertService, navbarService) {
         var _this = this;
@@ -70,7 +53,7 @@ var NavbarComponent = /** @class */ (function () {
         this.searchInputChangeDelay = 220; // milliseconds
         this.notificationDelay = 3800; // milliseconds
         this.askForOnlineFriendsDelay = 60; // seconds
-        this.chatTypingDelay = 2200; // milliseconds
+        this.chatTypingDelay = 1500; // milliseconds
         this.newFriendsLabelDelay = 4000; // milliseconds    
         this.sidenavWidth = "210px";
         ;
@@ -621,6 +604,7 @@ var NavbarComponent = /** @class */ (function () {
     NavbarComponent.prototype.NavigateMain = function () {
         this.ClosePopups();
         this.CloseChatWindow();
+        this.searchInput = "";
         this.router.navigateByUrl('');
     };
     NavbarComponent.prototype.GetNotificationsNumber = function () {

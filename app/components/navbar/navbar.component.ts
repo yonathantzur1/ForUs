@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { Friend, ToolbarItem } from '../../objects/classes';
 import { GlobalService, PERMISSION } from '../../services/global/global.service';
 import { AlertService } from '../../services/alert/alert.service';
 import { AuthService } from '../../services/auth/auth.service';
@@ -16,35 +17,8 @@ export class DropMenuData {
         this.link = link;
         this.text = text;
         this.action = action;
-
-        if (showFunction) {
-            this.showFunction = showFunction;
-        }
-        else {
-            this.showFunction = function () { return true; }
-        }
+        this.showFunction = showFunction ? showFunction : () => { return true; };
     }
-}
-
-export class Friend {
-    _id: string;
-    firstName: string;
-    lastName: string;
-    profileImage: string;
-    isOnline: boolean;
-    isTyping: boolean;
-    typingTimer: any;
-}
-
-export class ToolbarItem {
-    id: string;
-    icon: string;
-    innerIconText: string;
-    title: string;
-    content: Object;
-    getNotificationsNumber: Function;
-    isShowToolbarItemBadget: Function;
-    onClick: Function;
 }
 
 @Component({
@@ -101,7 +75,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     searchInputChangeDelay: number = 220; // milliseconds
     notificationDelay: number = 3800; // milliseconds
     askForOnlineFriendsDelay: number = 60; // seconds
-    chatTypingDelay: number = 2200; // milliseconds
+    chatTypingDelay: number = 1500; // milliseconds
     newFriendsLabelDelay: number = 4000; // milliseconds    
     sidenavWidth: string = "210px";
 
@@ -183,7 +157,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 return (self.globalService.userPermissions.indexOf(PERMISSION.ADMIN) != -1);
             }),
             new DropMenuData("#", "הגדרות", null),
-            new DropMenuData("/login", "התנתקות", function (link: string) {
+            new DropMenuData("/login", "התנתקות", (link: string) => {
                 self.globalService.Logout();
                 self.router.navigateByUrl(link);
             })
@@ -769,6 +743,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     NavigateMain() {
         this.ClosePopups();
         this.CloseChatWindow();
+        this.searchInput = "";
         this.router.navigateByUrl('');
     }
 

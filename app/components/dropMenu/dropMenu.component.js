@@ -22,7 +22,7 @@ var DropMenuComponent = /** @class */ (function () {
             action(link);
         }
         else {
-            this.router.navigateByUrl(link);
+            link && this.router.navigateByUrl(link);
         }
         this.globalService.setData("closeDropMenu", true);
         this.globalService.setData("openNewWindow", true);

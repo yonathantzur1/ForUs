@@ -1,26 +1,49 @@
 import { Component } from '@angular/core';
 
+import { DropMenuData } from '../../components/navbar/navbar.component';
 import { ManagementService } from '../../services/management/management.service';
 import { GlobalService } from '../../services/global/global.service';
 
 @Component({
     selector: 'management',
     templateUrl: './management.html',
-    providers: [ManagementService]
+    providers: [ManagementService],
+    host: {
+        '(document:click)': 'OnClick($event)'
+    }
 })
 
 export class ManagementComponent {
+
     isLoadingUsers: boolean;
     isPreventFirstOpenCardAnimation: boolean;
     searchInput: string;
     users: Array<any> = [];
     friendsCache: Object = {};
     friendsElementsPadding: number = 0;
+    dropMenuDataList: Array<DropMenuData>;
 
     // Animation properties    
     openCardAnimationTime: number = 200;
 
-    constructor(private globalService: GlobalService, private managementService: ManagementService) { }
+    constructor(private globalService: GlobalService, private managementService: ManagementService) {
+        var self = this;
+
+        self.dropMenuDataList = [
+            new DropMenuData(null, "עריכה", () => {
+                var user = self.GetUserWithOpenMenu();
+                user.editObj = {}
+                user.editObj.firstName = user.firstName;
+                user.editObj.lastName = user.lastName;
+                user.editObj.email = user.email;
+
+                user.isEditScreenOpen = true;
+            }),
+            new DropMenuData(null, "חסימת משתמש", () => {
+
+            })
+        ];
+    }
 
     SearchUser() {
         if (this.searchInput && (this.searchInput = this.searchInput.trim())) {
@@ -173,12 +196,8 @@ export class ManagementComponent {
     }
 
     OpenEditScreen(user: any) {
-        user.editObj = {}
-        user.editObj.firstName = user.firstName;
-        user.editObj.lastName = user.lastName;
-        user.editObj.email = user.email;
-
-        user.isEditScreenOpen = true;
+        this.CloseAllUsersMenu();
+        user.isMenuOpen = true;
     }
 
     SaveEdit(user: any) {
@@ -226,6 +245,37 @@ export class ManagementComponent {
                     $("#edit-user-error").snackbar("show");
                 }
             });
+        }
+    }
+
+    GetUserWithOpenMenu() {
+        for (var i = 0; i < this.users.length; i++) {
+            if (this.users[i].isMenuOpen) {
+                return this.users[i];
+            }
+        }
+
+        return null;
+    }
+
+    CloseAllUsersMenu() {
+        this.users.forEach(user => {
+            user.isMenuOpen = false;
+        });
+    }
+
+    OnClick(event: any) {
+        var isClickInsideMenu = false;
+
+        for (var i = 0; i < event.path.length; i++) {
+            if (event.path[i].id == "user-settings-icon") {
+                isClickInsideMenu = true;
+                break;
+            }
+        }
+
+        if (!isClickInsideMenu) {
+            this.CloseAllUsersMenu();
         }
     }
 }

@@ -253,7 +253,7 @@
 }
 
 #management .user-left-icon {
-    left: 18px;
+    left: 12px;
     top: 15px;
     position: absolute;
     cursor: pointer;
@@ -266,7 +266,7 @@
 }
 
 #management .user-card-back-icon {
-    right: 18px;
+    right: 12px;
     top: 15px;
     position: absolute;
     cursor: pointer;
@@ -317,4 +317,12 @@
 #management .english-input {
     text-align: left;
     direction: ltr;
+}
+
+#management .dropMenuPosition {
+    position: absolute;
+    left: 10px;
+    top: 45px;
+    padding: 0;
+    z-index: 2;
 }
