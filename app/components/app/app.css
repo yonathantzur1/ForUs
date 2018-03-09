@@ -17,6 +17,10 @@ a, a:hover, a:focus {
     border-color: #7882b6 !important;
 }
 
+.form-group.is-focused label, .form-group.is-focused label.control-label {
+    color: #7882b6 !important;
+}
+
 /* END OVERRIDE BOOTSTRAP MATERIAL CSS */
 
 :root {

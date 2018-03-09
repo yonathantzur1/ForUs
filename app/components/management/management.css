@@ -20,6 +20,10 @@
         width: 80% !important;        
         font-size: 12px !important;
     }
+
+    #management .block-amount-input {
+        font-size: 12px !important;
+    }
 }
 
 #management .form-control, #management .form-group .form-control {
@@ -325,4 +329,29 @@
     top: 45px;
     padding: 0;
     z-index: 2;
+}
+
+#management .block-reason-container {
+    padding: 15px;    
+}
+
+#management .block-label {
+    width: 80px;
+}
+
+#management .block-reason-text {
+    width: 100%;
+}
+
+#management .block-amount-container {
+    padding: 15px;    
+}
+
+#management .block-amount-container .amount-secotr {
+    margin-left: auto;
+    margin-right: auto; 
+}
+
+#management .block-amount-input {
+    width: 45px;
 }

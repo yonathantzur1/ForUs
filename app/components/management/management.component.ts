@@ -40,7 +40,15 @@ export class ManagementComponent {
                 user.isEditScreenOpen = true;
             }),
             new DropMenuData(null, "חסימת משתמש", () => {
+                var user = self.GetUserWithOpenMenu();
 
+                user.blockAmount = {
+                    days: 0,
+                    weeks: 0,
+                    months: 0
+                };
+                
+                user.isBlockScreenOpen = true;
             })
         ];
     }
@@ -134,9 +142,11 @@ export class ManagementComponent {
     }
 
     ReturnMainCard(user: any) {
-        user.isFriendsScreenOpen = false;
         user.friendSearchInput = null;
+        user.isFriendsScreenOpen = false;        
         user.isEditScreenOpen = false;
+        user.blockReason = null;
+        user.isBlockScreenOpen = false;
     }
 
     GetNoneCachedFriendsIds(friendsIds: Array<string>): Array<string> {

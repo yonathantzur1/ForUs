@@ -33,6 +33,13 @@ var ManagementComponent = /** @class */ (function () {
                 user.isEditScreenOpen = true;
             }),
             new navbar_component_1.DropMenuData(null, "חסימת משתמש", function () {
+                var user = self.GetUserWithOpenMenu();
+                user.blockAmount = {
+                    days: 0,
+                    weeks: 0,
+                    months: 0
+                };
+                user.isBlockScreenOpen = true;
             })
         ];
     }
@@ -108,9 +115,11 @@ var ManagementComponent = /** @class */ (function () {
         }
     };
     ManagementComponent.prototype.ReturnMainCard = function (user) {
-        user.isFriendsScreenOpen = false;
         user.friendSearchInput = null;
+        user.isFriendsScreenOpen = false;
         user.isEditScreenOpen = false;
+        user.blockReason = null;
+        user.isBlockScreenOpen = false;
     };
     ManagementComponent.prototype.GetNoneCachedFriendsIds = function (friendsIds) {
         var self = this;

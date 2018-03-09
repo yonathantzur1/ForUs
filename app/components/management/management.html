@@ -20,17 +20,17 @@
                     <div class="user-name-container">
                         <span class="user-name">{{user.firstName + " " + user.lastName}}</span>
                         <img class="user-profile-image" [src]="user.profileImage ? user.profileImage.image : globalService.defaultProfileImage">
-                        <i id="user-settings-icon" *ngIf="user.isOpen && !user.isOpenCardAnimationActive && !user.isFriendsScreenOpen && !user.isEditScreenOpen" (click)="OpenEditScreen(user)"
-                            class="material-icons user-left-icon">settings</i>
+                        <i id="user-settings-icon" *ngIf="user.isOpen && !user.isOpenCardAnimationActive && !user.isFriendsScreenOpen && !user.isEditScreenOpen && !user.isBlockScreenOpen"
+                            (click)="OpenEditScreen(user)" class="material-icons user-left-icon">settings</i>
                         <dropMenu *ngIf="user.isMenuOpen" class="dropMenuPosition col-md-2 col-xs-4" [options]="dropMenuDataList"></dropMenu>
                         <i *ngIf="user.isEditScreenOpen" class="material-icons user-left-icon" [ngClass]="{'save-edit-btn-disabled': IsDisableSaveEdit(user)}"
                             (click)="SaveEdit(user)">save</i>
-                        <i *ngIf="user.isFriendsScreenOpen || user.isEditScreenOpen" (click)="ReturnMainCard(user)" class="material-icons user-card-back-icon">arrow_forward</i>
+                        <i *ngIf="user.isFriendsScreenOpen || user.isEditScreenOpen || user.isBlockScreenOpen" (click)="ReturnMainCard(user)" class="material-icons user-card-back-icon">arrow_forward</i>
                     </div>
                 </div>
                 <div class="user-info-container" [ngClass]="{'user-info-container-open': user.isOpen && isPreventFirstOpenCardAnimation, 'user-info-container-open-animation': user.isOpen && !isPreventFirstOpenCardAnimation, 'user-info-container-close': (user.isOpen == false)}">
                     <div id="user-info" class="user-info-card-open" *ngIf="user.isOpen && !user.isOpenCardAnimationActive">
-                        <table id="info-table" class="info-table" *ngIf="!user.isFriendsScreenOpen && !user.isEditScreenOpen">
+                        <table id="info-table" class="info-table" *ngIf="!user.isFriendsScreenOpen && !user.isEditScreenOpen && !user.isBlockScreenOpen">
                             <tr>
                                 <td>
                                     <div class="info-title">תאריך רישום:</div>
@@ -126,6 +126,33 @@
                                 </tr>
                             </table>
                         </div>
+
+                        <div *ngIf="user.isBlockScreenOpen">
+                            <div class="form-group block-reason-container">
+                                <label for="textArea" class="control-label block-label">תיאור סיבת החסימה:</label>
+                                <div class="block-reason-text">
+                                    <textarea [(ngModel)]="user.blockReason" class="form-control" rows="1" id="textArea"></textarea>
+                                    <span class="help-block">* הסיבה המתוארת תוצג למשתמש</span>
+                                </div>
+                            </div>
+                            <div class="form-group block-amount-container">
+                                <div class="amount-secotr">
+                                    <label for="block-days" class="control-label block-label">מספר ימים:</label>
+                                    <input name="block-days" [(ngModel)]="user.blockAmount.days" class="form-control block-amount-input" type="number">
+                                </div>
+
+                                <div class="amount-secotr">
+                                    <label for="block-weeks" class="control-label block-label">מספר שבועות:</label>
+                                    <input name="block-weeks" [(ngModel)]="user.blockAmount.weeks" class="form-control block-amount-input" type="number">
+                                </div>
+                                
+                                <div class="amount-secotr">
+                                    <label for="block-months" class="control-label block-label">מספר חודשים:</label>
+                                    <input name="block-months" [(ngModel)]="user.blockAmount.months" class="form-control block-amount-input" type="number">
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="user-info-btn" (click)="ShowHideUserCard(user)">
                         <i class="material-icons open-user-card-icon">{{user.isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</i>
