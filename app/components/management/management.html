@@ -21,10 +21,10 @@
                         <span class="user-name">{{user.firstName + " " + user.lastName}}</span>
                         <img class="user-profile-image" [src]="user.profileImage ? user.profileImage.image : globalService.defaultProfileImage">
                         <i id="user-settings-icon" *ngIf="user.isOpen && !user.isOpenCardAnimationActive && !user.isFriendsScreenOpen && !user.isEditScreenOpen && !user.isBlockScreenOpen"
-                            (click)="OpenEditScreen(user)" class="material-icons user-left-icon">settings</i>
+                            (click)="OpenUserMenu(user)" class="material-icons user-left-icon">settings</i>
                         <dropMenu *ngIf="user.isMenuOpen" class="dropMenuPosition col-md-2 col-xs-4" [options]="dropMenuDataList"></dropMenu>
-                        <i *ngIf="user.isEditScreenOpen" class="material-icons user-left-icon" [ngClass]="{'save-edit-btn-disabled': IsDisableSaveEdit(user)}"
-                            (click)="SaveEdit(user)">save</i>
+                        <i *ngIf="user.isEditScreenOpen || user.isBlockScreenOpen" class="material-icons user-left-icon" [ngClass]="{'save-edit-btn-disabled': (user.isEditScreenOpen && IsDisableSaveEdit(user)) || (user.isBlockScreenOpen && IsDisableSaveBlocking(user))}"
+                            (click)="SaveChanges(user)">save</i>
                         <i *ngIf="user.isFriendsScreenOpen || user.isEditScreenOpen || user.isBlockScreenOpen" (click)="ReturnMainCard(user)" class="material-icons user-card-back-icon">arrow_forward</i>
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                             </div>
                         </div>
 
-                        <div *ngIf="user.isEditLoader" class="user-loading-container">
+                        <div *ngIf="user.isSaveLoader" class="user-loading-container">
                             <p class="load-icon" style="padding-top:30px;">
                                 <i class="fa fa-circle" aria-hidden="true"></i>
                                 <i class="fa fa-circle" aria-hidden="true"></i>
@@ -90,7 +90,8 @@
                             </p>
                         </div>
 
-                        <div *ngIf="user.isEditScreenOpen && !user.isEditLoader">
+                        <!-- User Edit Screen -->
+                        <div *ngIf="user.isEditScreenOpen && !user.isSaveLoader">
                             <table id="info-table" class="info-table">
                                 <tr>
                                     <td>
@@ -127,7 +128,8 @@
                             </table>
                         </div>
 
-                        <div *ngIf="user.isBlockScreenOpen">
+                        <!-- User Block Screen -->
+                        <div *ngIf="user.isBlockScreenOpen && !user.isSaveLoader">
                             <div class="form-group block-reason-container">
                                 <label for="textArea" class="control-label block-label">תיאור סיבת החסימה:</label>
                                 <div class="block-reason-text">
@@ -136,21 +138,26 @@
                                 </div>
                             </div>
                             <div class="form-group block-amount-container">
-                                <div class="amount-secotr">
+                                <div class="amount-secotr" [hidden]="user.blockAmount.forever">
                                     <label for="block-days" class="control-label block-label">מספר ימים:</label>
-                                    <input name="block-days" [(ngModel)]="user.blockAmount.days" class="form-control block-amount-input" type="number">
+                                    <input name="block-days" [(ngModel)]="user.blockAmount.days" class="form-control block-amount-input" type="number" min="0">
                                 </div>
 
-                                <div class="amount-secotr">
+                                <div class="amount-secotr" [hidden]="user.blockAmount.forever">
                                     <label for="block-weeks" class="control-label block-label">מספר שבועות:</label>
-                                    <input name="block-weeks" [(ngModel)]="user.blockAmount.weeks" class="form-control block-amount-input" type="number">
+                                    <input name="block-weeks" [(ngModel)]="user.blockAmount.weeks" class="form-control block-amount-input" type="number" min="0">
                                 </div>
-                                
-                                <div class="amount-secotr">
+
+                                <div class="amount-secotr" [hidden]="user.blockAmount.forever">
                                     <label for="block-months" class="control-label block-label">מספר חודשים:</label>
-                                    <input name="block-months" [(ngModel)]="user.blockAmount.months" class="form-control block-amount-input" type="number">
+                                    <input name="block-months" [(ngModel)]="user.blockAmount.months" class="form-control block-amount-input" type="number" min="0">
                                 </div>
                             </div>
+                            <div class="block-forever-sector">                                
+                                <i class="fa fa-square-o" (click)="user.blockAmount.forever = true;" [hidden]="user.blockAmount.forever" aria-hidden="true"></i>
+                                <i class="fa fa-check-square-o" (click)="user.blockAmount.forever = false;" [hidden]="!user.blockAmount.forever" aria-hidden="true"></i>
+                                <label>לצמיתות</label>
+                            </div>                
                         </div>
 
                     </div>
@@ -163,4 +170,6 @@
     </div>
     <span id="edit-user-success" data-toggle="snackbar" data-content="המשתמש עודכן בהצלחה"></span>
     <span id="edit-user-error" data-toggle="snackbar" data-content="שגיאה בעדכון המשתמש"></span>
+    <span id="block-user-success" data-toggle="snackbar" data-content="חסימת המשתמש בוצעה בהצלחה"></span>
+    <span id="block-user-error" data-toggle="snackbar" data-content="שגיאה בחסימת המשתמש"></span>
 </div>

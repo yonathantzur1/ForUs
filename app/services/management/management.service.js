@@ -51,6 +51,17 @@ var ManagementService = /** @class */ (function (_super) {
             return null;
         });
     };
+    ManagementService.prototype.BlockUser = function (blockObj) {
+        var details = { blockObj: blockObj };
+        return _super.prototype.put.call(this, this.prefix + '/blockUser', details)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
     return ManagementService;
 }(basic_service_1.BasicService));
 exports.ManagementService = ManagementService;

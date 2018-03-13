@@ -57,15 +57,21 @@ module.exports = function (app) {
         function (req, res) {
             loginBL.GetUser(req.body, function (result) {
                 if (result) {
+                    // In case the user is blocked.
+                    if (result.block) {
+                        req.brute.reset(() => {
+                            res.send({ result: { "block": result.block } });
+                        });
+                    }
                     // In case the user is not exists.
-                    if (result == "-1") {
+                    else if (result == "-1") {
                         req.brute.reset(() => {
                             res.send({ result });
                         });
                     }
                     // In case the user email and password are valid.
                     else {
-                        req.brute.reset(() => {                            
+                        req.brute.reset(() => {
                             general.SetTokenOnCookie(general.GetTokenFromUserObject(result), res);
                             res.send({ "result": true });
                         });

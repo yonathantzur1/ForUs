@@ -37,7 +37,8 @@ var ManagementComponent = /** @class */ (function () {
                 user.blockAmount = {
                     days: 0,
                     weeks: 0,
-                    months: 0
+                    months: 0,
+                    forever: false
                 };
                 user.isBlockScreenOpen = true;
             })
@@ -68,6 +69,13 @@ var ManagementComponent = /** @class */ (function () {
             this.SearchUser();
         }
     };
+    ManagementComponent.prototype.ReturnMainCard = function (user) {
+        user.friendSearchInput = null;
+        user.isFriendsScreenOpen = false;
+        user.isEditScreenOpen = false;
+        user.blockReason = null;
+        user.isBlockScreenOpen = false;
+    };
     ManagementComponent.prototype.ShowHideUserCard = function (user) {
         // Open the card in case it is close.
         if (!user.isOpen) {
@@ -79,10 +87,8 @@ var ManagementComponent = /** @class */ (function () {
         }
         else {
             user.isOpen = false;
-            user.isFriendsScreenOpen = false;
-            user.friendSearchInput = null;
-            user.isEditScreenOpen = false;
             this.isPreventFirstOpenCardAnimation = false;
+            this.ReturnMainCard(user);
         }
     };
     ManagementComponent.prototype.GetInfoDateString = function (date) {
@@ -113,13 +119,6 @@ var ManagementComponent = /** @class */ (function () {
                 user.isFriendsObjectsLoaded = true;
             }
         }
-    };
-    ManagementComponent.prototype.ReturnMainCard = function (user) {
-        user.friendSearchInput = null;
-        user.isFriendsScreenOpen = false;
-        user.isEditScreenOpen = false;
-        user.blockReason = null;
-        user.isBlockScreenOpen = false;
     };
     ManagementComponent.prototype.GetNoneCachedFriendsIds = function (friendsIds) {
         var self = this;
@@ -164,13 +163,21 @@ var ManagementComponent = /** @class */ (function () {
             editObj.email == user.email &&
             !editObj.password);
     };
-    ManagementComponent.prototype.OpenEditScreen = function (user) {
+    ManagementComponent.prototype.IsDisableSaveBlocking = function (user) {
+        var blockAmount = user.blockAmount;
+        return (!user.blockReason ||
+            (blockAmount.forever == false &&
+                ((blockAmount.days == null || blockAmount.weeks == null || blockAmount.months == null) ||
+                    (blockAmount.days == 0 && blockAmount.weeks == 0 && blockAmount.months == 0) ||
+                    (blockAmount.days < 0 || blockAmount.weeks < 0 || blockAmount.months < 0))));
+    };
+    ManagementComponent.prototype.OpenUserMenu = function (user) {
         this.CloseAllUsersMenu();
         user.isMenuOpen = true;
     };
-    ManagementComponent.prototype.SaveEdit = function (user) {
+    ManagementComponent.prototype.SaveChanges = function (user) {
         var _this = this;
-        if (!this.IsDisableSaveEdit(user)) {
+        if (user.isEditScreenOpen && !this.IsDisableSaveEdit(user)) {
             var editObj = user.editObj;
             var updateFields = { "_id": user._id };
             if (editObj.firstName != user.firstName) {
@@ -185,10 +192,10 @@ var ManagementComponent = /** @class */ (function () {
             if (editObj.password) {
                 updateFields["password"] = editObj.password;
             }
-            user.isEditLoader = true;
+            user.isSaveLoader = true;
             // Update user info.
             this.managementService.EditUser(updateFields).then(function (result) {
-                user.isEditLoader = false;
+                user.isSaveLoader = false;
                 // In case the user info edit succeeded. 
                 if (result) {
                     if (updateFields["password"]) {
@@ -203,6 +210,24 @@ var ManagementComponent = /** @class */ (function () {
                 }
                 else {
                     $("#edit-user-error").snackbar("show");
+                }
+            });
+        }
+        else if (user.isBlockScreenOpen && !this.IsDisableSaveBlocking(user)) {
+            var blockObj = {
+                "_id": user._id,
+                "blockReason": user.blockReason,
+                "blockAmount": user.blockAmount
+            };
+            user.isSaveLoader = true;
+            this.managementService.BlockUser(blockObj).then(function (result) {
+                user.isSaveLoader = false;
+                if (result) {
+                    _this.ReturnMainCard(user);
+                    $("#block-user-success").snackbar("show");
+                }
+                else {
+                    $("#block-user-error").snackbar("show");
                 }
             });
         }

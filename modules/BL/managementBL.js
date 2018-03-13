@@ -150,7 +150,7 @@ module.exports = {
     },
 
     UpdateUser: function (updateFields, callback) {
-        var userId = updateFields._id;
+        var userId = DAL.GetObjectId(updateFields._id);
         delete updateFields._id;
 
         // Generate password hash and salt.
@@ -161,9 +161,42 @@ module.exports = {
         }
 
         DAL.UpdateOne(usersCollectionName,
-            { "_id": DAL.GetObjectId(userId) },
+            { "_id": userId },
             { $set: updateFields },
             function (result) {
+                // Change result to true in case the update succeeded.
+                result && (result = true);
+
+                callback(result);
+            });
+    },
+
+    BlockUser: function (blockObj, callback) {
+        var userId = DAL.GetObjectId(blockObj._id);
+
+        // Calculate unblock date
+        var unblockDate = null;
+
+        if (!blockObj.blockAmount.forever) {
+            unblockDate = new Date();                        
+            unblockDate.setDate(unblockDate.getDate() + (blockObj.blockAmount.days));
+            unblockDate.setDate(unblockDate.getDate() + (blockObj.blockAmount.weeks * 7));
+            unblockDate.setMonth(unblockDate.getMonth() + (blockObj.blockAmount.months));
+            unblockDate.setHours(0, 0, 0, 0);        
+        }
+
+        var block = {
+            reason: blockObj.blockReason,
+            unblockDate
+        }
+
+        DAL.UpdateOne(usersCollectionName,
+            { "_id": userId },
+            { $set: { block } },
+            function (result) {
+                // Change result to true in case the update succeeded.
+                result && (result = true);
+
                 callback(result);
             });
     }

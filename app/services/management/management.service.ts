@@ -41,4 +41,17 @@ export class ManagementService extends BasicService {
                 return null;
             });
     }
+
+    BlockUser(blockObj: any) {
+        var details = { blockObj };
+
+        return super.put(this.prefix + '/blockUser', details)
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((result: any) => {
+                return null;
+            });
+    }
 }

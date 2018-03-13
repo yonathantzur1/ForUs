@@ -139,9 +139,20 @@ export class LoginComponent implements OnInit {
           });
         }
         else {
-          if (result.lock != null) {
+          // In case the user is locked via brute attack.
+          if (result.lock) {
             $("#lock-user").attr("data-content", "החשבון ננעל למשך " + result.lock + " דקות");
             this.snackbarId = $("#lock-user").snackbar("show");
+          }
+          // In case the user is blocked.
+          else if (result.block) {
+            this.alertService.Alert({
+              title: "משתמש חסום",
+              text: "סיבה: " + result.block.reason + "\n" +
+                "עד תאריך: " + (result.block.unblockDate ? result.block.unblockDate : "בלתי מוגבל"),
+              type: "warning",
+              showCancelButton: false
+            });
           }
           else {
             this.router.navigateByUrl('');

@@ -45,9 +45,10 @@ export class ManagementComponent {
                 user.blockAmount = {
                     days: 0,
                     weeks: 0,
-                    months: 0
+                    months: 0,
+                    forever: false
                 };
-                
+
                 user.isBlockScreenOpen = true;
             })
         ];
@@ -83,6 +84,14 @@ export class ManagementComponent {
         }
     }
 
+    ReturnMainCard(user: any) {
+        user.friendSearchInput = null;
+        user.isFriendsScreenOpen = false;
+        user.isEditScreenOpen = false;
+        user.blockReason = null;
+        user.isBlockScreenOpen = false;
+    }
+
     ShowHideUserCard(user: any) {
         // Open the card in case it is close.
         if (!user.isOpen) {
@@ -96,10 +105,8 @@ export class ManagementComponent {
         // Close the card in case it is open.
         else {
             user.isOpen = false;
-            user.isFriendsScreenOpen = false;
-            user.friendSearchInput = null;
-            user.isEditScreenOpen = false;
             this.isPreventFirstOpenCardAnimation = false;
+            this.ReturnMainCard(user);
         }
     }
 
@@ -139,14 +146,6 @@ export class ManagementComponent {
                 user.isFriendsObjectsLoaded = true;
             }
         }
-    }
-
-    ReturnMainCard(user: any) {
-        user.friendSearchInput = null;
-        user.isFriendsScreenOpen = false;        
-        user.isEditScreenOpen = false;
-        user.blockReason = null;
-        user.isBlockScreenOpen = false;
     }
 
     GetNoneCachedFriendsIds(friendsIds: Array<string>): Array<string> {
@@ -205,13 +204,23 @@ export class ManagementComponent {
             !editObj.password);
     }
 
-    OpenEditScreen(user: any) {
+    IsDisableSaveBlocking(user: any) {
+        var blockAmount = user.blockAmount;
+
+        return (!user.blockReason ||
+            (blockAmount.forever == false &&
+                ((blockAmount.days == null || blockAmount.weeks == null || blockAmount.months == null) ||
+                    (blockAmount.days == 0 && blockAmount.weeks == 0 && blockAmount.months == 0) ||
+                    (blockAmount.days < 0 || blockAmount.weeks < 0 || blockAmount.months < 0))));
+    }
+
+    OpenUserMenu(user: any) {
         this.CloseAllUsersMenu();
         user.isMenuOpen = true;
     }
 
-    SaveEdit(user: any) {
-        if (!this.IsDisableSaveEdit(user)) {
+    SaveChanges(user: any) {
+        if (user.isEditScreenOpen && !this.IsDisableSaveEdit(user)) {
             var editObj = user.editObj;
             var updateFields = { "_id": user._id };
 
@@ -231,11 +240,11 @@ export class ManagementComponent {
                 updateFields["password"] = editObj.password;
             }
 
-            user.isEditLoader = true;
+            user.isSaveLoader = true;
 
             // Update user info.
-            this.managementService.EditUser(updateFields).then((result: boolean) => {
-                user.isEditLoader = false;
+            this.managementService.EditUser(updateFields).then(result => {
+                user.isSaveLoader = false;
 
                 // In case the user info edit succeeded. 
                 if (result) {
@@ -253,6 +262,27 @@ export class ManagementComponent {
                 }
                 else {
                     $("#edit-user-error").snackbar("show");
+                }
+            });
+        }
+        else if (user.isBlockScreenOpen && !this.IsDisableSaveBlocking(user)) {
+            var blockObj = {
+                "_id": user._id,
+                "blockReason": user.blockReason,
+                "blockAmount": user.blockAmount
+            }
+
+            user.isSaveLoader = true;
+
+            this.managementService.BlockUser(blockObj).then(result => {
+                user.isSaveLoader = false;
+
+                if (result) {
+                    this.ReturnMainCard(user);
+                    $("#block-user-success").snackbar("show");
+                }
+                else {
+                    $("#block-user-error").snackbar("show");
                 }
             });
         }

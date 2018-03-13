@@ -38,4 +38,12 @@ module.exports = function (app) {
         });
     });
 
+    app.put(prefix + '/blockUser', function (req, res) {
+        var blockObj = req.body.blockObj;
+
+        managementBL.BlockUser(blockObj, function (result) {
+            res.send(result);
+        });
+    });
+
 };

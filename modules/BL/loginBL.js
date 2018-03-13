@@ -46,7 +46,7 @@ module.exports = {
         });
     },
 
-    // Return user object if the user was found else false.
+    // Return user object on login if the user was found else false.
     GetUser: function (user, callback) {
         var filter = { "email": user.email };
 
@@ -57,9 +57,24 @@ module.exports = {
             }
             // In case the user was found.
             else if (result.length == 1) {
+                var userObj = result[0];
+
                 // In case the password and salt hashing are the password hash in the db
-                if (sha512(user.password + result[0].salt) == result[0].password) {
-                    callback(result[0]);
+                if (sha512(user.password + userObj.salt) == userObj.password) {
+                    // In case the user is blocked.
+                    if (userObj.block &&
+                        (!userObj.block.unblockDate || userObj.block.unblockDate.getTime() > Date.now())) {
+                        if (userObj.block.unblockDate) {
+                            var unblockDate = userObj.block.unblockDate;
+                            unblockDate = unblockDate.getDate() + '/' + (unblockDate.getMonth() + 1) + '/' +  unblockDate.getFullYear();
+                            userObj.block.unblockDate = unblockDate;
+                        }
+                        callback({ "block": userObj.block });
+                    }
+                    else {
+                        delete userObj.block;
+                        callback(userObj);
+                    }
                 }
                 // In case the password is incorrect.
                 else {
