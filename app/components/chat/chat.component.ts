@@ -65,7 +65,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     constructor(private chatService: ChatService, private globalService: GlobalService) {
 
-        this.subscribeObj = this.globalService.data.subscribe(value => {
+        this.subscribeObj = this.globalService.data.subscribe((value: any) => {
             if (value["chatData"]) {
                 this.messages = [];
                 this.chatData = value["chatData"];

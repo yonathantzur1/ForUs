@@ -21,7 +21,7 @@ export class ProfilePictureComponent implements OnDestroy {
     subscribeObj: any;
 
     constructor(private profilePictureService: ProfilePictureService, private globalService: GlobalService) {
-        this.subscribeObj = this.globalService.data.subscribe(value => {
+        this.subscribeObj = this.globalService.data.subscribe((value: any) => {
             if (value["newUploadedImage"]) {
                 globalService.userProfileImage = value["newUploadedImage"];
                 this.isUserHasImage = true;

@@ -246,14 +246,16 @@ export class ManagementComponent {
             user.isSaveLoader = true;
 
             // Update user info.
-            this.managementService.EditUser(updateFields).then(result => {
+            this.managementService.EditUser(updateFields).then((result: any) => {
                 user.isSaveLoader = false;
 
                 // In case the user info edit succeeded. 
                 if (result) {
                     if (updateFields["password"]) {
                         delete updateFields["password"];
-                        this.globalService.socket.emit("LogoutUserSessionServer", user._id);
+                        this.globalService.socket.emit("LogoutUserSessionServer",
+                            user._id,
+                            "נותקת מהאתר, יש להתחבר מחדש");
                     }
 
                     Object.keys(updateFields).forEach(field => {
@@ -277,13 +279,22 @@ export class ManagementComponent {
 
             user.isSaveLoader = true;
 
-            this.managementService.BlockUser(blockObj).then(result => {
+            this.managementService.BlockUser(blockObj).then((result: any) => {
                 user.isSaveLoader = false;
 
                 if (result) {
                     user.block = result;
                     this.ReturnMainCard(user);
                     $("#block-user-success").snackbar("show");
+
+                    var blockUserMsg = "חשבון זה נחסם" + "\n\n" +
+                        "<b>סיבה: </b>" + user.block.reason + "\n" +
+                        "<b>עד תאריך: </b>" +
+                        (user.block.unblockDate ? this.ConvertDateFormat(user.block.unblockDate) : "בלתי מוגבל");
+
+                    // this.globalService.socket.emit("LogoutUserSessionServer",
+                    //     user._id,
+                    //     blockUserMsg);
                 }
                 else {
                     $("#block-user-error").snackbar("show");
@@ -330,7 +341,7 @@ export class ManagementComponent {
             title: "ביטול חסימה - " + user.firstName + " " + user.lastName,
             text: "האם לבטל את החסימה?" + "\n\n" +
                 "<b>סיבה: </b>" + user.block.reason + "\n" +
-                "<b>עד תאריך: </b>" + (user.block.unblockDate ? self.ConvertDateFormat(user.block.unblockDate) : "בלתי מוגבל") + "\n",
+                "<b>עד תאריך: </b>" + (user.block.unblockDate ? self.ConvertDateFormat(user.block.unblockDate) : "בלתי מוגבל"),
             type: "info",
             confirmFunc: function () {
                 self.managementService.UnblockUser(user._id).then((result: any) => {

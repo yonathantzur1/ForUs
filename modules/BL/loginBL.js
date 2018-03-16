@@ -11,7 +11,7 @@ const resetCodeNumOfDigits = config.loginSecure.resetCodeNumOfDigits;
 const resetCodeNumOfHoursValid = config.loginSecure.resetCodeNumOfHoursValid;
 const resetPasswordMaxTries = config.loginSecure.resetPasswordMaxTries;
 
-module.exports = {
+var self = module.exports = {
 
     GetUserById: function (id, callback) {
         var userFilter = { $match: { "_id": DAL.GetObjectId(id) } };
@@ -62,13 +62,13 @@ module.exports = {
                 // In case the password and salt hashing are the password hash in the db
                 if (sha512(user.password + userObj.salt) == userObj.password) {
                     // In case the user is blocked.
-                    if (userObj.block &&
-                        (!userObj.block.unblockDate || userObj.block.unblockDate.getTime() > Date.now())) {
+                    if (self.IsUserBlocked(userObj)) {
                         if (userObj.block.unblockDate) {
                             var unblockDate = userObj.block.unblockDate;
-                            unblockDate = unblockDate.getDate() + '/' + (unblockDate.getMonth() + 1) + '/' +  unblockDate.getFullYear();
+                            unblockDate = unblockDate.getDate() + '/' + (unblockDate.getMonth() + 1) + '/' + unblockDate.getFullYear();
                             userObj.block.unblockDate = unblockDate;
                         }
+
                         callback({ "block": userObj.block });
                     }
                     else {
@@ -86,6 +86,11 @@ module.exports = {
                 callback("-1");
             }
         });
+    },
+
+    IsUserBlocked: function (user) {
+        return (user.block &&
+            (!user.block.unblockDate || user.block.unblockDate.getTime() > Date.now()));
     },
 
     UpdateLastLogin: function (userId, callback) {

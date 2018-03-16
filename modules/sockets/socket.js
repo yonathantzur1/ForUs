@@ -45,7 +45,7 @@ module.exports = function (io) {
             }
         });
 
-        socket.on('LogoutUserSessionServer', function (userId) {
+        socket.on('LogoutUserSessionServer', function (userId, msg) {
             var token = general.DecodeToken(general.GetTokenFromSocket(socket));
 
             // Logout the given user in case the sender is admin, or in case the logout is self.
@@ -53,7 +53,6 @@ module.exports = function (io) {
                 token.user &&
                 ((token.user.permissions && token.user.permissions.indexOf(general.PERMISSION.ADMIN) != -1) ||
                     userId == null)) {
-                var msg = "נותקת מהאתר, יש להתחבר מחדש";
                 io.to(userId || token.user._id).emit('LogoutUserSessionClient', msg);
             }
         });

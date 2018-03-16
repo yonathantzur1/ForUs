@@ -15,7 +15,7 @@ module.exports = function (app) {
 
                 // Double check uid (after main server token validae middleware)
                 // from the original DB user object.
-                if (user && user.uid == cookieUid) {
+                if (user && user.uid == cookieUid && !(loginBL.IsUserBlocked(user))) {
                     general.SetTokenOnCookie(general.GetTokenFromUserObject(user), res, true);
                     res.send(true);
                 }

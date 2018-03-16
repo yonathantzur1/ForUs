@@ -202,7 +202,7 @@ var ManagementComponent = /** @class */ (function () {
                 if (result) {
                     if (updateFields["password"]) {
                         delete updateFields["password"];
-                        _this.globalService.socket.emit("LogoutUserSessionServer", user._id);
+                        _this.globalService.socket.emit("LogoutUserSessionServer", user._id, "נותקת מהאתר, יש להתחבר מחדש");
                     }
                     Object.keys(updateFields).forEach(function (field) {
                         user[field] = updateFields[field];
@@ -228,6 +228,13 @@ var ManagementComponent = /** @class */ (function () {
                     user.block = result;
                     _this.ReturnMainCard(user);
                     $("#block-user-success").snackbar("show");
+                    var blockUserMsg = "חשבון זה נחסם" + "\n\n" +
+                        "<b>סיבה: </b>" + user.block.reason + "\n" +
+                        "<b>עד תאריך: </b>" +
+                        (user.block.unblockDate ? _this.ConvertDateFormat(user.block.unblockDate) : "בלתי מוגבל");
+                    // this.globalService.socket.emit("LogoutUserSessionServer",
+                    //     user._id,
+                    //     blockUserMsg);
                 }
                 else {
                     $("#block-user-error").snackbar("show");
@@ -266,7 +273,7 @@ var ManagementComponent = /** @class */ (function () {
             title: "ביטול חסימה - " + user.firstName + " " + user.lastName,
             text: "האם לבטל את החסימה?" + "\n\n" +
                 "<b>סיבה: </b>" + user.block.reason + "\n" +
-                "<b>עד תאריך: </b>" + (user.block.unblockDate ? self.ConvertDateFormat(user.block.unblockDate) : "בלתי מוגבל") + "\n",
+                "<b>עד תאריך: </b>" + (user.block.unblockDate ? self.ConvertDateFormat(user.block.unblockDate) : "בלתי מוגבל"),
             type: "info",
             confirmFunc: function () {
                 self.managementService.UnblockUser(user._id).then(function (result) {

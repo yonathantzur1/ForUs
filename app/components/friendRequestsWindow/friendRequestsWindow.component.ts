@@ -14,14 +14,14 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     @Input() friendRequests: Array<string>;
     @Input() AddFriend: Function;
     @Input() IgnoreFriendRequest: Function;
- 
+
     friendRequestsObjects: Array<any> = [];
     isFirstFriendRequestsObjectsLoaded: boolean = false;
     isFriendRequestsLoading: boolean = false;
 
     constructor(private navbarService: NavbarService,
         private friendRequestsWindowService: FriendRequestsWindowService,
-        private globalService: GlobalService) {        
+        private globalService: GlobalService) {
     }
 
     ngOnInit() {

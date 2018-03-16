@@ -90,7 +90,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         private navbarService: NavbarService) {
         ;
 
-        this.subscribeObj = this.globalService.data.subscribe(value => {
+        this.subscribeObj = this.globalService.data.subscribe((value: any) => {
             // In case isOpenProfileEditWindow is true or false
             if (value["isOpenProfileEditWindow"] != null) {
                 value["isOpenProfileEditWindow"] && this.ClosePopups();

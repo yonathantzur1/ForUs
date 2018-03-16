@@ -5,4 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './loader.html'
 })
 
-export class LoaderComponent {}
+export class LoaderComponent { }

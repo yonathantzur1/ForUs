@@ -110,7 +110,7 @@ export class LoginComponent implements OnInit {
       this.isLoading = true;
       var self = this;
 
-      this.loginService.Login(this.user).then((data) => {
+      this.loginService.Login(this.user).then((data: any) => {
         var result = data ? data.result : null;
         this.isLoading = false;
 
@@ -168,7 +168,7 @@ export class LoginComponent implements OnInit {
     if (this.Validation(registerValidationFuncs, this.newUser)) {
       this.isLoading = true;
 
-      this.loginService.Register(this.newUser).then((data) => {
+      this.loginService.Register(this.newUser).then((data: any) => {
         var result = data ? data.result : null;
         this.isLoading = false;
 
@@ -197,7 +197,7 @@ export class LoginComponent implements OnInit {
 
       // In case the user is in the first stage of reset password.
       if (this.forgotUser.showResetCodeField == false) {
-        this.loginService.Forgot(this.forgotUser.email).then((data) => {
+        this.loginService.Forgot(this.forgotUser.email).then((data: any) => {
           var result = data ? data.result : null;
           this.isLoading = false;
 
@@ -220,7 +220,7 @@ export class LoginComponent implements OnInit {
       }
       // In case the user is in the second stage of reset password.
       else {
-        this.loginService.ResetPassword(this.forgotUser).then((data) => {
+        this.loginService.ResetPassword(this.forgotUser).then((data: any) => {
           var result = data ? data.result : null;
           this.isLoading = false;
 

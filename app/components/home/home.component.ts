@@ -26,11 +26,11 @@ export class HomeComponent implements OnInit {
     ngOnInit() {
         var self = this;
 
-        self.authService.GetCurrUser().then((result) => {
+        self.authService.GetCurrUser().then((result: any) => {
             self.currUser = result;
         });
 
-        self.profilePictureService.GetUserProfileImage().then(function (result) {
+        self.profilePictureService.GetUserProfileImage().then((result: any) => {
             if (result) {
                 self.globalService.userProfileImage = result.image;
             }
