@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, HostListener } from '@angular/core';
 
 import { DropMenuData } from '../../components/navbar/navbar.component';
 import { ManagementService } from '../../services/management/management.service';
@@ -8,11 +8,7 @@ import { AlertService } from '../../services/alert/alert.service';
 @Component({
     selector: 'management',
     templateUrl: './management.html',
-    providers: [ManagementService],
-    host: {
-        '(document:click)': 'OnClick($event)',
-        '(document:touchstart)': 'OnClick($event)'
-    }
+    providers: [ManagementService]
 })
 
 export class ManagementComponent implements OnDestroy {
@@ -124,6 +120,7 @@ export class ManagementComponent implements OnDestroy {
         // Close the card in case it is open.
         else {
             user.isOpen = false;
+            user.isMenuOpen = false;
             this.isPreventFirstOpenCardAnimation = false;
             this.ReturnMainCard(user);
         }
@@ -308,45 +305,14 @@ export class ManagementComponent implements OnDestroy {
                         "<b>עד תאריך: </b>" +
                         (user.block.unblockDate ? this.ConvertDateFormat(user.block.unblockDate) : "בלתי מוגבל");
 
-                    // this.globalService.socket.emit("LogoutUserSessionServer",
-                    //     user._id,
-                    //     blockUserMsg);
+                    this.globalService.socket.emit("LogoutUserSessionServer",
+                        user._id,
+                        blockUserMsg);
                 }
                 else {
                     $("#block-user-error").snackbar("show");
                 }
             });
-        }
-    }
-
-    GetUserWithOpenMenu() {
-        for (var i = 0; i < this.users.length; i++) {
-            if (this.users[i].isMenuOpen) {
-                return this.users[i];
-            }
-        }
-
-        return null;
-    }
-
-    CloseAllUsersMenu() {
-        this.users.forEach(user => {
-            user.isMenuOpen = false;
-        });
-    }
-
-    OnClick(event: any) {
-        var isClickInsideMenu = false;
-
-        for (var i = 0; i < event.path.length; i++) {
-            if (event.path[i].id == "user-settings-icon" || event.path[i].id == "dropMenu") {
-                isClickInsideMenu = true;
-                break;
-            }
-        }
-
-        if (!isClickInsideMenu) {
-            this.CloseAllUsersMenu();
         }
     }
 
@@ -371,6 +337,38 @@ export class ManagementComponent implements OnDestroy {
                 });
             }
         });
+    }
+
+    GetUserWithOpenMenu() {
+        for (var i = 0; i < this.users.length; i++) {
+            if (this.users[i].isMenuOpen) {
+                return this.users[i];
+            }
+        }
+
+        return null;
+    }
+
+    CloseAllUsersMenu() {
+        this.users.forEach(user => {
+            user.isMenuOpen = false;
+        });
+    }
+
+    @HostListener('document:click', ['$event'])
+    OnClick(event: any) {
+        var isClickInsideMenu = false;
+
+        for (var i = 0; i < event.path.length; i++) {
+            if (event.path[i].id == "user-settings-icon" || event.path[i].id == "dropMenu") {
+                isClickInsideMenu = true;
+                break;
+            }
+        }
+
+        if (!isClickInsideMenu) {
+            this.CloseAllUsersMenu();
+        }
     }
 
     ConvertDateFormat(date: Date) {

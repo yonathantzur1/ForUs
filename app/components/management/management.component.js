@@ -99,6 +99,7 @@ var ManagementComponent = /** @class */ (function () {
         }
         else {
             user.isOpen = false;
+            user.isMenuOpen = false;
             this.isPreventFirstOpenCardAnimation = false;
             this.ReturnMainCard(user);
         }
@@ -242,15 +243,34 @@ var ManagementComponent = /** @class */ (function () {
                         "<b>סיבה: </b>" + user.block.reason + "\n" +
                         "<b>עד תאריך: </b>" +
                         (user.block.unblockDate ? _this.ConvertDateFormat(user.block.unblockDate) : "בלתי מוגבל");
-                    // this.globalService.socket.emit("LogoutUserSessionServer",
-                    //     user._id,
-                    //     blockUserMsg);
+                    _this.globalService.socket.emit("LogoutUserSessionServer", user._id, blockUserMsg);
                 }
                 else {
                     $("#block-user-error").snackbar("show");
                 }
             });
         }
+    };
+    ManagementComponent.prototype.UnblockUser = function (user) {
+        var self = this;
+        self.alertService.Alert({
+            title: "ביטול חסימה - " + user.firstName + " " + user.lastName,
+            text: "האם לבטל את החסימה?" + "\n\n" +
+                "<b>סיבה: </b>" + user.block.reason + "\n" +
+                "<b>עד תאריך: </b>" + (user.block.unblockDate ? self.ConvertDateFormat(user.block.unblockDate) : "בלתי מוגבל"),
+            type: "info",
+            confirmFunc: function () {
+                self.managementService.UnblockUser(user._id).then(function (result) {
+                    if (result) {
+                        delete user.block;
+                        $("#unblock-user-success").snackbar("show");
+                    }
+                    else {
+                        $("#unblock-user-error").snackbar("show");
+                    }
+                });
+            }
+        });
     };
     ManagementComponent.prototype.GetUserWithOpenMenu = function () {
         for (var i = 0; i < this.users.length; i++) {
@@ -277,40 +297,21 @@ var ManagementComponent = /** @class */ (function () {
             this.CloseAllUsersMenu();
         }
     };
-    ManagementComponent.prototype.UnblockUser = function (user) {
-        var self = this;
-        self.alertService.Alert({
-            title: "ביטול חסימה - " + user.firstName + " " + user.lastName,
-            text: "האם לבטל את החסימה?" + "\n\n" +
-                "<b>סיבה: </b>" + user.block.reason + "\n" +
-                "<b>עד תאריך: </b>" + (user.block.unblockDate ? self.ConvertDateFormat(user.block.unblockDate) : "בלתי מוגבל"),
-            type: "info",
-            confirmFunc: function () {
-                self.managementService.UnblockUser(user._id).then(function (result) {
-                    if (result) {
-                        delete user.block;
-                        $("#unblock-user-success").snackbar("show");
-                    }
-                    else {
-                        $("#unblock-user-error").snackbar("show");
-                    }
-                });
-            }
-        });
-    };
     ManagementComponent.prototype.ConvertDateFormat = function (date) {
         date = new Date(date);
         return (date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
     };
+    __decorate([
+        core_1.HostListener('document:click', ['$event']),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", void 0)
+    ], ManagementComponent.prototype, "OnClick", null);
     ManagementComponent = __decorate([
         core_1.Component({
             selector: 'management',
             templateUrl: './management.html',
-            providers: [management_service_1.ManagementService],
-            host: {
-                '(document:click)': 'OnClick($event)',
-                '(document:touchstart)': 'OnClick($event)'
-            }
+            providers: [management_service_1.ManagementService]
         }),
         __metadata("design:paramtypes", [global_service_1.GlobalService,
             management_service_1.ManagementService,
