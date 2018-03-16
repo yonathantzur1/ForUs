@@ -16,6 +16,7 @@ var global_service_1 = require("../../services/global/global.service");
 var alert_service_1 = require("../../services/alert/alert.service");
 var ManagementComponent = /** @class */ (function () {
     function ManagementComponent(globalService, managementService, alertService) {
+        var _this = this;
         this.globalService = globalService;
         this.managementService = managementService;
         this.alertService = alertService;
@@ -24,6 +25,11 @@ var ManagementComponent = /** @class */ (function () {
         this.friendsElementsPadding = 0;
         // Animation properties    
         this.openCardAnimationTime = 200;
+        this.subscribeObj = this.globalService.data.subscribe(function (value) {
+            if (value["closeDropMenu"]) {
+                _this.CloseAllUsersMenu();
+            }
+        });
         var self = this;
         self.dropMenuDataList = [
             new navbar_component_1.DropMenuData(null, "עריכה", function () {
@@ -46,6 +52,10 @@ var ManagementComponent = /** @class */ (function () {
             })
         ];
     }
+    ManagementComponent.prototype.ngOnDestroy = function () {
+        var self = this;
+        self.subscribeObj.unsubscribe();
+    };
     ManagementComponent.prototype.SearchUser = function () {
         var _this = this;
         if (this.searchInput && (this.searchInput = this.searchInput.trim())) {
@@ -258,7 +268,7 @@ var ManagementComponent = /** @class */ (function () {
     ManagementComponent.prototype.OnClick = function (event) {
         var isClickInsideMenu = false;
         for (var i = 0; i < event.path.length; i++) {
-            if (event.path[i].id == "user-settings-icon") {
+            if (event.path[i].id == "user-settings-icon" || event.path[i].id == "dropMenu") {
                 isClickInsideMenu = true;
                 break;
             }
@@ -298,7 +308,8 @@ var ManagementComponent = /** @class */ (function () {
             templateUrl: './management.html',
             providers: [management_service_1.ManagementService],
             host: {
-                '(document:click)': 'OnClick($event)'
+                '(document:click)': 'OnClick($event)',
+                '(document:touchstart)': 'OnClick($event)'
             }
         }),
         __metadata("design:paramtypes", [global_service_1.GlobalService,

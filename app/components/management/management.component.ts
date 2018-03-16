@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 
 import { DropMenuData } from '../../components/navbar/navbar.component';
 import { ManagementService } from '../../services/management/management.service';
@@ -10,11 +10,12 @@ import { AlertService } from '../../services/alert/alert.service';
     templateUrl: './management.html',
     providers: [ManagementService],
     host: {
-        '(document:click)': 'OnClick($event)'
+        '(document:click)': 'OnClick($event)',
+        '(document:touchstart)': 'OnClick($event)'
     }
 })
 
-export class ManagementComponent {
+export class ManagementComponent implements OnDestroy {
 
     isLoadingUsers: boolean;
     isPreventFirstOpenCardAnimation: boolean;
@@ -27,9 +28,18 @@ export class ManagementComponent {
     // Animation properties    
     openCardAnimationTime: number = 200;
 
+    subscribeObj: any;
+
     constructor(private globalService: GlobalService,
         private managementService: ManagementService,
         private alertService: AlertService) {
+
+        this.subscribeObj = this.globalService.data.subscribe((value: any) => {
+            if (value["closeDropMenu"]) {
+                this.CloseAllUsersMenu();
+            }
+        });
+
         var self = this;
 
         self.dropMenuDataList = [
@@ -55,6 +65,12 @@ export class ManagementComponent {
                 user.isBlockScreenOpen = true;
             })
         ];
+    }
+
+    ngOnDestroy() {
+        var self = this;
+
+        self.subscribeObj.unsubscribe();
     }
 
     SearchUser() {
@@ -323,7 +339,7 @@ export class ManagementComponent {
         var isClickInsideMenu = false;
 
         for (var i = 0; i < event.path.length; i++) {
-            if (event.path[i].id == "user-settings-icon") {
+            if (event.path[i].id == "user-settings-icon" || event.path[i].id == "dropMenu") {
                 isClickInsideMenu = true;
                 break;
             }
