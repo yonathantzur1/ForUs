@@ -17,6 +17,7 @@
         <div *ngIf="!isLoadingUsers">
             <div class="card-container" *ngFor="let user of users">
                 <div class="user-card">
+                    <i class="material-icons block-icon" (click)="UnblockUser(user)" title="הסרת חסימה" *ngIf="user.block">block</i>
                     <div class="user-name-container">
                         <span class="user-name">{{user.firstName + " " + user.lastName}}</span>
                         <img class="user-profile-image" [src]="user.profileImage ? user.profileImage.image : globalService.defaultProfileImage">
@@ -153,11 +154,11 @@
                                     <input name="block-months" [(ngModel)]="user.blockAmount.months" class="form-control block-amount-input" type="number" min="0">
                                 </div>
                             </div>
-                            <div class="block-forever-sector">                                
+                            <div class="block-forever-sector">
                                 <i class="fa fa-square-o" (click)="user.blockAmount.forever = true;" [hidden]="user.blockAmount.forever" aria-hidden="true"></i>
                                 <i class="fa fa-check-square-o" (click)="user.blockAmount.forever = false;" [hidden]="!user.blockAmount.forever" aria-hidden="true"></i>
                                 <label>לצמיתות</label>
-                            </div>                
+                            </div>
                         </div>
 
                     </div>
@@ -172,4 +173,6 @@
     <span id="edit-user-error" data-toggle="snackbar" data-content="שגיאה בעדכון המשתמש"></span>
     <span id="block-user-success" data-toggle="snackbar" data-content="חסימת המשתמש בוצעה בהצלחה"></span>
     <span id="block-user-error" data-toggle="snackbar" data-content="שגיאה בחסימת המשתמש"></span>
+    <span id="unblock-user-success" data-toggle="snackbar" data-content="ביטול החסימה בוצע בהצלחה"></span>
+    <span id="unblock-user-error" data-toggle="snackbar" data-content="שגיאה בביטול חסימת המשתמש"></span>
 </div>

@@ -14,34 +14,32 @@ module.exports = function (app) {
         }
     });
 
-    app.post(prefix + '/getUserByName', function (req, res) {
-        var searchInput = req.body.searchInput;
-
-        managementBL.GetUserByName(searchInput, function (result) {
+    app.post(prefix + '/getUserByName', function (req, res) {        
+        managementBL.GetUserByName(req.body.searchInput, function (result) {
             res.send(result);
         });
     });
 
     app.post(prefix + '/getUserFriends', function (req, res) {
-        var friendsIds = req.body.friendsIds;
-
-        managementBL.GetUserFriends(friendsIds, function (result) {
+        managementBL.GetUserFriends(req.body.friendsIds, function (result) {
             res.send(result);
         });
     });
 
-    app.put(prefix + '/editUser', function (req, res) {
-        var updateFields = req.body.updateFields;
-
-        managementBL.UpdateUser(updateFields, function (result) {
+    app.put(prefix + '/editUser', function (req, res) {        
+        managementBL.UpdateUser(req.body.updateFields, function (result) {
             res.send(result);
         });
     });
 
-    app.put(prefix + '/blockUser', function (req, res) {
-        var blockObj = req.body.blockObj;
+    app.put(prefix + '/blockUser', function (req, res) {    
+        managementBL.BlockUser(req.body.blockObj, function (result) {
+            res.send(result);
+        });
+    });
 
-        managementBL.BlockUser(blockObj, function (result) {
+    app.put(prefix + '/unblockUser', function (req, res) {        
+        managementBL.UnblockUser(req.body.userId, function (result) {
             res.send(result);
         });
     });

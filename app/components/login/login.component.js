@@ -133,8 +133,8 @@ var LoginComponent = /** @class */ (function () {
                     else if (result.block) {
                         _this.alertService.Alert({
                             title: "משתמש חסום",
-                            text: "סיבה: " + result.block.reason + "\n" +
-                                "עד תאריך: " + (result.block.unblockDate ? result.block.unblockDate : "בלתי מוגבל"),
+                            text: "<b>סיבה: </b>" + result.block.reason + "\n" +
+                                "<b>עד תאריך: </b>" + (result.block.unblockDate ? result.block.unblockDate : "בלתי מוגבל"),
                             type: "warning",
                             showCancelButton: false
                         });

@@ -39,7 +39,8 @@ module.exports = {
                     "profile": 1,
                     "creationDate": 1,
                     "lastLoginTime": 1,
-                    "friends": 1
+                    "friends": 1,
+                    "block": 1
                 }
             },
             usersFilter,
@@ -56,6 +57,7 @@ module.exports = {
                     "lastLoginTime": 1,
                     "friendsNumber": 1,
                     "friends": 1,
+                    "block": 1,
 
                     // Taking only specific fields from the document.
                     "profileImage.image": 1,
@@ -173,16 +175,15 @@ module.exports = {
 
     BlockUser: function (blockObj, callback) {
         var userId = DAL.GetObjectId(blockObj._id);
-
-        // Calculate unblock date
         var unblockDate = null;
 
         if (!blockObj.blockAmount.forever) {
-            unblockDate = new Date();                        
+            // Calculate unblock date
+            unblockDate = new Date();
             unblockDate.setDate(unblockDate.getDate() + (blockObj.blockAmount.days));
             unblockDate.setDate(unblockDate.getDate() + (blockObj.blockAmount.weeks * 7));
             unblockDate.setMonth(unblockDate.getMonth() + (blockObj.blockAmount.months));
-            unblockDate.setHours(0, 0, 0, 0);        
+            unblockDate.setHours(0, 0, 0, 0);
         }
 
         var block = {
@@ -193,6 +194,18 @@ module.exports = {
         DAL.UpdateOne(usersCollectionName,
             { "_id": userId },
             { $set: { block } },
+            function (result) {
+                // Change result to true in case the update succeeded.
+                result && (result = result.block);
+
+                callback(result);
+            });
+    },
+
+    UnblockUser: function (userId, callback) {
+        DAL.UpdateOne(usersCollectionName,
+            { "_id": DAL.GetObjectId(userId) },
+            { $unset: { "block": 1 } },
             function (result) {
                 // Change result to true in case the update succeeded.
                 result && (result = true);

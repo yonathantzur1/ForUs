@@ -13,10 +13,12 @@ var core_1 = require("@angular/core");
 var navbar_component_1 = require("../../components/navbar/navbar.component");
 var management_service_1 = require("../../services/management/management.service");
 var global_service_1 = require("../../services/global/global.service");
+var alert_service_1 = require("../../services/alert/alert.service");
 var ManagementComponent = /** @class */ (function () {
-    function ManagementComponent(globalService, managementService) {
+    function ManagementComponent(globalService, managementService, alertService) {
         this.globalService = globalService;
         this.managementService = managementService;
+        this.alertService = alertService;
         this.users = [];
         this.friendsCache = {};
         this.friendsElementsPadding = 0;
@@ -223,6 +225,7 @@ var ManagementComponent = /** @class */ (function () {
             this.managementService.BlockUser(blockObj).then(function (result) {
                 user.isSaveLoader = false;
                 if (result) {
+                    user.block = result;
                     _this.ReturnMainCard(user);
                     $("#block-user-success").snackbar("show");
                 }
@@ -257,6 +260,31 @@ var ManagementComponent = /** @class */ (function () {
             this.CloseAllUsersMenu();
         }
     };
+    ManagementComponent.prototype.UnblockUser = function (user) {
+        var self = this;
+        self.alertService.Alert({
+            title: "ביטול חסימה - " + user.firstName + " " + user.lastName,
+            text: "האם לבטל את החסימה?" + "\n\n" +
+                "<b>סיבה: </b>" + user.block.reason + "\n" +
+                "<b>עד תאריך: </b>" + (user.block.unblockDate ? self.ConvertDateFormat(user.block.unblockDate) : "בלתי מוגבל") + "\n",
+            type: "info",
+            confirmFunc: function () {
+                self.managementService.UnblockUser(user._id).then(function (result) {
+                    if (result) {
+                        delete user.block;
+                        $("#unblock-user-success").snackbar("show");
+                    }
+                    else {
+                        $("#unblock-user-error").snackbar("show");
+                    }
+                });
+            }
+        });
+    };
+    ManagementComponent.prototype.ConvertDateFormat = function (date) {
+        date = new Date(date);
+        return (date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
+    };
     ManagementComponent = __decorate([
         core_1.Component({
             selector: 'management',
@@ -266,7 +294,9 @@ var ManagementComponent = /** @class */ (function () {
                 '(document:click)': 'OnClick($event)'
             }
         }),
-        __metadata("design:paramtypes", [global_service_1.GlobalService, management_service_1.ManagementService])
+        __metadata("design:paramtypes", [global_service_1.GlobalService,
+            management_service_1.ManagementService,
+            alert_service_1.AlertService])
     ], ManagementComponent);
     return ManagementComponent;
 }());

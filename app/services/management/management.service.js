@@ -62,6 +62,17 @@ var ManagementService = /** @class */ (function (_super) {
             return null;
         });
     };
+    ManagementService.prototype.UnblockUser = function (userId) {
+        var details = { userId: userId };
+        return _super.prototype.put.call(this, this.prefix + '/unblockUser', details)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
     return ManagementService;
 }(basic_service_1.BasicService));
 exports.ManagementService = ManagementService;

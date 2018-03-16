@@ -369,3 +369,8 @@
 #management .block-forever-sector i {
     font-size: 16px;
 }
+
+#management .block-icon {
+    position: absolute;
+    cursor: pointer;
+}

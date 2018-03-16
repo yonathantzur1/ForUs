@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { DropMenuData } from '../../components/navbar/navbar.component';
 import { ManagementService } from '../../services/management/management.service';
 import { GlobalService } from '../../services/global/global.service';
+import { AlertService } from '../../services/alert/alert.service';
 
 @Component({
     selector: 'management',
@@ -26,7 +27,9 @@ export class ManagementComponent {
     // Animation properties    
     openCardAnimationTime: number = 200;
 
-    constructor(private globalService: GlobalService, private managementService: ManagementService) {
+    constructor(private globalService: GlobalService,
+        private managementService: ManagementService,
+        private alertService: AlertService) {
         var self = this;
 
         self.dropMenuDataList = [
@@ -278,6 +281,7 @@ export class ManagementComponent {
                 user.isSaveLoader = false;
 
                 if (result) {
+                    user.block = result;
                     this.ReturnMainCard(user);
                     $("#block-user-success").snackbar("show");
                 }
@@ -317,5 +321,33 @@ export class ManagementComponent {
         if (!isClickInsideMenu) {
             this.CloseAllUsersMenu();
         }
+    }
+
+    UnblockUser(user: any) {
+        var self = this;
+
+        self.alertService.Alert({
+            title: "ביטול חסימה - " + user.firstName + " " + user.lastName,
+            text: "האם לבטל את החסימה?" + "\n\n" +
+                "<b>סיבה: </b>" + user.block.reason + "\n" +
+                "<b>עד תאריך: </b>" + (user.block.unblockDate ? self.ConvertDateFormat(user.block.unblockDate) : "בלתי מוגבל") + "\n",
+            type: "info",
+            confirmFunc: function () {
+                self.managementService.UnblockUser(user._id).then((result: any) => {
+                    if (result) {
+                        delete user.block;
+                        $("#unblock-user-success").snackbar("show");
+                    }
+                    else {
+                        $("#unblock-user-error").snackbar("show");
+                    }
+                });
+            }
+        });
+    }
+
+    ConvertDateFormat(date: Date) {
+        date = new Date(date);
+        return (date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
     }
 }

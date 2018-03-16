@@ -54,4 +54,17 @@ export class ManagementService extends BasicService {
                 return null;
             });
     }
+
+    UnblockUser(userId: string) {
+        var details = { userId };
+
+        return super.put(this.prefix + '/unblockUser', details)
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((result: any) => {
+                return null;
+            });
+    }
 }
