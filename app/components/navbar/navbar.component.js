@@ -149,6 +149,9 @@ var NavbarComponent = /** @class */ (function () {
                 type: "warning",
                 confirmFunc: function () {
                     self.router.navigateByUrl('/login');
+                },
+                closeFunc: function () {
+                    self.router.navigateByUrl('/login');
                 }
             });
         });

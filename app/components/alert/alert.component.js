@@ -24,7 +24,7 @@ var AlertComponent = /** @class */ (function () {
     };
     AlertComponent.prototype.KeyPress = function (event) {
         // In case of pressing escape.
-        if (event.keyCode == 27) {
+        if (event.code == "Escape") {
             this.CloseClick();
         }
     };

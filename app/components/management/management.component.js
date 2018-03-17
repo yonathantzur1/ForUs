@@ -51,26 +51,10 @@ var ManagementComponent = /** @class */ (function () {
                 user.isBlockScreenOpen = true;
             })
         ];
-        self.clickFunction = function (event) {
-            var isClickInsideMenu = false;
-            for (var i = 0; i < event.path.length; i++) {
-                if (event.path[i].id == "user-settings-icon" || event.path[i].id == "dropMenu") {
-                    isClickInsideMenu = true;
-                    break;
-                }
-            }
-            if (!isClickInsideMenu) {
-                self.CloseAllUsersMenu();
-            }
-        };
-        document.addEventListener("click", self.clickFunction);
-        document.addEventListener("touchstart", self.clickFunction);
     }
     ManagementComponent.prototype.ngOnDestroy = function () {
         var self = this;
         self.subscribeObj.unsubscribe();
-        document.removeEventListener("click", self.clickFunction);
-        document.removeEventListener("touchstart", self.clickFunction);
     };
     ManagementComponent.prototype.SearchUser = function () {
         var _this = this;
@@ -133,6 +117,7 @@ var ManagementComponent = /** @class */ (function () {
     };
     ManagementComponent.prototype.OpenFriendsScreen = function (user) {
         var _this = this;
+        user.isMenuOpen = false;
         user.isFriendsScreenOpen = true;
         if (!user.isFriendsObjectsLoaded) {
             var noneCachedFriendsIds = this.GetNoneCachedFriendsIds(user.friends);
@@ -201,8 +186,9 @@ var ManagementComponent = /** @class */ (function () {
                     (blockAmount.days < 0 || blockAmount.weeks < 0 || blockAmount.months < 0))));
     };
     ManagementComponent.prototype.OpenUserMenu = function (user) {
+        var isOpen = !user.isMenuOpen;
         this.CloseAllUsersMenu();
-        user.isMenuOpen = true;
+        user.isMenuOpen = isOpen;
     };
     ManagementComponent.prototype.SaveChanges = function (user) {
         var _this = this;
@@ -300,18 +286,6 @@ var ManagementComponent = /** @class */ (function () {
         this.users.forEach(function (user) {
             user.isMenuOpen = false;
         });
-    };
-    ManagementComponent.prototype.OnClick = function (event) {
-        var isClickInsideMenu = false;
-        for (var i = 0; i < event.path.length; i++) {
-            if (event.path[i].id == "user-settings-icon" || event.path[i].id == "dropMenu") {
-                isClickInsideMenu = true;
-                break;
-            }
-        }
-        if (!isClickInsideMenu) {
-            this.CloseAllUsersMenu();
-        }
     };
     ManagementComponent.prototype.ConvertDateFormat = function (date) {
         date = new Date(date);

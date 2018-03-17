@@ -62,32 +62,12 @@ export class ManagementComponent implements OnDestroy {
                 user.isBlockScreenOpen = true;
             })
         ];
-
-        self.clickFunction = function(event: any) {
-            var isClickInsideMenu = false;
-
-            for (var i = 0; i < event.path.length; i++) {
-                if (event.path[i].id == "user-settings-icon" || event.path[i].id == "dropMenu") {
-                    isClickInsideMenu = true;
-                    break;
-                }
-            }
-    
-            if (!isClickInsideMenu) {
-                self.CloseAllUsersMenu();
-            }
-        };
-
-        document.addEventListener("click", self.clickFunction);
-        document.addEventListener("touchstart", self.clickFunction);
     }
 
     ngOnDestroy() {
         var self = this;
 
         self.subscribeObj.unsubscribe();
-        document.removeEventListener("click", self.clickFunction);
-        document.removeEventListener("touchstart", self.clickFunction);
     }
 
     SearchUser() {
@@ -165,6 +145,7 @@ export class ManagementComponent implements OnDestroy {
     }
 
     OpenFriendsScreen(user: any) {
+        user.isMenuOpen = false;
         user.isFriendsScreenOpen = true;
 
         if (!user.isFriendsObjectsLoaded) {
@@ -252,8 +233,9 @@ export class ManagementComponent implements OnDestroy {
     }
 
     OpenUserMenu(user: any) {
+        var isOpen = !user.isMenuOpen;
         this.CloseAllUsersMenu();
-        user.isMenuOpen = true;
+        user.isMenuOpen = isOpen;
     }
 
     SaveChanges(user: any) {
@@ -374,21 +356,6 @@ export class ManagementComponent implements OnDestroy {
         this.users.forEach(user => {
             user.isMenuOpen = false;
         });
-    }
-    
-    OnClick(event: any) {
-        var isClickInsideMenu = false;
-
-        for (var i = 0; i < event.path.length; i++) {
-            if (event.path[i].id == "user-settings-icon" || event.path[i].id == "dropMenu") {
-                isClickInsideMenu = true;
-                break;
-            }
-        }
-
-        if (!isClickInsideMenu) {
-            this.CloseAllUsersMenu();
-        }
     }
 
     ConvertDateFormat(date: Date) {

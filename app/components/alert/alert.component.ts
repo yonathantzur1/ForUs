@@ -19,13 +19,13 @@ export class AlertComponent {
     }
 
     CloseClick() {
-        !this.alertService.isLoading && this.alertService.Close();      
+        !this.alertService.isLoading && this.alertService.Close();
     }
 
     @HostListener('document:keyup', ['$event'])
     KeyPress(event: any) {
         // In case of pressing escape.
-        if (event.keyCode == 27) {
+        if (event.code == "Escape") {
             this.CloseClick();
         }
     }

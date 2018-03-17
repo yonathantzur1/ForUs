@@ -195,6 +195,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 type: "warning",
                 confirmFunc: function () {
                     self.router.navigateByUrl('/login');
+                },
+                closeFunc: function () {
+                    self.router.navigateByUrl('/login');
                 }
             });
         });
