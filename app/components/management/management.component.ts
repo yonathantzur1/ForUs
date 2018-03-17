@@ -1,4 +1,4 @@
-import { Component, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 
 import { DropMenuData } from '../../components/navbar/navbar.component';
 import { ManagementService } from '../../services/management/management.service';
@@ -25,6 +25,7 @@ export class ManagementComponent implements OnDestroy {
     openCardAnimationTime: number = 200;
 
     subscribeObj: any;
+    clickFunction: any;
 
     constructor(private globalService: GlobalService,
         private managementService: ManagementService,
@@ -61,12 +62,32 @@ export class ManagementComponent implements OnDestroy {
                 user.isBlockScreenOpen = true;
             })
         ];
+
+        self.clickFunction = function(event: any) {
+            var isClickInsideMenu = false;
+
+            for (var i = 0; i < event.path.length; i++) {
+                if (event.path[i].id == "user-settings-icon" || event.path[i].id == "dropMenu") {
+                    isClickInsideMenu = true;
+                    break;
+                }
+            }
+    
+            if (!isClickInsideMenu) {
+                self.CloseAllUsersMenu();
+            }
+        };
+
+        document.addEventListener("click", self.clickFunction);
+        document.addEventListener("touchstart", self.clickFunction);
     }
 
     ngOnDestroy() {
         var self = this;
 
         self.subscribeObj.unsubscribe();
+        document.removeEventListener("click", self.clickFunction);
+        document.removeEventListener("touchstart", self.clickFunction);
     }
 
     SearchUser() {
@@ -354,8 +375,7 @@ export class ManagementComponent implements OnDestroy {
             user.isMenuOpen = false;
         });
     }
-
-    @HostListener('document:click', ['$event'])
+    
     OnClick(event: any) {
         var isClickInsideMenu = false;
 

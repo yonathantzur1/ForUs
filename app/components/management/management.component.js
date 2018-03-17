@@ -51,10 +51,26 @@ var ManagementComponent = /** @class */ (function () {
                 user.isBlockScreenOpen = true;
             })
         ];
+        self.clickFunction = function (event) {
+            var isClickInsideMenu = false;
+            for (var i = 0; i < event.path.length; i++) {
+                if (event.path[i].id == "user-settings-icon" || event.path[i].id == "dropMenu") {
+                    isClickInsideMenu = true;
+                    break;
+                }
+            }
+            if (!isClickInsideMenu) {
+                self.CloseAllUsersMenu();
+            }
+        };
+        document.addEventListener("click", self.clickFunction);
+        document.addEventListener("touchstart", self.clickFunction);
     }
     ManagementComponent.prototype.ngOnDestroy = function () {
         var self = this;
         self.subscribeObj.unsubscribe();
+        document.removeEventListener("click", self.clickFunction);
+        document.removeEventListener("touchstart", self.clickFunction);
     };
     ManagementComponent.prototype.SearchUser = function () {
         var _this = this;
@@ -301,12 +317,6 @@ var ManagementComponent = /** @class */ (function () {
         date = new Date(date);
         return (date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
     };
-    __decorate([
-        core_1.HostListener('document:click', ['$event']),
-        __metadata("design:type", Function),
-        __metadata("design:paramtypes", [Object]),
-        __metadata("design:returntype", void 0)
-    ], ManagementComponent.prototype, "OnClick", null);
     ManagementComponent = __decorate([
         core_1.Component({
             selector: 'management',
