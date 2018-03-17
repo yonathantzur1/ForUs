@@ -84,7 +84,8 @@ var ManagementComponent = /** @class */ (function () {
             this.isLoadingUsers = true;
             this.managementService.GetUserByName(this.searchInput).then(function (results) {
                 _this.isLoadingUsers = false;
-                if (results != null) {
+                if (results && results.length > 0) {
+                    _this.isShowNotFoundUsersMessage = false;
                     _this.users = results;
                     // Empty old result friends cache.
                     _this.friendsCache = {};
@@ -93,6 +94,10 @@ var ManagementComponent = /** @class */ (function () {
                         _this.users[0].isOpen = true;
                         _this.isPreventFirstOpenCardAnimation = true;
                     }
+                }
+                else {
+                    _this.users = [];
+                    _this.isShowNotFoundUsersMessage = true;
                 }
             });
         }
@@ -111,6 +116,7 @@ var ManagementComponent = /** @class */ (function () {
         user.isBlockScreenOpen = false;
     };
     ManagementComponent.prototype.ShowHideUserCard = function (user) {
+        this.CloseAllUsersMenu();
         // Open the card in case it is close.
         if (!user.isOpen) {
             user.isOpen = true;
@@ -121,7 +127,6 @@ var ManagementComponent = /** @class */ (function () {
         }
         else {
             user.isOpen = false;
-            user.isMenuOpen = false;
             this.isPreventFirstOpenCardAnimation = false;
             this.ReturnMainCard(user);
         }

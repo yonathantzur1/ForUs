@@ -14,6 +14,10 @@
                 <i class="fa fa-circle" aria-hidden="true"></i>
             </p>
         </div>
+        <div class="not-found-users-sector" *ngIf="isShowNotFoundUsersMessage && !isLoadingUsers">
+            <i class="fa fa-user-times" style="font-size:70px;" aria-hidden="true"></i>
+            <div style="font-size:40px;">לא נמצאו משתמשים</div>
+        </div>
         <div *ngIf="!isLoadingUsers">
             <div class="card-container" *ngFor="let user of users">
                 <div class="user-card">
@@ -138,18 +142,18 @@
                                     <span class="help-block">* הסיבה המתוארת תוצג למשתמש</span>
                                 </div>
                             </div>
-                            <div class="form-group block-amount-container">
-                                <div class="amount-secotr" [hidden]="user.blockAmount.forever">
+                            <div class="form-group block-amount-container" *ngIf="!user.blockAmount.forever">
+                                <div class="amount-secotr">
                                     <label for="block-days" class="control-label block-label">מספר ימים:</label>
                                     <input name="block-days" [(ngModel)]="user.blockAmount.days" class="form-control block-amount-input" type="number" min="0">
                                 </div>
 
-                                <div class="amount-secotr" [hidden]="user.blockAmount.forever">
+                                <div class="amount-secotr">
                                     <label for="block-weeks" class="control-label block-label">מספר שבועות:</label>
                                     <input name="block-weeks" [(ngModel)]="user.blockAmount.weeks" class="form-control block-amount-input" type="number" min="0">
                                 </div>
 
-                                <div class="amount-secotr" [hidden]="user.blockAmount.forever">
+                                <div class="amount-secotr">
                                     <label for="block-months" class="control-label block-label">מספר חודשים:</label>
                                     <input name="block-months" [(ngModel)]="user.blockAmount.months" class="form-control block-amount-input" type="number" min="0">
                                 </div>

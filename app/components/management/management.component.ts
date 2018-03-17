@@ -20,6 +20,7 @@ export class ManagementComponent implements OnDestroy {
     friendsCache: Object = {};
     friendsElementsPadding: number = 0;
     dropMenuDataList: Array<DropMenuData>;
+    isShowNotFoundUsersMessage: boolean;
 
     // Animation properties    
     openCardAnimationTime: number = 200;
@@ -101,7 +102,8 @@ export class ManagementComponent implements OnDestroy {
             this.managementService.GetUserByName(this.searchInput).then((results: Array<any>) => {
                 this.isLoadingUsers = false;
 
-                if (results != null) {
+                if (results && results.length > 0) {
+                    this.isShowNotFoundUsersMessage = false;
                     this.users = results;
 
                     // Empty old result friends cache.
@@ -112,6 +114,10 @@ export class ManagementComponent implements OnDestroy {
                         this.users[0].isOpen = true;
                         this.isPreventFirstOpenCardAnimation = true;
                     }
+                }
+                else {
+                    this.users = [];
+                    this.isShowNotFoundUsersMessage = true;
                 }
             });
         }
@@ -133,6 +139,8 @@ export class ManagementComponent implements OnDestroy {
     }
 
     ShowHideUserCard(user: any) {
+        this.CloseAllUsersMenu();
+        
         // Open the card in case it is close.
         if (!user.isOpen) {
             user.isOpen = true;
@@ -144,8 +152,7 @@ export class ManagementComponent implements OnDestroy {
         }
         // Close the card in case it is open.
         else {
-            user.isOpen = false;
-            user.isMenuOpen = false;
+            user.isOpen = false;           
             this.isPreventFirstOpenCardAnimation = false;
             this.ReturnMainCard(user);
         }
