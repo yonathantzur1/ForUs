@@ -38,7 +38,7 @@
 #chatsWindow .body-container {
     height: calc(100% - 20px) !important;
     width: 100%;
-    overflow-y: overlay;
+    overflow-y: auto;    
 }
 
 #chatsWindow .chat-container {
