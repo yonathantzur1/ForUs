@@ -17,7 +17,7 @@
         <div *ngIf="!isLoadingUsers">
             <div class="card-container" *ngFor="let user of users">
                 <div class="user-card">
-                    <i class="material-icons block-icon" (click)="UnblockUser(user)" title="הסרת חסימה" *ngIf="user.block">block</i>
+                    <i class="material-icons block-icon" (click)="UnblockUser(user)" title="הסרת חסימה" *ngIf="IsUserBlocked(user) && !user.isFriendsScreenOpen && !user.isEditScreenOpen">block</i>
                     <div class="user-name-container">
                         <span class="user-name">{{user.firstName + " " + user.lastName}}</span>
                         <img class="user-profile-image" [src]="user.profileImage ? user.profileImage.image : globalService.defaultProfileImage">

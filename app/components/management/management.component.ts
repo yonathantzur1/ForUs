@@ -60,6 +60,30 @@ export class ManagementComponent implements OnDestroy {
                 };
 
                 user.isBlockScreenOpen = true;
+            }, () => {
+                var user = self.GetUserWithOpenMenu();
+
+                // Show only if the user is not already blocked.
+                if (!user) {
+                    return true;
+                }
+                else {
+                    return (self.IsUserBlocked(user) == false);
+                }
+            }),
+            new DropMenuData(null, "ביטול חסימה", () => {
+                var user = self.GetUserWithOpenMenu();
+                self.UnblockUser(user);
+            }, () => {
+                var user = self.GetUserWithOpenMenu();
+
+                // Show only if the user is not already blocked.
+                if (!user) {
+                    return false;
+                }
+                else {
+                    return (self.IsUserBlocked(user) == true);
+                }
             })
         ];
     }
@@ -340,6 +364,16 @@ export class ManagementComponent implements OnDestroy {
                 });
             }
         });
+    }
+
+    IsUserBlocked(user: any) {
+        if (user.block &&
+            (!user.block.unblockDate || new Date(user.block.unblockDate).getTime() > Date.now())) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     GetUserWithOpenMenu() {

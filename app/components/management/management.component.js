@@ -49,6 +49,28 @@ var ManagementComponent = /** @class */ (function () {
                     forever: false
                 };
                 user.isBlockScreenOpen = true;
+            }, function () {
+                var user = self.GetUserWithOpenMenu();
+                // Show only if the user is not already blocked.
+                if (!user) {
+                    return true;
+                }
+                else {
+                    return (self.IsUserBlocked(user) == false);
+                }
+            }),
+            new navbar_component_1.DropMenuData(null, "ביטול חסימה", function () {
+                var user = self.GetUserWithOpenMenu();
+                self.UnblockUser(user);
+            }, function () {
+                var user = self.GetUserWithOpenMenu();
+                // Show only if the user is not already blocked.
+                if (!user) {
+                    return false;
+                }
+                else {
+                    return (self.IsUserBlocked(user) == true);
+                }
             })
         ];
     }
@@ -273,6 +295,15 @@ var ManagementComponent = /** @class */ (function () {
                 });
             }
         });
+    };
+    ManagementComponent.prototype.IsUserBlocked = function (user) {
+        if (user.block &&
+            (!user.block.unblockDate || new Date(user.block.unblockDate).getTime() > Date.now())) {
+            return true;
+        }
+        else {
+            return false;
+        }
     };
     ManagementComponent.prototype.GetUserWithOpenMenu = function () {
         for (var i = 0; i < this.users.length; i++) {
