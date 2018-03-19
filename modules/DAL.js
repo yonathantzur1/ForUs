@@ -213,7 +213,7 @@ module.exports = {
 
                 var updateConfig = {
                     "multi": true,
-                    "upsert" : false
+                    "upsert": false
                 }
 
                 collection.update(findObj, updateObj, updateConfig,

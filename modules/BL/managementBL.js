@@ -213,6 +213,10 @@ module.exports = {
     },
 
     RemoveFriends: function (userId, friendId, callback) {
+        var notificationsUnsetJson = {};
+        notificationsUnsetJson["messagesNotifications." + userId] = 1;
+        notificationsUnsetJson["messagesNotifications." + friendId] = 1;
+
         DAL.Delete(chatsCollectionName,
             { "membersIds": { $all: [userId, friendId] } },
             function (result) {
@@ -224,7 +228,10 @@ module.exports = {
                                 { "_id": DAL.GetObjectId(friendId) }
                             ]
                         },
-                        { $pull: { "friends": { $in: [userId, friendId] } } },
+                        {
+                            $pull: { "friends": { $in: [userId, friendId] } },
+                            $unset: notificationsUnsetJson
+                        },
                         function (result) {
                             // Change result to true in case the update succeeded.
                             result && (result = true);
