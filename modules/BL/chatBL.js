@@ -30,7 +30,7 @@ var self = module.exports = {
                 var chat;
 
                 if (!result || result.length == 0) {
-                    //self.CreateChat(membersIds);
+                    self.CreateChat(membersIds);
                 }
                 else {
                     chat = result[0];

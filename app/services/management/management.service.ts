@@ -67,4 +67,17 @@ export class ManagementService extends BasicService {
                 return null;
             });
     }
+
+    RemoveFriends(userId: string, friendId: string) {
+        var details = { userId, friendId };
+
+        return super.put(this.prefix + '/removeFriends', details)
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((result: any) => {
+                return null;
+            });
+    }
 }

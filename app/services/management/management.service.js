@@ -73,6 +73,17 @@ var ManagementService = /** @class */ (function (_super) {
             return null;
         });
     };
+    ManagementService.prototype.RemoveFriends = function (userId, friendId) {
+        var details = { userId: userId, friendId: friendId };
+        return _super.prototype.put.call(this, this.prefix + '/removeFriends', details)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
     return ManagementService;
 }(basic_service_1.BasicService));
 exports.ManagementService = ManagementService;

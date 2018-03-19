@@ -1,10 +1,11 @@
-const DAL = require('../DAL.js');
+const DAL = require('../DAL');
 const config = require('../config');
 const general = require('../general');
 const generator = require('../generator');
 const sha512 = require('js-sha512');
 
 const usersCollectionName = "Users";
+const chatsCollectionName = "Chats";
 const profileCollectionName = "Profiles";
 
 module.exports = {
@@ -168,7 +169,6 @@ module.exports = {
             function (result) {
                 // Change result to true in case the update succeeded.
                 result && (result = true);
-
                 callback(result);
             });
     },
@@ -197,7 +197,6 @@ module.exports = {
             function (result) {
                 // Change result to true in case the update succeeded.
                 result && (result = result.block);
-
                 callback(result);
             });
     },
@@ -209,8 +208,32 @@ module.exports = {
             function (result) {
                 // Change result to true in case the update succeeded.
                 result && (result = true);
-
                 callback(result);
+            });
+    },
+
+    RemoveFriends: function (userId, friendId, callback) {
+        DAL.Delete(chatsCollectionName,
+            { "membersIds": { $all: [userId, friendId] } },
+            function (result) {
+                if (result) {
+                    DAL.Update(usersCollectionName,
+                        {
+                            $or: [
+                                { "_id": DAL.GetObjectId(userId) },
+                                { "_id": DAL.GetObjectId(friendId) }
+                            ]
+                        },
+                        { $pull: { "friends": { $in: [userId, friendId] } } },
+                        function (result) {
+                            // Change result to true in case the update succeeded.
+                            result && (result = true);
+                            callback(result);
+                        });
+                }
+                else {
+                    callback(result);
+                }
             });
     }
 };

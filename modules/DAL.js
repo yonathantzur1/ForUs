@@ -1,4 +1,4 @@
-const config = require('./config.js');
+const config = require('./config');
 const MongoClient = require('mongodb').MongoClient, assert = require('assert');
 const ObjectId = require('mongodb').ObjectId;
 
@@ -174,7 +174,7 @@ module.exports = {
     },
 
     // Update one document.
-    UpdateOne: function (collectionName, findObj, fieldToUpdateObj, callback, isInsertIfNotExists) {
+    UpdateOne: function (collectionName, findObj, updateObj, callback, isInsertIfNotExists) {
         GetDB(function (err, db) {
             if (err == null) {
                 var collection = db.collection(collectionName);
@@ -184,11 +184,43 @@ module.exports = {
                     upsert: isInsertIfNotExists
                 }
 
-                collection.findOneAndUpdate(findObj, fieldToUpdateObj, updateConfig,
+                collection.findOneAndUpdate(findObj, updateObj, updateConfig,
                     function (err, result) {
                         if (err == null) {
                             if (result.value != null) {
                                 callback(result.value);
+                            }
+                            else {
+                                callback(false);
+                            }
+                        }
+                        else {
+                            callback(null);
+                        }
+                    });
+            }
+            else {
+                callback(null);
+            }
+        });
+    },
+
+    // Update documents.
+    Update: function (collectionName, findObj, updateObj, callback) {
+        GetDB(function (err, db) {
+            if (err == null) {
+                var collection = db.collection(collectionName);
+
+                var updateConfig = {
+                    "multi": true,
+                    "upsert" : false
+                }
+
+                collection.update(findObj, updateObj, updateConfig,
+                    function (err, result) {
+                        if (err == null) {
+                            if (result.result.nModified != 0) {
+                                callback(result.result.nModified);
                             }
                             else {
                                 callback(false);

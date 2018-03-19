@@ -80,6 +80,7 @@
                                 </div>
                                 <div id="friends-container" class="friends-container" [ngStyle]="{'padding-right': CalculateFriendsElementsPadding()}">
                                     <div class="user-friend-container" *ngFor="let friend of (GetFriendsObjectsFromIds(user.friends, user.friendSearchInput) | sortObjects: 'fullName')">
+                                        <i class="material-icons remove-friend-icon" (click)="RemoveFriends(user, friend)">close</i>
                                         <img class="friend-profile-image" [src]="friend.profileImage || globalService.defaultProfileImage">
                                         <div class="friend-name" [title]="friend.fullName">{{friend.fullName}}</div>
                                     </div>
@@ -179,4 +180,6 @@
     <span id="block-user-error" data-toggle="snackbar" data-content="שגיאה בחסימת המשתמש"></span>
     <span id="unblock-user-success" data-toggle="snackbar" data-content="ביטול החסימה בוצע בהצלחה"></span>
     <span id="unblock-user-error" data-toggle="snackbar" data-content="שגיאה בביטול חסימת המשתמש"></span>
+    <span id="remove-friend-success" data-toggle="snackbar" data-content="מחיקת החברות בוצעה בהצלחה"></span>
+    <span id="remove-friend-error" data-toggle="snackbar" data-content="שגיאה במחיקת החברות"></span>
 </div>

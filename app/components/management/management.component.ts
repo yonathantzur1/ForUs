@@ -140,7 +140,7 @@ export class ManagementComponent implements OnDestroy {
 
     ShowHideUserCard(user: any) {
         this.CloseAllUsersMenu();
-        
+
         // Open the card in case it is close.
         if (!user.isOpen) {
             user.isOpen = true;
@@ -152,7 +152,7 @@ export class ManagementComponent implements OnDestroy {
         }
         // Close the card in case it is open.
         else {
-            user.isOpen = false;           
+            user.isOpen = false;
             this.isPreventFirstOpenCardAnimation = false;
             this.ReturnMainCard(user);
         }
@@ -402,5 +402,42 @@ export class ManagementComponent implements OnDestroy {
     ConvertDateFormat(date: Date) {
         date = new Date(date);
         return (date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
+    }
+
+    RemoveFriends(user: any, friend: any) {
+        var self = this;
+
+        self.alertService.Alert({
+            title: "הסרת חברות",
+            text: "האם למחוק את החברות בין " + "<b>" + user.firstName + " " + user.lastName + "</b>\n" +
+                "לבין " + "<b>" + friend.fullName + "</b>?",
+            type: "warning",
+            confirmFunc: function () {
+                self.managementService.RemoveFriends(user._id, friend._id).then((result: any) => {
+                    if (result) {
+                        var index = null;
+
+                        for (var i = 0; i < user.friends.length; i++) {
+                            if (user.friends[i] == friend._id) {
+                                index = i;
+                                break;
+                            }
+                        }
+
+                        if (index) {
+                            user.friends.splice(index, 1);
+                            $("#remove-friend-success").snackbar("show");
+                        }
+
+                        var logoutMsg = "נותקת מהאתר, יש להתחבר מחדש";
+                        self.globalService.socket.emit("LogoutUserSessionServer", user._id, logoutMsg);
+                        self.globalService.socket.emit("LogoutUserSessionServer", friend._id, logoutMsg);
+                    }
+                    else {
+                        $("#remove-friend-error").snackbar("show");
+                    }
+                });
+            }
+        });
     }
 }

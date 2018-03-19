@@ -44,4 +44,10 @@ module.exports = function (app) {
         });
     });
 
+    app.put(prefix + '/removeFriends', function (req, res) {        
+        managementBL.RemoveFriends(req.body.userId, req.body.friendId, function (result) {
+            res.send(result);
+        });
+    });
+
 };
