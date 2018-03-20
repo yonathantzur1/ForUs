@@ -7,11 +7,6 @@ const profileCollectionName = "Profiles";
 
 // Define search consts.
 const searchLimit = 4;
-const maxImagesInCacheAmount = 20;
-
-// Define search variables.
-var profilesCache = {};
-var usersIdsInCache = [];
 
 var self = module.exports = {
 
@@ -81,11 +76,10 @@ var self = module.exports = {
                 for (var i = 0; i < results.length; i++) {
                     var result = results[i];
                     result.originalProfile = result.profile;
-                    result.profile = -1;
-                }
+                    result.profile = result.originalProfile ? -1 : false;
+                }                
 
-                results = GetResultsImagesFromCache(results);
-
+                // Second sort for results by the search input string.
                 results = results.sort((a, b) => {
                     var aIndex = a.fullName.indexOf(searchInput);
                     var bIndex = b.fullName.indexOf(searchInput);
@@ -122,7 +116,6 @@ var self = module.exports = {
                 });
 
                 callback(profilesDictionary);
-                InsertResultsImagesToCache(profiles, resultsIdsWithNoProfile);
             }
             else {
                 callback(profiles);
@@ -358,48 +351,4 @@ function ConvertIdsToObjectIds(array) {
     }
 
     return array;
-}
-
-function InsertResultsImagesToCache(profiles, resultsIdsWithNoProfile) {
-    if (usersIdsInCache.length > maxImagesInCacheAmount) {
-        usersIdsInCache.forEach(id => {
-            delete profilesCache[id];
-        });
-
-        usersIdsInCache = [];
-    }
-
-    profiles.forEach(function (profile) {
-        var profileFromCache = profilesCache[profile.userId.toString()];
-
-        // In case the user image is not in cache.
-        if (!profileFromCache) {
-            usersIdsInCache.push(profile.userId.toString());
-        }
-
-        profilesCache[profile.userId.toString()] = profile.image;
-    });
-
-    resultsIdsWithNoProfile.forEach(function (id) {
-        profilesCache[id] = false;
-    });
-}
-
-function GetResultsImagesFromCache(results) {
-    for (var i = 0; i < results.length; i++) {
-        if (!results[i].originalProfile) {
-            profilesCache[results[i]._id] = false;
-        }
-
-        var profile = profilesCache[results[i]._id];
-
-        if (profile) {
-            results[i].profile = profile;
-        }
-        else if (profile == false) {
-            results[i].profile = null;
-        }
-    }
-
-    return results;
 }

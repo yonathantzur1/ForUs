@@ -56,6 +56,10 @@ var NavbarComponent = /** @class */ (function () {
         this.chatTypingDelay = 1000; // milliseconds
         this.newFriendsLabelDelay = 4000; // milliseconds    
         this.sidenavWidth = "210px";
+        // END CONFIG VARIABLES //
+        // Search users cache objects
+        this.searchCache = {};
+        this.profilesCache = {};
         ;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
             // In case isOpenProfileEditWindow is true or false
@@ -375,9 +379,19 @@ var NavbarComponent = /** @class */ (function () {
         var self = this;
         self.inputInterval = setTimeout(function () {
             if (input && (input = input.trim())) {
+                var cachedUsers = self.GetSearchUsersFromCache(input);
+                // In case cached users result found for this query input.
+                if (cachedUsers) {
+                    self.GetResultImagesFromCache(cachedUsers);
+                    self.searchResults = cachedUsers;
+                }
+                // clear cached users (with full profiles) from memory.
+                cachedUsers = null;
                 self.navbarService.GetMainSearchResults(input).then(function (results) {
                     if (results && results.length > 0 && input == self.searchInput.trim()) {
-                        self.searchResults = results;
+                        self.InsertSearchUsersToCache(input, results);
+                        self.GetResultImagesFromCache(results);
+                        //self.searchResults = results;
                         self.ShowSearchResults();
                         self.navbarService.GetMainSearchResultsWithImages(GetResultsIds(results)).then(function (profiles) {
                             if (profiles && Object.keys(profiles).length > 0 && input == self.searchInput.trim()) {
@@ -386,6 +400,7 @@ var NavbarComponent = /** @class */ (function () {
                                         result.profile = profiles[result.originalProfile];
                                     }
                                 });
+                                self.InsertResultsImagesToCache(profiles);
                             }
                         });
                     }
@@ -396,6 +411,30 @@ var NavbarComponent = /** @class */ (function () {
                 self.searchResults = [];
             }
         }, self.searchInputChangeDelay);
+    };
+    NavbarComponent.prototype.InsertResultsImagesToCache = function (profiles) {
+        var self = this;
+        Object.keys(profiles).forEach(function (profileId) {
+            self.profilesCache[profileId] = profiles[profileId];
+        });
+    };
+    NavbarComponent.prototype.GetResultImagesFromCache = function (results) {
+        var self = this;
+        results.forEach(function (result) {
+            if (result.originalProfile && (self.profilesCache[result.originalProfile] != null)) {
+                result.profile = self.profilesCache[result.originalProfile];
+            }
+        });
+    };
+    NavbarComponent.prototype.InsertSearchUsersToCache = function (searchInput, results) {
+        var resultsClone = [];
+        results.forEach(function (result) {
+            resultsClone.push(Object.assign({}, result));
+        });
+        this.searchCache[searchInput] = resultsClone;
+    };
+    NavbarComponent.prototype.GetSearchUsersFromCache = function (searchInput) {
+        return this.searchCache[searchInput];
     };
     NavbarComponent.prototype.GetFilteredSearchResults = function (searchInput) {
         if (!searchInput) {

@@ -81,6 +81,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     // END CONFIG VARIABLES //
 
+    // Search users cache objects
+    searchCache: any = {};
+    profilesCache: any = {};
+
     subscribeObj: any;
 
     constructor(private router: Router,
@@ -467,9 +471,22 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
         self.inputInterval = setTimeout(function () {
             if (input && (input = input.trim())) {
+                var cachedUsers = self.GetSearchUsersFromCache(input);
+
+                // In case cached users result found for this query input.
+                if (cachedUsers) {
+                    self.GetResultImagesFromCache(cachedUsers);
+                    self.searchResults = cachedUsers;
+                }
+
+                // clear cached users (with full profiles) from memory.
+                cachedUsers = null;
+
                 self.navbarService.GetMainSearchResults(input).then((results: Array<any>) => {
                     if (results && results.length > 0 && input == self.searchInput.trim()) {
-                        self.searchResults = results;
+                        self.InsertSearchUsersToCache(input, results);
+                        self.GetResultImagesFromCache(results);
+                        //self.searchResults = results;
                         self.ShowSearchResults();
 
                         self.navbarService.GetMainSearchResultsWithImages(GetResultsIds(results)).then((profiles: any) => {
@@ -479,6 +496,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
                                         result.profile = profiles[result.originalProfile];
                                     }
                                 });
+
+                                self.InsertResultsImagesToCache(profiles);
                             }
                         });
                     }
@@ -491,6 +510,37 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }, self.searchInputChangeDelay);
     }
 
+    InsertResultsImagesToCache(profiles: any) {
+        var self = this;
+
+        Object.keys(profiles).forEach((profileId: string) => {
+            self.profilesCache[profileId] = profiles[profileId];
+        });
+    }
+
+    GetResultImagesFromCache(results: any) {
+        var self = this;
+
+        results.forEach((result: any) => {
+            if (result.originalProfile && (self.profilesCache[result.originalProfile] != null)) {
+                result.profile = self.profilesCache[result.originalProfile];
+            }
+        });
+    }
+
+    InsertSearchUsersToCache(searchInput: string, results: Array<any>) {
+        var resultsClone: Array<any> = [];
+
+        results.forEach((result: any) => {
+            resultsClone.push(Object.assign({}, result));
+        });
+
+        this.searchCache[searchInput] = resultsClone;
+    }
+
+    GetSearchUsersFromCache(searchInput: string) {
+        return this.searchCache[searchInput];
+    }
 
     GetFilteredSearchResults(searchInput: string): Array<any> {
         if (!searchInput) {
