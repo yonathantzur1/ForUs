@@ -95,6 +95,7 @@ var LoginComponent = /** @class */ (function () {
     // Login user and redirect him to main page.
     LoginComponent.prototype.Login = function () {
         var _this = this;
+        this.user.email.trim();
         // In case the login fields are valid.
         if (this.Validation(loginValidationFuncs, this.user)) {
             this.isLoading = true;
@@ -149,6 +150,9 @@ var LoginComponent = /** @class */ (function () {
     // Regiter the new user to the DB.
     LoginComponent.prototype.Register = function () {
         var _this = this;
+        this.newUser.firstName.trim();
+        this.newUser.lastName.trim();
+        this.newUser.email.trim();
         // In case the register modal fields are valid.
         if (this.Validation(registerValidationFuncs, this.newUser)) {
             this.isLoading = true;
@@ -173,6 +177,7 @@ var LoginComponent = /** @class */ (function () {
     // Send mail with reset code to the user.
     LoginComponent.prototype.ResetPassword = function () {
         var _this = this;
+        this.forgotUser.email.trim();
         // In case the forgot modal fields are valid.
         if (this.Validation(forgotValidationFuncs, this.forgotUser)) {
             this.isLoading = true;

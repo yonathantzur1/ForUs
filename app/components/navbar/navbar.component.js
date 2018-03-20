@@ -53,7 +53,7 @@ var NavbarComponent = /** @class */ (function () {
         this.searchInputChangeDelay = 220; // milliseconds
         this.notificationDelay = 3800; // milliseconds
         this.askForOnlineFriendsDelay = 60; // seconds
-        this.chatTypingDelay = 1500; // milliseconds
+        this.chatTypingDelay = 1000; // milliseconds
         this.newFriendsLabelDelay = 4000; // milliseconds    
         this.sidenavWidth = "210px";
         ;

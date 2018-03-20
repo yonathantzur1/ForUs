@@ -105,6 +105,8 @@ export class LoginComponent implements OnInit {
 
   // Login user and redirect him to main page.
   Login() {
+    this.user.email.trim();
+
     // In case the login fields are valid.
     if (this.Validation(loginValidationFuncs, this.user)) {
       this.isLoading = true;
@@ -164,6 +166,10 @@ export class LoginComponent implements OnInit {
 
   // Regiter the new user to the DB.
   Register() {
+    this.newUser.firstName.trim();
+    this.newUser.lastName.trim();
+    this.newUser.email.trim();
+
     // In case the register modal fields are valid.
     if (this.Validation(registerValidationFuncs, this.newUser)) {
       this.isLoading = true;
@@ -191,6 +197,8 @@ export class LoginComponent implements OnInit {
 
   // Send mail with reset code to the user.
   ResetPassword() {
+    this.forgotUser.email.trim();
+    
     // In case the forgot modal fields are valid.
     if (this.Validation(forgotValidationFuncs, this.forgotUser)) {
       this.isLoading = true;

@@ -19,7 +19,7 @@ app.use(express.static('public'));
 app.use(compression());
 
 // BL requires
-const loginBL = require('./modules/BL/loginBL.js');
+const loginBL = require('./modules/BL/loginBL');
 
 function RedirectToLogin(req, res) {
     if (req.method == "GET") {
