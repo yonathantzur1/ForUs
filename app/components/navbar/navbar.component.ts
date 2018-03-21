@@ -486,7 +486,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                     if (results && results.length > 0 && input == self.searchInput.trim()) {
                         self.InsertSearchUsersToCache(input, results);
                         self.GetResultImagesFromCache(results);
-                        //self.searchResults = results;
+                        self.searchResults = results;
                         self.ShowSearchResults();
 
                         self.navbarService.GetMainSearchResultsWithImages(GetResultsIds(results)).then((profiles: any) => {
@@ -548,6 +548,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
         else {
             searchInput = searchInput.trim();
+            searchInput = searchInput.replace(/\\/g, '');
             this.searchResults = this.searchResults.filter(function (result: any) {
                 return ((result.fullName.indexOf(searchInput) == 0) ||
                     (result.fullNameReversed.indexOf(searchInput) == 0));
@@ -557,12 +558,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    GetFilteredFriends(friendSearchInput: string): Array<any> {
+    GetFilteredFriends(friendSearchInput: string): Array<any> {        
         if (!friendSearchInput) {
             return this.friends;
         }
         else {
             friendSearchInput = friendSearchInput.trim();
+            friendSearchInput = friendSearchInput.replace(/\\/g, '');
             return this.friends.filter(function (friend: any) {
                 return (((friend.firstName + " " + friend.lastName).indexOf(friendSearchInput) == 0) ||
                     ((friend.lastName + " " + friend.firstName).indexOf(friendSearchInput) == 0));

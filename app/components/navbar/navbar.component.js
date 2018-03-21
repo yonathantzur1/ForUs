@@ -391,7 +391,7 @@ var NavbarComponent = /** @class */ (function () {
                     if (results && results.length > 0 && input == self.searchInput.trim()) {
                         self.InsertSearchUsersToCache(input, results);
                         self.GetResultImagesFromCache(results);
-                        //self.searchResults = results;
+                        self.searchResults = results;
                         self.ShowSearchResults();
                         self.navbarService.GetMainSearchResultsWithImages(GetResultsIds(results)).then(function (profiles) {
                             if (profiles && Object.keys(profiles).length > 0 && input == self.searchInput.trim()) {
@@ -442,6 +442,7 @@ var NavbarComponent = /** @class */ (function () {
         }
         else {
             searchInput = searchInput.trim();
+            searchInput = searchInput.replace(/\\/g, '');
             this.searchResults = this.searchResults.filter(function (result) {
                 return ((result.fullName.indexOf(searchInput) == 0) ||
                     (result.fullNameReversed.indexOf(searchInput) == 0));
@@ -455,6 +456,7 @@ var NavbarComponent = /** @class */ (function () {
         }
         else {
             friendSearchInput = friendSearchInput.trim();
+            friendSearchInput = friendSearchInput.replace(/\\/g, '');
             return this.friends.filter(function (friend) {
                 return (((friend.firstName + " " + friend.lastName).indexOf(friendSearchInput) == 0) ||
                     ((friend.lastName + " " + friend.firstName).indexOf(friendSearchInput) == 0));

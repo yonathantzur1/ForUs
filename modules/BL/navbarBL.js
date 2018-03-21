@@ -47,6 +47,8 @@ var self = module.exports = {
     },
 
     GetMainSearchResults: function (searchInput, callback) {
+        searchInput = searchInput.replace(/\\/g, '');
+        
         var usersFilter = {
             $match: {
                 $or: [

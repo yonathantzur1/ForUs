@@ -14,6 +14,7 @@ require("rxjs/add/operator/share");
 require("rxjs/add/operator/startWith");
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 var login_service_1 = require("../login/login.service");
+var empty_profile_1 = require("../../pictures/empty-profile");
 var PERMISSION;
 (function (PERMISSION) {
     PERMISSION["ADMIN"] = "admin";
@@ -26,7 +27,7 @@ var GlobalService = /** @class */ (function (_super) {
         _this.data = new BehaviorSubject_1.BehaviorSubject({});
         _this.socketOnDictionary = {};
         _this.userPermissions = [];
-        _this.defaultProfileImage = "./app/components/profilePicture/pictures/empty-profile.png";
+        _this.defaultProfileImage = empty_profile_1.EmptyProfile;
         return _this;
     }
     GlobalService.prototype.Initialize = function () {

@@ -9,7 +9,9 @@ const chatsCollectionName = "Chats";
 const profileCollectionName = "Profiles";
 
 module.exports = {
-    GetUserByName: function (searchInput, callback) {
+    GetUserByName: function (searchInput, callback) {        
+        searchInput = searchInput.replace(/\\/g, '');
+
         var usersFilter = {
             $match: {
                 $or: [

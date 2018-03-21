@@ -4,6 +4,7 @@ import 'rxjs/add/operator/startWith';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { LoginService } from '../login/login.service';
+import { EmptyProfile } from '../../pictures/empty-profile';
 
 declare var io: any;
 declare function deleteCookieByName(name: string): void;
@@ -20,7 +21,7 @@ export class GlobalService extends LoginService {
     public socketOnDictionary: any = {};
     public userProfileImage: string;
     public userPermissions: Array<string> = [];
-    public defaultProfileImage: string = "./app/components/profilePicture/pictures/empty-profile.png";
+    public defaultProfileImage: string = EmptyProfile;
 
     Initialize() {
         if (!this.socket) {
