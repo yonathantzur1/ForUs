@@ -377,16 +377,19 @@ var NavbarComponent = /** @class */ (function () {
         this.isNewFriendsLabel = false;
         this.inputInterval && clearTimeout(this.inputInterval);
         var self = this;
-        self.inputInterval = setTimeout(function () {
-            if (input && (input = input.trim())) {
-                var cachedUsers = self.GetSearchUsersFromCache(input);
-                // In case cached users result found for this query input.
-                if (cachedUsers) {
-                    self.GetResultImagesFromCache(cachedUsers);
-                    self.searchResults = cachedUsers;
-                }
-                // clear cached users (with full profiles) from memory.
-                cachedUsers = null;
+        // In case the input is not empty.
+        if (input && (input = input.trim())) {
+            // Recover search results from cache if exists.
+            var cachedUsers = this.GetSearchUsersFromCache(input);
+            // In case cached users result found for this query input.
+            if (cachedUsers) {
+                this.GetResultImagesFromCache(cachedUsers);
+                this.searchResults = cachedUsers;
+                this.ShowSearchResults();
+            }
+            // Clear cached users (with full profiles) from memory.
+            cachedUsers = null;
+            self.inputInterval = setTimeout(function () {
                 self.navbarService.GetMainSearchResults(input).then(function (results) {
                     if (results && results.length > 0 && input == self.searchInput.trim()) {
                         self.InsertSearchUsersToCache(input, results);
@@ -405,12 +408,12 @@ var NavbarComponent = /** @class */ (function () {
                         });
                     }
                 });
-            }
-            else {
-                self.HideSearchResults();
-                self.searchResults = [];
-            }
-        }, self.searchInputChangeDelay);
+            }, self.searchInputChangeDelay);
+        }
+        else {
+            self.HideSearchResults();
+            self.searchResults = [];
+        }
     };
     NavbarComponent.prototype.InsertResultsImagesToCache = function (profiles) {
         var self = this;
