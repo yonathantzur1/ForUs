@@ -5,7 +5,7 @@ module.exports = {
         mainConnectionString: "smtps://forusmailer%40gmail.com:popCorn1@smtp.gmail.com"
     },
     db: {
-        dbName: "forus",
+        name: "forus",
         connectionString: 'mongodb://forusdb:Aa123456@forus-shard-00-00-fenaf.mongodb.net:27017,forus-shard-00-01-fenaf.mongodb.net:27017,forus-shard-00-02-fenaf.mongodb.net:27017/test?ssl=true&replicaSet=ForUs-shard-0&authSource=admin&maxPoolSize=100',
         maxConnectionAttemptsNumber: 5
     },
@@ -35,5 +35,8 @@ module.exports = {
     },
     chat: {
         messagesInPage: 50
+    },
+    mainSearch: {
+        resultsLimit: 4
     }
 };

@@ -4,7 +4,7 @@ const ObjectId = require('mongodb').ObjectId;
 
 // Connection URL
 const connectionString = config.db.connectionString;
-const dbName = config.db.dbName;
+const dbName = config.db.name;
 const maxConnectionAttemptsNumber = config.db.maxConnectionAttemptsNumber;
 const retryCount = 0;
 

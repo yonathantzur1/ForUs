@@ -2,6 +2,7 @@ const DAL = require('../DAL');
 const config = require('../config');
 const general = require('../general');
 const generator = require('../generator');
+const mailer = require('../mailer');
 const sha512 = require('js-sha512');
 
 const usersCollectionName = "Users";
@@ -9,7 +10,7 @@ const chatsCollectionName = "Chats";
 const profileCollectionName = "Profiles";
 
 module.exports = {
-    GetUserByName: function (searchInput, callback) {        
+    GetUserByName: function (searchInput, callback) {
         searchInput = searchInput.replace(/\\/g, '');
 
         var usersFilter = {
@@ -197,8 +198,14 @@ module.exports = {
             { "_id": userId },
             { $set: { block } },
             function (result) {
-                // Change result to true in case the update succeeded.
-                result && (result = result.block);
+                if (result) {
+                    mailer.SendMail(result.email,
+                        mailer.GetBlockMessageContent(result.firstName, block.reason, block.unblockDate));
+
+                    // Change result to true in case the update succeeded.
+                    result = result.block;
+                }
+
                 callback(result);
             });
     },

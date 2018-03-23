@@ -309,13 +309,10 @@
 }
 
 #navbar .remove-request {
-    border: 1px solid;
-    border-radius: 5px;
     padding-left: 3px;
     padding-right: 3px;
     padding-top: 2px;
     left: 32px !important;
-    font-size: 18px !important;
 }
 
 #navbar .friend-request-confirm-icon {

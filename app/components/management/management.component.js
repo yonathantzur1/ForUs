@@ -281,6 +281,7 @@ var ManagementComponent = /** @class */ (function () {
         }
     };
     ManagementComponent.prototype.UnblockUser = function (user) {
+        this.CloseAllUsersMenu();
         var self = this;
         self.alertService.Alert({
             title: "ביטול חסימה - " + user.firstName + " " + user.lastName,

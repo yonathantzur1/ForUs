@@ -351,6 +351,7 @@ export class ManagementComponent implements OnDestroy {
     }
 
     UnblockUser(user: any) {
+        this.CloseAllUsersMenu();
         var self = this;
 
         self.alertService.Alert({
@@ -404,7 +405,7 @@ export class ManagementComponent implements OnDestroy {
         return (date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
     }
 
-    RemoveFriends(user: any, friend: any) {
+    RemoveFriends(user: any, friend: any) {        
         var self = this;
 
         self.alertService.Alert({

@@ -1,12 +1,13 @@
 const DAL = require('../DAL');
 const general = require('../general');
-const mailer = require('../mailer')
+const mailer = require('../mailer');
+const config = require('../config');
 
 const usersCollectionName = "Users";
 const profileCollectionName = "Profiles";
 
 // Define search consts.
-const searchLimit = 4;
+const searchResultsLimit = config.mainSearch.resultsLimit;
 
 var self = module.exports = {
 
@@ -67,7 +68,7 @@ var self = module.exports = {
                 lastName: 1
             }
         }, usersFilter,
-        { $limit: searchLimit },
+        { $limit: searchResultsLimit },
         { $sort: { "fullName": 1, "fullNameReversed": 1 } }];
 
         DAL.Aggregate(usersCollectionName, aggregateArray, function (results) {

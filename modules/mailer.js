@@ -5,13 +5,13 @@ const config = require('./config');
 var transporter = nodemailer.createTransport(config.addresses.mainConnectionString);
 
 module.exports = {
-    SendMail: function (p_destMail, p_mailContent) {
+    SendMail: function (destEmail, contentObj) {
         // Setup email data with unicode symbols
         var mailOptions = {
             from: "'ForUs' <" + config.addresses.mail + ">", // Sender address
-            to: p_destMail, // List of receivers
-            subject: p_mailContent.title, // Subject line
-            html: "<div dir='rtl'>" + p_mailContent.text + "</div>" // html body
+            to: destEmail, // List of receivers
+            subject: contentObj.title, // Subject line
+            html: "<div dir='rtl'>" + contentObj.text + "</div>" // html body
         };
 
         // Send email with defined transport object
@@ -22,38 +22,54 @@ module.exports = {
             console.log('Message sent: ' + info.response);
         });
     },
-    GetRegisterMailContent: function (p_name) {
+    GetRegisterMailContent: function (name) {
         var content = {
             title: "ברוך הבא!",
-            text: "שלום " + p_name + ", ברוך הבא לאתר ForUs!"
+            text: "שלום " + name + ", ברוך הבא לאתר ForUs!"
         };
 
         return content;
     },
-    GetForgotMailContent: function (p_name, p_code) {
+    GetForgotMailContent: function (name, code) {
         var content = {
             title: "איפוס סיסמא",
-            text: "שלום " + p_name + ", הקוד שהונפק עבורך לאיפוס הסיסמא הוא: " + p_code
+            text: "שלום " + name + ", הקוד שהונפק עבורך לאיפוס הסיסמא הוא: " + code
         };
 
         return content;
     },
-    GetMessageNotificationAlertContent: function (p_name, p_senderName) {
+    GetMessageNotificationAlertContent: function (name, senderName) {
         var content = {
             title: "הודעה חדשה",
-            text: "שלום " + p_name + ", " + "<br>" + "ממתינה עבורך הודעה חדשה*." + "<br>" + config.addresses.site
+            text: "שלום " + name + ", " + "<br>" + "ממתינה עבורך הודעה חדשה*." + "<br>" + config.addresses.site
         };
 
-        content.text = p_senderName ? content.text.replace("*", " מ" + p_senderName) : content.text.replace("*", "");
+        content.text = senderName ? content.text.replace("*", " מ" + senderName) : content.text.replace("*", "");
 
         return content;
     },
-    GetFriendRequestAlertContent: function (p_name) {
+    GetFriendRequestAlertContent: function (name) {
         var content = {
             title: "בקשת חברות",
-            text: "שלום " + p_name + ", בקשת חברות חדשה הגיעה :)" + "<br>" + config.addresses.site
+            text: "שלום " + name + ", בקשת חברות חדשה הגיעה :)" + "<br>" + config.addresses.site
+        };
+
+        return content;
+    },
+    GetBlockMessageContent: function (name, reason, date) {
+        date = date ? "עד לתאריך " + ConvertDateFormat(date) : "לתקופה בלתי מוגבלת";
+
+        var content = {
+            title: "חסימת משתמש",
+            text: "שלום " + name + ", חשבונך נחסם לשימוש. <br>" +
+                "סיבת החסימה: " + reason + "<br><b>" + date + "</b><br>"
         };
 
         return content;
     }
 };
+
+function ConvertDateFormat(date) {
+    date = new Date(date);
+    return (date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
+}

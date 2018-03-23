@@ -70,8 +70,8 @@
               <span class="search-result-name">{{result.fullName}}</span>
               <i *ngIf="IsShowAddFriendRequestBtn(result._id)" (click)="AddFriendRequest(result._id)" class="fa fa-user-plus friend-request-btn"
                 title="בקשת חברות" aria-hidden="true"></i>
-              <i *ngIf="IsShowRemoveFriendRequestBtn(result._id)" (click)="RemoveFriendRequest(result._id)" class="fa fa-minus friend-request-btn remove-request"
-                title="נשלחה בקשת חברות" aria-hidden="true"></i>
+              <i *ngIf="IsShowRemoveFriendRequestBtn(result._id)" (click)="RemoveFriendRequest(result._id)" class="fa fa-user-times friend-request-btn remove-request"
+                title="ביטול בקשת חברות" aria-hidden="true"></i>
               <span *ngIf="IsShowFriendRequestConfirmSector(result._id)">
                 <i class="fa fa-user-plus friend-request-confirm-icon" title="אישור בקשת חברות" aria-hidden="true"></i>
                 <i (click)="AddFriend(result._id)" class="material-icons friend-request-confirm-btn" title="אישור">check</i>
