@@ -360,7 +360,11 @@
 
 #management .block-forever-sector {
     padding: 15px;
+    position: absolute;
+    width: 100%;
     text-align: center;
+    right: 0;
+    bottom: 40px;
 }
 
 #management .block-forever-sector label {

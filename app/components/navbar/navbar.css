@@ -305,14 +305,14 @@
     align-self: center;
     font-size: 20px;
     position: absolute;
-    left: 35px;
+    left: 31px;
 }
 
 #navbar .remove-request {
     padding-left: 3px;
     padding-right: 3px;
     padding-top: 2px;
-    left: 32px !important;
+    left: 28px !important;
 }
 
 #navbar .friend-request-confirm-icon {

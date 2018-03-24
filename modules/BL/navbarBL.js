@@ -49,7 +49,7 @@ var self = module.exports = {
 
     GetMainSearchResults: function (searchInput, callback) {
         searchInput = searchInput.replace(/\\/g, '');
-        
+
         var usersFilter = {
             $match: {
                 $or: [
@@ -76,16 +76,20 @@ var self = module.exports = {
                 callback(null);
             }
             else {
+                // Running on all results and order profiles structure to the next query
+                // for profile images.
                 for (var i = 0; i < results.length; i++) {
                     var result = results[i];
                     result.originalProfile = result.profile;
                     result.profile = result.originalProfile ? -1 : false;
-                }                
+                }
 
                 // Second sort for results by the search input string.
                 results = results.sort((a, b) => {
-                    var aIndex = a.fullName.indexOf(searchInput);
-                    var bIndex = b.fullName.indexOf(searchInput);
+                    var aIndex = Math.min(a.fullName.indexOf(searchInput),
+                        a.fullNameReversed.indexOf(searchInput));
+                    var bIndex = Math.min(b.fullName.indexOf(searchInput),
+                        b.fullNameReversed.indexOf(searchInput));
 
                     if (aIndex < bIndex) {
                         return -1;
