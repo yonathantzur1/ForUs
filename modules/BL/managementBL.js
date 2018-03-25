@@ -229,7 +229,7 @@ module.exports = {
         DAL.Delete(chatsCollectionName,
             { "membersIds": { $all: [userId, friendId] } },
             function (result) {
-                if (result) {
+                if (result != null) {
                     DAL.Update(usersCollectionName,
                         {
                             $or: [

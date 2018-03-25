@@ -33,7 +33,7 @@ module.exports = {
     GetForgotMailContent: function (name, code) {
         var content = {
             title: "איפוס סיסמא",
-            text: "שלום " + name + ", הקוד שהונפק עבורך לאיפוס הסיסמא הוא: " + code
+            text: "שלום " + name + ", " + "<br>" + "הקוד שהונפק עבורך לאיפוס הסיסמא הוא: <b>" + code + "<b>"
         };
 
         return content;
@@ -48,10 +48,18 @@ module.exports = {
 
         return content;
     },
-    GetFriendRequestAlertContent: function (name) {
+    GetFriendRequestAlertContent: function (name, friendName) {
         var content = {
             title: "בקשת חברות",
-            text: "שלום " + name + ", בקשת חברות חדשה הגיעה :)" + "<br>" + config.addresses.site
+            text: "שלום " + name + "," + "<br>" + "בקשת חברות חדשה הגיעה מ" + friendName + " :)<br>" + config.addresses.site
+        };
+
+        return content;
+    },
+    GetFriendRequestConfirmContent: function (name, friendName) {
+        var content = {
+            title: "אישור בקשת חברות",
+            text: "שלום " + friendName + "," + "<br>" + "בקשת החברות עם " + name + " אושרה :)<br>" + config.addresses.site
         };
 
         return content;
@@ -61,7 +69,7 @@ module.exports = {
 
         var content = {
             title: "חסימת משתמש",
-            text: "שלום " + name + ", חשבונך נחסם לשימוש. <br>" +
+            text: "שלום " + name + ", " + "<br>" + "חשבונך נחסם לשימוש.<br>" +
                 "סיבת החסימה: " + reason + "<br><b>" + date + "</b><br>"
         };
 

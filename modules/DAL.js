@@ -245,7 +245,12 @@ module.exports = {
 
                 collection.deleteMany(filter, function (err, result) {
                     if (err == null) {
-                        callback(result.deletedCount);
+                        if (result.deletedCount != 0) {
+                            callback(result.deletedCount);
+                        }
+                        else {
+                            callback(false);
+                        }
                     }
                     else {
                         callback(null);

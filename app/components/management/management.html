@@ -70,7 +70,7 @@
                                 </p>
                             </div>
                             <div *ngIf="user.isFriendsObjectsLoaded">
-                                <div class="form-group friend-search-form-group" [ngStyle]="{'margin-right': friendsElementsPadding + 5, 'margin-left': friendsElementsPadding + 5}">
+                                <div class="form-group friend-search-form-group">
                                     <input id="friend-search-input" [(ngModel)]="user.friendSearchInput" class="form-control search-input friend-search-input"
                                         placeholder="חיפוש חברים" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"
                                         maxlength="25" type="text">

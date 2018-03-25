@@ -26,10 +26,11 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
         var token = general.DecodeToken(general.GetTokenFromSocket(socket));
 
         if (token) {
+            var user = token.user;
+            var userFullName = user.firstName + " " + user.lastName;
+
             // In case the friend is online.
             if (connectedUsers[friendId]) {
-                var user = token.user;
-                var userFullName = user.firstName + " " + user.lastName;
                 io.to(friendId).emit('GetFriendRequest', user._id, userFullName);
             }
             else {
@@ -37,7 +38,7 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
                     // In case this is the only friend request of the friend in the DB.
                     if (friendObj && friendObj.friendRequests.get.length == 1) {
                         mailer.SendMail(friendObj.email,
-                            mailer.GetFriendRequestAlertContent(friendObj.firstName));
+                            mailer.GetFriendRequestAlertContent(friendObj.firstName, userFullName));
                     }
                 })
             }
@@ -56,6 +57,15 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
         var token = general.DecodeToken(general.GetTokenFromSocket(socket));
 
         if (token) {
+            // In case the confirmed user is not login.
+            if (!connectedUsers[friend._id]) {
+                var friendName = friend.firstName + " " + friend.lastName;
+                var friendEmail = friend.email;
+                mailer.SendMail(friendEmail,
+                    mailer.GetFriendRequestConfirmContent(token.user.firstName, friendName));
+            }
+
+            delete friend.email;
             io.to(token.user._id).emit('ClientAddFriend', friend);
         }
 

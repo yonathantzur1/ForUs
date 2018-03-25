@@ -308,8 +308,9 @@ var self = module.exports = {
                                 if (result) {
                                     var clientFriendObject = {
                                         "_id": updatedFriend._id.toString(),
+                                        "email": updatedFriend.email,
                                         "firstName": updatedFriend.firstName,
-                                        "lastName": updatedFriend.lastName,
+                                        "lastName": updatedFriend.lastName,                                        
                                         "profileImage": null
                                     }
 
