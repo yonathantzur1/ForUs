@@ -54,7 +54,8 @@
                                 <td>
                                     <div class="friends-info-sector">
                                         <div class="info-title">
-                                            <i (click)="OpenFriendsScreen(user)" class="fa fa-users friends-info-icon" aria-hidden="true"></i>
+                                            <i (click)="OpenFriendsScreen(user)" class="fa fa-users friends-info-icon"
+                                            [ngClass]="{'clickable': user.friendsNumber > 0}" aria-hidden="true"></i>
                                         </div>
                                         <div class="info-data friends-number">{{(user.friendsNumber == 1) ? 'חבר 1' : (user.friendsNumber + ' חברים')}}</div>
                                     </div>

@@ -59,10 +59,10 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
         if (token) {
             // In case the confirmed user is not login.
             if (!connectedUsers[friend._id]) {
-                var friendName = friend.firstName + " " + friend.lastName;
+                var userName = token.user.firstName + " " + token.user.lastName;                
                 var friendEmail = friend.email;
                 mailer.SendMail(friendEmail,
-                    mailer.GetFriendRequestConfirmContent(token.user.firstName, friendName));
+                    mailer.GetFriendRequestConfirmContent(userName, friend.firstName));
             }
 
             delete friend.email;

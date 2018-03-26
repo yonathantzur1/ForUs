@@ -144,20 +144,23 @@ var ManagementComponent = /** @class */ (function () {
     };
     ManagementComponent.prototype.OpenFriendsScreen = function (user) {
         var _this = this;
-        user.isMenuOpen = false;
-        user.isFriendsScreenOpen = true;
-        if (!user.isFriendsObjectsLoaded) {
-            var noneCachedFriendsIds = this.GetNoneCachedFriendsIds(user.friends);
-            if (noneCachedFriendsIds.length > 0) {
-                this.managementService.GetUserFriends(noneCachedFriendsIds).then(function (friends) {
-                    friends && friends.forEach(function (friend) {
-                        _this.friendsCache[friend._id] = friend;
+        // In case the user has friends.
+        if (user.friendsNumber > 0) {
+            user.isMenuOpen = false;
+            user.isFriendsScreenOpen = true;
+            if (!user.isFriendsObjectsLoaded) {
+                var noneCachedFriendsIds = this.GetNoneCachedFriendsIds(user.friends);
+                if (noneCachedFriendsIds.length > 0) {
+                    this.managementService.GetUserFriends(noneCachedFriendsIds).then(function (friends) {
+                        friends && friends.forEach(function (friend) {
+                            _this.friendsCache[friend._id] = friend;
+                        });
+                        user.isFriendsObjectsLoaded = true;
                     });
+                }
+                else {
                     user.isFriendsObjectsLoaded = true;
-                });
-            }
-            else {
-                user.isFriendsObjectsLoaded = true;
+                }
             }
         }
     };

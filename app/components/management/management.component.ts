@@ -176,23 +176,26 @@ export class ManagementComponent implements OnDestroy {
     }
 
     OpenFriendsScreen(user: any) {
-        user.isMenuOpen = false;
-        user.isFriendsScreenOpen = true;
+        // In case the user has friends.
+        if (user.friendsNumber > 0) {
+            user.isMenuOpen = false;
+            user.isFriendsScreenOpen = true;
 
-        if (!user.isFriendsObjectsLoaded) {
-            var noneCachedFriendsIds = this.GetNoneCachedFriendsIds(user.friends);
+            if (!user.isFriendsObjectsLoaded) {
+                var noneCachedFriendsIds = this.GetNoneCachedFriendsIds(user.friends);
 
-            if (noneCachedFriendsIds.length > 0) {
-                this.managementService.GetUserFriends(noneCachedFriendsIds).then((friends: any) => {
-                    friends && friends.forEach((friend: any) => {
-                        this.friendsCache[friend._id] = friend;
+                if (noneCachedFriendsIds.length > 0) {
+                    this.managementService.GetUserFriends(noneCachedFriendsIds).then((friends: any) => {
+                        friends && friends.forEach((friend: any) => {
+                            this.friendsCache[friend._id] = friend;
+                        });
+
+                        user.isFriendsObjectsLoaded = true;
                     });
-
+                }
+                else {
                     user.isFriendsObjectsLoaded = true;
-                });
-            }
-            else {
-                user.isFriendsObjectsLoaded = true;
+                }
             }
         }
     }
@@ -405,7 +408,7 @@ export class ManagementComponent implements OnDestroy {
         return (date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
     }
 
-    RemoveFriends(user: any, friend: any) {        
+    RemoveFriends(user: any, friend: any) {
         var self = this;
 
         self.alertService.Alert({

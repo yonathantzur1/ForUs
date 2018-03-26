@@ -59,7 +59,7 @@ module.exports = {
     GetFriendRequestConfirmContent: function (name, friendName) {
         var content = {
             title: "אישור בקשת חברות",
-            text: "שלום " + friendName + "," + "<br>" + "בקשת החברות עם " + name + " אושרה :)<br>" + config.addresses.site
+            text: "שלום " + friendName + "," + "<br>" + "החברות עם " + name + " אושרה :)<br>" + config.addresses.site
         };
 
         return content;

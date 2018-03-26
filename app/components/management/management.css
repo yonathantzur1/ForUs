@@ -253,9 +253,12 @@
 }
 
 #management .friends-info-icon {
-    font-size: 30px;
-    cursor: pointer;
+    font-size: 30px;    
     color: var(--main-text-color);
+}
+
+#management .clickable {
+    cursor: pointer;
 }
 
 #management .user-left-icon {
@@ -286,7 +289,10 @@
 #management .friends-container {
     overflow-y: auto;
     height: calc(100% - 80px);
-    text-align: right;    
+    text-align: right;
+    width: 100%;
+    position: absolute;
+    right: 0;
 }
 
 #management .user-friend-container {
