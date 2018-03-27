@@ -233,7 +233,8 @@ var self = module.exports = {
         }
     },
 
-    RemoveFriendRequest: function (userId, friendId, callback) {
+    // Remove the friend request from DB after the request confirmed.
+    RemoveFriendRequestAfterConfirm: function (userId, friendId, callback) {
         var userIdObject = {
             "_id": DAL.GetObjectId(userId)
         }
@@ -243,19 +244,24 @@ var self = module.exports = {
         }
 
         // Remove the request from the user.
-        DAL.UpdateOne(usersCollectionName, userIdObject, { $pull: { "friendRequests.send": friendId } }, function (result) {
-            if (result) {
-                // Remove the request from the friend.
-                DAL.UpdateOne(usersCollectionName, friendIdObject, { $pull: { "friendRequests.get": userId } }, function (result) {
-                    result ? callback(true) : callback(null);
-                });
-            }
-            else {
-                callback(null);
-            }
-        });
+        DAL.UpdateOne(usersCollectionName, userIdObject,
+            { $pull: { "friendRequests.send": friendId }, $push: { "friendRequests.accept": friendId } },
+            function (result) {
+                if (result) {
+                    // Remove the request from the friend.
+                    DAL.UpdateOne(usersCollectionName, friendIdObject,
+                        { $pull: { "friendRequests.get": userId } },
+                        function (result) {
+                            result ? callback(true) : callback(null);
+                        });
+                }
+                else {
+                    callback(null);
+                }
+            });
     },
 
+    // Remove the friend request from DB if the request was not confirmed.
     IgnoreFriendRequest: function (userId, friendId, callback) {
         var userIdObject = {
             "_id": DAL.GetObjectId(userId)
@@ -304,13 +310,13 @@ var self = module.exports = {
                     DAL.UpdateOne(usersCollectionName, friendIdObject, { $push: { "friends": user._id } }, function (updatedFriend) {
                         if (updatedFriend) {
                             // Remove the friend request that came from the friend.
-                            self.RemoveFriendRequest(friendId, user._id, function (result) {
+                            self.RemoveFriendRequestAfterConfirm(friendId, user._id, function (result) {
                                 if (result) {
                                     var clientFriendObject = {
                                         "_id": updatedFriend._id.toString(),
                                         "email": updatedFriend.email,
                                         "firstName": updatedFriend.firstName,
-                                        "lastName": updatedFriend.lastName,                                        
+                                        "lastName": updatedFriend.lastName,
                                         "profileImage": null
                                     }
 

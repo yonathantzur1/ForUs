@@ -19,7 +19,8 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         this.friendRequestsWindowService = friendRequestsWindowService;
         this.globalService = globalService;
         this.friendRequestsObjects = [];
-        this.isFirstFriendRequestsObjectsLoaded = false;
+        this.friendConfirmObjects = [];
+        this.isRequestsObjectsLoaded = false;
         this.isFriendRequestsLoading = false;
     }
     FriendRequestsWindowComponent.prototype.ngOnInit = function () {
@@ -41,23 +42,34 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
     FriendRequestsWindowComponent.prototype.ngOnChanges = function (changes) {
         // In case of loading data for the first time.
         if (changes.friendRequests &&
+            changes.confirmedReuests &&
             !changes.friendRequests.firstChange &&
-            !this.isFirstFriendRequestsObjectsLoaded) {
-            this.isFirstFriendRequestsObjectsLoaded = true;
+            !changes.confirmedReuests.firstChange &&
+            !this.isRequestsObjectsLoaded) {
+            this.isRequestsObjectsLoaded = true;
             this.isFriendRequestsLoading = true;
             this.LoadFriendRequestsObjects();
         }
     };
     FriendRequestsWindowComponent.prototype.LoadFriendRequestsObjects = function () {
         var _this = this;
-        if (this.friendRequests.length > 0) {
-            this.navbarService.GetFriends(this.friendRequests).then(function (friendsResult) {
-                _this.friendRequestsObjects = friendsResult;
+        if (this.friendRequests.length > 0 || this.confirmedReuests.length > 0) {
+            this.navbarService.GetFriends(this.friendRequests.concat(this.confirmedReuests)).then(function (friendsResult) {
+                if (friendsResult) {
+                    // Running on all friends and confirmed friends of the request.
+                    friendsResult.forEach(function (friend) {
+                        if (_this.friendRequests.indexOf(friend._id) != -1) {
+                            _this.friendRequestsObjects.push(friend);
+                        }
+                        else if (_this.confirmedReuests.indexOf(friend._id) != -1) {
+                            _this.friendConfirmObjects.push(friend);
+                        }
+                    });
+                }
                 _this.isFriendRequestsLoading = false;
             });
         }
         else {
-            this.friendRequestsObjects = [];
             this.isFriendRequestsLoading = false;
         }
     };
@@ -88,6 +100,10 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         core_1.Input(),
         __metadata("design:type", Function)
     ], FriendRequestsWindowComponent.prototype, "IgnoreFriendRequest", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Array)
+    ], FriendRequestsWindowComponent.prototype, "confirmedReuests", void 0);
     FriendRequestsWindowComponent = __decorate([
         core_1.Component({
             selector: 'friendRequestsWindow',

@@ -119,7 +119,7 @@
 <chatsWindow [hidden]="!isChatsWindowOpen" [isFriendsLoading]="isFriendsLoading" [OpenChat]="OpenChat.bind(this)" [friends]="friends"
   [messagesNotifications]="GetToolbarItem('messages').content"></chatsWindow>
 <friendRequestsWindow [hidden]="!isFriendRequestsWindowOpen" [AddFriend]="AddFriend.bind(this)" [IgnoreFriendRequest]="IgnoreFriendRequest.bind(this)"
-  [friendRequests]="GetToolbarItem('friendRequests').content.get"></friendRequestsWindow>
+  [friendRequests]="GetToolbarItem('friendRequests').content.get" [confirmedReuests]="GetToolbarItem('friendRequests').content.accept"></friendRequestsWindow>
 <chat *ngIf="chatData.isOpen" [chatData]="chatData" [GetFriendById]="GetFriendById.bind(this)" [OpenChat]="OpenChat.bind(this)"></chat>
 
 <span id="add-friend-notification" data-toggle="snackbar" data-content="נשלחה בקשת חברות"></span>

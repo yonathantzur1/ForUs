@@ -71,7 +71,7 @@ module.exports = {
             if (err == null) {
                 var collection = db.collection(collectionName);
 
-                collection.findOne(filter, fields, function (err, docs) {
+                collection.findOne(filter, { fields }, function (err, docs) {
                     if (err == null) {
                         callback(docs);
                     }
@@ -117,7 +117,7 @@ module.exports = {
 
                 sortObj = sortObj ? sortObj : {};
 
-                collection.find(filter, fields).sort(sortObj).toArray(function (err, docs) {
+                collection.find(filter, { fields }).sort(sortObj).toArray(function (err, docs) {
                     if (err == null) {
                         callback(docs);
                     }

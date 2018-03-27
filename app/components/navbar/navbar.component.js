@@ -104,7 +104,8 @@ var NavbarComponent = /** @class */ (function () {
                 title: "בקשות חברות",
                 content: {
                     get: [],
-                    send: []
+                    send: [],
+                    accept: []
                 },
                 getNotificationsNumber: function () {
                     return this.content.get.length;
@@ -137,8 +138,7 @@ var NavbarComponent = /** @class */ (function () {
         self.LoadFriendsData(self.user.friends);
         // Loading user messages notifications.
         self.navbarService.GetUserMessagesNotifications().then(function (result) {
-            var messagesNotifications = result.messagesNotifications ? result.messagesNotifications : {};
-            self.GetToolbarItem("messages").content = messagesNotifications;
+            self.GetToolbarItem("messages").content = result.messagesNotifications || {};
         });
         // Loading user friend requests.
         self.navbarService.GetUserFriendRequests().then(function (result) {

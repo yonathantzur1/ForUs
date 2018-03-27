@@ -138,7 +138,8 @@ var self = module.exports = {
                 "friends": [],
                 "friendRequests": {
                     "get": [],
-                    "send": []
+                    "send": [],
+                    "accept": []
                 }
             };
 

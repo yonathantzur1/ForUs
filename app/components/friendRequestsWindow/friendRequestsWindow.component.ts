@@ -15,8 +15,12 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     @Input() AddFriend: Function;
     @Input() IgnoreFriendRequest: Function;
 
+    // IDs of friends that confirmed the friend request of the user.
+    @Input() confirmedReuests: Array<string>;
+
     friendRequestsObjects: Array<any> = [];
-    isFirstFriendRequestsObjectsLoaded: boolean = false;
+    friendConfirmObjects: Array<any> = [];
+    isRequestsObjectsLoaded: boolean = false;
     isFriendRequestsLoading: boolean = false;
 
     constructor(private navbarService: NavbarService,
@@ -47,23 +51,35 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     ngOnChanges(changes: SimpleChanges) {
         // In case of loading data for the first time.
         if (changes.friendRequests &&
+            changes.confirmedReuests &&
             !changes.friendRequests.firstChange &&
-            !this.isFirstFriendRequestsObjectsLoaded) {
-            this.isFirstFriendRequestsObjectsLoaded = true;
+            !changes.confirmedReuests.firstChange &&
+            !this.isRequestsObjectsLoaded) {
+            this.isRequestsObjectsLoaded = true;
             this.isFriendRequestsLoading = true;
             this.LoadFriendRequestsObjects();
         }
     }
 
     LoadFriendRequestsObjects() {
-        if (this.friendRequests.length > 0) {
-            this.navbarService.GetFriends(this.friendRequests).then((friendsResult: Array<any>) => {
-                this.friendRequestsObjects = friendsResult;
+        if (this.friendRequests.length > 0 || this.confirmedReuests.length > 0) {
+            this.navbarService.GetFriends(this.friendRequests.concat(this.confirmedReuests)).then((friendsResult: Array<any>) => {
+                if (friendsResult) {
+                    // Running on all friends and confirmed friends of the request.
+                    friendsResult.forEach((friend: any) => {
+                        if (this.friendRequests.indexOf(friend._id) != -1) {
+                            this.friendRequestsObjects.push(friend);
+                        }
+                        else if (this.confirmedReuests.indexOf(friend._id) != -1) {
+                            this.friendConfirmObjects.push(friend);
+                        }
+                    });
+                }
+
                 this.isFriendRequestsLoading = false;
             });
         }
-        else {
-            this.friendRequestsObjects = [];
+        else {            
             this.isFriendRequestsLoading = false;
         }
     }

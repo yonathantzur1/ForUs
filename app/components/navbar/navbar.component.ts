@@ -142,7 +142,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 title: "בקשות חברות",
                 content: {
                     get: [],
-                    send: []
+                    send: [],
+                    accept: []
                 },
                 getNotificationsNumber: function () {
                     return this.content.get.length;
@@ -181,8 +182,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
         // Loading user messages notifications.
         self.navbarService.GetUserMessagesNotifications().then((result: any) => {
-            var messagesNotifications = result.messagesNotifications ? result.messagesNotifications : {};
-            self.GetToolbarItem("messages").content = messagesNotifications;
+            self.GetToolbarItem("messages").content = result.messagesNotifications || {};
         });
 
         // Loading user friend requests.
