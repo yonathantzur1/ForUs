@@ -2,21 +2,19 @@ module.exports = {
     addresses: {
         site: "https://forus.herokuapp.com",
         mail: "forusmailer@gmail.com",
-        mainConnectionString: "smtps://forusmailer%40gmail.com:popCorn1@smtp.gmail.com"
+        mainConnectionString: process.env.MAIL_CONNECTION_STRING
     },
     db: {
         name: "forus",
-        // connectionString: 'mongodb://forusdb:Aa123456@forus-shard-00-00-fenaf.mongodb.net:27017,forus-shard-00-01-fenaf.mongodb.net:27017,forus-shard-00-02-fenaf.mongodb.net:27017/test?ssl=true&replicaSet=ForUs-shard-0&authSource=admin&maxPoolSize=100',
-        // connectionString: 'mongodb://localhost:27017',
-        connectionString: process.env.CONNECTION_STRING,
+        connectionString: process.env.DEV_CONNECTION_STRING || process.env.CONNECTION_STRING,
         maxConnectionAttemptsNumber: 5
     },
     jwt: {
-        secret: "pingpong",
+        secret: process.env.JWT_SECRET,
         options: { expiresIn: '90d' }
     },
     encrypt: {
-        secret: "zigzag",
+        secret: process.env.ENCRYPT_SECRET,
         algorithm: "aes192"
     },
     expressBrute: {
@@ -36,7 +34,7 @@ module.exports = {
         resetPasswordMaxTries: 3
     },
     chat: {
-        messagesInPage: 50
+        messagesInPage: 50 // For chat pagination
     },
     mainSearch: {
         resultsLimit: 4
