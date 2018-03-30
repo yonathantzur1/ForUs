@@ -67,9 +67,11 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
                 if (friendsResult) {
                     // Running on all friends and confirmed friends of the request.
                     friendsResult.forEach((friend: any) => {
+                        // In case the friend object is for friend request.
                         if (this.friendRequests.indexOf(friend._id) != -1) {
                             this.friendRequestsObjects.push(friend);
                         }
+                        // In case the friend object is for friend request confirm notification.
                         else if (this.confirmedReuests.indexOf(friend._id) != -1) {
                             this.friendConfirmObjects.push(friend);
                         }
@@ -79,7 +81,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
                 this.isFriendRequestsLoading = false;
             });
         }
-        else {            
+        else {
             this.isFriendRequestsLoading = false;
         }
     }

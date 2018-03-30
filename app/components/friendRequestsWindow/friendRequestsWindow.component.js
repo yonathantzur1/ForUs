@@ -58,6 +58,7 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
                 if (friendsResult) {
                     // Running on all friends and confirmed friends of the request.
                     friendsResult.forEach(function (friend) {
+                        // In case the friend object is for friend request.
                         if (_this.friendRequests.indexOf(friend._id) != -1) {
                             _this.friendRequestsObjects.push(friend);
                         }

@@ -2,12 +2,13 @@ const config = require('./config');
 const MongoClient = require('mongodb').MongoClient, assert = require('assert');
 const ObjectId = require('mongodb').ObjectId;
 
-// Connection URL
+// Connection URL consts
 const connectionString = config.db.connectionString;
 const dbName = config.db.name;
 const maxConnectionAttemptsNumber = config.db.maxConnectionAttemptsNumber;
-const retryCount = 0;
 
+// Connection variables
+var retryCount = 0;
 var db;
 
 GetDB = function (callback) {
