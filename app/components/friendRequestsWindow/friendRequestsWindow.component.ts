@@ -11,6 +11,7 @@ import { NavbarService } from '../../services/navbar/navbar.service';
 })
 
 export class FriendRequestsWindowComponent implements OnInit, OnChanges {
+    @Input() isFriendRequestsWindowOpen: Array<string>;
     @Input() friendRequests: Array<string>;
     @Input() AddFriend: Function;
     @Input() IgnoreFriendRequest: Function;
@@ -20,8 +21,8 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
 
     friendRequestsObjects: Array<any> = [];
     friendConfirmObjects: Array<any> = [];
-    isRequestsObjectsLoaded: boolean = false;
     isFriendRequestsLoading: boolean = false;
+    isFirstClosing: boolean = true;
 
     constructor(private navbarService: NavbarService,
         private friendRequestsWindowService: FriendRequestsWindowService,
@@ -53,11 +54,22 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
         if (changes.friendRequests &&
             changes.confirmedReuests &&
             !changes.friendRequests.firstChange &&
-            !changes.confirmedReuests.firstChange &&
-            !this.isRequestsObjectsLoaded) {
-            this.isRequestsObjectsLoaded = true;
+            !changes.confirmedReuests.firstChange) {
             this.isFriendRequestsLoading = true;
             this.LoadFriendRequestsObjects();
+        }
+
+        if (changes.isFriendRequestsWindowOpen &&
+            changes.isFriendRequestsWindowOpen.currentValue == false &&
+            !changes.isFriendRequestsWindowOpen.firstChange &&
+            this.isFirstClosing) {
+            this.isFirstClosing = false;
+            this.friendRequestsWindowService.RemoveRequestConfirmAlert(this.confirmedReuests).then((result: any) => {
+                if (result) {
+                    this.friendConfirmObjects = [];
+                    this.confirmedReuests.splice(0);
+                }
+            });
         }
     }
 

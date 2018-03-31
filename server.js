@@ -67,6 +67,7 @@ require('./routes/profilePicture')(app);
 require('./routes/navbar')(app);
 require('./routes/chat')(app);
 require('./routes/chatsWindow')(app);
+require('./routes/friendRequestsWindow')(app);
 require('./routes/management')(app);
 
 // Import socket.io mudule

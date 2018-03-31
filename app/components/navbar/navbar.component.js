@@ -108,7 +108,7 @@ var NavbarComponent = /** @class */ (function () {
                     accept: []
                 },
                 getNotificationsNumber: function () {
-                    return this.content.get.length;
+                    return this.content.get.length + this.content.accept.length;
                 },
                 isShowToolbarItemBadget: function () {
                     return (this.getNotificationsNumber() > 0);
@@ -497,12 +497,20 @@ var NavbarComponent = /** @class */ (function () {
     };
     NavbarComponent.prototype.ShowHideChatsWindow = function () {
         this.isChatsWindowOpen = !this.isChatsWindowOpen;
+        // Scroll chat window to top after the view is getting refreshed.
+        setTimeout(function () {
+            $("#chatsWindow .body-container")[0].scrollTop = 0;
+        }, 0);
     };
     NavbarComponent.prototype.HideChatsWindow = function () {
         this.isChatsWindowOpen = false;
     };
     NavbarComponent.prototype.ShowHideFriendRequestsWindow = function () {
         this.isFriendRequestsWindowOpen = !this.isFriendRequestsWindowOpen;
+        // Scroll friend requests window to top after the view is getting refreshed.
+        setTimeout(function () {
+            $("#friendRequestsWindow .body-container")[0].scrollTop = 0;
+        }, 0);
     };
     NavbarComponent.prototype.HideFriendRequestsWindow = function () {
         this.isFriendRequestsWindowOpen = false;

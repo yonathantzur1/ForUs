@@ -18,6 +18,17 @@ var FriendRequestsWindowService = /** @class */ (function (_super) {
         _this.prefix = "/api/friendRequestsWindow";
         return _this;
     }
+    FriendRequestsWindowService.prototype.RemoveRequestConfirmAlert = function (confirmedFriendsIds) {
+        var data = { confirmedFriendsIds: confirmedFriendsIds };
+        return _super.prototype.put.call(this, this.prefix + '/removeRequestConfirmAlert', data)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
     return FriendRequestsWindowService;
 }(basic_service_1.BasicService));
 exports.FriendRequestsWindowService = FriendRequestsWindowService;

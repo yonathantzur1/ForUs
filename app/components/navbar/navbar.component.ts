@@ -146,7 +146,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                     accept: []
                 },
                 getNotificationsNumber: function () {
-                    return this.content.get.length;
+                    return this.content.get.length + this.content.accept.length;
                 },
                 isShowToolbarItemBadget: function () {
                     return (this.getNotificationsNumber() > 0);
@@ -614,6 +614,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     ShowHideChatsWindow() {
         this.isChatsWindowOpen = !this.isChatsWindowOpen;
+
+        // Scroll chat window to top after the view is getting refreshed.
+        setTimeout(() => {
+            $("#chatsWindow .body-container")[0].scrollTop = 0
+        }, 0);
     }
 
     HideChatsWindow() {
@@ -622,6 +627,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     ShowHideFriendRequestsWindow() {
         this.isFriendRequestsWindowOpen = !this.isFriendRequestsWindowOpen;
+
+        // Scroll friend requests window to top after the view is getting refreshed.
+        setTimeout(() => {
+            $("#friendRequestsWindow .body-container")[0].scrollTop = 0
+        }, 0);
     }
 
     HideFriendRequestsWindow() {

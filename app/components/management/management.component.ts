@@ -364,8 +364,8 @@ export class ManagementComponent implements OnDestroy {
         self.alertService.Alert({
             title: "ביטול חסימה - " + user.firstName + " " + user.lastName,
             text: "האם לבטל את החסימה?" + "\n\n" +
-                "<b>סיבה: </b>" + user.block.reason + "\n" +
-                "<b>עד תאריך: </b>" + (user.block.unblockDate ? self.ConvertDateFormat(user.block.unblockDate) : "בלתי מוגבל"),
+                "<b>סיבה - </b>" + user.block.reason + "\n" +
+                "<b>עד תאריך - </b>" + (user.block.unblockDate ? self.ConvertDateFormat(user.block.unblockDate) : "בלתי מוגבל"),
             type: "info",
             confirmFunc: function () {
                 self.managementService.UnblockUser(user._id).then((result: any) => {

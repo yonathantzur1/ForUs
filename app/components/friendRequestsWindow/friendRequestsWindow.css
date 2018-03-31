@@ -60,6 +60,14 @@
     background-color: #f7f7f7;
 }
 
+#friendRequestsWindow .no-hover {
+    cursor: default !important;
+}
+
+#friendRequestsWindow .no-hover:hover {
+    background-color: inherit !important;
+}
+
 #friendRequestsWindow .friend-request-image {
     width: 30px;
     height: 30px;
@@ -74,6 +82,14 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+}
+
+#friendRequestsWindow .friend-accept-text {
+    width: calc(100% - 50px);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 14px;
 }
 
 #friendRequestsWindow .friend-request-response-btn {

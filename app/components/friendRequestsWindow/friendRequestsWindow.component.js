@@ -20,8 +20,8 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         this.globalService = globalService;
         this.friendRequestsObjects = [];
         this.friendConfirmObjects = [];
-        this.isRequestsObjectsLoaded = false;
         this.isFriendRequestsLoading = false;
+        this.isFirstClosing = true;
     }
     FriendRequestsWindowComponent.prototype.ngOnInit = function () {
         var self = this;
@@ -40,15 +40,26 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         });
     };
     FriendRequestsWindowComponent.prototype.ngOnChanges = function (changes) {
+        var _this = this;
         // In case of loading data for the first time.
         if (changes.friendRequests &&
             changes.confirmedReuests &&
             !changes.friendRequests.firstChange &&
-            !changes.confirmedReuests.firstChange &&
-            !this.isRequestsObjectsLoaded) {
-            this.isRequestsObjectsLoaded = true;
+            !changes.confirmedReuests.firstChange) {
             this.isFriendRequestsLoading = true;
             this.LoadFriendRequestsObjects();
+        }
+        if (changes.isFriendRequestsWindowOpen &&
+            changes.isFriendRequestsWindowOpen.currentValue == false &&
+            !changes.isFriendRequestsWindowOpen.firstChange &&
+            this.isFirstClosing) {
+            this.isFirstClosing = false;
+            this.friendRequestsWindowService.RemoveRequestConfirmAlert(this.confirmedReuests).then(function (result) {
+                if (result) {
+                    _this.friendConfirmObjects = [];
+                    _this.confirmedReuests.splice(0);
+                }
+            });
         }
     };
     FriendRequestsWindowComponent.prototype.LoadFriendRequestsObjects = function () {
@@ -90,6 +101,10 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
     FriendRequestsWindowComponent.prototype.FriendRequestBtnClicked = function (friendId) {
         this.globalService.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Array)
+    ], FriendRequestsWindowComponent.prototype, "isFriendRequestsWindowOpen", void 0);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Array)
