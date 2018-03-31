@@ -71,7 +71,11 @@ var ManagementComponent = /** @class */ (function () {
                 else {
                     return (self.IsUserBlocked(user) == true);
                 }
-            })
+            }),
+            new navbar_component_1.DropMenuData(null, "מחיקת משתמש", function () {
+                var user = self.GetUserWithOpenMenu();
+                self.DeleteUser(user);
+            }),
         ];
     }
     ManagementComponent.prototype.ngOnDestroy = function () {
@@ -317,6 +321,7 @@ var ManagementComponent = /** @class */ (function () {
     ManagementComponent.prototype.GetUserWithOpenMenu = function () {
         for (var i = 0; i < this.users.length; i++) {
             if (this.users[i].isMenuOpen) {
+                this.users[i].index = i;
                 return this.users[i];
             }
         }
@@ -358,6 +363,25 @@ var ManagementComponent = /** @class */ (function () {
                     }
                     else {
                         $("#remove-friend-error").snackbar("show");
+                    }
+                });
+            }
+        });
+    };
+    ManagementComponent.prototype.DeleteUser = function (user) {
+        var self = this;
+        self.alertService.Alert({
+            title: "מחיקת משתמש",
+            text: "האם למחוק את המשתמש של <b>" + user.firstName + " " + user.lastName + "</b>?",
+            type: "warning",
+            confirmFunc: function () {
+                self.managementService.DeleteUser(user._id).then(function (result) {
+                    if (result) {
+                        self.users.splice(user.index, 1);
+                        $("#delete-user-success").snackbar("show");
+                    }
+                    else {
+                        $("#delete-user-error").snackbar("show");
                     }
                 });
             }

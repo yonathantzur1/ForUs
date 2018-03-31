@@ -85,7 +85,11 @@ export class ManagementComponent implements OnDestroy {
                 else {
                     return (self.IsUserBlocked(user) == true);
                 }
-            })
+            }),
+            new DropMenuData(null, "מחיקת משתמש", () => {
+                var user = self.GetUserWithOpenMenu();
+                self.DeleteUser(user);
+            }),
         ];
     }
 
@@ -390,6 +394,7 @@ export class ManagementComponent implements OnDestroy {
     GetUserWithOpenMenu() {
         for (var i = 0; i < this.users.length; i++) {
             if (this.users[i].isMenuOpen) {
+                this.users[i].index = i;
                 return this.users[i];
             }
         }
@@ -441,6 +446,27 @@ export class ManagementComponent implements OnDestroy {
                         $("#remove-friend-error").snackbar("show");
                     }
                 });
+            }
+        });
+    }
+
+    DeleteUser(user: any) {
+        var self = this;
+
+        self.alertService.Alert({
+            title: "מחיקת משתמש",
+            text: "האם למחוק את המשתמש של <b>" + user.firstName + " " + user.lastName + "</b>?",
+            type: "warning",
+            confirmFunc: function () {
+                self.managementService.DeleteUser(user._id).then((result: any) => {
+                    if (result) {
+                        self.users.splice(user.index, 1);
+                        $("#delete-user-success").snackbar("show");
+                    }
+                    else {
+                        $("#delete-user-error").snackbar("show");
+                    }
+                })
             }
         });
     }

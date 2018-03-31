@@ -71,7 +71,18 @@ export class ManagementService extends BasicService {
     RemoveFriends(userId: string, friendId: string) {
         var details = { userId, friendId };
 
-        return super.put(this.prefix + '/removeFriends', details)
+        return super.delete(this.prefix + '/removeFriends?userId=' + userId + "&friendId=" + friendId)
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((result: any) => {
+                return null;
+            });
+    }
+
+    DeleteUser(userId: string) {
+        return super.delete(this.prefix + '/deleteUser?userId=' + userId)
             .toPromise()
             .then((result: any) => {
                 return result;

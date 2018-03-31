@@ -75,7 +75,17 @@ var ManagementService = /** @class */ (function (_super) {
     };
     ManagementService.prototype.RemoveFriends = function (userId, friendId) {
         var details = { userId: userId, friendId: friendId };
-        return _super.prototype.put.call(this, this.prefix + '/removeFriends', details)
+        return _super.prototype.delete.call(this, this.prefix + '/removeFriends?userId=' + userId + "&friendId=" + friendId)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
+    ManagementService.prototype.DeleteUser = function (userId) {
+        return _super.prototype.delete.call(this, this.prefix + '/deleteUser?userId=' + userId)
             .toPromise()
             .then(function (result) {
             return result;

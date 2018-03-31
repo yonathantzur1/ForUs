@@ -251,5 +251,53 @@ module.exports = {
                     callback(result);
                 }
             });
+    },
+
+    DeleteUser: function (userId, callback) {
+        var userObjectId = DAL.GetObjectId(userId);
+        var notificationsUnsetJson = {};
+        notificationsUnsetJson["messagesNotifications." + userId] = 1;
+
+        // Remove all chats of the user.
+        DAL.Delete(chatsCollectionName,
+            { "membersIds": userId },
+            function (result) {
+                if (result != null) {
+                    // Remove user from all users friends list and message notifications.
+                    DAL.Update(usersCollectionName, {},
+                        {
+                            $pull: { "friends": userId },
+                            $unset: notificationsUnsetJson
+                        },
+                        function (result) {
+                            if (result != null) {
+                                // Remove all user profiles images.
+                                DAL.Delete(profileCollectionName,
+                                    { "userId": userObjectId },
+                                    function (result) {
+                                        if (result != null) {
+                                            // Remove the user object.
+                                            DAL.Delete(usersCollectionName,
+                                                { "_id": userObjectId },
+                                                function (result) {
+                                                    // Change result to true in case the update succeeded.
+                                                    result && (result = true);
+                                                    callback(result);
+                                                });
+                                        }
+                                        else {
+                                            callback(result);
+                                        }
+                                    });
+                            }
+                            else {
+                                callback(result);
+                            }
+                        });
+                }
+                else {
+                    callback(result);
+                }
+            });
     }
 };
