@@ -62,6 +62,7 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
                         if (_this.friendRequests.indexOf(friend._id) != -1) {
                             _this.friendRequestsObjects.push(friend);
                         }
+                        // In case the friend object is for friend request confirm notification.
                         else if (_this.confirmedReuests.indexOf(friend._id) != -1) {
                             _this.friendConfirmObjects.push(friend);
                         }

@@ -107,9 +107,11 @@ var LoginComponent = /** @class */ (function () {
                 if (result == null) {
                     $("#server-error").snackbar("show");
                 }
+                // In case the login details is incorrect.
                 else if (result == false) {
                     $("#login-failed").snackbar("show");
                 }
+                // In case the user was not found.
                 else if (result == "-1") {
                     _this.alertService.Alert({
                         title: "משתמש לא קיים במערכת",
@@ -131,6 +133,7 @@ var LoginComponent = /** @class */ (function () {
                         $("#lock-user").attr("data-content", "החשבון ננעל למשך " + result.lock + " דקות");
                         _this.snackbarId = $("#lock-user").snackbar("show");
                     }
+                    // In case the user is blocked.
                     else if (result.block) {
                         _this.alertService.Alert({
                             title: "משתמש חסום",
@@ -163,6 +166,7 @@ var LoginComponent = /** @class */ (function () {
                 if (result == null) {
                     $("#server-error").snackbar("show");
                 }
+                // In case the email is already exists.
                 else if (result == false) {
                     // Show microtext of the email field. 
                     $("#register-email-micro").html("אימייל זה כבר נמצא בשימוש");
@@ -190,10 +194,12 @@ var LoginComponent = /** @class */ (function () {
                     if (result == null) {
                         $("#server-error").snackbar("show");
                     }
+                    // In case the user was not found.
                     else if (result == false) {
                         // Show microtext of the email field. 
                         $("#forgot-email-micro").html("אימייל זה לא קיים במערכת");
                     }
+                    // In case the user was found.
                     else {
                         _this.forgotUser.showResetCodeField = true;
                         _this.forgotUser.forgotBtnText = forgotBtnTextObj.resetPassText;
@@ -201,6 +207,7 @@ var LoginComponent = /** @class */ (function () {
                     }
                 });
             }
+            // In case the user is in the second stage of reset password.
             else {
                 this.loginService.ResetPassword(this.forgotUser).then(function (data) {
                     var result = data ? data.result : null;
@@ -209,21 +216,27 @@ var LoginComponent = /** @class */ (function () {
                     if (result == null) {
                         $("#server-error").snackbar("show");
                     }
+                    // In case the email was not found.
                     else if (result == false || result.emailNotFound) {
                         $("#forgot-email-micro").html("אימייל זה לא קיים במערכת");
                     }
+                    // In case the reset code is not exists.
                     else if (result.codeNotFound) {
                         $("#forgot-code-micro").html("הקוד שהוזן לא נמצא");
                     }
+                    // In case the reset code is lock with max tries or already been used.
                     else if (result.maxTry || result.codeIsUsed) {
                         $("#forgot-code-micro").html("קוד זה נעול");
                     }
+                    // In case the reset code is expired.
                     else if (result.codeIsExpired) {
                         $("#forgot-code-micro").html("פג תוקפו של הקוד שהוזן");
                     }
+                    // In case the reset code is wrong.
                     else if (result.codeNotValid) {
                         $("#forgot-code-micro").html("הקוד שהוזן שגוי");
                     }
+                    // In case the password has been changed.
                     else {
                         $("#forgot-modal").modal('hide');
                         var self = _this;

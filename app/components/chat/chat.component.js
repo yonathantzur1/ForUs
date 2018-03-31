@@ -314,6 +314,7 @@ var ChatComponent = /** @class */ (function () {
         if (event.keyCode == 13) {
             this.SendMessage();
         }
+        // In case of pressing ESCAPE.
         else if (event.keyCode == 27) {
             this.CloseChat();
         }

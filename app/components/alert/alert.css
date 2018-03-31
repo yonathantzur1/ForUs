@@ -46,9 +46,11 @@
 
 #alert .alert-text {
     overflow-y: auto;
-    width: 100%;    
+    width: 100%;
     padding-right: 20px;
-    white-space: pre;
+    padding-left: 20px;
+    max-height: 200px;
+    white-space: pre-wrap;
 }
 
 #alert .alert-img-container {

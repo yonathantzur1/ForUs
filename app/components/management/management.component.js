@@ -40,7 +40,7 @@ var ManagementComponent = /** @class */ (function () {
                 user.editObj.email = user.email;
                 user.isEditScreenOpen = true;
             }),
-            new navbar_component_1.DropMenuData(null, "חסימת משתמש", function () {
+            new navbar_component_1.DropMenuData(null, "חסימה", function () {
                 var user = self.GetUserWithOpenMenu();
                 user.blockAmount = {
                     days: 0,
@@ -129,6 +129,7 @@ var ManagementComponent = /** @class */ (function () {
                 user.isOpenCardAnimationActive = false;
             }, this.openCardAnimationTime);
         }
+        // Close the card in case it is open.
         else {
             user.isOpen = false;
             this.isPreventFirstOpenCardAnimation = false;

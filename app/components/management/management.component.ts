@@ -50,7 +50,7 @@ export class ManagementComponent implements OnDestroy {
 
                 user.isEditScreenOpen = true;
             }),
-            new DropMenuData(null, "חסימת משתמש", () => {
+            new DropMenuData(null, "חסימה", () => {
                 var user = self.GetUserWithOpenMenu();
 
                 user.blockAmount = {
