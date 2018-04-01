@@ -503,7 +503,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                         self.searchResults = results;
                         self.ShowSearchResults();
 
-                        self.navbarService.GetMainSearchResultsWithImages(this.GetResultsIds(results)).then((profiles: any) => {
+                        self.navbarService.GetMainSearchResultsWithImages(self.GetResultsIds(results)).then((profiles: any) => {
                             if (profiles && Object.keys(profiles).length > 0 && input == self.searchInput.trim()) {
                                 self.searchResults.forEach((result: any) => {
                                     if (result.originalProfile) {

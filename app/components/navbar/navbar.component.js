@@ -399,14 +399,13 @@ var NavbarComponent = /** @class */ (function () {
             // Clear cached users (with full profiles) from memory.
             cachedUsers = null;
             self.inputInterval = setTimeout(function () {
-                var _this = this;
                 self.navbarService.GetMainSearchResults(input).then(function (results) {
                     if (results && results.length > 0 && input == self.searchInput.trim()) {
                         self.InsertSearchUsersToCache(input, results);
                         self.GetResultImagesFromCache(results);
                         self.searchResults = results;
                         self.ShowSearchResults();
-                        self.navbarService.GetMainSearchResultsWithImages(_this.GetResultsIds(results)).then(function (profiles) {
+                        self.navbarService.GetMainSearchResultsWithImages(self.GetResultsIds(results)).then(function (profiles) {
                             if (profiles && Object.keys(profiles).length > 0 && input == self.searchInput.trim()) {
                                 self.searchResults.forEach(function (result) {
                                     if (result.originalProfile) {
