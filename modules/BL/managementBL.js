@@ -258,31 +258,47 @@ module.exports = {
         var notificationsUnsetJson = {};
         notificationsUnsetJson["messagesNotifications." + userId] = 1;
 
-        // Remove all chats of the user.
-        DAL.Delete(chatsCollectionName,
-            { "membersIds": userId },
+        var deletedUserFriends;
+
+        // Getting deleted user friends.
+        DAL.FindOneSpecific(usersCollectionName,
+            { "_id": userObjectId },
+            { "friends": 1 },
             function (result) {
-                if (result != null) {
-                    // Remove user from all users friends list and message notifications.
-                    DAL.Update(usersCollectionName, {},
-                        {
-                            $pull: { "friends": userId },
-                            $unset: notificationsUnsetJson
-                        },
+                if (result) {
+                    deletedUserFriends = result.friends;
+
+                    // Remove all chats of the user.
+                    DAL.Delete(chatsCollectionName,
+                        { "membersIds": userId },
                         function (result) {
                             if (result != null) {
-                                // Remove all user profiles images.
-                                DAL.Delete(profileCollectionName,
-                                    { "userId": userObjectId },
+                                // Remove user from all users friends list and message notifications.
+                                DAL.Update(usersCollectionName,
+                                    {},
+                                    {
+                                        $pull: { "friends": userId },
+                                        $unset: notificationsUnsetJson
+                                    },
                                     function (result) {
                                         if (result != null) {
-                                            // Remove the user object.
-                                            DAL.Delete(usersCollectionName,
-                                                { "_id": userObjectId },
+                                            // Remove all user profiles images.
+                                            DAL.Delete(profileCollectionName,
+                                                { "userId": userObjectId },
                                                 function (result) {
-                                                    // Change result to true in case the update succeeded.
-                                                    result && (result = true);
-                                                    callback(result);
+                                                    if (result != null) {
+                                                        // Remove the user object.
+                                                        DAL.DeleteOne(usersCollectionName,
+                                                            { "_id": userObjectId },
+                                                            function (result) {
+                                                                // Change result to true in case the delete succeeded.
+                                                                result && (result = deletedUserFriends);
+                                                                callback(result);
+                                                            });
+                                                    }
+                                                    else {
+                                                        callback(result);
+                                                    }
                                                 });
                                         }
                                         else {

@@ -222,6 +222,15 @@ var NavbarComponent = /** @class */ (function () {
         self.globalService.SocketOn('ClientFriendTyping', function (friendId) {
             self.MakeFriendTyping(friendId);
         });
+        self.globalService.SocketOn('ClientRemoveFriendUser', function (friendId, userName) {
+            self.RemoveFriend(friendId);
+            self.alertService.Alert({
+                title: "מחיקת משתמש מהאתר",
+                text: "המשתמש של " + userName + " נמחק מהאתר לצמיתות.",
+                showCancelButton: false,
+                type: "info"
+            });
+        });
     };
     NavbarComponent.prototype.ngOnDestroy = function () {
         this.subscribeObj.unsubscribe();
@@ -390,13 +399,14 @@ var NavbarComponent = /** @class */ (function () {
             // Clear cached users (with full profiles) from memory.
             cachedUsers = null;
             self.inputInterval = setTimeout(function () {
+                var _this = this;
                 self.navbarService.GetMainSearchResults(input).then(function (results) {
                     if (results && results.length > 0 && input == self.searchInput.trim()) {
                         self.InsertSearchUsersToCache(input, results);
                         self.GetResultImagesFromCache(results);
                         self.searchResults = results;
                         self.ShowSearchResults();
-                        self.navbarService.GetMainSearchResultsWithImages(GetResultsIds(results)).then(function (profiles) {
+                        self.navbarService.GetMainSearchResultsWithImages(_this.GetResultsIds(results)).then(function (profiles) {
                             if (profiles && Object.keys(profiles).length > 0 && input == self.searchInput.trim()) {
                                 self.searchResults.forEach(function (result) {
                                     if (result.originalProfile) {
@@ -673,6 +683,60 @@ var NavbarComponent = /** @class */ (function () {
         this.ClosePopups();
         this.CloseChatWindow();
     };
+    NavbarComponent.prototype.RemoveFriend = function (friendId) {
+        // ---------- Remove friend notifications on friend requests window ----------
+        var friendRequestGetIndex = this.GetToolbarItem('friendRequests').content.get.indexOf(friendId);
+        var friendRequestSendIndex = this.GetToolbarItem('friendRequests').content.send.indexOf(friendId);
+        var friendRequestAcceptIndex = this.GetToolbarItem('friendRequests').content.accept.indexOf(friendId);
+        if (friendRequestGetIndex != -1) {
+            this.GetToolbarItem('friendRequests').content.get.splice(friendRequestGetIndex, 1);
+        }
+        if (friendRequestSendIndex != -1) {
+            this.GetToolbarItem('friendRequests').content.send.splice(friendRequestSendIndex, 1);
+        }
+        if (friendRequestAcceptIndex != -1) {
+            this.GetToolbarItem('friendRequests').content.accept.splice(friendRequestAcceptIndex, 1);
+        }
+        // ---------------------------------------------------------------------------
+        // In case chat is open with the friend.
+        if (this.chatData.isOpen && this.chatData.friend._id == friendId) {
+            this.CloseChatWindow();
+        }
+        // Remove friend messages notifications
+        delete this.GetToolbarItem('messages').content[friendId];
+        // Removing friend from user friends ids list.
+        for (var i = 0; i < this.user.friends.length; i++) {
+            if (this.user.friends[i] == friendId) {
+                this.user.friends.splice(i, 1);
+                break;
+            }
+        }
+        // Removing friend from user friends objects list.
+        for (var i = 0; i < this.friends.length; i++) {
+            if (this.friends[i]._id == friendId) {
+                this.friends.splice(i, 1);
+                break;
+            }
+        }
+    };
+    NavbarComponent.prototype.GetResultsIds = function (results) {
+        var profilesIds = [];
+        var resultsIdsWithNoProfile = [];
+        results.forEach(function (result) {
+            var id = result.originalProfile;
+            if (id) {
+                profilesIds.push(id);
+            }
+            else {
+                resultsIdsWithNoProfile.push(result._id);
+            }
+        });
+        var data = {
+            "profilesIds": profilesIds,
+            "resultsIdsWithNoProfile": resultsIdsWithNoProfile
+        };
+        return data;
+    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object)
@@ -692,22 +756,4 @@ var NavbarComponent = /** @class */ (function () {
     return NavbarComponent;
 }());
 exports.NavbarComponent = NavbarComponent;
-function GetResultsIds(results) {
-    var profilesIds = [];
-    var resultsIdsWithNoProfile = [];
-    results.forEach(function (result) {
-        var id = result.originalProfile;
-        if (id) {
-            profilesIds.push(id);
-        }
-        else {
-            resultsIdsWithNoProfile.push(result._id);
-        }
-    });
-    var data = {
-        "profilesIds": profilesIds,
-        "resultsIdsWithNoProfile": resultsIdsWithNoProfile
-    };
-    return data;
-}
 //# sourceMappingURL=navbar.component.js.map

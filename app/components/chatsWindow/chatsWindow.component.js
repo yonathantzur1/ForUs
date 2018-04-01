@@ -17,7 +17,6 @@ var ChatsWindowComponent = /** @class */ (function () {
         this.chatsWindowService = chatsWindowService;
         this.globalService = globalService;
         this.chats = [];
-        this.isRefreshActive = false;
     }
     ChatsWindowComponent.prototype.ngOnInit = function () {
         var self = this;
@@ -55,13 +54,15 @@ var ChatsWindowComponent = /** @class */ (function () {
                 self.LoadChatsObjects();
             }
         });
+        self.globalService.SocketOn('ClientRemoveFriendUser', function (friendId) {
+            self.RemoveFriendChat(friendId);
+        });
     };
     ChatsWindowComponent.prototype.LoadChatsObjects = function () {
         var self = this;
         self.chatsWindowService.GetAllChats().then(function (chats) {
             self.chats = chats;
             self.isChatsLoading = false;
-            self.isRefreshActive = false;
         });
     };
     ChatsWindowComponent.prototype.GetUnreadMessagesNumber = function () {
@@ -134,6 +135,14 @@ var ChatsWindowComponent = /** @class */ (function () {
             }
         });
         return chats;
+    };
+    ChatsWindowComponent.prototype.RemoveFriendChat = function (friendId) {
+        for (var i = 0; i < this.chats.length; i++) {
+            if (this.chats[i].friendId == friendId) {
+                this.chats.splice(i, 1);
+                break;
+            }
+        }
     };
     __decorate([
         core_1.Input(),

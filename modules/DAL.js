@@ -264,6 +264,32 @@ module.exports = {
         });
     },
 
+    // Delete documents by filter.
+    DeleteOne: function (collectionName, filter, callback) {
+        GetDB(function (err, db) {
+            if (err == null) {
+                var collection = db.collection(collectionName);
+
+                collection.deleteOne(filter, function (err, result) {
+                    if (err == null) {
+                        if (result.result.n != 0) {
+                            callback(true);
+                        }
+                        else {
+                            callback(false);
+                        }
+                    }
+                    else {
+                        callback(null);
+                    }
+                });
+            }
+            else {
+                callback(null);
+            }
+        });
+    },
+
     // Save or update document.
     Save: function (collectionName, object, callback) {
         GetDB(function (err, db) {

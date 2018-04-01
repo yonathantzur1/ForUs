@@ -45,6 +45,10 @@ module.exports = function (io) {
             }
         });
 
+        socket.on('disconnect', function () {
+            LogoutUser(io, socket);
+        });
+
         socket.on('LogoutUserSessionServer', function (userId, msg) {
             var token = general.DecodeToken(general.GetTokenFromSocket(socket));
 
@@ -57,8 +61,16 @@ module.exports = function (io) {
             }
         });
 
-        socket.on('disconnect', function () {
-            LogoutUser(io, socket);
+        socket.on('ServerRemoveFriendUser', function (userId, userName, friendsIds) {
+            var token = general.DecodeToken(general.GetTokenFromSocket(socket));
+
+            if (token &&
+                token.user &&
+                ((token.user.permissions && token.user.permissions.indexOf(general.PERMISSION.ADMIN) != -1))) {
+                friendsIds.forEach(friendId => {
+                    io.to(friendId).emit('ClientRemoveFriendUser', userId, userName);
+                });
+            }
         });
     });
 }

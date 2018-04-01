@@ -19,7 +19,6 @@ export class ChatsWindowComponent implements OnInit {
 
     chats: any = [];
     isChatsLoading: boolean;
-    isRefreshActive: boolean = false;
 
     constructor(private chatsWindowService: ChatsWindowService, private globalService: GlobalService) { }
 
@@ -70,6 +69,10 @@ export class ChatsWindowComponent implements OnInit {
                 self.LoadChatsObjects();
             }
         });
+
+        self.globalService.SocketOn('ClientRemoveFriendUser', function (friendId: string) {
+            self.RemoveFriendChat(friendId);
+        });
     }
 
     LoadChatsObjects() {
@@ -78,7 +81,6 @@ export class ChatsWindowComponent implements OnInit {
         self.chatsWindowService.GetAllChats().then(function (chats: any) {
             self.chats = chats;
             self.isChatsLoading = false;
-            self.isRefreshActive = false;
         });
     }
 
@@ -170,5 +172,14 @@ export class ChatsWindowComponent implements OnInit {
         });
 
         return chats;
+    }
+
+    RemoveFriendChat(friendId: string) {
+        for (var i = 0; i < this.chats.length; i++) {
+            if (this.chats[i].friendId == friendId) {
+                this.chats.splice(i, 1);
+                break;
+            }
+        }
     }
 }

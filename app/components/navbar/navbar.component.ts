@@ -281,6 +281,17 @@ export class NavbarComponent implements OnInit, OnDestroy {
         self.globalService.SocketOn('ClientFriendTyping', function (friendId: string) {
             self.MakeFriendTyping(friendId);
         });
+
+        self.globalService.SocketOn('ClientRemoveFriendUser', function (friendId: string, userName: string) {
+            self.RemoveFriend(friendId);
+
+            self.alertService.Alert({
+                title: "מחיקת משתמש מהאתר",
+                text: "המשתמש של " + userName + " נמחק מהאתר לצמיתות.",
+                showCancelButton: false,
+                type: "info"
+            });
+        });
     }
 
     ngOnDestroy() {
@@ -319,7 +330,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     // Return item object from toolbar items array by its id.
-    GetToolbarItem(id: string) {
+    GetToolbarItem(id: string): any {
         for (var i = 0; i < this.toolbarItems.length; i++) {
             if (this.toolbarItems[i].id == id) {
                 return this.toolbarItems[i];
@@ -492,7 +503,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                         self.searchResults = results;
                         self.ShowSearchResults();
 
-                        self.navbarService.GetMainSearchResultsWithImages(GetResultsIds(results)).then((profiles: any) => {
+                        self.navbarService.GetMainSearchResultsWithImages(this.GetResultsIds(results)).then((profiles: any) => {
                             if (profiles && Object.keys(profiles).length > 0 && input == self.searchInput.trim()) {
                                 self.searchResults.forEach((result: any) => {
                                     if (result.originalProfile) {
@@ -829,27 +840,73 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.ClosePopups();
         this.CloseChatWindow();
     }
-}
 
-function GetResultsIds(results: Array<any>) {
-    var profilesIds: Array<string> = [];
-    var resultsIdsWithNoProfile: Array<string> = [];
+    RemoveFriend(friendId: string) {
+        // ---------- Remove friend notifications on friend requests window ----------
 
-    results.forEach(function (result) {
-        var id: string = result.originalProfile;
+        var friendRequestGetIndex = this.GetToolbarItem('friendRequests').content.get.indexOf(friendId);
+        var friendRequestSendIndex = this.GetToolbarItem('friendRequests').content.send.indexOf(friendId);
+        var friendRequestAcceptIndex = this.GetToolbarItem('friendRequests').content.accept.indexOf(friendId);
 
-        if (id) {
-            profilesIds.push(id);
+        if (friendRequestGetIndex != -1) {
+            this.GetToolbarItem('friendRequests').content.get.splice(friendRequestGetIndex, 1);
         }
-        else {
-            resultsIdsWithNoProfile.push(result._id);
+
+        if (friendRequestSendIndex != -1) {
+            this.GetToolbarItem('friendRequests').content.send.splice(friendRequestSendIndex, 1);
         }
-    });
 
-    var data = {
-        "profilesIds": profilesIds,
-        "resultsIdsWithNoProfile": resultsIdsWithNoProfile
-    };
+        if (friendRequestAcceptIndex != -1) {
+            this.GetToolbarItem('friendRequests').content.accept.splice(friendRequestAcceptIndex, 1);
+        }
 
-    return data;
+        // ---------------------------------------------------------------------------
+
+        // In case chat is open with the friend.
+        if (this.chatData.isOpen && this.chatData.friend._id == friendId) {
+            this.CloseChatWindow();
+        }
+
+        // Remove friend messages notifications
+        delete this.GetToolbarItem('messages').content[friendId];
+
+        // Removing friend from user friends ids list.
+        for (var i = 0; i < this.user.friends.length; i++) {
+            if (this.user.friends[i] == friendId) {
+                this.user.friends.splice(i, 1);
+                break;
+            }
+        }
+
+        // Removing friend from user friends objects list.
+        for (var i = 0; i < this.friends.length; i++) {
+            if (this.friends[i]._id == friendId) {
+                this.friends.splice(i, 1);
+                break;
+            }
+        }
+    }
+
+    GetResultsIds(results: Array<any>) {
+        var profilesIds: Array<string> = [];
+        var resultsIdsWithNoProfile: Array<string> = [];
+
+        results.forEach((result: any) => {
+            var id: string = result.originalProfile;
+
+            if (id) {
+                profilesIds.push(id);
+            }
+            else {
+                resultsIdsWithNoProfile.push(result._id);
+            }
+        });
+
+        var data = {
+            "profilesIds": profilesIds,
+            "resultsIdsWithNoProfile": resultsIdsWithNoProfile
+        };
+
+        return data;
+    }
 }

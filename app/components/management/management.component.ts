@@ -462,6 +462,9 @@ export class ManagementComponent implements OnDestroy {
                     if (result) {
                         self.users.splice(user.index, 1);
                         $("#delete-user-success").snackbar("show");
+                        self.globalService.socket.emit("ServerRemoveFriendUser", user._id,
+                            user.firstName + " " + user.lastName,
+                            result);
                     }
                     else {
                         $("#delete-user-error").snackbar("show");
