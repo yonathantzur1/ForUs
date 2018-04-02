@@ -5,9 +5,9 @@ const generator = require('../generator');
 const mailer = require('../mailer');
 const sha512 = require('js-sha512');
 
-const usersCollectionName = "Users";
-const chatsCollectionName = "Chats";
-const profileCollectionName = "Profiles";
+const usersCollectionName = config.db.collections.users;
+const chatsCollectionName = config.db.collections.chats;
+const profileCollectionName = config.db.collections.profiles;
 
 module.exports = {
     GetUserByName: function (searchInput, callback) {

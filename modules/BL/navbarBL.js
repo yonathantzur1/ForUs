@@ -3,11 +3,11 @@ const general = require('../general');
 const mailer = require('../mailer');
 const config = require('../config');
 
-const usersCollectionName = "Users";
-const profileCollectionName = "Profiles";
+const usersCollectionName = config.db.collections.users;
+const profileCollectionName = config.db.collections.profiles;
 
 // Define search consts.
-const searchResultsLimit = config.mainSearch.resultsLimit;
+const searchResultsLimit = config.search.resultsLimit;
 
 var self = module.exports = {
 

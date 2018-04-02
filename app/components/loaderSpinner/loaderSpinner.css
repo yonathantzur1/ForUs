@@ -1,0 +1,19 @@
+#loaderSpinner .loader {
+    background-color: darkgray;
+    width: 70px;
+    height: 70px;
+    border-radius: 8%;
+}
+
+#loaderSpinner .loader-spinner {
+    border: 5px solid #f3f3f3;
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+    border-top: 5px solid #555;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 14%;
+    left: 15%;
+}

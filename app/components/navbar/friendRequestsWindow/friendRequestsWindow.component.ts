@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 
-import { GlobalService } from '../../services/global/global.service';
-import { FriendRequestsWindowService } from '../../services/friendRequestsWindow/friendRequestsWindow.service';
-import { NavbarService } from '../../services/navbar/navbar.service';
+import { GlobalService } from '../../../services/global/global.service';
+import { FriendRequestsWindowService } from '../../../services/navbar/friendRequestsWindow/friendRequestsWindow.service';
+import { NavbarService } from '../../../services/navbar/navbar.service';
 
 @Component({
     selector: 'friendRequestsWindow',

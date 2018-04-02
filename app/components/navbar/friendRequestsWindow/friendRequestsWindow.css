@@ -1,8 +1,8 @@
 #friendRequestsWindow .friendRequestsWindow-container {
     position: fixed;
     top: 126px;
-    right: 10px;
-    width: 320px;
+    right: 5px;
+    width: 300px;
     max-width: calc(100% - 50px);
     height: 314px;
     max-height: calc(100% - 135px);

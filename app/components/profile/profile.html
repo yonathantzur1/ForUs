@@ -3,8 +3,8 @@
         <div class="modal-dialog" [ngClass]="{'modal-lg' : !isNewPhoto}" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <div class="loader mini-loader img-loader" *ngIf="isLoading">
-                        <div class="loader-spinner mini-loader-spinner"></div>
+                    <div class="mini-loader img-loader" *ngIf="isLoading">
+                        <div class="mini-loader-spinner"></div>
                     </div>
                     <div class="disable-screen" *ngIf="isLoading"></div>
                     <a class="close" (click)="CloseWindow()" aria-label="Close">

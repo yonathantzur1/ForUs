@@ -4,8 +4,8 @@ const general = require('../general');
 const generator = require('../generator');
 const sha512 = require('js-sha512');
 
-const collectionName = "Users";
-const permissionsCollectionName = "Permissions";
+const collectionName = config.db.collections.users;
+const permissionsCollectionName = config.db.collections.permissions;
 const saltNumOfDigits = config.loginSecure.saltNumOfDigits;
 const resetCodeNumOfDigits = config.loginSecure.resetCodeNumOfDigits;
 const resetCodeNumOfHoursValid = config.loginSecure.resetCodeNumOfHoursValid;

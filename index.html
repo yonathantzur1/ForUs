@@ -7,7 +7,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="icon" href="logo/icon.png">
 
+    <!-- START fonts import -->
+
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+    <style>
+        @font-face {
+            font-family: 'Material Icons';
+            font-style: normal;
+            font-weight: 400;
+            src: url('./fonts/Material_Icons.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: Mona Shark;
+            src: url('./fonts/Mona_Shark.woff');
+        }
+
+        /* cyrillic */
+
+        @font-face {
+            font-family: 'Rubik';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Rubik'), local('Rubik-Regular'), url('./fonts/Cyrillic_Rubik.woff2') format('woff2');
+            unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+
+        /* hebrew */
+
+        @font-face {
+            font-family: 'Rubik';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Rubik'), local('Rubik-Regular'), url('./fonts/Hebrew_Rubik.woff2') format('woff2');
+            unicode-range: U+0590-05FF, U+20AA, U+25CC, U+FB1D-FB4F;
+        }
+
+        /* latin-ext */
+
+        @font-face {
+            font-family: 'Rubik';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Rubik'), local('Rubik-Regular'), url('./fonts/Latin_Ext_Rubik.woff2') format('woff2');
+            unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+        }
+
+        /* latin */
+
+        @font-face {
+            font-family: 'Rubik';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Rubik'), local('Rubik-Regular'), url('./fonts/Latin_Rubik.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+        }
+    </style>
+
+    <!-- END fonts import -->
+
     <!-- START application css import -->
+    <link rel="stylesheet" href="./app/components/loaderSpinner/loaderSpinner.css">
     <link rel="stylesheet" href="./app/components/app/app.css">
     <link rel="stylesheet" href="./app/components/alert/alert.css">
     <link rel="stylesheet" href="./app/components/login/login.css">
@@ -17,14 +77,10 @@
     <link rel="stylesheet" href="./app/components/profilePicture/profilePicture.css">
     <link rel="stylesheet" href="./app/components/home/home.css">
     <link rel="stylesheet" href="./app/components/chat/chat.css">
-    <link rel="stylesheet" href="./app/components/chatsWindow/chatsWindow.css">
-    <link rel="stylesheet" href="./app/components/friendRequestsWindow/friendRequestsWindow.css">
+    <link rel="stylesheet" href="./app/components/navbar/chatsWindow/chatsWindow.css">
+    <link rel="stylesheet" href="./app/components/navbar/friendRequestsWindow/friendRequestsWindow.css">
     <link rel="stylesheet" href="./app/components/management/management.css">
     <!-- END application css import -->
-
-    <!-- START fonts import -->
-    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
-    <!-- END fonts import -->
 
     <!-- START libraries css -->
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">

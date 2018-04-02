@@ -1,6 +1,7 @@
 const DAL = require('../DAL.js');
+const config = require('../config.js');
 
-const collectionName = "Profiles";
+const collectionName = config.db.collections.profiles;
 
 module.exports = {
     GetUserProfileImage: function (profileId, callback) {

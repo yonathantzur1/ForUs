@@ -10,17 +10,16 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var basic_service_1 = require("../basic/basic.service");
-var FriendRequestsWindowService = /** @class */ (function (_super) {
-    __extends(FriendRequestsWindowService, _super);
-    function FriendRequestsWindowService() {
+var basic_service_1 = require("../../basic/basic.service");
+var ChatsWindowService = /** @class */ (function (_super) {
+    __extends(ChatsWindowService, _super);
+    function ChatsWindowService() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.prefix = "/api/friendRequestsWindow";
+        _this.prefix = "/api/chatsWindow";
         return _this;
     }
-    FriendRequestsWindowService.prototype.RemoveRequestConfirmAlert = function (confirmedFriendsIds) {
-        var data = { confirmedFriendsIds: confirmedFriendsIds };
-        return _super.prototype.put.call(this, this.prefix + '/removeRequestConfirmAlert', data)
+    ChatsWindowService.prototype.GetAllChats = function () {
+        return _super.prototype.get.call(this, this.prefix + '/getAllChats')
             .toPromise()
             .then(function (result) {
             return result;
@@ -29,7 +28,7 @@ var FriendRequestsWindowService = /** @class */ (function (_super) {
             return null;
         });
     };
-    return FriendRequestsWindowService;
+    return ChatsWindowService;
 }(basic_service_1.BasicService));
-exports.FriendRequestsWindowService = FriendRequestsWindowService;
-//# sourceMappingURL=friendRequestsWindow.service.js.map
+exports.ChatsWindowService = ChatsWindowService;
+//# sourceMappingURL=chatsWindow.service.js.map

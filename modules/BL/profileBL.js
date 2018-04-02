@@ -1,7 +1,8 @@
 const DAL = require('../DAL.js');
+const config = require('../config.js');
 
-const collectionName = "Profiles";
-const usersCollectionName = "Users";
+const collectionName = config.db.collections.profiles;
+const usersCollectionName = config.db.collections.users;
 
 module.exports = {
     SaveImage: function (imageData, callback) {

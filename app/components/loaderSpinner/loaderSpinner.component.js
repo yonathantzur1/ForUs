@@ -7,16 +7,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var LoaderComponent = /** @class */ (function () {
-    function LoaderComponent() {
+var LoaderSpinnerComponent = /** @class */ (function () {
+    function LoaderSpinnerComponent() {
     }
-    LoaderComponent = __decorate([
+    LoaderSpinnerComponent = __decorate([
         core_1.Component({
-            selector: 'loader',
-            templateUrl: './loader.html'
+            selector: 'loaderSpinner',
+            templateUrl: './loaderSpinner.html'
         })
-    ], LoaderComponent);
-    return LoaderComponent;
+    ], LoaderSpinnerComponent);
+    return LoaderSpinnerComponent;
 }());
-exports.LoaderComponent = LoaderComponent;
-//# sourceMappingURL=loader.component.js.map
+exports.LoaderSpinnerComponent = LoaderSpinnerComponent;
+//# sourceMappingURL=loaderSpinner.component.js.map

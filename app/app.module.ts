@@ -10,15 +10,15 @@ import { SortObjects } from './pipes/sort/sort.pipe';
 import { AppComponent } from './components/app/app.component';
 import { AlertComponent } from './components/alert/alert.component';
 import { LoginComponent } from './components/login/login.component';
-import { LoaderComponent } from './components/loader/loader.component';
+import { LoaderSpinnerComponent } from './components/loaderSpinner/loaderSpinner.component';
 import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { DropMenuComponent } from './components/dropMenu/dropMenu.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ProfilePictureComponent } from './components/profilePicture/profilePicture.component';
 import { ChatComponent } from './components/chat/chat.component';
-import { ChatsWindowComponent } from './components/chatsWindow/chatsWindow.component';
-import { FriendRequestsWindowComponent } from './components/friendRequestsWindow/friendRequestsWindow.component';
+import { ChatsWindowComponent } from './components/navbar/chatsWindow/chatsWindow.component';
+import { FriendRequestsWindowComponent } from './components/navbar/friendRequestsWindow/friendRequestsWindow.component';
 import { ManagementComponent } from './components/management/management.component';
 
 import { PageNotFoundComponent } from './components/pageNotFound/pageNotFound.component';
@@ -43,7 +43,7 @@ import { AlertService } from './services/alert/alert.service';
     AppComponent,
     AlertComponent,
     LoginComponent,
-    LoaderComponent,
+    LoaderSpinnerComponent,
     HomeComponent,
     PageNotFoundComponent,
     NavbarComponent,

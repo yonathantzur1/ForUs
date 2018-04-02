@@ -1,4 +1,4 @@
-import { BasicService } from '../basic/basic.service';
+import { BasicService } from '../../basic/basic.service';
 
 export class ChatsWindowService extends BasicService {
 

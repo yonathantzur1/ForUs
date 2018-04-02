@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { ChatsWindowService } from '../../services/chatsWindow/chatsWindow.service';
-import { GlobalService } from '../../services/global/global.service';
+import { ChatsWindowService } from '../../../services/navbar/chatsWindow/chatsWindow.service';
+import { GlobalService } from '../../../services/global/global.service';
 
 declare function GetDateDetailsString(localDate: Date, currDate: Date, isShortMonths: boolean): string;
 

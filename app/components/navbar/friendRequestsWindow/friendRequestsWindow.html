@@ -5,7 +5,7 @@
             <span>{{GetFriendRequestsNumberText()}}</span>
         </div>
         <div class="body-container">
-            <loader *ngIf="isFriendRequestsLoading" id="friend-requests-loader" class="friend-requests-loader"></loader>
+            <loaderSpinner *ngIf="isFriendRequestsLoading" id="friend-requests-loader" class="friend-requests-loader"></loaderSpinner>
             <div *ngIf="!isFriendRequestsLoading">
                 <div class="friend-request-container no-hover" *ngFor="let request of friendConfirmObjects">                    
                     <img class="friend-request-image" [src]="request.profileImage || globalService.defaultProfileImage">

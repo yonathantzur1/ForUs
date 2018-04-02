@@ -16,15 +16,15 @@ var sort_pipe_1 = require("./pipes/sort/sort.pipe");
 var app_component_1 = require("./components/app/app.component");
 var alert_component_1 = require("./components/alert/alert.component");
 var login_component_1 = require("./components/login/login.component");
-var loader_component_1 = require("./components/loader/loader.component");
+var loaderSpinner_component_1 = require("./components/loaderSpinner/loaderSpinner.component");
 var home_component_1 = require("./components/home/home.component");
 var navbar_component_1 = require("./components/navbar/navbar.component");
 var dropMenu_component_1 = require("./components/dropMenu/dropMenu.component");
 var profile_component_1 = require("./components/profile/profile.component");
 var profilePicture_component_1 = require("./components/profilePicture/profilePicture.component");
 var chat_component_1 = require("./components/chat/chat.component");
-var chatsWindow_component_1 = require("./components/chatsWindow/chatsWindow.component");
-var friendRequestsWindow_component_1 = require("./components/friendRequestsWindow/friendRequestsWindow.component");
+var chatsWindow_component_1 = require("./components/navbar/chatsWindow/chatsWindow.component");
+var friendRequestsWindow_component_1 = require("./components/navbar/friendRequestsWindow/friendRequestsWindow.component");
 var management_component_1 = require("./components/management/management.component");
 var pageNotFound_component_1 = require("./components/pageNotFound/pageNotFound.component");
 var auth_guard_1 = require("./auth/auth.guard");
@@ -48,7 +48,7 @@ var AppModule = /** @class */ (function () {
                 app_component_1.AppComponent,
                 alert_component_1.AlertComponent,
                 login_component_1.LoginComponent,
-                loader_component_1.LoaderComponent,
+                loaderSpinner_component_1.LoaderSpinnerComponent,
                 home_component_1.HomeComponent,
                 pageNotFound_component_1.PageNotFoundComponent,
                 navbar_component_1.NavbarComponent,

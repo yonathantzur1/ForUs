@@ -4,7 +4,7 @@ const general = require('../general');
 const encryption = require('../encryption');
 const jwt = require('jsonwebtoken');
 
-const collectionName = "Chats";
+const collectionName = config.db.collections.chats;
 
 var self = module.exports = {
     GetChat: function (membersIds, token, callback) {

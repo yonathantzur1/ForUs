@@ -1,6 +1,7 @@
 const DAL = require('../DAL.js');
+const config = require('../config.js');
 
-const collectionName = "Users";
+const collectionName = config.db.collections.users;
 
 module.exports = {
     RemoveRequestConfirmAlert: function (data, callback) {

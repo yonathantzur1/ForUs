@@ -10,8 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var chatsWindow_service_1 = require("../../services/chatsWindow/chatsWindow.service");
-var global_service_1 = require("../../services/global/global.service");
+var chatsWindow_service_1 = require("../../../services/navbar/chatsWindow/chatsWindow.service");
+var global_service_1 = require("../../../services/global/global.service");
 var ChatsWindowComponent = /** @class */ (function () {
     function ChatsWindowComponent(chatsWindowService, globalService) {
         this.chatsWindowService = chatsWindowService;

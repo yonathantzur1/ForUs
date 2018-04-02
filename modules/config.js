@@ -7,7 +7,13 @@ module.exports = {
     db: {
         name: "forus",
         connectionString: process.env.DEV_CONNECTION_STRING || process.env.CONNECTION_STRING,
-        maxConnectionAttemptsNumber: 5
+        maxConnectionAttemptsNumber: 5,
+        collections: {
+            users: "Users",
+            profiles: "Profiles",
+            chats: "Chats",
+            permissions: "Permissions"
+        }
     },
     jwt: {
         secret: process.env.JWT_SECRET,
@@ -36,7 +42,7 @@ module.exports = {
     chat: {
         messagesInPage: 50 // For chat pagination
     },
-    mainSearch: {
+    search: {
         resultsLimit: 4
     }
 };
