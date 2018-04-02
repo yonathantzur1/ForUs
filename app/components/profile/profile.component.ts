@@ -7,6 +7,7 @@ import { GlobalService } from '../../services/global/global.service';
 import { AlertService } from '../../services/alert/alert.service';
 import { ProfileService } from '../../services/profile/profile.service';
 
+declare var $: any;
 declare function UploadPhoto(options: Object): boolean;
 declare function GetCroppedBase64Image(): any;
 
@@ -173,7 +174,7 @@ export class ProfileComponent implements OnInit {
         this.userImage = this.globalService.userProfileImage;
         this.ActiveWindow();
 
-        $("#profile-modal").bind('touchstart', function preventZoom(e) {
+        $("#profile-modal").bind('touchstart', function preventZoom(e: any) {
             var t2 = e.timeStamp
                 , t1 = $(this).data('lastTouch') || t2
                 , dt = t2 - t1

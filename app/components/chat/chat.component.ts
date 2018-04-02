@@ -4,6 +4,7 @@ import { topIcon, canvasTopIcon } from '../../objects/classes';
 import { ChatService } from '../../services/chat/chat.service';
 import { GlobalService } from '../../services/global/global.service';
 
+declare var $: any;
 declare var window: any;
 declare var loadImage: any;
 declare function GetDateDetailsString(localDate: Date, currDate: Date, isShortMonths: boolean): string;

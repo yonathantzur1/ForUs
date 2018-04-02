@@ -7,6 +7,8 @@ import { AlertService } from '../../services/alert/alert.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { NavbarService } from '../../services/navbar/navbar.service';
 
+declare var $: any;
+
 export class DropMenuData {
     link: string;
     text: string;

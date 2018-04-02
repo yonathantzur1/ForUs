@@ -5,6 +5,8 @@ import { ManagementService } from '../../services/management/management.service'
 import { GlobalService } from '../../services/global/global.service';
 import { AlertService } from '../../services/alert/alert.service';
 
+declare var $: any;
+
 @Component({
     selector: 'management',
     templateUrl: './management.html',
