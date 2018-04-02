@@ -6,7 +6,7 @@ var home_component_1 = require("./components/home/home.component");
 var management_component_1 = require("./components/management/management.component");
 var pageNotFound_component_1 = require("./components/pageNotFound/pageNotFound.component");
 var auth_guard_1 = require("./auth/auth.guard");
-var appRoutes = [
+var routes = [
     {
         path: '',
         component: home_component_1.HomeComponent,
@@ -19,5 +19,5 @@ var appRoutes = [
     { path: 'page-not-found', component: pageNotFound_component_1.PageNotFoundComponent },
     { path: '**', redirectTo: 'page-not-found' }
 ];
-exports.routing = router_1.RouterModule.forRoot(appRoutes);
+exports.Routing = router_1.RouterModule.forRoot(routes);
 //# sourceMappingURL=app.routing.js.map

@@ -8,7 +8,7 @@ import { PageNotFoundComponent } from './components/pageNotFound/pageNotFound.co
 
 import { AuthGuard, AdminAuthGuard } from './auth/auth.guard';
 
-const appRoutes: Routes = [
+const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
@@ -22,4 +22,4 @@ const appRoutes: Routes = [
   { path: '**', redirectTo: 'page-not-found' }
 ];
 
-export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);
+export const Routing: ModuleWithProviders = RouterModule.forRoot(routes);

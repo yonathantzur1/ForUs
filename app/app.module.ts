@@ -26,7 +26,7 @@ import { PageNotFoundComponent } from './components/pageNotFound/pageNotFound.co
 import { AuthGuard, AdminAuthGuard } from './auth/auth.guard';
 import { AuthService } from './services/auth/auth.service';
 
-import { routing } from './app.routing'
+import { Routing } from './app.routing'
 
 import { GlobalService } from './services/global/global.service';
 import { AlertService } from './services/alert/alert.service';
@@ -36,7 +36,7 @@ import { AlertService } from './services/alert/alert.service';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    routing
+    Routing
   ],
   declarations: [
     // ---------Components---------

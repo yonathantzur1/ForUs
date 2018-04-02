@@ -84,16 +84,16 @@
 
     <!-- START libraries css -->
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="node_modules/bootstrap-material-design/dist/css/bootstrap-material-design.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
     <link rel="stylesheet" href="node_modules/bootstrap-material-design/dist/css/ripples.min.css">
-    <link rel="stylesheet" href="node_modules/cropper/dist/cropper.css">
+    <link rel="stylesheet" href="node_modules/cropper/dist/cropper.min.css">
     <link rel="stylesheet" href="node_modules/snackbarjs/dist/snackbar.min.css">
     <link rel="stylesheet" href="node_modules/snackbarjs/themes-css/material.css">
     <!-- END libraries css -->
 
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
-    <script src="node_modules/cropper/dist/cropper.js"></script>
+    <script src="node_modules/cropper/dist/cropper.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="node_modules/snackbarjs/dist/snackbar.min.js"></script>
     <script src="node_modules/bootstrap-material-design/dist/js/material.min.js"></script>
@@ -102,12 +102,12 @@
     <script src="./app/utils.js"></script>
     <script src="./app/cooikesManagement.js"></script>
 
-    <!-- 1. Load libraries -->
+    <!-- Load angular libraries -->
     <!-- Polyfill(s) for older browsers -->
     <script src="node_modules/core-js/client/shim.min.js"></script>
     <script src="node_modules/zone.js/dist/zone.js"></script>
     <script src="node_modules/systemjs/dist/system.src.js"></script>
-    <!-- 2. Configure SystemJS -->
+    <!-- Configure SystemJS -->
     <script src="systemjs.config.js"></script>
     <script>
         $(document).ready(function () {
@@ -116,9 +116,7 @@
             });
         });
 
-        $(window).on('load', function () {
-            System.import('./app/main.js').catch(function (err) { console.error(err); });
-        });
+        System.import('./app/main.js').catch(function (err) { console.error(err); });
     </script>
 </head>
 
