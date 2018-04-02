@@ -358,7 +358,7 @@ var ManagementComponent = /** @class */ (function () {
                             user.friends.splice(index, 1);
                             $("#remove-friend-success").snackbar("show");
                         }
-                        var logoutMsg = "נותקת מהאתר, יש להתחבר מחדש";
+                        var logoutMsg = "נותקת מהאתר, יש להתחבר מחדש.";
                         self.globalService.socket.emit("LogoutUserSessionServer", user._id, logoutMsg);
                         self.globalService.socket.emit("LogoutUserSessionServer", friend._id, logoutMsg);
                     }
@@ -378,8 +378,13 @@ var ManagementComponent = /** @class */ (function () {
             confirmFunc: function () {
                 self.managementService.DeleteUser(user._id).then(function (result) {
                     if (result) {
-                        self.users.splice(user.index, 1);
                         $("#delete-user-success").snackbar("show");
+                        // Logout the user from the system.
+                        var logoutMsg = "חשבונך נמחק מהמערכת לצמיתות. \n לפרטים נוספים, פנה להנהלת האתר.";
+                        self.globalService.socket.emit("LogoutUserSessionServer", user._id, logoutMsg);
+                        // Remove user from users search list.
+                        self.users.splice(user.index, 1);
+                        // Remove all instances of the user from his friends.
                         self.globalService.socket.emit("ServerRemoveFriendUser", user._id, user.firstName + " " + user.lastName, result);
                     }
                     else {
