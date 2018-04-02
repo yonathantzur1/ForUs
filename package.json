@@ -26,7 +26,7 @@
     "bootstrap-material-design": "^0.5.10",
     "compression": "^1.7.2",
     "core-js": "^2.5.4",
-    "cropper": "^3.1.6",
+    "cropper": "^4.0.0",
     "express": "^4.16.3",
     "express-brute": "^1.0.1",
     "font-awesome": "^4.7.0",
@@ -42,7 +42,7 @@
     "socket.io": "^2.1.0",
     "socket.io-client": "^2.1.0",
     "systemjs": "^0.21.1",
-    "zone.js": "^0.8.21"
+    "zone.js": "^0.8.23"
   },
   "devDependencies": {
     "@types/node": "^9.4.6",
