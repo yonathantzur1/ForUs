@@ -11,12 +11,12 @@ var routes = [
         path: '',
         component: home_component_1.HomeComponent,
         children: [
-            { path: 'management', component: management_component_1.ManagementComponent, canActivate: [auth_guard_1.AdminAuthGuard] }
+            { path: 'management', component: management_component_1.ManagementComponent, canActivate: [auth_guard_1.AdminAuthGuard] },
+            { path: 'page-not-found', component: pageNotFound_component_1.PageNotFoundComponent }
         ],
         canActivate: [auth_guard_1.AuthGuard]
     },
     { path: 'login', component: login_component_1.LoginComponent },
-    { path: 'page-not-found', component: pageNotFound_component_1.PageNotFoundComponent },
     { path: '**', redirectTo: 'page-not-found' }
 ];
 exports.Routing = router_1.RouterModule.forRoot(routes);

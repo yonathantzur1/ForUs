@@ -9,7 +9,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var PageNotFoundComponent = /** @class */ (function () {
     function PageNotFoundComponent() {
+        this.numOfMonsters = 9;
+        this.monsterImagePath = null;
     }
+    PageNotFoundComponent.prototype.ngOnInit = function () {
+        this.monsterImagePath = "./app/pictures/monsters/" + this.GetRandomMonsterPath();
+    };
+    PageNotFoundComponent.prototype.GetRandomMonsterPath = function () {
+        var imageNumber = Math.floor(Math.random() * this.numOfMonsters) + 1;
+        return ("monster" + imageNumber + ".png");
+    };
     PageNotFoundComponent = __decorate([
         core_1.Component({
             selector: 'pageNotFound',

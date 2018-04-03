@@ -13,12 +13,12 @@ const routes: Routes = [
     path: '',
     component: HomeComponent,
     children: [
-      { path: 'management', component: ManagementComponent, canActivate: [AdminAuthGuard] }
+      { path: 'management', component: ManagementComponent, canActivate: [AdminAuthGuard] },
+      { path: 'page-not-found', component: PageNotFoundComponent }
     ],
     canActivate: [AuthGuard]
   },
-  { path: 'login', component: LoginComponent },
-  { path: 'page-not-found', component: PageNotFoundComponent },
+  { path: 'login', component: LoginComponent },  
   { path: '**', redirectTo: 'page-not-found' }
 ];
 
