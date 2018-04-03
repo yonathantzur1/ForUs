@@ -26,8 +26,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
 
     constructor(private navbarService: NavbarService,
         private friendRequestsWindowService: FriendRequestsWindowService,
-        private globalService: GlobalService) {
-    }
+        private globalService: GlobalService) { }
 
     ngOnInit() {
         var self = this;

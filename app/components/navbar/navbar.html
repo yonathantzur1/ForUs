@@ -102,13 +102,14 @@
     <span *ngIf="!isMessageNotificationImage" class="notification-text">{{messageNotificationText}}</span>
     <span *ngIf="isMessageNotificationImage" class="notification-text">שלח/ה לך תמונה</span>
   </span>
-  <span (click)="FriendRequestNotificationClicked()" id="notification" class="notification" *ngIf="isShowFriendRequestNotification && !isShowMessageNotification">
+  <span id="notification" class="notification" *ngIf="(isShowFriendRequestNotification || isShowFriendConfirmNotification) && !isShowMessageNotification">
     <span class="notification-name">{{friendRequestNotificationName}}</span>
-    <span class="notification-text">שלח/ה לך בקשת חברות</span>
+    <span *ngIf="isShowFriendRequestNotification" class="notification-text">שלח/ה לך בקשת חברות</span>
+    <span *ngIf="isShowFriendConfirmNotification" class="notification-text">אישר/ה את בקשת החברות</span>
   </span>
 
   <div id="open-sidenav-btn" class="open-sidenav-btn" [ngClass]="{'open-sidenav' : isSidenavOpen}" (click)="ShowHideSidenav()">
-    <div class="notifications-budget" *ngIf="!isSidenavOpenFirstTime && GetNotificationsNumber() > 0">
+    <div class="notifications-budget" *ngIf="!isHideNotificationsBudget && GetNotificationsNumber() > 0">
       <span class="notifications-number">{{GetNotificationsNumber()}}</span>
     </div>
     <i class="material-icons open-sidenav-icon">{{isSidenavOpen ? '&#xE315;': '&#xE314;'}}</i>

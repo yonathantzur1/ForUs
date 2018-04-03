@@ -53,12 +53,6 @@ module.exports = function (app) {
         });
     });
 
-    app.post(prefix + '/removeFriendRequest', function (req, res) {
-        navbarBL.RemoveFriendRequest(req.user._id, req.body.friendId, function (result) {
-            res.send(result);
-        });
-    });
-
     app.post(prefix + '/ignoreFriendRequest', function (req, res) {
         navbarBL.IgnoreFriendRequest(req.user._id, req.body.friendId, function (result) {
             res.send(result);

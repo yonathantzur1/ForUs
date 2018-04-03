@@ -356,7 +356,6 @@ var self = module.exports = {
             });
         }
     }
-
 };
 
 function ConvertIdsToObjectIds(array) {

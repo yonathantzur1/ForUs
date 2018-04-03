@@ -54,6 +54,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     // START friend-request notification variables //
 
     isShowFriendRequestNotification: boolean = false;
+    isShowFriendConfirmNotification: boolean = false;
     friendRequestNotificationName: string;
     friendRequestNotificationInterval: any;
 
@@ -62,7 +63,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     isChatsWindowOpen: boolean = false;
     isFriendRequestsWindowOpen: boolean = false;
     isSidenavOpen: boolean = false;
-    isSidenavOpenFirstTime: boolean = false;
+    isHideNotificationsBudget: boolean = false;
     isDropMenuOpen: boolean;
     searchResults: Array<any> = [];
     isShowSearchResults: boolean = false;
@@ -94,7 +95,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
         private globalService: GlobalService,
         private alertService: AlertService,
         private navbarService: NavbarService) {
-        ;
 
         this.subscribeObj = this.globalService.data.subscribe((value: any) => {
             // In case isOpenProfileEditWindow is true or false
@@ -222,6 +222,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                     }
 
                     self.ShowMessageNotification(self.GetFriendNameById(msgData.from), msgData.text, msgData.isImage, msgData.from);
+                    self.isHideNotificationsBudget = false;
                 }
             }
         });
@@ -251,7 +252,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         self.globalService.SocketOn('GetFriendRequest', function (friendId: string, friendFullName: string) {
             var friendRequests: any = self.GetToolbarItem("friendRequests").content;
             friendRequests.get.push(friendId);
-            self.ShowFriendRequestNotification(friendFullName);
+            self.ShowFriendRequestNotification(friendFullName, false);
         });
 
         self.globalService.SocketOn('DeleteFriendRequest', function (friendId: string) {
@@ -272,10 +273,19 @@ export class NavbarComponent implements OnInit, OnDestroy {
             self.authService.SetCurrUserToken().then((result: any) => {
                 if (result) {
                     self.globalService.RefreshSocket();
-                    self.RemoveFriendRequest(friend._id, true);
+                    var friendRequests: any = self.GetToolbarItem("friendRequests").content;
+                    friendRequests.send.splice(friendRequests.send.indexOf(friend._id), 1);
+                    self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
+                    self.globalService.socket.emit("RemoveFriendRequest", self.user._id, friend._id);
+                    $("#add-friend-notification").snackbar("hide");
                     self.user.friends.push(friend._id);
                     self.friends.push(friend);
                     self.globalService.socket.emit("ServerGetOnlineFriends");
+
+                    // Add the friend to the confirmed requests array.
+                    self.GetToolbarItem('friendRequests').content.accept.push(friend._id);
+                    self.isHideNotificationsBudget = false;
+                    self.ShowFriendRequestNotification(friend.firstName + " " + friend.lastName, true);
                 }
             });
         });
@@ -403,13 +413,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     ShowHideSidenav() {
         this.isNewFriendsLabel = false;
+        this.isHideNotificationsBudget = true;
 
         if (this.isSidenavOpen) {
             this.HideSidenav();
         }
         else {
             this.isSidenavOpen = true;
-            this.isSidenavOpenFirstTime = true;
             this.HideDropMenu();
             this.HideSearchResults();
             document.getElementById("sidenav").style.width = this.sidenavWidth;
@@ -666,28 +676,29 @@ export class NavbarComponent implements OnInit, OnDestroy {
         });
     }
 
-    RemoveFriendRequest(friendId: string, isHideMessageText?: boolean) {
+    IgnoreFriendRequest(friendId: string) {
+        // Remove the friend request from all friend requests object.
         var friendRequests: any = this.GetToolbarItem("friendRequests").content;
-        friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
+        friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
 
         var self = this;
-        this.navbarService.RemoveFriendRequest(friendId).then(function (result: any) {
+        this.navbarService.IgnoreFriendRequest(friendId).then(function (result: any) {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
-                self.globalService.socket.emit("RemoveFriendRequest", self.user._id, friendId);
-                $("#add-friend-notification").snackbar("hide");
-                !isHideMessageText && $("#remove-friend-notification").snackbar("show");
+                self.globalService.socket.emit("ServerIgnoreFriendRequest", self.user._id, friendId);
             }
         });
     }
 
-    ShowFriendRequestNotification(name: string) {
+    ShowFriendRequestNotification(name: string, isConfirm: boolean) {
         this.friendRequestNotificationName = name;
-        this.isShowFriendRequestNotification = true;
+        isConfirm ?
+            (this.isShowFriendConfirmNotification = true) : (this.isShowFriendRequestNotification = true);
 
         var self = this;
         self.friendRequestNotificationInterval = setInterval(function () {
             self.isShowFriendRequestNotification = false;
+            self.isShowFriendConfirmNotification = false;
             clearInterval(self.friendRequestNotificationInterval);
             self.friendRequestNotificationInterval = null;
         }, this.notificationDelay);
@@ -755,6 +766,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         userFriends.push(friendId);
 
         var self = this;
+
         self.navbarService.AddFriend(friendId).then(function (friend: any) {
             self.isFriendsLoading = false;
 
@@ -768,20 +780,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 friendRequests.get.push(friendId);
                 userFriends.splice(userFriends.indexOf(friendId), 1);
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
-            }
-        });
-    }
-
-    IgnoreFriendRequest(friendId: string) {
-        // Remove the friend request from all friend requests object.
-        var friendRequests: any = this.GetToolbarItem("friendRequests").content;
-        friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
-
-        var self = this;
-        this.navbarService.IgnoreFriendRequest(friendId).then(function (result: any) {
-            if (result) {
-                self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
-                self.globalService.socket.emit("ServerIgnoreFriendRequest", self.user._id, friendId);
             }
         });
     }
