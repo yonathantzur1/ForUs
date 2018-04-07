@@ -22,6 +22,7 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         this.friendConfirmObjects = [];
         this.isFriendRequestsLoading = false;
         this.isFirstClosing = true;
+        this.isFirstOpenning = true;
     }
     FriendRequestsWindowComponent.prototype.ngOnInit = function () {
         var self = this;
@@ -40,7 +41,6 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         });
     };
     FriendRequestsWindowComponent.prototype.ngOnChanges = function (changes) {
-        var _this = this;
         // In case of loading data for the first time.
         if (changes.friendRequests &&
             changes.confirmedReuests &&
@@ -49,17 +49,26 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
             this.isFriendRequestsLoading = true;
             this.LoadFriendRequestsObjects();
         }
+        // On first Openning.
+        if (changes.isFriendRequestsWindowOpen &&
+            changes.isFriendRequestsWindowOpen.currentValue &&
+            !changes.isFriendRequestsWindowOpen.firstChange &&
+            this.isFirstOpenning) {
+            this.isFirstOpenning = false;
+            if (this.confirmedReuests.length > 0) {
+                // Removing friend requests confirm alerts from DB.
+                this.friendRequestsWindowService.RemoveRequestConfirmAlert(this.confirmedReuests).then(function (result) { });
+            }
+        }
+        // On first closing.
         if (changes.isFriendRequestsWindowOpen &&
             changes.isFriendRequestsWindowOpen.currentValue == false &&
             !changes.isFriendRequestsWindowOpen.firstChange &&
             this.isFirstClosing) {
             this.isFirstClosing = false;
-            this.friendRequestsWindowService.RemoveRequestConfirmAlert(this.confirmedReuests).then(function (result) {
-                if (result) {
-                    _this.friendConfirmObjects = [];
-                    _this.confirmedReuests.splice(0);
-                }
-            });
+            // Removing friend requests confirm alerts from client.
+            this.friendConfirmObjects = [];
+            this.confirmedReuests.splice(0);
         }
     };
     FriendRequestsWindowComponent.prototype.LoadFriendRequestsObjects = function () {

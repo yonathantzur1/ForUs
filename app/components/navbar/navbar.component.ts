@@ -81,7 +81,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     askForOnlineFriendsDelay: number = 60; // seconds
     chatTypingDelay: number = 1000; // milliseconds
     newFriendsLabelDelay: number = 4000; // milliseconds    
-    sidenavWidth: string = "210px";
+    sidenavWidth: string = "240px";
 
     // END CONFIG VARIABLES //
 

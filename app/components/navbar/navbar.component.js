@@ -56,7 +56,7 @@ var NavbarComponent = /** @class */ (function () {
         this.askForOnlineFriendsDelay = 60; // seconds
         this.chatTypingDelay = 1000; // milliseconds
         this.newFriendsLabelDelay = 4000; // milliseconds    
-        this.sidenavWidth = "210px";
+        this.sidenavWidth = "240px";
         // END CONFIG VARIABLES //
         // Search users cache objects
         this.searchCache = {};

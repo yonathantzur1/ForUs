@@ -1,8 +1,13 @@
+/* Css design for small screens. */
+@media (max-width: 800px) {
+
+}
+
 #friendRequestsWindow .friendRequestsWindow-container {
     position: fixed;
     top: 126px;
-    right: 5px;
-    width: 305px;
+    right: 10px;
+    width: 335px;
     max-width: calc(100% - 50px);
     height: 314px;
     max-height: calc(100% - 135px);
@@ -13,7 +18,7 @@
 
 #friendRequestsWindow .window-top-arrow {
     top: 113px;
-    right: 142px;
+    right: 172px;
     z-index: 1002;
     font-size: 20px;
     color: white;

@@ -153,7 +153,7 @@
     right: 0;
     background-image: linear-gradient(145deg, #0375d8, #1d8865);
     overflow-x: hidden;
-    transition: 0.4s; /* Change sidenavOpenAnimationTime property if changing this */
+    transition: 0.35s; /* Change open-sidenav-btn transition property if changing this */
     user-select: none;
     -webkit-user-select: none;
     border-top: 0.5px #bdb7b7 solid;
@@ -188,47 +188,46 @@
 }
 
 #navbar .sidenav-header {
-    font-size: 26px !important;
-    cursor: default !important;
-    color: #f1f1f1 !important;
-    top: 9px;
+    font-size: 26px;
+    cursor: default;
+    color: #f1f1f1;
     position: relative;
-    right: 8px;
-    width: calc(100% - 40px);
+    width: 100%;
+    height: 100%;
+    padding: 8px;
     white-space: nowrap;
+    display: flex;
+    align-items: center;
 }
 
 #navbar .profile-picture {
     width: 55px;
     height: 55px;
-    margin-top: 4px;
-    position: absolute;
     cursor: pointer;
+    position: relative;
 }
 
 #navbar .user-name {
-    display: inline-block;
     font-size: 18px;
-    width: calc(100% - 40px);
+    width: 155px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     position: absolute;
-    top: 5px;
-    right: 65px;
+    top: 15px;
+    right: 75px;
 }
 
 #navbar .toolbar-menu {
     position: absolute;
-    top: 34px;
-    right: 60px;
-    width: 138px;
-    height: 25px;
+    top: 45px;
+    right: 75px;
+    width: 155px;
+    height: 20px;
     display: flex;
     align-items: center;
     direction: ltr;
     overflow: hidden;
-    padding-left: 6px;
 }
 
 #navbar .toolbar-item {
@@ -624,7 +623,7 @@
     user-select: none;
     -webkit-user-select: none;    
     z-index: 999;
-    transition: 0.4s;
+    transition: 0.35s;
 }
 
 #navbar .open-sidenav-btn:hover {
@@ -638,7 +637,7 @@
 }
 
 #navbar .open-sidenav {
-    right: 210px;
+    right: 240px;
 }
 
 #navbar .close-sidenav {
