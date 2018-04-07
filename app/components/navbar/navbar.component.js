@@ -56,7 +56,7 @@ var NavbarComponent = /** @class */ (function () {
         this.askForOnlineFriendsDelay = 60; // seconds
         this.chatTypingDelay = 1000; // milliseconds
         this.newFriendsLabelDelay = 4000; // milliseconds    
-        this.sidenavWidth = "240px";
+        this.sidenavWidth = "230px";
         // END CONFIG VARIABLES //
         // Search users cache objects
         this.searchCache = {};
@@ -120,7 +120,7 @@ var NavbarComponent = /** @class */ (function () {
         ];
         self.dropMenuDataList = [
             new DropMenuData("/management", "ניהול", null, function () {
-                return (self.globalService.userPermissions.indexOf(global_service_1.PERMISSION.ADMIN) != -1);
+                return (self.globalService.IsUserHasRootPermission());
             }),
             new DropMenuData("#", "הגדרות", null),
             new DropMenuData("/login", "התנתקות", function (link) {

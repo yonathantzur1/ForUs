@@ -1,5 +1,6 @@
 const config = require('../config');
 const general = require('../general');
+const enums = require('../enums');
 const jwt = require('jsonwebtoken');
 
 var socketsDictionary = {};
@@ -55,8 +56,7 @@ module.exports = function (io) {
             // Logout the given user in case the sender is admin, or in case the logout is self.
             if (token &&
                 token.user &&
-                ((token.user.permissions && token.user.permissions.indexOf(general.PERMISSION.ADMIN) != -1) ||
-                    userId == null)) {
+                (general.IsUserHasRootPermission(token.user.permissions) || userId == null)) {
                 io.to(userId || token.user._id).emit('LogoutUserSessionClient', msg);
             }
         });
@@ -66,7 +66,7 @@ module.exports = function (io) {
 
             if (token &&
                 token.user &&
-                ((token.user.permissions && token.user.permissions.indexOf(general.PERMISSION.ADMIN) != -1))) {
+                general.IsUserHasRootPermission(token.user.permissions)) {
                 friendsIds.forEach(friendId => {
                     io.to(friendId).emit('ClientRemoveFriendUser', userId, userName);
                 });

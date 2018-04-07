@@ -6,7 +6,7 @@ module.exports = function (app) {
 
     // Admin permissions check for all management routes
     app.use(prefix, function (req, res, next) {
-        if (req.user.permissions.indexOf(general.PERMISSION.ADMIN) != -1) {
+        if (general.IsUserHasRootPermission(req.user.permissions)) {
             next();
         }
         else {

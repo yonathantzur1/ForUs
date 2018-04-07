@@ -2,10 +2,12 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Friend, ToolbarItem } from '../../objects/classes';
-import { GlobalService, PERMISSION } from '../../services/global/global.service';
+import { GlobalService } from '../../services/global/global.service';
 import { AlertService } from '../../services/alert/alert.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { NavbarService } from '../../services/navbar/navbar.service';
+
+import { PERMISSION } from '../../enums/enums';
 
 declare var $: any;
 declare var snackbar: Function;
@@ -81,7 +83,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     askForOnlineFriendsDelay: number = 60; // seconds
     chatTypingDelay: number = 1000; // milliseconds
     newFriendsLabelDelay: number = 4000; // milliseconds    
-    sidenavWidth: string = "240px";
+    sidenavWidth: string = "230px";
 
     // END CONFIG VARIABLES //
 
@@ -162,7 +164,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
         self.dropMenuDataList = [
             new DropMenuData("/management", "ניהול", null, () => {
-                return (self.globalService.userPermissions.indexOf(PERMISSION.ADMIN) != -1);
+                return (self.globalService.IsUserHasRootPermission());
             }),
             new DropMenuData("#", "הגדרות", null),
             new DropMenuData("/login", "התנתקות", (link: string) => {

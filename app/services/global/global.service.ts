@@ -6,12 +6,10 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { LoginService } from '../login/login.service';
 import { EmptyProfile } from '../../pictures/empty-profile';
 
+import { PERMISSION } from '../../enums/enums';
+
 declare var io: any;
 declare function deleteCookieByName(name: string): void;
-
-export enum PERMISSION {
-    ADMIN = "admin"
-}
 
 export class GlobalService extends LoginService {
 
@@ -35,6 +33,12 @@ export class GlobalService extends LoginService {
         }
     }
 
+    IsUserHasRootPermission() {
+        return ((this.userPermissions.indexOf(PERMISSION.MASTER) != -1) ||
+            (this.userPermissions.indexOf(PERMISSION.ADMIN) != -1));
+    }
+
+    // Emit socket event before initialize the socket object.
     CallSocketFunction(funcName: string, obj?: any) {
         if (!this.socket) {
             io().emit(funcName, obj);

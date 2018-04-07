@@ -1,11 +1,9 @@
 const jwt = require('jsonwebtoken');
 const config = require('./config.js');
 const encryption = require('./encryption.js');
+const enums = require('./enums');
 
 module.exports = {
-    PERMISSION: {
-        ADMIN: "admin"
-    },
 
     GetTokenFromUserObject: function (user) {
         var tokenUserObject = {
@@ -37,10 +35,10 @@ module.exports = {
 
     SetTokenOnCookie: function (token, res, isDisableUidCookieUpdate) {
         res.cookie(config.token.cookieName, token, { maxAge: config.token.maxAge, httpOnly: true });
-        
+
         var token = this.DecodeToken(token);
 
-        if (token.user && !isDisableUidCookieUpdate) {            
+        if (token.user && !isDisableUidCookieUpdate) {
             res.cookie(config.token.uidCookieName, token.user.uid, { maxAge: config.token.maxAge, httpOnly: false });
         }
     },
@@ -102,5 +100,15 @@ module.exports = {
         return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function () {
             return (Math.random() * 16 | 0).toString(16);
         }).toLowerCase();
+    },
+
+    IsUserHasRootPermission(permissions) {
+        if (!permissions || permissions.length == 0) {
+            return false;
+        }
+        else {
+            return ((permissions.indexOf(enums.PERMISSION.MASTER) != -1) ||
+                (permissions.indexOf(enums.PERMISSION.ADMIN) != -1));
+        }
     }
 }

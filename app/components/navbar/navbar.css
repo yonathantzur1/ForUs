@@ -209,7 +209,7 @@
 
 #navbar .user-name {
     font-size: 18px;
-    width: 155px;
+    width: 150px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -221,9 +221,9 @@
 #navbar .toolbar-menu {
     position: absolute;
     top: 45px;
-    right: 75px;
-    width: 155px;
-    height: 20px;
+    right: 70px;
+    width: 150px;
+    height: 25px;
     display: flex;
     align-items: center;
     direction: ltr;
@@ -637,7 +637,7 @@
 }
 
 #navbar .open-sidenav {
-    right: 240px;
+    right: 230px;
 }
 
 #navbar .close-sidenav {
