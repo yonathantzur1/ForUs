@@ -501,10 +501,10 @@ var ChatComponent = /** @class */ (function () {
     ChatComponent.prototype.ChangeImage = function () {
         var isSuccess = this.UploadImage();
         if (isSuccess == false) {
-            $("#canvas-image-failed").snackbar("show");
+            snackbar("הקובץ שנבחר אינו תמונה");
         }
         else if (isSuccess == null) {
-            $("#canvas-upload-failed").snackbar("show");
+            snackbar("שגיאה בהעלאת התמונה");
         }
     };
     ChatComponent.prototype.ShowChatNotification = function (msgData, isSelfMessageNotification) {

@@ -256,10 +256,10 @@ var ManagementComponent = /** @class */ (function () {
                         user[field] = updateFields[field];
                     });
                     _this.ReturnMainCard(user);
-                    $("#edit-user-success").snackbar("show");
+                    snackbar("המשתמש עודכן בהצלחה");
                 }
                 else {
-                    $("#edit-user-error").snackbar("show");
+                    snackbar("שגיאה בעדכון המשתמש");
                 }
             });
         }
@@ -275,7 +275,7 @@ var ManagementComponent = /** @class */ (function () {
                 if (result) {
                     user.block = result;
                     _this.ReturnMainCard(user);
-                    $("#block-user-success").snackbar("show");
+                    snackbar("חסימת המשתמש בוצעה בהצלחה");
                     var blockUserMsg = "חשבון זה נחסם" + "\n\n" +
                         "<b>סיבה: </b>" + user.block.reason + "\n" +
                         "<b>עד תאריך: </b>" +
@@ -283,7 +283,7 @@ var ManagementComponent = /** @class */ (function () {
                     _this.globalService.socket.emit("LogoutUserSessionServer", user._id, blockUserMsg);
                 }
                 else {
-                    $("#block-user-error").snackbar("show");
+                    snackbar("שגיאה בחסימת המשתמש");
                 }
             });
         }
@@ -301,10 +301,10 @@ var ManagementComponent = /** @class */ (function () {
                 self.managementService.UnblockUser(user._id).then(function (result) {
                     if (result) {
                         delete user.block;
-                        $("#unblock-user-success").snackbar("show");
+                        snackbar("ביטול החסימה בוצע בהצלחה");
                     }
                     else {
-                        $("#unblock-user-error").snackbar("show");
+                        snackbar("שגיאה בביטול חסימת המשתמש");
                     }
                 });
             }
@@ -356,14 +356,14 @@ var ManagementComponent = /** @class */ (function () {
                         }
                         if (index) {
                             user.friends.splice(index, 1);
-                            $("#remove-friend-success").snackbar("show");
+                            snackbar("מחיקת החברות בוצעה בהצלחה");
                         }
                         var logoutMsg = "נותקת מהאתר, יש להתחבר מחדש.";
                         self.globalService.socket.emit("LogoutUserSessionServer", user._id, logoutMsg);
                         self.globalService.socket.emit("LogoutUserSessionServer", friend._id, logoutMsg);
                     }
                     else {
-                        $("#remove-friend-error").snackbar("show");
+                        snackbar("שגיאה במחיקת החברות");
                     }
                 });
             }
@@ -378,7 +378,7 @@ var ManagementComponent = /** @class */ (function () {
             confirmFunc: function () {
                 self.managementService.DeleteUser(user._id).then(function (result) {
                     if (result) {
-                        $("#delete-user-success").snackbar("show");
+                        snackbar("מחיקת המשתמש בוצעה בהצלחה");
                         // Logout the user from the system.
                         var logoutMsg = "חשבונך נמחק מהמערכת לצמיתות. \n לפרטים נוספים, פנה להנהלת האתר.";
                         self.globalService.socket.emit("LogoutUserSessionServer", user._id, logoutMsg);
@@ -388,7 +388,7 @@ var ManagementComponent = /** @class */ (function () {
                         self.globalService.socket.emit("ServerRemoveFriendUser", user._id, user.firstName + " " + user.lastName, result);
                     }
                     else {
-                        $("#delete-user-error").snackbar("show");
+                        snackbar("שגיאה במחיקת המשתמש");
                     }
                 });
             }

@@ -8,6 +8,7 @@ import { AuthService } from '../../services/auth/auth.service';
 import { LoginService } from '../../services/login/login.service';
 
 declare var $: any;
+declare var snackbar: Function;
 
 export class User {
   constructor() { this.email = ""; this.password = ""; }
@@ -52,8 +53,7 @@ export class LoginComponent implements OnInit {
   user: User = new User();
   newUser: NewUser = new NewUser();
   forgotUser: ForgotUser = new ForgotUser();
-  isLoading: boolean = false;
-  snackbarId: any;
+  isLoading: boolean = false;  
 
   constructor(private router: Router,
     private alertService: AlertService,
@@ -118,11 +118,11 @@ export class LoginComponent implements OnInit {
 
         // In case of server error.
         if (result == null) {
-          $("#server-error").snackbar("show");
+          snackbar("אירעה שגיאה בחיבור לשרת");
         }
         // In case the login details is incorrect.
         else if (result == false) {
-          $("#login-failed").snackbar("show");
+          snackbar("שם המשתמש או הסיסמא שגויים");
         }
         // In case the user was not found.
         else if (result == "-1") {
@@ -143,8 +143,7 @@ export class LoginComponent implements OnInit {
         else {
           // In case the user is locked via brute attack.
           if (result.lock) {
-            $("#lock-user").attr("data-content", "החשבון ננעל למשך " + result.lock + " דקות");
-            this.snackbarId = $("#lock-user").snackbar("show");
+            snackbar("החשבון ננעל למשך " + result.lock + " דקות");
           }
           // In case the user is blocked.
           else if (result.block) {
@@ -180,7 +179,7 @@ export class LoginComponent implements OnInit {
 
         // In case of server error.
         if (result == null) {
-          $("#server-error").snackbar("show");
+          snackbar("אירעה שגיאה בחיבור לשרת");
         }
         // In case the email is already exists.
         else if (result == false) {
@@ -198,7 +197,7 @@ export class LoginComponent implements OnInit {
   // Send mail with reset code to the user.
   ResetPassword() {
     this.forgotUser.email.trim();
-    
+
     // In case the forgot modal fields are valid.
     if (this.Validation(forgotValidationFuncs, this.forgotUser)) {
       this.isLoading = true;
@@ -211,7 +210,7 @@ export class LoginComponent implements OnInit {
 
           // In case of server error.
           if (result == null) {
-            $("#server-error").snackbar("show");
+            snackbar("אירעה שגיאה בחיבור לשרת");
           }
           // In case the user was not found.
           else if (result == false) {
@@ -222,7 +221,7 @@ export class LoginComponent implements OnInit {
           else {
             this.forgotUser.showResetCodeField = true;
             this.forgotUser.forgotBtnText = forgotBtnTextObj.resetPassText;
-            $("#reset-password-alert").snackbar("show");
+            snackbar("קוד לאיפוס הסיסמא נשלח לאימייל שלך");
           }
         });
       }
@@ -234,7 +233,7 @@ export class LoginComponent implements OnInit {
 
           // In case of server error.
           if (result == null) {
-            $("#server-error").snackbar("show");
+            snackbar("אירעה שגיאה בחיבור לשרת");
           }
           // In case the email was not found.
           else if (result == false || result.emailNotFound) {

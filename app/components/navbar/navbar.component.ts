@@ -8,6 +8,7 @@ import { AuthService } from '../../services/auth/auth.service';
 import { NavbarService } from '../../services/navbar/navbar.service';
 
 declare var $: any;
+declare var snackbar: Function;
 
 export class DropMenuData {
     link: string;
@@ -277,7 +278,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
                     friendRequests.send.splice(friendRequests.send.indexOf(friend._id), 1);
                     self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                     self.globalService.socket.emit("RemoveFriendRequest", self.user._id, friend._id);
-                    $("#add-friend-notification").snackbar("hide");
                     self.user.friends.push(friend._id);
                     self.friends.push(friend);
                     self.globalService.socket.emit("ServerGetOnlineFriends");
@@ -670,8 +670,21 @@ export class NavbarComponent implements OnInit, OnDestroy {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("SendFriendRequest", friendId);
-                $("#remove-friend-notification").snackbar("hide");
-                $("#add-friend-notification").snackbar("show");
+                snackbar("נשלחה בקשת חברות");
+            }
+        });
+    }
+
+    RemoveFriendRequest(friendId: string, isHideMessageText?: boolean) {
+        var friendRequests: any = this.GetToolbarItem("friendRequests").content;
+        friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
+
+        var self = this;
+        this.navbarService.RemoveFriendRequest(friendId).then(function (result: any) {
+            if (result) {
+                self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
+                self.globalService.socket.emit("RemoveFriendRequest", self.user._id, friendId);
+                snackbar("בקשת החברות בוטלה");
             }
         });
     }

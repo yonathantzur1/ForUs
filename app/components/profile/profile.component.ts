@@ -8,6 +8,7 @@ import { AlertService } from '../../services/alert/alert.service';
 import { ProfileService } from '../../services/profile/profile.service';
 
 declare var $: any;
+declare var snackbar: Function;
 declare function UploadPhoto(options: Object): boolean;
 declare function GetCroppedBase64Image(): any;
 
@@ -207,10 +208,10 @@ export class ProfileComponent implements OnInit {
             this.isNewPhoto = false;
         }
         else if (isSuccess == false) {
-            $("#image-failed").snackbar("show");
+            snackbar("הקובץ שנבחר אינו תמונה");
         }
         else {
-            $("#upload-failed").snackbar("show");
+            snackbar("שגיאה בהעלאת התמונה");
         }
     }
 
@@ -236,7 +237,7 @@ export class ProfileComponent implements OnInit {
 
                     // In case of error or the user was not fount.
                     if (!result) {
-                        $("#upload-failed").snackbar("show");
+                        snackbar("שגיאה בהעלאת התמונה");
                         self.CloseWindow();
                     }
                     else {

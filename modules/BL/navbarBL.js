@@ -233,6 +233,31 @@ var self = module.exports = {
         }
     },
 
+    RemoveFriendRequest: function (userId, friendId, callback) {
+        var userIdObject = {
+            "_id": DAL.GetObjectId(userId)
+        }
+
+        var friendIdObject = {
+            "_id": DAL.GetObjectId(friendId)
+        }
+
+        // Remove the request from the user.
+        DAL.UpdateOne(usersCollectionName, userIdObject,
+            { $pull: { "friendRequests.send": friendId } },
+            function (result) {
+                if (result) {
+                    // Remove the request from the friend.
+                    DAL.UpdateOne(usersCollectionName, friendIdObject, { $pull: { "friendRequests.get": userId } }, function (result) {
+                        result ? callback(true) : callback(null);
+                    });
+                }
+                else {
+                    callback(null);
+                }
+            });
+    },
+
     // Remove the friend request from DB after the request confirmed.
     RemoveFriendRequestAfterConfirm: function (userId, friendId, callback) {
         var userIdObject = {
@@ -245,7 +270,10 @@ var self = module.exports = {
 
         // Remove the request from the user.
         DAL.UpdateOne(usersCollectionName, userIdObject,
-            { $pull: { "friendRequests.send": friendId }, $push: { "friendRequests.accept": friendId } },
+            {
+                $pull: { "friendRequests.send": friendId },
+                $push: { "friendRequests.accept": friendId }
+            },
             function (result) {
                 if (result) {
                     // Remove the request from the friend.

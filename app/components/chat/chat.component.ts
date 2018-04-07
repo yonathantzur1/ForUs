@@ -5,6 +5,7 @@ import { ChatService } from '../../services/chat/chat.service';
 import { GlobalService } from '../../services/global/global.service';
 
 declare var $: any;
+declare var snackbar: Function;
 declare var window: any;
 declare var loadImage: any;
 declare function GetDateDetailsString(localDate: Date, currDate: Date, isShortMonths: boolean): string;
@@ -643,10 +644,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         var isSuccess = this.UploadImage();
 
         if (isSuccess == false) {
-            $("#canvas-image-failed").snackbar("show");
+            snackbar("הקובץ שנבחר אינו תמונה");
         }
         else if (isSuccess == null) {
-            $("#canvas-upload-failed").snackbar("show");
+            snackbar("שגיאה בהעלאת התמונה");            
         }
     }
 

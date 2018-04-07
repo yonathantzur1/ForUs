@@ -6,6 +6,7 @@ import { GlobalService } from '../../services/global/global.service';
 import { AlertService } from '../../services/alert/alert.service';
 
 declare var $: any;
+declare var snackbar: Function;
 
 @Component({
     selector: 'management',
@@ -319,10 +320,10 @@ export class ManagementComponent implements OnDestroy {
                     });
 
                     this.ReturnMainCard(user);
-                    $("#edit-user-success").snackbar("show");
+                    snackbar("המשתמש עודכן בהצלחה");
                 }
                 else {
-                    $("#edit-user-error").snackbar("show");
+                    snackbar("שגיאה בעדכון המשתמש");
                 }
             });
         }
@@ -341,7 +342,7 @@ export class ManagementComponent implements OnDestroy {
                 if (result) {
                     user.block = result;
                     this.ReturnMainCard(user);
-                    $("#block-user-success").snackbar("show");
+                    snackbar("חסימת המשתמש בוצעה בהצלחה");
 
                     var blockUserMsg = "חשבון זה נחסם" + "\n\n" +
                         "<b>סיבה: </b>" + user.block.reason + "\n" +
@@ -353,7 +354,7 @@ export class ManagementComponent implements OnDestroy {
                         blockUserMsg);
                 }
                 else {
-                    $("#block-user-error").snackbar("show");
+                    snackbar("שגיאה בחסימת המשתמש");
                 }
             });
         }
@@ -373,10 +374,10 @@ export class ManagementComponent implements OnDestroy {
                 self.managementService.UnblockUser(user._id).then((result: any) => {
                     if (result) {
                         delete user.block;
-                        $("#unblock-user-success").snackbar("show");
+                        snackbar("ביטול החסימה בוצע בהצלחה");
                     }
                     else {
-                        $("#unblock-user-error").snackbar("show");
+                        snackbar("שגיאה בביטול חסימת המשתמש");
                     }
                 });
             }
@@ -437,7 +438,7 @@ export class ManagementComponent implements OnDestroy {
 
                         if (index) {
                             user.friends.splice(index, 1);
-                            $("#remove-friend-success").snackbar("show");
+                            snackbar("מחיקת החברות בוצעה בהצלחה");
                         }
 
                         var logoutMsg = "נותקת מהאתר, יש להתחבר מחדש.";
@@ -445,7 +446,7 @@ export class ManagementComponent implements OnDestroy {
                         self.globalService.socket.emit("LogoutUserSessionServer", friend._id, logoutMsg);
                     }
                     else {
-                        $("#remove-friend-error").snackbar("show");
+                        snackbar("שגיאה במחיקת החברות");
                     }
                 });
             }
@@ -462,7 +463,7 @@ export class ManagementComponent implements OnDestroy {
             confirmFunc: function () {
                 self.managementService.DeleteUser(user._id).then((result: any) => {
                     if (result) {
-                        $("#delete-user-success").snackbar("show");
+                        snackbar("מחיקת המשתמש בוצעה בהצלחה");
 
                         // Logout the user from the system.
                         var logoutMsg = "חשבונך נמחק מהמערכת לצמיתות. \n לפרטים נוספים, פנה להנהלת האתר.";
@@ -477,7 +478,7 @@ export class ManagementComponent implements OnDestroy {
                             result);
                     }
                     else {
-                        $("#delete-user-error").snackbar("show");
+                        snackbar("שגיאה במחיקת המשתמש");
                     }
                 })
             }

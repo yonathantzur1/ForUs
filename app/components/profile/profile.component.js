@@ -187,10 +187,10 @@ var ProfileComponent = /** @class */ (function () {
             this.isNewPhoto = false;
         }
         else if (isSuccess == false) {
-            $("#image-failed").snackbar("show");
+            snackbar("הקובץ שנבחר אינו תמונה");
         }
         else {
-            $("#upload-failed").snackbar("show");
+            snackbar("שגיאה בהעלאת התמונה");
         }
     };
     ProfileComponent.prototype.UploadNewPhoto = function () {
@@ -211,7 +211,7 @@ var ProfileComponent = /** @class */ (function () {
                     self.isLoading = false;
                     // In case of error or the user was not fount.
                     if (!result) {
-                        $("#upload-failed").snackbar("show");
+                        snackbar("שגיאה בהעלאת התמונה");
                         self.CloseWindow();
                     }
                     else {

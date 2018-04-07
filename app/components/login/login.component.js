@@ -105,11 +105,11 @@ var LoginComponent = /** @class */ (function () {
                 _this.isLoading = false;
                 // In case of server error.
                 if (result == null) {
-                    $("#server-error").snackbar("show");
+                    snackbar("אירעה שגיאה בחיבור לשרת");
                 }
                 // In case the login details is incorrect.
                 else if (result == false) {
-                    $("#login-failed").snackbar("show");
+                    snackbar("שם המשתמש או הסיסמא שגויים");
                 }
                 // In case the user was not found.
                 else if (result == "-1") {
@@ -130,8 +130,7 @@ var LoginComponent = /** @class */ (function () {
                 else {
                     // In case the user is locked via brute attack.
                     if (result.lock) {
-                        $("#lock-user").attr("data-content", "החשבון ננעל למשך " + result.lock + " דקות");
-                        _this.snackbarId = $("#lock-user").snackbar("show");
+                        snackbar("החשבון ננעל למשך " + result.lock + " דקות");
                     }
                     // In case the user is blocked.
                     else if (result.block) {
@@ -164,7 +163,7 @@ var LoginComponent = /** @class */ (function () {
                 _this.isLoading = false;
                 // In case of server error.
                 if (result == null) {
-                    $("#server-error").snackbar("show");
+                    snackbar("אירעה שגיאה בחיבור לשרת");
                 }
                 // In case the email is already exists.
                 else if (result == false) {
@@ -192,7 +191,7 @@ var LoginComponent = /** @class */ (function () {
                     _this.isLoading = false;
                     // In case of server error.
                     if (result == null) {
-                        $("#server-error").snackbar("show");
+                        snackbar("אירעה שגיאה בחיבור לשרת");
                     }
                     // In case the user was not found.
                     else if (result == false) {
@@ -203,7 +202,7 @@ var LoginComponent = /** @class */ (function () {
                     else {
                         _this.forgotUser.showResetCodeField = true;
                         _this.forgotUser.forgotBtnText = forgotBtnTextObj.resetPassText;
-                        $("#reset-password-alert").snackbar("show");
+                        snackbar("קוד לאיפוס הסיסמא נשלח לאימייל שלך");
                     }
                 });
             }
@@ -214,7 +213,7 @@ var LoginComponent = /** @class */ (function () {
                     _this.isLoading = false;
                     // In case of server error.
                     if (result == null) {
-                        $("#server-error").snackbar("show");
+                        snackbar("אירעה שגיאה בחיבור לשרת");
                     }
                     // In case the email was not found.
                     else if (result == false || result.emailNotFound) {
