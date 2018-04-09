@@ -31,6 +31,23 @@ var ManagementComponent = /** @class */ (function () {
             }
         });
         var self = this;
+        this.clickFunction = function (e) {
+            var userWithOpenMenu = self.GetUserWithOpenMenu();
+            var isMenuClick;
+            if (userWithOpenMenu) {
+                isMenuClick = false;
+                for (var i = 0; i < e.path.length; i++) {
+                    if (e.path[i].id == "user-options" || e.path[i].id == "user-settings-icon") {
+                        isMenuClick = true;
+                        break;
+                    }
+                }
+                if (!isMenuClick) {
+                    self.CloseUserMenu(userWithOpenMenu);
+                }
+            }
+        };
+        document.addEventListener("click", this.clickFunction);
         self.dropMenuDataList = [
             new navbar_component_1.DropMenuData(null, "עריכה", function () {
                 var user = self.GetUserWithOpenMenu();
@@ -79,8 +96,8 @@ var ManagementComponent = /** @class */ (function () {
         ];
     }
     ManagementComponent.prototype.ngOnDestroy = function () {
-        var self = this;
-        self.subscribeObj.unsubscribe();
+        this.subscribeObj.unsubscribe();
+        document.removeEventListener("click", this.clickFunction);
     };
     ManagementComponent.prototype.SearchUser = function () {
         var _this = this;
@@ -224,6 +241,9 @@ var ManagementComponent = /** @class */ (function () {
         var isOpen = !user.isMenuOpen;
         this.CloseAllUsersMenu();
         user.isMenuOpen = isOpen;
+    };
+    ManagementComponent.prototype.CloseUserMenu = function (user) {
+        user.isMenuOpen = false;
     };
     ManagementComponent.prototype.SaveChanges = function (user) {
         var _this = this;

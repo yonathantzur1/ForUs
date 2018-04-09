@@ -43,6 +43,28 @@ export class ManagementComponent implements OnDestroy {
 
         var self = this;
 
+        this.clickFunction = function (e: any) {
+            var userWithOpenMenu = self.GetUserWithOpenMenu();
+            var isMenuClick;
+
+            if (userWithOpenMenu) {
+                isMenuClick = false;
+
+                for (var i = 0; i < e.path.length; i++) {
+                    if (e.path[i].id == "user-options" || e.path[i].id == "user-settings-icon") {
+                        isMenuClick = true;
+                        break;
+                    }
+                }
+
+                if (!isMenuClick) {
+                    self.CloseUserMenu(userWithOpenMenu);
+                }
+            }
+        }
+
+        document.addEventListener("click", this.clickFunction);
+
         self.dropMenuDataList = [
             new DropMenuData(null, "עריכה", () => {
                 var user = self.GetUserWithOpenMenu();
@@ -97,9 +119,8 @@ export class ManagementComponent implements OnDestroy {
     }
 
     ngOnDestroy() {
-        var self = this;
-
-        self.subscribeObj.unsubscribe();
+        this.subscribeObj.unsubscribe();
+        document.removeEventListener("click", this.clickFunction);
     }
 
     SearchUser() {
@@ -277,6 +298,10 @@ export class ManagementComponent implements OnDestroy {
         var isOpen = !user.isMenuOpen;
         this.CloseAllUsersMenu();
         user.isMenuOpen = isOpen;
+    }
+
+    CloseUserMenu(user: any) {
+        user.isMenuOpen = false;
     }
 
     SaveChanges(user: any) {

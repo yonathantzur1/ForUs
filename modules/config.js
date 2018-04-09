@@ -40,7 +40,7 @@ module.exports = {
         resetPasswordMaxTries: 3
     },
     chat: {
-        messagesInPage: 50 // For chat pagination
+        messagesInPage: 30 // For chat pagination
     },
     search: {
         resultsLimit: 4
