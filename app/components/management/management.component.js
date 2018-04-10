@@ -30,24 +30,8 @@ var ManagementComponent = /** @class */ (function () {
                 _this.CloseAllUsersMenu();
             }
         });
+        document.body.addEventListener("click", this.clickFunction.bind(this));
         var self = this;
-        this.clickFunction = function (e) {
-            var userWithOpenMenu = self.GetUserWithOpenMenu();
-            var isMenuClick;
-            if (userWithOpenMenu) {
-                isMenuClick = false;
-                for (var i = 0; i < e.path.length; i++) {
-                    if (e.path[i].id == "user-options" || e.path[i].id == "user-settings-icon") {
-                        isMenuClick = true;
-                        break;
-                    }
-                }
-                if (!isMenuClick) {
-                    self.CloseUserMenu(userWithOpenMenu);
-                }
-            }
-        };
-        document.addEventListener("click", this.clickFunction);
         self.dropMenuDataList = [
             new navbar_component_1.DropMenuData(null, "עריכה", function () {
                 var user = self.GetUserWithOpenMenu();
@@ -89,15 +73,19 @@ var ManagementComponent = /** @class */ (function () {
                     return (self.IsUserBlocked(user) == true);
                 }
             }),
+            new navbar_component_1.DropMenuData(null, "ניהול הרשאות", function () {
+            }, function () {
+                return (self.globalService.IsUserHasMasterPermission());
+            }),
             new navbar_component_1.DropMenuData(null, "מחיקת משתמש", function () {
                 var user = self.GetUserWithOpenMenu();
                 self.DeleteUser(user);
-            }),
+            })
         ];
     }
     ManagementComponent.prototype.ngOnDestroy = function () {
         this.subscribeObj.unsubscribe();
-        document.removeEventListener("click", this.clickFunction);
+        document.body.removeEventListener("click", this.clickFunction);
     };
     ManagementComponent.prototype.SearchUser = function () {
         var _this = this;
@@ -413,6 +401,22 @@ var ManagementComponent = /** @class */ (function () {
                 });
             }
         });
+    };
+    ManagementComponent.prototype.clickFunction = function (e) {
+        var userWithOpenMenu = this.GetUserWithOpenMenu();
+        var isMenuClick;
+        if (userWithOpenMenu) {
+            isMenuClick = false;
+            for (var i = 0; i < e.path.length; i++) {
+                if (e.path[i].id == "user-options" || e.path[i].id == "user-settings-icon") {
+                    isMenuClick = true;
+                    break;
+                }
+            }
+            if (!isMenuClick) {
+                this.CloseUserMenu(userWithOpenMenu);
+            }
+        }
     };
     ManagementComponent = __decorate([
         core_1.Component({

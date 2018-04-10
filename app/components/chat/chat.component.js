@@ -283,6 +283,9 @@ var ChatComponent = /** @class */ (function () {
                 $("#chat-body-sector").off("scroll", self.ChatScrollTopFunc);
                 (self.messages.length != self.totalMessagesNum) && $("#chat-body-sector").scroll(self.ChatScrollTopFunc);
             }
+            else {
+                snackbar("בעיה בטעינת הצ'אט");
+            }
             self.isMessagesLoading = false;
             $("#msg-input").focus();
         });

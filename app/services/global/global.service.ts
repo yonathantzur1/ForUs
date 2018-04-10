@@ -33,6 +33,10 @@ export class GlobalService extends LoginService {
         }
     }
 
+    IsUserHasMasterPermission() {
+        return (this.userPermissions.indexOf(PERMISSION.MASTER) != -1);
+    }
+
     IsUserHasRootPermission() {
         return ((this.userPermissions.indexOf(PERMISSION.MASTER) != -1) ||
             (this.userPermissions.indexOf(PERMISSION.ADMIN) != -1));

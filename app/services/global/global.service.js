@@ -37,6 +37,9 @@ var GlobalService = /** @class */ (function (_super) {
             });
         }
     };
+    GlobalService.prototype.IsUserHasMasterPermission = function () {
+        return (this.userPermissions.indexOf(enums_1.PERMISSION.MASTER) != -1);
+    };
     GlobalService.prototype.IsUserHasRootPermission = function () {
         return ((this.userPermissions.indexOf(enums_1.PERMISSION.MASTER) != -1) ||
             (this.userPermissions.indexOf(enums_1.PERMISSION.ADMIN) != -1));

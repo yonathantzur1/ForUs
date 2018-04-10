@@ -7,8 +7,6 @@ import { AlertService } from '../../services/alert/alert.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { NavbarService } from '../../services/navbar/navbar.service';
 
-import { PERMISSION } from '../../enums/enums';
-
 declare var $: any;
 declare var snackbar: Function;
 

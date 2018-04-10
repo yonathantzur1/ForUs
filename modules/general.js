@@ -102,6 +102,15 @@ module.exports = {
         }).toLowerCase();
     },
 
+    IsUserHasMasterPermission(permissions) {
+        if (!permissions || permissions.length == 0) {
+            return false;
+        }
+        else {
+            return (permissions.indexOf(enums.PERMISSION.MASTER) != -1);
+        }
+    },
+
     IsUserHasRootPermission(permissions) {
         if (!permissions || permissions.length == 0) {
             return false;

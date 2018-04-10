@@ -29,7 +29,6 @@ export class ManagementComponent implements OnDestroy {
     openCardAnimationTime: number = 200;
 
     subscribeObj: any;
-    clickFunction: any;
 
     constructor(private globalService: GlobalService,
         private managementService: ManagementService,
@@ -41,29 +40,9 @@ export class ManagementComponent implements OnDestroy {
             }
         });
 
-        var self = this;
+        document.body.addEventListener("click", this.clickFunction.bind(this));
 
-        this.clickFunction = function (e: any) {
-            var userWithOpenMenu = self.GetUserWithOpenMenu();
-            var isMenuClick;
-
-            if (userWithOpenMenu) {
-                isMenuClick = false;
-
-                for (var i = 0; i < e.path.length; i++) {
-                    if (e.path[i].id == "user-options" || e.path[i].id == "user-settings-icon") {
-                        isMenuClick = true;
-                        break;
-                    }
-                }
-
-                if (!isMenuClick) {
-                    self.CloseUserMenu(userWithOpenMenu);
-                }
-            }
-        }
-
-        document.addEventListener("click", this.clickFunction);
+        var self = this;        
 
         self.dropMenuDataList = [
             new DropMenuData(null, "עריכה", () => {
@@ -111,16 +90,21 @@ export class ManagementComponent implements OnDestroy {
                     return (self.IsUserBlocked(user) == true);
                 }
             }),
+            new DropMenuData(null, "ניהול הרשאות", () => {
+
+            }, () => {
+                return (self.globalService.IsUserHasMasterPermission());
+            }),
             new DropMenuData(null, "מחיקת משתמש", () => {
                 var user = self.GetUserWithOpenMenu();
                 self.DeleteUser(user);
-            }),
+            })
         ];
     }
 
     ngOnDestroy() {
         this.subscribeObj.unsubscribe();
-        document.removeEventListener("click", this.clickFunction);
+        document.body.removeEventListener("click", this.clickFunction);
     }
 
     SearchUser() {
@@ -508,5 +492,25 @@ export class ManagementComponent implements OnDestroy {
                 })
             }
         });
+    }
+
+    clickFunction(e: any) {
+        var userWithOpenMenu = this.GetUserWithOpenMenu();
+        var isMenuClick;
+
+        if (userWithOpenMenu) {
+            isMenuClick = false;
+
+            for (var i = 0; i < e.path.length; i++) {
+                if (e.path[i].id == "user-options" || e.path[i].id == "user-settings-icon") {
+                    isMenuClick = true;
+                    break;
+                }
+            }
+
+            if (!isMenuClick) {
+                this.CloseUserMenu(userWithOpenMenu);
+            }
+        }
     }
 }
