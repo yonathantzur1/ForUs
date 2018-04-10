@@ -6,7 +6,7 @@ module.exports = {
     },
     db: {
         name: "forus",
-        connectionString: process.env.CONNECTION_STRING || process.env.CONNECTION_STRING,
+        connectionString: process.env.DEV_CONNECTION_STRING || process.env.CONNECTION_STRING,
         maxConnectionAttemptsNumber: 5,
         collections: {
             users: "Users",
@@ -40,7 +40,7 @@ module.exports = {
         resetPasswordMaxTries: 3
     },
     chat: {
-        messagesInPage: 30 // For chat pagination
+        messagesInPage: 40 // For chat pagination
     },
     search: {
         resultsLimit: 4

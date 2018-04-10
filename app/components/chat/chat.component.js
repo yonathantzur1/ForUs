@@ -17,12 +17,10 @@ var ChatComponent = /** @class */ (function () {
         var _this = this;
         this.chatService = chatService;
         this.globalService = globalService;
-        this.messages = [];
         this.chatBodyScrollHeight = 0;
         this.messageNotificationDelay = 3800; // milliseconds
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
             if (value["chatData"]) {
-                _this.messages = [];
                 _this.chatData = value["chatData"];
                 _this.InitializeChat();
             }
@@ -252,6 +250,7 @@ var ChatComponent = /** @class */ (function () {
             self.SelectTopIcon(self.GetTopIconById("chat"));
             self.InitializeCanvas();
         }
+        self.messages = [];
         self.msghInput = "";
         self.isAllowScrollDown = true;
         self.isAllowShowUnreadLine = true;
@@ -277,6 +276,9 @@ var ChatComponent = /** @class */ (function () {
                                     $("#chat-body-sector").off("scroll", self.ChatScrollTopFunc);
                                 }
                             }
+                            else {
+                                self.isChatLoadingError = true;
+                            }
                         });
                     }
                 };
@@ -284,7 +286,7 @@ var ChatComponent = /** @class */ (function () {
                 (self.messages.length != self.totalMessagesNum) && $("#chat-body-sector").scroll(self.ChatScrollTopFunc);
             }
             else {
-                snackbar("בעיה בטעינת הצ'אט");
+                self.isChatLoadingError = true;
             }
             self.isMessagesLoading = false;
             $("#msg-input").focus();
@@ -536,6 +538,10 @@ var ChatComponent = /** @class */ (function () {
         else {
             this.OpenChat(this.messageNotificationFriendObj);
         }
+    };
+    ChatComponent.prototype.ReloadChat = function () {
+        this.isChatLoadingError = false;
+        this.InitializeChat();
     };
     __decorate([
         core_1.Input(),

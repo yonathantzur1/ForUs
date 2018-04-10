@@ -20,8 +20,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     @Input() chatData: any;
     @Input() GetFriendById: Function;
     @Input() OpenChat: Function;
+    isChatLoadingError: boolean;
     msghInput: string;
-    messages: Array<any> = [];
+    messages: Array<any>;
     isAllowScrollDown: boolean;
     totalMessagesNum: number;
     isMessagesLoading: boolean;
@@ -68,8 +69,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     constructor(private chatService: ChatService, private globalService: GlobalService) {
 
         this.subscribeObj = this.globalService.data.subscribe((value: any) => {
-            if (value["chatData"]) {
-                this.messages = [];
+            if (value["chatData"]) {                
                 this.chatData = value["chatData"];
                 this.InitializeChat();
             }
@@ -338,6 +338,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             self.InitializeCanvas();
         }
 
+        self.messages = [];
         self.msghInput = "";
         self.isAllowScrollDown = true;
         self.isAllowShowUnreadLine = true;
@@ -369,6 +370,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                                         $("#chat-body-sector").off("scroll", self.ChatScrollTopFunc);
                                     }
                                 }
+                                else {
+                                    self.isChatLoadingError = true;
+                                }
                             });
 
                     }
@@ -378,7 +382,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 (self.messages.length != self.totalMessagesNum) && $("#chat-body-sector").scroll(self.ChatScrollTopFunc);
             }
             else {
-                snackbar("בעיה בטעינת הצ'אט");
+                self.isChatLoadingError = true;
             }
 
             self.isMessagesLoading = false;
@@ -650,7 +654,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             snackbar("הקובץ שנבחר אינו תמונה");
         }
         else if (isSuccess == null) {
-            snackbar("שגיאה בהעלאת התמונה");            
+            snackbar("שגיאה בהעלאת התמונה");
         }
     }
 
@@ -686,6 +690,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         else {
             this.OpenChat(this.messageNotificationFriendObj);
         }
+    }
+
+    ReloadChat() {
+        this.isChatLoadingError = false;
+        this.InitializeChat();
     }
 }
 

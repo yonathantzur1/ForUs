@@ -77,6 +77,10 @@
                         <i class="fa fa-circle" aria-hidden="true"></i>
                     </p>
                 </span>
+                <div *ngIf="isChatLoadingError" class="loading-error-messages">
+                    <span>אופס... משהו השתבש בטעינה</span>
+                    <i class="material-icons reload-chat-icon" title="טעינה חוזרת" (click)="ReloadChat()">loop</i>
+                </div>
                 <div *ngFor="let message of messages; let i = index">
                     <div *ngIf="IsShowUnreadLine(message.from, message.id, i)" class="bubble-message-line-sector">
                         <div class="bubble-message-line">
