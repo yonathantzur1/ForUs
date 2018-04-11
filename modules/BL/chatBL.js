@@ -29,7 +29,13 @@ var self = module.exports = {
             DAL.Aggregate(collectionName, aggregate, function (result) {
                 var chat;
 
-                if (!result || result.length == 0) {
+                // In case of error.
+                if (!result) {
+                    chat = null;
+                }
+                // In case the chat is not exists.
+                else if (result.length == 0) {
+                    chat = false;
                     self.CreateChat(membersIds);
                 }
                 else {

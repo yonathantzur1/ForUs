@@ -69,7 +69,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     constructor(private chatService: ChatService, private globalService: GlobalService) {
 
         this.subscribeObj = this.globalService.data.subscribe((value: any) => {
-            if (value["chatData"]) {                
+            if (value["chatData"]) {
                 this.chatData = value["chatData"];
                 this.InitializeChat();
             }
@@ -381,7 +381,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 $("#chat-body-sector").off("scroll", self.ChatScrollTopFunc);
                 (self.messages.length != self.totalMessagesNum) && $("#chat-body-sector").scroll(self.ChatScrollTopFunc);
             }
-            else {
+            else if (chat == null) {
                 self.isChatLoadingError = true;
             }
 
@@ -411,6 +411,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.isAllowScrollDown = true;
                 this.isAllowShowUnreadLine = false;
                 this.messages.push(msgData);
+                $("#msg-input").focus();
                 this.globalService.socket.emit("SendMessage", msgData);
             }
         }

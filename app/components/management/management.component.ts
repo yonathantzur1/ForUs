@@ -42,7 +42,7 @@ export class ManagementComponent implements OnDestroy {
 
         document.body.addEventListener("click", this.clickFunction.bind(this));
 
-        var self = this;        
+        var self = this;
 
         self.dropMenuDataList = [
             new DropMenuData(null, "עריכה", () => {
@@ -90,7 +90,7 @@ export class ManagementComponent implements OnDestroy {
                     return (self.IsUserBlocked(user) == true);
                 }
             }),
-            new DropMenuData(null, "ניהול הרשאות", () => {
+            new DropMenuData(null, "הרשאות", () => {
 
             }, () => {
                 return (self.globalService.IsUserHasMasterPermission());

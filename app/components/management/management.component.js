@@ -73,7 +73,7 @@ var ManagementComponent = /** @class */ (function () {
                     return (self.IsUserBlocked(user) == true);
                 }
             }),
-            new navbar_component_1.DropMenuData(null, "ניהול הרשאות", function () {
+            new navbar_component_1.DropMenuData(null, "הרשאות", function () {
             }, function () {
                 return (self.globalService.IsUserHasMasterPermission());
             }),

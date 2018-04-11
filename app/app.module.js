@@ -26,6 +26,7 @@ var chat_component_1 = require("./components/chat/chat.component");
 var chatsWindow_component_1 = require("./components/navbar/chatsWindow/chatsWindow.component");
 var friendRequestsWindow_component_1 = require("./components/navbar/friendRequestsWindow/friendRequestsWindow.component");
 var management_component_1 = require("./components/management/management.component");
+var permissionsCard_component_1 = require("./components/management/permissionsCard/permissionsCard.component");
 var pageNotFound_component_1 = require("./components/pageNotFound/pageNotFound.component");
 var auth_guard_1 = require("./auth/auth.guard");
 var auth_service_1 = require("./services/auth/auth.service");
@@ -59,6 +60,7 @@ var AppModule = /** @class */ (function () {
                 chatsWindow_component_1.ChatsWindowComponent,
                 friendRequestsWindow_component_1.FriendRequestsWindowComponent,
                 management_component_1.ManagementComponent,
+                permissionsCard_component_1.PermissionsCardComponent,
                 // ---------Pipes---------
                 sort_pipe_1.SortObjects
             ],

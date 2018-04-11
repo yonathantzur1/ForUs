@@ -20,6 +20,7 @@ import { ChatComponent } from './components/chat/chat.component';
 import { ChatsWindowComponent } from './components/navbar/chatsWindow/chatsWindow.component';
 import { FriendRequestsWindowComponent } from './components/navbar/friendRequestsWindow/friendRequestsWindow.component';
 import { ManagementComponent } from './components/management/management.component';
+import { PermissionsCardComponent } from './components/management/permissionsCard/permissionsCard.component';
 
 import { PageNotFoundComponent } from './components/pageNotFound/pageNotFound.component';
 
@@ -54,6 +55,7 @@ import { AlertService } from './services/alert/alert.service';
     ChatsWindowComponent,
     FriendRequestsWindowComponent,
     ManagementComponent,
+    PermissionsCardComponent,
     // ---------Pipes---------
     SortObjects
   ],
