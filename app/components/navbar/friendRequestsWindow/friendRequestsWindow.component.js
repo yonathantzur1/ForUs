@@ -107,9 +107,6 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
             return (friendRequestsNumber + " בקשות חברות חדשות");
         }
     };
-    FriendRequestsWindowComponent.prototype.FriendRequestBtnClicked = function (friendId) {
-        this.globalService.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
-    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", Array)

@@ -123,8 +123,4 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
             return (friendRequestsNumber + " בקשות חברות חדשות");
         }
     }
-
-    FriendRequestBtnClicked(friendId: string) {
-        this.globalService.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
-    }
 }

@@ -565,6 +565,7 @@ var NavbarComponent = /** @class */ (function () {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("ServerIgnoreFriendRequest", self.user._id, friendId);
+                self.globalService.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
             }
         });
     };
@@ -636,6 +637,7 @@ var NavbarComponent = /** @class */ (function () {
                 self.globalService.RefreshSocket();
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("ServerAddFriend", friend);
+                self.globalService.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
             }
             else {
                 //  Recover the actions in case the server is fail to add the friend. 

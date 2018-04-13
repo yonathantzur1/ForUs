@@ -10,16 +10,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var global_service_1 = require("../../../services/global/global.service");
 var PermissionsCardComponent = /** @class */ (function () {
-    function PermissionsCardComponent() {
+    function PermissionsCardComponent(globalService) {
+        this.globalService = globalService;
+        this.subscribeObj = this.globalService.data.subscribe(function (value) {
+            if (value["isOpenPermissionsCard"]) {
+                $("#permissions-modal").modal('show');
+            }
+        });
     }
+    PermissionsCardComponent.prototype.ngOnDestroy = function () {
+        this.subscribeObj.unsubscribe();
+    };
     PermissionsCardComponent = __decorate([
         core_1.Component({
             selector: 'permissionsCard',
             templateUrl: './permissionsCard.html',
             providers: []
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [global_service_1.GlobalService])
     ], PermissionsCardComponent);
     return PermissionsCardComponent;
 }());

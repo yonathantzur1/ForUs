@@ -74,6 +74,7 @@ var ManagementComponent = /** @class */ (function () {
                 }
             }),
             new navbar_component_1.DropMenuData(null, "הרשאות", function () {
+                self.globalService.setData("isOpenPermissionsCard", true);
             }, function () {
                 return (self.globalService.IsUserHasMasterPermission());
             }),
