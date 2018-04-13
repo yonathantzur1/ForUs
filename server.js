@@ -71,7 +71,10 @@ require('./routes/friendRequestsWindow')(app);
 require('./routes/management')(app);
 
 // Import socket.io mudule
-require('./modules/sockets/socket')(io);
+var connectedUsers = require('./modules/sockets/socket')(io);
+
+// Import server jobs.
+require('./modules/schedules')(connectedUsers);
 
 // Redirect angular requests back to client side.
 app.get('**', function (req, res) {

@@ -6,7 +6,7 @@ module.exports = function (app) {
 
     // Return the first chat page messages.
     app.post(prefix + '/getChat', function (req, res) {
-        chatBL.GetChat(req.body.membersIds, general.GetTokenFromRequest(req), function (chat) {
+        chatBL.GetChat(req.body.membersIds, req.user, function (chat) {
             res.send(chat);
         })
     });
@@ -14,7 +14,7 @@ module.exports = function (app) {
     // Return the requested chat page messages.
     app.post(prefix + '/getChatPage', function (req, res) {
         chatBL.GetChatPage(req.body.membersIds,
-            general.GetTokenFromRequest(req),
+            req.user,
             req.body.currMessagesNum,
             req.body.totalMessagesNum,
             function (chat) {

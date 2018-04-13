@@ -73,6 +73,8 @@ module.exports = function (io) {
             }
         });
     });
+
+    return connectedUsers;
 }
 
 function LogoutUser(io, socket) {

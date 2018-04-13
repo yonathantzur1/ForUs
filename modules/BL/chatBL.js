@@ -2,15 +2,12 @@ const DAL = require('../DAL.js');
 const config = require('../config');
 const general = require('../general');
 const encryption = require('../encryption');
-const jwt = require('jsonwebtoken');
 
 const collectionName = config.db.collections.chats;
 
 var self = module.exports = {
-    GetChat: function (membersIds, token, callback) {
-        token = general.DecodeToken(token);
-
-        if (token && ValidateUserGetChat(membersIds, token.user.friends, token.user._id)) {
+    GetChat: function (membersIds, user, callback) {
+        if (ValidateUserGetChat(membersIds, user.friends, user._id)) {
             var chatQueryFilter = {
                 $match: {
                     "membersIds": { $all: membersIds }
@@ -51,10 +48,8 @@ var self = module.exports = {
         }
     },
 
-    GetChatPage: function (membersIds, token, currMessagesNum, totalMessagesNum, callback) {
-        token = general.DecodeToken(token);
-
-        if (token && ValidateUserGetChat(membersIds, token.user.friends, token.user._id)) {
+    GetChatPage: function (membersIds, user, currMessagesNum, totalMessagesNum, callback) {
+        if (ValidateUserGetChat(membersIds, user.friends, user._id)) {
             var chatQueryFilter = {
                 $match: {
                     "membersIds": { $all: membersIds }
@@ -116,6 +111,20 @@ var self = module.exports = {
 
         DAL.UpdateOne(collectionName, chatFilter, chatUpdateQuery, function (result) {
             result ? callback(true) : callback(false);
+        });
+    },
+
+    GetAllEmptyChats: function (callback) {
+        var chatFields = { "membersIds": 1 };
+
+        DAL.FindSpecific(collectionName, { "messages": { $size: 0 } }, chatFields, function (result) {
+            callback(result);
+        });
+    },
+
+    RemoveChatsByIds: function (ids, callback) {
+        DAL.Delete(collectionName, { "_id": { $in: ids } }, function (result) {
+            callback(result);
         });
     }
 }
