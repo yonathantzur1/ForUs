@@ -2,6 +2,11 @@
     float: left;
 }
 
+#permissionsCard .modal-header, .modal-body, .modal-footer {
+    -webkit-user-select: none;
+    user-select: none;
+}
+
 #permissionsCard .modal-title-icon {
     font-size: 26px;
     position: absolute;
@@ -23,4 +28,33 @@
     padding: 0;
     top: 6px;
     left: 35px;
+}
+
+#permissionsCard .permissions-container {
+    font-family: var(--main-font);
+    font-size: 16px;
+    color: var(--main-text-color);
+}
+
+#permissionsCard .permission-sector {
+    margin-top: 5px;
+}
+
+#permissionsCard .permission-name {
+    margin-right: 5px;    
+}
+
+#permissionsCard .permission-check-icon {
+    font-size: 18px;
+    cursor: pointer;
+}
+
+#permissionsCard .permissions-loader {
+    position: relative;
+    right: 50%;
+    align-self: center;
+    text-align: center;
+    display: inline-block;
+    margin-right: -35px;
+    margin-bottom: 30px;
 }

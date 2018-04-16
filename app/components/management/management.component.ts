@@ -91,7 +91,7 @@ export class ManagementComponent implements OnDestroy {
                 }
             }),
             new DropMenuData(null, "הרשאות", () => {
-                self.globalService.setData("isOpenPermissionsCard", true);
+                self.globalService.setData("isOpenPermissionsCard", self.GetUserWithOpenMenu());
             }, () => {
                 return (self.globalService.IsUserHasMasterPermission());
             }),

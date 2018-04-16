@@ -1,25 +1,34 @@
 <div id="permissionsCard">
     <div class="modal fade" data-backdrop="static" id="permissions-modal" tabindex="-1" role="dialog">
-       <div class="modal-dialog modal-sm" role="document">
-           <div class="modal-content">
-               <div class="modal-header">
-                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                       <span aria-hidden="true">&times;</span>
-                   </button>
-                   <h4 class="modal-title modal-title-label">הרשאות
-                       <i class="material-icons modal-title-icon">lock_open</i>
-                   </h4>
-               </div>
-               <div class="modal-body">
-
-               </div>
-               <div class="modal-footer">
-                   <div class="modal-footer-buttons">
-                       <a class="btn btn-default cancel-permissions-btn" data-dismiss="modal">ביטול</a>
-                       <a id="permissions-btn" class="btn btn-primary save-permissions-btn">שמירה</a>
-                   </div>
-               </div>
-           </div>
-       </div>
-   </div>
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title modal-title-label">
+                        <span>הרשאות -  {{user && (user.firstName + " " + user.lastName)}}</span>
+                        <i class="material-icons modal-title-icon">lock_open</i>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <loaderSpinner class="permissions-loader" *ngIf="isLoading"></loaderSpinner>
+                    <div class="permissions-container" *ngIf="!isLoading">
+                        <div class="permission-sector" *ngFor="let permission of permissions">
+                            <i [hidden]="permission.isChecked" (click)="permission.isChecked=true;" class="fa fa-square-o permission-check-icon" aria-hidden="true"></i>
+                            <i [hidden]="!permission.isChecked" (click)="permission.isChecked=false;" class="fa fa-check-square-o permission-check-icon"
+                                style="margin-right:-2.5px;" aria-hidden="true"></i>
+                            <span class="permission-name">{{permission.name}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" *ngIf="!isLoading">
+                    <div class="modal-footer-buttons">
+                        <a class="btn btn-default cancel-permissions-btn" data-dismiss="modal">ביטול</a>
+                        <a id="permissions-btn" (click)="UpdatePermissions()" class="btn btn-primary save-permissions-btn">שמירה</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

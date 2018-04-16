@@ -493,10 +493,6 @@
     right: 65px;
 }
 
-#navbar #friends-loader .loader {
-    background-color: transparent !important;
-}
-
 #navbar .no-friends-container {
     width: 100%;
     height: 100%;
