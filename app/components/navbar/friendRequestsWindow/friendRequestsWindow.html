@@ -17,9 +17,9 @@
                 <div class="friend-request-container" *ngFor="let request of friendRequestsObjects">
                     <img class="friend-request-image" [src]="request.profileImage || globalService.defaultProfileImage">
                     <span class="friend-name">{{request.firstName + " " + request.lastName}}</span>
-                    <i (click)="AddFriend(request._id)" class="material-icons friend-request-response-btn friend-request-confirm-btn"
+                    <i (click)="FriendAccept(request._id)" class="material-icons friend-request-response-btn friend-request-confirm-btn"
                         title="אישור">check</i>
-                    <i (click)="IgnoreFriendRequest(request._id)" class="material-icons friend-request-response-btn friend-request-decline-btn"
+                    <i (click)="FriendIgnore(request._id)" class="material-icons friend-request-response-btn friend-request-decline-btn"
                         title="ביטול">close</i>
                 </div>
             </div>

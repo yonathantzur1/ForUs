@@ -107,6 +107,18 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
             return (friendRequestsNumber + " בקשות חברות חדשות");
         }
     };
+    FriendRequestsWindowComponent.prototype.FriendAccept = function (requestId) {
+        this.isFriendRequestsLoading = true;
+        this.AddFriend(requestId, function (res) {
+            this.isFriendRequestsLoading = false;
+        });
+    };
+    FriendRequestsWindowComponent.prototype.FriendIgnore = function (requestId) {
+        this.isFriendRequestsLoading = true;
+        this.IgnoreFriendRequest(requestId, function (res) {
+            this.isFriendRequestsLoading = false;
+        });
+    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", Array)

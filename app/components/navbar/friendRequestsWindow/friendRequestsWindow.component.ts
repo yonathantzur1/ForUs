@@ -123,4 +123,20 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
             return (friendRequestsNumber + " בקשות חברות חדשות");
         }
     }
+
+    FriendAccept(requestId: string) {
+        this.isFriendRequestsLoading = true;
+
+        this.AddFriend(requestId, function (res: any) {
+            this.isFriendRequestsLoading = false;
+        });
+    }
+
+    FriendIgnore(requestId: string) {
+        this.isFriendRequestsLoading = true;
+
+        this.IgnoreFriendRequest(requestId, function (res: any) {
+            this.isFriendRequestsLoading = false;
+        });
+    }
 }

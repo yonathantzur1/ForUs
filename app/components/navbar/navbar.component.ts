@@ -689,7 +689,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         });
     }
 
-    IgnoreFriendRequest(friendId: string) {
+    IgnoreFriendRequest(friendId: string, callback?: Function) {
         // Remove the friend request from all friend requests object.
         var friendRequests: any = this.GetToolbarItem("friendRequests").content;
         friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
@@ -701,6 +701,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 self.globalService.socket.emit("ServerIgnoreFriendRequest", self.user._id, friendId);
                 self.globalService.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
             }
+
+            callback && callback(result);
         });
     }
 
@@ -768,7 +770,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.globalService.socket.emit("ServerFriendAddedUpdate", friend._id);
     }
 
-    AddFriend(friendId: string) {
+    AddFriend(friendId: string, callback?: Function) {
         this.isFriendsLoading = true;
 
         // Remove the friend request from all friend requests object.
@@ -796,6 +798,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 userFriends.splice(userFriends.indexOf(friendId), 1);
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
             }
+
+            callback && callback(friend);
         });
     }
 

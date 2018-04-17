@@ -556,7 +556,7 @@ var NavbarComponent = /** @class */ (function () {
             }
         });
     };
-    NavbarComponent.prototype.IgnoreFriendRequest = function (friendId) {
+    NavbarComponent.prototype.IgnoreFriendRequest = function (friendId, callback) {
         // Remove the friend request from all friend requests object.
         var friendRequests = this.GetToolbarItem("friendRequests").content;
         friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
@@ -567,6 +567,7 @@ var NavbarComponent = /** @class */ (function () {
                 self.globalService.socket.emit("ServerIgnoreFriendRequest", self.user._id, friendId);
                 self.globalService.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
             }
+            callback && callback(result);
         });
     };
     NavbarComponent.prototype.ShowFriendRequestNotification = function (name, isConfirm) {
@@ -622,7 +623,7 @@ var NavbarComponent = /** @class */ (function () {
         this.globalService.socket.emit("ServerGetOnlineFriends");
         this.globalService.socket.emit("ServerFriendAddedUpdate", friend._id);
     };
-    NavbarComponent.prototype.AddFriend = function (friendId) {
+    NavbarComponent.prototype.AddFriend = function (friendId, callback) {
         this.isFriendsLoading = true;
         // Remove the friend request from all friend requests object.
         var friendRequests = this.GetToolbarItem("friendRequests").content;
@@ -645,6 +646,7 @@ var NavbarComponent = /** @class */ (function () {
                 userFriends.splice(userFriends.indexOf(friendId), 1);
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
             }
+            callback && callback(friend);
         });
     };
     NavbarComponent.prototype.MakeFriendTyping = function (friendId) {
