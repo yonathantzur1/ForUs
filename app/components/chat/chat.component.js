@@ -200,7 +200,7 @@ var ChatComponent = /** @class */ (function () {
             };
             self.ctx.strokeStyle = self.colorBtns[self.canvasSelectedColorIndex];
         };
-        $(window).resize(self.CanvasResizeFunc);
+        window.addEventListener("resize", self.CanvasResizeFunc);
         // Get a regular interval for drawing to the screen
         window.requestAnimFrame = (function () {
             return window.requestAnimationFrame ||
@@ -229,8 +229,8 @@ var ChatComponent = /** @class */ (function () {
         });
         $("#canvas-top-bar-sector").unbind('touchstart', preventZoom);
         $("#canvas-bar-sector").unbind('touchstart', preventZoom);
-        $(window).off("resize", self.CanvasResizeFunc);
-        $("#chat-body-sector").off("scroll", self.ChatScrollTopFunc);
+        window.removeEventListener("resize", self.CanvasResizeFunc);
+        $("#chat-body-sector")[0].removeEventListener("scroll", self.ChatScrollTopFunc);
         this.isCanvasInitialize = false;
     };
     ChatComponent.prototype.ngAfterViewChecked = function () {
@@ -245,50 +245,28 @@ var ChatComponent = /** @class */ (function () {
         }
     };
     ChatComponent.prototype.InitializeChat = function () {
-        var self = this;
-        if (self.isCanvasInitialize) {
-            self.SelectTopIcon(self.GetTopIconById("chat"));
-            self.InitializeCanvas();
+        var _this = this;
+        if (this.isCanvasInitialize) {
+            this.SelectTopIcon(this.GetTopIconById("chat"));
+            this.InitializeCanvas();
         }
-        self.messages = [];
-        self.msghInput = "";
-        self.isAllowScrollDown = true;
-        self.isAllowShowUnreadLine = true;
-        self.chatBodyScrollHeight = 0;
-        self.isMessagesLoading = true;
-        self.chatService.GetChat([self.chatData.user._id, self.chatData.friend._id]).then(function (chat) {
+        this.messages = [];
+        this.msghInput = "";
+        this.isAllowScrollDown = true;
+        this.isAllowShowUnreadLine = true;
+        this.chatBodyScrollHeight = 0;
+        this.isMessagesLoading = true;
+        this.chatService.GetChat([this.chatData.user._id, this.chatData.friend._id]).then(function (chat) {
             if (chat) {
-                self.messages = chat.messages;
-                self.totalMessagesNum = chat.totalMessagesNum;
-                self.ChatScrollTopFunc = function () {
-                    if ($("#chat-body-sector").scrollTop() < 400 &&
-                        $("#chat-body-sector").hasScrollBar() &&
-                        !self.isMessagesPageLoading &&
-                        (self.messages.length != self.totalMessagesNum)) {
-                        self.isMessagesPageLoading = true;
-                        self.chatService.GetChatPage([self.chatData.user._id, self.chatData.friend._id], self.messages.length, self.totalMessagesNum).then(function (chat) {
-                            self.isMessagesPageLoading = false;
-                            if (chat) {
-                                self.lastPageMessageId = self.messages[0].id;
-                                self.isAllowScrollDown = false;
-                                self.messages = chat.messages.concat(self.messages);
-                                if (self.messages.length == self.totalMessagesNum) {
-                                    $("#chat-body-sector").off("scroll", self.ChatScrollTopFunc);
-                                }
-                            }
-                            else {
-                                self.isChatLoadingError = true;
-                            }
-                        });
-                    }
-                };
-                $("#chat-body-sector").off("scroll", self.ChatScrollTopFunc);
-                (self.messages.length != self.totalMessagesNum) && $("#chat-body-sector").scroll(self.ChatScrollTopFunc);
+                _this.messages = chat.messages;
+                _this.totalMessagesNum = chat.totalMessagesNum;
+                $("#chat-body-sector")[0].removeEventListener("scroll", _this.ChatScrollTopFunc.bind(_this));
+                (_this.messages.length < _this.totalMessagesNum) && $("#chat-body-sector")[0].addEventListener("scroll", _this.ChatScrollTopFunc.bind(_this));
             }
             else if (chat == null) {
-                self.isChatLoadingError = true;
+                _this.isChatLoadingError = true;
             }
-            self.isMessagesLoading = false;
+            _this.isMessagesLoading = false;
             $("#msg-input").focus();
         });
     };
@@ -543,6 +521,29 @@ var ChatComponent = /** @class */ (function () {
     ChatComponent.prototype.ReloadChat = function () {
         this.isChatLoadingError = false;
         this.InitializeChat();
+    };
+    ChatComponent.prototype.ChatScrollTopFunc = function () {
+        var _this = this;
+        if ($("#chat-body-sector").scrollTop() < 400 &&
+            $("#chat-body-sector").hasScrollBar() &&
+            !this.isMessagesPageLoading &&
+            (this.messages.length < this.totalMessagesNum)) {
+            this.isMessagesPageLoading = true;
+            this.chatService.GetChatPage([this.chatData.user._id, this.chatData.friend._id], this.messages.length, this.totalMessagesNum).then(function (chat) {
+                _this.isMessagesPageLoading = false;
+                if (chat) {
+                    _this.lastPageMessageId = _this.messages[0].id;
+                    _this.isAllowScrollDown = false;
+                    _this.messages = chat.messages.concat(_this.messages);
+                    if (_this.messages.length == _this.totalMessagesNum) {
+                        $("#chat-body-sector")[0].removeEventListener("scroll", _this.ChatScrollTopFunc.bind(_this));
+                    }
+                }
+                else {
+                    _this.isChatLoadingError = true;
+                }
+            });
+        }
     };
     __decorate([
         core_1.Input(),

@@ -62,7 +62,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     canvasEvents: any;
     documentEvents: any;
     CanvasResizeFunc: any;
-    ChatScrollTopFunc: any;
 
     subscribeObj: any;
 
@@ -274,7 +273,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             self.ctx.strokeStyle = self.colorBtns[self.canvasSelectedColorIndex];
         };
 
-        $(window).resize(self.CanvasResizeFunc);
+        window.addEventListener("resize", self.CanvasResizeFunc);
 
         // Get a regular interval for drawing to the screen
         window.requestAnimFrame = (function () {
@@ -311,8 +310,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         $("#canvas-top-bar-sector").unbind('touchstart', preventZoom);
         $("#canvas-bar-sector").unbind('touchstart', preventZoom);
 
-        $(window).off("resize", self.CanvasResizeFunc);
-        $("#chat-body-sector").off("scroll", self.ChatScrollTopFunc);
+        window.removeEventListener("resize", self.CanvasResizeFunc);
+        $("#chat-body-sector")[0].removeEventListener("scroll", self.ChatScrollTopFunc);
 
         this.isCanvasInitialize = false;
     }
@@ -331,61 +330,32 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     InitializeChat() {
-        var self = this;
-
-        if (self.isCanvasInitialize) {
-            self.SelectTopIcon(self.GetTopIconById("chat"));
-            self.InitializeCanvas();
+        if (this.isCanvasInitialize) {
+            this.SelectTopIcon(this.GetTopIconById("chat"));
+            this.InitializeCanvas();
         }
 
-        self.messages = [];
-        self.msghInput = "";
-        self.isAllowScrollDown = true;
-        self.isAllowShowUnreadLine = true;
-        self.chatBodyScrollHeight = 0;
-        self.isMessagesLoading = true;
+        this.messages = [];
+        this.msghInput = "";
+        this.isAllowScrollDown = true;
+        this.isAllowShowUnreadLine = true;
+        this.chatBodyScrollHeight = 0;
+        this.isMessagesLoading = true;
 
-        self.chatService.GetChat([self.chatData.user._id, self.chatData.friend._id]).then((chat: any) => {
+        this.chatService.GetChat([this.chatData.user._id, this.chatData.friend._id]).then((chat: any) => {
             if (chat) {
-                self.messages = chat.messages;
-                self.totalMessagesNum = chat.totalMessagesNum;
+                this.messages = chat.messages;
+                this.totalMessagesNum = chat.totalMessagesNum;
 
-                self.ChatScrollTopFunc = function () {
-                    if ($("#chat-body-sector").scrollTop() < 400 &&
-                        $("#chat-body-sector").hasScrollBar() &&
-                        !self.isMessagesPageLoading &&
-                        (self.messages.length != self.totalMessagesNum)) {
-                        self.isMessagesPageLoading = true;
-
-                        self.chatService.GetChatPage([self.chatData.user._id, self.chatData.friend._id],
-                            self.messages.length, self.totalMessagesNum).then((chat: any) => {
-                                self.isMessagesPageLoading = false;
-
-                                if (chat) {
-                                    self.lastPageMessageId = self.messages[0].id;
-                                    self.isAllowScrollDown = false;
-                                    self.messages = chat.messages.concat(self.messages);
-
-                                    if (self.messages.length == self.totalMessagesNum) {
-                                        $("#chat-body-sector").off("scroll", self.ChatScrollTopFunc);
-                                    }
-                                }
-                                else {
-                                    self.isChatLoadingError = true;
-                                }
-                            });
-
-                    }
-                }
-
-                $("#chat-body-sector").off("scroll", self.ChatScrollTopFunc);
-                (self.messages.length != self.totalMessagesNum) && $("#chat-body-sector").scroll(self.ChatScrollTopFunc);
+                $("#chat-body-sector")[0].removeEventListener("scroll", this.ChatScrollTopFunc.bind(this)
+            );
+                (this.messages.length < this.totalMessagesNum) && $("#chat-body-sector")[0].addEventListener("scroll", this.ChatScrollTopFunc.bind(this));
             }
             else if (chat == null) {
-                self.isChatLoadingError = true;
+                this.isChatLoadingError = true;
             }
 
-            self.isMessagesLoading = false;
+            this.isMessagesLoading = false;
             $("#msg-input").focus();
         });
     }
@@ -696,6 +666,34 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     ReloadChat() {
         this.isChatLoadingError = false;
         this.InitializeChat();
+    }
+
+    ChatScrollTopFunc() {
+        if ($("#chat-body-sector").scrollTop() < 400 &&
+            $("#chat-body-sector").hasScrollBar() &&
+            !this.isMessagesPageLoading &&
+            (this.messages.length < this.totalMessagesNum)) {
+            this.isMessagesPageLoading = true;
+
+            this.chatService.GetChatPage([this.chatData.user._id, this.chatData.friend._id],
+                this.messages.length, this.totalMessagesNum).then((chat: any) => {
+                    this.isMessagesPageLoading = false;
+
+                    if (chat) {
+                        this.lastPageMessageId = this.messages[0].id;
+                        this.isAllowScrollDown = false;
+                        this.messages = chat.messages.concat(this.messages);
+
+                        if (this.messages.length == this.totalMessagesNum) {
+                            $("#chat-body-sector")[0].removeEventListener("scroll", this.ChatScrollTopFunc.bind(this));
+                        }
+                    }
+                    else {
+                        this.isChatLoadingError = true;
+                    }
+                });
+
+        }
     }
 }
 
