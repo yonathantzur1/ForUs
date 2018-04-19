@@ -339,7 +339,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.isAllowScrollDown = true;
         this.isAllowShowUnreadLine = true;
         this.chatBodyScrollHeight = 0;
-        this.isMessagesLoading = true;
+        this.isMessagesLoading = true
+        this.isChatLoadingError = false;
 
         this.chatService.GetChat([this.chatData.user._id, this.chatData.friend._id]).then((chat: any) => {
             if (chat) {

@@ -255,6 +255,7 @@ var ChatComponent = /** @class */ (function () {
         this.isAllowShowUnreadLine = true;
         this.chatBodyScrollHeight = 0;
         this.isMessagesLoading = true;
+        this.isChatLoadingError = false;
         this.chatService.GetChat([this.chatData.user._id, this.chatData.friend._id]).then(function (chat) {
             if (chat) {
                 _this.messages = chat.messages;
