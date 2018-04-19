@@ -230,7 +230,6 @@ var ChatComponent = /** @class */ (function () {
         $("#canvas-top-bar-sector").unbind('touchstart', preventZoom);
         $("#canvas-bar-sector").unbind('touchstart', preventZoom);
         window.removeEventListener("resize", self.CanvasResizeFunc);
-        $("#chat-body-sector")[0].removeEventListener("scroll", self.ChatScrollTopFunc);
         this.isCanvasInitialize = false;
     };
     ChatComponent.prototype.ngAfterViewChecked = function () {
