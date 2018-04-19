@@ -11,10 +11,10 @@ const maxConnectionAttemptsNumber = config.db.maxConnectionAttemptsNumber;
 var retryCount = 0;
 var db;
 
-GetDB = function (callback) {
+GetDB = (callback) => {
     // In case there is no connected db.
     if (!db || !db.serverConfig || !db.serverConfig.isConnected()) {
-        MongoClient.connect(connectionString, function (err, client) {
+        MongoClient.connect(connectionString, (err, client) => {
             if (err == null) {
                 db = client.db(dbName);
                 callback(null, db);
@@ -37,277 +37,298 @@ GetDB = function (callback) {
 }
 
 // Initialize DB connection.
-GetDB(function (err, db) { });
+GetDB((err, db) => { });
 
 module.exports = {
     // Convert string id to mongo object id.
-    GetObjectId: function (id) {
+    GetObjectId: (id) => {
         return new ObjectId(id);
     },
 
     // Getting documents from collection by filter.
-    FindOne: function (collectionName, filter, callback) {
-        GetDB(function (err, db) {
-            if (err == null) {
-                var collection = db.collection(collectionName);
+    FindOne: (collectionName, filter) => {
+        return new Promise((resolve, reject) => {
+            GetDB((err, db) => {
+                if (err == null) {
+                    var collection = db.collection(collectionName);
 
-                collection.findOne(filter, function (err, docs) {
-                    if (err == null) {
-                        callback(docs);
-                    }
-                    else {
-                        callback(null);
-                    }
-                });
-            }
-            else {
-                callback(null);
-            }
+                    collection.findOne(filter, (err, docs) => {
+                        if (err == null) {
+                            resolve(docs);
+                        }
+                        else {
+                            reject(err);
+                        }
+                    });
+                }
+                else {
+                    reject(err);
+                }
+            });
         });
     },
 
     // Getting documents from collection by filter.
-    FindOneSpecific: function (collectionName, filter, fields, callback) {
-        GetDB(function (err, db) {
-            if (err == null) {
-                var collection = db.collection(collectionName);
+    FindOneSpecific: (collectionName, filter, fields) => {
+        return new Promise((resolve, reject) => {
+            GetDB((err, db) => {
+                if (err == null) {
+                    var collection = db.collection(collectionName);
 
-                collection.findOne(filter, { fields }, function (err, docs) {
-                    if (err == null) {
-                        callback(docs);
-                    }
-                    else {
-                        callback(null);
-                    }
-                });
-            }
-            else {
-                callback(null);
-            }
+                    collection.findOne(filter, { fields }, (err, docs) => {
+                        if (err == null) {
+                            resolve(docs);
+                        }
+                        else {
+                            reject(err);
+                        }
+                    });
+                }
+                else {
+                    reject(err);
+                }
+            });
         });
     },
 
     // Getting documents from collection by filter.
-    Find: function (collectionName, filter, callback, sortObj) {
-        GetDB(function (err, db) {
-            if (err == null) {
-                var collection = db.collection(collectionName);
+    Find: (collectionName, filter, sortObj) => {
+        return new Promise((resolve, reject) => {
+            GetDB((err, db) => {
+                if (err == null) {
+                    var collection = db.collection(collectionName);
 
-                sortObj = sortObj ? sortObj : {};
+                    sortObj = sortObj ? sortObj : {};
 
-                collection.find(filter).sort(sortObj).toArray(function (err, docs) {
-                    if (err == null) {
-                        callback(docs);
-                    }
-                    else {
-                        callback(null);
-                    }
-                });
-            }
-            else {
-                callback(null);
-            }
+                    collection.find(filter).sort(sortObj).toArray((err, docs) => {
+                        if (err == null) {
+                            resolve(docs);
+                        }
+                        else {
+                            reject(err);
+                        }
+                    });
+                }
+                else {
+                    reject(err);
+                }
+            });
         });
     },
 
     // Getting documents from collection by filter.
-    FindSpecific: function (collectionName, filter, fields, callback, sortObj) {
-        GetDB(function (err, db) {
-            if (err == null) {
-                var collection = db.collection(collectionName);
+    FindSpecific: (collectionName, filter, fields, sortObj) => {
+        return new Promise((resolve, reject) => {
+            GetDB((err, db) => {
+                if (err == null) {
+                    var collection = db.collection(collectionName);
 
-                sortObj = sortObj ? sortObj : {};
+                    sortObj = sortObj ? sortObj : {};
 
-                collection.find(filter, { fields }).sort(sortObj).toArray(function (err, docs) {
-                    if (err == null) {
-                        callback(docs);
-                    }
-                    else {
-                        callback(null);
-                    }
-                });
-            }
-            else {
-                callback(null);
-            }
+                    collection.find(filter, { fields }).sort(sortObj).toArray((err, docs) => {
+                        if (err == null) {
+                            resolve(docs);
+                        }
+                        else {
+                            reject(err);
+                        }
+                    });
+                }
+                else {
+                    reject(err);
+                }
+            });
         });
     },
 
     // Getting documents from collection by filter.
-    Aggregate: function (collectionName, aggregateArray, callback) {
-        GetDB(function (err, db) {
-            if (err == null) {
-                var collection = db.collection(collectionName);
+    Aggregate: (collectionName, aggregateArray) => {
+        return new Promise((resolve, reject) => {
+            GetDB((err, db) => {
+                if (err == null) {
+                    var collection = db.collection(collectionName);
 
-                collection.aggregate(aggregateArray).toArray(function (err, docs) {
-                    if (err == null) {
-                        callback(docs);
-                    }
-                    else {
-                        callback(null);
-                    }
-                });
-            }
-            else {
-                callback(null);
-            }
+                    collection.aggregate(aggregateArray).toArray((err, docs) => {
+                        if (err == null) {
+                            resolve(docs);
+                        }
+                        else {
+                            reject(err);
+                        }
+                    });
+                }
+                else {
+                    reject(err);
+                }
+            });
         });
     },
 
     // Insert new document.
-    Insert: function (collectionName, doc, callback) {
-        GetDB(function (err, db) {
-            if (err == null) {
-                var collection = db.collection(collectionName);
-                collection.insertOne(doc, function (err, result) {
-                    if (err == null) {
-                        callback(result.insertedId);
-                    }
-                    else {
-                        callback(null);
-                    }
-                });
-            }
-            else {
-                callback(null);
-            }
+    Insert: (collectionName, doc) => {
+        return new Promise((resolve, reject) => {
+            GetDB((err, db) => {
+                if (err == null) {
+                    var collection = db.collection(collectionName);
+
+                    collection.insertOne(doc, (err, result) => {
+                        if (err == null) {
+                            resolve(result.insertedId);
+                        }
+                        else {
+                            reject(err);
+                        }
+                    });
+                }
+                else {
+                    reject(err);
+                }
+            });
         });
     },
 
     // Update one document.
-    UpdateOne: function (collectionName, findObj, updateObj, callback, isInsertIfNotExists) {
-        GetDB(function (err, db) {
-            if (err == null) {
-                var collection = db.collection(collectionName);
+    UpdateOne: (collectionName, findObj, updateObj, isInsertIfNotExists) => {
+        return new Promise((resolve, reject) => {
+            GetDB((err, db) => {
+                if (err == null) {
+                    var collection = db.collection(collectionName);
 
-                var updateConfig = {
-                    returnOriginal: false,
-                    upsert: isInsertIfNotExists
-                }
+                    var updateConfig = {
+                        returnOriginal: false,
+                        upsert: isInsertIfNotExists
+                    }
 
-                collection.findOneAndUpdate(findObj, updateObj, updateConfig,
-                    function (err, result) {
+                    collection.findOneAndUpdate(findObj, updateObj, updateConfig, (err, result) => {
                         if (err == null) {
                             if (result.value != null) {
-                                callback(result.value);
+                                resolve(result.value);
                             }
                             else {
-                                callback(false);
+                                resolve(false);
                             }
                         }
                         else {
-                            callback(null);
+                            reject(err);
                         }
                     });
-            }
-            else {
-                callback(null);
-            }
+                }
+                else {
+                    reject(err);
+                }
+            });
         });
     },
 
     // Update documents.
-    Update: function (collectionName, findObj, updateObj, callback) {
-        GetDB(function (err, db) {
-            if (err == null) {
-                var collection = db.collection(collectionName);
+    Update: (collectionName, findObj, updateObj) => {
+        return new Promise((resolve, reject) => {
+            GetDB((err, db) => {
+                if (err == null) {
+                    var collection = db.collection(collectionName);
 
-                var updateConfig = {
-                    "multi": true,
-                    "upsert": false
-                }
+                    var updateConfig = {
+                        "multi": true,
+                        "upsert": false
+                    }
 
-                collection.update(findObj, updateObj, updateConfig,
-                    function (err, result) {
+                    collection.update(findObj, updateObj, updateConfig, (err, result) => {
                         if (err == null) {
                             if (result.result.nModified != 0) {
-                                callback(result.result.nModified);
+                                resolve(result.result.nModified);
                             }
                             else {
-                                callback(false);
+                                resolve(false);
                             }
                         }
                         else {
-                            callback(null);
+                            reject(err);
                         }
                     });
-            }
-            else {
-                callback(null);
-            }
+                }
+                else {
+                    reject(err);
+                }
+            });
         });
     },
 
     // Delete documents by filter.
-    Delete: function (collectionName, filter, callback) {
-        GetDB(function (err, db) {
-            if (err == null) {
-                var collection = db.collection(collectionName);
+    Delete: (collectionName, filter) => {
+        return new Promise((resolve, reject) => {
+            GetDB((err, db) => {
+                if (err == null) {
+                    var collection = db.collection(collectionName);
 
-                collection.deleteMany(filter, function (err, result) {
-                    if (err == null) {
-                        if (result.deletedCount != 0) {
-                            callback(result.deletedCount);
+                    collection.deleteMany(filter, (err, result) => {
+                        if (err == null) {
+                            if (result.deletedCount != 0) {
+                                resolve(result.deletedCount);
+                            }
+                            else {
+                                resolve(false);
+                            }
                         }
                         else {
-                            callback(false);
+                            reject(err);
                         }
-                    }
-                    else {
-                        callback(null);
-                    }
-                });
-            }
-            else {
-                callback(null);
-            }
+                    });
+                }
+                else {
+                    reject(err);
+                }
+            });
         });
     },
 
     // Delete documents by filter.
-    DeleteOne: function (collectionName, filter, callback) {
-        GetDB(function (err, db) {
-            if (err == null) {
-                var collection = db.collection(collectionName);
+    DeleteOne: (collectionName, filter) => {
+        return new Promise((resolve, reject) => {
+            GetDB((err, db) => {
+                if (err == null) {
+                    var collection = db.collection(collectionName);
 
-                collection.deleteOne(filter, function (err, result) {
-                    if (err == null) {
-                        if (result.result.n != 0) {
-                            callback(true);
+                    collection.deleteOne(filter, (err, result) => {
+                        if (err == null) {
+                            if (result.result.n != 0) {
+                                resolve(true);
+                            }
+                            else {
+                                resolve(false);
+                            }
                         }
                         else {
-                            callback(false);
+                            reject(err);
                         }
-                    }
-                    else {
-                        callback(null);
-                    }
-                });
-            }
-            else {
-                callback(null);
-            }
+                    });
+                }
+                else {
+                    reject(err);
+                }
+            });
         });
     },
 
     // Save or update document.
-    Save: function (collectionName, object, callback) {
-        GetDB(function (err, db) {
-            if (err == null) {
-                var collection = db.collection(collectionName);
+    Save: (collectionName, object) => {
+        return new Promise((resolve, reject) => {
+            GetDB((err, db) => {
+                if (err == null) {
+                    var collection = db.collection(collectionName);
 
-                collection.save(object, function (err, result) {
-                    if (err == null) {
-                        callback(result.n);
-                    }
-                    else {
-                        callback(null);
-                    }
-                });
-            }
-            else {
-                callback(null);
-            }
+                    collection.save(object, (err, result) => {
+                        if (err == null) {
+                            resolve(result.n);
+                        }
+                        else {
+                            reject(err);
+                        }
+                    });
+                }
+                else {
+                    reject(err);
+                }
+            });
         });
     }
 

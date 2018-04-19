@@ -4,16 +4,15 @@ const config = require('../config.js');
 const collectionName = config.db.collections.profiles;
 
 module.exports = {
-    GetUserProfileImage: function (profileId, callback) {
-        if (!profileId) {
-            callback(null);
-        }
-        else {
-            var profileObjectId = DAL.GetObjectId(profileId);
-
-            DAL.FindOne(collectionName, { "_id": profileObjectId }, function (result) {
-                callback(result);
-            });
-        }
+    GetUserProfileImage: (profileId) => {
+        return new Promise((resolve, reject) => {
+            if (!profileId) {
+                resolve(null);
+            }
+            else {
+                var profileObjectId = DAL.GetObjectId(profileId);
+                DAL.FindOne(collectionName, { "_id": profileObjectId }).then(resolve).catch(reject);
+            }
+        });
     }
 }

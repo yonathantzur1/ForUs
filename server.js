@@ -31,7 +31,7 @@ function RedirectToLogin(req, res) {
     }
 }
 
-app.use('/api', function (req, res, next) {
+app.use('/api', (req, res, next) => {
     var token = general.DecodeToken(general.GetTokenFromRequest(req));
     var cookieUid = general.GetUidFromRequest(req);
 
@@ -44,11 +44,11 @@ app.use('/api', function (req, res, next) {
     }
 });
 
-http.listen((process.env.PORT || 8000), function () {
+http.listen((process.env.PORT || 8000), () => {
     console.log("Server is up!");
 });
 
-app.get('/login', function (req, res, next) {
+app.get('/login', (req, res, next) => {
     var token = general.DecodeToken(general.GetTokenFromRequest(req));
 
     if (!token) {
@@ -78,6 +78,6 @@ var connectedUsers = require('./modules/sockets/socket')(io);
 require('./modules/schedules')(connectedUsers);
 
 // Redirect angular requests back to client side.
-app.get('**', function (req, res) {
+app.get('**', (req, res) => {
     res.sendFile(path.join(__dirname + '/index.html'));
 });

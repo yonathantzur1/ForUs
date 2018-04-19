@@ -1,5 +1,5 @@
-var schedule = require('node-schedule');
-var chatBL = require('./BL/chatBL');
+const schedule = require('node-schedule');
+const chatBL = require('./BL/chatBL');
 
 
 module.exports = function (connectedUsers) {
@@ -10,7 +10,7 @@ module.exports = function (connectedUsers) {
 }
 
 function RemoveEmptyChats(connectedUsers) {
-    chatBL.GetAllEmptyChats(function (chats) {
+    chatBL.GetAllEmptyChats().then((chats) => {
         if (chats) {
             var chatsToRemove = [];
 
@@ -33,8 +33,12 @@ function RemoveEmptyChats(connectedUsers) {
             });
 
             if (chatsToRemove.length > 0) {
-                chatBL.RemoveChatsByIds(chatsToRemove, function (result) { });
+                chatBL.RemoveChatsByIds(chatsToRemove).then((res) => { }).catch((err) => {
+                    // TODO: error log.
+                });;
             }
         }
+    }).catch((err) => {
+        // TODO: error log.
     });
 }

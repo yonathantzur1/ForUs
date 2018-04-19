@@ -4,34 +4,36 @@ const config = require('../config');
 const collectionName = config.db.collections.permissions;
 
 module.exports = {
-    GetAllPermissions: function (callback) {
-        var queryFields = { "type": 1, "name": 1 };
+    GetAllPermissions: () => {
+        return new Promise((resolve, reject) => {
+            var queryFields = { "type": 1, "name": 1 };
 
-        DAL.FindSpecific(collectionName, {}, queryFields, function (permissions) {
-            callback(permissions);
+            DAL.FindSpecific(collectionName, {}, queryFields).then(resolve).catch(reject);
         });
     },
 
-    GetUserPermissions: function (userId, callback) {
-        var query = { "members": DAL.GetObjectId(userId) };
-        var queryFields = { "type": 1 };
+    GetUserPermissions: (userId) => {
+        return new Promise((resolve, reject) => {
+            var query = { "members": DAL.GetObjectId(userId) };
+            var queryFields = { "type": 1 };
 
-        DAL.FindSpecific(collectionName, query, queryFields, function (permissions) {
-            if (permissions) {
-                permissions = permissions.map(function (permission) {
-                    return permission.type;
-                });
-            }
+            DAL.FindSpecific(collectionName, query, queryFields).then((permissions) => {
+                if (permissions) {
+                    permissions = permissions.map((permission) => {
+                        return permission.type;
+                    });
+                }
 
-            callback(permissions);
+                resolve(permissions);
+            }).catch(reject);
         });
     },
 
-    UpdatePermissions: function (userId, permissions, callback) {
-        var userObjId = DAL.GetObjectId(userId);
+    UpdatePermissions: (userId, permissions) => {
+        return new Promise((resolve, reject) => {
+            var userObjId = DAL.GetObjectId(userId);
 
-        DAL.Update(collectionName, {}, { $pull: { "members": userObjId } }, function (result) {
-            if (result != null) {
+            DAL.Update(collectionName, {}, { $pull: { "members": userObjId } }).then((result) => {
                 var updateFindQuery = { $or: [] };
 
                 permissions.forEach(permission => {
@@ -41,21 +43,14 @@ module.exports = {
                 });
 
                 if (updateFindQuery.$or.length > 0) {
-                    DAL.Update(collectionName, updateFindQuery, { $push: { "members": userObjId } }, function (result) {
-                        if (result != null) {
-                            result = true;
-                        }
-
-                        callback(result);
-                    });
+                    DAL.Update(collectionName, updateFindQuery, { $push: { "members": userObjId } }).then((result) => {
+                        resolve(true);
+                    }).catch(reject);
                 }
                 else {
-                    callback(true);
+                    resolve(true);
                 }
-            }
-            else {
-                callback(result);
-            }
+            }).catch(reject);
         });
     }
 }

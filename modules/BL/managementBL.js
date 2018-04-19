@@ -10,75 +10,71 @@ const chatsCollectionName = config.db.collections.chats;
 const profileCollectionName = config.db.collections.profiles;
 
 module.exports = {
-    GetUserByName: function (searchInput, callback) {
-        searchInput = searchInput.replace(/\\/g, '');
+    GetUserByName: (searchInput) => {
+        return new Promise((resolve, reject) => {
+            searchInput = searchInput.replace(/\\/g, '');
 
-        var usersFilter = {
-            $match: {
-                $or: [
-                    { fullName: new RegExp("^" + searchInput, 'g') },
-                    { fullNameReversed: new RegExp("^" + searchInput, 'g') }
-                ]
-            }
-        };
-
-        var joinFilter = {
-            $lookup: {
-                from: profileCollectionName,
-                localField: 'profile',
-                foreignField: '_id',
-                as: 'profileImage'
-            }
-        }
-
-        var aggregateArray = [
-            {
-                $project: {
-                    fullName: { $concat: ["$firstName", " ", "$lastName"] },
-                    fullNameReversed: { $concat: ["$lastName", " ", "$firstName"] },
-                    friendsNumber: { $size: "$friends" },
-                    "firstName": 1,
-                    "lastName": 1,
-                    "email": 1,
-                    "profile": 1,
-                    "creationDate": 1,
-                    "lastLoginTime": 1,
-                    "friends": 1,
-                    "block": 1
+            var usersFilter = {
+                $match: {
+                    $or: [
+                        { fullName: new RegExp("^" + searchInput, 'g') },
+                        { fullNameReversed: new RegExp("^" + searchInput, 'g') }
+                    ]
                 }
-            },
-            usersFilter,
-            joinFilter,
-            {
-                $project: {
-                    // Should be here and on $project above because how aggregate works.
-                    "firstName": 1,
-                    "lastName": 1,
-                    "fullName": 1,
-                    "fullNameReversed": 1,
-                    "email": 1,
-                    "creationDate": 1,
-                    "lastLoginTime": 1,
-                    "friendsNumber": 1,
-                    "friends": 1,
-                    "block": 1,
+            };
 
-                    // Taking only specific fields from the document.
-                    "profileImage.image": 1,
-                    "profileImage.updateDate": 1
+            var joinFilter = {
+                $lookup: {
+                    from: profileCollectionName,
+                    localField: 'profile',
+                    foreignField: '_id',
+                    as: 'profileImage'
                 }
-            },
-            {
-                $sort: { "fullName": 1, "fullNameReversed": 1 }
             }
-        ];
 
-        DAL.Aggregate(usersCollectionName, aggregateArray, function (users) {
-            // In case of error.
-            if (!users) {
-                callback(null);
-            }
-            else {
+            var aggregateArray = [
+                {
+                    $project: {
+                        fullName: { $concat: ["$firstName", " ", "$lastName"] },
+                        fullNameReversed: { $concat: ["$lastName", " ", "$firstName"] },
+                        friendsNumber: { $size: "$friends" },
+                        "firstName": 1,
+                        "lastName": 1,
+                        "email": 1,
+                        "profile": 1,
+                        "creationDate": 1,
+                        "lastLoginTime": 1,
+                        "friends": 1,
+                        "block": 1
+                    }
+                },
+                usersFilter,
+                joinFilter,
+                {
+                    $project: {
+                        // Should be here and on $project above because how aggregate works.
+                        "firstName": 1,
+                        "lastName": 1,
+                        "fullName": 1,
+                        "fullNameReversed": 1,
+                        "email": 1,
+                        "creationDate": 1,
+                        "lastLoginTime": 1,
+                        "friendsNumber": 1,
+                        "friends": 1,
+                        "block": 1,
+
+                        // Taking only specific fields from the document.
+                        "profileImage.image": 1,
+                        "profileImage.updateDate": 1
+                    }
+                },
+                {
+                    $sort: { "fullName": 1, "fullNameReversed": 1 }
+                }
+            ];
+
+            DAL.Aggregate(usersCollectionName, aggregateArray).then((users) => {
                 users = users.sort((a, b) => {
                     var aIndex = a.fullName.indexOf(searchInput);
                     var bIndex = b.fullName.indexOf(searchInput);
@@ -100,136 +96,134 @@ module.exports = {
                     return user;
                 });
 
-                callback(users);
-            }
+                resolve(users);
+            }).catch(reject);
         });
     },
 
-    GetUserFriends: function (friendsIds, callback) {
-        friendsIds = friendsIds.map((id) => {
-            return DAL.GetObjectId(id);
-        });
+    GetUserFriends: (friendsIds) => {
+        return new Promise((resolve, reject) => {
+            friendsIds = friendsIds.map((id) => {
+                return DAL.GetObjectId(id);
+            });
 
-        var usersFilter = {
-            $match: { "_id": { $in: friendsIds } }
-        };
+            var usersFilter = {
+                $match: { "_id": { $in: friendsIds } }
+            };
 
-        var joinFilter = {
-            $lookup: {
-                from: profileCollectionName,
-                localField: 'profile',
-                foreignField: '_id',
-                as: 'profileImage'
-            }
-        }
-
-        var aggregateArray = [
-            usersFilter,
-            joinFilter,
-            {
-                $project: {
-                    fullName: { $concat: ["$firstName", " ", "$lastName"] },
-                    fullNameReversed: { $concat: ["$lastName", " ", "$firstName"] },
-                    "profileImage.image": 1
+            var joinFilter = {
+                $lookup: {
+                    from: profileCollectionName,
+                    localField: 'profile',
+                    foreignField: '_id',
+                    as: 'profileImage'
                 }
-            },
-            {
-                $sort: { "fullName": 1, "fullNameReversed": 1 }
             }
-        ];
 
-        DAL.Aggregate(usersCollectionName, aggregateArray, function (friends) {
-            // In case of error.
-            if (!friends) {
-                callback(null);
-            }
-            else {
+            var aggregateArray = [
+                usersFilter,
+                joinFilter,
+                {
+                    $project: {
+                        fullName: { $concat: ["$firstName", " ", "$lastName"] },
+                        fullNameReversed: { $concat: ["$lastName", " ", "$firstName"] },
+                        "profileImage.image": 1
+                    }
+                },
+                {
+                    $sort: { "fullName": 1, "fullNameReversed": 1 }
+                }
+            ];
+
+            DAL.Aggregate(usersCollectionName, aggregateArray).then((friends) => {
                 friends = friends.map(friend => {
                     friend.profileImage = (friend.profileImage.length != 0) ? friend.profileImage[0].image : null;
 
                     return friend;
                 });
 
-                callback(friends);
-            }
+                resolve(friends);
+            }).catch(reject);
         });
     },
 
-    UpdateUser: function (updateFields, callback) {
-        var userId = DAL.GetObjectId(updateFields._id);
-        delete updateFields._id;
+    UpdateUser: (updateFields) => {
+        return new Promise((resolve, reject) => {
+            var userId = DAL.GetObjectId(updateFields._id);
+            delete updateFields._id;
 
-        // Generate password hash and salt.
-        if (updateFields.password) {
-            updateFields.uid = general.GenerateId();
-            updateFields.salt = generator.GenerateCode(config.loginSecure.saltNumOfDigits);
-            updateFields.password = sha512(updateFields.password + updateFields.salt);
-        }
+            // Generate password hash and salt.
+            if (updateFields.password) {
+                updateFields.uid = general.GenerateId();
+                updateFields.salt = generator.GenerateCode(config.loginSecure.saltNumOfDigits);
+                updateFields.password = sha512(updateFields.password + updateFields.salt);
+            }
 
-        DAL.UpdateOne(usersCollectionName,
-            { "_id": userId },
-            { $set: updateFields },
-            function (result) {
-                // Change result to true in case the update succeeded.
-                result && (result = true);
-                callback(result);
-            });
-    },
-
-    BlockUser: function (blockObj, callback) {
-        var userId = DAL.GetObjectId(blockObj._id);
-        var unblockDate = null;
-
-        if (!blockObj.blockAmount.forever) {
-            // Calculate unblock date
-            unblockDate = new Date();
-            unblockDate.setDate(unblockDate.getDate() + (blockObj.blockAmount.days));
-            unblockDate.setDate(unblockDate.getDate() + (blockObj.blockAmount.weeks * 7));
-            unblockDate.setMonth(unblockDate.getMonth() + (blockObj.blockAmount.months));
-            unblockDate.setHours(0, 0, 0, 0);
-        }
-
-        var block = {
-            reason: blockObj.blockReason,
-            unblockDate
-        }
-
-        DAL.UpdateOne(usersCollectionName,
-            { "_id": userId },
-            { $set: { block } },
-            function (result) {
-                if (result) {
-                    mailer.SendMail(result.email,
-                        mailer.GetBlockMessageContent(result.firstName, block.reason, block.unblockDate));
-
+            DAL.UpdateOne(usersCollectionName,
+                { "_id": userId },
+                { $set: updateFields }).then((result) => {
                     // Change result to true in case the update succeeded.
-                    result = result.block;
-                }
-
-                callback(result);
-            });
+                    result && (result = true);
+                    resolve(result);
+                }).catch(reject);
+        });
     },
 
-    UnblockUser: function (userId, callback) {
-        DAL.UpdateOne(usersCollectionName,
-            { "_id": DAL.GetObjectId(userId) },
-            { $unset: { "block": 1 } },
-            function (result) {
-                // Change result to true in case the update succeeded.
-                result && (result = true);
-                callback(result);
-            });
+    BlockUser: (blockObj) => {
+        return new Promise((resolve, reject) => {
+            var userId = DAL.GetObjectId(blockObj._id);
+            var unblockDate = null;
+
+            if (!blockObj.blockAmount.forever) {
+                // Calculate unblock date
+                unblockDate = new Date();
+                unblockDate.setDate(unblockDate.getDate() + (blockObj.blockAmount.days));
+                unblockDate.setDate(unblockDate.getDate() + (blockObj.blockAmount.weeks * 7));
+                unblockDate.setMonth(unblockDate.getMonth() + (blockObj.blockAmount.months));
+                unblockDate.setHours(0, 0, 0, 0);
+            }
+
+            var block = {
+                reason: blockObj.blockReason,
+                unblockDate
+            }
+
+            DAL.UpdateOne(usersCollectionName,
+                { "_id": userId },
+                { $set: { block } }).then((result) => {
+                    if (result) {
+                        mailer.SendMail(result.email,
+                            mailer.GetBlockMessageContent(result.firstName, block.reason, block.unblockDate));
+
+                        // Change result to true in case the update succeeded.
+                        result = result.block;
+                    }
+
+                    resolve(result);
+                }).catch(reject);
+        });
     },
 
-    RemoveFriends: function (userId, friendId, callback) {
-        var notificationsUnsetJson = {};
-        notificationsUnsetJson["messagesNotifications." + userId] = 1;
-        notificationsUnsetJson["messagesNotifications." + friendId] = 1;
+    UnblockUser: (userId) => {
+        return new Promise((resolve, reject) => {
+            DAL.UpdateOne(usersCollectionName,
+                { "_id": DAL.GetObjectId(userId) },
+                { $unset: { "block": 1 } }).then((result) => {
+                    // Change result to true in case the update succeeded.
+                    result && (result = true);
+                    resolve(result);
+                }).catch(reject);
+        });
+    },
 
-        DAL.Delete(chatsCollectionName,
-            { "membersIds": { $all: [userId, friendId] } },
-            function (result) {
-                if (result != null) {
+    RemoveFriends: (userId, friendId) => {
+        return new Promise((resolve, reject) => {
+            var notificationsUnsetJson = {};
+            notificationsUnsetJson["messagesNotifications." + userId] = 1;
+            notificationsUnsetJson["messagesNotifications." + friendId] = 1;
+
+            DAL.Delete(chatsCollectionName,
+                { "membersIds": { $all: [userId, friendId] } }).then((result) => {
                     DAL.Update(usersCollectionName,
                         {
                             $or: [
@@ -240,80 +234,59 @@ module.exports = {
                         {
                             $pull: { "friends": { $in: [userId, friendId] } },
                             $unset: notificationsUnsetJson
-                        },
-                        function (result) {
+                        }).then((result) => {
                             // Change result to true in case the update succeeded.
                             result && (result = true);
-                            callback(result);
-                        });
-                }
-                else {
-                    callback(result);
-                }
-            });
+                            resolve(result);
+                        }).catch(reject);
+                }).catch(reject);
+        });
     },
 
-    DeleteUser: function (userId, callback) {
-        var userObjectId = DAL.GetObjectId(userId);
-        var notificationsUnsetJson = {};
-        notificationsUnsetJson["messagesNotifications." + userId] = 1;
+    DeleteUser: (userId) => {
+        return new Promise((resolve, reject) => {
+            var userObjectId = DAL.GetObjectId(userId);
+            var notificationsUnsetJson = {};
+            notificationsUnsetJson["messagesNotifications." + userId] = 1;
 
-        var deletedUserFriends;
+            var deletedUserFriends;
 
-        // Getting deleted user friends.
-        DAL.FindOneSpecific(usersCollectionName,
-            { "_id": userObjectId },
-            { "friends": 1 },
-            function (result) {
-                if (result) {
-                    deletedUserFriends = result.friends;
+            // Getting deleted user friends.
+            DAL.FindOneSpecific(usersCollectionName,
+                { "_id": userObjectId },
+                { "friends": 1 }).then((result) => {
+                    if (result) {
+                        deletedUserFriends = result.friends;
 
-                    // Remove all chats of the user.
-                    DAL.Delete(chatsCollectionName,
-                        { "membersIds": userId },
-                        function (result) {
-                            if (result != null) {
+                        // Remove all chats of the user.
+                        DAL.Delete(chatsCollectionName,
+                            { "membersIds": userId }).then((result) => {
+
                                 // Remove user from all users friends list and message notifications.
                                 DAL.Update(usersCollectionName,
-                                    {},
+                                    {}, // All users
                                     {
                                         $pull: { "friends": userId },
                                         $unset: notificationsUnsetJson
-                                    },
-                                    function (result) {
-                                        if (result != null) {
-                                            // Remove all user profiles images.
-                                            DAL.Delete(profileCollectionName,
-                                                { "userId": userObjectId },
-                                                function (result) {
-                                                    if (result != null) {
-                                                        // Remove the user object.
-                                                        DAL.DeleteOne(usersCollectionName,
-                                                            { "_id": userObjectId },
-                                                            function (result) {
-                                                                // Change result to true in case the delete succeeded.
-                                                                result && (result = deletedUserFriends);
-                                                                callback(result);
-                                                            });
-                                                    }
-                                                    else {
-                                                        callback(result);
-                                                    }
-                                                });
-                                        }
-                                        else {
-                                            callback(result);
-                                        }
-                                    });
-                            }
-                            else {
-                                callback(result);
-                            }
-                        });
-                }
-                else {
-                    callback(result);
-                }
-            });
+                                    }).then((result) => {
+                                        // Remove all user profiles images.
+                                        DAL.Delete(profileCollectionName,
+                                            { "userId": userObjectId }).then((result) => {
+                                                // Remove the user object.
+                                                DAL.DeleteOne(usersCollectionName,
+                                                    { "_id": userObjectId }).then((result) => {
+                                                        // Change result to true in case the delete succeeded.
+                                                        result && (result = deletedUserFriends);
+                                                        resolve(result);
+                                                    }).catch(reject);
+                                            }).catch(reject);
+                                    }).catch(reject);
+                            }).catch(reject);
+                    }
+                    else {
+                        resolve(result);
+                    }
+                }).catch(reject);
+        });
     }
 };

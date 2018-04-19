@@ -11,7 +11,7 @@ module.exports = function (app) {
 
         imageData.userId = req.user._id;
 
-        profileBL.SaveImage(imageData, function (result) {
+        profileBL.SaveImage(imageData).then((result) => {
             if (result) {
                 req.user.profile = result.profile.toString();
                 var token = general.GetTokenFromUserObject(req.user);
@@ -21,6 +21,8 @@ module.exports = function (app) {
             else {
                 res.send(result);
             }
+        }).catch((err) => {
+            res.status(500).end();
         });
     });
 
@@ -29,7 +31,7 @@ module.exports = function (app) {
         var userId = req.user._id;
         var profileId = req.user.profile;
 
-        profileBL.DeleteImage(userId, profileId, function (result) {
+        profileBL.DeleteImage(userId, profileId).then((result) => {
             if (result) {
                 delete req.user.profile;
                 var token = general.GetTokenFromUserObject(req.user);
@@ -39,6 +41,8 @@ module.exports = function (app) {
             else {
                 res.send(result);
             }
+        }).catch((err) => {
+            res.status(500).end();
         });
     });
 };

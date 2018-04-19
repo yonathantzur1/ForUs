@@ -9,8 +9,10 @@ module.exports = function (app) {
 
         profileId = req.user.profile;
 
-        profilePictureBL.GetUserProfileImage(profileId, function (result) {
+        profilePictureBL.GetUserProfileImage(profileId).then((result) => {
             res.send(result);
+        }).catch((err) => {
+            res.status(500).end();
         });
     });
 };

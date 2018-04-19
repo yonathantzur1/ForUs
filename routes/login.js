@@ -6,13 +6,13 @@ const validate = require('../modules/validate');
 const ExpressBrute = require('express-brute'),
     store = new ExpressBrute.MemoryStore();
 
-var failCallback = function (req, res, next, nextValidRequestDate) {
+var failCallback = (req, res, next, nextValidRequestDate) => {
     var minutesLockTime =
         Math.ceil((nextValidRequestDate.getTime() - (new Date()).getTime()) / (1000 * 60));
     res.send({ "result": { "lock": minutesLockTime } });
 };
 
-var handleStoreError = function (error) {
+var handleStoreError = (error) => {
     log.error(error);
 
     throw {
@@ -41,7 +41,7 @@ var globalBruteforce = new ExpressBrute(store, {
     handleStoreError: handleStoreError
 });
 
-module.exports = function (app) {
+module.exports = (app) => {
 
     prefix = "/login";
 
@@ -50,12 +50,12 @@ module.exports = function (app) {
         validate,
         globalBruteforce.prevent,
         userBruteforce.getMiddleware({
-            key: function (req, res, next) {
+            key: (req, res, next) => {
                 next(req.body.email);
             }
         }),
-        function (req, res) {
-            loginBL.GetUser(req.body, function (result) {
+        (req, res) => {
+            loginBL.GetUser(req.body).then((result) => {
                 if (result) {
                     // In case the user is blocked.
                     if (result.block) {
@@ -81,16 +81,21 @@ module.exports = function (app) {
                 else {
                     res.send({ result });
                 }
+            }).catch((err) => {
+                res.status(500).end();
             });
         });
 
     // Update user last login time in DB.
-    app.post(prefix + '/updateLastLogin', function (req, res) {
+    app.post(prefix + '/updateLastLogin', (req, res) => {
         var token = general.DecodeToken(general.GetTokenFromRequest(req));
 
         if (token) {
-            loginBL.UpdateLastLogin(token.user._id, function (result) { });
-            res.end();
+            loginBL.UpdateLastLogin(token.user._id).then(() => {
+                res.end();
+            }).catch((err) => {
+                res.status(500).end();
+            });
         }
         else {
             res.status(401).end();
@@ -98,7 +103,7 @@ module.exports = function (app) {
     });
 
     // Get user permissions from token.
-    app.get(prefix + '/getUserPermissions', function (req, res) {
+    app.get(prefix + '/getUserPermissions', (req, res) => {
         var token = general.DecodeToken(general.GetTokenFromRequest(req));
 
         if (token) {
@@ -112,22 +117,18 @@ module.exports = function (app) {
     // Add new user to the db and make sure the email is not already exists.
     app.post(prefix + '/register',
         validate,
-        function (req, res) {
+        (req, res) => {
             var email = { "email": req.body.email };
 
             // Check if the email is exists in the DB.
-            loginBL.CheckIfUserExists(email, function (result) {
-                // In case of error.
-                if (result == null) {
-                    res.send({ result });
-                }
+            loginBL.CheckIfUserExists(email).then((result) => {
                 // In case the user is already exists.
-                else if (result == true) {
+                if (result) {
                     res.send({ "result": false });
                 }
                 else {
                     // Add user to DB.
-                    loginBL.AddUser(req.body, function (result) {
+                    loginBL.AddUser(req.body).then((result) => {
                         // In case all register progress was succeeded.
                         if (result) {
                             // Sending a welcome mail to the new user.
@@ -139,6 +140,8 @@ module.exports = function (app) {
                         else {
                             res.send({ result });
                         }
+                    }).catch((err) => {
+                        res.status(500).end();
                     });
                 }
             });
@@ -147,10 +150,10 @@ module.exports = function (app) {
     // Sending to the user an email with code to reset his password.
     app.put(prefix + '/forgot',
         validate,
-        function (req, res) {
+        (req, res) => {
             var email = { "email": req.body.email };
 
-            loginBL.SetUserResetCode(email, function (result) {
+            loginBL.SetUserResetCode(email).then((result) => {
                 if (result) {
                     mailer.SendMail(req.body.email, mailer.GetForgotMailContent(result.firstName, result.resetCode.code));
                     res.send({ "result": true });
@@ -160,14 +163,16 @@ module.exports = function (app) {
                     // or null in case of error.
                     res.send({ result });
                 }
+            }).catch((err) => {
+                res.status(500).end();
             });
         });
 
     // Changing user password in db.
     app.put(prefix + '/resetPassword',
         validate,
-        function (req, res) {
-            loginBL.ResetPassword(req.body, function (result) {
+        (req, res) => {
+            loginBL.ResetPassword(req.body).then((result) => {
                 if (result && result.isChanged) {
                     var token = general.GetTokenFromUserObject(result.user);
                     general.SetTokenOnCookie(token, res);
@@ -177,11 +182,13 @@ module.exports = function (app) {
                 else {
                     res.send({ result });
                 }
+            }).catch((err) => {
+                res.status(500).end();
             });
         });
 
     // Delete token from cookies.
-    app.delete(prefix + '/deleteToken', function (req, res) {
+    app.delete(prefix + '/deleteToken', (req, res) => {
         general.DeleteTokenFromCookie(res);
         res.end();
     });

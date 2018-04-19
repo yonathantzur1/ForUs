@@ -27,11 +27,13 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
                 navbarBL.AddMessageNotification(msgData.from, msgData.to, msgData.id, senderName);
             }
 
-            chatBL.AddMessageToChat(msgData, function (result) {
+            chatBL.AddMessageToChat(msgData).then((result) => {
                 if (result) {
                     io.to(msgData.from).emit('ClientUpdateSendMessage', originalMsgData);
                     io.to(msgData.to).emit('ClientUpdateGetMessage', originalMsgData);
                 }
+            }).catch((err) => {
+                // TODO: error log.
             });
         }
     });

@@ -1,25 +1,27 @@
 const chatBL = require('../modules/BL/chatBL');
 const general = require('../modules/general');
 
-module.exports = function (app) {
+module.exports = (app) => {
     prefix = "/api/chat";
 
     // Return the first chat page messages.
-    app.post(prefix + '/getChat', function (req, res) {
-        chatBL.GetChat(req.body.membersIds, req.user, function (chat) {
+    app.post(prefix + '/getChat', (req, res) => {
+        chatBL.GetChat(req.body.membersIds, req.user).then((chat) => {
             res.send(chat);
+        }).catch((err) => {
+            res.status(500).end();
         })
     });
 
     // Return the requested chat page messages.
-    app.post(prefix + '/getChatPage', function (req, res) {
+    app.post(prefix + '/getChatPage', (req, res) => {
         chatBL.GetChatPage(req.body.membersIds,
             req.user,
             req.body.currMessagesNum,
-            req.body.totalMessagesNum,
-            function (chat) {
+            req.body.totalMessagesNum).then((chat) => {
                 res.send(chat);
+            }).catch((err) => {
+                res.status(500).end();
             })
     });
-
 };

@@ -34,13 +34,15 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
                 io.to(friendId).emit('GetFriendRequest', user._id, userFullName);
             }
             else {
-                loginBL.GetUserById(friendId, function (friendObj) {
+                loginBL.GetUserById(friendId).then((friendObj) => {
                     // In case this is the only friend request of the friend in the DB.
                     if (friendObj && friendObj.friendRequests.get.length == 1) {
                         mailer.SendMail(friendObj.email,
                             mailer.GetFriendRequestAlertContent(friendObj.firstName, userFullName));
                     }
-                })
+                }).catch((err) => {
+                    // TODO: error log.
+                });
             }
         }
     });
@@ -86,9 +88,11 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
             }
 
             if (user.profile) {
-                profilePictureBL.GetUserProfileImage(user.profile, function (result) {
+                profilePictureBL.GetUserProfileImage(user.profile).then((result) => {
                     clientFriendObj.profileImage = result.image;
                     io.to(friendId).emit('ClientFriendAddedUpdate', clientFriendObj);
+                }).catch((err) => {
+                    // TODO: error log.
                 });
             }
             else {
