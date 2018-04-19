@@ -7,7 +7,8 @@ const sha512 = require('js-sha512');
 
 const usersCollectionName = config.db.collections.users;
 const chatsCollectionName = config.db.collections.chats;
-const profileCollectionName = config.db.collections.profiles;
+const profilesCollectionName = config.db.collections.profiles;
+const permissionsCollectionName = config.db.collections.permissions;
 
 module.exports = {
     GetUserByName: (searchInput) => {
@@ -25,7 +26,7 @@ module.exports = {
 
             var joinFilter = {
                 $lookup: {
-                    from: profileCollectionName,
+                    from: profilesCollectionName,
                     localField: 'profile',
                     foreignField: '_id',
                     as: 'profileImage'
@@ -113,7 +114,7 @@ module.exports = {
 
             var joinFilter = {
                 $lookup: {
-                    from: profileCollectionName,
+                    from: profilesCollectionName,
                     localField: 'profile',
                     foreignField: '_id',
                     as: 'profileImage'
@@ -258,26 +259,30 @@ module.exports = {
                     if (result) {
                         deletedUserFriends = result.friends;
 
-                        // Remove all chats of the user.
-                        DAL.Delete(chatsCollectionName,
-                            { "membersIds": userId }).then((result) => {
-
-                                // Remove user from all users friends list and message notifications.
-                                DAL.Update(usersCollectionName,
-                                    {}, // All users
-                                    {
-                                        $pull: { "friends": userId },
-                                        $unset: notificationsUnsetJson
-                                    }).then((result) => {
-                                        // Remove all user profiles images.
-                                        DAL.Delete(profileCollectionName,
-                                            { "userId": userObjectId }).then((result) => {
-                                                // Remove the user object.
-                                                DAL.DeleteOne(usersCollectionName,
-                                                    { "_id": userObjectId }).then((result) => {
-                                                        // Change result to true in case the delete succeeded.
-                                                        result && (result = deletedUserFriends);
-                                                        resolve(result);
+                        // Remove all permissions of the user.
+                        DAL.Update(permissionsCollectionName,
+                            {}, // All permissions
+                            { $pull: { "members": userObjectId } }).then((result) => {
+                                // Remove all chats of the user.
+                                DAL.Delete(chatsCollectionName,
+                                    { "membersIds": userId }).then((result) => {
+                                        // Remove user from all users friends list and message notifications.
+                                        DAL.Update(usersCollectionName,
+                                            {}, // All users
+                                            {
+                                                $pull: { "friends": userId },
+                                                $unset: notificationsUnsetJson
+                                            }).then((result) => {
+                                                // Remove all user profiles images.
+                                                DAL.Delete(profilesCollectionName,
+                                                    { "userId": userObjectId }).then((result) => {
+                                                        // Remove the user object.
+                                                        DAL.DeleteOne(usersCollectionName,
+                                                            { "_id": userObjectId }).then((result) => {
+                                                                // Change result to true in case the delete succeeded.
+                                                                result && (result = deletedUserFriends);
+                                                                resolve(result);
+                                                            }).catch(reject);
                                                     }).catch(reject);
                                             }).catch(reject);
                                     }).catch(reject);
