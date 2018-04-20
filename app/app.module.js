@@ -14,9 +14,10 @@ var http_1 = require("@angular/common/http");
 var sort_pipe_1 = require("./pipes/sort/sort.pipe");
 // Components import
 var app_component_1 = require("./components/app/app.component");
+var loaderSpinner_component_1 = require("./components/loaders/loaderSpinner/loaderSpinner.component");
+var loaderDots_component_1 = require("./components/loaders/loaderDots/loaderDots.component");
 var alert_component_1 = require("./components/alert/alert.component");
 var login_component_1 = require("./components/login/login.component");
-var loaderSpinner_component_1 = require("./components/loaderSpinner/loaderSpinner.component");
 var home_component_1 = require("./components/home/home.component");
 var navbar_component_1 = require("./components/navbar/navbar.component");
 var dropMenu_component_1 = require("./components/dropMenu/dropMenu.component");
@@ -47,9 +48,10 @@ var AppModule = /** @class */ (function () {
             declarations: [
                 // ---------Components---------
                 app_component_1.AppComponent,
+                loaderSpinner_component_1.LoaderSpinnerComponent,
+                loaderDots_component_1.LoaderDotsComponent,
                 alert_component_1.AlertComponent,
                 login_component_1.LoginComponent,
-                loaderSpinner_component_1.LoaderSpinnerComponent,
                 home_component_1.HomeComponent,
                 pageNotFound_component_1.PageNotFoundComponent,
                 navbar_component_1.NavbarComponent,

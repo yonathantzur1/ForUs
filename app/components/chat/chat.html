@@ -71,11 +71,7 @@
             <div id="chat-body-sector" class="chat-body-sector">
                 <div class="top-space-line"></div>
                 <span *ngIf="isMessagesLoading" class="chat-loading-container">
-                    <p class="load-chat-icon">
-                        <i class="fa fa-circle" aria-hidden="true"></i>
-                        <i class="fa fa-circle" aria-hidden="true"></i>
-                        <i class="fa fa-circle" aria-hidden="true"></i>
-                    </p>
+                    <loaderDots></loaderDots>
                 </span>
                 <div *ngIf="isChatLoadingError" class="loading-error-messages">
                     <span>אופס... משהו השתבש בטעינה</span>
