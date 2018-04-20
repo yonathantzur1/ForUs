@@ -51,7 +51,7 @@ module.exports = {
     GetFriendRequestAlertContent: function (name, friendName) {
         var content = {
             title: "בקשת חברות",
-            text: "שלום " + name + "," + "<br>" + "בקשת חברות חדשה הגיעה מ" + friendName + " :)<br>" + config.addresses.site
+            text: "שלום " + name + "," + "<br>" + "בקשת חברות חדשה הגיעה מ" + friendName + ".<br>" + config.addresses.site
         };
 
         return content;
@@ -65,12 +65,22 @@ module.exports = {
         return content;
     },
     GetBlockMessageContent: function (name, reason, date) {
-        date = date ? "עד לתאריך " + ConvertDateFormat(date) : "לתקופה בלתי מוגבלת";
+        var dateString;
+        var date;
+
+        if (date) {
+            dateString = "עד לתאריך: ";
+            date = ConvertDateFormat(date);
+        }
+        else {
+            dateString = "לתקופה בלתי מוגבלת";
+            date = "";
+        }
 
         var content = {
             title: "חסימת משתמש",
-            text: "שלום " + name + ", " + "<br>" + "חשבונך נחסם לשימוש.<br>" +
-                "סיבת החסימה: " + reason + "<br><b>" + date + "</b><br>"
+            text: "שלום " + name + ", " + "<br>" + "חשבונך באתר נחסם לשימוש.<br><br>" +
+                "סיבת החסימה: " + reason + "<br>" + dateString + + "<b>" + date + "</b>"
         };
 
         return content;

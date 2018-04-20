@@ -5,7 +5,20 @@ a, a:hover, a:focus {
 }
 
 .form-control, .form-group .form-control {
-    background-image: linear-gradient(#7882b6, #7882b6), linear-gradient(#D2D2D2, #D2D2D2) !important;
+    background-image: linear-gradient(#7882b6, #7882b6), linear-gradient(#bdbdbd, #bdbdbd) !important;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #9d9d9d !important;
+    opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #9d9d9d !important;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: #9d9d9d !important;
 }
 
 .btn:not(.btn-raised).btn-primary, .input-group-btn .btn:not(.btn-raised).btn-primary {
@@ -27,6 +40,7 @@ a, a:hover, a:focus {
     /* Define css global variables */
     --main-text-color: #4b4b4b;
     --main-font: Rubik;
+    --small-size: 800px;
 }
 
 .main-container {

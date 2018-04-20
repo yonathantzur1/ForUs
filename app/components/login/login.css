@@ -22,15 +22,15 @@
 }
 
 #login .login-head-icon {
-    height: 80px;
-    width: 80px;
-    margin-top: -1%;
+    height: 70px;
+    width: 70px;
+    margin-top: -5px;
 }
 
 #login .login-label {
     font-family: Mona Shark;
     color: #da7b00;
-    font-size: 70px;
+    font-size: 65px;
     top: 20px;
     position: relative;
 }
@@ -101,8 +101,9 @@
 #login .microtext {
     font-size: 11px;
     position: absolute;
-    color: red !important;
+    color: #e53935 !important;
     line-height: 12px;
+    font-family: var(--main-font);
 }
 
 #login .microtext-align {

@@ -31,7 +31,7 @@
     "express-brute": "^1.0.1",
     "font-awesome": "^4.7.0",
     "hover.css": "^2.3.1",
-    "joi": "^13.1.2",
+    "joi": "^13.2.0",
     "jquery": "^3.3.1",
     "js-sha512": "^0.7.1",
     "jsonwebtoken": "^8.2.1",
@@ -46,10 +46,10 @@
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
-    "@types/node": "^9.6.5",
+    "@types/node": "^9.6.6",
     "concurrently": "^3.5.1",
     "nodemon": "^1.17.3",
-    "typescript": "~2.8.1"
+    "typescript": "~2.8.3"
   },
   "repository": {}
 }
