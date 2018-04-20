@@ -59,8 +59,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     canvasTopIcons: Array<canvasTopIcon>;
     undoArray: Array<string>;
 
-    canvasEvents: any;
-    documentEvents: any;
+    canvasEvents: any;    
     CanvasResizeFunc: any;
 
     subscribeObj: any;
@@ -228,30 +227,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             }
         };
 
-        self.documentEvents = {
-            "touchstart": function (e: any) {
-                if (e.target == self.canvas) {
-                    e.preventDefault();
-                }
-            },
-            "touchend": function (e: any) {
-                if (e.target == self.canvas) {
-                    e.preventDefault();
-                }
-            },
-            "touchmove": function (e: any) {
-                if (e.target == self.canvas) {
-                    e.preventDefault();
-                }
-            }
-        };
-
         Object.keys(self.canvasEvents).forEach(key => {
             self.canvas.addEventListener(key, self.canvasEvents[key], false);
-        });
-
-        Object.keys(self.documentEvents).forEach(key => {
-            document.body.addEventListener(key, self.documentEvents[key], false);
         });
 
         $("#canvas-top-bar-sector").bind('touchstart', preventZoom);
@@ -301,10 +278,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
         Object.keys(this.canvasEvents).forEach(key => {
             self.canvas.removeEventListener(key, self.canvasEvents[key], false);
-        });
-
-        Object.keys(this.documentEvents).forEach(key => {
-            document.body.removeEventListener(key, self.documentEvents[key], false);
         });
 
         $("#canvas-top-bar-sector").unbind('touchstart', preventZoom);

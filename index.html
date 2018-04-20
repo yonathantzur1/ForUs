@@ -119,7 +119,9 @@
             });
         });
 
-        System.import('./app/main.js').catch(function (err) { console.error(err); });
+        $(window).bind("load", function () {
+            System.import('./app/main.js').catch(function (err) { console.error(err); });
+        });
     </script>
 </head>
 

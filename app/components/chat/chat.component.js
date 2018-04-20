@@ -164,28 +164,8 @@ var ChatComponent = /** @class */ (function () {
                 self.canvas.dispatchEvent(mouseEvent);
             }
         };
-        self.documentEvents = {
-            "touchstart": function (e) {
-                if (e.target == self.canvas) {
-                    e.preventDefault();
-                }
-            },
-            "touchend": function (e) {
-                if (e.target == self.canvas) {
-                    e.preventDefault();
-                }
-            },
-            "touchmove": function (e) {
-                if (e.target == self.canvas) {
-                    e.preventDefault();
-                }
-            }
-        };
         Object.keys(self.canvasEvents).forEach(function (key) {
             self.canvas.addEventListener(key, self.canvasEvents[key], false);
-        });
-        Object.keys(self.documentEvents).forEach(function (key) {
-            document.body.addEventListener(key, self.documentEvents[key], false);
         });
         $("#canvas-top-bar-sector").bind('touchstart', preventZoom);
         $("#canvas-bar-sector").bind('touchstart', preventZoom);
@@ -223,9 +203,6 @@ var ChatComponent = /** @class */ (function () {
         self.subscribeObj.unsubscribe();
         Object.keys(this.canvasEvents).forEach(function (key) {
             self.canvas.removeEventListener(key, self.canvasEvents[key], false);
-        });
-        Object.keys(this.documentEvents).forEach(function (key) {
-            document.body.removeEventListener(key, self.documentEvents[key], false);
         });
         $("#canvas-top-bar-sector").unbind('touchstart', preventZoom);
         $("#canvas-bar-sector").unbind('touchstart', preventZoom);
