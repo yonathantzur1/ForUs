@@ -80,7 +80,7 @@ module.exports = {
         var content = {
             title: "חסימת משתמש",
             text: "שלום " + name + ", " + "<br>" + "חשבונך באתר נחסם לשימוש.<br><br>" +
-                "סיבת החסימה: " + reason + "<br>" + dateString + + "<b>" + date + "</b>"
+                "סיבת החסימה: " + reason + "<br>" + dateString + "<b>" + date + "</b>"
         };
 
         return content;

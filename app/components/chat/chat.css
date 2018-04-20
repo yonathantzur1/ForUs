@@ -133,8 +133,7 @@
     border-radius: 0;
 }
 
-#chat .send-msg-btn-sector {
-    width: 30px;
+#chat .send-msg-btn-sector {    
     height: 100%;
     display: inline-block;
     cursor: pointer;
