@@ -19,13 +19,12 @@ var ChatsWindowComponent = /** @class */ (function () {
         this.chats = [];
     }
     ChatsWindowComponent.prototype.ngOnInit = function () {
-        var self = this;
         this.isChatsLoading = true;
         this.LoadChatsObjects();
-        self.globalService.SocketOn('ClientUpdateSendMessage', function (msgData) {
+        this.globalService.SocketOn('ClientUpdateSendMessage', function (msgData) {
             var isChatUpdated = false;
-            for (var i = 0; i < self.chats.length; i++) {
-                var chat = self.chats[i];
+            for (var i = 0; i < this.chats.length; i++) {
+                var chat = this.chats[i];
                 if (chat.friendId == msgData.to) {
                     chat.lastMessage.text = msgData.isImage ? "" : msgData.text;
                     chat.lastMessage.time = (new Date()).toISOString();
@@ -35,13 +34,13 @@ var ChatsWindowComponent = /** @class */ (function () {
                 }
             }
             if (!isChatUpdated) {
-                self.LoadChatsObjects();
+                this.LoadChatsObjects();
             }
-        });
-        self.globalService.SocketOn('ClientUpdateGetMessage', function (msgData) {
+        }, this);
+        this.globalService.SocketOn('ClientUpdateGetMessage', function (msgData) {
             var isChatUpdated = false;
-            for (var i = 0; i < self.chats.length; i++) {
-                var chat = self.chats[i];
+            for (var i = 0; i < this.chats.length; i++) {
+                var chat = this.chats[i];
                 if (chat.friendId == msgData.from) {
                     chat.lastMessage.text = msgData.isImage ? "" : msgData.text;
                     chat.lastMessage.time = (new Date()).toISOString();
@@ -51,19 +50,18 @@ var ChatsWindowComponent = /** @class */ (function () {
                 }
             }
             if (!isChatUpdated) {
-                self.LoadChatsObjects();
+                this.LoadChatsObjects();
             }
-        });
-        self.globalService.SocketOn('ClientRemoveFriendUser', function (friendId) {
-            self.RemoveFriendChat(friendId);
-        });
+        }, this);
+        this.globalService.SocketOn('ClientRemoveFriendUser', function (friendId) {
+            this.RemoveFriendChat(friendId);
+        }, this);
     };
     ChatsWindowComponent.prototype.LoadChatsObjects = function () {
-        var self = this;
-        self.chatsWindowService.GetAllChats().then(function (chats) {
-            self.chats = chats;
-            self.isChatsLoading = false;
-        });
+        this.chatsWindowService.GetAllChats().then((function (chats) {
+            this.chats = chats;
+            this.isChatsLoading = false;
+        }).bind(this));
     };
     ChatsWindowComponent.prototype.GetUnreadMessagesNumber = function () {
         var _this = this;

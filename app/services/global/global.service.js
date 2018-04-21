@@ -72,9 +72,14 @@ var GlobalService = /** @class */ (function (_super) {
             self.socket.on(name, self.socketOnDictionary[name]);
         });
     };
-    GlobalService.prototype.SocketOn = function (name, func) {
+    GlobalService.prototype.SocketOn = function (name, func, self) {
         this.socketOnDictionary[name] = func;
-        this.socket.on(name, func);
+        if (self) {
+            this.socket.on(name, func.bind(self));
+        }
+        else {
+            this.socket.on(name, func);
+        }
     };
     GlobalService.prototype.Logout = function () {
         deleteCookieByName("uid");

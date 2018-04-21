@@ -40,7 +40,7 @@ a, a:hover, a:focus {
     /* Define css global variables */
     --main-text-color: #4b4b4b;
     --main-font: Rubik;
-    --small-size: 800px;
+    --navbar-animation-delay: 0.35s;
 }
 
 .main-container {
