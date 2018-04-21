@@ -68,7 +68,7 @@
 }
 
 #chatsWindow .chat-last-text {
-    font-size: 12px;
+    font-size: 13px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;

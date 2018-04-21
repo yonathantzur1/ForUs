@@ -74,8 +74,9 @@ require('./routes/permissionsCard')(app);
 // Import socket.io mudule
 var connectedUsers = require('./modules/sockets/socket')(io);
 
-// Import server jobs.
+// Import server jobs and scripts.
 require('./modules/schedules')(connectedUsers);
+require('./modules/scripts')();
 
 // Redirect angular requests back to client side.
 app.get('**', (req, res) => {

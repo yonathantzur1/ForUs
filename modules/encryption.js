@@ -5,9 +5,9 @@ const algorithm = config.encrypt.algorithm;
 const password = config.encrypt.secret;
 
 module.exports = {
-    encrypt: function (text) {
+    encrypt: function (text, key) {
         try {
-            var cipher = crypto.createCipher(algorithm, password);
+            var cipher = crypto.createCipher(algorithm, key || password);
             var crypted = cipher.update(text, 'utf8', 'hex');
             crypted += cipher.final('hex');
 
@@ -19,9 +19,9 @@ module.exports = {
 
     },
 
-    decrypt: function (text) {
+    decrypt: function (text, key) {
         try {
-            var decipher = crypto.createDecipher(algorithm, password);
+            var decipher = crypto.createDecipher(algorithm, key || password);
             var dec = decipher.update(text, 'hex', 'utf8');
             dec += decipher.final('utf8');
 
