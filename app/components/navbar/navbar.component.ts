@@ -609,7 +609,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    OpenChat(friend: Friend) {
+    OpenChat(friend: any) {
         this.HideSidenav();
 
         if (!this.chatData.isOpen || !this.chatData.friend || this.chatData.friend._id != friend._id) {

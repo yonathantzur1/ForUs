@@ -2,6 +2,8 @@ const DAL = require('../DAL.js');
 const config = require('../config.js');
 const encryption = require('../encryption.js');
 
+const navbarBL = require('./navbarBL');
+
 const collectionName = "Chats";
 
 module.exports = {
@@ -16,16 +18,32 @@ module.exports = {
             DAL.FindSpecific(collectionName, queryObj, { "membersIds": 1, "lastMessage": 1 }, sortObj)
                 .then((chats) => {
                     if (chats) {
+                        var indexChatPositionByFriendId = {};
+                        var chatsFriendsIds = [];
+
                         // Decode last message text for all chats.
-                        chats.forEach((chat) => {
+                        chats.forEach((chat, index) => {
                             chat.lastMessage.text = encryption.decrypt(chat.lastMessage.text);
-                            chat.friendId = chat.membersIds.find((id) => {
+
+                            var friendId = chat.membersIds.find((id) => {
                                 return (id != userId);
                             });
+                            
+                            indexChatPositionByFriendId[friendId] = index;
+                            chatsFriendsIds.push(friendId);
                         });
-                    }
 
-                    resolve(chats);
+                        navbarBL.GetFriends(chatsFriendsIds).then(friends => {
+                            friends.forEach(friend => {
+                                chats[indexChatPositionByFriendId[friend._id.toString()]].friend = friend;
+                            });
+
+                            resolve(chats);
+                        }).catch(reject);
+                    }
+                    else {
+                        resolve(chats);
+                    }
                 }).catch(reject);
         });
     }

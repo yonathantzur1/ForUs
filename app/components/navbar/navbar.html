@@ -113,7 +113,7 @@
 </div>
 
 <profile *ngIf="isOpenProfileEditWindow"></profile>
-<chatsWindow [hidden]="!isChatsWindowOpen" [isFriendsLoading]="isFriendsLoading" [OpenChat]="OpenChat.bind(this)" [friends]="friends"
+<chatsWindow [hidden]="!isChatsWindowOpen" [OpenChat]="OpenChat.bind(this)"
   [messagesNotifications]="GetToolbarItem('messages').content"></chatsWindow>
 <friendRequestsWindow [hidden]="!isFriendRequestsWindowOpen" [isFriendRequestsWindowOpen]="isFriendRequestsWindowOpen" [AddFriend]="AddFriend.bind(this)"
   [IgnoreFriendRequest]="IgnoreFriendRequest.bind(this)" [friendRequests]="GetToolbarItem('friendRequests').content.get" [confirmedReuests]="GetToolbarItem('friendRequests').content.accept"></friendRequestsWindow>

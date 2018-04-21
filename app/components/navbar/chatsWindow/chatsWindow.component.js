@@ -105,18 +105,21 @@ var ChatsWindowComponent = /** @class */ (function () {
         }
         chat.timeString = { "dateDetailsString": GetDateDetailsString(localDate, currDate, true), "dateTimeString": dateTimeString };
     };
-    ChatsWindowComponent.prototype.GetFriend = function (friendId) {
-        return (this.friends.find(function (friend) {
-            return (friend._id == friendId);
-        }));
+    ChatsWindowComponent.prototype.GetFriendName = function (friend) {
+        if (!friend) {
+            return null;
+        }
+        else {
+            return (friend.firstName + " " + friend.lastName);
+        }
     };
-    ChatsWindowComponent.prototype.GetFriendName = function (friendId) {
-        var friendObj = this.GetFriend(friendId);
-        return friendObj ? (friendObj.firstName + " " + friendObj.lastName) : "";
-    };
-    ChatsWindowComponent.prototype.GetFriendProfile = function (friendId) {
-        var friendObj = this.GetFriend(friendId);
-        return friendObj ? friendObj.profileImage : null;
+    ChatsWindowComponent.prototype.GetFriendProfile = function (friend) {
+        if (!friend) {
+            return null;
+        }
+        else {
+            return (friend.profileImage);
+        }
     };
     ChatsWindowComponent.prototype.SortByDate = function (chats) {
         chats = chats.sort(function (a, b) {
@@ -142,14 +145,6 @@ var ChatsWindowComponent = /** @class */ (function () {
             }
         }
     };
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Boolean)
-    ], ChatsWindowComponent.prototype, "isFriendsLoading", void 0);
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Array)
-    ], ChatsWindowComponent.prototype, "friends", void 0);
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object)

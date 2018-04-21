@@ -12,17 +12,16 @@ declare function GetDateDetailsString(localDate: Date, currDate: Date, isShortMo
 })
 
 export class ChatsWindowComponent implements OnInit {
-    @Input() isFriendsLoading: boolean;
-    @Input() friends: Array<any>;
     @Input() messagesNotifications: Object;
     @Input() OpenChat: Function;
 
+    isLoading: boolean;
     chats: any = [];
     isChatsLoading: boolean;
 
     constructor(private chatsWindowService: ChatsWindowService, private globalService: GlobalService) { }
 
-    ngOnInit() {    
+    ngOnInit() {
         this.isChatsLoading = true;
         this.LoadChatsObjects();
 
@@ -133,22 +132,22 @@ export class ChatsWindowComponent implements OnInit {
         chat.timeString = { "dateDetailsString": GetDateDetailsString(localDate, currDate, true), "dateTimeString": dateTimeString };
     }
 
-    GetFriend(friendId: string) {
-        return (this.friends.find(function (friend: any) {
-            return (friend._id == friendId);
-        }));
+    GetFriendName(friend: any) {
+        if (!friend) {
+            return null;
+        }
+        else {
+            return (friend.firstName + " " + friend.lastName);
+        }
     }
 
-    GetFriendName(friendId: string) {
-        var friendObj = this.GetFriend(friendId);
-
-        return friendObj ? (friendObj.firstName + " " + friendObj.lastName) : "";
-    }
-
-    GetFriendProfile(friendId: string) {
-        var friendObj = this.GetFriend(friendId);
-
-        return friendObj ? friendObj.profileImage : null;
+    GetFriendProfile(friend: any) {
+        if (!friend) {
+            return null;
+        }
+        else {
+            return (friend.profileImage);
+        }
     }
 
     SortByDate(chats: any) {

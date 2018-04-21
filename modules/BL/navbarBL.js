@@ -38,12 +38,7 @@ var self = module.exports = {
                 var friendsFiledsWithNoProfile = { "firstName": true, "lastName": true };
 
                 DAL.FindSpecific(usersCollectionName, friendsFilterWithNoProfile, friendsFiledsWithNoProfile).then((friendsWithNoProfile) => {
-                    if (!friendsWithNoProfile) {
-                        resolve(null);
-                    }
-                    else {
-                        resolve(friendsWithProfile.concat(friendsWithNoProfile));
-                    }
+                    resolve(friendsWithProfile.concat(friendsWithNoProfile));
                 }).catch(reject);
             }).catch(reject);
         });
