@@ -483,6 +483,26 @@ var NavbarComponent = /** @class */ (function () {
             });
         }
     };
+    NavbarComponent.prototype.GetSidebarFriends = function (friendSearchInput) {
+        return this.GetFilteredFriends(friendSearchInput).sort(function (a, b) {
+            if (a.isOnline && !b.isOnline) {
+                return -1;
+            }
+            else if (b.isOnline && !a.isOnline) {
+                return 1;
+            }
+            else {
+                var aName = a.firstName + " " + a.lastName;
+                var bName = b.firstName + " " + b.lastName;
+                if (aName > bName) {
+                    return 1;
+                }
+                else {
+                    return -1;
+                }
+            }
+        });
+    };
     NavbarComponent.prototype.GetFriendUnreadMessagesNumberText = function (friendId) {
         var friendNotificationsMessages = this.GetToolbarItem("messages").content[friendId];
         if (friendNotificationsMessages) {

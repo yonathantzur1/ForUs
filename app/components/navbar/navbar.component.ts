@@ -598,6 +598,28 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
+    GetSidebarFriends(friendSearchInput: string): Array<any> {
+        return this.GetFilteredFriends(friendSearchInput).sort(function (a, b) {
+            if (a.isOnline && !b.isOnline) {
+                return -1;
+            }
+            else if (b.isOnline && !a.isOnline) {
+                return 1;
+            }
+            else {
+                var aName = a.firstName + " " + a.lastName;
+                var bName = b.firstName + " " + b.lastName;
+
+                if (aName > bName) {
+                    return 1;
+                }
+                else {
+                    return -1;
+                }
+            }
+        });
+    }
+
     GetFriendUnreadMessagesNumberText(friendId: string) {
         var friendNotificationsMessages = this.GetToolbarItem("messages").content[friendId];
 
