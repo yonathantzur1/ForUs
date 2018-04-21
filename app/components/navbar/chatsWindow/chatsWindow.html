@@ -1,12 +1,12 @@
 <div id="chatsWindow">
     <span class="glyphicon glyphicon-triangle-top window-top-arrow"></span>
     <div class="chatsWindow-container">
-        <div *ngIf="!isChatsLoading && !isFriendsLoading" class="top-line">
+        <div *ngIf="!isChatsLoading && !isLoading" class="top-line">
             <span>{{GetUnreadMessagesNumberText()}}</span>
         </div>
         <div class="body-container">
-            <loaderSpinner *ngIf="isChatsLoading || isFriendsLoading" id="chats-loader" class="chats-loader"></loaderSpinner>
-            <div *ngIf="!isChatsLoading && !isFriendsLoading">
+            <loaderSpinner *ngIf="isChatsLoading || isLoading" id="chats-loader" class="chats-loader"></loaderSpinner>
+            <div *ngIf="!isChatsLoading && !isLoading">
                 <div class="chat-container" *ngFor="let chat of SortByDate(chats)" (click)="OpenChat(chat.friend)">
                     <span *ngIf="messagesNotifications[chat.friendId]" class="notificaiton-sign"></span>
                     <img class="chat-image" [src]="GetFriendProfile(chat.friend) || globalService.defaultProfileImage">

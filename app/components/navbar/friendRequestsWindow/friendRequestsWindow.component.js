@@ -20,7 +20,6 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         this.globalService = globalService;
         this.friendRequestsObjects = [];
         this.friendConfirmObjects = [];
-        this.isFriendRequestsLoading = false;
         this.isFirstClosing = true;
         this.isFirstOpenning = true;
     }
@@ -109,8 +108,9 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
     };
     FriendRequestsWindowComponent.prototype.FriendAccept = function (requestId) {
         this.isFriendRequestsLoading = true;
-        this.AddFriend(requestId, function (res) {
-            this.isFriendRequestsLoading = false;
+        var self = this;
+        self.AddFriend(requestId, function (res) {
+            self.isFriendRequestsLoading = false;
         });
     };
     FriendRequestsWindowComponent.prototype.FriendIgnore = function (requestId) {

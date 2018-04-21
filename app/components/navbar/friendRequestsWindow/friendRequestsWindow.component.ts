@@ -19,9 +19,9 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     // IDs of friends that confirmed the friend request of the user.
     @Input() confirmedReuests: Array<string>;
 
+    isFriendRequestsLoading: boolean;
     friendRequestsObjects: Array<any> = [];
-    friendConfirmObjects: Array<any> = [];
-    isFriendRequestsLoading: boolean = false;
+    friendConfirmObjects: Array<any> = [];    
     isFirstClosing: boolean = true;
     isFirstOpenning: boolean = true;
 
@@ -127,8 +127,10 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     FriendAccept(requestId: string) {
         this.isFriendRequestsLoading = true;
 
-        this.AddFriend(requestId, function (res: any) {
-            this.isFriendRequestsLoading = false;
+        var self = this;
+
+        self.AddFriend(requestId, function (res: any) {
+            self.isFriendRequestsLoading = false;
         });
     }
 

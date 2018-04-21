@@ -75,15 +75,9 @@ export class GlobalService extends LoginService {
         });
     }
 
-    SocketOn(name: string, func: Function, self?: any) {
+    SocketOn(name: string, func: Function) {
         this.socketOnDictionary[name] = func;
-
-        if (self) {
-            this.socket.on(name, func.bind(self));
-        }
-        else {
-            this.socket.on(name, func);
-        }
+        this.socket.on(name, func);
     }
 
     Logout() {

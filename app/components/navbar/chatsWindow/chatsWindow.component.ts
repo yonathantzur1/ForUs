@@ -25,11 +25,13 @@ export class ChatsWindowComponent implements OnInit {
         this.isChatsLoading = true;
         this.LoadChatsObjects();
 
-        this.globalService.SocketOn('ClientUpdateSendMessage', function (msgData: any) {
+        var self = this;
+
+        self.globalService.SocketOn('ClientUpdateSendMessage', function (msgData: any) {
             var isChatUpdated = false;
 
-            for (var i = 0; i < this.chats.length; i++) {
-                var chat = this.chats[i];
+            for (var i = 0; i < self.chats.length; i++) {
+                var chat = self.chats[i];
 
                 if (chat.friendId == msgData.to) {
                     chat.lastMessage.text = msgData.isImage ? "" : msgData.text;
@@ -42,15 +44,15 @@ export class ChatsWindowComponent implements OnInit {
             }
 
             if (!isChatUpdated) {
-                this.LoadChatsObjects();
+                self.LoadChatsObjects();
             }
-        }, this);
+        });
 
-        this.globalService.SocketOn('ClientUpdateGetMessage', function (msgData: any) {
+        self.globalService.SocketOn('ClientUpdateGetMessage', function (msgData: any) {
             var isChatUpdated = false;
 
-            for (var i = 0; i < this.chats.length; i++) {
-                var chat = this.chats[i];
+            for (var i = 0; i < self.chats.length; i++) {
+                var chat = self.chats[i];
 
                 if (chat.friendId == msgData.from) {
                     chat.lastMessage.text = msgData.isImage ? "" : msgData.text;
@@ -63,17 +65,20 @@ export class ChatsWindowComponent implements OnInit {
             }
 
             if (!isChatUpdated) {
-                this.LoadChatsObjects();
+                self.LoadChatsObjects();
             }
-        }, this);
+        });
 
-        this.globalService.SocketOn('ClientRemoveFriendUser', function (friendId: string) {
-            this.RemoveFriendChat(friendId);
-        }, this);
+        self.globalService.SocketOn('ClientRemoveFriendUser', function (friendId: string) {
+            self.RemoveFriendChat(friendId);
+        });
     }
 
     LoadChatsObjects() {
+        this.isLoading = true;
+
         this.chatsWindowService.GetAllChats().then((function (chats: any) {
+            this.isLoading = false;
             this.chats = chats;
             this.isChatsLoading = false;
         }).bind(this));

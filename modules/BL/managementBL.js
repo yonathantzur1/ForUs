@@ -233,7 +233,12 @@ module.exports = {
                             ]
                         },
                         {
-                            $pull: { "friends": { $in: [userId, friendId] } },
+                            $pull: {
+                                "friends": { $in: [userId, friendId] },
+                                "friendRequests.get": { $in: [userId, friendId] },
+                                "friendRequests.send": { $in: [userId, friendId] },
+                                "friendRequests.accept": { $in: [userId, friendId] }
+                            },
                             $unset: notificationsUnsetJson
                         }).then((result) => {
                             // Change result to true in case the update succeeded.
@@ -270,7 +275,12 @@ module.exports = {
                                         DAL.Update(usersCollectionName,
                                             {}, // All users
                                             {
-                                                $pull: { "friends": userId },
+                                                $pull: {
+                                                    "friends": userId,
+                                                    "friendRequests.get": userId,
+                                                    "friendRequests.send": userId,
+                                                    "friendRequests.accept": userId
+                                                },
                                                 $unset: notificationsUnsetJson
                                             }).then((result) => {
                                                 // Remove all user profiles images.
