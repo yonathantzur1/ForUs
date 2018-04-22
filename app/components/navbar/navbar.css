@@ -418,7 +418,7 @@
 }
 
 #navbar #friend-search-container ::-webkit-input-placeholder {
-    color: #DBD8D8;
+    color: #DBD8D8 !important;
     font-size: 12px;
 }
 
