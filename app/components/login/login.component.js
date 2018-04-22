@@ -59,7 +59,15 @@ var LoginComponent = /** @class */ (function () {
         this.isLoading = false;
     }
     LoginComponent.prototype.ngOnInit = function () {
-        this.globalService.Logout();
+        var _this = this;
+        this.authService.IsUserOnSession().then(function (result) {
+            if (result) {
+                _this.router.navigateByUrl('');
+            }
+            else {
+                _this.globalService.Logout();
+            }
+        });
     };
     // Running on the array of validation functions and make sure all valid.
     // Getting validation array and object to valid.

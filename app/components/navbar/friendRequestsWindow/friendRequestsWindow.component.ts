@@ -21,9 +21,10 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
 
     isFriendRequestsLoading: boolean;
     friendRequestsObjects: Array<any> = [];
-    friendConfirmObjects: Array<any> = [];    
+    friendConfirmObjects: Array<any> = [];
     isFirstClosing: boolean = true;
     isFirstOpenning: boolean = true;
+    isFriendRequestsLoaded: boolean = false;
 
     constructor(private navbarService: NavbarService,
         private friendRequestsWindowService: FriendRequestsWindowService,
@@ -54,7 +55,8 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
         if (changes.friendRequests &&
             changes.confirmedReuests &&
             !changes.friendRequests.firstChange &&
-            !changes.confirmedReuests.firstChange) {
+            !changes.confirmedReuests.firstChange &&
+            !this.isFriendRequestsLoaded) {
             this.isFriendRequestsLoading = true;
             this.LoadFriendRequestsObjects();
         }
@@ -89,6 +91,8 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
         if (this.friendRequests.length > 0 || this.confirmedReuests.length > 0) {
             this.navbarService.GetFriends(this.friendRequests.concat(this.confirmedReuests)).then((friendsResult: Array<any>) => {
                 if (friendsResult) {
+                    this.isFriendRequestsLoaded = true;
+                    
                     // Running on all friends and confirmed friends of the request.
                     friendsResult.forEach((friend: any) => {
                         // In case the friend object is for friend request.

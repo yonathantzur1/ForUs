@@ -324,7 +324,7 @@ var NavbarComponent = /** @class */ (function () {
             this.navbarService.GetFriends(friendsIds).then(function (friendsResult) {
                 _this.friends = friendsResult;
                 _this.isFriendsLoading = false;
-                _this.globalService.socket.emit("ServerGetOnlineFriends");
+                _this.globalService.socket && _this.globalService.socket.emit("ServerGetOnlineFriends");
             });
         }
     };

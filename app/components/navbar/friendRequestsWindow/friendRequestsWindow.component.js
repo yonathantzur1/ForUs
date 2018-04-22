@@ -22,6 +22,7 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         this.friendConfirmObjects = [];
         this.isFirstClosing = true;
         this.isFirstOpenning = true;
+        this.isFriendRequestsLoaded = false;
     }
     FriendRequestsWindowComponent.prototype.ngOnInit = function () {
         var self = this;
@@ -44,7 +45,8 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         if (changes.friendRequests &&
             changes.confirmedReuests &&
             !changes.friendRequests.firstChange &&
-            !changes.confirmedReuests.firstChange) {
+            !changes.confirmedReuests.firstChange &&
+            !this.isFriendRequestsLoaded) {
             this.isFriendRequestsLoading = true;
             this.LoadFriendRequestsObjects();
         }
@@ -75,6 +77,7 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         if (this.friendRequests.length > 0 || this.confirmedReuests.length > 0) {
             this.navbarService.GetFriends(this.friendRequests.concat(this.confirmedReuests)).then(function (friendsResult) {
                 if (friendsResult) {
+                    _this.isFriendRequestsLoaded = true;
                     // Running on all friends and confirmed friends of the request.
                     friendsResult.forEach(function (friend) {
                         // In case the friend object is for friend request.

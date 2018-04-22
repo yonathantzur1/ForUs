@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
   user: User = new User();
   newUser: NewUser = new NewUser();
   forgotUser: ForgotUser = new ForgotUser();
-  isLoading: boolean = false;  
+  isLoading: boolean = false;
 
   constructor(private router: Router,
     private alertService: AlertService,
@@ -62,7 +62,14 @@ export class LoginComponent implements OnInit {
     private loginService: LoginService) { }
 
   ngOnInit() {
-    this.globalService.Logout();
+    this.authService.IsUserOnSession().then(result => {
+      if (result) {
+        this.router.navigateByUrl('');
+      }
+      else {
+        this.globalService.Logout();
+      }
+    });
   }
 
   // Running on the array of validation functions and make sure all valid.

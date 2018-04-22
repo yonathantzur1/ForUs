@@ -363,7 +363,7 @@ var ManagementComponent = /** @class */ (function () {
                                 break;
                             }
                         }
-                        if (index) {
+                        if (index != null) {
                             user.friends.splice(index, 1);
                             snackbar("מחיקת החברות בוצעה בהצלחה");
                         }

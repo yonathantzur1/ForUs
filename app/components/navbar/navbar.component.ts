@@ -406,7 +406,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.navbarService.GetFriends(friendsIds).then((friendsResult: Array<Friend>) => {
                 this.friends = friendsResult;
                 this.isFriendsLoading = false;
-                this.globalService.socket.emit("ServerGetOnlineFriends");
+                this.globalService.socket && this.globalService.socket.emit("ServerGetOnlineFriends");
             });
         }
     }

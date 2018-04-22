@@ -35,11 +35,8 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
             }
             else {
                 loginBL.GetUserById(friendId).then((friendObj) => {
-                    // In case this is the only friend request of the friend in the DB.
-                    if (friendObj && friendObj.friendRequests.get.length == 1) {
-                        mailer.SendMail(friendObj.email,
-                            mailer.GetFriendRequestAlertContent(friendObj.firstName, userFullName));
-                    }
+                    friendObj && mailer.SendMail(friendObj.email,
+                        mailer.GetFriendRequestAlertContent(friendObj.firstName, userFullName));
                 }).catch((err) => {
                     // TODO: error log.
                 });
@@ -61,7 +58,7 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
         if (token) {
             // In case the confirmed user is not login.
             if (!connectedUsers[friend._id]) {
-                var userName = token.user.firstName + " " + token.user.lastName;                
+                var userName = token.user.firstName + " " + token.user.lastName;
                 var friendEmail = friend.email;
                 mailer.SendMail(friendEmail,
                     mailer.GetFriendRequestConfirmContent(userName, friend.firstName));
