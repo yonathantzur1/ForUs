@@ -118,20 +118,22 @@ var NavbarComponent = /** @class */ (function () {
                 }
             }
         ];
+    }
+    NavbarComponent.prototype.ngOnInit = function () {
+        this.globalService.socket.emit('login');
+        var self = this;
         self.dropMenuDataList = [
             new DropMenuData("/management", "ניהול", null, function () {
                 return (self.globalService.IsUserHasRootPermission());
             }),
-            new DropMenuData("#", "הגדרות", null),
+            new DropMenuData("/profile/" + self.user.uid, "פרופיל", function (link) {
+                self.router.navigateByUrl(link);
+            }),
             new DropMenuData("/login", "התנתקות", function (link) {
                 self.globalService.Logout();
                 self.router.navigateByUrl(link);
             })
         ];
-    }
-    NavbarComponent.prototype.ngOnInit = function () {
-        this.globalService.socket.emit('login');
-        var self = this;
         self.askForOnlineFriendsInterval = setInterval(function () {
             self.globalService.socket.emit("ServerGetOnlineFriends");
         }, self.askForOnlineFriendsDelay * 1000);

@@ -39,6 +39,31 @@ var AuthGuard = /** @class */ (function () {
     return AuthGuard;
 }());
 exports.AuthGuard = AuthGuard;
+var LoginGuard = /** @class */ (function () {
+    function LoginGuard(router, authService, globalService) {
+        this.router = router;
+        this.authService = authService;
+        this.globalService = globalService;
+    }
+    LoginGuard.prototype.canActivate = function (route, state) {
+        var _this = this;
+        return this.authService.IsUserOnSession().then(function (result) {
+            if (!result) {
+                return true;
+            }
+            else {
+                _this.router.navigateByUrl('/');
+                return false;
+            }
+        });
+    };
+    LoginGuard = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [router_1.Router, auth_service_1.AuthService, global_service_1.GlobalService])
+    ], LoginGuard);
+    return LoginGuard;
+}());
+exports.LoginGuard = LoginGuard;
 var AdminAuthGuard = /** @class */ (function () {
     function AdminAuthGuard(router, authService, globalService) {
         this.router = router;

@@ -35,7 +35,18 @@ module.exports = (app) => {
 
     // Getting the current login user.
     app.get(prefix + '/getCurrUser', (req, res) => {
-        res.send(req.user);
+        var user = req.user;
+
+        // Return user with only specific details.
+        var userClientObject = {
+            "_id": user._id,
+            "uid": user.uid,
+            "firstName": user.firstName,
+            "lastName": user.lastName,
+            "friends": user.friends
+        }
+
+        res.send(userClientObject);
     });
 
     // Set the current login user token.

@@ -159,23 +159,25 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 }
             }
         ];
-
-        self.dropMenuDataList = [
-            new DropMenuData("/management", "ניהול", null, () => {
-                return (self.globalService.IsUserHasRootPermission());
-            }),
-            new DropMenuData("#", "הגדרות", null),
-            new DropMenuData("/login", "התנתקות", (link: string) => {
-                self.globalService.Logout();
-                self.router.navigateByUrl(link);
-            })
-        ];
     }
 
     ngOnInit() {
         this.globalService.socket.emit('login');
 
         var self = this;
+
+        self.dropMenuDataList = [
+            new DropMenuData("/management", "ניהול", null, () => {
+                return (self.globalService.IsUserHasRootPermission());
+            }),
+            new DropMenuData("/profile/" + self.user.uid, "פרופיל", (link: string) => {                
+                self.router.navigateByUrl(link);
+            }),
+            new DropMenuData("/login", "התנתקות", (link: string) => {
+                self.globalService.Logout();
+                self.router.navigateByUrl(link);
+            })
+        ];
 
         self.askForOnlineFriendsInterval = setInterval(function () {
             self.globalService.socket.emit("ServerGetOnlineFriends");

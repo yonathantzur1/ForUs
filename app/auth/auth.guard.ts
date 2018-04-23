@@ -23,12 +23,29 @@ export class AuthGuard implements CanActivate {
 }
 
 @Injectable()
+export class LoginGuard implements CanActivate {
+    constructor(private router: Router, private authService: AuthService, private globalService: GlobalService) { }
+
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        return this.authService.IsUserOnSession().then((result) => {
+            if (!result) {
+                return true;
+            }
+            else {
+                this.router.navigateByUrl('/');
+                return false;
+            }
+        });
+    }
+}
+
+@Injectable()
 export class AdminAuthGuard implements CanActivate {
     constructor(private router: Router, private authService: AuthService, private globalService: GlobalService) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         return this.authService.IsUserAdmin().then((result) => {
-            if (result) {                
+            if (result) {
                 return true;
             }
             else {

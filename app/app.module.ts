@@ -22,10 +22,11 @@ import { ChatsWindowComponent } from './components/navbar/chatsWindow/chatsWindo
 import { FriendRequestsWindowComponent } from './components/navbar/friendRequestsWindow/friendRequestsWindow.component';
 import { ManagementComponent } from './components/management/management.component';
 import { PermissionsCardComponent } from './components/management/permissionsCard/permissionsCard.component';
+import { UserPageComponent } from './components/userPage/userPage.component';
 
 import { PageNotFoundComponent } from './components/pageNotFound/pageNotFound.component';
 
-import { AuthGuard, AdminAuthGuard } from './auth/auth.guard';
+import { AuthGuard, AdminAuthGuard, LoginGuard } from './auth/auth.guard';
 import { AuthService } from './services/auth/auth.service';
 
 import { Routing } from './app.routing'
@@ -58,12 +59,14 @@ import { AlertService } from './services/alert/alert.service';
     FriendRequestsWindowComponent,
     ManagementComponent,
     PermissionsCardComponent,
+    UserPageComponent,
     // ---------Pipes---------
     SortObjects
   ],
   providers: [
     AuthGuard,
     AdminAuthGuard,
+    LoginGuard,
     AuthService,
     GlobalService,
     AlertService

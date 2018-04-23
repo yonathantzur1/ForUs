@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
@@ -49,7 +49,7 @@ export class ForgotUser {
   providers: [LoginService]
 })
 
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   user: User = new User();
   newUser: NewUser = new NewUser();
   forgotUser: ForgotUser = new ForgotUser();
@@ -60,17 +60,6 @@ export class LoginComponent implements OnInit {
     private globalService: GlobalService,
     private authService: AuthService,
     private loginService: LoginService) { }
-
-  ngOnInit() {
-    this.authService.IsUserOnSession().then(result => {
-      if (result) {
-        this.router.navigateByUrl('');
-      }
-      else {
-        this.globalService.Logout();
-      }
-    });
-  }
 
   // Running on the array of validation functions and make sure all valid.
   // Getting validation array and object to valid.
