@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var Observable_1 = require("rxjs/Observable");
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var auth_service_1 = require("../services/auth/auth.service");
@@ -47,13 +48,20 @@ var LoginGuard = /** @class */ (function () {
     }
     LoginGuard.prototype.canActivate = function (route, state) {
         var _this = this;
-        return this.authService.IsUserOnSession().then(function (result) {
-            if (!result) {
-                return true;
+        return Observable_1.Observable.create(function (observer) {
+            if (!getCookie(_this.globalService.uidCookieName)) {
+                observer.next(true);
             }
             else {
-                _this.router.navigateByUrl('/');
-                return false;
+                _this.authService.IsUserOnSession().then(function (result) {
+                    if (!result) {
+                        observer.next(true);
+                    }
+                    else {
+                        _this.router.navigateByUrl('/');
+                        observer.next(false);
+                    }
+                });
             }
         });
     };

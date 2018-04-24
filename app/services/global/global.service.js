@@ -25,6 +25,7 @@ var GlobalService = /** @class */ (function (_super) {
         _this.socketOnDictionary = {};
         _this.userPermissions = [];
         _this.defaultProfileImage = empty_profile_1.EmptyProfile;
+        _this.uidCookieName = "uid";
         return _this;
     }
     GlobalService.prototype.Initialize = function () {
@@ -77,7 +78,7 @@ var GlobalService = /** @class */ (function (_super) {
         this.socket.on(name, func);
     };
     GlobalService.prototype.Logout = function () {
-        deleteCookieByName("uid");
+        deleteCookieByName(this.uidCookieName);
         this.DeleteTokenFromCookie().then(function (result) { });
         this.ResetGlobalVariables();
     };

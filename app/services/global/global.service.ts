@@ -20,6 +20,7 @@ export class GlobalService extends LoginService {
     public userProfileImage: string;
     public userPermissions: Array<string> = [];
     public defaultProfileImage: string = EmptyProfile;
+    public uidCookieName: string = "uid";
 
     Initialize() {
         if (!this.socket) {
@@ -81,7 +82,7 @@ export class GlobalService extends LoginService {
     }
 
     Logout() {
-        deleteCookieByName("uid");
+        deleteCookieByName(this.uidCookieName);
         this.DeleteTokenFromCookie().then((result: any) => { });
         this.ResetGlobalVariables();
     }
