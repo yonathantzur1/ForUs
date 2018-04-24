@@ -73,6 +73,9 @@ var NavbarComponent = /** @class */ (function () {
             if (value["openNewWindow"]) {
                 _this.OpenNewWindow();
             }
+            if (value["changeSearchInput"]) {
+                _this.searchInput = value["changeSearchInput"];
+            }
         });
         var self = this;
         self.toolbarItems = [
@@ -126,7 +129,7 @@ var NavbarComponent = /** @class */ (function () {
             new DropMenuData("/management", "ניהול", null, function () {
                 return (self.globalService.IsUserHasRootPermission());
             }),
-            new DropMenuData("/profile/" + self.user.uid, "פרופיל", function (link) {
+            new DropMenuData("/profile/" + self.user._id, "פרופיל", function (link) {
                 self.router.navigateByUrl(link);
             }),
             new DropMenuData("/login", "התנתקות", function (link) {
@@ -769,6 +772,11 @@ var NavbarComponent = /** @class */ (function () {
             "resultsIdsWithNoProfile": resultsIdsWithNoProfile
         };
         return data;
+    };
+    NavbarComponent.prototype.OpenUserProfile = function (user) {
+        this.HideSearchResults();
+        this.searchInput = user.firstName + " " + user.lastName;
+        this.router.navigateByUrl("/profile/" + user._id);
     };
     __decorate([
         core_1.Input(),

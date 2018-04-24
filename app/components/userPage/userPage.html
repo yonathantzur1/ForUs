@@ -1,0 +1,13 @@
+<div id="userPage">
+    <div *ngIf="user" class="container">
+        <div class="head-container">
+            <img class="user-image" [src]="user.profileImage.image">
+            <div class="user-name">
+                {{user.firstName + " " + user.lastName}}
+            </div>
+        </div>
+        <div class="body-container">
+
+        </div>
+    </div>
+</div>

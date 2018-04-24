@@ -111,6 +111,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
             if (value["openNewWindow"]) {
                 this.OpenNewWindow();
             }
+
+            if (value["changeSearchInput"]) {
+                this.searchInput = value["changeSearchInput"];
+            }
         });
 
         var self = this;
@@ -170,7 +174,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             new DropMenuData("/management", "ניהול", null, () => {
                 return (self.globalService.IsUserHasRootPermission());
             }),
-            new DropMenuData("/profile/" + self.user.uid, "פרופיל", (link: string) => {                
+            new DropMenuData("/profile/" + self.user._id, "פרופיל", (link: string) => {                
                 self.router.navigateByUrl(link);
             }),
             new DropMenuData("/login", "התנתקות", (link: string) => {
@@ -951,5 +955,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
         };
 
         return data;
+    }
+
+    OpenUserProfile(user: any) {
+        this.HideSearchResults();
+        this.searchInput = user.firstName + " " + user.lastName;
+        this.router.navigateByUrl("/profile/" + user._id);        
     }
 }

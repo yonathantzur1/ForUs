@@ -4,7 +4,7 @@ const mailer = require('../mailer');
 const config = require('../config');
 
 const usersCollectionName = config.db.collections.users;
-const profileCollectionName = config.db.collections.profiles;
+const profilesCollectionName = config.db.collections.profiles;
 
 // Define search consts.
 const searchResultsLimit = config.search.resultsLimit;
@@ -18,7 +18,7 @@ var self = module.exports = {
             var joinFilter = {
                 $lookup:
                     {
-                        from: profileCollectionName,
+                        from: profilesCollectionName,
                         localField: 'profile',
                         foreignField: '_id',
                         as: 'profileImage'
@@ -106,7 +106,7 @@ var self = module.exports = {
             var profilesIds = ids.profilesIds;
             var resultsIdsWithNoProfile = ids.resultsIdsWithNoProfile;
 
-            DAL.Find(profileCollectionName, { "_id": { $in: ConvertIdsToObjectIds(profilesIds) } }).then((profiles) => {
+            DAL.Find(profilesCollectionName, { "_id": { $in: ConvertIdsToObjectIds(profilesIds) } }).then((profiles) => {
                 if (!profiles) {
                     resolve(null);
                 }
@@ -366,7 +366,7 @@ var self = module.exports = {
                                         // In case the friend has profile image.
                                         if (updatedFriend.profile) {
                                             // Getting the friend profile image.
-                                            DAL.FindOneSpecific(profileCollectionName,
+                                            DAL.FindOneSpecific(profilesCollectionName,
                                                 { "_id": updatedFriend.profile },
                                                 { "image": 1 }).then((result) => {
                                                     finalResult.friend.profileImage = result.image;

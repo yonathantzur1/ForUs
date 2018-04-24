@@ -11,23 +11,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var alert_service_1 = require("../../services/alert/alert.service");
+var global_service_1 = require("../../services/global/global.service");
+var userPage_service_1 = require("../../services/userPage/userPage.service");
 var UserPageComponent = /** @class */ (function () {
-    function UserPageComponent(alertService, route) {
-        this.alertService = alertService;
+    function UserPageComponent(route, userPageService, globalService) {
         this.route = route;
+        this.userPageService = userPageService;
+        this.globalService = globalService;
     }
     UserPageComponent.prototype.ngOnInit = function () {
-        var id = this.route.snapshot.params.id;
+        var _this = this;
+        this.route.params.subscribe(function (params) {
+            _this.userId = params["id"];
+            _this.userPageService.GetUserDetails(_this.userId).then(function (user) {
+                _this.InitializePage(user);
+            });
+        });
+    };
+    UserPageComponent.prototype.InitializePage = function (user) {
+        this.globalService.setData("changeSearchInput", user.firstName + " " + user.lastName);
+        this.user = user;
     };
     UserPageComponent = __decorate([
         core_1.Component({
             selector: 'userPage',
             templateUrl: './userPage.html',
-            providers: []
+            providers: [userPage_service_1.UserPageService]
         }),
-        __metadata("design:paramtypes", [alert_service_1.AlertService,
-            router_1.ActivatedRoute])
+        __metadata("design:paramtypes", [router_1.ActivatedRoute,
+            userPage_service_1.UserPageService,
+            global_service_1.GlobalService])
     ], UserPageComponent);
     return UserPageComponent;
 }());

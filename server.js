@@ -70,6 +70,7 @@ require('./routes/chatsWindow')(app);
 require('./routes/friendRequestsWindow')(app);
 require('./routes/management')(app);
 require('./routes/permissionsCard')(app);
+require('./routes/userPage')(app);
 
 // Import socket.io mudule
 var connectedUsers = require('./modules/sockets/socket')(io);
