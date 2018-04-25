@@ -239,7 +239,7 @@ var NavbarComponent = /** @class */ (function () {
             self.RemoveFriend(friendId);
             self.alertService.Alert({
                 title: "מחיקת משתמש מהאתר",
-                text: "המשתמש של " + userName + " נמחק מהאתר לצמיתות.",
+                text: "החשבון של " + userName + " נמחק מהאתר לצמיתות.",
                 showCancelButton: false,
                 type: "info"
             });

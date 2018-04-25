@@ -142,7 +142,7 @@ var ChatsWindowComponent = /** @class */ (function () {
     };
     ChatsWindowComponent.prototype.RemoveFriendChat = function (friendId) {
         for (var i = 0; i < this.chats.length; i++) {
-            if (this.chats[i].friendId == friendId) {
+            if (this.chats[i].friend._id == friendId) {
                 this.chats.splice(i, 1);
                 break;
             }

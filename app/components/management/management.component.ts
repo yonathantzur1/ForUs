@@ -475,7 +475,7 @@ export class ManagementComponent implements OnDestroy {
                         snackbar("מחיקת המשתמש בוצעה בהצלחה");
 
                         // Logout the user from the system.
-                        var logoutMsg = "חשבונך נמחק מהמערכת לצמיתות. \n לפרטים נוספים, פנה להנהלת האתר.";
+                        var logoutMsg = "חשבונך נמחק מהמערכת לצמיתות. \nלפרטים נוספים, פנה להנהלת האתר.";
                         self.globalService.socket.emit("LogoutUserSessionServer", user._id, logoutMsg);
 
                         // Remove user from users search list.

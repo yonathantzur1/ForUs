@@ -176,7 +176,7 @@ export class ChatsWindowComponent implements OnInit {
 
     RemoveFriendChat(friendId: string) {
         for (var i = 0; i < this.chats.length; i++) {
-            if (this.chats[i].friendId == friendId) {
+            if (this.chats[i].friend._id == friendId) {
                 this.chats.splice(i, 1);
                 break;
             }
