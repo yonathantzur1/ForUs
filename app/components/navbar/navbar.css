@@ -455,9 +455,9 @@
     border-radius: 50%;
     background-color: #19e719;
     align-self: flex-start;
-    position: absolute;
-    right: 6px;
-    margin-top: 28px;
+    position: relative;
+    right: 15px;
+    top: 26px;
 }
 
 #navbar .typing-icon {

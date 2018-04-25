@@ -1,7 +1,7 @@
 <div id="userPage">
     <div *ngIf="user" class="container">
         <div class="head-container">
-            <img class="user-image" [src]="user.profileImage.image">
+            <img class="user-image" [src]="user.profileImage ? user.profileImage.image : globalService.defaultProfileImage">
             <div class="user-name">
                 {{user.firstName + " " + user.lastName}}
             </div>

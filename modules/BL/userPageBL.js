@@ -23,13 +23,19 @@ module.exports = {
 
             var aggregateArray = [userFilter, joinFilter, unwindObject, userFileds];
 
+            // Find only users with profile picture.
             DAL.Aggregate(usersCollectionName, aggregateArray).then(user => {
                 // In case the user found, extract it from the array.
-                if (user) {
+                if (user && user.length == 1) {
                     resolve(user[0]);
                 }
                 else {
-                    resolve(user);
+                    var queryFields = { "firstName": 1, "lastName": 1 };
+
+                    // In case no result to aggregate, try to find the user with find query
+                    // because maby the user has no profile picture.
+                    DAL.FindOneSpecific(usersCollectionName, { "_id": userObjectId }, queryFields)
+                        .then(resolve).catch(reject);
                 }
             }).catch(reject);
         });

@@ -24,7 +24,7 @@ export class UserPageComponent implements OnInit {
             this.userId = params["id"];
 
             this.userPageService.GetUserDetails(this.userId).then((user: any) => {
-                this.InitializePage(user);
+                user && this.InitializePage(user);
             });
         });
     }

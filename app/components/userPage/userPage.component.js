@@ -24,7 +24,7 @@ var UserPageComponent = /** @class */ (function () {
         this.route.params.subscribe(function (params) {
             _this.userId = params["id"];
             _this.userPageService.GetUserDetails(_this.userId).then(function (user) {
-                _this.InitializePage(user);
+                user && _this.InitializePage(user);
             });
         });
     };

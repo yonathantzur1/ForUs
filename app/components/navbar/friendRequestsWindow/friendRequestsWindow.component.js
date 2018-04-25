@@ -118,8 +118,9 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
     };
     FriendRequestsWindowComponent.prototype.FriendIgnore = function (requestId) {
         this.isFriendRequestsLoading = true;
-        this.IgnoreFriendRequest(requestId, function (res) {
-            this.isFriendRequestsLoading = false;
+        var self = this;
+        self.IgnoreFriendRequest(requestId, function (res) {
+            self.isFriendRequestsLoading = false;
         });
     };
     __decorate([

@@ -130,7 +130,6 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
 
     FriendAccept(requestId: string) {
         this.isFriendRequestsLoading = true;
-
         var self = this;
 
         self.AddFriend(requestId, function (res: any) {
@@ -140,9 +139,10 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
 
     FriendIgnore(requestId: string) {
         this.isFriendRequestsLoading = true;
+        var self = this;
 
-        this.IgnoreFriendRequest(requestId, function (res: any) {
-            this.isFriendRequestsLoading = false;
+        self.IgnoreFriendRequest(requestId, function (res: any) {
+            self.isFriendRequestsLoading = false;
         });
     }
 }
