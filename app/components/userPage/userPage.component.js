@@ -15,9 +15,21 @@ var global_service_1 = require("../../services/global/global.service");
 var userPage_service_1 = require("../../services/userPage/userPage.service");
 var UserPageComponent = /** @class */ (function () {
     function UserPageComponent(route, userPageService, globalService) {
+        var _this = this;
         this.route = route;
         this.userPageService = userPageService;
         this.globalService = globalService;
+        this.subscribeObj = this.globalService.data.subscribe(function (value) {
+            if (value["newUploadedImage"]) {
+                if (!_this.user.profileImage) {
+                    _this.user.profileImage = {};
+                }
+                _this.user.profileImage.image = value["newUploadedImage"];
+            }
+            if (value["isImageDeleted"]) {
+                delete _this.user.profileImage;
+            }
+        });
     }
     UserPageComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -28,9 +40,21 @@ var UserPageComponent = /** @class */ (function () {
             });
         });
     };
+    UserPageComponent.prototype.ngOnDestroy = function () {
+        this.subscribeObj.unsubscribe();
+    };
     UserPageComponent.prototype.InitializePage = function (user) {
         this.globalService.setData("changeSearchInput", user.firstName + " " + user.lastName);
         this.user = user;
+    };
+    // Return true if the user page belongs to the current user.
+    UserPageComponent.prototype.IsUserPageSelf = function () {
+        return (this.user && this.user.uid == getCookie(this.globalService.uidCookieName));
+    };
+    UserPageComponent.prototype.OpenEditWindow = function () {
+        if (this.IsUserPageSelf()) {
+            this.globalService.setData("openProfileEditWindow", true);
+        }
     };
     UserPageComponent = __decorate([
         core_1.Component({

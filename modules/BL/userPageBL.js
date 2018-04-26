@@ -19,7 +19,7 @@ module.exports = {
                     }
             };
             var unwindObject = { $unwind: "$profileImage" };
-            var userFileds = { $project: { "firstName": 1, "lastName": 1, "profileImage.image": 1 } };
+            var userFileds = { $project: { "firstName": 1, "lastName": 1, "uid": 1, "profileImage.image": 1 } };
 
             var aggregateArray = [userFilter, joinFilter, unwindObject, userFileds];
 
@@ -30,7 +30,7 @@ module.exports = {
                     resolve(user[0]);
                 }
                 else {
-                    var queryFields = { "firstName": 1, "lastName": 1 };
+                    var queryFields = { "firstName": 1, "lastName": 1, "uid": 1 };
 
                     // In case no result to aggregate, try to find the user with find query
                     // because maby the user has no profile picture.

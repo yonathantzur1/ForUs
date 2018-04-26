@@ -37,6 +37,9 @@ var ProfilePictureComponent = /** @class */ (function () {
                     _this.isUserHasImage = false;
                 }
             }
+            if (value["openProfileEditWindow"]) {
+                _this.OpenEditWindow();
+            }
         });
     }
     ProfilePictureComponent.prototype.ngOnDestroy = function () {

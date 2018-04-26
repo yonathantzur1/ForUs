@@ -12,7 +12,7 @@ declare var globalVariables: any;
     providers: [ProfilePictureService]
 })
 
-export class ProfilePictureComponent implements OnDestroy {    
+export class ProfilePictureComponent implements OnDestroy {
     isUserHasImage: boolean = null;
     isTouchDevice: boolean = globalVariables.isTouchDevice;
 
@@ -40,6 +40,10 @@ export class ProfilePictureComponent implements OnDestroy {
                 else {
                     this.isUserHasImage = false;
                 }
+            }
+
+            if (value["openProfileEditWindow"]) {
+                this.OpenEditWindow();
             }
         });
     }
