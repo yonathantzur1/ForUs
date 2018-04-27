@@ -132,7 +132,7 @@ module.exports = (app) => {
                         // In case all register progress was succeeded.
                         if (result) {
                             // Sending a welcome mail to the new user.
-                            mailer.SendMail(req.body.email, mailer.GetRegisterMailContent(req.body.firstName));
+                            mailer.RegisterMail(req.body.email, req.body.firstName);
                             var token = general.GetTokenFromUserObject(result);
                             general.SetTokenOnCookie(token, res);
                             res.send({ "result": true });
@@ -155,7 +155,7 @@ module.exports = (app) => {
 
             loginBL.SetUserResetCode(email).then((result) => {
                 if (result) {
-                    mailer.SendMail(req.body.email, mailer.GetForgotMailContent(result.firstName, result.resetCode.code));
+                    mailer.ForgotPasswordMail(req.body.email, result.firstName, result.resetCode.code);
                     res.send({ "result": true });
                 }
                 else {

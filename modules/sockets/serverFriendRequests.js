@@ -35,8 +35,8 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
             }
             else {
                 loginBL.GetUserById(friendId).then((friendObj) => {
-                    friendObj && mailer.SendMail(friendObj.email,
-                        mailer.GetFriendRequestAlertContent(friendObj.firstName, userFullName));
+                    friendObj &&
+                        mailer.FriendRequestAlert(friendObj.email, friendObj.firstName, userFullName);
                 }).catch((err) => {
                     // TODO: error log.
                 });
@@ -60,8 +60,7 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
             if (!connectedUsers[friend._id]) {
                 var userName = token.user.firstName + " " + token.user.lastName;
                 var friendEmail = friend.email;
-                mailer.SendMail(friendEmail,
-                    mailer.GetFriendRequestConfirmContent(userName, friend.firstName));
+                mailer.FriendRequestConfirm(friendEmail, userName, friend.firstName);
             }
 
             delete friend.email;

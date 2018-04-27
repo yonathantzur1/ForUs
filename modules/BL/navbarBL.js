@@ -152,7 +152,7 @@ var self = module.exports = {
 
                 // Send email in case no notification exists
                 if (!messagesNotifications || !messagesNotifications[userId]) {
-                    mailer.SendMail(friendObj.email, mailer.GetMessageNotificationAlertContent(friendObj.firstName, senderName));
+                    mailer.MessageNotificationAlert(friendObj.email, friendObj.firstName, senderName);
                 }
 
                 var friendMessagesNotifications = messagesNotifications ? messagesNotifications[userId] : null;

@@ -193,8 +193,7 @@ module.exports = {
                 { "_id": userId },
                 { $set: { block } }).then((result) => {
                     if (result) {
-                        mailer.SendMail(result.email,
-                            mailer.GetBlockMessageContent(result.firstName, block.reason, block.unblockDate));
+                        mailer.BlockMessage(result.email, result.firstName, block.reason, block.unblockDate);
 
                         // Change result to true in case the update succeeded.
                         result = result.block;
