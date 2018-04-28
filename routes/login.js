@@ -1,4 +1,5 @@
 const loginBL = require('../modules/BL/loginBL');
+const logsBL = require('../modules/BL/logsBL');
 const mailer = require('../modules/mailer');
 const general = require('../modules/general');
 const config = require('../modules/config');
@@ -81,6 +82,9 @@ module.exports = (app) => {
                 else {
                     res.send({ result });
                 }
+
+                // Log
+                logsBL.LoginIp(req.body.email, general.GetIpFromRequest(req));
             }).catch((err) => {
                 res.status(500).end();
             });
@@ -151,11 +155,11 @@ module.exports = (app) => {
     app.put(prefix + '/forgot',
         validate,
         (req, res) => {
-            var email = { "email": req.body.email };
+            var email = req.body.email;
 
             loginBL.SetUserResetCode(email).then((result) => {
                 if (result) {
-                    mailer.ForgotPasswordMail(req.body.email, result.firstName, result.resetCode.code);
+                    mailer.ForgotPasswordMail(email, result.firstName, result.resetCode.code);
                     res.send({ "result": true });
                 }
                 else {
@@ -163,6 +167,9 @@ module.exports = (app) => {
                     // or null in case of error.
                     res.send({ result });
                 }
+
+                // Log
+                logsBL.ResetPasswordRequest(email, general.GetIpFromRequest(req));
             }).catch((err) => {
                 res.status(500).end();
             });

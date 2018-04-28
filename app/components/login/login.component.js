@@ -140,6 +140,8 @@ var LoginComponent = /** @class */ (function () {
                         });
                     }
                     else {
+                        // Show the loader again because the gurd validates the token.
+                        _this.isLoading = true;
                         _this.router.navigateByUrl('');
                     }
                 }
@@ -165,7 +167,7 @@ var LoginComponent = /** @class */ (function () {
                 // In case the email is already exists.
                 else if (result == false) {
                     // Show microtext of the email field. 
-                    $("#register-email-micro").html("אימייל זה כבר נמצא בשימוש");
+                    $("#register-email-micro").html("אימייל זה נמצא בשימוש");
                 }
                 else {
                     $("#register-modal").modal('hide');

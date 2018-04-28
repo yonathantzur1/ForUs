@@ -102,6 +102,24 @@ module.exports = {
         }).toLowerCase();
     },
 
+    GetIpFromRequest: function (request) {
+        var ip = request.ip;
+
+        if (ip) {
+            var reqestIpParts = ip.split("::");
+
+            if (reqestIpParts && reqestIpParts.length > 0) {
+                return reqestIpParts[reqestIpParts.length - 1];
+            }
+            else {
+                return null;
+            }
+        }
+        else {
+            return null;
+        }
+    },
+
     IsUserHasMasterPermission(permissions) {
         if (!permissions || permissions.length == 0) {
             return false;

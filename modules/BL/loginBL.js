@@ -163,7 +163,7 @@ var self = module.exports = {
     },
 
     // Add reset password code to the DB and return the name of the user.
-    SetUserResetCode: (emailObj) => {
+    SetUserResetCode: (email) => {
         return new Promise((resolve, reject) => {
             var code = generator.GenerateCode(resetCodeNumOfDigits, true);
 
@@ -179,7 +179,7 @@ var self = module.exports = {
                 }
             };
 
-            DAL.UpdateOne(collectionName, emailObj, resetCode).then(resolve).catch(reject);
+            DAL.UpdateOne(collectionName, { email }, resetCode).then(resolve).catch(reject);
         });
     },
 

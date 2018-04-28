@@ -33,9 +33,12 @@ module.exports = {
             "שלום " + name + ", " + "<br>" + "הקוד שהונפק עבורך לאיפוס הסיסמא הוא: <b>" + code + "<b>");
     },
     MessageNotificationAlert: function (email, name, senderName) {
+        var text = "שלום " + name + ", " + "<br>" + "ממתינה עבורך הודעה חדשה<name>." + "<br>" + config.addresses.site;
+        text = senderName ? text.replace("<name>", " מ" + senderName) : text.replace("<name>", "");
+
         this.SendMail(email,
             "הודעה חדשה",
-            "שלום " + name + ", " + "<br>" + "ממתינה עבורך הודעה חדשה*." + "<br>" + config.addresses.site);
+            text);
     },
     FriendRequestAlert: function (email, name, friendName) {
         this.SendMail(email,

@@ -12,7 +12,8 @@ module.exports = {
             users: "Users",
             profiles: "Profiles",
             chats: "Chats",
-            permissions: "Permissions"
+            permissions: "Permissions",
+            logs: "Logs"
         }
     },
     jwt: {
