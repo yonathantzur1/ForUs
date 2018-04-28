@@ -58,6 +58,16 @@ var AuthService = /** @class */ (function (_super) {
             return null;
         });
     };
+    AuthService.prototype.IsUserSocketConnect = function () {
+        return _super.prototype.get.call(this, this.prefix + '/isUserSocketConnect')
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
     return AuthService;
 }(basic_service_1.BasicService));
 exports.AuthService = AuthService;

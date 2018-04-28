@@ -69,7 +69,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     searchResults: Array<any> = [];
     isShowSearchResults: boolean = false;
     inputInterval: any;
-    askForOnlineFriendsInterval: any;
+    checkSocketConnectInterval: any;
 
     toolbarItems: Array<ToolbarItem>;
     dropMenuDataList: Array<DropMenuData>;
@@ -78,7 +78,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     searchInputChangeDelay: number = 220; // milliseconds
     notificationDelay: number = 3800; // milliseconds
-    askForOnlineFriendsDelay: number = 60; // seconds
+    checkSocketConnectDelay: number = 8; // seconds
     chatTypingDelay: number = 1000; // milliseconds
     newFriendsLabelDelay: number = 4000; // milliseconds    
     sidenavWidth: string = "230px";
@@ -183,9 +183,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
             })
         ];
 
-        self.askForOnlineFriendsInterval = setInterval(function () {
-            self.globalService.socket.emit("ServerGetOnlineFriends");
-        }, self.askForOnlineFriendsDelay * 1000);
+        self.checkSocketConnectInterval = setInterval(function () {        
+            self.authService.IsUserSocketConnect().then(result => {
+                if (result == false) {
+                    self.globalService.RefreshSocket();
+                    self.globalService.socket.emit("ServerGetOnlineFriends");
+                }
+            });
+        }, self.checkSocketConnectDelay * 1000);
 
         self.LoadFriendsData(self.user.friends);
 
@@ -314,7 +319,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.subscribeObj.unsubscribe();
-        clearInterval(this.askForOnlineFriendsInterval);
+        clearInterval(this.checkSocketConnectInterval);
     }
 
     IsShowFriendFindInput() {

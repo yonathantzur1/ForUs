@@ -46,4 +46,15 @@ export class AuthService extends BasicService {
                 return null;
             });
     }
+
+    IsUserSocketConnect() {
+        return super.get(this.prefix + '/isUserSocketConnect')
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((result: any) => {
+                return null;
+            });
+    }
 }

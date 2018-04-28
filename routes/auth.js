@@ -1,7 +1,7 @@
 const loginBL = require('../modules/BL/loginBL');
 const general = require('../modules/general');
 
-module.exports = (app) => {
+module.exports = (app, connectedUsers) => {
     prefix = "/api/auth";
 
     // Checking if the session of the user is open.
@@ -51,22 +51,26 @@ module.exports = (app) => {
 
     // Set the current login user token.
     app.get(prefix + '/setCurrUserToken', (req, res) => {
-        if (req.user) {
-            loginBL.GetUserById(req.user._id).then((user) => {
-                if (user) {
-                    var token = general.GetTokenFromUserObject(user);
-                    general.SetTokenOnCookie(token, res);
-                    res.send(true);
-                }
-                else {
-                    res.send(false);
-                }
-            }).catch((err) => {
-                res.status(500).end();
-            });
+        loginBL.GetUserById(req.user._id).then((user) => {
+            if (user) {
+                var token = general.GetTokenFromUserObject(user);
+                general.SetTokenOnCookie(token, res);
+                res.send(true);
+            }
+            else {
+                res.send(false);
+            }
+        }).catch((err) => {
+            res.status(500).end();
+        });
+    });
+
+    app.get(prefix + '/isUserSocketConnect', (req, res) => {
+        if (connectedUsers[req.user._id]) {
+            res.send(true);
         }
         else {
-            res.send(null);
+            res.send(false);
         }
     });
 };

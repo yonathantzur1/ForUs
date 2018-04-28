@@ -59,8 +59,11 @@ app.get('/login', (req, res, next) => {
     }
 });
 
+// Import socket.io mudule
+var connectedUsers = require('./modules/sockets/socket')(io);
+
 // Routes requires
-require('./routes/auth')(app);
+require('./routes/auth')(app, connectedUsers);
 require('./routes/login')(app);
 require('./routes/profile')(app);
 require('./routes/profilePicture')(app);
@@ -71,9 +74,6 @@ require('./routes/friendRequestsWindow')(app);
 require('./routes/management')(app);
 require('./routes/permissionsCard')(app);
 require('./routes/userPage')(app);
-
-// Import socket.io mudule
-var connectedUsers = require('./modules/sockets/socket')(io);
 
 // Import server jobs and scripts.
 require('./modules/schedules')(connectedUsers);

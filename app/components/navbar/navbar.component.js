@@ -53,7 +53,7 @@ var NavbarComponent = /** @class */ (function () {
         // START CONFIG VARIABLES //
         this.searchInputChangeDelay = 220; // milliseconds
         this.notificationDelay = 3800; // milliseconds
-        this.askForOnlineFriendsDelay = 60; // seconds
+        this.checkSocketConnectDelay = 8; // seconds
         this.chatTypingDelay = 1000; // milliseconds
         this.newFriendsLabelDelay = 4000; // milliseconds    
         this.sidenavWidth = "230px";
@@ -137,9 +137,14 @@ var NavbarComponent = /** @class */ (function () {
                 self.router.navigateByUrl(link);
             })
         ];
-        self.askForOnlineFriendsInterval = setInterval(function () {
-            self.globalService.socket.emit("ServerGetOnlineFriends");
-        }, self.askForOnlineFriendsDelay * 1000);
+        self.checkSocketConnectInterval = setInterval(function () {
+            self.authService.IsUserSocketConnect().then(function (result) {
+                if (result == false) {
+                    self.globalService.RefreshSocket();
+                    self.globalService.socket.emit("ServerGetOnlineFriends");
+                }
+            });
+        }, self.checkSocketConnectDelay * 1000);
         self.LoadFriendsData(self.user.friends);
         // Loading user messages notifications.
         self.navbarService.GetUserMessagesNotifications().then(function (result) {
@@ -247,7 +252,7 @@ var NavbarComponent = /** @class */ (function () {
     };
     NavbarComponent.prototype.ngOnDestroy = function () {
         this.subscribeObj.unsubscribe();
-        clearInterval(this.askForOnlineFriendsInterval);
+        clearInterval(this.checkSocketConnectInterval);
     };
     NavbarComponent.prototype.IsShowFriendFindInput = function () {
         return $(".sidenav-body-sector").hasScrollBar();
