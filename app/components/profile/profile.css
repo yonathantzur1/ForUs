@@ -100,15 +100,12 @@
         margin-top: 10px;
     }
 
-    #profile .upload-image-container {        
-        display: block;
-        border-radius: 8px;
-        padding: 10px;
-        cursor: pointer;
+    #profile .upload-image-container {
+        display: block;        
+        padding: 10px;        
         height: 120px;
         width: 140px;
-        margin: auto;
-        border: 0.5px solid #7c7c7c;
+        margin: auto;        
     }
 
     #profile .edit-image-preview-sector {
@@ -174,14 +171,11 @@
     }
 
     #profile .upload-image-container {        
-        display: inline-block;
-        border-radius: 8px;
-        padding: 10px;
-        cursor: pointer;        
+        display: inline-block;        
+        padding: 10px;              
         width: 120px;
         height: 120px;
-        vertical-align: middle;
-        border: 0.5px solid #7c7c7c;
+        vertical-align: middle;        
     }
 
     #profile .edit-image-preview-sector {
@@ -250,16 +244,13 @@
     }
 
     #profile .upload-image-container {        
-        display: inline-block;
-        border-radius: 8px;
+        display: inline-block;        
         padding: 20px;
         padding-right: 32px;
-        padding-left: 32px;
-        cursor: pointer;        
+        padding-left: 32px;        
         vertical-align: middle;
         width: 165px;
-        height: 165px;
-        border: 0.5px solid #7c7c7c;
+        height: 165px;        
     }
 
     #profile .edit-image-preview-sector {
@@ -341,6 +332,12 @@
 
 #profile .img-btn-pressed:hover {
     background-color: #b1d0e6 !important;
+}
+
+#profile .upload-image-container {
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px 1px #acacac;
+    cursor: pointer;
 }
 
 @media (max-width: 500px) {
