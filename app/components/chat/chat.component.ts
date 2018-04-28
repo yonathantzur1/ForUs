@@ -71,6 +71,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.chatData = value["chatData"];
                 this.InitializeChat();
             }
+            
             if (value["moveToChatWindow"]) {
                 this.SelectTopIcon(this.GetTopIconById("chat"));
             }
