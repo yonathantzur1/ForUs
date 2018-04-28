@@ -58,33 +58,39 @@ module.exports = (app) => {
         (req, res) => {
             loginBL.GetUser(req.body).then((result) => {
                 if (result) {
-                    // In case the user is blocked.
-                    if (result.block) {
-                        req.brute.reset(() => {
-                            res.send({ result: { "block": result.block } });
-                        });
-                    }
                     // In case the user is not exists.
-                    else if (result == "-1") {
+                    if (result == "-1") {
                         req.brute.reset(() => {
                             res.send({ result });
                         });
                     }
+                    // In case the user is blocked.
+                    else if (result.block) {
+                        req.brute.reset(() => {
+                            res.send({ result: { "block": result.block } });
+
+                            // Log - in case the email and password are valid but the user is blocked.
+                            logsBL.LoginIp(req.body.email, general.GetIpFromRequest(req));
+                        });
+                    }                    
                     // In case the user email and password are valid.
                     else {
                         req.brute.reset(() => {
                             general.SetTokenOnCookie(general.GetTokenFromUserObject(result), res);
                             res.send({ "result": true });
+
+                            // Log - in case the email and password are valid.
+                            logsBL.LoginIp(req.body.email, general.GetIpFromRequest(req));
                         });
                     }
                 }
                 // In case of error
                 else {
                     res.send({ result });
-                }
 
-                // Log
-                logsBL.LoginIp(req.body.email, general.GetIpFromRequest(req));
+                    // Log - in case the password is wrong.
+                    (result == false) && logsBL.LoginIp(req.body.email, general.GetIpFromRequest(req));
+                }
             }).catch((err) => {
                 res.status(500).end();
             });
@@ -161,15 +167,15 @@ module.exports = (app) => {
                 if (result) {
                     mailer.ForgotPasswordMail(email, result.firstName, result.resetCode.code);
                     res.send({ "result": true });
+
+                    // Log - in case the user has found.
+                    logsBL.ResetPasswordRequest(email, general.GetIpFromRequest(req));
                 }
                 else {
                     // Return to the client false in case the email was not found,
                     // or null in case of error.
                     res.send({ result });
                 }
-
-                // Log
-                logsBL.ResetPasswordRequest(email, general.GetIpFromRequest(req));
             }).catch((err) => {
                 res.status(500).end();
             });
