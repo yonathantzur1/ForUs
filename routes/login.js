@@ -70,7 +70,7 @@ module.exports = (app) => {
                             res.send({ result: { "block": result.block } });
 
                             // Log - in case the email and password are valid but the user is blocked.
-                            logsBL.LoginIp(req.body.email, general.GetIpFromRequest(req));
+                            logsBL.Login(req.body.email, general.GetIpFromRequest(req));
                         });
                     }                    
                     // In case the user email and password are valid.
@@ -80,7 +80,7 @@ module.exports = (app) => {
                             res.send({ "result": true });
 
                             // Log - in case the email and password are valid.
-                            logsBL.LoginIp(req.body.email, general.GetIpFromRequest(req));
+                            logsBL.Login(req.body.email, general.GetIpFromRequest(req));
                         });
                     }
                 }

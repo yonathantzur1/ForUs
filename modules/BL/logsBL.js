@@ -19,7 +19,7 @@ module.exports = {
         });
     },
 
-    LoginIp: function (email, ip) {
+    Login: function (email, ip) {
         return new Promise((resolve, reject) => {
             findQuery = { email, "type": enums.LOG_TYPE.LOGIN, ip };
 
@@ -29,14 +29,14 @@ module.exports = {
                         "type": enums.LOG_TYPE.LOGIN,
                         ip,
                         email,
-                        "date": new Date()
+                        "lastLoginTime": new Date()
                     };
 
                     DAL.Insert(collectionName, log).then(resolve).catch(reject);
                 }
                 else {
                     updateObj = {
-                        $set: { "date": new Date() }
+                        $set: { "lastLoginTime": new Date() }
                     };
 
                     DAL.UpdateOne(collectionName, findQuery, updateObj).then(resolve).catch(reject);
