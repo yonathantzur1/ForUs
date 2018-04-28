@@ -6,6 +6,7 @@ module.exports = {
 
     LOG_TYPE: {
         RESET_PASSWORD_REQUEST: "reset_password_request",
-        LOGIN_IP: "login_ip"
+        LOGIN: "login",
+        LOGIN_FAIL: "login_fail"
     }
 }

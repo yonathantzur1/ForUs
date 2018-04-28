@@ -89,7 +89,7 @@ module.exports = (app) => {
                     res.send({ result });
 
                     // Log - in case the password is wrong.
-                    (result == false) && logsBL.LoginIp(req.body.email, general.GetIpFromRequest(req));
+                    (result == false) && logsBL.LoginFail(req.body.email, general.GetIpFromRequest(req));
                 }
             }).catch((err) => {
                 res.status(500).end();
