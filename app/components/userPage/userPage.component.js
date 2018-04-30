@@ -37,24 +37,28 @@ var UserPageComponent = /** @class */ (function () {
                 iconCalc: function () {
                     return (self.user && self.user.isFriend) ? "fa fa-user-times" : "fa fa-user-plus";
                 },
+                innerIconText: "",
                 onClick: function () {
                 }
             },
             {
                 id: "openChat",
-                icon: "fa fa-commenting-o",
+                icon: "fa fa-pencil-square-o",
+                innerIconText: "",
                 onClick: function () {
                 }
             },
             {
                 id: "wave",
                 icon: "fa fa-hand-paper-o",
+                innerIconText: "",
                 onClick: function () {
                 }
             },
             {
-                id: "report",
-                icon: "fa fa-ban",
+                id: "menu",
+                icon: "material-icons",
+                innerIconText: "menu",
                 onClick: function () {
                 }
             }

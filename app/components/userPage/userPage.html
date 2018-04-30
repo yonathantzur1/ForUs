@@ -10,7 +10,7 @@
         <div class="body-container">
             <div *ngIf="!IsUserPageSelf()" class="options-line">
                 <span class="option" *ngFor="let option of options">
-                    <i (click)="option.onClick()" class="option-icon {{option.iconCalc ? option.iconCalc() : option.icon}}"></i>
+                    <i (click)="option.onClick()" class="option-icon {{option.iconCalc ? option.iconCalc() : option.icon}}">{{option.innerIconText}}</i>
                 </span>
             </div>
         </div>

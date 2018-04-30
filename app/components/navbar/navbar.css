@@ -408,8 +408,7 @@
     width: 35px;
     height: 35px;
     border-radius: 50%;
-    align-self: center;
-    margin-right: 8px;
+    align-self: center;    
     background-color: rgba(255, 255, 255, 0.82);
 }
 
@@ -463,16 +462,21 @@
     cursor: pointer;
 }
 
+#navbar .friend-image-container {
+    position: relative;
+    display: flex;
+    margin-right: 8px;
+}
+
 #navbar .online-icon {
     width: 10px;
     height: 10px;
     border: 1px solid white;
     border-radius: 50%;
     background-color: #19e719;
-    align-self: flex-start;
-    position: relative;
-    right: 15px;
-    top: 26px;
+    position: absolute;
+    right: -2px;
+    top: 28px;
 }
 
 #navbar .typing-icon {
@@ -481,10 +485,9 @@
     border: 0.5px solid grey;
     border-radius: 50%;
     background-color: #ffffff;
-    align-self: flex-start;
     position: absolute;
-    right: 32px;
-    margin-top: 26px;
+    right: 25px;
+    top: 5px;
     font-weight: bold;
     font-size: 18px;
     text-align: center;

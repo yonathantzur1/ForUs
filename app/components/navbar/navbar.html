@@ -28,9 +28,11 @@
             </div>
           </form>
           <div (click)="OpenChat(friend)" class="friend-container" *ngFor="let friend of (GetSidebarFriends(friendSearchInput))">
-            <div *ngIf="friend.isTyping" title="{{friend.firstName}} מקליד/ה" class="typing-icon">...</div>
-            <div *ngIf="friend.isOnline" class="online-icon"></div>
-            <img class="friend-profile" [src]="friend.profileImage || globalService.defaultProfileImage">
+            <div class="friend-image-container">
+              <div *ngIf="friend.isTyping" title="{{friend.firstName}} מקליד/ה" class="typing-icon">...</div>
+              <div *ngIf="friend.isOnline" class="online-icon"></div>
+              <img class="friend-profile" [src]="friend.profileImage || globalService.defaultProfileImage">
+            </div>
             <span [ngClass]="{'bold-friend-name' : GetFriendUnreadMessagesNumberText(friend._id)}" class="friend-name-container" title="{{friend.firstName + ' ' + friend.lastName}}">
               <span>{{friend.firstName + " " + friend.lastName}}</span>
               <span>{{GetFriendUnreadMessagesNumberText(friend._id)}}</span>
@@ -57,8 +59,7 @@
           </div>
           <i class="material-icons search-icon" [ngClass]="{'search-icon-active':isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0}">&#xE8B6;</i>
           <div class="search-results-container" *ngIf="isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0">
-            <div class="search-result" *ngFor="let result of GetFilteredSearchResults(searchInput)"
-              [title]="result.fullName">
+            <div class="search-result" *ngFor="let result of GetFilteredSearchResults(searchInput)" [title]="result.fullName">
               <div class="result-details-container" (click)="OpenUserProfile(result)">
                 <img *ngIf="result.profile && result.profile != -1" [src]="result.profile" class="search-result-image">
                 <img *ngIf="!result.profile" [src]="globalService.defaultProfileImage" class="search-result-image">

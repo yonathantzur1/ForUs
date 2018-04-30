@@ -78,8 +78,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     searchInputChangeDelay: number = 220; // milliseconds
     notificationDelay: number = 3800; // milliseconds
-    checkSocketConnectDelay: number = 8; // seconds
-    chatTypingDelay: number = 1000; // milliseconds
+    checkSocketConnectDelay: number = 5; // seconds
+    chatTypingDelay: number = 2200; // milliseconds
     newFriendsLabelDelay: number = 4000; // milliseconds    
     sidenavWidth: string = "230px";
 
