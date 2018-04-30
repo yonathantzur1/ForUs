@@ -101,7 +101,7 @@ export class LoginComponent {
 
   // Login user and redirect him to main page.
   Login() {
-    this.user.email.trim();
+    this.user.email = this.user.email.trim();
 
     // In case the login fields are valid.
     if (this.Validation(loginValidationFuncs, this.user)) {
@@ -163,9 +163,9 @@ export class LoginComponent {
 
   // Regiter the new user to the DB.
   Register() {
-    this.newUser.firstName.trim();
-    this.newUser.lastName.trim();
-    this.newUser.email.trim();
+    this.newUser.firstName = this.newUser.firstName.trim();
+    this.newUser.lastName = this.newUser.lastName.trim();
+    this.newUser.email = this.newUser.email.trim();
 
     // In case the register modal fields are valid.
     if (this.Validation(registerValidationFuncs, this.newUser)) {
@@ -194,7 +194,7 @@ export class LoginComponent {
 
   // Send mail with reset code to the user.
   ResetPassword() {
-    this.forgotUser.email.trim();
+    this.forgotUser.email = this.forgotUser.email.trim();
 
     // In case the forgot modal fields are valid.
     if (this.Validation(forgotValidationFuncs, this.forgotUser)) {

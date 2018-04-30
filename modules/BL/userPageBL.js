@@ -5,7 +5,7 @@ const usersCollectionName = config.db.collections.users;
 const profilesCollectionName = config.db.collections.profiles;
 
 module.exports = {
-    GetUserDetails: (userId) => {
+    GetUserDetails: (userId, currUserId) => {
         return new Promise((resolve, reject) => {
             var userObjectId = DAL.GetObjectId(userId);
             var userFilter = { $match: { "_id": userObjectId } };
@@ -19,7 +19,7 @@ module.exports = {
                     }
             };
             var unwindObject = { $unwind: "$profileImage" };
-            var userFileds = { $project: { "firstName": 1, "lastName": 1, "uid": 1, "profileImage.image": 1 } };
+            var userFileds = { $project: { "firstName": 1, "lastName": 1, "uid": 1, "friends": 1, "profileImage.image": 1 } };
 
             var aggregateArray = [userFilter, joinFilter, unwindObject, userFileds];
 
@@ -27,15 +27,27 @@ module.exports = {
             DAL.Aggregate(usersCollectionName, aggregateArray).then(user => {
                 // In case the user found, extract it from the array.
                 if (user && user.length == 1) {
-                    resolve(user[0]);
+                    var user = user[0];
+
+                    // Boolean value that indicates if the current user is friend of the user.
+                    user.isFriend = (user.friends.indexOf(currUserId) != -1);
+
+                    resolve(user);
                 }
                 else {
-                    var queryFields = { "firstName": 1, "lastName": 1, "uid": 1 };
+                    var queryFields = { "firstName": 1, "lastName": 1, "uid": 1, "friends": 1 };
 
                     // In case no result to aggregate, try to find the user with find query
                     // because maby the user has no profile picture.
                     DAL.FindOneSpecific(usersCollectionName, { "_id": userObjectId }, queryFields)
-                        .then(resolve).catch(reject);
+                        .then(user => {
+                            if (user) {
+                                // Boolean value that indicates if the current user is friend of the user.
+                                user.isFriend = (user.friends.indexOf(currUserId) != -1);
+                            }
+
+                            resolve(user);
+                        }).catch(reject);
                 }
             }).catch(reject);
         });

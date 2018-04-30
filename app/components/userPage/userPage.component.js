@@ -30,12 +30,40 @@ var UserPageComponent = /** @class */ (function () {
                 delete _this.user.profileImage;
             }
         });
+        var self = this;
+        self.options = [
+            {
+                id: "addFriend",
+                iconCalc: function () {
+                    return (self.user && self.user.isFriend) ? "fa fa-user-times" : "fa fa-user-plus";
+                },
+                onClick: function () {
+                }
+            },
+            {
+                id: "openChat",
+                icon: "fa fa-commenting-o",
+                onClick: function () {
+                }
+            },
+            {
+                id: "wave",
+                icon: "fa fa-hand-paper-o",
+                onClick: function () {
+                }
+            },
+            {
+                id: "report",
+                icon: "fa fa-ban",
+                onClick: function () {
+                }
+            }
+        ];
     }
     UserPageComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params.subscribe(function (params) {
-            _this.userId = params["id"];
-            _this.userPageService.GetUserDetails(_this.userId).then(function (user) {
+            _this.userPageService.GetUserDetails(params["id"]).then(function (user) {
                 user && _this.InitializePage(user);
             });
         });

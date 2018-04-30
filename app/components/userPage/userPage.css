@@ -72,3 +72,25 @@
     -webkit-user-select: none;
     user-select: none;
 }
+
+#userPage .options-line {
+    width: 100%;
+    height: 50px;
+    background-color: whitesmoke;
+    display: flex;
+}
+
+#userPage .option {
+    display: inline-flex;
+    width: 100%;
+    height: 50px;
+    border: 0.5px solid #9e9e9e;
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
+}
+
+#userPage .option-icon {
+    margin: auto;
+    font-size: 20px;
+}

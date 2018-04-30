@@ -27,17 +27,16 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
     FriendRequestsWindowComponent.prototype.ngOnInit = function () {
         var self = this;
         self.globalService.SocketOn('ClientUpdateFriendRequestsStatus', function (friendId) {
-            self.friendRequestsObjects = self.friendRequestsObjects.filter(function (request) {
-                return (request._id != friendId);
-            });
+            self.RemoveFriendRequestById(friendId);
         });
         self.globalService.SocketOn('GetFriendRequest', function () {
             self.LoadFriendRequestsObjects();
         });
         self.globalService.SocketOn('DeleteFriendRequest', function (friendId) {
-            self.friendRequestsObjects = self.friendRequestsObjects.filter(function (request) {
-                return (request._id != friendId);
-            });
+            self.RemoveFriendRequestById(friendId);
+        });
+        self.globalService.SocketOn('ClientRemoveFriendUser', function (friendId) {
+            self.RemoveFriendRequestById(friendId);
         });
     };
     FriendRequestsWindowComponent.prototype.ngOnChanges = function (changes) {
@@ -121,6 +120,11 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         var self = this;
         self.IgnoreFriendRequest(requestId, function (res) {
             self.isFriendRequestsLoading = false;
+        });
+    };
+    FriendRequestsWindowComponent.prototype.RemoveFriendRequestById = function (friendId) {
+        this.friendRequestsObjects = this.friendRequestsObjects.filter(function (friendRequest) {
+            return (friendRequest._id != friendId);
         });
     };
     __decorate([

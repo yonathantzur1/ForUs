@@ -34,9 +34,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
         var self = this;
 
         self.globalService.SocketOn('ClientUpdateFriendRequestsStatus', function (friendId: string) {
-            self.friendRequestsObjects = self.friendRequestsObjects.filter((request: any) => {
-                return (request._id != friendId);
-            });
+            self.RemoveFriendRequestById(friendId);
         });
 
         self.globalService.SocketOn('GetFriendRequest', function () {
@@ -44,9 +42,11 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
         });
 
         self.globalService.SocketOn('DeleteFriendRequest', function (friendId: string) {
-            self.friendRequestsObjects = self.friendRequestsObjects.filter((request: any) => {
-                return (request._id != friendId);
-            });
+            self.RemoveFriendRequestById(friendId);
+        });
+
+        self.globalService.SocketOn('ClientRemoveFriendUser', function (friendId: string) {
+            self.RemoveFriendRequestById(friendId);
         });
     }
 
@@ -92,7 +92,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
             this.navbarService.GetFriends(this.friendRequests.concat(this.confirmedReuests)).then((friendsResult: Array<any>) => {
                 if (friendsResult) {
                     this.isFriendRequestsLoaded = true;
-                    
+
                     // Running on all friends and confirmed friends of the request.
                     friendsResult.forEach((friend: any) => {
                         // In case the friend object is for friend request.
@@ -143,6 +143,12 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
 
         self.IgnoreFriendRequest(requestId, function (res: any) {
             self.isFriendRequestsLoading = false;
+        });
+    }
+
+    RemoveFriendRequestById(friendId: string) {
+        this.friendRequestsObjects = this.friendRequestsObjects.filter((friendRequest: any) => {
+            return (friendRequest._id != friendId);
         });
     }
 }

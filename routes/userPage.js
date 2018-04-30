@@ -7,8 +7,9 @@ module.exports = function (app) {
     // Add new profile image.
     app.get(prefix + '/getUserDetails', function (req, res) {
         var userId = req.query.id;
+        var currUserId = req.user._id;
 
-        userPageBL.GetUserDetails(userId).then(result => {
+        userPageBL.GetUserDetails(userId, currUserId).then(result => {
             res.send(result);
         }).catch(err => {
             res.status(500).end();

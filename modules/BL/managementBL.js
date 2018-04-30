@@ -259,9 +259,9 @@ module.exports = {
             // Getting deleted user friends.
             DAL.FindOneSpecific(usersCollectionName,
                 { "_id": userObjectId },
-                { "friends": 1 }).then((result) => {
+                { "friends": 1, "friendRequests.send": 1}).then((result) => {
                     if (result) {
-                        deletedUserFriends = result.friends;
+                        deletedUserFriends = result.friends.concat(result.friendRequests.send);
 
                         // Remove all permissions of the user.
                         DAL.Update(permissionsCollectionName,

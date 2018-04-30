@@ -81,8 +81,8 @@ var NavbarComponent = /** @class */ (function () {
         self.toolbarItems = [
             {
                 id: "messages",
-                icon: "material-icons",
-                innerIconText: "mail_outline",
+                icon: "fa fa-commenting-o",
+                innerIconText: "",
                 title: "הודעות",
                 content: {},
                 getNotificationsNumber: function () {
@@ -244,7 +244,7 @@ var NavbarComponent = /** @class */ (function () {
             self.RemoveFriend(friendId);
             self.alertService.Alert({
                 title: "מחיקת משתמש מהאתר",
-                text: "החשבון של " + userName + " נמחק מהאתר לצמיתות.",
+                text: "החשבון של " + "<b>" + userName + "</b>" + " נמחק מהאתר לצמיתות.",
                 showCancelButton: false,
                 type: "info"
             });

@@ -13,9 +13,9 @@ declare function getCookie(name: string): string;
 })
 
 export class UserPageComponent implements OnInit, OnDestroy {
-    userId: string;
     isLoading: boolean;
     user: any;
+    options: any;
 
     subscribeObj: any;
 
@@ -35,13 +35,46 @@ export class UserPageComponent implements OnInit, OnDestroy {
                 delete this.user.profileImage;
             }
         });
+
+        var self = this;
+
+        self.options = [
+            {
+                id: "addFriend",
+                iconCalc: function () {
+                    return (self.user && self.user.isFriend) ? "fa fa-user-times" : "fa fa-user-plus";
+                },
+                onClick: function () {
+
+                }
+            },
+            {
+                id: "openChat",
+                icon: "fa fa-commenting-o",
+                onClick: function () {
+
+                }
+            },
+            {
+                id: "wave",
+                icon: "fa fa-hand-paper-o",
+                onClick: function () {
+
+                }
+            },
+            {
+                id: "report",
+                icon: "fa fa-ban",
+                onClick: function () {
+
+                }
+            }
+        ]
     }
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.userId = params["id"];
-
-            this.userPageService.GetUserDetails(this.userId).then((user: any) => {
+            this.userPageService.GetUserDetails(params["id"]).then((user: any) => {
                 user && this.InitializePage(user);
             });
         });
