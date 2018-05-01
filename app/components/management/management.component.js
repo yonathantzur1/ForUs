@@ -81,6 +81,8 @@ var ManagementComponent = /** @class */ (function () {
             new navbar_component_1.DropMenuData(null, "מחיקת משתמש", function () {
                 var user = self.GetUserWithOpenMenu();
                 self.DeleteUser(user);
+            }, function () {
+                return (self.globalService.IsUserHasMasterPermission());
             })
         ];
     }

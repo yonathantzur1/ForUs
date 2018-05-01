@@ -98,6 +98,8 @@ export class ManagementComponent implements OnDestroy {
             new DropMenuData(null, "מחיקת משתמש", () => {
                 var user = self.GetUserWithOpenMenu();
                 self.DeleteUser(user);
+            }, () => {
+                return (self.globalService.IsUserHasMasterPermission());
             })
         ];
     }
