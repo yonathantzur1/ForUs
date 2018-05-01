@@ -47,6 +47,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
 
         self.globalService.SocketOn('ClientRemoveFriendUser', function (friendId: string) {
             self.RemoveFriendRequestById(friendId);
+            self.RemoveFriendConfirmById(friendId);
         });
     }
 
@@ -149,6 +150,12 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     RemoveFriendRequestById(friendId: string) {
         this.friendRequestsObjects = this.friendRequestsObjects.filter((friendRequest: any) => {
             return (friendRequest._id != friendId);
+        });
+    }
+
+    RemoveFriendConfirmById(friendId: string) {
+        this.friendConfirmObjects = this.friendConfirmObjects.filter((friendConfirm: any) => {
+            return (friendConfirm._id != friendId);
         });
     }
 }

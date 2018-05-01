@@ -37,6 +37,7 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         });
         self.globalService.SocketOn('ClientRemoveFriendUser', function (friendId) {
             self.RemoveFriendRequestById(friendId);
+            self.RemoveFriendConfirmById(friendId);
         });
     };
     FriendRequestsWindowComponent.prototype.ngOnChanges = function (changes) {
@@ -125,6 +126,11 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
     FriendRequestsWindowComponent.prototype.RemoveFriendRequestById = function (friendId) {
         this.friendRequestsObjects = this.friendRequestsObjects.filter(function (friendRequest) {
             return (friendRequest._id != friendId);
+        });
+    };
+    FriendRequestsWindowComponent.prototype.RemoveFriendConfirmById = function (friendId) {
+        this.friendConfirmObjects = this.friendConfirmObjects.filter(function (friendConfirm) {
+            return (friendConfirm._id != friendId);
         });
     };
     __decorate([
