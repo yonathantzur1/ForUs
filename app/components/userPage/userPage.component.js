@@ -12,12 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var global_service_1 = require("../../services/global/global.service");
+var alert_service_1 = require("../../services/alert/alert.service");
 var userPage_service_1 = require("../../services/userPage/userPage.service");
 var UserPageComponent = /** @class */ (function () {
-    function UserPageComponent(route, userPageService, globalService) {
+    function UserPageComponent(route, userPageService, alertService, globalService) {
         var _this = this;
         this.route = route;
         this.userPageService = userPageService;
+        this.alertService = alertService;
         this.globalService = globalService;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
             if (value["newUploadedImage"]) {
@@ -33,11 +35,29 @@ var UserPageComponent = /** @class */ (function () {
         var self = this;
         self.options = [
             {
-                id: "addFriend",
-                iconCalc: function () {
-                    return (self.user && self.user.isFriend) ? "fa fa-user-times" : "fa fa-user-plus";
-                },
+                id: "removeFriend",
+                icon: "fa fa-user-times",
                 innerIconText: "",
+                isShow: function () {
+                    return self.user.isFriend;
+                },
+                onClick: function () {
+                    self.alertService.Alert({
+                        title: "הסרת חברות",
+                        text: "האם להסיר את החברות עם " + self.user.fullName + "?",
+                        type: "warning",
+                        confirmFunc: function () {
+                        }
+                    });
+                }
+            },
+            {
+                id: "addFriend",
+                icon: "fa fa-user-plus",
+                innerIconText: "",
+                isShow: function () {
+                    return !self.user.isFriend;
+                },
                 onClick: function () {
                 }
             },
@@ -45,7 +65,11 @@ var UserPageComponent = /** @class */ (function () {
                 id: "openChat",
                 icon: "fa fa-pencil-square-o",
                 innerIconText: "",
+                isShow: function () {
+                    return self.user.isFriend;
+                },
                 onClick: function () {
+                    self.globalService.setData("openChat", self.user);
                 }
             },
             {
@@ -68,7 +92,10 @@ var UserPageComponent = /** @class */ (function () {
         var _this = this;
         this.route.params.subscribe(function (params) {
             _this.userPageService.GetUserDetails(params["id"]).then(function (user) {
-                user && _this.InitializePage(user);
+                if (user) {
+                    user.fullName = user.firstName + " " + user.lastName;
+                    _this.InitializePage(user);
+                }
             });
         });
     };
@@ -78,6 +105,16 @@ var UserPageComponent = /** @class */ (function () {
     UserPageComponent.prototype.InitializePage = function (user) {
         this.globalService.setData("changeSearchInput", user.firstName + " " + user.lastName);
         this.user = user;
+    };
+    UserPageComponent.prototype.GetOptions = function () {
+        return this.options.filter(function (option) {
+            if (!option.isShow) {
+                return true;
+            }
+            else {
+                return option.isShow();
+            }
+        });
     };
     // Return true if the user page belongs to the current user.
     UserPageComponent.prototype.IsUserPageSelf = function () {
@@ -96,6 +133,7 @@ var UserPageComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [router_1.ActivatedRoute,
             userPage_service_1.UserPageService,
+            alert_service_1.AlertService,
             global_service_1.GlobalService])
     ], UserPageComponent);
     return UserPageComponent;

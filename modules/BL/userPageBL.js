@@ -31,6 +31,8 @@ module.exports = {
 
                     // Boolean value that indicates if the current user is friend of the user.
                     user.isFriend = (user.friends.indexOf(currUserId) != -1);
+                    
+                    user.profileImage = user.profileImage.image;
 
                     resolve(user);
                 }

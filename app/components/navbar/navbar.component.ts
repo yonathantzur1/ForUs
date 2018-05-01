@@ -115,6 +115,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
             if (value["changeSearchInput"]) {
                 this.searchInput = value["changeSearchInput"];
             }
+
+            if (value["openChat"]) {
+                this.OpenChat(value["openChat"]);
+            }
         });
 
         var self = this;
@@ -174,7 +178,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             new DropMenuData("/management", "ניהול", null, () => {
                 return (self.globalService.IsUserHasRootPermission());
             }),
-            new DropMenuData("/profile/" + self.user._id, "פרופיל", (link: string) => {                
+            new DropMenuData("/profile/" + self.user._id, "פרופיל", (link: string) => {
                 self.router.navigateByUrl(link);
             }),
             new DropMenuData("/login", "התנתקות", (link: string) => {
@@ -183,7 +187,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             })
         ];
 
-        self.checkSocketConnectInterval = setInterval(function () {        
+        self.checkSocketConnectInterval = setInterval(function () {
             self.authService.IsUserSocketConnect().then(result => {
                 if (result == false) {
                     self.globalService.RefreshSocket();
@@ -965,6 +969,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     OpenUserProfile(user: any) {
         this.HideSearchResults();
         this.searchInput = user.firstName + " " + user.lastName;
-        this.router.navigateByUrl("/profile/" + user._id);        
+        this.router.navigateByUrl("/profile/" + user._id);
     }
 }

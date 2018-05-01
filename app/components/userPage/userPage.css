@@ -90,6 +90,8 @@
     margin-left: auto;
     margin-right: auto;
     cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 #userPage .option-icon {

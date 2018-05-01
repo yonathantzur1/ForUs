@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
+import { AlertService } from '../../services/alert/alert.service';
 import { UserPageService } from '../../services/userPage/userPage.service';
 
 declare function getCookie(name: string): string;
@@ -21,6 +22,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
     constructor(private route: ActivatedRoute,
         private userPageService: UserPageService,
+        private alertService: AlertService,
         private globalService: GlobalService) {
         this.subscribeObj = this.globalService.data.subscribe((value: any) => {
             if (value["newUploadedImage"]) {
@@ -40,11 +42,30 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
         self.options = [
             {
-                id: "addFriend",
-                iconCalc: function () {
-                    return (self.user && self.user.isFriend) ? "fa fa-user-times" : "fa fa-user-plus";
-                },
+                id: "removeFriend",
+                icon: "fa fa-user-times",
                 innerIconText: "",
+                isShow: function () {
+                    return self.user.isFriend;
+                },
+                onClick: function () {
+                    self.alertService.Alert({
+                        title: "הסרת חברות",
+                        text: "האם להסיר את החברות עם " + self.user.fullName + "?",
+                        type: "warning",
+                        confirmFunc: function () {
+
+                        }
+                    });
+                }
+            },
+            {
+                id: "addFriend",
+                icon: "fa fa-user-plus",
+                innerIconText: "",
+                isShow: function () {
+                    return !self.user.isFriend;
+                },
                 onClick: function () {
 
                 }
@@ -53,8 +74,11 @@ export class UserPageComponent implements OnInit, OnDestroy {
                 id: "openChat",
                 icon: "fa fa-pencil-square-o",
                 innerIconText: "",
+                isShow: function () {
+                    return self.user.isFriend;
+                },
                 onClick: function () {
-
+                    self.globalService.setData("openChat", self.user);
                 }
             },
             {
@@ -79,7 +103,10 @@ export class UserPageComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.route.params.subscribe(params => {
             this.userPageService.GetUserDetails(params["id"]).then((user: any) => {
-                user && this.InitializePage(user);
+                if (user) {
+                    user.fullName = user.firstName + " " + user.lastName;
+                    this.InitializePage(user);
+                }
             });
         });
     }
@@ -91,6 +118,17 @@ export class UserPageComponent implements OnInit, OnDestroy {
     InitializePage(user: any) {
         this.globalService.setData("changeSearchInput", user.firstName + " " + user.lastName);
         this.user = user;
+    }
+
+    GetOptions() {
+        return this.options.filter((option: any) => {
+            if (!option.isShow) {
+                return true;
+            }
+            else {
+                return option.isShow();
+            }
+        })
     }
 
     // Return true if the user page belongs to the current user.

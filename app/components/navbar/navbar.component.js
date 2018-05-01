@@ -76,6 +76,9 @@ var NavbarComponent = /** @class */ (function () {
             if (value["changeSearchInput"]) {
                 _this.searchInput = value["changeSearchInput"];
             }
+            if (value["openChat"]) {
+                _this.OpenChat(value["openChat"]);
+            }
         });
         var self = this;
         self.toolbarItems = [
