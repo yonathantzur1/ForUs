@@ -70,7 +70,7 @@ module.exports = (app) => {
                             res.send({ result: { "block": result.block } });
 
                             // Log - in case the email and password are valid but the user is blocked.
-                            logsBL.Login(req.body.email, general.GetIpFromRequest(req));
+                            logsBL.Login(req.body.email, general.GetIpFromRequest(req), general.GetUserAgentFromRequest(req));
                         });
                     }                    
                     // In case the user email and password are valid.
@@ -80,7 +80,7 @@ module.exports = (app) => {
                             res.send({ "result": true });
 
                             // Log - in case the email and password are valid.
-                            logsBL.Login(req.body.email, general.GetIpFromRequest(req));
+                            logsBL.Login(req.body.email, general.GetIpFromRequest(req), general.GetUserAgentFromRequest(req));
                         });
                     }
                 }
@@ -89,7 +89,7 @@ module.exports = (app) => {
                     res.send({ result });
 
                     // Log - in case the password is wrong.
-                    (result == false) && logsBL.LoginFail(req.body.email, general.GetIpFromRequest(req));
+                    (result == false) && logsBL.LoginFail(req.body.email, general.GetIpFromRequest(req), general.GetUserAgentFromRequest(req));
                 }
             }).catch((err) => {
                 res.status(500).end();
@@ -169,7 +169,7 @@ module.exports = (app) => {
                     res.send({ "result": true });
 
                     // Log - in case the user has found.
-                    logsBL.ResetPasswordRequest(email, general.GetIpFromRequest(req));
+                    logsBL.ResetPasswordRequest(email, general.GetIpFromRequest(req), general.GetUserAgentFromRequest(req));
                 }
                 else {
                     // Return to the client false in case the email was not found,

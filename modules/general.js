@@ -120,6 +120,10 @@ module.exports = {
         }
     },
 
+    GetUserAgentFromRequest: function (request) {
+        return request.headers["user-agent"];
+    },
+
     IsUserHasMasterPermission(permissions) {
         if (!permissions || permissions.length == 0) {
             return false;

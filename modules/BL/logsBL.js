@@ -4,70 +4,31 @@ const enums = require('../enums');
 
 var collectionName = config.db.collections.logs;
 
-module.exports = {
+var self = module.exports = {
 
-    ResetPasswordRequest: function (email, ip) {
+    ResetPasswordRequest: function (email, ip, userAgent) {
+        return self.InsertStandartLog(enums.LOG_TYPE.RESET_PASSWORD_REQUEST, email, ip, userAgent);
+    },
+
+    Login: function (email, ip, userAgent) {
+        return self.InsertStandartLog(enums.LOG_TYPE.LOGIN, email, ip, userAgent);
+    },
+
+    LoginFail: function (email, ip, userAgent) {
+        return self.InsertStandartLog(enums.LOG_TYPE.LOGIN_FAIL, email, ip, userAgent);
+    },
+
+    InsertStandartLog: function (type, email, ip, userAgent) {
         return new Promise((resolve, reject) => {
-            var log = {
-                "type": enums.LOG_TYPE.RESET_PASSWORD_REQUEST,
+            log = {
+                type,
                 ip,
+                userAgent,
                 email,
                 "date": new Date()
             };
 
             DAL.Insert(collectionName, log).then(resolve).catch(reject);
-        });
-    },
-
-    Login: function (email, ip) {
-        return new Promise((resolve, reject) => {
-            findQuery = { email, "type": enums.LOG_TYPE.LOGIN, ip };
-
-            DAL.FindOne(collectionName, findQuery).then(log => {
-                if (log == null) {
-                    log = {
-                        "type": enums.LOG_TYPE.LOGIN,
-                        ip,
-                        email,
-                        "lastLoginTime": new Date()
-                    };
-
-                    DAL.Insert(collectionName, log).then(resolve).catch(reject);
-                }
-                else {
-                    updateObj = {
-                        $set: { "lastLoginTime": new Date() }
-                    };
-
-                    DAL.UpdateOne(collectionName, findQuery, updateObj).then(resolve).catch(reject);
-                }
-            }).catch(reject);
-        });
-    },
-
-    LoginFail: function (email, ip) {
-        return new Promise((resolve, reject) => {
-            findQuery = { email, "type": enums.LOG_TYPE.LOGIN_FAIL, ip };
-
-            DAL.FindOne(collectionName, findQuery).then(log => {
-                if (log == null) {
-                    log = {
-                        "type": enums.LOG_TYPE.LOGIN_FAIL,
-                        ip,
-                        email,
-                        "dates": [new Date()]
-                    };
-
-                    DAL.Insert(collectionName, log).then(resolve).catch(reject);
-                }
-                else {
-                    updateObj = {
-                        $push: { "dates": new Date() }
-                    };
-
-                    DAL.UpdateOne(collectionName, findQuery, updateObj).then(resolve).catch(reject);
-                }
-            }).catch(reject);
         });
     }
 }
