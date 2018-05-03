@@ -96,4 +96,17 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
             }
         }
     });
+
+    socket.on('ServerRemoveFriend', function (friendId) {
+        var token = general.DecodeToken(general.GetTokenFromSocket(socket));
+
+        var x = socketsDictionary;
+        var y = connectedUsers;
+
+        if (token && token.user.friends.indexOf(friendId) != -1) {
+            var currUserId = token.user._id;
+            io.to(currUserId).emit('ClientRemoveFriend', friendId);
+            io.to(friendId).emit('ClientRemoveFriend', currUserId);
+        }
+    });
 }

@@ -28,6 +28,16 @@ var UserPageService = /** @class */ (function (_super) {
             return null;
         });
     };
+    UserPageService.prototype.RemoveFriends = function (friendId) {
+        return _super.prototype.delete.call(this, this.prefix + '/removeFriends?friendId=' + friendId)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
     return UserPageService;
 }(basic_service_1.BasicService));
 exports.UserPageService = UserPageService;

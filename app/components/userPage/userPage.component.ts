@@ -1,11 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { Router } from '@angular/router';
+
 import { GlobalService } from '../../services/global/global.service';
 import { AlertService } from '../../services/alert/alert.service';
 import { UserPageService } from '../../services/userPage/userPage.service';
 
 declare function getCookie(name: string): string;
+declare var snackbar: Function;
 
 @Component({
     selector: 'userPage',
@@ -20,7 +23,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
     subscribeObj: any;
 
-    constructor(private route: ActivatedRoute,
+    constructor(private router: Router,
+        private route: ActivatedRoute,
         private userPageService: UserPageService,
         private alertService: AlertService,
         private globalService: GlobalService) {
@@ -43,7 +47,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
         self.options = [
             {
                 id: "removeFriend",
-                icon: "fa fa-user-times",
+                icon: "fa fa-minus-square-o",
                 innerIconText: "",
                 isShow: function () {
                     return self.user.isFriend;
@@ -54,20 +58,50 @@ export class UserPageComponent implements OnInit, OnDestroy {
                         text: "האם להסיר את החברות עם " + self.user.fullName + "?",
                         type: "warning",
                         confirmFunc: function () {
-
+                            self.userPageService.RemoveFriends(self.user._id).then(result => {
+                                if (result) {
+                                    self.globalService.socket.emit("ServerRemoveFriend", self.user._id);
+                                    self.UnsetUserFriendStatus("isFriend");
+                                    snackbar("הסרת החברות עם " + self.user.fullName + " בוצעה בהצלחה");
+                                    self.globalService.RefreshSocket();
+                                }
+                                else {
+                                    self.alertService.Alert({
+                                        title: "שגיאה בהסרת החברות",
+                                        text: "אירעה שגיאה בהסרת החברות עם " + self.user.fullName,
+                                        type: "warning",
+                                        showCancelButton: false
+                                    });
+                                }
+                            });
                         }
                     });
                 }
             },
             {
-                id: "addFriend",
+                id: "addFriendRequest",
                 icon: "fa fa-user-plus",
                 innerIconText: "",
                 isShow: function () {
-                    return !self.user.isFriend;
+                    return (!self.user.isFriend &&
+                        !self.user.isGetFriendRequest &&
+                        !self.user.isSendFriendRequest);
                 },
                 onClick: function () {
-
+                    self.SetUserFriendStatus("isGetFriendRequest");
+                    self.globalService.setData("AddFriendRequest", self.user._id);
+                }
+            },
+            {
+                id: "removeFriendRequest",
+                icon: "fa fa-user-times",
+                innerIconText: "",
+                isShow: function () {
+                    return self.user.isGetFriendRequest;
+                },
+                onClick: function () {
+                    self.UnsetUserFriendStatus("isGetFriendRequest");
+                    self.globalService.setData("RemoveFriendRequest", self.user._id);
                 }
             },
             {
@@ -85,6 +119,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
                 id: "wave",
                 icon: "fa fa-hand-paper-o",
                 innerIconText: "",
+                isShow: function () {
+                    return self.user.isFriend;
+                },
                 onClick: function () {
 
                 }
@@ -109,6 +146,39 @@ export class UserPageComponent implements OnInit, OnDestroy {
                 }
             });
         });
+
+        var self = this;
+
+        self.globalService.SocketOn('ClientAddFriend', function (friend: any) {
+            if (friend._id == self.user._id) {
+                self.SetUserFriendStatus("isFriend");
+            }
+        });
+
+        self.globalService.SocketOn('ClientFriendAddedUpdate', function (friend: any) {
+            if (friend._id == self.user._id) {
+                self.SetUserFriendStatus("isFriend");
+            }
+        });
+
+        self.globalService.SocketOn('ClientRemoveFriend', function (friendId: string) {
+            if (friendId == self.user._id) {
+                self.UnsetUserFriendStatus("isFriend");
+            }
+        });
+
+        self.globalService.SocketOn('ClientIgnoreFriendRequest', function (friendId: string) {
+            if (friendId == self.user._id) {
+                self.UnsetUserFriendStatus("isGetFriendRequest");
+            }
+        });
+
+        // In case the user has been removed from the site.
+        self.globalService.SocketOn('ClientRemoveFriendUser', function (friendId: string) {
+            if (friendId == self.user._id) {
+                self.router.navigateByUrl("/");
+            }
+        });
     }
 
     ngOnDestroy() {
@@ -118,6 +188,20 @@ export class UserPageComponent implements OnInit, OnDestroy {
     InitializePage(user: any) {
         this.globalService.setData("changeSearchInput", user.firstName + " " + user.lastName);
         this.user = user;
+    }
+
+    UnsetUserFriendStatus(field: string) {
+        // Set the requested field to true.
+        this.user[field] = false;
+    }
+
+    SetUserFriendStatus(field: string) {
+        this.user.isFriend = false;
+        this.user.isGetFriendRequest = false;
+        this.user.isSendFriendRequest = false;
+
+        // Set the requested field to true.
+        this.user[field] = true;
     }
 
     GetOptions() {

@@ -69,7 +69,13 @@ export class ChatsWindowComponent implements OnInit {
             }
         });
 
+        // Remove friend from management screen.
         self.globalService.SocketOn('ClientRemoveFriendUser', function (friendId: string) {
+            self.RemoveFriendChat(friendId);
+        });
+
+        // Remove friend by the user from user page.
+        self.globalService.SocketOn('ClientRemoveFriend', function (friendId: string) {
             self.RemoveFriendChat(friendId);
         });
     }

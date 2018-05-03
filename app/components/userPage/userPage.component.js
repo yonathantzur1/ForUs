@@ -11,12 +11,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var router_2 = require("@angular/router");
 var global_service_1 = require("../../services/global/global.service");
 var alert_service_1 = require("../../services/alert/alert.service");
 var userPage_service_1 = require("../../services/userPage/userPage.service");
 var UserPageComponent = /** @class */ (function () {
-    function UserPageComponent(route, userPageService, alertService, globalService) {
+    function UserPageComponent(router, route, userPageService, alertService, globalService) {
         var _this = this;
+        this.router = router;
         this.route = route;
         this.userPageService = userPageService;
         this.alertService = alertService;
@@ -36,7 +38,7 @@ var UserPageComponent = /** @class */ (function () {
         self.options = [
             {
                 id: "removeFriend",
-                icon: "fa fa-user-times",
+                icon: "fa fa-minus-square-o",
                 innerIconText: "",
                 isShow: function () {
                     return self.user.isFriend;
@@ -47,18 +49,50 @@ var UserPageComponent = /** @class */ (function () {
                         text: "האם להסיר את החברות עם " + self.user.fullName + "?",
                         type: "warning",
                         confirmFunc: function () {
+                            self.userPageService.RemoveFriends(self.user._id).then(function (result) {
+                                if (result) {
+                                    self.globalService.socket.emit("ServerRemoveFriend", self.user._id);
+                                    self.UnsetUserFriendStatus("isFriend");
+                                    snackbar("הסרת החברות עם " + self.user.fullName + " בוצעה בהצלחה");
+                                    self.globalService.RefreshSocket();
+                                }
+                                else {
+                                    self.alertService.Alert({
+                                        title: "שגיאה בהסרת החברות",
+                                        text: "אירעה שגיאה בהסרת החברות עם " + self.user.fullName,
+                                        type: "warning",
+                                        showCancelButton: false
+                                    });
+                                }
+                            });
                         }
                     });
                 }
             },
             {
-                id: "addFriend",
+                id: "addFriendRequest",
                 icon: "fa fa-user-plus",
                 innerIconText: "",
                 isShow: function () {
-                    return !self.user.isFriend;
+                    return (!self.user.isFriend &&
+                        !self.user.isGetFriendRequest &&
+                        !self.user.isSendFriendRequest);
                 },
                 onClick: function () {
+                    self.SetUserFriendStatus("isGetFriendRequest");
+                    self.globalService.setData("AddFriendRequest", self.user._id);
+                }
+            },
+            {
+                id: "removeFriendRequest",
+                icon: "fa fa-user-times",
+                innerIconText: "",
+                isShow: function () {
+                    return self.user.isGetFriendRequest;
+                },
+                onClick: function () {
+                    self.UnsetUserFriendStatus("isGetFriendRequest");
+                    self.globalService.setData("RemoveFriendRequest", self.user._id);
                 }
             },
             {
@@ -76,6 +110,9 @@ var UserPageComponent = /** @class */ (function () {
                 id: "wave",
                 icon: "fa fa-hand-paper-o",
                 innerIconText: "",
+                isShow: function () {
+                    return self.user.isFriend;
+                },
                 onClick: function () {
                 }
             },
@@ -98,6 +135,33 @@ var UserPageComponent = /** @class */ (function () {
                 }
             });
         });
+        var self = this;
+        self.globalService.SocketOn('ClientAddFriend', function (friend) {
+            if (friend._id == self.user._id) {
+                self.SetUserFriendStatus("isFriend");
+            }
+        });
+        self.globalService.SocketOn('ClientFriendAddedUpdate', function (friend) {
+            if (friend._id == self.user._id) {
+                self.SetUserFriendStatus("isFriend");
+            }
+        });
+        self.globalService.SocketOn('ClientRemoveFriend', function (friendId) {
+            if (friendId == self.user._id) {
+                self.UnsetUserFriendStatus("isFriend");
+            }
+        });
+        self.globalService.SocketOn('ClientIgnoreFriendRequest', function (friendId) {
+            if (friendId == self.user._id) {
+                self.UnsetUserFriendStatus("isGetFriendRequest");
+            }
+        });
+        // In case the user has been removed from the site.
+        self.globalService.SocketOn('ClientRemoveFriendUser', function (friendId) {
+            if (friendId == self.user._id) {
+                self.router.navigateByUrl("/");
+            }
+        });
     };
     UserPageComponent.prototype.ngOnDestroy = function () {
         this.subscribeObj.unsubscribe();
@@ -105,6 +169,17 @@ var UserPageComponent = /** @class */ (function () {
     UserPageComponent.prototype.InitializePage = function (user) {
         this.globalService.setData("changeSearchInput", user.firstName + " " + user.lastName);
         this.user = user;
+    };
+    UserPageComponent.prototype.UnsetUserFriendStatus = function (field) {
+        // Set the requested field to true.
+        this.user[field] = false;
+    };
+    UserPageComponent.prototype.SetUserFriendStatus = function (field) {
+        this.user.isFriend = false;
+        this.user.isGetFriendRequest = false;
+        this.user.isSendFriendRequest = false;
+        // Set the requested field to true.
+        this.user[field] = true;
     };
     UserPageComponent.prototype.GetOptions = function () {
         return this.options.filter(function (option) {
@@ -131,7 +206,8 @@ var UserPageComponent = /** @class */ (function () {
             templateUrl: './userPage.html',
             providers: [userPage_service_1.UserPageService]
         }),
-        __metadata("design:paramtypes", [router_1.ActivatedRoute,
+        __metadata("design:paramtypes", [router_2.Router,
+            router_1.ActivatedRoute,
             userPage_service_1.UserPageService,
             alert_service_1.AlertService,
             global_service_1.GlobalService])

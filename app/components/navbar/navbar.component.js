@@ -79,6 +79,12 @@ var NavbarComponent = /** @class */ (function () {
             if (value["openChat"]) {
                 _this.OpenChat(value["openChat"]);
             }
+            if (value["AddFriendRequest"]) {
+                _this.AddFriendRequest(value["AddFriendRequest"]);
+            }
+            if (value["RemoveFriendRequest"]) {
+                _this.RemoveFriendRequest(value["RemoveFriendRequest"]);
+            }
         });
         var self = this;
         self.toolbarItems = [
@@ -210,6 +216,7 @@ var NavbarComponent = /** @class */ (function () {
             var friendRequests = self.GetToolbarItem("friendRequests").content;
             friendRequests.get.push(friendId);
             self.ShowFriendRequestNotification(friendFullName, false);
+            self.isHideNotificationsBudget = false;
         });
         self.globalService.SocketOn('DeleteFriendRequest', function (friendId) {
             var friendRequests = self.GetToolbarItem("friendRequests").content;
@@ -226,19 +233,19 @@ var NavbarComponent = /** @class */ (function () {
             self.authService.SetCurrUserToken().then(function (result) {
                 if (result) {
                     self.globalService.RefreshSocket();
-                    var friendRequests = self.GetToolbarItem("friendRequests").content;
-                    friendRequests.send.splice(friendRequests.send.indexOf(friend._id), 1);
-                    self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
-                    self.globalService.socket.emit("RemoveFriendRequest", self.user._id, friend._id);
-                    self.user.friends.push(friend._id);
-                    self.friends.push(friend);
-                    self.globalService.socket.emit("ServerGetOnlineFriends");
-                    // Add the friend to the confirmed requests array.
-                    self.GetToolbarItem('friendRequests').content.accept.push(friend._id);
-                    self.isHideNotificationsBudget = false;
-                    self.ShowFriendRequestNotification(friend.firstName + " " + friend.lastName, true);
                 }
             });
+            var friendRequests = self.GetToolbarItem("friendRequests").content;
+            friendRequests.send.splice(friendRequests.send.indexOf(friend._id), 1);
+            self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
+            self.globalService.socket.emit("RemoveFriendRequest", self.user._id, friend._id);
+            self.user.friends.push(friend._id);
+            self.friends.push(friend);
+            self.globalService.socket.emit("ServerGetOnlineFriends");
+            // Add the friend to the confirmed requests array.
+            self.GetToolbarItem('friendRequests').content.accept.push(friend._id);
+            self.isHideNotificationsBudget = false;
+            self.ShowFriendRequestNotification(friend.firstName + " " + friend.lastName, true);
         });
         self.globalService.SocketOn('ClientFriendTyping', function (friendId) {
             self.MakeFriendTyping(friendId);
@@ -251,6 +258,14 @@ var NavbarComponent = /** @class */ (function () {
                 showCancelButton: false,
                 type: "info"
             });
+        });
+        self.globalService.SocketOn('ClientRemoveFriend', function (friendId) {
+            self.authService.SetCurrUserToken().then(function (result) {
+                if (result) {
+                    self.globalService.RefreshSocket();
+                }
+            });
+            self.RemoveFriend(friendId);
         });
     };
     NavbarComponent.prototype.ngOnDestroy = function () {
@@ -385,7 +400,13 @@ var NavbarComponent = /** @class */ (function () {
         this.isShowSearchResults = false;
     };
     NavbarComponent.prototype.ClickSearchInput = function (input) {
-        this.isShowSearchResults = input ? true : false;
+        if (input) {
+            this.isShowSearchResults = true;
+            this.SearchChange(this.searchInput);
+        }
+        else {
+            this.isShowSearchResults = false;
+        }
         this.HideSidenav();
         this.HideDropMenu();
     };
@@ -605,8 +626,12 @@ var NavbarComponent = /** @class */ (function () {
     };
     NavbarComponent.prototype.ShowFriendRequestNotification = function (name, isConfirm) {
         this.friendRequestNotificationName = name;
-        isConfirm ?
-            (this.isShowFriendConfirmNotification = true) : (this.isShowFriendRequestNotification = true);
+        if (isConfirm) {
+            this.isShowFriendConfirmNotification = true;
+        }
+        else {
+            this.isShowFriendRequestNotification = true;
+        }
         var self = this;
         self.friendRequestNotificationInterval = setInterval(function () {
             self.isShowFriendRequestNotification = false;
@@ -617,15 +642,10 @@ var NavbarComponent = /** @class */ (function () {
     };
     NavbarComponent.prototype.IsShowAddFriendRequestBtn = function (friendId) {
         var friendRequests = this.GetToolbarItem("friendRequests").content;
-        if (friendId != this.user._id &&
+        return (friendId != this.user._id &&
             this.user.friends.indexOf(friendId) == -1 &&
             friendRequests.send.indexOf(friendId) == -1 &&
-            friendRequests.get.indexOf(friendId) == -1) {
-            return true;
-        }
-        else {
-            return false;
-        }
+            friendRequests.get.indexOf(friendId) == -1);
     };
     NavbarComponent.prototype.IsShowRemoveFriendRequestBtn = function (friendId) {
         var friendRequests = this.GetToolbarItem("friendRequests").content;

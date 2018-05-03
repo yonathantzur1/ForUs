@@ -16,4 +16,16 @@ module.exports = function (app) {
         });
     });
 
+    // Remove friend.
+    app.delete(prefix + '/removeFriends', function (req, res) {
+        var currUserId = req.user._id;
+        var friendId = req.query.friendId;
+
+        userPageBL.RemoveFriends(currUserId, friendId).then(result => {
+            res.send(result);
+        }).catch(err => {
+            res.status(500).end();
+        });
+    });
+
 };

@@ -64,14 +64,11 @@ var GlobalService = /** @class */ (function (_super) {
     // This function should be called in order to refresh
     // the client cookies (token) that the socket object contains.
     GlobalService.prototype.RefreshSocket = function () {
-        this.socket && this.socket.destroy();
-        this.socket = io();
-        this.socket.emit('login');
-        var self = this;
-        // Listen to all socket events on the new socket object.
-        Object.keys(self.socketOnDictionary).forEach(function (name) {
-            self.socket.on(name, self.socketOnDictionary[name]);
-        });
+        if (this.socket) {
+            this.socket.disconnect();
+            this.socket.connect();
+            this.socket.emit('login');
+        }
     };
     GlobalService.prototype.SocketOn = function (name, func) {
         this.socketOnDictionary[name] = func;

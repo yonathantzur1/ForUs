@@ -16,4 +16,15 @@ export class UserPageService extends BasicService {
             });
     }
 
+    RemoveFriends(friendId: string) {
+        return super.delete(this.prefix + '/removeFriends?friendId=' + friendId)
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((result: any) => {
+                return null;
+            });
+    }
+
 }

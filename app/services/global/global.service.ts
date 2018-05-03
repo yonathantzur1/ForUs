@@ -64,16 +64,11 @@ export class GlobalService extends LoginService {
     // This function should be called in order to refresh
     // the client cookies (token) that the socket object contains.
     RefreshSocket() {
-        this.socket && this.socket.destroy();
-        this.socket = io();
-        this.socket.emit('login');
-
-        var self = this;
-
-        // Listen to all socket events on the new socket object.
-        Object.keys(self.socketOnDictionary).forEach((name: string) => {
-            self.socket.on(name, self.socketOnDictionary[name]);
-        });
+        if (this.socket) {
+            this.socket.disconnect();
+            this.socket.connect();
+            this.socket.emit('login');
+        }
     }
 
     SocketOn(name: string, func: Function) {

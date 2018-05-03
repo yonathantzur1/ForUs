@@ -54,7 +54,12 @@ var ChatsWindowComponent = /** @class */ (function () {
                 self.LoadChatsObjects();
             }
         });
+        // Remove friend from management screen.
         self.globalService.SocketOn('ClientRemoveFriendUser', function (friendId) {
+            self.RemoveFriendChat(friendId);
+        });
+        // Remove friend by the user from user page.
+        self.globalService.SocketOn('ClientRemoveFriend', function (friendId) {
             self.RemoveFriendChat(friendId);
         });
     };
