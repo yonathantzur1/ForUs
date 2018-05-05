@@ -49,6 +49,7 @@ var NavbarComponent = /** @class */ (function () {
         this.isSidenavOpen = false;
         this.isHideNotificationsBudget = false;
         this.searchResults = [];
+        this.markedResult = null;
         this.isShowSearchResults = false;
         // START CONFIG VARIABLES //
         this.searchInputChangeDelay = 220; // milliseconds
@@ -425,6 +426,7 @@ var NavbarComponent = /** @class */ (function () {
         }
     };
     NavbarComponent.prototype.SearchChange = function (input) {
+        this.markedResult = null;
         this.isNewFriendsLabel = false;
         this.inputInterval && clearTimeout(this.inputInterval);
         var self = this;
@@ -464,6 +466,39 @@ var NavbarComponent = /** @class */ (function () {
         else {
             self.HideSearchResults();
             self.searchResults = [];
+        }
+    };
+    NavbarComponent.prototype.SearchKeyUp = function (event) {
+        if (this.searchResults.length > 0 && this.isShowSearchResults) {
+            if (event.key == "ArrowDown") {
+                if (this.markedResult != null) {
+                    this.markedResult = (this.markedResult + 1) % (this.searchResults.length + 1);
+                }
+                else {
+                    this.markedResult = 0;
+                }
+            }
+            else if (event.key == "ArrowUp") {
+                if (this.markedResult != null) {
+                    if (this.markedResult == 0) {
+                        this.markedResult = this.searchResults.length;
+                    }
+                    else {
+                        this.markedResult -= 1;
+                    }
+                }
+                else {
+                    this.markedResult = this.searchResults.length - 1;
+                }
+            }
+            else if (event.key == "Enter" || event.key == "NumpadEnter") {
+                if (this.markedResult != null) {
+                    this.OpenUserProfile(this.searchResults[this.markedResult]);
+                }
+            }
+            else if (event.key == "Escape") {
+                this.isShowSearchResults = false;
+            }
         }
     };
     NavbarComponent.prototype.InsertResultsImagesToCache = function (profiles) {

@@ -51,15 +51,18 @@
       <div class="col-xs-8 navbar-right-container">
         <img src="../logo/icon.png" class="head-icon" (click)="NavigateMain()">
         <span class="search-sector col-md-6 col-xs-10">
-          <input type="text" id="search-input" class="search-input" placeholder="חיפוש" [(ngModel)]="searchInput" (ngModelChange)="SearchChange(searchInput)"
-            (focus)="ClickSearchInput(searchInput)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+          <input type="text" id="search-input" class="search-input" placeholder="חיפוש" [(ngModel)]="searchInput" (keyup)="SearchKeyUp($event)"
+            (ngModelChange)="SearchChange(searchInput)" (click)="ClickSearchInput(searchInput)" autocomplete="off" autocorrect="off"
+            autocapitalize="off" spellcheck="false">
           <div *ngIf="isNewFriendsLabel && !isSidenavOpen && !isShowSearchResults">
             <i class="fas fa-caret-up menu-top-arrow new-friends-label-top-arrow"></i>
             <div class="new-friends-label">חיפוש חברים חדשים</div>
           </div>
           <i class="material-icons search-icon" [ngClass]="{'search-icon-active':isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0}">&#xE8B6;</i>
           <div class="search-results-container" *ngIf="isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0">
-            <div class="search-result" *ngFor="let result of GetFilteredSearchResults(searchInput)" [title]="result.fullName">
+            <div class="search-result" [ngClass]="{'selected-search-result' : (index == markedResult)}" (mouseenter)="markedResult=index;"
+              (mouseleave)="markedResult=null;" *ngFor="let result of GetFilteredSearchResults(searchInput); let index = index"
+              [title]="result.fullName">
               <div class="result-details-container" (click)="OpenUserProfile(result)">
                 <img *ngIf="result.profile && result.profile != -1" [src]="result.profile" class="search-result-image">
                 <img *ngIf="!result.profile" [src]="globalService.defaultProfileImage" class="search-result-image">

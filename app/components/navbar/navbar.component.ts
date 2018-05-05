@@ -67,6 +67,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     isHideNotificationsBudget: boolean = false;
     isDropMenuOpen: boolean;
     searchResults: Array<any> = [];
+    markedResult: number = null;
     isShowSearchResults: boolean = false;
     inputInterval: any;
     checkSocketConnectInterval: any;
@@ -528,6 +529,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     SearchChange(input: string) {
+        this.markedResult = null;
         this.isNewFriendsLabel = false;
         this.inputInterval && clearTimeout(this.inputInterval);
 
@@ -574,6 +576,40 @@ export class NavbarComponent implements OnInit, OnDestroy {
         else {
             self.HideSearchResults();
             self.searchResults = [];
+        }
+    }
+
+    SearchKeyUp(event: any) {
+        if (this.searchResults.length > 0 && this.isShowSearchResults) {
+            if (event.key == "ArrowDown") {
+                if (this.markedResult != null) {
+                    this.markedResult = (this.markedResult + 1) % (this.searchResults.length + 1);
+                }
+                else {
+                    this.markedResult = 0;
+                }
+            }
+            else if (event.key == "ArrowUp") {
+                if (this.markedResult != null) {
+                    if (this.markedResult == 0) {
+                        this.markedResult = this.searchResults.length;
+                    }
+                    else {
+                        this.markedResult -= 1;
+                    }
+                }
+                else {
+                    this.markedResult = this.searchResults.length - 1;
+                }
+            }
+            else if (event.key == "Enter" || event.key == "NumpadEnter") {
+                if (this.markedResult != null) {
+                    this.OpenUserProfile(this.searchResults[this.markedResult]);
+                }
+            }
+            else if (event.key == "Escape") {
+                this.isShowSearchResults = false;
+            }
         }
     }
 
