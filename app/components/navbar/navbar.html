@@ -54,7 +54,7 @@
           <input type="text" id="search-input" class="search-input" placeholder="חיפוש" [(ngModel)]="searchInput" (ngModelChange)="SearchChange(searchInput)"
             (focus)="ClickSearchInput(searchInput)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
           <div *ngIf="isNewFriendsLabel && !isSidenavOpen && !isShowSearchResults">
-            <span style="right:15px!important; color:#b2b2b2;" class="glyphicon glyphicon-triangle-top menu-top-arrow"></span>
+            <i class="fas fa-caret-up menu-top-arrow new-friends-label-top-arrow"></i>
             <div class="new-friends-label">חיפוש חברים חדשים</div>
           </div>
           <i class="material-icons search-icon" [ngClass]="{'search-icon-active':isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0}">&#xE8B6;</i>
@@ -71,12 +71,12 @@
               <div *ngIf="IsShowAddFriendRequestBtn(result._id) ||
                 IsShowRemoveFriendRequestBtn(result._id) ||
                 IsShowFriendRequestConfirmSector(result._id)" class="result-friend-request-btns-container">
-                <i *ngIf="IsShowAddFriendRequestBtn(result._id)" (click)="AddFriendRequest(result._id)" class="fa fa-user-plus friend-request-btn"
-                  title="בקשת חברות" aria-hidden="true"></i>
-                <i *ngIf="IsShowRemoveFriendRequestBtn(result._id)" (click)="RemoveFriendRequest(result._id)" class="fa fa-user-times friend-request-btn remove-request"
-                  title="ביטול בקשת חברות" aria-hidden="true"></i>
+                <i *ngIf="IsShowAddFriendRequestBtn(result._id)" (click)="AddFriendRequest(result._id)" class="fas fa-user-plus friend-request-btn"
+                  title="בקשת חברות"></i>
+                <i *ngIf="IsShowRemoveFriendRequestBtn(result._id)" (click)="RemoveFriendRequest(result._id)" class="fas fa-user-times friend-request-btn remove-request"
+                  title="ביטול בקשת חברות"></i>
                 <span *ngIf="IsShowFriendRequestConfirmSector(result._id)">
-                  <i class="fa fa-user-plus friend-request-confirm-icon" title="אישור בקשת חברות" aria-hidden="true"></i>
+                  <i class="fas fa-user-plus friend-request-confirm-icon" title="אישור בקשת חברות"></i>
                   <i (click)="AddFriend(result._id)" class="material-icons friend-request-confirm-btn" title="אישור">check</i>
                   <i (click)="IgnoreFriendRequest(result._id)" class="material-icons friend-request-decline-btn" title="ביטול">close</i>
                 </span>
@@ -87,14 +87,14 @@
       </div>
       <div style="float:left;" class="col-xs-4">
         <div *ngIf="user" class="manage-sector">
-          <span (click)="ShowHideDropMenu()" class="glyphicon glyphicon-triangle-bottom menu-icon"></span>
+          <i (click)="ShowHideDropMenu()" class="fas fa-caret-down menu-icon"></i>
           <span (click)="ShowHideDropMenu()" class="name">
             <span class="top-navbar-user-image">
               <profilePicture [isEditEnable]="false"></profilePicture>
             </span> {{user.firstName}}
           </span>
           <span *ngIf="isDropMenuOpen">
-            <span class="glyphicon glyphicon-triangle-top menu-top-arrow"></span>
+            <i class="fas fa-caret-up menu-top-arrow"></i>
             <dropMenu class="dropMenuPosition col-md-2 col-xs-4" [options]="dropMenuDataList"></dropMenu>
           </span>
         </div>
@@ -116,7 +116,7 @@
     <div class="notifications-budget" *ngIf="!isHideNotificationsBudget && GetNotificationsNumber() > 0">
       <span class="notifications-number">{{GetNotificationsNumber()}}</span>
     </div>
-    <i class="material-icons open-sidenav-icon">{{isSidenavOpen ? '&#xE315;': '&#xE314;'}}</i>
+    <i class="open-sidenav-icon fas {{isSidenavOpen ? 'fa-chevron-left': 'fa-chevron-right'}}"></i>
   </div>
 </div>
 

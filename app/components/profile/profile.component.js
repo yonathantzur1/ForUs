@@ -29,14 +29,14 @@ var ProfileComponent = /** @class */ (function () {
         };
         this.imageBtns = [
             {
-                icon: "fa-upload",
+                icon: "fas fa-upload",
                 title: "העלאת תמונה",
                 onClick: function () {
                     $("#inputImage").trigger("click");
                 }
             },
             {
-                icon: "fa-refresh",
+                icon: "fas fa-sync",
                 title: "איפוס תמונה",
                 onClick: function (self) {
                     self.ResetAllImageBtns();
@@ -44,7 +44,7 @@ var ProfileComponent = /** @class */ (function () {
                 }
             },
             {
-                icon: "fa-arrows",
+                icon: "fas fa-arrows-alt",
                 title: "מצב תזוזה",
                 onClick: function () {
                     if (this.isPressed) {
@@ -58,21 +58,21 @@ var ProfileComponent = /** @class */ (function () {
                 isPressed: false
             },
             {
-                icon: "fa-rotate-right",
+                icon: "fas fa-redo",
                 title: "סיבוב ימינה",
                 onClick: function () {
                     $('#main-img').cropper("rotate", 45);
                 }
             },
             {
-                icon: "fa-rotate-left",
+                icon: "fas fa-undo",
                 title: "סיבוב שמאלה",
                 onClick: function () {
                     $('#main-img').cropper("rotate", -45);
                 }
             },
             {
-                icon: "fa-arrows-h",
+                icon: "fas fa-arrows-alt-h",
                 title: "היפוך אופקי",
                 onClick: function () {
                     var imageData = $('#main-img').cropper("getData");
@@ -99,42 +99,42 @@ var ProfileComponent = /** @class */ (function () {
                 isPressed: false
             },
             {
-                icon: "fa-arrow-down",
+                icon: "fas fa-arrow-down",
                 title: "הזזה למטה",
                 onClick: function () {
                     $('#main-img').cropper("move", 0, 10);
                 }
             },
             {
-                icon: "fa-arrow-up",
+                icon: "fas fa-arrow-up",
                 title: "הזזה למעלה",
                 onClick: function () {
                     $('#main-img').cropper("move", 0, -10);
                 }
             },
             {
-                icon: "fa-arrow-right",
+                icon: "fas fa-arrow-right",
                 title: "הזזה ימינה",
                 onClick: function () {
                     $('#main-img').cropper("move", 10, 0);
                 }
             },
             {
-                icon: "fa-arrow-left",
+                icon: "fas fa-arrow-left",
                 title: "הזזה שמאלה",
                 onClick: function () {
                     $('#main-img').cropper("move", -10, 0);
                 }
             },
             {
-                icon: "fa-search-minus",
+                icon: "fas fa-minus",
                 title: "הקטנה",
                 onClick: function () {
                     $('#main-img').cropper("zoom", -0.1);
                 }
             },
             {
-                icon: "fa-search-plus",
+                icon: "fas fa-plus",
                 title: "הגדלה",
                 onClick: function () {
                     $('#main-img').cropper("zoom", 0.1);

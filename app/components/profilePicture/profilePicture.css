@@ -25,6 +25,7 @@
     align-self: center;
     text-align: center;
     width: 100%;
+    font-size: 11px;
 }
 
 #profilePicture .change-image-btn {

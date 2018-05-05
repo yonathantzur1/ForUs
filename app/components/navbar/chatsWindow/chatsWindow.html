@@ -1,5 +1,5 @@
 <div id="chatsWindow">
-    <span class="glyphicon glyphicon-triangle-top window-top-arrow"></span>
+    <i class="fas fa-caret-up window-top-arrow"></i>
     <div class="chatsWindow-container">
         <div *ngIf="!isChatsLoading && !isLoading" class="top-line">
             <span>{{GetUnreadMessagesNumberText()}}</span>
@@ -14,7 +14,7 @@
                         <div class="chat-name">{{GetFriendName(chat.friend) || "משתמש לא קיים"}}</div>
                         <div *ngIf="!chat.lastMessage.isImage" class="chat-last-text">{{chat.lastMessage.text}}</div>
                         <div *ngIf="chat.lastMessage.isImage" class="chat-last-text">
-                            <span class="glyphicon glyphicon-camera img-sign" aria-hidden="true"></span>
+                            <i class="fas fa-camera img-sign"></i>
                         </div>
                     </div>
                     <div class="chat-last-time">

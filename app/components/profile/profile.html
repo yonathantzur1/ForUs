@@ -8,10 +8,10 @@
                     </div>
                     <div class="disable-screen" *ngIf="isLoading"></div>
                     <a class="close" (click)="CloseWindow()" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <i class="material-icons">close</i>
                     </a>
                     <h4 class="modal-title modal-title-label" id="profileLabel">תמונת פרופיל
-                        <span class="glyphicon glyphicon-camera modal-title-icon" aria-hidden="true"></span>
+                        <i class="fas fa-camera modal-title-icon"></i>
                     </h4>
                 </div>
                 <div class="modal-body">
@@ -43,7 +43,7 @@
                                     </div>
                                     <div class="image-tool-bar">
                                         <div *ngFor="let btn of imageBtns" [title]="btn.title" (click)="btn.onClick(this)" class="img-btn" [ngClass]="{'img-btn-pressed': btn.isPressed}">
-                                            <i class="fa {{btn.icon}}" aria-hidden="true"></i>
+                                            <i class="{{btn.icon}}"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -52,8 +52,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <span *ngIf="userImage && isNewPhoto" title="מחיקת תמונת הפרופיל" (click)="DeleteImage()" class="glyphicon glyphicon-trash delete-profile-btn"
-                        aria-hidden="true"></span>
+                    <i *ngIf="userImage && isNewPhoto" title="מחיקת תמונת הפרופיל" (click)="DeleteImage()" class="far fa-trash-alt delete-profile-btn"></i>
                     <div class="modal-footer-buttons">
                         <a (click)="CloseWindow()" class="btn btn-default cancel-change-btn">סגור</a>
                         <a (click)="SaveImage()" id="register-btn" class="btn btn-primary change-img-btn" [ngClass]="{'change-img-btn-disabled': isNewPhoto}">אישור</a>

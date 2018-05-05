@@ -12,10 +12,10 @@
 }
 
 #friendRequestsWindow .window-top-arrow {
-    top: 113px;
-    right: 165px;
+    top: 111px;
+    right: 168px;
     z-index: 1002;
-    font-size: 20px;
+    font-size: 24px;
     color: white;
     position: fixed;
 }

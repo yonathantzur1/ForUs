@@ -1,7 +1,7 @@
 <div id="userPage">
     <div *ngIf="user" class="container">
         <div class="head-container">
-            <i (click)="OpenEditWindow()" *ngIf="IsUserPageSelf()" class="material-icons change-image-icon">photo_camera</i>
+            <i (click)="OpenEditWindow()" *ngIf="IsUserPageSelf()" class="fas fa-camera change-image-icon"></i>
             <img (click)="OpenEditWindow()" class="user-image" [ngClass]="{'clickable' : IsUserPageSelf()}" [src]="user.profileImage || globalService.defaultProfileImage">
             <div class="user-name">
                 {{user.firstName + " " + user.lastName}}

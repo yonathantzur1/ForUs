@@ -47,7 +47,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
         self.options = [
             {
                 id: "removeFriend",
-                icon: "fa fa-minus-square-o",
+                icon: "fas fa-user-minus",
                 innerIconText: "",
                 isShow: function () {
                     return self.user.isFriend;
@@ -80,7 +80,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
             },
             {
                 id: "addFriendRequest",
-                icon: "fa fa-user-plus",
+                icon: "fas fa-user-plus",
                 innerIconText: "",
                 isShow: function () {
                     return (!self.user.isFriend &&
@@ -94,7 +94,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
             },
             {
                 id: "removeFriendRequest",
-                icon: "fa fa-user-times",
+                icon: "fas fa-user-times",
                 innerIconText: "",
                 isShow: function () {
                     return self.user.isGetFriendRequest;
@@ -106,7 +106,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
             },
             {
                 id: "openChat",
-                icon: "fa fa-pencil-square-o",
+                icon: "far fa-edit",
                 innerIconText: "",
                 isShow: function () {
                     return self.user.isFriend;
@@ -117,7 +117,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
             },
             {
                 id: "wave",
-                icon: "fa fa-hand-paper-o",
+                icon: "far fa-hand-paper",
                 innerIconText: "",
                 isShow: function () {
                     return self.user.isFriend;
@@ -128,8 +128,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
             },
             {
                 id: "menu",
-                icon: "material-icons",
-                innerIconText: "menu",
+                icon: "fas fa-bars",
+                innerIconText: "",
                 onClick: function () {
 
                 }

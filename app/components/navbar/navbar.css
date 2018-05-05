@@ -118,8 +118,7 @@
 }
 
 #navbar .menu-icon {
-    top: 5px;
-    font-size: 14px;
+    font-size: 22px;
     float: left;
     cursor: pointer;
 }
@@ -132,9 +131,15 @@
     position: absolute;
     color: #fefff4;
     left: -1px;
-    font-size: 16px;
-    top: 24px;
+    font-size: 24px;
+    top: 20px;
     z-index: 1;
+}
+
+#navbar .new-friends-label-top-arrow {
+    right: 15px;
+    color: #b2b2b2 !important;
+    top: 21px !important;
 }
 
 #navbar .dropMenuPosition {
@@ -244,7 +249,7 @@
     position: absolute;
     border-radius: 50%;
     top: 1px;
-    margin-left: -6px;
+    margin-left: -5px;
     border: 1px solid #eee;
 }
 
@@ -329,8 +334,7 @@
     left: 28px !important;
 }
 
-#navbar .friend-request-confirm-icon {
-    font-size: 16px;
+#navbar .friend-request-confirm-icon {    
     width: 100%;
     position: absolute;
     right: 0;
@@ -584,6 +588,9 @@
     color: white;
     font-weight: bold;
     align-self: center;
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
 }
 
 #navbar .open-sidenav {

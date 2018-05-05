@@ -8,7 +8,6 @@ npm install bootstrap-material-design@0.5.10 --save
 npm install nodemailer --save
 npm install jsonwebtoken --save
 npm install cropper --save
-npm install font-awesome --save
 npm install snackbarjs --save
 npm install socket.io --save
 npm install socket.io-client --save

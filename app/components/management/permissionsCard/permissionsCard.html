@@ -4,10 +4,10 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <i class="material-icons">close</i>
                     </button>
                     <h4 class="modal-title modal-title-label">
-                        <span>הרשאות -  {{user && (user.firstName + " " + user.lastName)}}</span>
+                        <span>הרשאות - {{user && (user.firstName + " " + user.lastName)}}</span>
                         <i class="material-icons modal-title-icon">lock_open</i>
                     </h4>
                 </div>
@@ -15,9 +15,8 @@
                     <loaderSpinner class="permissions-loader" *ngIf="isLoading"></loaderSpinner>
                     <div class="permissions-container" *ngIf="!isLoading">
                         <div class="permission-sector" *ngFor="let permission of permissions">
-                            <i [hidden]="permission.isChecked" (click)="permission.isChecked=true;" class="fa fa-square-o permission-check-icon" aria-hidden="true"></i>
-                            <i [hidden]="!permission.isChecked" (click)="permission.isChecked=false;" class="fa fa-check-square-o permission-check-icon"
-                                style="margin-right:-2.5px;" aria-hidden="true"></i>
+                            <i [hidden]="permission.isChecked" (click)="permission.isChecked=true;" class="far fa-square permission-check-icon"></i>
+                            <i [hidden]="!permission.isChecked" (click)="permission.isChecked=false;" class="far fa-check-square permission-check-icon"></i>
                             <span class="permission-name">{{permission.name}}</span>
                         </div>
                     </div>

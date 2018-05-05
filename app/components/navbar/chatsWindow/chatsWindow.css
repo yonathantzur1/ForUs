@@ -19,10 +19,10 @@
 }
 
 #chatsWindow .window-top-arrow {
-    top: 113px;
-    right: 194px;
+    top: 111px;
+    right: 196px;
     z-index: 1002;
-    font-size: 20px;
+    font-size: 24px;
     color: white;
     position: fixed;
 }
@@ -116,8 +116,7 @@
     border: 0.5px solid white;
 }
 
-#chatsWindow .img-sign {
-    font-size: 14px;
+#chatsWindow .img-sign {    
     color: #403c52;
 }
 

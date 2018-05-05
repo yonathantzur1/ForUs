@@ -10,7 +10,7 @@
                 מקליד/ה...
             </span>
             <i *ngFor="let iconObj of topIcons" [title]="iconObj.title" (click)="iconObj.onClick()" class="top-icon {{iconObj.class}}"
-                [ngClass]="{'selected-top-icon' : iconObj.isSelected}" aria-hidden="true">{{iconObj.innerIconText}}</i>
+                [ngClass]="{'selected-top-icon' : iconObj.isSelected}">{{iconObj.innerIconText}}</i>
             <i (click)="CloseChat()" class="material-icons exit-chat">close</i>
         </div>
         <div *ngIf="isShowMessageNotification" (click)="ClickChatNotification()" [ngClass]="{'show-notification' : isShowMessageNotification}"
@@ -20,7 +20,7 @@
                 <span class="notification-name">{{messageNotificationFriendObj.firstName + " " + messageNotificationFriendObj.lastName}}:</span>
                 <span class="notification-msg" *ngIf="messageNotificationText">{{messageNotificationText}}</span>
                 <span class="notification-msg" *ngIf="!messageNotificationText">
-                    <span class="glyphicon glyphicon-camera img-sign" aria-hidden="true"></span>
+                    <i class="fas fa-camera img-sign"></i>
                 </span>
             </div>
         </div>
@@ -30,11 +30,7 @@
             <input (change)="ChangeImage()" style="display:none;" type="file" id="chatImage" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
             <div id="canvas-body-sector" class="canvas-body-sector">
                 <span *ngIf="isMessagesLoading" class="chat-loading-container">
-                    <p class="load-chat-icon" style="padding-top:10px;">
-                        <i class="fa fa-circle" aria-hidden="true"></i>
-                        <i class="fa fa-circle" aria-hidden="true"></i>
-                        <i class="fa fa-circle" aria-hidden="true"></i>
-                    </p>
+                    <loaderDots css='{"padding-top": "10px"}'></loaderDots>
                 </span>
                 <canvas [hidden]="isMessagesLoading" id="sig-canvas" class="canvas"></canvas>
             </div>
@@ -59,7 +55,7 @@
                 </div>
                 <div class="send-canvas-sector">
                     <div class="send-canvas-btn" [ngClass]="{'send-canvas-btn-disabled' : isCanvasEmpty}">
-                        <span (click)="SendCanvas()" class="glyphicon glyphicon-triangle-left send-canvas-btn-icon" aria-hidden="true"></span>
+                        <i (click)="SendCanvas()" class="fas fa-caret-left fa-lg send-canvas-btn-icon"></i>
                     </div>
                 </div>
             </div>
@@ -122,7 +118,7 @@
                         autocapitalize="off" spellcheck="false">
                 </div>
                 <div (click)="SendMessage()" [ngClass]="{'send-msg-btn-sector-disabled' : isMessagesLoading}" class="send-msg-btn-sector">
-                    <span class="glyphicon glyphicon-triangle-left send-msg-btn" aria-hidden="true"></span>
+                    <i class="fas fa-caret-left fa-lg send-msg-btn"></i>
                 </div>
             </div>
         </div>

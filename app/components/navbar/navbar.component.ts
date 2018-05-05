@@ -134,7 +134,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         self.toolbarItems = [
             {
                 id: "messages",
-                icon: "fa fa-commenting-o",
+                icon: "far fa-comment-dots",
                 innerIconText: "",
                 title: "הודעות",
                 content: {},
@@ -156,8 +156,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
             },
             {
                 id: "friendRequests",
-                icon: "material-icons",
-                innerIconText: "people",
+                icon: "fas fa-user-friends fa-sm",
+                innerIconText: "",
                 title: "בקשות חברות",
                 content: {
                     get: [],
