@@ -67,7 +67,7 @@
                 <img *ngIf="result.profile && result.profile != -1" [src]="result.profile" class="search-result-image">
                 <img *ngIf="!result.profile" [src]="globalService.defaultProfileImage" class="search-result-image">
                 <span *ngIf="result.profile == -1" class="search-result-image-loading">
-                  <loaderDots></loaderDots>
+                  <loaderDots css='{"font-size": "6px"}'></loaderDots>
                 </span>
                 <span class="search-result-name">{{result.fullName}}</span>
               </div>
@@ -119,7 +119,7 @@
     <div class="notifications-budget" *ngIf="!isHideNotificationsBudget && GetNotificationsNumber() > 0">
       <span class="notifications-number">{{GetNotificationsNumber()}}</span>
     </div>
-    <i class="open-sidenav-icon fas {{isSidenavOpen ? 'fa-chevron-left': 'fa-chevron-right'}}"></i>
+    <i class="open-sidenav-icon fas {{isSidenavOpen ? 'fa-chevron-right': 'fa-chevron-left'}}"></i>
   </div>
 </div>
 

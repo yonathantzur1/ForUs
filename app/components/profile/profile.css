@@ -352,6 +352,7 @@
 }
 
 #profile .delete-profile-btn {
+    position: relative;
     float: right;
     margin: 0;
     padding-left: 6px;
