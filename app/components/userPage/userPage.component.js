@@ -23,6 +23,7 @@ var UserPageComponent = /** @class */ (function () {
         this.userPageService = userPageService;
         this.alertService = alertService;
         this.globalService = globalService;
+        this.isTouchDevice = globalVariables.isTouchDevice;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
             if (value["newUploadedImage"]) {
                 if (!_this.user.profileImage) {
@@ -35,48 +36,75 @@ var UserPageComponent = /** @class */ (function () {
             }
         });
         var self = this;
-        self.options = [
+        self.tabs = [
             {
-                id: "removeFriend",
-                icon: "fas fa-user-minus",
+                id: "edit",
+                icon: "fas fa-user-edit",
                 innerIconText: "",
+                title: "עריכת פרטים",
+                isShow: function () {
+                    return self.IsUserPageSelf();
+                },
+                onClick: function () {
+                }
+            },
+            {
+                id: "friendOptions",
+                icon: "fas fa-user-check",
+                innerIconText: "",
+                title: "אפשרויות חברות",
                 isShow: function () {
                     return self.user.isFriend;
                 },
-                onClick: function () {
-                    self.alertService.Alert({
-                        title: "הסרת חברות",
-                        text: "האם להסיר את החברות עם " + self.user.fullName + "?",
-                        type: "warning",
-                        confirmFunc: function () {
-                            self.userPageService.RemoveFriends(self.user._id).then(function (result) {
-                                if (result) {
-                                    self.globalService.socket.emit("ServerRemoveFriend", self.user._id);
-                                    self.UnsetUserFriendStatus("isFriend");
-                                    snackbar("הסרת החברות עם " + self.user.fullName + " בוצעה בהצלחה");
-                                    self.globalService.RefreshSocket();
-                                }
-                                else {
-                                    self.alertService.Alert({
-                                        title: "שגיאה בהסרת החברות",
-                                        text: "אירעה שגיאה בהסרת החברות עם " + self.user.fullName,
-                                        type: "warning",
-                                        showCancelButton: false
+                options: [
+                    {
+                        text: "הסרת חברות",
+                        icon: "fas fa-user-minus",
+                        action: function () {
+                            self.alertService.Alert({
+                                title: "הסרת חברות",
+                                text: "האם להסיר את החברות עם " + self.user.fullName + "?",
+                                type: "warning",
+                                confirmFunc: function () {
+                                    self.userPageService.RemoveFriends(self.user._id).then(function (result) {
+                                        if (result) {
+                                            self.globalService.socket.emit("ServerRemoveFriend", self.user._id);
+                                            self.UnsetUserFriendStatus("isFriend");
+                                            snackbar("הסרת החברות עם " + self.user.fullName + " בוצעה בהצלחה");
+                                            self.globalService.RefreshSocket();
+                                        }
+                                        else {
+                                            self.alertService.Alert({
+                                                title: "שגיאה בהסרת החברות",
+                                                text: "אירעה שגיאה בהסרת החברות עם " + self.user.fullName,
+                                                type: "warning",
+                                                showCancelButton: false
+                                            });
+                                        }
                                     });
                                 }
                             });
                         }
-                    });
+                    },
+                    {
+                        text: "דיווח",
+                        icon: "fas fa-ban"
+                    }
+                ],
+                onClick: function () {
+                    this.isOptionsMenuOpen = !this.isOptionsMenuOpen;
                 }
             },
             {
                 id: "addFriendRequest",
                 icon: "fas fa-user-plus",
                 innerIconText: "",
+                title: "בקשת חברות",
                 isShow: function () {
                     return (!self.user.isFriend &&
                         !self.user.isGetFriendRequest &&
-                        !self.user.isSendFriendRequest);
+                        !self.user.isSendFriendRequest &&
+                        !self.IsUserPageSelf());
                 },
                 onClick: function () {
                     self.SetUserFriendStatus("isGetFriendRequest");
@@ -87,6 +115,7 @@ var UserPageComponent = /** @class */ (function () {
                 id: "removeFriendRequest",
                 icon: "fas fa-user-times",
                 innerIconText: "",
+                title: "ביטול בקשת חברות",
                 isShow: function () {
                     return self.user.isGetFriendRequest;
                 },
@@ -99,6 +128,7 @@ var UserPageComponent = /** @class */ (function () {
                 id: "openChat",
                 icon: "far fa-edit",
                 innerIconText: "",
+                title: "צ'אט",
                 isShow: function () {
                     return self.user.isFriend;
                 },
@@ -110,6 +140,7 @@ var UserPageComponent = /** @class */ (function () {
                 id: "wave",
                 icon: "far fa-hand-paper",
                 innerIconText: "",
+                title: "",
                 isShow: function () {
                     return self.user.isFriend;
                 },
@@ -120,6 +151,7 @@ var UserPageComponent = /** @class */ (function () {
                 id: "menu",
                 icon: "fas fa-bars",
                 innerIconText: "",
+                title: "",
                 onClick: function () {
                 }
             }
@@ -167,6 +199,9 @@ var UserPageComponent = /** @class */ (function () {
         this.subscribeObj.unsubscribe();
     };
     UserPageComponent.prototype.InitializePage = function (user) {
+        this.tabs.forEach(function (tab) {
+            tab.isOptionsMenuOpen = false;
+        });
         this.globalService.setData("changeSearchInput", user.firstName + " " + user.lastName);
         this.user = user;
     };
@@ -181,8 +216,8 @@ var UserPageComponent = /** @class */ (function () {
         // Set the requested field to true.
         this.user[field] = true;
     };
-    UserPageComponent.prototype.GetOptions = function () {
-        return this.options.filter(function (option) {
+    UserPageComponent.prototype.GetTabs = function () {
+        return this.tabs.filter(function (option) {
             if (!option.isShow) {
                 return true;
             }

@@ -9,6 +9,7 @@ import { UserPageService } from '../../services/userPage/userPage.service';
 
 declare function getCookie(name: string): string;
 declare var snackbar: Function;
+declare var globalVariables: any;
 
 @Component({
     selector: 'userPage',
@@ -17,9 +18,10 @@ declare var snackbar: Function;
 })
 
 export class UserPageComponent implements OnInit, OnDestroy {
+    isTouchDevice: boolean = globalVariables.isTouchDevice;
     isLoading: boolean;
     user: any;
-    options: any;
+    tabs: any;
 
     subscribeObj: any;
 
@@ -44,48 +46,76 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
         var self = this;
 
-        self.options = [
+        self.tabs = [
             {
-                id: "removeFriend",
-                icon: "fas fa-user-minus",
+                id: "edit",
+                icon: "fas fa-user-edit",
                 innerIconText: "",
+                title: "עריכת פרטים",
+                isShow: function () {
+                    return self.IsUserPageSelf();
+                },
+                onClick: function () {
+
+                }
+            },
+            {
+                id: "friendOptions",
+                icon: "fas fa-user-check",
+                innerIconText: "",
+                title: "אפשרויות חברות",
                 isShow: function () {
                     return self.user.isFriend;
                 },
-                onClick: function () {
-                    self.alertService.Alert({
-                        title: "הסרת חברות",
-                        text: "האם להסיר את החברות עם " + self.user.fullName + "?",
-                        type: "warning",
-                        confirmFunc: function () {
-                            self.userPageService.RemoveFriends(self.user._id).then(result => {
-                                if (result) {
-                                    self.globalService.socket.emit("ServerRemoveFriend", self.user._id);
-                                    self.UnsetUserFriendStatus("isFriend");
-                                    snackbar("הסרת החברות עם " + self.user.fullName + " בוצעה בהצלחה");
-                                    self.globalService.RefreshSocket();
-                                }
-                                else {
-                                    self.alertService.Alert({
-                                        title: "שגיאה בהסרת החברות",
-                                        text: "אירעה שגיאה בהסרת החברות עם " + self.user.fullName,
-                                        type: "warning",
-                                        showCancelButton: false
+                options: [
+                    {
+                        text: "הסרת חברות",
+                        icon: "fas fa-user-minus",
+                        action: function () {
+                            self.alertService.Alert({
+                                title: "הסרת חברות",
+                                text: "האם להסיר את החברות עם " + self.user.fullName + "?",
+                                type: "warning",
+                                confirmFunc: function () {
+                                    self.userPageService.RemoveFriends(self.user._id).then(result => {
+                                        if (result) {
+                                            self.globalService.socket.emit("ServerRemoveFriend", self.user._id);
+                                            self.UnsetUserFriendStatus("isFriend");
+                                            snackbar("הסרת החברות עם " + self.user.fullName + " בוצעה בהצלחה");
+                                            self.globalService.RefreshSocket();
+                                        }
+                                        else {
+                                            self.alertService.Alert({
+                                                title: "שגיאה בהסרת החברות",
+                                                text: "אירעה שגיאה בהסרת החברות עם " + self.user.fullName,
+                                                type: "warning",
+                                                showCancelButton: false
+                                            });
+                                        }
                                     });
                                 }
                             });
                         }
-                    });
+                    },
+                    {
+                        text: "דיווח",
+                        icon: "fas fa-ban"
+                    }
+                ],
+                onClick: function () {
+                    this.isOptionsMenuOpen = !this.isOptionsMenuOpen;
                 }
             },
             {
                 id: "addFriendRequest",
                 icon: "fas fa-user-plus",
                 innerIconText: "",
+                title: "בקשת חברות",
                 isShow: function () {
                     return (!self.user.isFriend &&
                         !self.user.isGetFriendRequest &&
-                        !self.user.isSendFriendRequest);
+                        !self.user.isSendFriendRequest &&
+                        !self.IsUserPageSelf());
                 },
                 onClick: function () {
                     self.SetUserFriendStatus("isGetFriendRequest");
@@ -96,6 +126,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                 id: "removeFriendRequest",
                 icon: "fas fa-user-times",
                 innerIconText: "",
+                title: "ביטול בקשת חברות",
                 isShow: function () {
                     return self.user.isGetFriendRequest;
                 },
@@ -108,6 +139,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                 id: "openChat",
                 icon: "far fa-edit",
                 innerIconText: "",
+                title: "צ'אט",
                 isShow: function () {
                     return self.user.isFriend;
                 },
@@ -119,6 +151,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                 id: "wave",
                 icon: "far fa-hand-paper",
                 innerIconText: "",
+                title: "",
                 isShow: function () {
                     return self.user.isFriend;
                 },
@@ -130,6 +163,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                 id: "menu",
                 icon: "fas fa-bars",
                 innerIconText: "",
+                title: "",
                 onClick: function () {
 
                 }
@@ -186,6 +220,10 @@ export class UserPageComponent implements OnInit, OnDestroy {
     }
 
     InitializePage(user: any) {
+        this.tabs.forEach((tab: any) => {
+            tab.isOptionsMenuOpen = false;
+        });
+
         this.globalService.setData("changeSearchInput", user.firstName + " " + user.lastName);
         this.user = user;
     }
@@ -204,8 +242,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
         this.user[field] = true;
     }
 
-    GetOptions() {
-        return this.options.filter((option: any) => {
+    GetTabs() {
+        return this.tabs.filter((option: any) => {
             if (!option.isShow) {
                 return true;
             }

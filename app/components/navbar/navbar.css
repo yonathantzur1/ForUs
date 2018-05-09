@@ -142,7 +142,7 @@
     top: 21px !important;
 }
 
-#navbar .dropMenuPosition {
+#navbar .drop-menu-position {
     position: fixed;
     left: 5px;
     top: 50px;
@@ -264,6 +264,7 @@
     position: relative;
     display: flex;
     float: right;
+    overflow: hidden;
 }
 
 #navbar .result-friend-request-btns-container {
@@ -312,7 +313,7 @@
 }
 
 #navbar .search-result-name {
-    width: 100%;
+    width: calc(100% - 60px);
     display: inline-block;
     text-overflow: ellipsis;
     overflow-x: hidden;
@@ -363,7 +364,7 @@
     }
 
     #navbar .search-result-name {
-        width: calc(100% - 80px) !important;
+        width: calc(100% - 45px) !important;
         font-size: 12px !important;
     }
 

@@ -8,9 +8,18 @@
             </div>
         </div>
         <div class="body-container">
-            <div *ngIf="!IsUserPageSelf()" class="options-line">
-                <span (click)="option.onClick()" class="option" *ngFor="let option of GetOptions()">
-                    <i class="option-icon {{option.icon}}">{{option.innerIconText}}</i>
+            <!-- Tabs for user page -->
+            <div class="tab-line">
+                <span class="tab-container" *ngFor="let tab of GetTabs()">
+                    <span [title]="tab.title" class="tab" (click)="tab.onClick()">
+                        <i class="tab-icon {{tab.icon}}">{{tab.innerIconText}}</i>
+                    </span>
+                    <div *ngIf="tab.isOptionsMenuOpen" class="options-drop-menu">
+                        <div class="option-container" *ngFor="let option of tab.options" (click)="tab.isOptionsMenuOpen=false; option.action();">
+                            <span *ngIf="!isTouchDevice">{{option.text}}</span>
+                            <i *ngIf="isTouchDevice" class="option-icon-align {{option.icon}}"></i>
+                        </div>
+                    </div>
                 </span>
             </div>
         </div>
