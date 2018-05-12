@@ -55,7 +55,7 @@ var NavbarComponent = /** @class */ (function () {
         this.searchInputChangeDelay = 220; // milliseconds
         this.notificationDelay = 3800; // milliseconds
         this.checkSocketConnectDelay = 5; // seconds
-        this.chatTypingDelay = 2200; // milliseconds
+        this.chatTypingDelay = 1500; // milliseconds
         this.newFriendsLabelDelay = 4000; // milliseconds    
         this.sidenavWidth = "230px";
         // END CONFIG VARIABLES //
@@ -234,6 +234,7 @@ var NavbarComponent = /** @class */ (function () {
             self.authService.SetCurrUserToken().then(function (result) {
                 if (result) {
                     self.globalService.RefreshSocket();
+                    self.globalService.socket.emit("ServerGetOnlineFriends");
                 }
             });
             var friendRequests = self.GetToolbarItem("friendRequests").content;
@@ -751,6 +752,7 @@ var NavbarComponent = /** @class */ (function () {
         }
     };
     NavbarComponent.prototype.SearchNewFriends = function () {
+        this.searchInput = "";
         $("#search-input").focus();
         clearTimeout(this.showNewFriendsLabelTimeout);
         clearTimeout(this.hideNewFriendsLabelTimeout);

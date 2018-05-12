@@ -80,7 +80,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     searchInputChangeDelay: number = 220; // milliseconds
     notificationDelay: number = 3800; // milliseconds
     checkSocketConnectDelay: number = 5; // seconds
-    chatTypingDelay: number = 2200; // milliseconds
+    chatTypingDelay: number = 1500; // milliseconds
     newFriendsLabelDelay: number = 4000; // milliseconds    
     sidenavWidth: string = "230px";
 
@@ -299,6 +299,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             self.authService.SetCurrUserToken().then((result: any) => {
                 if (result) {
                     self.globalService.RefreshSocket();
+                    self.globalService.socket.emit("ServerGetOnlineFriends");
                 }
             });
 
@@ -920,6 +921,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     SearchNewFriends() {
+        this.searchInput = "";
         $("#search-input").focus();
         clearTimeout(this.showNewFriendsLabelTimeout);
         clearTimeout(this.hideNewFriendsLabelTimeout);
