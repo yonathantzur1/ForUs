@@ -709,7 +709,6 @@ var NavbarComponent = /** @class */ (function () {
         // Add the friend client object to the friends array.
         this.friends.push(friend);
         this.globalService.socket.emit("ServerGetOnlineFriends");
-        this.globalService.socket.emit("ServerFriendAddedUpdate", friend._id);
     };
     NavbarComponent.prototype.AddFriend = function (friendId, callback) {
         this.isFriendsLoading = true;
@@ -726,6 +725,7 @@ var NavbarComponent = /** @class */ (function () {
                 self.globalService.RefreshSocket();
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("ServerAddFriend", friend);
+                self.globalService.socket.emit("ServerFriendAddedUpdate", friend._id);
                 self.globalService.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
             }
             else {

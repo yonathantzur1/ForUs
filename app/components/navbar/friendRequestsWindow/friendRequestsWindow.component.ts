@@ -58,7 +58,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
             !changes.friendRequests.firstChange &&
             !changes.confirmedReuests.firstChange &&
             !this.isFriendRequestsLoaded) {
-            this.isFriendRequestsLoading = true;
+            this.isFriendRequestsLoaded = true;
             this.LoadFriendRequestsObjects();
         }
 
@@ -90,8 +90,12 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
 
     LoadFriendRequestsObjects() {
         if (this.friendRequests.length > 0 || this.confirmedReuests.length > 0) {
+            this.isFriendRequestsLoading = true;
             this.navbarService.GetFriends(this.friendRequests.concat(this.confirmedReuests)).then((friendsResult: Array<any>) => {
                 if (friendsResult) {
+                    this.friendRequestsObjects = [];
+                    this.friendConfirmObjects = [];
+                    
                     this.isFriendRequestsLoaded = true;
 
                     // Running on all friends and confirmed friends of the request.
@@ -109,9 +113,6 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
 
                 this.isFriendRequestsLoading = false;
             });
-        }
-        else {
-            this.isFriendRequestsLoading = false;
         }
     }
 

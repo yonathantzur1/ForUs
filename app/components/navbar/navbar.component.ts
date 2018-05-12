@@ -865,8 +865,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
         // Add the friend client object to the friends array.
         this.friends.push(friend);
-        this.globalService.socket.emit("ServerGetOnlineFriends");
-        this.globalService.socket.emit("ServerFriendAddedUpdate", friend._id);
+        this.globalService.socket.emit("ServerGetOnlineFriends");        
     }
 
     AddFriend(friendId: string, callback?: Function) {
@@ -889,6 +888,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 self.globalService.RefreshSocket();
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("ServerAddFriend", friend);
+                self.globalService.socket.emit("ServerFriendAddedUpdate", friend._id);
                 self.globalService.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
             }
             else {

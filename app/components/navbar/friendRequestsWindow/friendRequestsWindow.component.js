@@ -47,7 +47,7 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
             !changes.friendRequests.firstChange &&
             !changes.confirmedReuests.firstChange &&
             !this.isFriendRequestsLoaded) {
-            this.isFriendRequestsLoading = true;
+            this.isFriendRequestsLoaded = true;
             this.LoadFriendRequestsObjects();
         }
         // On first Openning.
@@ -75,8 +75,11 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
     FriendRequestsWindowComponent.prototype.LoadFriendRequestsObjects = function () {
         var _this = this;
         if (this.friendRequests.length > 0 || this.confirmedReuests.length > 0) {
+            this.isFriendRequestsLoading = true;
             this.navbarService.GetFriends(this.friendRequests.concat(this.confirmedReuests)).then(function (friendsResult) {
                 if (friendsResult) {
+                    _this.friendRequestsObjects = [];
+                    _this.friendConfirmObjects = [];
                     _this.isFriendRequestsLoaded = true;
                     // Running on all friends and confirmed friends of the request.
                     friendsResult.forEach(function (friend) {
@@ -92,9 +95,6 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
                 }
                 _this.isFriendRequestsLoading = false;
             });
-        }
-        else {
-            this.isFriendRequestsLoading = false;
         }
     };
     FriendRequestsWindowComponent.prototype.GetFriendRequestsNumberText = function () {
