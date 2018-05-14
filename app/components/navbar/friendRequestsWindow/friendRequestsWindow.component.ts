@@ -54,11 +54,15 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     ngOnChanges(changes: SimpleChanges) {
         // In case of loading data for the first time.
         if (changes.friendRequests &&
-            changes.confirmedReuests &&
             !changes.friendRequests.firstChange &&
-            !changes.confirmedReuests.firstChange &&
             !this.isFriendRequestsLoaded) {
-            this.isFriendRequestsLoaded = true;
+            this.LoadFriendRequestsObjects();
+        }
+
+        // In case of confirm request added.
+        if (changes.confirmedReuests &&
+            !changes.confirmedReuests.firstChange &&
+            changes.confirmedReuests.currentValue.length > 0) {
             this.LoadFriendRequestsObjects();
         }
 
@@ -95,7 +99,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
                 if (friendsResult) {
                     this.friendRequestsObjects = [];
                     this.friendConfirmObjects = [];
-                    
+
                     this.isFriendRequestsLoaded = true;
 
                     // Running on all friends and confirmed friends of the request.
@@ -112,6 +116,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
                 }
 
                 this.isFriendRequestsLoading = false;
+                this.isFriendRequestsLoaded = true;
             });
         }
     }

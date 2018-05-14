@@ -40,7 +40,15 @@ app.use('/api', (req, res, next) => {
         next();
     }
     else {
-        (req.originalUrl == '/api/auth/isUserOnSession') ? res.send(false) : RedirectToLogin(req, res);
+        if (req.originalUrl == '/api/auth/isUserOnSession') {
+            res.send(false);
+        }
+        else if (req.originalUrl == '/api/auth/isUserSocketConnect') {
+            res.send("-1");
+        }
+        else {
+            RedirectToLogin(req, res);
+        }
     }
 });
 

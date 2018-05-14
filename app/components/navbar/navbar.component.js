@@ -153,6 +153,10 @@ var NavbarComponent = /** @class */ (function () {
                     self.globalService.RefreshSocket();
                     self.globalService.socket.emit("ServerGetOnlineFriends");
                 }
+                else if (result == "-1") {
+                    self.globalService.Logout();
+                    self.router.navigateByUrl("/login");
+                }
             });
         }, self.checkSocketConnectDelay * 1000);
         self.LoadFriendsData(self.user.friends);
@@ -238,16 +242,17 @@ var NavbarComponent = /** @class */ (function () {
                 }
             });
             var friendRequests = self.GetToolbarItem("friendRequests").content;
+            // Remove friend id from send array and push it to the friends array.
             friendRequests.send.splice(friendRequests.send.indexOf(friend._id), 1);
-            self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
-            self.globalService.socket.emit("RemoveFriendRequest", self.user._id, friend._id);
             self.user.friends.push(friend._id);
             self.friends.push(friend);
-            self.globalService.socket.emit("ServerGetOnlineFriends");
-            // Add the friend to the confirmed requests array.
+            // Add the friend id to the confirmed requests array and show notifications.
             self.GetToolbarItem('friendRequests').content.accept.push(friend._id);
             self.isHideNotificationsBudget = false;
             self.ShowFriendRequestNotification(friend.firstName + " " + friend.lastName, true);
+            self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
+            self.globalService.socket.emit("RemoveFriendRequest", self.user._id, friend._id);
+            self.globalService.socket.emit("ServerGetOnlineFriends");
         });
         self.globalService.SocketOn('ClientFriendTyping', function (friendId) {
             self.MakeFriendTyping(friendId);

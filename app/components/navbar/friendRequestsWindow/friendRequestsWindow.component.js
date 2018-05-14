@@ -43,11 +43,14 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
     FriendRequestsWindowComponent.prototype.ngOnChanges = function (changes) {
         // In case of loading data for the first time.
         if (changes.friendRequests &&
-            changes.confirmedReuests &&
             !changes.friendRequests.firstChange &&
-            !changes.confirmedReuests.firstChange &&
             !this.isFriendRequestsLoaded) {
-            this.isFriendRequestsLoaded = true;
+            this.LoadFriendRequestsObjects();
+        }
+        // In case of confirm request added.
+        if (changes.confirmedReuests &&
+            !changes.confirmedReuests.firstChange &&
+            changes.confirmedReuests.currentValue.length > 0) {
             this.LoadFriendRequestsObjects();
         }
         // On first Openning.
@@ -94,6 +97,7 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
                     });
                 }
                 _this.isFriendRequestsLoading = false;
+                _this.isFriendRequestsLoaded = true;
             });
         }
     };
