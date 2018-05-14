@@ -20,6 +20,7 @@ import { ProfilePictureComponent } from './components/profilePicture/profilePict
 import { ChatComponent } from './components/chat/chat.component';
 import { ChatsWindowComponent } from './components/navbar/chatsWindow/chatsWindow.component';
 import { FriendRequestsWindowComponent } from './components/navbar/friendRequestsWindow/friendRequestsWindow.component';
+import { ManagementPanelComponent } from './components/managementPanel/managementPanel.component';
 import { ManagementComponent } from './components/management/management.component';
 import { PermissionsCardComponent } from './components/management/permissionsCard/permissionsCard.component';
 import { UserPageComponent } from './components/userPage/userPage.component';
@@ -57,6 +58,7 @@ import { AlertService } from './services/alert/alert.service';
     ChatComponent,
     ChatsWindowComponent,
     FriendRequestsWindowComponent,
+    ManagementPanelComponent,
     ManagementComponent,
     PermissionsCardComponent,
     UserPageComponent,

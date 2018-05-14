@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
+import { ManagementPanelComponent } from './components/managementPanel/managementPanel.component';
 import { ManagementComponent } from './components/management/management.component';
 import { UserPageComponent } from './components/userPage/userPage.component';
 import { PageNotFoundComponent } from './components/pageNotFound/pageNotFound.component';
@@ -14,6 +15,7 @@ const routes: Routes = [
     path: '',
     component: HomeComponent,
     children: [
+      { path: 'panel', component: ManagementPanelComponent, canActivate: [AdminAuthGuard] },
       { path: 'management', component: ManagementComponent, canActivate: [AdminAuthGuard] },
       { path: 'page-not-found', component: PageNotFoundComponent },
       { path: 'profile/:id', component: UserPageComponent }

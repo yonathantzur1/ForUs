@@ -136,7 +136,7 @@ var NavbarComponent = /** @class */ (function () {
         this.globalService.socket.emit('login');
         var self = this;
         self.dropMenuDataList = [
-            new DropMenuData("/management", "ניהול", null, function () {
+            new DropMenuData("/panel", "ניהול", null, function () {
                 return (self.globalService.IsUserHasRootPermission());
             }),
             new DropMenuData("/profile/" + self.user._id, "פרופיל", function (link) {

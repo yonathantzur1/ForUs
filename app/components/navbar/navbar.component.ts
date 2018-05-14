@@ -184,7 +184,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         var self = this;
 
         self.dropMenuDataList = [
-            new DropMenuData("/management", "ניהול", null, () => {
+            new DropMenuData("/panel", "ניהול", null, () => {
                 return (self.globalService.IsUserHasRootPermission());
             }),
             new DropMenuData("/profile/" + self.user._id, "פרופיל", (link: string) => {

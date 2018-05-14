@@ -1,0 +1,39 @@
+#managementPanel .panel-table {
+    width: 100%;
+    max-width: 700px;
+    margin: auto;
+    margin-top: 50px;
+}
+
+#managementPanel td {
+    width: 50%;
+}
+
+#managementPanel .panel-btn {
+    width: 90%;
+    max-width: 350px;
+    height: 180px;
+    margin: auto;
+    box-shadow: 1px 1px 6px 1px #9c9c9c;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-radius: 2px;
+}
+
+#managementPanel .panel-btn:hover {
+    background-color: #e8e8e8;
+}
+
+#managementPanel .panel-btn-data {
+    text-align: center;
+    width: 100%;
+    color: var(--main-text-color);
+    font-family: var(--main-font);
+    font-size: 18px;
+}
+
+
+#managementPanel .btn-icon {
+    margin-top: 5px;
+}
