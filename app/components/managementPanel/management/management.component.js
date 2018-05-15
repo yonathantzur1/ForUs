@@ -10,10 +10,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var navbar_component_1 = require("../../components/navbar/navbar.component");
-var management_service_1 = require("../../services/management/management.service");
-var global_service_1 = require("../../services/global/global.service");
-var alert_service_1 = require("../../services/alert/alert.service");
+var navbar_component_1 = require("../../../components/navbar/navbar.component");
+var management_service_1 = require("../../../services/management/management.service");
+var global_service_1 = require("../../../services/global/global.service");
+var alert_service_1 = require("../../../services/alert/alert.service");
 var ManagementComponent = /** @class */ (function () {
     function ManagementComponent(globalService, managementService, alertService) {
         var _this = this;

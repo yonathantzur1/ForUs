@@ -1,8 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
 
-import { PermissionsCardService } from '../../../services/management/permissionsCard/permissionsCard.service';
-import { GlobalService } from '../../../services/global/global.service';
-import { AlertService } from '../../../services/alert/alert.service';
+import { PermissionsCardService } from '../../../../services/management/permissionsCard/permissionsCard.service';
+import { GlobalService } from '../../../../services/global/global.service';
+import { AlertService } from '../../../../services/alert/alert.service';
 
 declare var $: any;
 declare var snackbar: Function;

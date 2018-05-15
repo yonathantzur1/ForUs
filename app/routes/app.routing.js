@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var router_1 = require("@angular/router");
-var login_component_1 = require("./components/login/login.component");
-var home_component_1 = require("./components/home/home.component");
-var managementPanel_component_1 = require("./components/managementPanel/managementPanel.component");
-var management_component_1 = require("./components/management/management.component");
-var userPage_component_1 = require("./components/userPage/userPage.component");
-var pageNotFound_component_1 = require("./components/pageNotFound/pageNotFound.component");
-var auth_guard_1 = require("./auth/auth.guard");
+var login_component_1 = require("../components/login/login.component");
+var home_component_1 = require("../components/home/home.component");
+var managementPanel_component_1 = require("../components/managementPanel/managementPanel.component");
+var management_component_1 = require("../components/managementPanel/management/management.component");
+var userPage_component_1 = require("../components/userPage/userPage.component");
+var pageNotFound_component_1 = require("../components/pageNotFound/pageNotFound.component");
+var auth_guard_1 = require("../auth/auth.guard");
 var routes = [
     {
         path: '',

@@ -10,8 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var permissionsCard_service_1 = require("../../../services/management/permissionsCard/permissionsCard.service");
-var global_service_1 = require("../../../services/global/global.service");
+var permissionsCard_service_1 = require("../../../../services/management/permissionsCard/permissionsCard.service");
+var global_service_1 = require("../../../../services/global/global.service");
 var PermissionsCardComponent = /** @class */ (function () {
     function PermissionsCardComponent(globalService, permissionsCardService) {
         var _this = this;

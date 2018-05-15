@@ -1,14 +1,14 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { LoginComponent } from './components/login/login.component';
-import { HomeComponent } from './components/home/home.component';
-import { ManagementPanelComponent } from './components/managementPanel/managementPanel.component';
-import { ManagementComponent } from './components/management/management.component';
-import { UserPageComponent } from './components/userPage/userPage.component';
-import { PageNotFoundComponent } from './components/pageNotFound/pageNotFound.component';
+import { LoginComponent } from '../components/login/login.component';
+import { HomeComponent } from '../components/home/home.component';
+import { ManagementPanelComponent } from '../components/managementPanel/managementPanel.component';
+import { ManagementComponent } from '../components/managementPanel/management/management.component';
+import { UserPageComponent } from '../components/userPage/userPage.component';
+import { PageNotFoundComponent } from '../components/pageNotFound/pageNotFound.component';
 
-import { AuthGuard, AdminAuthGuard, LoginGuard } from './auth/auth.guard';
+import { AuthGuard, AdminAuthGuard, LoginGuard } from '../auth/auth.guard';
 
 const routes: Routes = [
   {

@@ -1,9 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
 
-import { DropMenuData } from '../../components/navbar/navbar.component';
-import { ManagementService } from '../../services/management/management.service';
-import { GlobalService } from '../../services/global/global.service';
-import { AlertService } from '../../services/alert/alert.service';
+import { DropMenuData } from '../../../components/navbar/navbar.component';
+import { ManagementService } from '../../../services/management/management.service';
+import { GlobalService } from '../../../services/global/global.service';
+import { AlertService } from '../../../services/alert/alert.service';
 
 declare var $: any;
 declare var snackbar: Function;
