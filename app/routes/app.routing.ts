@@ -5,6 +5,7 @@ import { LoginComponent } from '../components/login/login.component';
 import { HomeComponent } from '../components/home/home.component';
 import { ManagementPanelComponent } from '../components/managementPanel/managementPanel.component';
 import { ManagementComponent } from '../components/managementPanel/management/management.component';
+import { StatisticsComponent } from '../components/managementPanel/statistics/statistics.component';
 import { UserPageComponent } from '../components/userPage/userPage.component';
 import { PageNotFoundComponent } from '../components/pageNotFound/pageNotFound.component';
 
@@ -17,6 +18,7 @@ const routes: Routes = [
     children: [
       { path: 'panel', component: ManagementPanelComponent, canActivate: [AdminAuthGuard] },
       { path: 'management', component: ManagementComponent, canActivate: [AdminAuthGuard] },
+      { path: 'statistics', component: StatisticsComponent, canActivate: [AdminAuthGuard] },
       { path: 'page-not-found', component: PageNotFoundComponent },
       { path: 'profile/:id', component: UserPageComponent }
     ],

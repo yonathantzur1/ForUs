@@ -22,6 +22,7 @@ import { ChatsWindowComponent } from '../components/navbar/chatsWindow/chatsWind
 import { FriendRequestsWindowComponent } from '../components/navbar/friendRequestsWindow/friendRequestsWindow.component';
 import { ManagementPanelComponent } from '../components/managementPanel/managementPanel.component';
 import { ManagementComponent } from '../components/managementPanel/management/management.component';
+import { StatisticsComponent } from '../components/managementPanel/statistics/statistics.component';
 import { PermissionsCardComponent } from '../components/managementPanel/management/permissionsCard/permissionsCard.component';
 import { UserPageComponent } from '../components/userPage/userPage.component';
 
@@ -60,6 +61,7 @@ import { AlertService } from '../services/alert/alert.service';
     FriendRequestsWindowComponent,
     ManagementPanelComponent,
     ManagementComponent,
+    StatisticsComponent,
     PermissionsCardComponent,
     UserPageComponent,
     // ---------Pipes---------

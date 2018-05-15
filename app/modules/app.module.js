@@ -28,6 +28,7 @@ var chatsWindow_component_1 = require("../components/navbar/chatsWindow/chatsWin
 var friendRequestsWindow_component_1 = require("../components/navbar/friendRequestsWindow/friendRequestsWindow.component");
 var managementPanel_component_1 = require("../components/managementPanel/managementPanel.component");
 var management_component_1 = require("../components/managementPanel/management/management.component");
+var statistics_component_1 = require("../components/managementPanel/statistics/statistics.component");
 var permissionsCard_component_1 = require("../components/managementPanel/management/permissionsCard/permissionsCard.component");
 var userPage_component_1 = require("../components/userPage/userPage.component");
 var pageNotFound_component_1 = require("../components/pageNotFound/pageNotFound.component");
@@ -65,6 +66,7 @@ var AppModule = /** @class */ (function () {
                 friendRequestsWindow_component_1.FriendRequestsWindowComponent,
                 managementPanel_component_1.ManagementPanelComponent,
                 management_component_1.ManagementComponent,
+                statistics_component_1.StatisticsComponent,
                 permissionsCard_component_1.PermissionsCardComponent,
                 userPage_component_1.UserPageComponent,
                 // ---------Pipes---------
