@@ -21,7 +21,7 @@
     border-radius: 2px;
 }
 
-#managementPanel .panel-btn:hover {
+#managementPanel .panel-btn-hover:hover {
     background-color: #e8e8e8;
 }
 
