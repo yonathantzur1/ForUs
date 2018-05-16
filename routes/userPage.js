@@ -4,7 +4,7 @@ module.exports = function (app) {
 
     prefix = "/api/userPage";
 
-    // Add new profile image.
+    // Get user details by id.
     app.get(prefix + '/getUserDetails', function (req, res) {
         var userId = req.query.id;
         var currUserId = req.user._id;

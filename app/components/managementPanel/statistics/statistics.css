@@ -1,0 +1,6 @@
+#statistics .chart-container {
+    position: relative;
+    height: 80vh;
+    width: 80vw; 
+    margin: auto;   
+}

@@ -63,11 +63,17 @@ module.exports = function (app) {
     });
 
     app.delete(prefix + '/deleteUser', function (req, res) {
-        managementBL.DeleteUser(req.query.userId).then((result) => {
-            res.send(result);
-        }).catch((err) => {
-            res.status(500).end();
-        });
+        // Checking master permission for this route.
+        if (general.IsUserHasMasterPermission(req.user.permissions)) {
+            managementBL.DeleteUser(req.query.userId).then((result) => {
+                res.send(result);
+            }).catch((err) => {
+                res.status(500).end();
+            });
+        }
+        else {
+            res.status(401).end();
+        }
     });
 
 };

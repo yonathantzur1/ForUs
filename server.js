@@ -80,6 +80,7 @@ require('./routes/chat')(app);
 require('./routes/chatsWindow')(app);
 require('./routes/friendRequestsWindow')(app);
 require('./routes/management')(app);
+require('./routes/statistics')(app);
 require('./routes/permissionsCard')(app);
 require('./routes/userPage')(app);
 

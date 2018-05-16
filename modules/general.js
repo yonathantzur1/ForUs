@@ -3,7 +3,7 @@ const config = require('./config.js');
 const encryption = require('./encryption.js');
 const enums = require('./enums');
 
-module.exports = {
+var self = module.exports = {
 
     GetTokenFromUserObject: function (user) {
         var tokenUserObject = {
@@ -133,13 +133,17 @@ module.exports = {
         }
     },
 
-    IsUserHasRootPermission(permissions) {
+    IsUserHasAdminPermission(permissions) {
         if (!permissions || permissions.length == 0) {
             return false;
         }
         else {
-            return ((permissions.indexOf(enums.PERMISSION.MASTER) != -1) ||
-                (permissions.indexOf(enums.PERMISSION.ADMIN) != -1));
+            return (permissions.indexOf(enums.PERMISSION.ADMIN) != -1);
         }
+    },
+
+    IsUserHasRootPermission(permissions) {
+        return (self.IsUserHasAdminPermission(permissions) ||
+            self.IsUserHasMasterPermission(permissions));
     }
 }
