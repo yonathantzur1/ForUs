@@ -10,9 +10,9 @@
 }
 
 #managementPanel .panel-btn {
-    width: 90%;
+    width: 85%;
     max-width: 350px;
-    height: 180px;
+    height: 150px;
     margin: auto;
     box-shadow: 1px 1px 6px 1px #9c9c9c;
     cursor: pointer;

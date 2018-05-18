@@ -10,31 +10,57 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var enums_1 = require("../../../enums/enums");
 var statistics_service_1 = require("../../../services/managementPanel/statistics/statistics.service");
 var StatisticsComponent = /** @class */ (function () {
     function StatisticsComponent(statisticsService) {
         this.statisticsService = statisticsService;
+        this.barsColors = [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(64, 255, 94, 0.2)',
+            'rgba(25, 25, 193, 0.2)',
+            'rgba(250, 251, 22, 0.2)',
+            'rgba(49, 232, 230, 0.2)',
+            'rgba(230, 28, 67, 0.2)',
+            'rgba(191, 165, 162, 0.2)'
+        ];
     }
     StatisticsComponent.prototype.ngOnInit = function () {
-        this.InitializeChart();
+        this.InitializeChart("התחברויות", enums_1.STATISTICS_RANGE.MONTHLY, [2, 5, 8, 7, 6, 5, 2, 5, 8, 7, 6, 5]);
+        // this.statisticsService.GetLoginsData(STATISTICS_RANGE.MONTHLY).then(reuslt => {
+        //     var x = reuslt;
+        // });
     };
-    StatisticsComponent.prototype.InitializeChart = function () {
+    StatisticsComponent.prototype.InitializeChart = function (name, range, data) {
+        var labels;
+        switch (range) {
+            case enums_1.STATISTICS_RANGE.MONTHLY: {
+                labels = globalVariables.months;
+                break;
+            }
+            case enums_1.STATISTICS_RANGE.WEEKLY: {
+                labels = ["שבוע 1", "2", "שבוע 3", "שבוע 4"];
+                break;
+            }
+            case enums_1.STATISTICS_RANGE.DAILY: {
+                labels = globalVariables.days;
+                break;
+            }
+        }
         var ctx = "statistics-chart";
         var chart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                labels: labels,
                 datasets: [{
-                        label: '# of Votes',
-                        data: [12, 19, 3, 5, 2, 3],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)'
-                        ],
+                        label: name,
+                        data: data,
+                        backgroundColor: this.barsColors,
                         borderColor: [
                             'rgba(255,99,132,1)',
                             'rgba(54, 162, 235, 1)',
@@ -47,6 +73,7 @@ var StatisticsComponent = /** @class */ (function () {
                     }]
             },
             options: {
+                maintainAspectRatio: false,
                 scales: {
                     yAxes: [{
                             ticks: {
