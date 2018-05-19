@@ -6,38 +6,72 @@ const logsCollectionName = config.db.collections.logs;
 const usersCollectionName = config.db.collections.users;
 
 var self = module.exports = {
-    GetLoginsData: (range, email) => {
+    GetLoginsData: (logType, range, email) => {
         return new Promise((resolve, reject) => {
-            var filter = {
-                "type": enums.LOG_TYPE.LOGIN
-            };    
-
+            var barsNumber;
+            var rangeKey;
             var isRangeValid = true;
 
             switch (range) {
-                case enums.STATISTICS_RANGE.MONTHLY: {
+                case enums.STATISTICS_RANGE.YEARLY: {
+                    barsNumber = 12;
+                    rangeKey = "month";
                     break;
                 }
                 case enums.STATISTICS_RANGE.WEEKLY: {
-                    break;
-                }
-                case enums.STATISTICS_RANGE.DAILY: {
+                    barsNumber = 7;
+                    rangeKey = "day";
                     break;
                 }
                 default: {
                     isRangeValid = false;
-                    reject("No valid statistics range found");
                 }
             }
 
             if (isRangeValid) {
-                email && (filter.email = email);
-                
-                var sortObj = { "date": 1 };
+                var filter = {
+                    "type": logType
+                }
 
-                DAL.Find(logsCollectionName, filter, sortObj).then(result => {
-                    resolve(result);
+                email && (filter.email = email);
+
+                var logsFilter = {
+                    $match: filter
+                }
+
+                var groupObj = {
+                    $group: {
+                        _id: { month: { $month: "$date" }, year: { $year: "$date" } },
+                        count: { $sum: 1 }
+                    }
+                }
+
+                var yearFilter = {
+                    $match: {
+                        "_id.year": new Date().getFullYear()
+                    }
+                }
+
+                var sortObj = { $sort: { "_id.month": 1 } };
+
+                var aggregate = [logsFilter, groupObj, yearFilter, sortObj];
+
+                DAL.Aggregate(logsCollectionName, aggregate).then((result) => {
+                    var data = [];
+
+                    for (var i = 0; i < barsNumber; i++) {
+                        data.push(null);
+                    }
+
+                    result.forEach(logGroup => {
+                        data[logGroup._id[rangeKey] - 1] = logGroup.count;
+                    });
+
+                    resolve(data);
                 }).catch(reject);
+            }
+            else {
+                reject("Range " + range + " is not valid");
             }
         });
     }

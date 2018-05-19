@@ -11,8 +11,7 @@ module.exports = {
     },
 
     STATISTICS_RANGE: {
-        MONTHLY: "monthly",
-        WEEKLY: "weekly",
-        DAILY: "daily"
+        YEARLY: "yearly",
+        WEEKLY: "weekly"
     }
 }

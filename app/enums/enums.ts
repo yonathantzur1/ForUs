@@ -3,8 +3,13 @@ export enum PERMISSION {
     ADMIN = "admin"
 }
 
+export enum LOG_TYPE {
+    RESET_PASSWORD_REQUEST = "reset_password_request",
+    LOGIN = "login",
+    LOGIN_FAIL = "login_fail"
+}
+
 export enum STATISTICS_RANGE {
-    MONTHLY = "monthly",
-    WEEKLY = "weekly",
-    DAILY = "daily"
+    YEARLY = "yearly",
+    WEEKLY = "weekly"
 }

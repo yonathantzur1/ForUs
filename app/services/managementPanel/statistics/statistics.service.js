@@ -18,8 +18,8 @@ var StatisticsService = /** @class */ (function (_super) {
         _this.prefix = "/api/statistics";
         return _this;
     }
-    StatisticsService.prototype.GetLoginsData = function (range, email) {
-        var parameters = "range=" + range;
+    StatisticsService.prototype.GetLoginsData = function (logType, range, email) {
+        var parameters = "logType=" + logType + "&range=" + range;
         email && (parameters += "&email=" + email);
         return _super.prototype.get.call(this, this.prefix + '/getLoginsData?' + parameters)
             .toPromise()

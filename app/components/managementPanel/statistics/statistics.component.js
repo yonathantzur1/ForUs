@@ -15,41 +15,26 @@ var statistics_service_1 = require("../../../services/managementPanel/statistics
 var StatisticsComponent = /** @class */ (function () {
     function StatisticsComponent(statisticsService) {
         this.statisticsService = statisticsService;
-        this.barsColors = [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(64, 255, 94, 0.2)',
-            'rgba(25, 25, 193, 0.2)',
-            'rgba(250, 251, 22, 0.2)',
-            'rgba(49, 232, 230, 0.2)',
-            'rgba(230, 28, 67, 0.2)',
-            'rgba(191, 165, 162, 0.2)'
-        ];
     }
     StatisticsComponent.prototype.ngOnInit = function () {
-        this.InitializeChart("התחברויות", enums_1.STATISTICS_RANGE.MONTHLY, [2, 5, 8, 7, 6, 5, 2, 5, 8, 7, 6, 5]);
-        // this.statisticsService.GetLoginsData(STATISTICS_RANGE.MONTHLY).then(reuslt => {
-        //     var x = reuslt;
-        // });
+        var _this = this;
+        this.statisticsService.GetLoginsData(enums_1.LOG_TYPE.LOGIN, enums_1.STATISTICS_RANGE.YEARLY).then(function (data) {
+            _this.InitializeChart("התחברויות", enums_1.STATISTICS_RANGE.YEARLY, data);
+        });
     };
     StatisticsComponent.prototype.InitializeChart = function (name, range, data) {
         var labels;
         switch (range) {
-            case enums_1.STATISTICS_RANGE.MONTHLY: {
+            case enums_1.STATISTICS_RANGE.YEARLY: {
                 labels = globalVariables.months;
                 break;
             }
             case enums_1.STATISTICS_RANGE.WEEKLY: {
-                labels = ["שבוע 1", "2", "שבוע 3", "שבוע 4"];
-                break;
-            }
-            case enums_1.STATISTICS_RANGE.DAILY: {
                 labels = globalVariables.days;
                 break;
+            }
+            default: {
+                console.error("The range " + range + "is not valid");
             }
         }
         var ctx = "statistics-chart";
@@ -60,14 +45,33 @@ var StatisticsComponent = /** @class */ (function () {
                 datasets: [{
                         label: name,
                         data: data,
-                        backgroundColor: this.barsColors,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(64, 255, 94, 0.2)',
+                            'rgba(25, 25, 193, 0.2)',
+                            'rgba(250, 251, 22, 0.2)',
+                            'rgba(49, 232, 230, 0.2)',
+                            'rgba(230, 28, 67, 0.2)',
+                            'rgba(191, 165, 162, 0.2)'
+                        ],
                         borderColor: [
                             'rgba(255,99,132,1)',
                             'rgba(54, 162, 235, 1)',
                             'rgba(255, 206, 86, 1)',
                             'rgba(75, 192, 192, 1)',
                             'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(64, 255, 94, 1)',
+                            'rgba(25, 25, 193, 1)',
+                            'rgba(250, 251, 22, 1)',
+                            'rgba(49, 232, 230, 1)',
+                            'rgba(230, 28, 67, 1)',
+                            'rgba(191, 165, 162, 1)'
                         ],
                         borderWidth: 1
                     }]
