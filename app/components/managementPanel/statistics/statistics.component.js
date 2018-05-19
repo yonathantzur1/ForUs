@@ -15,6 +15,46 @@ var statistics_service_1 = require("../../../services/managementPanel/statistics
 var StatisticsComponent = /** @class */ (function () {
     function StatisticsComponent(statisticsService) {
         this.statisticsService = statisticsService;
+        this.menus = [
+            {
+                id: "charts-modal",
+                title: "סוגי גרפים",
+                icon: "far fa-chart-bar",
+                options: [
+                    {
+                        text: "התחברויות",
+                        isSelected: false
+                    },
+                    {
+                        text: "התחברויות שגויות",
+                        isSelected: false
+                    },
+                    {
+                        text: "שינויי סיסמא",
+                        isSelected: false
+                    }
+                ],
+                onConfirm: function () {
+                }
+            },
+            {
+                id: "charts-time-modal",
+                title: "תצוגת זמן",
+                icon: "far fa-clock",
+                options: [
+                    {
+                        text: "שבועית",
+                        isSelected: false
+                    },
+                    {
+                        text: "שנתית",
+                        isSelected: false
+                    }
+                ],
+                onConfirm: function () {
+                }
+            }
+        ];
     }
     StatisticsComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -87,6 +127,18 @@ var StatisticsComponent = /** @class */ (function () {
                 }
             }
         });
+    };
+    StatisticsComponent.prototype.OpenChartsMenu = function () {
+        $("#charts-modal").modal('show');
+    };
+    StatisticsComponent.prototype.OpenChartsTimeMenu = function () {
+        $("#charts-time-modal").modal('show');
+    };
+    StatisticsComponent.prototype.SelectOption = function (options, index) {
+        options.forEach(function (option) {
+            option.isSelected = false;
+        });
+        options[index].isSelected = true;
     };
     StatisticsComponent = __decorate([
         core_1.Component({

@@ -1,11 +1,11 @@
 <div id="statistics">
     <div class="control-menu">
-        <span class="tab-container">
+        <span class="tab-container" (click)="OpenChartsMenu()">
             <span class="tab">
                 <i class="tab-icon fas fa-bars"></i>
             </span>
         </span>
-        <span class="tab-container">
+        <span class="tab-container" (click)="OpenChartsTimeMenu()">
             <span class="tab">
                 <i class="tab-icon far fa-calendar-alt"></i>
             </span>
@@ -14,4 +14,35 @@
     <div class="chart-container">
         <canvas id="statistics-chart"></canvas>
     </div>
+
+    <div *ngFor="let menu of menus" class="modal fade" data-backdrop="static" [id]="menu.id" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="material-icons">close</i>
+                    </button>
+                    <h4 class="modal-title modal-title-label">
+                        <span>{{menu.title}}</span>
+                        <i class="modal-title-icon {{menu.icon}}"></i>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div *ngFor="let option of menu.options; let i=index;" class="menu-option">
+                        <div (click)="SelectOption(menu.options, i)">
+                            <i *ngIf="!option.isSelected" class="far fa-circle"></i>
+                            <i *ngIf="option.isSelected" class="far fa-dot-circle"></i>
+                            <span>{{option.text}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="modal-footer-buttons">
+                        <a (click)="menu.onConfirm()" class="btn btn-primary save-charts-menu-btn">אישור</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

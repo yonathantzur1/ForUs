@@ -36,3 +36,48 @@
     margin: auto;
     font-size: 20px;
 }
+
+#statistics .close {
+    float: left;
+}
+
+#statistics .modal-header, .modal-body, .modal-footer {
+    -webkit-user-select: none;
+    user-select: none;
+    color: var(--main-text-color);
+    font-family: var(--main-font);
+}
+
+#statistics .modal-title-icon {
+    font-size: 20px;
+    position: absolute;
+    top: 26px;
+    padding-right: 5px;
+    color: var(--main-text-color);
+}
+
+#statistics .modal-footer-buttons {
+    float: left;
+}
+
+#statistics .save-charts-menu-btn {
+    padding: 0;
+    left: 15px;
+}
+
+#statistics .menu-option {
+    margin-bottom: 10px;
+}
+
+#statistics .menu-option div {    
+    display: inline-block;
+    cursor: pointer;
+}
+
+#statistics .menu-option i {    
+    font-size: 16px;
+}
+
+#statistics .menu-option span {
+    margin-right: 3px;
+}

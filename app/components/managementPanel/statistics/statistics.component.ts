@@ -17,11 +17,56 @@ declare var globalVariables: any;
 
 export class StatisticsComponent implements OnInit {
 
-    constructor(private statisticsService: StatisticsService) { }
+    menus: Array<any>;
+
+    constructor(private statisticsService: StatisticsService) {
+        this.menus = [
+            {
+                id: "charts-modal",
+                title: "סוגי גרפים",
+                icon: "far fa-chart-bar",
+                options: [
+                    {
+                        text: "התחברויות",
+                        isSelected: false
+                    },
+                    {
+                        text: "התחברויות שגויות",
+                        isSelected: false
+                    },
+                    {
+                        text: "שינויי סיסמא",
+                        isSelected: false
+                    }
+                ],
+                onConfirm: function() {
+
+                }
+            },
+            {
+                id: "charts-time-modal",
+                title: "תצוגת זמן",
+                icon: "far fa-clock",
+                options: [
+                    {
+                        text: "שבועית",
+                        isSelected: false
+                    },
+                    {
+                        text: "שנתית",
+                        isSelected: false
+                    }
+                ],
+                onConfirm: function() {
+
+                }
+            }
+        ];
+    }
 
     ngOnInit() {
         this.statisticsService.GetLoginsData(LOG_TYPE.LOGIN, STATISTICS_RANGE.YEARLY).then(data => {
-            this.InitializeChart("התחברויות" , STATISTICS_RANGE.YEARLY, data);
+            this.InitializeChart("התחברויות", STATISTICS_RANGE.YEARLY, data);
         });
     }
 
@@ -92,5 +137,21 @@ export class StatisticsComponent implements OnInit {
                 }
             }
         });
+    }
+
+    OpenChartsMenu() {
+        $("#charts-modal").modal('show');
+    }
+
+    OpenChartsTimeMenu() {
+        $("#charts-time-modal").modal('show');
+    }
+
+    SelectOption(options: Array<any>, index: number) {
+        options.forEach(option => {
+            option.isSelected = false;
+        });
+
+        options[index].isSelected = true;
     }
 }
