@@ -425,7 +425,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             var currMessageDate = new Date(this.messages[index].time);
             var beforeMessageDate = new Date(this.messages[index - 1].time);
 
-            if (currMessageDate.getDay() != beforeMessageDate.getDay() ||
+            if (currMessageDate.getDate() != beforeMessageDate.getDate() ||
                 currMessageDate.getMonth() != beforeMessageDate.getMonth() ||
                 currMessageDate.getFullYear() != beforeMessageDate.getFullYear()) {
                 return true;

@@ -1,6 +1,6 @@
 #statistics .chart-container {
     position: relative;
-    height: 75vh;
+    height: calc(100vh - 140px);
     width: calc(100vw - 50px);
     margin: auto;
     margin-top: 10px;
