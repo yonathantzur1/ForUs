@@ -1,7 +1,8 @@
 #statistics .chart-container {
     position: relative;
-    height: calc(100vh - 180px);
+    height: calc(100vh - 150px);
     width: calc(100vw - 50px);
+    max-height: 400px;
     margin: auto;
     margin-top: 10px;
 }
