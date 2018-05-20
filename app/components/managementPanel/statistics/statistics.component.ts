@@ -16,31 +16,55 @@ declare var globalVariables: any;
 })
 
 export class StatisticsComponent implements OnInit {
-
     menus: Array<any>;
+    chart: any;
+    chartsValues: Object = {
+        logType: null,
+        statisticsRange: STATISTICS_RANGE.WEEKLY,
+        chartName: ""
+    };
 
     constructor(private statisticsService: StatisticsService) {
         this.menus = [
             {
                 id: "charts-modal",
-                title: "סוגי גרפים",
+                title: "גרפים",
                 icon: "far fa-chart-bar",
                 options: [
                     {
                         text: "התחברויות",
+                        logType: LOG_TYPE.LOGIN,
                         isSelected: false
                     },
                     {
                         text: "התחברויות שגויות",
+                        logType: LOG_TYPE.LOGIN_FAIL,
                         isSelected: false
                     },
                     {
-                        text: "שינויי סיסמא",
+                        text: "בקשות שינוי סיסמא",
+                        logType: LOG_TYPE.RESET_PASSWORD_REQUEST,
                         isSelected: false
                     }
                 ],
-                onConfirm: function() {
+                onConfirm: function (self: any, options: Array<any>) {
+                    var option;
 
+                    for (var i = 0; i < options.length; i++) {
+                        if (options[i].isSelected) {
+                            option = options[i];
+                            break;
+                        }
+                    }
+
+                    if (option) {
+                        self.chartsValues.logType = option.logType;
+                        self.chartsValues.chartName = option.text;
+
+                        self.LoadChart(self.chartsValues.logType,
+                            self.chartsValues.statisticsRange,
+                            self.chartsValues.chartName);
+                    }
                 }
             },
             {
@@ -50,27 +74,54 @@ export class StatisticsComponent implements OnInit {
                 options: [
                     {
                         text: "שבועית",
-                        isSelected: false
+                        statisticsRange: STATISTICS_RANGE.WEEKLY,
+                        isSelected: true
                     },
                     {
                         text: "שנתית",
+                        statisticsRange: STATISTICS_RANGE.YEARLY,
                         isSelected: false
                     }
                 ],
-                onConfirm: function() {
+                onConfirm: function (self: any, options: Array<any>) {
+                    var option;
 
+                    for (var i = 0; i < options.length; i++) {
+                        if (options[i].isSelected) {
+                            option = options[i];
+                            break;
+                        }
+                    }
+
+                    if (option) {
+                        self.chartsValues.statisticsRange = option.statisticsRange;
+
+                        if (self.chart != null) {
+                            self.LoadChart(self.chartsValues.logType,
+                                self.chartsValues.statisticsRange,
+                                self.chartsValues.chartName);
+                        }
+                    }
                 }
             }
         ];
     }
 
     ngOnInit() {
-        this.statisticsService.GetLoginsData(LOG_TYPE.LOGIN, STATISTICS_RANGE.YEARLY).then(data => {
-            this.InitializeChart("התחברויות", STATISTICS_RANGE.YEARLY, data);
+
+    }
+
+    LoadChart(type: LOG_TYPE, range: STATISTICS_RANGE, chartName: string) {
+        this.statisticsService.GetChartData(type, range, this.CalculateDatesRangeByRange(range)).then(data => {
+            this.InitializeChart(chartName, range, data);
         });
     }
 
     InitializeChart(name: string, range: STATISTICS_RANGE, data: Array<number>) {
+        if (this.chart) {
+            this.chart.destroy();
+        }
+
         var labels;
 
         switch (range) {
@@ -88,7 +139,7 @@ export class StatisticsComponent implements OnInit {
         }
 
         var ctx = "statistics-chart";
-        var chart = new Chart(ctx, {
+        this.chart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels,
@@ -154,4 +205,51 @@ export class StatisticsComponent implements OnInit {
 
         options[index].isSelected = true;
     }
+
+    CloseModalOnConfirm(modalId: string) {
+        $("#" + modalId).modal("hide");
+    }
+
+    CalculateDatesRangeByRange(range: STATISTICS_RANGE): Object {
+        var currDate = new Date();
+        var result: any = {
+            "startDate": null,
+            "endDate": null
+        }
+
+        switch (range) {
+            case STATISTICS_RANGE.YEARLY: {
+                var currentYear = currDate.getFullYear();
+                result["startDate"] = new Date(currentYear, 0, 1);
+                result["endDate"] = new Date(currentYear, 11, 31);
+                return result;
+            }
+            case STATISTICS_RANGE.WEEKLY: {
+                result["startDate"] = getStartOfWeek(currDate);
+                result["endDate"] = getEndOfWeek(currDate);
+                return result
+            }
+            default: {
+                return null;
+            }
+        }
+    }
+}
+
+function getStartOfWeek(date: Date) {
+
+    // Copy date if provided, or use current date if not
+    date = date ? new Date(+date) : new Date();
+    date.setHours(0, 0, 0, 0);
+
+    // Set date to previous Sunday
+    date.setDate(date.getDate() - date.getDay());
+
+    return date;
+}
+
+function getEndOfWeek(date: Date) {
+    date = getStartOfWeek(date);
+    date.setDate(date.getDate() + 6);
+    return date;
 }

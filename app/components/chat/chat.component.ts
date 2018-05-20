@@ -59,7 +59,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     canvasTopIcons: Array<canvasTopIcon>;
     undoArray: Array<string>;
 
-    canvasEvents: any;    
+    canvasEvents: any;
     CanvasResizeFunc: any;
 
     subscribeObj: any;
@@ -71,7 +71,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.chatData = value["chatData"];
                 this.InitializeChat();
             }
-            
+
             if (value["moveToChatWindow"]) {
                 this.SelectTopIcon(this.GetTopIconById("chat"));
             }
@@ -284,7 +284,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         $("#canvas-top-bar-sector").unbind('touchstart', preventZoom);
         $("#canvas-bar-sector").unbind('touchstart', preventZoom);
 
-        window.removeEventListener("resize", self.CanvasResizeFunc);        
+        window.removeEventListener("resize", self.CanvasResizeFunc);
 
         this.isCanvasInitialize = false;
     }
@@ -322,7 +322,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.totalMessagesNum = chat.totalMessagesNum;
 
                 $("#chat-body-sector")[0].removeEventListener("scroll", this.ChatScrollTopFunc.bind(this)
-            );
+                );
                 (this.messages.length < this.totalMessagesNum) && $("#chat-body-sector")[0].addEventListener("scroll", this.ChatScrollTopFunc.bind(this));
             }
             else if (chat == null) {
@@ -418,10 +418,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     IsShowDateBubble(index: number) {
-        if (index == 0) {
-            return true
-        }
-        else if (index > 0) {
+        if (index > 0) {
             var currMessageDate = new Date(this.messages[index].time);
             var beforeMessageDate = new Date(this.messages[index - 1].time);
 
@@ -431,8 +428,12 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 return true;
             }
         }
-
-        return false;
+        else if (index == 0) {
+            return true;
+        }
+        else {
+            return false;
+        }        
     }
 
     GetDateBubbleText(index: number) {

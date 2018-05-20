@@ -317,10 +317,7 @@ var ChatComponent = /** @class */ (function () {
         }
     };
     ChatComponent.prototype.IsShowDateBubble = function (index) {
-        if (index == 0) {
-            return true;
-        }
-        else if (index > 0) {
+        if (index > 0) {
             var currMessageDate = new Date(this.messages[index].time);
             var beforeMessageDate = new Date(this.messages[index - 1].time);
             if (currMessageDate.getDate() != beforeMessageDate.getDate() ||
@@ -329,7 +326,12 @@ var ChatComponent = /** @class */ (function () {
                 return true;
             }
         }
-        return false;
+        else if (index == 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
     };
     ChatComponent.prototype.GetDateBubbleText = function (index) {
         return GetDateDetailsString(new Date(this.messages[index].time), new Date(), false);

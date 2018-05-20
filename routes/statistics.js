@@ -17,20 +17,11 @@ module.exports = function (app) {
 
     // ---------- Get graphs data ----------
 
-    app.get(prefix + '/getLoginsData', function (req, res) {
-        statisticsBL.GetLoginsData(req.query.logType, req.query.range, req.query.email).then(result => {
+    app.post(prefix + '/getChartData', function (req, res) {
+        statisticsBL.GetLoginsData(req.body.logType, req.body.range, req.body.datesRange, req.body.email).then(result => {
             res.send(result);
         }).catch(err => {
             res.status(500).end();
         });
     });
-
-    app.get(prefix + '/getLoginFailsData', function (req, res) {
-
-    });
-
-    app.get(prefix + '/getResetPasswordRequestsData', function (req, res) {
-
-    });
-
 };

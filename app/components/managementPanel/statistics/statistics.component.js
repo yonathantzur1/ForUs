@@ -15,26 +15,46 @@ var statistics_service_1 = require("../../../services/managementPanel/statistics
 var StatisticsComponent = /** @class */ (function () {
     function StatisticsComponent(statisticsService) {
         this.statisticsService = statisticsService;
+        this.chartsValues = {
+            logType: null,
+            statisticsRange: enums_1.STATISTICS_RANGE.WEEKLY,
+            chartName: ""
+        };
         this.menus = [
             {
                 id: "charts-modal",
-                title: "סוגי גרפים",
+                title: "גרפים",
                 icon: "far fa-chart-bar",
                 options: [
                     {
                         text: "התחברויות",
+                        logType: enums_1.LOG_TYPE.LOGIN,
                         isSelected: false
                     },
                     {
                         text: "התחברויות שגויות",
+                        logType: enums_1.LOG_TYPE.LOGIN_FAIL,
                         isSelected: false
                     },
                     {
-                        text: "שינויי סיסמא",
+                        text: "בקשות שינוי סיסמא",
+                        logType: enums_1.LOG_TYPE.RESET_PASSWORD_REQUEST,
                         isSelected: false
                     }
                 ],
-                onConfirm: function () {
+                onConfirm: function (self, options) {
+                    var option;
+                    for (var i = 0; i < options.length; i++) {
+                        if (options[i].isSelected) {
+                            option = options[i];
+                            break;
+                        }
+                    }
+                    if (option) {
+                        self.chartsValues.logType = option.logType;
+                        self.chartsValues.chartName = option.text;
+                        self.LoadChart(self.chartsValues.logType, self.chartsValues.statisticsRange, self.chartsValues.chartName);
+                    }
                 }
             },
             {
@@ -44,25 +64,45 @@ var StatisticsComponent = /** @class */ (function () {
                 options: [
                     {
                         text: "שבועית",
-                        isSelected: false
+                        statisticsRange: enums_1.STATISTICS_RANGE.WEEKLY,
+                        isSelected: true
                     },
                     {
                         text: "שנתית",
+                        statisticsRange: enums_1.STATISTICS_RANGE.YEARLY,
                         isSelected: false
                     }
                 ],
-                onConfirm: function () {
+                onConfirm: function (self, options) {
+                    var option;
+                    for (var i = 0; i < options.length; i++) {
+                        if (options[i].isSelected) {
+                            option = options[i];
+                            break;
+                        }
+                    }
+                    if (option) {
+                        self.chartsValues.statisticsRange = option.statisticsRange;
+                        if (self.chart != null) {
+                            self.LoadChart(self.chartsValues.logType, self.chartsValues.statisticsRange, self.chartsValues.chartName);
+                        }
+                    }
                 }
             }
         ];
     }
     StatisticsComponent.prototype.ngOnInit = function () {
+    };
+    StatisticsComponent.prototype.LoadChart = function (type, range, chartName) {
         var _this = this;
-        this.statisticsService.GetLoginsData(enums_1.LOG_TYPE.LOGIN, enums_1.STATISTICS_RANGE.YEARLY).then(function (data) {
-            _this.InitializeChart("התחברויות", enums_1.STATISTICS_RANGE.YEARLY, data);
+        this.statisticsService.GetChartData(type, range, this.CalculateDatesRangeByRange(range)).then(function (data) {
+            _this.InitializeChart(chartName, range, data);
         });
     };
     StatisticsComponent.prototype.InitializeChart = function (name, range, data) {
+        if (this.chart) {
+            this.chart.destroy();
+        }
         var labels;
         switch (range) {
             case enums_1.STATISTICS_RANGE.YEARLY: {
@@ -78,7 +118,7 @@ var StatisticsComponent = /** @class */ (function () {
             }
         }
         var ctx = "statistics-chart";
-        var chart = new Chart(ctx, {
+        this.chart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: labels,
@@ -140,6 +180,32 @@ var StatisticsComponent = /** @class */ (function () {
         });
         options[index].isSelected = true;
     };
+    StatisticsComponent.prototype.CloseModalOnConfirm = function (modalId) {
+        $("#" + modalId).modal("hide");
+    };
+    StatisticsComponent.prototype.CalculateDatesRangeByRange = function (range) {
+        var currDate = new Date();
+        var result = {
+            "startDate": null,
+            "endDate": null
+        };
+        switch (range) {
+            case enums_1.STATISTICS_RANGE.YEARLY: {
+                var currentYear = currDate.getFullYear();
+                result["startDate"] = new Date(currentYear, 0, 1);
+                result["endDate"] = new Date(currentYear, 11, 31);
+                return result;
+            }
+            case enums_1.STATISTICS_RANGE.WEEKLY: {
+                result["startDate"] = getStartOfWeek(currDate);
+                result["endDate"] = getEndOfWeek(currDate);
+                return result;
+            }
+            default: {
+                return null;
+            }
+        }
+    };
     StatisticsComponent = __decorate([
         core_1.Component({
             selector: 'statistics',
@@ -151,4 +217,17 @@ var StatisticsComponent = /** @class */ (function () {
     return StatisticsComponent;
 }());
 exports.StatisticsComponent = StatisticsComponent;
+function getStartOfWeek(date) {
+    // Copy date if provided, or use current date if not
+    date = date ? new Date(+date) : new Date();
+    date.setHours(0, 0, 0, 0);
+    // Set date to previous Sunday
+    date.setDate(date.getDate() - date.getDay());
+    return date;
+}
+function getEndOfWeek(date) {
+    date = getStartOfWeek(date);
+    date.setDate(date.getDate() + 6);
+    return date;
+}
 //# sourceMappingURL=statistics.component.js.map

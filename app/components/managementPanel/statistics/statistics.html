@@ -12,10 +12,14 @@
         </span>
     </div>
     <div class="chart-container">
-        <canvas id="statistics-chart"></canvas>
+        <canvas [hidden]="!chart" id="statistics-chart"></canvas>
+        <div [hidden]="chart" class="no-chart-container">
+            <span>סטטיסטיקות</span>
+            <i class="far fa-chart-bar"></i>
+        </div>
     </div>
 
-    <div *ngFor="let menu of menus" class="modal fade" data-keyboard="false" data-backdrop="static" [id]="menu.id" tabindex="-1" role="dialog">
+    <div *ngFor="let menu of menus" class="modal" data-keyboard="false" data-backdrop="static" [id]="menu.id" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -38,7 +42,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="modal-footer-buttons">
-                        <a (click)="menu.onConfirm()" class="btn btn-primary save-charts-menu-btn">אישור</a>
+                        <a (click)="CloseModalOnConfirm(menu.id);menu.onConfirm(this, menu.options)" class="btn btn-primary save-charts-menu-btn">אישור</a>
                     </div>
                 </div>
             </div>

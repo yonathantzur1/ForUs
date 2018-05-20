@@ -1,6 +1,6 @@
 #statistics .chart-container {
     position: relative;
-    height: calc(100vh - 140px);
+    height: calc(100vh - 180px);
     width: calc(100vw - 50px);
     margin: auto;
     margin-top: 10px;
@@ -80,4 +80,14 @@
 
 #statistics .menu-option span {
     margin-right: 3px;
+}
+
+#statistics .no-chart-container {
+    width: 100%;
+    text-align: center;
+    margin-top: 80px;
+    font-size: 60px;
+    color: var(--main-text-color);
+    font-family: var(--main-font);
+    position: absolute;
 }
