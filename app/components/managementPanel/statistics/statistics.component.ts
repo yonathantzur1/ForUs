@@ -34,7 +34,7 @@ export class StatisticsComponent implements OnInit {
                     {
                         text: "התחברויות",
                         logType: LOG_TYPE.LOGIN,
-                        isSelected: false
+                        isSelected: true
                     },
                     {
                         text: "התחברויות שגויות",
@@ -58,12 +58,14 @@ export class StatisticsComponent implements OnInit {
                     }
 
                     if (option) {
-                        self.chartsValues.logType = option.logType;
-                        self.chartsValues.chartName = option.text;
+                        if (self.chartsValues.logType != option.logType) {
+                            self.chartsValues.logType = option.logType;
+                            self.chartsValues.chartName = option.text;
 
-                        self.LoadChart(self.chartsValues.logType,
-                            self.chartsValues.statisticsRange,
-                            self.chartsValues.chartName);
+                            self.LoadChart(self.chartsValues.logType,
+                                self.chartsValues.statisticsRange,
+                                self.chartsValues.chartName);
+                        }
                     }
                 }
             },
@@ -94,12 +96,14 @@ export class StatisticsComponent implements OnInit {
                     }
 
                     if (option) {
-                        self.chartsValues.statisticsRange = option.statisticsRange;
+                        if (self.chartsValues.statisticsRange != option.statisticsRange) {
+                            self.chartsValues.statisticsRange = option.statisticsRange;
 
-                        if (self.chart != null) {
-                            self.LoadChart(self.chartsValues.logType,
-                                self.chartsValues.statisticsRange,
-                                self.chartsValues.chartName);
+                            if (self.chart != null) {
+                                self.LoadChart(self.chartsValues.logType,
+                                    self.chartsValues.statisticsRange,
+                                    self.chartsValues.chartName);
+                            }
                         }
                     }
                 }
