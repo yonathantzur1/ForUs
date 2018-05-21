@@ -22,8 +22,19 @@ var self = module.exports = {
                 }
                 case enums.STATISTICS_RANGE.WEEKLY: {
                     barsNumber = 7;
-                    rangeKey = "day";
-                    groupFilter = { day: { $dayOfWeek: { date: "$date", timezone: GetTimeZoneStringForQuery() } }, month: { $month: "$date" }, year: { $year: "$date" } };
+                    rangeKey = "dayOfWeek";
+
+                    var dateWithOffsetQuery;
+                    var dateMillisecondsOffset = GetTimeZoneMillisecondsOffset();
+
+                    if (dateMillisecondsOffset > 0) {
+                        dateWithOffsetQuery = { $add: ["$date", dateMillisecondsOffset] };
+                    }
+                    else {
+                        dateWithOffsetQuery = { $sub: ["$date", (-1 * dateMillisecondsOffset)] };
+                    }
+
+                    groupFilter = { dayOfWeek: { $dayOfWeek: dateWithOffsetQuery }, month: { $month: "$date" }, year: { $year: "$date" } };
                     break;
                 }
                 default: {
@@ -53,9 +64,7 @@ var self = module.exports = {
                     }
                 }
 
-                var sortObj = { $sort: { "_id.month": 1 } };
-
-                var aggregate = [logsFilter, groupObj, sortObj];
+                var aggregate = [logsFilter, groupObj];
 
                 DAL.Aggregate(logsCollectionName, aggregate).then((result) => {
                     var data = [];
@@ -78,32 +87,12 @@ var self = module.exports = {
     }
 }
 
-function GetTimeZoneStringForQuery() {
-    var stringTimeZone = "";
+function GetTimeZoneMillisecondsOffset() {
     var timeZone = new Date().getTimezoneOffset();
 
     // Convert the sign to the opposite for the mongo timezone calculation.
-    if (timeZone < 0) {
-        stringTimeZone += "+";
-    }
-    else {
-        stringTimeZone += "-";
-    }
+    timeZone *= -1;
 
-    timeZone = Math.abs(timeZone);
-
-    var hours = Math.floor(timeZone / 60);
-    var minutes = timeZone - (hours * 60);
-
-    if (hours < 10) {
-        hours = "0" + hours;
-    }
-
-    if (minutes < 10) {
-        minutes = "0" + minutes;
-    }
-
-    stringTimeZone += hours + ":" + minutes;
-
-    return stringTimeZone;
+    // Convert time zone from minutes to milliseconds.
+    return (timeZone * 60 * 1000);
 }

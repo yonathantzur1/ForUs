@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { STATISTICS_RANGE, LOG_TYPE } from '../../../enums/enums';
 
@@ -15,7 +15,7 @@ declare var globalVariables: any;
     providers: [StatisticsService]
 })
 
-export class StatisticsComponent implements OnInit {
+export class StatisticsComponent {
     menus: Array<any>;
     chart: any;
     chartsValues: Object = {
@@ -58,14 +58,12 @@ export class StatisticsComponent implements OnInit {
                     }
 
                     if (option) {
-                        if (self.chartsValues.logType != option.logType) {
-                            self.chartsValues.logType = option.logType;
-                            self.chartsValues.chartName = option.text;
+                        self.chartsValues.logType = option.logType;
+                        self.chartsValues.chartName = option.text;
 
-                            self.LoadChart(self.chartsValues.logType,
-                                self.chartsValues.statisticsRange,
-                                self.chartsValues.chartName);
-                        }
+                        self.LoadChart(self.chartsValues.logType,
+                            self.chartsValues.statisticsRange,
+                            self.chartsValues.chartName);
                     }
                 }
             },
@@ -109,10 +107,6 @@ export class StatisticsComponent implements OnInit {
                 }
             }
         ];
-    }
-
-    ngOnInit() {
-
     }
 
     LoadChart(type: LOG_TYPE, range: STATISTICS_RANGE, chartName: string) {

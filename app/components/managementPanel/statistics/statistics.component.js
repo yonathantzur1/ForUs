@@ -51,11 +51,9 @@ var StatisticsComponent = /** @class */ (function () {
                         }
                     }
                     if (option) {
-                        if (self.chartsValues.logType != option.logType) {
-                            self.chartsValues.logType = option.logType;
-                            self.chartsValues.chartName = option.text;
-                            self.LoadChart(self.chartsValues.logType, self.chartsValues.statisticsRange, self.chartsValues.chartName);
-                        }
+                        self.chartsValues.logType = option.logType;
+                        self.chartsValues.chartName = option.text;
+                        self.LoadChart(self.chartsValues.logType, self.chartsValues.statisticsRange, self.chartsValues.chartName);
                     }
                 }
             },
@@ -95,8 +93,6 @@ var StatisticsComponent = /** @class */ (function () {
             }
         ];
     }
-    StatisticsComponent.prototype.ngOnInit = function () {
-    };
     StatisticsComponent.prototype.LoadChart = function (type, range, chartName) {
         var _this = this;
         this.statisticsService.GetChartData(type, range, this.CalculateDatesRangeByRange(range)).then(function (data) {
