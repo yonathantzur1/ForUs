@@ -18,6 +18,7 @@ declare var globalVariables: any;
 export class StatisticsComponent {
     menus: Array<any>;
     chart: any;
+    isTimeRangeOpen: boolean;
     chartsValues: Object = {
         logType: null,
         statisticsRange: STATISTICS_RANGE.WEEKLY,
@@ -230,6 +231,15 @@ export class StatisticsComponent {
             default: {
                 return null;
             }
+        }
+    }
+
+    OpenChartRange() {
+        if (this.isTimeRangeOpen) {
+            this.isTimeRangeOpen = false;
+        }
+        else {
+            this.isTimeRangeOpen = true;
         }
     }
 }

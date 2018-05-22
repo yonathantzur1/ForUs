@@ -206,6 +206,14 @@ var StatisticsComponent = /** @class */ (function () {
             }
         }
     };
+    StatisticsComponent.prototype.OpenChartRange = function () {
+        if (this.isTimeRangeOpen) {
+            this.isTimeRangeOpen = false;
+        }
+        else {
+            this.isTimeRangeOpen = true;
+        }
+    };
     StatisticsComponent = __decorate([
         core_1.Component({
             selector: 'statistics',

@@ -13,7 +13,9 @@
     position: relative;
     display: flex;
     border: 0.5px solid #9a9a9a;
-    border-radius: 3px;    
+    border-radius: 3px;
+    background-color: var(--main-background-color);
+    z-index: 2;
 }
 
 #statistics .tab-container {
@@ -66,6 +68,12 @@
     left: 15px;
 }
 
+#statistics .cancel-modal-btn {
+    padding: 0;
+    top: 6px;
+    left: 35px;
+}
+
 #statistics .menu-option {
     margin-bottom: 10px;
 }
@@ -93,4 +101,39 @@
     position: absolute;
     -webkit-user-select: none;
     user-select: none;
+}
+
+#statistics .chart-time-range-select-container {
+    position: absolute;
+    width: calc(100% - 20px);
+    height: 50px;
+    right: 10px;
+    top: 10px;
+    border: 1px solid #9a9a9a;
+    border-top: none;
+    background-color: whitesmoke;
+    animation-duration: 0.3s; 
+    z-index: 1;
+    color: var(--main-text-color);
+    font-family: var(--main-font);
+}
+
+@keyframes range-select-animation-show {
+    from {top: 10px;}
+    to {top: 60px;}
+}
+
+@keyframes range-select-animation-hide {
+    from {top: 60px;}
+    to {top: 10px;}
+}
+
+#statistics .range-select-animation-show {
+    animation-name: range-select-animation-show;    
+    top: 60px;
+}
+
+#statistics .range-select-animation-hide {
+    animation-name: range-select-animation-hide;    
+    top: 10px;
 }

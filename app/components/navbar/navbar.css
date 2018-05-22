@@ -124,7 +124,7 @@
 }
 
 #navbar .menu-icon:hover {
-    color: #eee;
+    color: var(--main-background-color);
 }
 
 #navbar .menu-top-arrow {

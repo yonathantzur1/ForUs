@@ -1,15 +1,23 @@
 <div id="statistics">
     <div class="control-menu">
-        <span class="tab-container" (click)="OpenChartsMenu()">
+        <span class="tab-container" title="גרפים" (click)="OpenChartsMenu()">
             <span class="tab">
-                <i class="tab-icon fas fa-bars"></i>
+                <i class="tab-icon far fa-chart-bar"></i>
             </span>
         </span>
-        <span class="tab-container" (click)="OpenChartsTimeMenu()">
+        <span class="tab-container" title="תצוגת זמן" (click)="OpenChartsTimeMenu()">
+            <span class="tab">
+                <i class="tab-icon far fa-clock"></i>
+            </span>
+        </span>
+        <span class="tab-container" title="טווח זמן" (click)="OpenChartRange()">
             <span class="tab">
                 <i class="tab-icon far fa-calendar-alt"></i>
             </span>
         </span>
+    </div>
+    <div class="chart-time-range-select-container" [ngClass]="{'range-select-animation-show': (isTimeRangeOpen == true), 'range-select-animation-hide': (isTimeRangeOpen == false)}">
+
     </div>
     <div class="chart-container">
         <canvas [hidden]="!chart" id="statistics-chart"></canvas>
@@ -42,6 +50,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="modal-footer-buttons">
+                        <a data-dismiss="modal" class="btn btn-default cancel-modal-btn">ביטול</a>
                         <a (click)="CloseModalOnConfirm(menu.id);menu.onConfirm(this, menu.options)" class="btn btn-primary save-charts-menu-btn">אישור</a>
                     </div>
                 </div>

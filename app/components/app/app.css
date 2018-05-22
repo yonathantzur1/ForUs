@@ -38,6 +38,7 @@ a, a:hover, a:focus {
 
 :root {
     /* Define css global variables */
+    --main-background-color: #eee;
     --main-text-color: #4b4b4b;
     --main-font: Rubik;
     --navbar-animation-delay: 0.35s;
