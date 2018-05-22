@@ -13,28 +13,20 @@ var self = module.exports = {
             var groupFilter;
             var isRangeValid = true;
 
+            var dateMillisecondsOffset = GetTimeZoneMillisecondsOffset();
+            var dateWithOffsetQuery = { $add: ["$date", dateMillisecondsOffset] };
+
             switch (range) {
                 case enums.STATISTICS_RANGE.YEARLY: {
                     barsNumber = 12;
                     rangeKey = "month";
-                    groupFilter = { month: { $month: "$date" }, year: { $year: "$date" } };
+                    groupFilter = { month: { $month: dateWithOffsetQuery }, year: { $year: dateWithOffsetQuery } };
                     break;
                 }
                 case enums.STATISTICS_RANGE.WEEKLY: {
                     barsNumber = 7;
                     rangeKey = "dayOfWeek";
-
-                    var dateWithOffsetQuery;
-                    var dateMillisecondsOffset = GetTimeZoneMillisecondsOffset();
-
-                    if (dateMillisecondsOffset > 0) {
-                        dateWithOffsetQuery = { $add: ["$date", dateMillisecondsOffset] };
-                    }
-                    else {
-                        dateWithOffsetQuery = { $sub: ["$date", (-1 * dateMillisecondsOffset)] };
-                    }
-
-                    groupFilter = { dayOfWeek: { $dayOfWeek: dateWithOffsetQuery }, month: { $month: "$date" }, year: { $year: "$date" } };
+                    groupFilter = { dayOfWeek: { $dayOfWeek: dateWithOffsetQuery }, month: { $month: dateWithOffsetQuery }, year: { $year: dateWithOffsetQuery } };
                     break;
                 }
                 default: {
