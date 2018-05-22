@@ -21,7 +21,7 @@
     "@angular/router": "^5.2.10",
     "angular-in-memory-web-api": "^0.6.0",
     "blueimp-load-image": "^2.19.0",
-    "body-parser": "^1.18.2",
+    "body-parser": "^1.18.3",
     "bootstrap": "^3.3.7",
     "bootstrap-material-design": "^0.5.10",
     "chart.js": "^2.7.2",
@@ -40,13 +40,13 @@
     "nodemailer": "^4.6.4",
     "rxjs": "^5.5.10",
     "snackbarjs": "^1.1.0",
-    "socket.io": "^2.1.0",
-    "socket.io-client": "^2.1.0",
+    "socket.io": "^2.1.1",
+    "socket.io-client": "^2.1.1",
     "systemjs": "^0.21.3",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
-    "@types/node": "^10.0.8",
+    "@types/node": "^10.1.2",
     "concurrently": "^3.5.1",
     "nodemon": "^1.17.4",
     "typescript": "~2.8.3"

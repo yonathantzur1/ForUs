@@ -78,9 +78,6 @@ module.exports = (app) => {
                         req.brute.reset(() => {
                             general.SetTokenOnCookie(general.GetTokenFromUserObject(result), res);
                             res.send({ "result": true });
-
-                            // Log - in case the email and password are valid.
-                            logsBL.Login(req.body.email, general.GetIpFromRequest(req), general.GetUserAgentFromRequest(req));
                         });
                     }
                 }

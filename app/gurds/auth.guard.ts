@@ -52,11 +52,11 @@ export class LoginGuard implements CanActivate {
 }
 
 @Injectable()
-export class AdminAuthGuard implements CanActivate {
+export class RootAuthGuard implements CanActivate {
     constructor(private router: Router, private authService: AuthService, private globalService: GlobalService) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        return this.authService.IsUserAdmin().then((result) => {
+        return this.authService.IsUserRoot().then((result) => {
             if (result) {
                 return true;
             }

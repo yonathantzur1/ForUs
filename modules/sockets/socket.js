@@ -1,6 +1,7 @@
 const config = require('../config');
 const general = require('../general');
 const enums = require('../enums');
+const logsBL = require('../BL/logsBL')
 const jwt = require('jsonwebtoken');
 
 var socketsDictionary = {};
@@ -43,6 +44,12 @@ module.exports = function (io) {
                 connectionUserFriends.forEach(friendId => {
                     io.to(friendId).emit('GetFriendConnectionStatus', statusObj);
                 });
+
+                // In case of production environment.
+                if (general.IsProd()) {
+                    // Log - in case the email and password are valid but the user is blocked.
+                    logsBL.Login(user.email, general.GetIpFromSocket(socket), general.GetUserAgentFromSocket(socket));
+                }
             }
         });
 

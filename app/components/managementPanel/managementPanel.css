@@ -11,8 +11,8 @@
 
 #managementPanel .panel-btn {
     width: 85%;
-    max-width: 250px;
-    height: 150px;
+    max-width: 240px;
+    height: 130px;
     margin: auto;
     box-shadow: 1px 1px 6px 1px #9c9c9c;
     cursor: pointer;

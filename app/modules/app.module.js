@@ -32,7 +32,7 @@ var statistics_component_1 = require("../components/managementPanel/statistics/s
 var permissionsCard_component_1 = require("../components/managementPanel/management/permissionsCard/permissionsCard.component");
 var userPage_component_1 = require("../components/userPage/userPage.component");
 var pageNotFound_component_1 = require("../components/pageNotFound/pageNotFound.component");
-var auth_guard_1 = require("../auth/auth.guard");
+var auth_guard_1 = require("../gurds/auth.guard");
 var auth_service_1 = require("../services/auth/auth.service");
 var app_routing_1 = require("../routes/app.routing");
 var global_service_1 = require("../services/global/global.service");
@@ -74,7 +74,7 @@ var AppModule = /** @class */ (function () {
             ],
             providers: [
                 auth_guard_1.AuthGuard,
-                auth_guard_1.AdminAuthGuard,
+                auth_guard_1.RootAuthGuard,
                 auth_guard_1.LoginGuard,
                 auth_service_1.AuthService,
                 global_service_1.GlobalService,

@@ -9,16 +9,16 @@ import { StatisticsComponent } from '../components/managementPanel/statistics/st
 import { UserPageComponent } from '../components/userPage/userPage.component';
 import { PageNotFoundComponent } from '../components/pageNotFound/pageNotFound.component';
 
-import { AuthGuard, AdminAuthGuard, LoginGuard } from '../auth/auth.guard';
+import { AuthGuard, RootAuthGuard, LoginGuard } from '../gurds/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
     children: [
-      { path: 'panel', component: ManagementPanelComponent, canActivate: [AdminAuthGuard] },
-      { path: 'management', component: ManagementComponent, canActivate: [AdminAuthGuard] },
-      { path: 'statistics', component: StatisticsComponent, canActivate: [AdminAuthGuard] },
+      { path: 'panel', component: ManagementPanelComponent, canActivate: [RootAuthGuard] },
+      { path: 'management', component: ManagementComponent, canActivate: [RootAuthGuard] },
+      { path: 'statistics', component: StatisticsComponent, canActivate: [RootAuthGuard] },
       { path: 'page-not-found', component: PageNotFoundComponent },
       { path: 'profile/:id', component: UserPageComponent }
     ],

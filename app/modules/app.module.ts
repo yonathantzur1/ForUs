@@ -28,7 +28,7 @@ import { UserPageComponent } from '../components/userPage/userPage.component';
 
 import { PageNotFoundComponent } from '../components/pageNotFound/pageNotFound.component';
 
-import { AuthGuard, AdminAuthGuard, LoginGuard } from '../auth/auth.guard';
+import { AuthGuard, RootAuthGuard, LoginGuard } from '../gurds/auth.guard';
 import { AuthService } from '../services/auth/auth.service';
 
 import { Routing } from '../routes/app.routing'
@@ -69,7 +69,7 @@ import { AlertService } from '../services/alert/alert.service';
   ],
   providers: [
     AuthGuard,
-    AdminAuthGuard,
+    RootAuthGuard,
     LoginGuard,
     AuthService,
     GlobalService,

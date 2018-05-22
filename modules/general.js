@@ -105,23 +105,21 @@ var self = module.exports = {
     GetIpFromRequest: function (request) {
         var ip = request.ip;
 
-        if (ip) {
-            var reqestIpParts = ip.split("::");
-
-            if (reqestIpParts && reqestIpParts.length > 0) {
-                return reqestIpParts[reqestIpParts.length - 1];
-            }
-            else {
-                return null;
-            }
-        }
-        else {
-            return null;
-        }
+        return covertToIpAddressString(ip);
     },
 
     GetUserAgentFromRequest: function (request) {
         return request.headers["user-agent"];
+    },
+
+    GetIpFromSocket: function (socket) {
+        var ip = socket.handshake.address;
+
+        return covertToIpAddressString(ip);
+    },
+
+    GetUserAgentFromSocket: function (socket) {
+        return socket.request.headers["user-agent"];
     },
 
     IsUserHasMasterPermission(permissions) {
@@ -145,5 +143,25 @@ var self = module.exports = {
     IsUserHasRootPermission(permissions) {
         return (self.IsUserHasAdminPermission(permissions) ||
             self.IsUserHasMasterPermission(permissions));
+    },
+
+    IsProd() {
+        return process.env.DEV_CONNECTION_STRING ? false : true;
+    }
+}
+
+function covertToIpAddressString(ip) {
+    if (ip) {
+        var reqestIpParts = ip.split("::");
+
+        if (reqestIpParts && reqestIpParts.length > 0) {
+            return reqestIpParts[reqestIpParts.length - 1];
+        }
+        else {
+            return null;
+        }
+    }
+    else {
+        return null;
     }
 }

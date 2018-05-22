@@ -29,7 +29,7 @@ module.exports = (app, connectedUsers) => {
     });
 
     // Checking if user has ADMIN permission.
-    app.get(prefix + '/isUserAdmin', (req, res) => {
+    app.get(prefix + '/isUserRoot', (req, res) => {
         res.send(req.user && general.IsUserHasRootPermission(req.user.permissions));
     });
 

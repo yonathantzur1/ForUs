@@ -72,15 +72,15 @@ var LoginGuard = /** @class */ (function () {
     return LoginGuard;
 }());
 exports.LoginGuard = LoginGuard;
-var AdminAuthGuard = /** @class */ (function () {
-    function AdminAuthGuard(router, authService, globalService) {
+var RootAuthGuard = /** @class */ (function () {
+    function RootAuthGuard(router, authService, globalService) {
         this.router = router;
         this.authService = authService;
         this.globalService = globalService;
     }
-    AdminAuthGuard.prototype.canActivate = function (route, state) {
+    RootAuthGuard.prototype.canActivate = function (route, state) {
         var _this = this;
-        return this.authService.IsUserAdmin().then(function (result) {
+        return this.authService.IsUserRoot().then(function (result) {
             if (result) {
                 return true;
             }
@@ -90,11 +90,11 @@ var AdminAuthGuard = /** @class */ (function () {
             }
         });
     };
-    AdminAuthGuard = __decorate([
+    RootAuthGuard = __decorate([
         core_1.Injectable(),
         __metadata("design:paramtypes", [router_1.Router, auth_service_1.AuthService, global_service_1.GlobalService])
-    ], AdminAuthGuard);
-    return AdminAuthGuard;
+    ], RootAuthGuard);
+    return RootAuthGuard;
 }());
-exports.AdminAuthGuard = AdminAuthGuard;
+exports.RootAuthGuard = RootAuthGuard;
 //# sourceMappingURL=auth.guard.js.map
