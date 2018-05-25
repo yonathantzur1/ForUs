@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Observable_1 = require("rxjs/Observable");
+var rxjs_1 = require("rxjs");
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var auth_service_1 = require("../services/auth/auth.service");
@@ -48,7 +48,7 @@ var LoginGuard = /** @class */ (function () {
     }
     LoginGuard.prototype.canActivate = function (route, state) {
         var _this = this;
-        return Observable_1.Observable.create(function (observer) {
+        return rxjs_1.Observable.create(function (observer) {
             if (!getCookie(_this.globalService.uidCookieName)) {
                 observer.next(true);
             }

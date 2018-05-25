@@ -10,9 +10,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-require("rxjs/add/operator/share");
-require("rxjs/add/operator/startWith");
-var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
+var rxjs_1 = require("rxjs");
 var login_service_1 = require("../login/login.service");
 var empty_profile_1 = require("../../pictures/empty-profile");
 var enums_1 = require("../../enums/enums");
@@ -21,7 +19,7 @@ var GlobalService = /** @class */ (function (_super) {
     function GlobalService() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         // Use this property for property binding
-        _this.data = new BehaviorSubject_1.BehaviorSubject({});
+        _this.data = new rxjs_1.BehaviorSubject({});
         _this.socketOnDictionary = {};
         _this.userPermissions = [];
         _this.defaultProfileImage = empty_profile_1.EmptyProfile;
@@ -57,7 +55,7 @@ var GlobalService = /** @class */ (function (_super) {
     GlobalService.prototype.ResetGlobalVariables = function () {
         this.socket && this.socket.destroy();
         this.socket = null;
-        this.data = new BehaviorSubject_1.BehaviorSubject({});
+        this.data = new rxjs_1.BehaviorSubject({});
         this.userProfileImage = null;
         this.userPermissions = [];
     };
