@@ -19,12 +19,13 @@ export class StatisticsComponent {
     menus: Array<any>;
     chart: any;
     isTimeRangeOpen: boolean;
+    selectedOptionIndex: number;
+    datesRangeString: string;
     chartsValues: Object = {
         logType: null,
         statisticsRange: STATISTICS_RANGE.WEEKLY,
         chartName: ""
-    };
-    selectedOptionIndex: number;
+    };    
 
     constructor(private statisticsService: StatisticsService) {
         this.menus = [
@@ -147,7 +148,7 @@ export class StatisticsComponent {
             this.chart.destroy();
         }
 
-        name += "  " + getDateString(datesRange["endDate"]) + " - " + getDateString(datesRange["startDate"]);
+        this.datesRangeString = getDateString(datesRange["endDate"]) + " - " + getDateString(datesRange["startDate"]);
 
         var labels;
 

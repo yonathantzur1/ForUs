@@ -7,13 +7,13 @@
         </span>
     </div>
     <div class="chart-container">
+        <div class="dates-range-string-title">{{datesRangeString}}</div>
         <canvas [hidden]="!chart" id="statistics-chart"></canvas>
         <div [hidden]="chart" class="no-chart-container">
             <span>סטטיסטיקות</span>
             <i class="far fa-chart-bar"></i>
         </div>
     </div>
-
     <div *ngFor="let menu of menus" class="modal" data-keyboard="false" data-backdrop="static" [id]="menu.id" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">

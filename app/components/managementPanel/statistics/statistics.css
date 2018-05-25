@@ -102,3 +102,12 @@
     -webkit-user-select: none;
     user-select: none;
 }
+
+#statistics .dates-range-string-title {
+    position: relative;
+    right: 5px;
+    color: var(--main-text-color);
+    font-family: var(--main-font);
+    -webkit-user-select: none;
+    user-select: none;
+}

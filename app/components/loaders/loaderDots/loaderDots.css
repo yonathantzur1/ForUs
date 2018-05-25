@@ -23,6 +23,8 @@
 }
 
 .load-icon i {
+    margin: 1px;
+    
     /**
      * Use the blink animation, which is defined above
      */

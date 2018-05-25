@@ -128,7 +128,7 @@ var StatisticsComponent = /** @class */ (function () {
         if (this.chart) {
             this.chart.destroy();
         }
-        name += "  " + getDateString(datesRange["endDate"]) + " - " + getDateString(datesRange["startDate"]);
+        this.datesRangeString = getDateString(datesRange["endDate"]) + " - " + getDateString(datesRange["startDate"]);
         var labels;
         switch (range) {
             case enums_1.STATISTICS_RANGE.YEARLY: {

@@ -10,12 +10,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var loaderDotsComponentinstances = 0;
 var LoaderDotsComponent = /** @class */ (function () {
     function LoaderDotsComponent() {
+        this.idIndex = "";
+        this.isShow = false;
     }
     LoaderDotsComponent.prototype.ngOnInit = function () {
+        this.idIndex += loaderDotsComponentinstances;
+        loaderDotsComponentinstances++;
         try {
-            this.css && $('#load-icon').css(JSON.parse(this.css));
+            setTimeout((function () {
+                this.css && $('#load-icon-' + this.idIndex).css(JSON.parse(this.css));
+                this.isShow = true;
+            }).bind(this), 0);
         }
         catch (e) {
             console.warn("Faild to parse spinner css object");
