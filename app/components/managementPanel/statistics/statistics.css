@@ -55,7 +55,7 @@
     font-size: 20px;
     position: absolute;
     top: 26px;
-    padding-right: 5px;
+    padding-right: 10px;
     color: var(--main-text-color);
 }
 
@@ -101,39 +101,4 @@
     position: absolute;
     -webkit-user-select: none;
     user-select: none;
-}
-
-#statistics .chart-time-range-select-container {
-    position: absolute;
-    width: calc(100% - 20px);
-    height: 50px;
-    right: 10px;
-    top: 10px;
-    border: 1px solid #9a9a9a;
-    border-top: none;
-    background-color: whitesmoke;
-    animation-duration: 0.3s; 
-    z-index: 1;
-    color: var(--main-text-color);
-    font-family: var(--main-font);
-}
-
-@keyframes range-select-animation-show {
-    from {top: 10px;}
-    to {top: 60px;}
-}
-
-@keyframes range-select-animation-hide {
-    from {top: 60px;}
-    to {top: 10px;}
-}
-
-#statistics .range-select-animation-show {
-    animation-name: range-select-animation-show;    
-    top: 60px;
-}
-
-#statistics .range-select-animation-hide {
-    animation-name: range-select-animation-hide;    
-    top: 10px;
 }

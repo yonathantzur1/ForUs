@@ -1,23 +1,10 @@
 <div id="statistics">
     <div class="control-menu">
-        <span class="tab-container" title="גרפים" (click)="OpenChartsMenu()">
+        <span *ngFor="let menu of menus" class="tab-container" [title]="menu.title" (click)="menu.onClick(this)">
             <span class="tab">
-                <i class="tab-icon far fa-chart-bar"></i>
+                <i class="tab-icon {{menu.icon}}"></i>
             </span>
         </span>
-        <span class="tab-container" title="תצוגת זמן" (click)="OpenChartsTimeMenu()">
-            <span class="tab">
-                <i class="tab-icon far fa-clock"></i>
-            </span>
-        </span>
-        <span class="tab-container" title="טווח זמן" (click)="OpenChartRange()">
-            <span class="tab">
-                <i class="tab-icon far fa-calendar-alt"></i>
-            </span>
-        </span>
-    </div>
-    <div class="chart-time-range-select-container" [ngClass]="{'range-select-animation-show': (isTimeRangeOpen == true), 'range-select-animation-hide': (isTimeRangeOpen == false)}">
-
     </div>
     <div class="chart-container">
         <canvas [hidden]="!chart" id="statistics-chart"></canvas>
@@ -31,7 +18,7 @@
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" (click)="CloseModal(menu.id);(menu.onCancel && menu.onCancel(this))" aria-label="Close">
                         <i class="material-icons">close</i>
                     </button>
                     <h4 class="modal-title modal-title-label">
@@ -40,18 +27,20 @@
                     </h4>
                 </div>
                 <div class="modal-body">
-                    <div *ngFor="let option of menu.options; let i=index;" class="menu-option">
-                        <div (click)="SelectOption(menu.options, i)">
-                            <i *ngIf="!option.isSelected" class="far fa-circle"></i>
-                            <i *ngIf="option.isSelected" class="far fa-dot-circle"></i>
-                            <span>{{option.text}}</span>
+                    <div *ngIf="menu.options">
+                        <div *ngFor="let option of menu.options; let i=index;" class="menu-option">
+                            <div (click)="SelectOption(menu.options, i)">
+                                <i *ngIf="!option.isSelected" class="far fa-circle"></i>
+                                <i *ngIf="option.isSelected" class="far fa-dot-circle"></i>
+                                <span>{{option.text}}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="modal-footer-buttons">
-                        <a data-dismiss="modal" class="btn btn-default cancel-modal-btn">ביטול</a>
-                        <a (click)="CloseModalOnConfirm(menu.id);menu.onConfirm(this, menu.options)" class="btn btn-primary save-charts-menu-btn">אישור</a>
+                        <a (click)="CloseModal(menu.id);(menu.onCancel && menu.onCancel(this))" class="btn btn-default cancel-modal-btn">ביטול</a>
+                        <a (click)="CloseModal(menu.id);menu.onConfirm(this, menu.options)" class="btn btn-primary save-charts-menu-btn">אישור</a>
                     </div>
                 </div>
             </div>

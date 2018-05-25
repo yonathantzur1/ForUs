@@ -22,7 +22,7 @@ var StatisticsComponent = /** @class */ (function () {
         };
         this.menus = [
             {
-                id: "charts-modal",
+                id: "charts",
                 title: "גרפים",
                 icon: "far fa-chart-bar",
                 options: [
@@ -42,6 +42,13 @@ var StatisticsComponent = /** @class */ (function () {
                         isSelected: false
                     }
                 ],
+                onClick: function (self) {
+                    self.OpenModal(this.id);
+                    self.SaveCurrentSelectedOption(this.options);
+                },
+                onCancel: function (self) {
+                    self.RestoreSelectedOption(this.options);
+                },
                 onConfirm: function (self, options) {
                     var option;
                     for (var i = 0; i < options.length; i++) {
@@ -58,7 +65,7 @@ var StatisticsComponent = /** @class */ (function () {
                 }
             },
             {
-                id: "charts-time-modal",
+                id: "charts-time",
                 title: "תצוגת זמן",
                 icon: "far fa-clock",
                 options: [
@@ -73,6 +80,13 @@ var StatisticsComponent = /** @class */ (function () {
                         isSelected: false
                     }
                 ],
+                onClick: function (self) {
+                    self.OpenModal(this.id);
+                    self.SaveCurrentSelectedOption(this.options);
+                },
+                onCancel: function (self) {
+                    self.RestoreSelectedOption(this.options);
+                },
                 onConfirm: function (self, options) {
                     var option;
                     for (var i = 0; i < options.length; i++) {
@@ -90,19 +104,31 @@ var StatisticsComponent = /** @class */ (function () {
                         }
                     }
                 }
+            },
+            {
+                id: "charts-time-range",
+                title: "טווח זמן",
+                icon: "far fa-calendar-alt",
+                onClick: function (self) {
+                    self.OpenModal(this.id);
+                },
+                onConfirm: function (self) {
+                }
             }
         ];
     }
     StatisticsComponent.prototype.LoadChart = function (type, range, chartName) {
         var _this = this;
-        this.statisticsService.GetChartData(type, range, this.CalculateDatesRangeByRange(range)).then(function (data) {
-            _this.InitializeChart(chartName, range, data);
+        var datesRange = this.CalculateDatesRangeByRange(range);
+        this.statisticsService.GetChartData(type, range, datesRange).then(function (data) {
+            _this.InitializeChart(chartName, range, datesRange, data);
         });
     };
-    StatisticsComponent.prototype.InitializeChart = function (name, range, data) {
+    StatisticsComponent.prototype.InitializeChart = function (name, range, datesRange, data) {
         if (this.chart) {
             this.chart.destroy();
         }
+        name += "  " + getDateString(datesRange["endDate"]) + " - " + getDateString(datesRange["startDate"]);
         var labels;
         switch (range) {
             case enums_1.STATISTICS_RANGE.YEARLY: {
@@ -168,20 +194,31 @@ var StatisticsComponent = /** @class */ (function () {
             }
         });
     };
-    StatisticsComponent.prototype.OpenChartsMenu = function () {
-        $("#charts-modal").modal('show');
-    };
-    StatisticsComponent.prototype.OpenChartsTimeMenu = function () {
-        $("#charts-time-modal").modal('show');
-    };
     StatisticsComponent.prototype.SelectOption = function (options, index) {
         options.forEach(function (option) {
             option.isSelected = false;
         });
         options[index].isSelected = true;
     };
-    StatisticsComponent.prototype.CloseModalOnConfirm = function (modalId) {
+    StatisticsComponent.prototype.OpenModal = function (modalId) {
+        $("#" + modalId).modal("show");
+    };
+    StatisticsComponent.prototype.CloseModal = function (modalId) {
         $("#" + modalId).modal("hide");
+    };
+    StatisticsComponent.prototype.SaveCurrentSelectedOption = function (options) {
+        var _this = this;
+        options.forEach(function (option, index) {
+            if (option.isSelected) {
+                _this.selectedOptionIndex = index;
+            }
+        });
+    };
+    StatisticsComponent.prototype.RestoreSelectedOption = function (options) {
+        var _this = this;
+        options.forEach(function (option, index) {
+            option.isSelected = (index == _this.selectedOptionIndex);
+        });
     };
     StatisticsComponent.prototype.CalculateDatesRangeByRange = function (range) {
         var currDate = new Date();
@@ -204,14 +241,6 @@ var StatisticsComponent = /** @class */ (function () {
             default: {
                 return null;
             }
-        }
-    };
-    StatisticsComponent.prototype.OpenChartRange = function () {
-        if (this.isTimeRangeOpen) {
-            this.isTimeRangeOpen = false;
-        }
-        else {
-            this.isTimeRangeOpen = true;
         }
     };
     StatisticsComponent = __decorate([
@@ -237,5 +266,17 @@ function getEndOfWeek(date) {
     date = getStartOfWeek(date);
     date.setDate(date.getDate() + 6);
     return date;
+}
+function getDateString(date) {
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+    if (day < 10) {
+        day = "0" + day;
+    }
+    if (month < 10) {
+        month = "0" + month;
+    }
+    return (day + "/" + month + "/" + year);
 }
 //# sourceMappingURL=statistics.component.js.map

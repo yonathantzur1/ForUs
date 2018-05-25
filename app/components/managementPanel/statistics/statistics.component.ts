@@ -24,11 +24,12 @@ export class StatisticsComponent {
         statisticsRange: STATISTICS_RANGE.WEEKLY,
         chartName: ""
     };
+    selectedOptionIndex: number;
 
     constructor(private statisticsService: StatisticsService) {
         this.menus = [
             {
-                id: "charts-modal",
+                id: "charts",
                 title: "גרפים",
                 icon: "far fa-chart-bar",
                 options: [
@@ -48,6 +49,13 @@ export class StatisticsComponent {
                         isSelected: false
                     }
                 ],
+                onClick: function (self: any) {
+                    self.OpenModal(this.id);
+                    self.SaveCurrentSelectedOption(this.options);
+                },
+                onCancel: function (self: any) {
+                    self.RestoreSelectedOption(this.options);
+                },
                 onConfirm: function (self: any, options: Array<any>) {
                     var option;
 
@@ -69,7 +77,7 @@ export class StatisticsComponent {
                 }
             },
             {
-                id: "charts-time-modal",
+                id: "charts-time",
                 title: "תצוגת זמן",
                 icon: "far fa-clock",
                 options: [
@@ -84,6 +92,13 @@ export class StatisticsComponent {
                         isSelected: false
                     }
                 ],
+                onClick: function (self: any) {
+                    self.OpenModal(this.id);
+                    self.SaveCurrentSelectedOption(this.options);
+                },
+                onCancel: function (self: any) {
+                    self.RestoreSelectedOption(this.options);
+                },
                 onConfirm: function (self: any, options: Array<any>) {
                     var option;
 
@@ -106,20 +121,33 @@ export class StatisticsComponent {
                         }
                     }
                 }
+            },
+            {
+                id: "charts-time-range",
+                title: "טווח זמן",
+                icon: "far fa-calendar-alt",
+                onClick: function (self: any) {
+                    self.OpenModal(this.id);
+                },
+                onConfirm: function (self: any) {
+                }
             }
         ];
     }
 
     LoadChart(type: LOG_TYPE, range: STATISTICS_RANGE, chartName: string) {
-        this.statisticsService.GetChartData(type, range, this.CalculateDatesRangeByRange(range)).then(data => {
-            this.InitializeChart(chartName, range, data);
+        var datesRange = this.CalculateDatesRangeByRange(range);
+        this.statisticsService.GetChartData(type, range, datesRange).then(data => {
+            this.InitializeChart(chartName, range, datesRange, data);
         });
     }
 
-    InitializeChart(name: string, range: STATISTICS_RANGE, data: Array<number>) {
+    InitializeChart(name: string, range: STATISTICS_RANGE, datesRange: Object, data: Array<number>) {
         if (this.chart) {
             this.chart.destroy();
         }
+
+        name += "  " + getDateString(datesRange["endDate"]) + " - " + getDateString(datesRange["startDate"]);
 
         var labels;
 
@@ -189,14 +217,6 @@ export class StatisticsComponent {
         });
     }
 
-    OpenChartsMenu() {
-        $("#charts-modal").modal('show');
-    }
-
-    OpenChartsTimeMenu() {
-        $("#charts-time-modal").modal('show');
-    }
-
     SelectOption(options: Array<any>, index: number) {
         options.forEach(option => {
             option.isSelected = false;
@@ -205,8 +225,26 @@ export class StatisticsComponent {
         options[index].isSelected = true;
     }
 
-    CloseModalOnConfirm(modalId: string) {
+    OpenModal(modalId: string) {
+        $("#" + modalId).modal("show");
+    }
+
+    CloseModal(modalId: string) {
         $("#" + modalId).modal("hide");
+    }
+
+    SaveCurrentSelectedOption(options: Array<any>) {
+        options.forEach((option, index) => {
+            if (option.isSelected) {
+                this.selectedOptionIndex = index;
+            }
+        });
+    }
+
+    RestoreSelectedOption(options: Array<any>) {
+        options.forEach((option, index) => {
+            option.isSelected = (index == this.selectedOptionIndex);
+        });
     }
 
     CalculateDatesRangeByRange(range: STATISTICS_RANGE): Object {
@@ -233,19 +271,9 @@ export class StatisticsComponent {
             }
         }
     }
-
-    OpenChartRange() {
-        if (this.isTimeRangeOpen) {
-            this.isTimeRangeOpen = false;
-        }
-        else {
-            this.isTimeRangeOpen = true;
-        }
-    }
 }
 
 function getStartOfWeek(date: Date) {
-
     // Copy date if provided, or use current date if not
     date = date ? new Date(+date) : new Date();
     date.setHours(0, 0, 0, 0);
@@ -260,4 +288,20 @@ function getEndOfWeek(date: Date) {
     date = getStartOfWeek(date);
     date.setDate(date.getDate() + 6);
     return date;
+}
+
+function getDateString(date: Date) {
+    var day: any = date.getDate();
+    var month: any = date.getMonth() + 1;
+    var year: any = date.getFullYear();
+
+    if (day < 10) {
+        day = "0" + day;
+    }
+
+    if (month < 10) {
+        month = "0" + month;
+    }
+
+    return (day + "/" + month + "/" + year);
 }
