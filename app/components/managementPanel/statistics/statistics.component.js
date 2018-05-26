@@ -184,6 +184,11 @@ var StatisticsComponent = /** @class */ (function () {
             },
             options: {
                 maintainAspectRatio: false,
+                legend: {
+                    labels: {
+                        fontFamily: 'Rubik'
+                    }
+                },
                 scales: {
                     yAxes: [{
                             ticks: {
@@ -265,6 +270,7 @@ function getStartOfWeek(date) {
 function getEndOfWeek(date) {
     date = getStartOfWeek(date);
     date.setDate(date.getDate() + 6);
+    date.setHours(23, 59, 59, 99);
     return date;
 }
 function getDateString(date) {

@@ -7,7 +7,11 @@
         </span>
     </div>
     <div class="chart-container">
-        <div class="dates-range-string-title">{{datesRangeString}}</div>
+        <div *ngIf="chart" class="chart-dates-container">
+            <i class="fas fa-arrow-circle-right change-date-range-icon"></i>
+            <div class="dates-range-string-title">{{datesRangeString}}</div>
+            <i class="fas fa-arrow-circle-left change-date-range-icon"></i>
+        </div>
         <canvas [hidden]="!chart" id="statistics-chart"></canvas>
         <div [hidden]="chart" class="no-chart-container">
             <span>סטטיסטיקות</span>

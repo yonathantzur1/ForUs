@@ -25,7 +25,7 @@ export class StatisticsComponent {
         logType: null,
         statisticsRange: STATISTICS_RANGE.WEEKLY,
         chartName: ""
-    };    
+    };
 
     constructor(private statisticsService: StatisticsService) {
         this.menus = [
@@ -207,6 +207,11 @@ export class StatisticsComponent {
             },
             options: {
                 maintainAspectRatio: false,
+                legend: {
+                    labels: {
+                        fontFamily: 'Rubik'
+                    }
+                },
                 scales: {
                     yAxes: [{
                         ticks: {
@@ -288,6 +293,8 @@ function getStartOfWeek(date: Date) {
 function getEndOfWeek(date: Date) {
     date = getStartOfWeek(date);
     date.setDate(date.getDate() + 6);
+    date.setHours(23, 59, 59, 99);
+
     return date;
 }
 
