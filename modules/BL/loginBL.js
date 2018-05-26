@@ -6,10 +6,10 @@ const sha512 = require('js-sha512');
 
 const collectionName = config.db.collections.users;
 const permissionsCollectionName = config.db.collections.permissions;
-const saltNumOfDigits = config.loginSecure.saltNumOfDigits;
-const resetCodeNumOfDigits = config.loginSecure.resetCodeNumOfDigits;
-const resetCodeNumOfHoursValid = config.loginSecure.resetCodeNumOfHoursValid;
-const resetPasswordMaxTries = config.loginSecure.resetPasswordMaxTries;
+const saltNumOfDigits = config.security.loginSecure.saltNumOfDigits;
+const resetCodeNumOfDigits = config.security.loginSecure.resetCodeNumOfDigits;
+const resetCodeNumOfHoursValid = config.security.loginSecure.resetCodeNumOfHoursValid;
+const resetPasswordMaxTries = config.security.loginSecure.resetPasswordMaxTries;
 
 var self = module.exports = {
 

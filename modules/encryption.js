@@ -1,8 +1,8 @@
 const crypto = require('crypto');
 const config = require('./config.js');
 
-const algorithm = config.encrypt.algorithm;
-const password = config.encrypt.secret;
+const algorithm = config.security.encrypt.algorithm;
+const password = config.security.encrypt.secret;
 
 module.exports = {
     encrypt: function (text, key) {

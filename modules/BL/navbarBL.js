@@ -7,7 +7,7 @@ const usersCollectionName = config.db.collections.users;
 const profilesCollectionName = config.db.collections.profiles;
 
 // Define search consts.
-const searchResultsLimit = config.search.resultsLimit;
+const searchResultsLimit = config.navbarSearch.resultsLimit;
 
 var self = module.exports = {
 

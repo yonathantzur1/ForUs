@@ -96,11 +96,9 @@ var StatisticsComponent = /** @class */ (function () {
                         }
                     }
                     if (option) {
-                        if (self.chartsValues.statisticsRange != option.statisticsRange) {
-                            self.chartsValues.statisticsRange = option.statisticsRange;
-                            if (self.chart != null) {
-                                self.LoadChart(self.chartsValues.logType, self.chartsValues.statisticsRange, self.chartsValues.chartName);
-                            }
+                        self.chartsValues.statisticsRange = option.statisticsRange;
+                        if (self.chart != null) {
+                            self.LoadChart(self.chartsValues.logType, self.chartsValues.statisticsRange, self.chartsValues.chartName);
                         }
                     }
                 }
@@ -117,11 +115,11 @@ var StatisticsComponent = /** @class */ (function () {
             }
         ];
     }
-    StatisticsComponent.prototype.LoadChart = function (type, range, chartName) {
+    StatisticsComponent.prototype.LoadChart = function (type, range, chartName, datesRange) {
         var _this = this;
-        var datesRange = this.CalculateDatesRangeByRange(range);
-        this.statisticsService.GetChartData(type, range, datesRange).then(function (data) {
-            _this.InitializeChart(chartName, range, datesRange, data);
+        this.datesRange = datesRange || this.CalculateDatesRangeByRangeType(range);
+        this.statisticsService.GetChartData(type, range, this.datesRange).then(function (data) {
+            _this.InitializeChart(chartName, range, _this.datesRange, data);
         });
     };
     StatisticsComponent.prototype.InitializeChart = function (name, range, datesRange, data) {
@@ -225,7 +223,7 @@ var StatisticsComponent = /** @class */ (function () {
             option.isSelected = (index == _this.selectedOptionIndex);
         });
     };
-    StatisticsComponent.prototype.CalculateDatesRangeByRange = function (range) {
+    StatisticsComponent.prototype.CalculateDatesRangeByRangeType = function (range) {
         var currDate = new Date();
         var result = {
             "startDate": null,
@@ -247,6 +245,40 @@ var StatisticsComponent = /** @class */ (function () {
                 return null;
             }
         }
+    };
+    StatisticsComponent.prototype.GetNextDatesRangePeriod = function () {
+        var startDate = this.datesRange["startDate"];
+        var endDate = this.datesRange["endDate"];
+        switch (this.chartsValues["statisticsRange"]) {
+            case enums_1.STATISTICS_RANGE.WEEKLY: {
+                startDate.setDate(startDate.getDate() + 7);
+                endDate.setDate(endDate.getDate() + 7);
+                break;
+            }
+            case enums_1.STATISTICS_RANGE.YEARLY: {
+                startDate.setFullYear(startDate.getFullYear() + 1);
+                endDate.setFullYear(endDate.getFullYear() + 1);
+                break;
+            }
+        }
+        this.LoadChart(this.chartsValues["logType"], this.chartsValues["statisticsRange"], this.chartsValues["chartName"], this.datesRange);
+    };
+    StatisticsComponent.prototype.GetPreviousDatesRangePeriod = function () {
+        var startDate = this.datesRange["startDate"];
+        var endDate = this.datesRange["endDate"];
+        switch (this.chartsValues["statisticsRange"]) {
+            case enums_1.STATISTICS_RANGE.WEEKLY: {
+                startDate.setDate(startDate.getDate() - 7);
+                endDate.setDate(endDate.getDate() - 7);
+                break;
+            }
+            case enums_1.STATISTICS_RANGE.YEARLY: {
+                startDate.setFullYear(startDate.getFullYear() - 1);
+                endDate.setFullYear(endDate.getFullYear() - 1);
+                break;
+            }
+        }
+        this.LoadChart(this.chartsValues["logType"], this.chartsValues["statisticsRange"], this.chartsValues["chartName"], this.datesRange);
     };
     StatisticsComponent = __decorate([
         core_1.Component({

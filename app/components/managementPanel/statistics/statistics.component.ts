@@ -20,6 +20,7 @@ export class StatisticsComponent {
     chart: any;
     isTimeRangeOpen: boolean;
     selectedOptionIndex: number;
+    datesRange: Object;
     datesRangeString: string;
     chartsValues: Object = {
         logType: null,
@@ -111,14 +112,12 @@ export class StatisticsComponent {
                     }
 
                     if (option) {
-                        if (self.chartsValues.statisticsRange != option.statisticsRange) {
-                            self.chartsValues.statisticsRange = option.statisticsRange;
+                        self.chartsValues.statisticsRange = option.statisticsRange;
 
-                            if (self.chart != null) {
-                                self.LoadChart(self.chartsValues.logType,
-                                    self.chartsValues.statisticsRange,
-                                    self.chartsValues.chartName);
-                            }
+                        if (self.chart != null) {
+                            self.LoadChart(self.chartsValues.logType,
+                                self.chartsValues.statisticsRange,
+                                self.chartsValues.chartName);
                         }
                     }
                 }
@@ -136,10 +135,10 @@ export class StatisticsComponent {
         ];
     }
 
-    LoadChart(type: LOG_TYPE, range: STATISTICS_RANGE, chartName: string) {
-        var datesRange = this.CalculateDatesRangeByRange(range);
-        this.statisticsService.GetChartData(type, range, datesRange).then(data => {
-            this.InitializeChart(chartName, range, datesRange, data);
+    LoadChart(type: LOG_TYPE, range: STATISTICS_RANGE, chartName: string, datesRange?: Object) {
+        this.datesRange = datesRange || this.CalculateDatesRangeByRangeType(range);
+        this.statisticsService.GetChartData(type, range, this.datesRange).then(data => {
+            this.InitializeChart(chartName, range, this.datesRange, data);
         });
     }
 
@@ -253,7 +252,7 @@ export class StatisticsComponent {
         });
     }
 
-    CalculateDatesRangeByRange(range: STATISTICS_RANGE): Object {
+    CalculateDatesRangeByRangeType(range: STATISTICS_RANGE): Object {
         var currDate = new Date();
         var result: any = {
             "startDate": null,
@@ -276,6 +275,56 @@ export class StatisticsComponent {
                 return null;
             }
         }
+    }
+
+    GetNextDatesRangePeriod() {
+        var startDate: Date = this.datesRange["startDate"];
+        var endDate: Date = this.datesRange["endDate"];
+
+        switch (this.chartsValues["statisticsRange"]) {
+            case STATISTICS_RANGE.WEEKLY: {
+                startDate.setDate(startDate.getDate() + 7);
+                endDate.setDate(endDate.getDate() + 7);
+
+                break;
+            }
+            case STATISTICS_RANGE.YEARLY: {
+                startDate.setFullYear(startDate.getFullYear() + 1);
+                endDate.setFullYear(endDate.getFullYear() + 1);
+
+                break;
+            }
+        }
+
+        this.LoadChart(this.chartsValues["logType"],
+            this.chartsValues["statisticsRange"],
+            this.chartsValues["chartName"],
+            this.datesRange);
+    }
+
+    GetPreviousDatesRangePeriod() {
+        var startDate = this.datesRange["startDate"];
+        var endDate = this.datesRange["endDate"];
+
+        switch (this.chartsValues["statisticsRange"]) {
+            case STATISTICS_RANGE.WEEKLY: {
+                startDate.setDate(startDate.getDate() - 7);
+                endDate.setDate(endDate.getDate() - 7);
+
+                break;
+            }
+            case STATISTICS_RANGE.YEARLY: {
+                startDate.setFullYear(startDate.getFullYear() - 1);
+                endDate.setFullYear(endDate.getFullYear() - 1);
+
+                break;
+            }
+        }
+
+        this.LoadChart(this.chartsValues["logType"],
+            this.chartsValues["statisticsRange"],
+            this.chartsValues["chartName"],
+            this.datesRange);
     }
 }
 

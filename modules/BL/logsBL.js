@@ -1,5 +1,6 @@
 const DAL = require('../DAL');
 const config = require('../config');
+const general = require('../general');
 const enums = require('../enums');
 
 var collectionName = config.db.collections.logs;
@@ -19,16 +20,19 @@ var self = module.exports = {
     },
 
     InsertStandartLog: function (type, email, ip, userAgent) {
-        return new Promise((resolve, reject) => {
-            log = {
-                type,
-                ip,
-                userAgent,
-                email,
-                "date": new Date()
-            };
+        // In case of production environment.
+        if (general.IsProd()) {
+            return new Promise((resolve, reject) => {
+                log = {
+                    type,
+                    ip,
+                    userAgent,
+                    email,
+                    "date": new Date()
+                };
 
-            DAL.Insert(collectionName, log).then(resolve).catch(reject);
-        });
+                DAL.Insert(collectionName, log).then(resolve).catch(reject);
+            });
+        }
     }
 }

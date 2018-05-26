@@ -23,9 +23,9 @@ var handleStoreError = (error) => {
 }
 // Start slowing requests after 5 failed attempts.
 var userBruteforce = new ExpressBrute(store, {
-    freeRetries: config.expressBrute.freeRetries,
-    minWait: config.expressBrute.minWait,
-    maxWait: config.expressBrute.maxWait,
+    freeRetries: config.security.expressBrute.freeRetries,
+    minWait: config.security.expressBrute.minWait,
+    maxWait: config.security.expressBrute.maxWait,
     failCallback: failCallback,
     handleStoreError: handleStoreError
 });

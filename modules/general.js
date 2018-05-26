@@ -19,14 +19,14 @@ var self = module.exports = {
         }
 
         var tokenObject = { "user": tokenUserObject };
-        var token = encryption.encrypt(jwt.sign(tokenObject, config.jwt.secret, config.jwt.options));
+        var token = encryption.encrypt(jwt.sign(tokenObject, config.security.jwt.secret, config.security.jwt.options));
 
         return token;
     },
 
     DecodeToken: function (token) {
         try {
-            return jwt.verify(encryption.decrypt(token), config.jwt.secret);
+            return jwt.verify(encryption.decrypt(token), config.security.jwt.secret);
         }
         catch (err) {
             return null;
@@ -34,21 +34,21 @@ var self = module.exports = {
     },
 
     SetTokenOnCookie: function (token, res, isDisableUidCookieUpdate) {
-        res.cookie(config.token.cookieName, token, { maxAge: config.token.maxAge, httpOnly: true });
+        res.cookie(config.security.token.cookieName, token, { maxAge: config.security.token.maxAge, httpOnly: true });
 
         var token = this.DecodeToken(token);
 
         if (token.user && !isDisableUidCookieUpdate) {
-            res.cookie(config.token.uidCookieName, token.user.uid, { maxAge: config.token.maxAge, httpOnly: false });
+            res.cookie(config.security.token.uidCookieName, token.user.uid, { maxAge: config.security.token.maxAge, httpOnly: false });
         }
     },
 
     DeleteTokenFromCookie: function (res) {
-        res.clearCookie(config.token.cookieName);
+        res.clearCookie(config.security.token.cookieName);
     },
 
     DeleteUserIdFromCookie: function (res) {
-        res.clearCookie(config.token.uidCookieName);
+        res.clearCookie(config.security.token.uidCookieName);
     },
 
     DeleteAuthCookies: function (res) {
@@ -80,19 +80,19 @@ var self = module.exports = {
     },
 
     GetTokenFromCookie: function (cookie) {
-        return this.GetCookieByName(config.token.cookieName, cookie);
+        return this.GetCookieByName(config.security.token.cookieName, cookie);
     },
 
     GetTokenFromSocket: function (socket) {
-        return this.GetCookieByName(config.token.cookieName, socket.request.headers.cookie);
+        return this.GetCookieByName(config.security.token.cookieName, socket.request.headers.cookie);
     },
 
     GetTokenFromRequest: function (request) {
-        return this.GetCookieByName(config.token.cookieName, request.headers.cookie);
+        return this.GetCookieByName(config.security.token.cookieName, request.headers.cookie);
     },
 
     GetUidFromRequest: function (request) {
-        return this.GetCookieByName(config.token.uidCookieName, request.headers.cookie);
+        return this.GetCookieByName(config.security.token.uidCookieName, request.headers.cookie);
     },
 
     GenerateId: function () {
