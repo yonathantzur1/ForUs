@@ -12,11 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var enums_1 = require("../../../enums/enums");
 var statistics_service_1 = require("../../../services/managementPanel/statistics/statistics.service");
+var global_service_1 = require("../../../services/global/global.service");
 var StatisticsComponent = /** @class */ (function () {
-    function StatisticsComponent(statisticsService) {
+    function StatisticsComponent(globalService, statisticsService) {
+        this.globalService = globalService;
         this.statisticsService = statisticsService;
         this.userData = {
-            "fullname": null,
+            "fullName": null,
             "profileImage": null
         };
         this.chartsValues = {
@@ -65,7 +67,7 @@ var StatisticsComponent = /** @class */ (function () {
                     if (option) {
                         self.chartsValues.logType = option.logType;
                         self.chartsValues.chartName = option.text;
-                        self.LoadChart(self.chartsValues.logType, self.chartsValues.statisticsRange, self.chartsValues.chartName);
+                        self.LoadChartAgain();
                     }
                 }
             },
@@ -104,7 +106,7 @@ var StatisticsComponent = /** @class */ (function () {
                     if (option) {
                         self.chartsValues.statisticsRange = option.statisticsRange;
                         if (self.chart != null) {
-                            self.LoadChart(self.chartsValues.logType, self.chartsValues.statisticsRange, self.chartsValues.chartName);
+                            self.LoadChartAgain();
                         }
                     }
                 }
@@ -126,24 +128,26 @@ var StatisticsComponent = /** @class */ (function () {
                 },
                 onConfirm: function (self) {
                     var _this = this;
-                    this.isLoaderActive = true;
-                    self.statisticsService.GetUserByEmail(self.userEmailInput).then(function (result) {
-                        _this.isLoaderActive = false;
-                        // In case the user is not found.
-                        if (result == "-1") {
-                            self.isUserEmailFound = false;
-                        }
-                        else {
-                            self.isUserEmailFound = true;
-                            // Setting the userEmail for the chart filter.
-                            self.userEmail = self.userEmailInput;
-                            self.LoadChart(self.chartsValues["logType"], self.chartsValues["statisticsRange"], self.chartsValues["chartName"], self.datesRange);
-                            self.userData["fullName"] = result.fullName;
-                            self.userData["profileImage"] = result.profileImage;
-                            self.userEmailInput = null;
-                            self.CloseModal(_this.id);
-                        }
-                    });
+                    if (!this.isLoaderActive) {
+                        this.isLoaderActive = true;
+                        self.statisticsService.GetUserByEmail(self.userEmailInput).then(function (result) {
+                            _this.isLoaderActive = false;
+                            // In case the user is not found.
+                            if (result == "-1") {
+                                self.isUserEmailFound = false;
+                            }
+                            else {
+                                self.isUserEmailFound = true;
+                                // Setting the user email for the chart filter.
+                                self.userEmail = self.userEmailInput;
+                                self.LoadChartAgain();
+                                self.userData["fullName"] = result.fullName;
+                                self.userData["profileImage"] = result.profileImage;
+                                self.userEmailInput = null;
+                                self.CloseModal(_this.id);
+                            }
+                        });
+                    }
                 }
             }
         ];
@@ -161,6 +165,7 @@ var StatisticsComponent = /** @class */ (function () {
         if (this.chart) {
             this.chart.destroy();
         }
+        this.chartTitle = name;
         this.datesRangeString = getDateString(datesRange["endDate"]) + " - " + getDateString(datesRange["startDate"]);
         var labels;
         switch (range) {
@@ -218,6 +223,7 @@ var StatisticsComponent = /** @class */ (function () {
             options: {
                 maintainAspectRatio: false,
                 legend: {
+                    display: false,
                     labels: {
                         fontFamily: 'Rubik',
                         fontColor: '#4b4b4b',
@@ -319,13 +325,26 @@ var StatisticsComponent = /** @class */ (function () {
         }
         this.LoadChart(this.chartsValues["logType"], this.chartsValues["statisticsRange"], this.chartsValues["chartName"], this.datesRange);
     };
+    StatisticsComponent.prototype.ClearUserChart = function () {
+        var _this = this;
+        // Reset user data.
+        Object.keys(this.userData).forEach(function (key) {
+            _this.userData[key] = null;
+        });
+        this.userEmail = null;
+        this.LoadChartAgain();
+    };
+    StatisticsComponent.prototype.LoadChartAgain = function () {
+        this.LoadChart(this.chartsValues["logType"], this.chartsValues["statisticsRange"], this.chartsValues["chartName"]);
+    };
     StatisticsComponent = __decorate([
         core_1.Component({
             selector: 'statistics',
             templateUrl: './statistics.html',
             providers: [statistics_service_1.StatisticsService]
         }),
-        __metadata("design:paramtypes", [statistics_service_1.StatisticsService])
+        __metadata("design:paramtypes", [global_service_1.GlobalService,
+            statistics_service_1.StatisticsService])
     ], StatisticsComponent);
     return StatisticsComponent;
 }());

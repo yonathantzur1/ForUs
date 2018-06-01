@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { STATISTICS_RANGE, LOG_TYPE } from '../../../enums/enums';
 
 import { StatisticsService } from '../../../services/managementPanel/statistics/statistics.service';
+import { GlobalService } from '../../../services/global/global.service';
 
 declare var $: any;
 declare var document: any;
@@ -18,6 +19,7 @@ declare var globalVariables: any;
 export class StatisticsComponent {
     menus: Array<any>;
     chart: any;
+    chartTitle: string;
     isTimeRangeOpen: boolean;
     selectedOptionIndex: number;
     datesRange: Object;
@@ -26,7 +28,7 @@ export class StatisticsComponent {
     userEmail: string;
     isUserEmailFound: boolean;
     userData: Object = {
-        "fullname": null,
+        "fullName": null,
         "profileImage": null
     };
     isLoadingChart: boolean;
@@ -36,7 +38,8 @@ export class StatisticsComponent {
         chartName: "התחברויות"
     };
 
-    constructor(private statisticsService: StatisticsService) {
+    constructor(private globalService: GlobalService,
+        private statisticsService: StatisticsService) {
         this.menus = [
             {
                 id: "charts",
@@ -82,9 +85,7 @@ export class StatisticsComponent {
                         self.chartsValues.logType = option.logType;
                         self.chartsValues.chartName = option.text;
 
-                        self.LoadChart(self.chartsValues.logType,
-                            self.chartsValues.statisticsRange,
-                            self.chartsValues.chartName);
+                        self.LoadChartAgain();
                     }
                 }
             },
@@ -113,7 +114,6 @@ export class StatisticsComponent {
                 },
                 onConfirm: function (self: any, options: Array<any>) {
                     self.CloseModal(this.id);
-
                     var option;
 
                     for (var i = 0; i < options.length; i++) {
@@ -127,9 +127,7 @@ export class StatisticsComponent {
                         self.chartsValues.statisticsRange = option.statisticsRange;
 
                         if (self.chart != null) {
-                            self.LoadChart(self.chartsValues.logType,
-                                self.chartsValues.statisticsRange,
-                                self.chartsValues.chartName);
+                            self.LoadChartAgain();
                         }
                     }
                 }
@@ -150,31 +148,30 @@ export class StatisticsComponent {
                     self.userEmailInput = null;
                 },
                 onConfirm: function (self: any) {
-                    this.isLoaderActive = true;
-                    self.statisticsService.GetUserByEmail(self.userEmailInput).then((result: any) => {
-                        this.isLoaderActive = false;
+                    if (!this.isLoaderActive) {
+                        this.isLoaderActive = true;
+                        self.statisticsService.GetUserByEmail(self.userEmailInput).then((result: any) => {
+                            this.isLoaderActive = false;
 
-                        // In case the user is not found.
-                        if (result == "-1") {
-                            self.isUserEmailFound = false;
-                        }
-                        else {
-                            self.isUserEmailFound = true;
+                            // In case the user is not found.
+                            if (result == "-1") {
+                                self.isUserEmailFound = false;
+                            }
+                            else {
+                                self.isUserEmailFound = true;
 
-                            // Setting the userEmail for the chart filter.
-                            self.userEmail = self.userEmailInput;
+                                // Setting the user email for the chart filter.
+                                self.userEmail = self.userEmailInput;
 
-                            self.LoadChart(self.chartsValues["logType"],
-                                self.chartsValues["statisticsRange"],
-                                self.chartsValues["chartName"],
-                                self.datesRange);
+                                self.LoadChartAgain();
 
-                            self.userData["fullName"] = result.fullName;
-                            self.userData["profileImage"] = result.profileImage;
-                            self.userEmailInput = null;
-                            self.CloseModal(this.id);
-                        }
-                    });
+                                self.userData["fullName"] = result.fullName;
+                                self.userData["profileImage"] = result.profileImage;
+                                self.userEmailInput = null;
+                                self.CloseModal(this.id);
+                            }
+                        });
+                    }
                 }
             }
         ];
@@ -195,6 +192,7 @@ export class StatisticsComponent {
             this.chart.destroy();
         }
 
+        this.chartTitle = name;
         this.datesRangeString = getDateString(datesRange["endDate"]) + " - " + getDateString(datesRange["startDate"]);
 
         var labels;
@@ -255,6 +253,7 @@ export class StatisticsComponent {
             options: {
                 maintainAspectRatio: false,
                 legend: {
+                    display: false,
                     labels: {
                         fontFamily: 'Rubik',
                         fontColor: '#4b4b4b',
@@ -377,6 +376,23 @@ export class StatisticsComponent {
             this.chartsValues["statisticsRange"],
             this.chartsValues["chartName"],
             this.datesRange);
+    }
+
+    ClearUserChart() {
+        // Reset user data.
+        Object.keys(this.userData).forEach(key => {
+            this.userData[key] = null;
+        });
+
+        this.userEmail = null;
+
+        this.LoadChartAgain();
+    }
+
+    LoadChartAgain() {
+        this.LoadChart(this.chartsValues["logType"],
+            this.chartsValues["statisticsRange"],
+            this.chartsValues["chartName"]);
     }
 }
 

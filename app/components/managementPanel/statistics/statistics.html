@@ -14,6 +14,13 @@
             <i (click)="GetNextDatesRangePeriod()" class="fas fa-arrow-circle-right change-date-range-icon"></i>
             <div class="dates-range-string-title">{{datesRangeString}}</div>
             <i (click)="GetPreviousDatesRangePeriod()" class="fas fa-arrow-circle-left change-date-range-icon"></i>
+            <div class="chart-top-details-container">
+                <div class="chart-title-container">{{chartTitle}}</div>
+                <span class="user-data-container" *ngIf="userData.fullName" (click)="ClearUserChart()">
+                    <span> {{userData.fullName}}</span> -
+                    <img class="user-image" [src]="userData.profileImage || globalService.defaultProfileImage">
+                </span>
+            </div>
         </div>
         <div [hidden]="chart" class="no-chart-container">
             <span>סטטיסטיקות</span>
@@ -48,8 +55,9 @@
                     <div *ngIf="menu.type=='user-search'">
                         <loaderDots *ngIf="menu.isLoaderActive" css='{"text-align": "center", "font-size": "10px", "position": "absolute", "bottom": "-44px"}'></loaderDots>
                         <div class="form-group" style="padding:0;margin:0;">
-                            <input [(ngModel)]="userEmailInput" (keyup.enter)="menu.onConfirm(this, menu.options)" id="user-search" name="user-search" class="form-control" type="email" placeholder="אימייל"
-                                autocorrect="off" autocapitalize="off" spellcheck="false">
+                            <input [(ngModel)]="userEmailInput" (keyup.enter)="menu.onConfirm(this, menu.options)" id="user-search" name="user-search"
+                                class="form-control" type="email" placeholder="אימייל" autocorrect="off" autocapitalize="off"
+                                spellcheck="false">
                             <span *ngIf="isUserEmailFound == false" class="no-email-microtext">כתובת אימייל לא נמצאה</span>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 #statistics .chart-container {
     position: relative;
-    height: calc(100vh - 150px);
+    height: calc(100vh - 180px);
     width: calc(100vw - 50px);
     max-height: 450px;
     margin: auto;
@@ -95,8 +95,8 @@
 #statistics .no-chart-container {
     width: 100%;
     text-align: center;
-    margin-top: 90px;
-    font-size: 50px;
+    margin-top: 95px;
+    font-size: 45px;
     color: var(--main-text-color);
     font-family: var(--main-font);
     position: absolute;
@@ -142,4 +142,31 @@
     font-size: 11px;
     color: var(--microtext-color);
     line-height: 5px;
+}
+
+#statistics .disable-btn {
+    color: #9c9c9c;
+    cursor: default;
+}
+
+#statistics .chart-top-details-container {
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#statistics .chart-title-container {
+    margin-top: 5px;
+    font-size: 18px;
+    display: inline-block;
+}
+
+#statistics .user-data-container {
+    cursor: pointer;
+}
+
+#statistics .user-image {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 0.5px solid #c1c1c1;
 }
