@@ -4,6 +4,7 @@ const enums = require('../enums');
 
 const logsCollectionName = config.db.collections.logs;
 const usersCollectionName = config.db.collections.users;
+const profilesCollectionName = config.db.collections.profiles;
 
 var self = module.exports = {
     GetLoginsData: (logType, range, datesRange, email) => {
@@ -75,6 +76,61 @@ var self = module.exports = {
             else {
                 reject("Range " + range + " is not valid");
             }
+        });
+    },
+
+    GetUserByEmail: (email) => {
+        return new Promise((resolve, reject) => {
+            email = email.replace(/\\/g, '');
+
+            var usersFilter = {
+                $match: {
+                    email
+                }
+            };
+
+            var joinFilter = {
+                $lookup: {
+                    from: profilesCollectionName,
+                    localField: 'profile',
+                    foreignField: '_id',
+                    as: 'profileImage'
+                }
+            }
+
+            var aggregateArray = [
+                {
+                    $project: {
+                        fullName: { $concat: ["$firstName", " ", "$lastName"] },
+                        "profile": 1,
+                        "email": 1
+                    }
+                },
+                usersFilter,
+                joinFilter,
+                {
+                    $project: {
+                        // Should be here and on $project above because how aggregate works.
+                        "fullName": 1,
+                        "profileImage.image": 1, // Taking only specific field from profile object.
+                    }
+                }
+            ];
+
+            DAL.Aggregate(usersCollectionName, aggregateArray).then((users) => {
+                if (users && users.length == 1) {
+                    var user = users[0];
+
+                    resolve({
+                        fullName: user.fullName,
+                        profileImage: (user.profileImage && user.profileImage.length == 1) ?
+                            user.profileImage[0].image : null
+                    });
+                }
+                else {
+                    resolve(null);
+                }
+            }).catch(reject);
         });
     }
 }

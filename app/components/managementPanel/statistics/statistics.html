@@ -1,5 +1,8 @@
 <div id="statistics">
     <div class="control-menu">
+        <div *ngIf="isLoadingChart" class="control-menu-overly">
+            <loaderDots css='{"text-align": "center", "width": "100%", "font-size": "16px", "position": "absolute", "top": "16px"}'></loaderDots>
+        </div>
         <span *ngFor="let menu of menus" class="tab-container" [title]="menu.title" (click)="menu.onClick(this)">
             <span class="tab">
                 <i class="tab-icon {{menu.icon}}"></i>
@@ -12,11 +15,11 @@
             <div class="dates-range-string-title">{{datesRangeString}}</div>
             <i (click)="GetPreviousDatesRangePeriod()" class="fas fa-arrow-circle-left change-date-range-icon"></i>
         </div>
-        <canvas [hidden]="!chart" id="statistics-chart"></canvas>
         <div [hidden]="chart" class="no-chart-container">
             <span>סטטיסטיקות</span>
             <i class="far fa-chart-bar"></i>
         </div>
+        <canvas [hidden]="!chart" id="statistics-chart"></canvas>
     </div>
     <div *ngFor="let menu of menus" class="modal" data-keyboard="false" data-backdrop="static" [id]="menu.id" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-sm" role="document">
@@ -31,6 +34,7 @@
                     </h4>
                 </div>
                 <div class="modal-body">
+                    <!-- In case of options select list -->
                     <div *ngIf="menu.options">
                         <div *ngFor="let option of menu.options; let i=index;" class="menu-option">
                             <div (click)="SelectOption(menu.options, i)">
@@ -40,11 +44,20 @@
                             </div>
                         </div>
                     </div>
+                    <!-- In case of user search -->
+                    <div *ngIf="menu.type=='user-search'">
+                        <loaderDots *ngIf="menu.isLoaderActive" css='{"text-align": "center", "font-size": "10px", "position": "absolute", "bottom": "-44px"}'></loaderDots>
+                        <div class="form-group" style="padding:0;margin:0;">
+                            <input [(ngModel)]="userEmailInput" (keyup.enter)="menu.onConfirm(this, menu.options)" id="user-search" name="user-search" class="form-control" type="email" placeholder="אימייל"
+                                autocorrect="off" autocapitalize="off" spellcheck="false">
+                            <span *ngIf="isUserEmailFound == false" class="no-email-microtext">כתובת אימייל לא נמצאה</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <div class="modal-footer-buttons">
                         <a (click)="CloseModal(menu.id);(menu.onCancel && menu.onCancel(this))" class="btn btn-default cancel-modal-btn">ביטול</a>
-                        <a (click)="CloseModal(menu.id);menu.onConfirm(this, menu.options)" class="btn btn-primary save-charts-menu-btn">אישור</a>
+                        <a (click)="menu.onConfirm(this, menu.options)" class="btn btn-primary save-charts-menu-btn">אישור</a>
                     </div>
                 </div>
             </div>

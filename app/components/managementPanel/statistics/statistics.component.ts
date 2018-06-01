@@ -22,10 +22,18 @@ export class StatisticsComponent {
     selectedOptionIndex: number;
     datesRange: Object;
     datesRangeString: string;
+    userEmailInput: string;
+    userEmail: string;
+    isUserEmailFound: boolean;
+    userData: Object = {
+        "fullname": null,
+        "profileImage": null
+    };
+    isLoadingChart: boolean;
     chartsValues: Object = {
-        logType: null,
+        logType: LOG_TYPE.LOGIN,
         statisticsRange: STATISTICS_RANGE.WEEKLY,
-        chartName: ""
+        chartName: "התחברויות"
     };
 
     constructor(private statisticsService: StatisticsService) {
@@ -59,6 +67,8 @@ export class StatisticsComponent {
                     self.RestoreSelectedOption(this.options);
                 },
                 onConfirm: function (self: any, options: Array<any>) {
+                    self.CloseModal(this.id);
+
                     var option;
 
                     for (var i = 0; i < options.length; i++) {
@@ -102,6 +112,8 @@ export class StatisticsComponent {
                     self.RestoreSelectedOption(this.options);
                 },
                 onConfirm: function (self: any, options: Array<any>) {
+                    self.CloseModal(this.id);
+
                     var option;
 
                     for (var i = 0; i < options.length; i++) {
@@ -123,13 +135,46 @@ export class StatisticsComponent {
                 }
             },
             {
-                id: "charts-time-range",
-                title: "טווח זמן",
-                icon: "far fa-calendar-alt",
+                id: "charts-user-search",
+                title: "חיפוש משתמש",
+                icon: "fas fa-search",
+                type: "user-search",
+                isLoaderActive: false,
+                isShow: function (self: any) {
+                    return (self.chart ? true : false);
+                },
                 onClick: function (self: any) {
                     self.OpenModal(this.id);
                 },
+                onCancel: function (self: any) {
+                    self.userEmailInput = null;
+                },
                 onConfirm: function (self: any) {
+                    this.isLoaderActive = true;
+                    self.statisticsService.GetUserByEmail(self.userEmailInput).then((result: any) => {
+                        this.isLoaderActive = false;
+
+                        // In case the user is not found.
+                        if (result == "-1") {
+                            self.isUserEmailFound = false;
+                        }
+                        else {
+                            self.isUserEmailFound = true;
+
+                            // Setting the userEmail for the chart filter.
+                            self.userEmail = self.userEmailInput;
+
+                            self.LoadChart(self.chartsValues["logType"],
+                                self.chartsValues["statisticsRange"],
+                                self.chartsValues["chartName"],
+                                self.datesRange);
+
+                            self.userData["fullName"] = result.fullName;
+                            self.userData["profileImage"] = result.profileImage;
+                            self.userEmailInput = null;
+                            self.CloseModal(this.id);
+                        }
+                    });
                 }
             }
         ];
@@ -137,7 +182,10 @@ export class StatisticsComponent {
 
     LoadChart(type: LOG_TYPE, range: STATISTICS_RANGE, chartName: string, datesRange?: Object) {
         this.datesRange = datesRange || this.CalculateDatesRangeByRangeType(range);
-        this.statisticsService.GetChartData(type, range, this.datesRange).then(data => {
+        this.isLoadingChart = true;
+
+        this.statisticsService.GetChartData(type, range, this.datesRange, this.userEmail).then(data => {
+            this.isLoadingChart = false;
             this.InitializeChart(chartName, range, this.datesRange, data);
         });
     }
@@ -208,8 +256,12 @@ export class StatisticsComponent {
                 maintainAspectRatio: false,
                 legend: {
                     labels: {
-                        fontFamily: 'Rubik'
-                    }
+                        fontFamily: 'Rubik',
+                        fontColor: '#4b4b4b',
+                        fontSize: 18,
+                        boxWidth: 0
+                    },
+                    onClick: (event: any) => event.stopPropagation()
                 },
                 scales: {
                     yAxes: [{

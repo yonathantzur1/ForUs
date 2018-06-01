@@ -4,7 +4,7 @@ const general = require('../modules/general');
 module.exports = function (app) {
     prefix = "/api/management";
 
-    // Admin permissions check for all management routes
+    // Root permissions check for all management routes
     app.use(prefix, function (req, res, next) {
         if (general.IsUserHasRootPermission(req.user.permissions)) {
             next();

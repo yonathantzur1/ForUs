@@ -15,10 +15,14 @@ var statistics_service_1 = require("../../../services/managementPanel/statistics
 var StatisticsComponent = /** @class */ (function () {
     function StatisticsComponent(statisticsService) {
         this.statisticsService = statisticsService;
+        this.userData = {
+            "fullname": null,
+            "profileImage": null
+        };
         this.chartsValues = {
-            logType: null,
+            logType: enums_1.LOG_TYPE.LOGIN,
             statisticsRange: enums_1.STATISTICS_RANGE.WEEKLY,
-            chartName: ""
+            chartName: "התחברויות"
         };
         this.menus = [
             {
@@ -50,6 +54,7 @@ var StatisticsComponent = /** @class */ (function () {
                     self.RestoreSelectedOption(this.options);
                 },
                 onConfirm: function (self, options) {
+                    self.CloseModal(this.id);
                     var option;
                     for (var i = 0; i < options.length; i++) {
                         if (options[i].isSelected) {
@@ -88,6 +93,7 @@ var StatisticsComponent = /** @class */ (function () {
                     self.RestoreSelectedOption(this.options);
                 },
                 onConfirm: function (self, options) {
+                    self.CloseModal(this.id);
                     var option;
                     for (var i = 0; i < options.length; i++) {
                         if (options[i].isSelected) {
@@ -104,13 +110,40 @@ var StatisticsComponent = /** @class */ (function () {
                 }
             },
             {
-                id: "charts-time-range",
-                title: "טווח זמן",
-                icon: "far fa-calendar-alt",
+                id: "charts-user-search",
+                title: "חיפוש משתמש",
+                icon: "fas fa-search",
+                type: "user-search",
+                isLoaderActive: false,
+                isShow: function (self) {
+                    return (self.chart ? true : false);
+                },
                 onClick: function (self) {
                     self.OpenModal(this.id);
                 },
+                onCancel: function (self) {
+                    self.userEmailInput = null;
+                },
                 onConfirm: function (self) {
+                    var _this = this;
+                    this.isLoaderActive = true;
+                    self.statisticsService.GetUserByEmail(self.userEmailInput).then(function (result) {
+                        _this.isLoaderActive = false;
+                        // In case the user is not found.
+                        if (result == "-1") {
+                            self.isUserEmailFound = false;
+                        }
+                        else {
+                            self.isUserEmailFound = true;
+                            // Setting the userEmail for the chart filter.
+                            self.userEmail = self.userEmailInput;
+                            self.LoadChart(self.chartsValues["logType"], self.chartsValues["statisticsRange"], self.chartsValues["chartName"], self.datesRange);
+                            self.userData["fullName"] = result.fullName;
+                            self.userData["profileImage"] = result.profileImage;
+                            self.userEmailInput = null;
+                            self.CloseModal(_this.id);
+                        }
+                    });
                 }
             }
         ];
@@ -118,7 +151,9 @@ var StatisticsComponent = /** @class */ (function () {
     StatisticsComponent.prototype.LoadChart = function (type, range, chartName, datesRange) {
         var _this = this;
         this.datesRange = datesRange || this.CalculateDatesRangeByRangeType(range);
-        this.statisticsService.GetChartData(type, range, this.datesRange).then(function (data) {
+        this.isLoadingChart = true;
+        this.statisticsService.GetChartData(type, range, this.datesRange, this.userEmail).then(function (data) {
+            _this.isLoadingChart = false;
             _this.InitializeChart(chartName, range, _this.datesRange, data);
         });
     };
@@ -184,8 +219,12 @@ var StatisticsComponent = /** @class */ (function () {
                 maintainAspectRatio: false,
                 legend: {
                     labels: {
-                        fontFamily: 'Rubik'
-                    }
+                        fontFamily: 'Rubik',
+                        fontColor: '#4b4b4b',
+                        fontSize: 18,
+                        boxWidth: 0
+                    },
+                    onClick: function (event) { return event.stopPropagation(); }
                 },
                 scales: {
                     yAxes: [{

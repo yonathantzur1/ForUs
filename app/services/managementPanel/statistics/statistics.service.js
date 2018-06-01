@@ -34,6 +34,16 @@ var StatisticsService = /** @class */ (function (_super) {
             return null;
         });
     };
+    StatisticsService.prototype.GetUserByEmail = function (email) {
+        return _super.prototype.get.call(this, this.prefix + '/getUserByEmail?email=' + email)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (result) {
+            return null;
+        });
+    };
     return StatisticsService;
 }(basic_service_1.BasicService));
 exports.StatisticsService = StatisticsService;
