@@ -196,7 +196,7 @@ var StatisticsComponent = /** @class */ (function () {
                             'rgba(75, 192, 192, 0.2)',
                             'rgba(153, 102, 255, 0.2)',
                             'rgba(255, 159, 64, 0.2)',
-                            'rgba(64, 255, 94, 0.2)',
+                            'rgba(13, 255, 51, 0.2)',
                             'rgba(25, 25, 193, 0.2)',
                             'rgba(250, 251, 22, 0.2)',
                             'rgba(49, 232, 230, 0.2)',
@@ -210,7 +210,7 @@ var StatisticsComponent = /** @class */ (function () {
                             'rgba(75, 192, 192, 1)',
                             'rgba(153, 102, 255, 1)',
                             'rgba(255, 159, 64, 1)',
-                            'rgba(64, 255, 94, 1)',
+                            'rgba(13, 255, 51, 1)',
                             'rgba(25, 25, 193, 1)',
                             'rgba(250, 251, 22, 1)',
                             'rgba(49, 232, 230, 1)',
@@ -323,7 +323,7 @@ var StatisticsComponent = /** @class */ (function () {
                 break;
             }
         }
-        this.LoadChart(this.chartsValues["logType"], this.chartsValues["statisticsRange"], this.chartsValues["chartName"], this.datesRange);
+        this.LoadChartAgain(this.datesRange);
     };
     StatisticsComponent.prototype.ClearUserChart = function () {
         var _this = this;
@@ -334,8 +334,10 @@ var StatisticsComponent = /** @class */ (function () {
         this.userEmail = null;
         this.LoadChartAgain();
     };
-    StatisticsComponent.prototype.LoadChartAgain = function () {
-        this.LoadChart(this.chartsValues["logType"], this.chartsValues["statisticsRange"], this.chartsValues["chartName"]);
+    // Full loading the chart objects and data.
+    // May send data range object to control the dates of chart.
+    StatisticsComponent.prototype.LoadChartAgain = function (datesRange) {
+        this.LoadChart(this.chartsValues["logType"], this.chartsValues["statisticsRange"], this.chartsValues["chartName"], datesRange);
     };
     StatisticsComponent = __decorate([
         core_1.Component({

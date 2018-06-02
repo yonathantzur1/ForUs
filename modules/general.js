@@ -105,7 +105,7 @@ var self = module.exports = {
     GetIpFromRequest: function (request) {
         var ip = request.ip;
 
-        return covertToIpAddressString(ip);
+        return self.CutIpAddressStringPrefix(ip);
     },
 
     GetUserAgentFromRequest: function (request) {
@@ -115,7 +115,7 @@ var self = module.exports = {
     GetIpFromSocket: function (socket) {
         var ip = socket.handshake.address;
 
-        return covertToIpAddressString(ip);
+        return self.CutIpAddressStringPrefix(ip);
     },
 
     GetUserAgentFromSocket: function (socket) {
@@ -145,23 +145,30 @@ var self = module.exports = {
             self.IsUserHasMasterPermission(permissions));
     },
 
-    IsProd() {
-        return process.env.DEV_CONNECTION_STRING ? false : true;
-    }
-}
+    CutIpAddressStringPrefix(ip) {
+        if (ip) {
+            var prefix;
 
-function covertToIpAddressString(ip) {
-    if (ip) {
-        var reqestIpParts = ip.split("::");
+            // Find the ip prefix.
+            if (ip.indexOf("::") != -1) {
+                prefix = "::";
+            }
+            else if (ip.indexOf(":") != -1) {
+                prefix = ":";
+            }
 
-        if (reqestIpParts && reqestIpParts.length > 0) {
+            // Split the ip to the prefix part and the real ip part.
+            var reqestIpParts = ip.split(prefix);
+
+            // Return only the ip part string.
             return reqestIpParts[reqestIpParts.length - 1];
         }
         else {
             return null;
         }
-    }
-    else {
-        return null;
+    },
+
+    IsProd() {
+        return process.env.DEV_CONNECTION_STRING ? false : true;
     }
 }

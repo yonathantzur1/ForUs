@@ -226,7 +226,7 @@ export class StatisticsComponent {
                         'rgba(75, 192, 192, 0.2)',
                         'rgba(153, 102, 255, 0.2)',
                         'rgba(255, 159, 64, 0.2)',
-                        'rgba(64, 255, 94, 0.2)',
+                        'rgba(13, 255, 51, 0.2)',
                         'rgba(25, 25, 193, 0.2)',
                         'rgba(250, 251, 22, 0.2)',
                         'rgba(49, 232, 230, 0.2)',
@@ -240,7 +240,7 @@ export class StatisticsComponent {
                         'rgba(75, 192, 192, 1)',
                         'rgba(153, 102, 255, 1)',
                         'rgba(255, 159, 64, 1)',
-                        'rgba(64, 255, 94, 1)',
+                        'rgba(13, 255, 51, 1)',
                         'rgba(25, 25, 193, 1)',
                         'rgba(250, 251, 22, 1)',
                         'rgba(49, 232, 230, 1)',
@@ -372,10 +372,7 @@ export class StatisticsComponent {
             }
         }
 
-        this.LoadChart(this.chartsValues["logType"],
-            this.chartsValues["statisticsRange"],
-            this.chartsValues["chartName"],
-            this.datesRange);
+        this.LoadChartAgain(this.datesRange);
     }
 
     ClearUserChart() {
@@ -389,10 +386,13 @@ export class StatisticsComponent {
         this.LoadChartAgain();
     }
 
-    LoadChartAgain() {
+    // Full loading the chart objects and data.
+    // May send data range object to control the dates of chart.
+    LoadChartAgain(datesRange?: Object) {
         this.LoadChart(this.chartsValues["logType"],
             this.chartsValues["statisticsRange"],
-            this.chartsValues["chartName"]);
+            this.chartsValues["chartName"],
+            datesRange);
     }
 }
 
