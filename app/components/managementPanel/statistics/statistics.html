@@ -11,7 +11,7 @@
     </div>
     <div class="chart-container">
         <div *ngIf="chart" class="chart-dates-container">
-            <i (click)="GetNextDatesRangePeriod()" class="fas fa-arrow-circle-right change-date-range-icon"></i>
+            <i (click)="GetNextDatesRangePeriod()" [ngClass]="{'disable-btn': datesRangeMovementIndex == 0}" class="fas fa-arrow-circle-right change-date-range-icon"></i>
             <div class="dates-range-string-title">{{datesRangeString}}</div>
             <i (click)="GetPreviousDatesRangePeriod()" class="fas fa-arrow-circle-left change-date-range-icon"></i>
             <div class="chart-top-details-container">
@@ -55,7 +55,7 @@
                     <div *ngIf="menu.type=='user-search'">
                         <loaderDots *ngIf="menu.isLoaderActive" css='{"text-align": "center", "font-size": "10px", "position": "absolute", "bottom": "-44px"}'></loaderDots>
                         <div class="form-group" style="padding:0;margin:0;">
-                            <input [(ngModel)]="userEmailInput" (keyup.enter)="menu.onConfirm(this, menu.options)" id="user-search" name="user-search"
+                            <input [(ngModel)]="userEmailInput" (keyup)="isUserEmailFound=null" (keyup.enter)="menu.onConfirm(this, menu.options)" id="user-search" name="user-search"
                                 class="form-control" type="email" placeholder="אימייל" autocorrect="off" autocapitalize="off"
                                 spellcheck="false">
                             <span *ngIf="isUserEmailFound == false" class="no-email-microtext">כתובת אימייל לא נמצאה</span>
@@ -65,7 +65,7 @@
                 <div class="modal-footer">
                     <div class="modal-footer-buttons">
                         <a (click)="CloseModal(menu.id);(menu.onCancel && menu.onCancel(this))" class="btn btn-default cancel-modal-btn">ביטול</a>
-                        <a (click)="menu.onConfirm(this, menu.options)" class="btn btn-primary save-charts-menu-btn">אישור</a>
+                        <a (click)="menu.onConfirm(this, menu.options)" [ngClass]="{'accept-btn-disabled': menu.isDisableConfirm && menu.isDisableConfirm(this)}" class="btn btn-primary save-charts-menu-btn">אישור</a>
                     </div>
                 </div>
             </div>

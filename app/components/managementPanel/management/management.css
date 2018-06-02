@@ -248,6 +248,8 @@
     width: 100%;
     display: inline-block;
     color: var(--main-text-color);
+    -webkit-user-select: text;
+    user-select: text;
 }
 
 #management .friends-info-sector {
@@ -407,9 +409,4 @@
     border: 0.5px solid white;
     font-size: 14px;
     cursor: pointer;  
-}
-
-#management .email-address {
-    -webkit-user-select: text;
-    user-select: text;
 }

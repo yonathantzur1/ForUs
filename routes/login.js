@@ -66,10 +66,12 @@ module.exports = (app) => {
                     }
                     // In case the user is blocked.
                     else if (result.block) {
+                        logsBL.BlockUserLoginTry(req.body.email, general.GetIpFromRequest(req), general.GetUserAgentFromRequest(req))
+
                         req.brute.reset(() => {
                             res.send({ result: { "block": result.block } });
                         });
-                    }                    
+                    }
                     // In case the user email and password are valid.
                     else {
                         req.brute.reset(() => {

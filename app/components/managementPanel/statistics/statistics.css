@@ -122,6 +122,7 @@
     margin-left: 5px;
     margin-right: 5px;
     font-size: 16px;
+    top: -3px;
 }
 
 #statistics .change-date-range-icon {
@@ -145,7 +146,7 @@
 }
 
 #statistics .disable-btn {
-    color: #9c9c9c;
+    color: darkgrey;
     cursor: default;
 }
 
@@ -169,4 +170,9 @@
     height: 25px;
     border-radius: 50%;
     border: 0.5px solid #c1c1c1;
+}
+
+#statistics .accept-btn-disabled {
+    color: darkgrey !important;
+    cursor: not-allowed;
 }

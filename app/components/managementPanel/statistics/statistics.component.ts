@@ -20,10 +20,10 @@ export class StatisticsComponent {
     menus: Array<any>;
     chart: any;
     chartTitle: string;
-    isTimeRangeOpen: boolean;
     selectedOptionIndex: number;
     datesRange: Object;
     datesRangeString: string;
+    datesRangeMovementIndex: number = 0;
     userEmailInput: string;
     userEmail: string;
     isUserEmailFound: boolean;
@@ -59,6 +59,11 @@ export class StatisticsComponent {
                     {
                         text: "בקשות שינוי סיסמא",
                         logType: LOG_TYPE.RESET_PASSWORD_REQUEST,
+                        isSelected: false
+                    },
+                    {
+                        text: "התחברויות משתמשים חסומים",
+                        logType: LOG_TYPE.BLOCK_USER_LOGIN_TRY,
                         isSelected: false
                     }
                 ],
@@ -146,9 +151,13 @@ export class StatisticsComponent {
                 },
                 onCancel: function (self: any) {
                     self.userEmailInput = null;
+                    self.isUserEmailFound = null;
+                },
+                isDisableConfirm: function(self: any) {
+                    return (self.userEmailInput ? false : true);
                 },
                 onConfirm: function (self: any) {
-                    if (!this.isLoaderActive) {
+                    if (!this.isLoaderActive && self.userEmailInput) {
                         this.isLoaderActive = true;
                         self.statisticsService.GetUserByEmail(self.userEmailInput).then((result: any) => {
                             this.isLoaderActive = false;
@@ -329,31 +338,35 @@ export class StatisticsComponent {
     }
 
     GetNextDatesRangePeriod() {
-        var startDate: Date = this.datesRange["startDate"];
-        var endDate: Date = this.datesRange["endDate"];
+        if (this.datesRangeMovementIndex != 0) {
+            this.datesRangeMovementIndex++;
+            var startDate: Date = this.datesRange["startDate"];
+            var endDate: Date = this.datesRange["endDate"];
 
-        switch (this.chartsValues["statisticsRange"]) {
-            case STATISTICS_RANGE.WEEKLY: {
-                startDate.setDate(startDate.getDate() + 7);
-                endDate.setDate(endDate.getDate() + 7);
+            switch (this.chartsValues["statisticsRange"]) {
+                case STATISTICS_RANGE.WEEKLY: {
+                    startDate.setDate(startDate.getDate() + 7);
+                    endDate.setDate(endDate.getDate() + 7);
 
-                break;
+                    break;
+                }
+                case STATISTICS_RANGE.YEARLY: {
+                    startDate.setFullYear(startDate.getFullYear() + 1);
+                    endDate.setFullYear(endDate.getFullYear() + 1);
+
+                    break;
+                }
             }
-            case STATISTICS_RANGE.YEARLY: {
-                startDate.setFullYear(startDate.getFullYear() + 1);
-                endDate.setFullYear(endDate.getFullYear() + 1);
 
-                break;
-            }
+            this.LoadChart(this.chartsValues["logType"],
+                this.chartsValues["statisticsRange"],
+                this.chartsValues["chartName"],
+                this.datesRange);
         }
-
-        this.LoadChart(this.chartsValues["logType"],
-            this.chartsValues["statisticsRange"],
-            this.chartsValues["chartName"],
-            this.datesRange);
     }
 
     GetPreviousDatesRangePeriod() {
+        this.datesRangeMovementIndex--;
         var startDate = this.datesRange["startDate"];
         var endDate = this.datesRange["endDate"];
 

@@ -335,8 +335,8 @@
 }
 
 #profile .upload-image-container {
-    border-radius: 8px;
-    box-shadow: 0px 0px 5px 1px #acacac;
+    border-radius: 2px;
+    box-shadow: 1px 1px 6px 0px #a0a0a0;
     cursor: pointer;
 }
 
