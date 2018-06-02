@@ -21,7 +21,7 @@ var self = module.exports = {
 
     InsertStandartLog: function (type, email, ip, userAgent) {
         // In case of production environment.
-        if (general.IsProd() && false) {
+        if (general.IsProd()) {
             return new Promise((resolve, reject) => {
                 log = {
                     type,
