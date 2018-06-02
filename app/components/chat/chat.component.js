@@ -237,8 +237,11 @@ var ChatComponent = /** @class */ (function () {
             if (chat) {
                 _this.messages = chat.messages;
                 _this.totalMessagesNum = chat.totalMessagesNum;
-                $("#chat-body-sector")[0].removeEventListener("scroll", _this.ChatScrollTopFunc.bind(_this));
-                (_this.messages.length < _this.totalMessagesNum) && $("#chat-body-sector")[0].addEventListener("scroll", _this.ChatScrollTopFunc.bind(_this));
+                var chatBodySectorElement = $("#chat-body-sector");
+                if (chatBodySectorElement && chatBodySectorElement.length > 0) {
+                    chatBodySectorElement[0].removeEventListener("scroll", _this.ChatScrollTopFunc.bind(_this));
+                }
+                (_this.messages.length < _this.totalMessagesNum) && chatBodySectorElement[0].addEventListener("scroll", _this.ChatScrollTopFunc.bind(_this));
             }
             else if (chat == null) {
                 _this.isChatLoadingError = true;

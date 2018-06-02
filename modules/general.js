@@ -147,21 +147,8 @@ var self = module.exports = {
 
     CutIpAddressStringPrefix(ip) {
         if (ip) {
-            var prefix;
-
-            // Find the ip prefix.
-            if (ip.indexOf("::") != -1) {
-                prefix = "::";
-            }
-            else if (ip.indexOf(":") != -1) {
-                prefix = ":";
-            }
-
-            // Split the ip to the prefix part and the real ip part.
-            var reqestIpParts = ip.split(prefix);
-
-            // Return only the ip part string.
-            return reqestIpParts[reqestIpParts.length - 1];
+            var realIpStringPartStartIndex = ip.lastIndexOf(":") + 1;
+            return ip.substring(realIpStringPartStartIndex);
         }
         else {
             return null;

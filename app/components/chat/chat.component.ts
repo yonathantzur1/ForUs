@@ -321,9 +321,13 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.messages = chat.messages;
                 this.totalMessagesNum = chat.totalMessagesNum;
 
-                $("#chat-body-sector")[0].removeEventListener("scroll", this.ChatScrollTopFunc.bind(this)
-                );
-                (this.messages.length < this.totalMessagesNum) && $("#chat-body-sector")[0].addEventListener("scroll", this.ChatScrollTopFunc.bind(this));
+                var chatBodySectorElement = $("#chat-body-sector");
+
+                if (chatBodySectorElement && chatBodySectorElement.length > 0) {
+                    chatBodySectorElement[0].removeEventListener("scroll", this.ChatScrollTopFunc.bind(this));
+                }
+
+                (this.messages.length < this.totalMessagesNum) && chatBodySectorElement[0].addEventListener("scroll", this.ChatScrollTopFunc.bind(this));
             }
             else if (chat == null) {
                 this.isChatLoadingError = true;
@@ -433,7 +437,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
         else {
             return false;
-        }        
+        }
     }
 
     GetDateBubbleText(index: number) {
