@@ -66,11 +66,11 @@ module.exports = (app) => {
                     }
                     // In case the user is blocked.
                     else if (result.block) {
-                        logsBL.BlockUserLoginTry(req.body.email, general.GetIpFromRequest(req), general.GetUserAgentFromRequest(req))
-
                         req.brute.reset(() => {
                             res.send({ result: { "block": result.block } });
                         });
+
+                        logsBL.BlockUserLoginTry(req.body.email, general.GetIpFromRequest(req), general.GetUserAgentFromRequest(req));
                     }
                     // In case the user email and password are valid.
                     else {
@@ -142,6 +142,7 @@ module.exports = (app) => {
                             var token = general.GetTokenFromUserObject(result);
                             general.SetTokenOnCookie(token, res);
                             res.send({ "result": true });
+                            logsBL.Register(email, general.GetIpFromRequest(req), general.GetUserAgentFromRequest(req));
                         }
                         else {
                             res.send({ result });

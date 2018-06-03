@@ -57,13 +57,18 @@ export class StatisticsComponent {
                         isSelected: false
                     },
                     {
+                        text: "התחברויות משתמשים חסומים",
+                        logType: LOG_TYPE.BLOCK_USER_LOGIN_TRY,
+                        isSelected: false
+                    },
+                    {
                         text: "בקשות שינוי סיסמא",
                         logType: LOG_TYPE.RESET_PASSWORD_REQUEST,
                         isSelected: false
                     },
                     {
-                        text: "התחברויות משתמשים חסומים",
-                        logType: LOG_TYPE.BLOCK_USER_LOGIN_TRY,
+                        text: "הירשמויות",
+                        logType: LOG_TYPE.RESET_PASSWORD_REQUEST,
                         isSelected: false
                     }
                 ],
@@ -313,6 +318,9 @@ export class StatisticsComponent {
     }
 
     CalculateDatesRangeByRangeType(range: STATISTICS_RANGE): Object {
+        // Reset date ranges page for the calculate of the current date by range.
+        this.datesRangeMovementIndex = 0;
+
         var currDate = new Date();
         var result: any = {
             "startDate": null,

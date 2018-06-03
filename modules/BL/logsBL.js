@@ -23,6 +23,10 @@ var self = module.exports = {
         return self.InsertStandartLog(enums.LOG_TYPE.BLOCK_USER_LOGIN_TRY, email, ip, userAgent);
     },
 
+    Register: function (email, ip, userAgent) {
+        return self.InsertStandartLog(enums.LOG_TYPE.REGISTER, email, ip, userAgent);
+    },
+
     InsertStandartLog: function (type, email, ip, userAgent) {
         // In case of production environment.
         if (general.IsProd()) {

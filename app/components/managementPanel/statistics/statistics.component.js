@@ -44,13 +44,18 @@ var StatisticsComponent = /** @class */ (function () {
                         isSelected: false
                     },
                     {
+                        text: "התחברויות משתמשים חסומים",
+                        logType: enums_1.LOG_TYPE.BLOCK_USER_LOGIN_TRY,
+                        isSelected: false
+                    },
+                    {
                         text: "בקשות שינוי סיסמא",
                         logType: enums_1.LOG_TYPE.RESET_PASSWORD_REQUEST,
                         isSelected: false
                     },
                     {
-                        text: "התחברויות משתמשים חסומים",
-                        logType: enums_1.LOG_TYPE.BLOCK_USER_LOGIN_TRY,
+                        text: "הירשמויות",
+                        logType: enums_1.LOG_TYPE.RESET_PASSWORD_REQUEST,
                         isSelected: false
                     }
                 ],
@@ -279,6 +284,8 @@ var StatisticsComponent = /** @class */ (function () {
         });
     };
     StatisticsComponent.prototype.CalculateDatesRangeByRangeType = function (range) {
+        // Reset date ranges page for the calculate of the current date by range.
+        this.datesRangeMovementIndex = 0;
         var currDate = new Date();
         var result = {
             "startDate": null,
