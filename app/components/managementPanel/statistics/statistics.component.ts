@@ -67,8 +67,8 @@ export class StatisticsComponent {
                         isSelected: false
                     },
                     {
-                        text: "הירשמויות",
-                        logType: LOG_TYPE.RESET_PASSWORD_REQUEST,
+                        text: "הרשמות",
+                        logType: LOG_TYPE.REGISTER,
                         isSelected: false
                     }
                 ],

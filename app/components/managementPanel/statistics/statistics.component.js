@@ -54,8 +54,8 @@ var StatisticsComponent = /** @class */ (function () {
                         isSelected: false
                     },
                     {
-                        text: "הירשמויות",
-                        logType: enums_1.LOG_TYPE.RESET_PASSWORD_REQUEST,
+                        text: "הרשמות",
+                        logType: enums_1.LOG_TYPE.REGISTER,
                         isSelected: false
                     }
                 ],
