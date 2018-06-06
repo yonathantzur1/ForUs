@@ -45,7 +45,8 @@ module.exports = {
     chat: {
         messagesInPage: 40 // For chat pagination
     },
-    navbarSearch: {
-        resultsLimit: 4
+    navbar: {
+        searchResultsLimit: 4,
+        messageMailNotificationHoursWaitingDelay: 1
     }
 };

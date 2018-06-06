@@ -7,7 +7,7 @@ const usersCollectionName = config.db.collections.users;
 const profilesCollectionName = config.db.collections.profiles;
 
 // Define search consts.
-const searchResultsLimit = config.navbarSearch.resultsLimit;
+const searchResultsLimit = config.navbar.searchResultsLimit;
 
 var self = module.exports = {
 
@@ -150,8 +150,12 @@ var self = module.exports = {
             if (friendObj) {
                 var messagesNotifications = friendObj.messagesNotifications;
 
-                // Send email in case no notification exists
-                if (!messagesNotifications || !messagesNotifications[userId]) {
+                // Send email in case no notification from the friend
+                // exists or first notification is old.
+                if (!messagesNotifications ||
+                    !messagesNotifications[userId] ||
+                    GetDatesHoursDiff(new Date(), messagesNotifications[userId].firstUnreadMessageDate) >=
+                    config.navbar.messageMailNotificationHoursWaitingDelay) {
                     mailer.MessageNotificationAlert(friendObj.email, friendObj.firstName, senderName);
                 }
 
@@ -161,10 +165,11 @@ var self = module.exports = {
                     friendMessagesNotifications.unreadMessagesNumber++;
                 }
                 else {
-                    messagesNotifications = messagesNotifications ? messagesNotifications : {};
+                    messagesNotifications = messagesNotifications || {};
                     messagesNotifications[userId] = {
                         "unreadMessagesNumber": 1,
-                        "firstUnreadMessageId": msgId
+                        "firstUnreadMessageId": msgId,
+                        "firstUnreadMessageDate": new Date()
                     }
                 }
 
@@ -402,4 +407,13 @@ function ConvertIdsToObjectIds(array) {
     }
 
     return array;
+}
+
+function GetDatesHoursDiff(date1, date2) {
+    if (!date1 || !date2) {
+        return -1;
+    }
+    else {
+        return (Math.abs(date1 - date2) / 36e5);
+    }
 }
