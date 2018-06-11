@@ -101,7 +101,7 @@
 #login .microtext {
     font-size: 11px;
     position: absolute;
-    color: var(--main-text-color) !important;
+    color: var(--microtext-color) !important;
     line-height: 12px;
     font-family: var(--main-font);
 }

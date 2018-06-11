@@ -156,6 +156,15 @@ var self = module.exports = {
     },
 
     IsProd() {
-        return process.env.DEV_CONNECTION_STRING ? false : true;
+        if (process.env.IS_PROD == 'true') {
+            return true;
+        }
+        else if (process.env.IS_PROD == 'false') {
+            return false;
+        }
+        else {
+            console.warn("No is_prod (true/false) environment variable definition");
+            return false;
+        }
     }
 }

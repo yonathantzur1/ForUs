@@ -149,10 +149,12 @@ var NavbarComponent = /** @class */ (function () {
         ];
         self.checkSocketConnectInterval = setInterval(function () {
             self.authService.IsUserSocketConnect().then(function (result) {
+                // In case the user is login with no connected socket.
                 if (result == false) {
                     self.globalService.RefreshSocket();
                     self.globalService.socket.emit("ServerGetOnlineFriends");
                 }
+                // In case the user is logout.
                 else if (result == "-1") {
                     self.globalService.Logout();
                     self.router.navigateByUrl("/login");

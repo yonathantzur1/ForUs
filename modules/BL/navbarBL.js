@@ -154,7 +154,7 @@ var self = module.exports = {
                 // exists or first notification is old.
                 if (!messagesNotifications ||
                     !messagesNotifications[userId] ||
-                    GetDatesHoursDiff(new Date(), messagesNotifications[userId].firstUnreadMessageDate) >=
+                    GetDatesHoursDiff(new Date(), messagesNotifications[userId].lastUnreadMessageDate) >=
                     config.navbar.messageMailNotificationHoursWaitingDelay) {
                     mailer.MessageNotificationAlert(friendObj.email, friendObj.firstName, senderName);
                 }
@@ -168,10 +168,12 @@ var self = module.exports = {
                     messagesNotifications = messagesNotifications || {};
                     messagesNotifications[userId] = {
                         "unreadMessagesNumber": 1,
-                        "firstUnreadMessageId": msgId,
-                        "firstUnreadMessageDate": new Date()
+                        "firstUnreadMessageId": msgId                        
                     }
                 }
+
+                // Adding the notification date to the notification object.
+                messagesNotifications[userId].lastUnreadMessageDate = new Date();
 
                 DAL.UpdateOne(usersCollectionName, friendIdObject, { $set: { "messagesNotifications": messagesNotifications } })
                     .then((result) => { }).catch((err) => {

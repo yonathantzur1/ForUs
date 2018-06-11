@@ -6,6 +6,7 @@ const path = require('path');
 const compression = require('compression');
 const io = require('socket.io')(http);
 const general = require('./modules/general');
+const config = require('./modules/config');
 
 // app define
 app.set('trust proxy', 1);
@@ -35,14 +36,16 @@ app.use('/api', (req, res, next) => {
     var token = general.DecodeToken(general.GetTokenFromRequest(req));
     var cookieUid = general.GetUidFromRequest(req);
 
+    // In case the user login and authorized.
     if (token && token.user.uid == cookieUid) {
         req.user = token.user;
         next();
     }
+    // In case the user is logout.
     else {
         if (req.originalUrl == '/api/auth/isUserOnSession') {
             res.send(false);
-        }
+        }        
         else if (req.originalUrl == '/api/auth/isUserSocketConnect') {
             res.send("-1");
         }
@@ -50,10 +53,6 @@ app.use('/api', (req, res, next) => {
             RedirectToLogin(req, res);
         }
     }
-});
-
-http.listen((process.env.PORT || 8000), () => {
-    console.log("Server is up!");
 });
 
 app.get('/login', (req, res, next) => {
@@ -65,6 +64,10 @@ app.get('/login', (req, res, next) => {
     else {
         res.redirect('/');
     }
+});
+
+http.listen((process.env.PORT || config.server.port), () => {
+    console.log("Server is up!");
 });
 
 // Import socket.io mudule
