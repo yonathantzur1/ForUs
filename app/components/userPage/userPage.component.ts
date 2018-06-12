@@ -148,18 +148,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
                 }
             },
             {
-                id: "wave",
-                icon: "far fa-hand-paper",
-                innerIconText: "",
-                title: "",
-                isShow: function () {
-                    return self.user.isFriend;
-                },
-                onClick: function () {
-
-                }
-            },
-            {
                 id: "menu",
                 icon: "fas fa-bars",
                 innerIconText: "",
@@ -172,11 +160,19 @@ export class UserPageComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        // In case of route params changes.
         this.route.params.subscribe(params => {
+            // Close chat window in case it is open.
+            this.globalService.setData("closeChat", true);
+
             this.userPageService.GetUserDetails(params["id"]).then((user: any) => {
+                // In case the user found.
                 if (user) {
                     user.fullName = user.firstName + " " + user.lastName;
                     this.InitializePage(user);
+                }
+                else {
+                    this.router.navigateByUrl('/page-not-found');
                 }
             });
         });
@@ -258,7 +254,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
         return (this.user && this.user.uid == getCookie(this.globalService.uidCookieName));
     }
 
-    OpenEditWindow() {
+    OpenProfileEditWindow() {
         if (this.IsUserPageSelf()) {
             this.globalService.setData("openProfileEditWindow", true);
         }

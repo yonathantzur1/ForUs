@@ -66,11 +66,6 @@ module.exports = (app, connectedUsers) => {
     });
 
     app.get(prefix + '/isUserSocketConnect', (req, res) => {
-        if (connectedUsers[req.user._id]) {
-            res.send(true);
-        }
-        else {
-            res.send(false);
-        }
+        res.send(connectedUsers[req.user._id] ? true : false);
     });
 };

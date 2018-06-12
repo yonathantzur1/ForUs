@@ -27,6 +27,9 @@ var ChatComponent = /** @class */ (function () {
             if (value["moveToChatWindow"]) {
                 _this.SelectTopIcon(_this.GetTopIconById("chat"));
             }
+            if (value["closeChat"]) {
+                _this.CloseChat();
+            }
         });
         var self = this;
         self.topIcons = [

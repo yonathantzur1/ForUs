@@ -1,3 +1,4 @@
+// Close modal when click back on browser.
 $(window).on('popstate', function () {
     $(".modal").modal("hide");
 });

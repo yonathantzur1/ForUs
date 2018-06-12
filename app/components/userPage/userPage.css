@@ -48,6 +48,10 @@
     align-self: center;
 }
 
+#userPage .user-image-container {
+    display: inline-flex;
+}
+
 #userPage .user-image {
     width: 55px;
     height: 55px;

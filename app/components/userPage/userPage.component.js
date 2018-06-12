@@ -137,17 +137,6 @@ var UserPageComponent = /** @class */ (function () {
                 }
             },
             {
-                id: "wave",
-                icon: "far fa-hand-paper",
-                innerIconText: "",
-                title: "",
-                isShow: function () {
-                    return self.user.isFriend;
-                },
-                onClick: function () {
-                }
-            },
-            {
                 id: "menu",
                 icon: "fas fa-bars",
                 innerIconText: "",
@@ -159,11 +148,18 @@ var UserPageComponent = /** @class */ (function () {
     }
     UserPageComponent.prototype.ngOnInit = function () {
         var _this = this;
+        // In case of route params changes.
         this.route.params.subscribe(function (params) {
+            // Close chat window in case it is open.
+            _this.globalService.setData("closeChat", true);
             _this.userPageService.GetUserDetails(params["id"]).then(function (user) {
+                // In case the user found.
                 if (user) {
                     user.fullName = user.firstName + " " + user.lastName;
                     _this.InitializePage(user);
+                }
+                else {
+                    _this.router.navigateByUrl('/page-not-found');
                 }
             });
         });
@@ -230,7 +226,7 @@ var UserPageComponent = /** @class */ (function () {
     UserPageComponent.prototype.IsUserPageSelf = function () {
         return (this.user && this.user.uid == getCookie(this.globalService.uidCookieName));
     };
-    UserPageComponent.prototype.OpenEditWindow = function () {
+    UserPageComponent.prototype.OpenProfileEditWindow = function () {
         if (this.IsUserPageSelf()) {
             this.globalService.setData("openProfileEditWindow", true);
         }
