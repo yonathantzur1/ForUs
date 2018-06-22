@@ -18,6 +18,7 @@ npm install blueimp-load-image --save
 npm install joi --save
 npm install node-schedule --save
 npm install chart.js --save
+npm install popper.js --save
 npm install @angular/common --save
 npm install @angular/compiler --save
 npm install @angular/core --save

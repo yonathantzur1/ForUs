@@ -1,3 +1,17 @@
+#login form {
+    width: 100%;
+}
+
+#login .form-group {
+    padding-bottom: 10px;
+    margin: 28px 0 0 0;
+    position: relative;
+}
+
+#login .no-padding {
+    padding: 0 !important;
+}
+
 #login .login-sector {
     user-select: none;
     -webkit-user-select: none;
@@ -19,6 +33,7 @@
     position: relative;
     text-align: center;
     user-select: none;
+    margin-top: 15px;
 }
 
 #login .login-head-icon {
@@ -36,17 +51,19 @@
 }
 
 #login .login-btn {
-    margin-right: 12%;
+    margin-right: 8%;
     border-style: solid;
     border-width: 1px;
     float: right;
+    width: 90px;
 }
 
 #login .login-container {
+    margin: auto;
     margin-top: 3%;
     box-shadow: 0px 1px 10px #686868;
-    padding-top: 4%;
-    padding-bottom: 4%;
+    padding-top: 5%;
+    padding-bottom: 5%;
     border-radius: 30px;
     position: relative;
 }
@@ -61,10 +78,12 @@
     position: absolute;
     text-decoration: none !important;
     cursor: pointer;
+    font-size: 14px;
 }
 
 #login .close {
-    float: left;
+    position: absolute;
+    left: 10px;
 }
 
 #login .modal-title-label {
@@ -76,7 +95,8 @@
 }
 
 #login .modal-footer-buttons {
-    float: left;
+    width: 100%;
+    height: 25px;
 }
 
 #login .login-icon {
@@ -102,12 +122,13 @@
     font-size: 11px;
     position: absolute;
     color: var(--microtext-color) !important;
-    line-height: 12px;
+    line-height: 10px;
     font-family: var(--main-font);
+    right: 15px;
 }
 
 #login .microtext-align {
-    right: 15px;
+    right: 0px;
 }
 
 #login .forgot-link-sector {
@@ -127,7 +148,7 @@
 #login .forgot-link {
     text-decoration: none;
     color: #003569;
-    margin-left: 5px;
+    margin-left: -5px;
     cursor: pointer;
     font-size: 12px;
 }
@@ -141,9 +162,8 @@
 }
 
 #login .has-reset-code-link {
-    left: 0;
+    text-align: right;
     right: 30px;
-    bottom: 14px;
 }
 
 #login .submit-email-forgot {
@@ -152,8 +172,7 @@
 }
 
 #login .cancel-forgot {
-    padding: 0;
-    top: 6px;
+    padding: 0;    
     left: 30px;
 }
 
@@ -162,6 +181,7 @@
     font-size: 14px;
     font-family: var(--main-font);
     display: block;
+    text-align: right;
 }
 
 #login .forgot-email-text {
@@ -182,7 +202,6 @@
 }
 
 #login .cancel-register-btn {
-    padding: 0;
-    top: 6px;
-    left: 35px;
+    padding: 0;    
+    left: 30px;
 }

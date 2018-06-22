@@ -1,5 +1,6 @@
 #profile .close {
-    float: left;
+    position: absolute;
+    left: 10px;
     cursor: pointer;
     -webkit-user-select: none;
     user-select: none;
@@ -50,8 +51,8 @@
         width: 100% !important;
     }
 
-    #profile .edit-right-side {
-        width: 100% !important;
+    #profile .edit-right-side {        
+        display: inline;
     }
 
     #profile .new-image-text {
@@ -83,21 +84,21 @@
     #profile .img-btn {
         border: 1px solid var(--main-text-color);
         width: 28px;
-        height: 28px;
-        text-align: center;
-        padding-top: 5px;
+        height: 28px;        
         border-radius: 5px;
         float: right;
         cursor: pointer;
         font-size: 12px;
         margin: 4px;
         color: var(--main-text-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     #profile .image-tool-bar {
         width: 144px;
-        float: right;
-        margin-top: 10px;
+        float: right;        
     }
 
     #profile .upload-image-container {
@@ -130,8 +131,8 @@
     #profile .main-img-container {
         width: 200px;
         height: 150px;
-        margin: auto;
-        float: none;
+        position: relative;
+        left: -15px;
     }
 
     #profile .preview-img-container {
@@ -144,6 +145,16 @@
         left: 25px;
     }
 
+    #profile .edit-right-side {
+        display: inline-block;
+        position: absolute;
+        right: 0;
+    }
+    
+    #profile .edit-left-side {
+        display: inline-block;
+    }
+
     #profile .right-container {
         width: 100%;
         height: 68px;
@@ -153,14 +164,16 @@
         border: 1px solid var(--main-text-color);
         width: 27px;
         height: 27px;
-        text-align: center;
-        padding-top: 7px;
+        text-align: center;        
         border-radius: 5px;
         float: right;
         cursor: pointer;
         font-size: 12px;
         margin: 5px;
         color: var(--main-text-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     #profile .image-tool-bar {
@@ -198,39 +211,53 @@
 
 @media (min-width: 700px) {
     #profile .main-img-container {
-        width: 400px;
+        width: 100%;
         height: 300px;
-        margin: auto;
-        float: none;
+        position: relative;
+        left: -15px;
     }
 
     #profile .preview-img-container {
-        width: 150px;
-        height: 150px;
+        width: 130px;
+        height: 130px;
         overflow: hidden;
         border-radius: 15px;
         border: 0.5px solid rgba(128, 127, 127, 0.7);
         margin: auto;
     }
 
+    #profile .edit-right-side {
+        display: inline-block;
+        position: absolute;
+        right: 20px;
+        height: 300px;
+    }
+    
+    #profile .edit-left-side {
+        display: inline-block;
+    }
+
     #profile .right-container {
         width: 100%;
-        height: 265px;
+        height: 180px;
     }
 
     #profile .img-btn {
         border: 1px solid var(--main-text-color);
         width: 30px;
         height: 30px;
-        text-align: center;
-        padding-top: 7px;
+        text-align: center;        
         border-radius: 5px;
         float: right;
         cursor: pointer;
         margin: 0;
+        margin-top: 5px;
         margin-right: 4px;
         font-size: 14px;
         color: var(--main-text-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     #profile .img-btn:hover {
@@ -239,8 +266,8 @@
 
     #profile .image-tool-bar {
         width: 100%;
-        margin: auto;
-        float: none;
+        display: inline-block;
+        position: relative;        
     }
 
     #profile .upload-image-container {        
@@ -302,8 +329,7 @@
 }
 
 #profile .cancel-change-btn {
-    padding: 0;
-    top: 6px;
+    padding: 0;    
     left: 35px;
 }
 
@@ -345,21 +371,19 @@
         padding-left: 5px !important;
         padding-right: 6px !important;
         padding-top: 6px !important;
-        padding-bottom: 4px !important;
-        top: 14px !important;
-        font-size: 12px !important;
+        padding-bottom: 4px !important;        
+        font-size: 14px !important;
     }
 }
 
 #profile .delete-profile-btn {
-    position: relative;
-    float: right;
+    position: absolute;
+    right: 10px;
     margin: 0;
     padding-left: 6px;
     padding-right: 8px;
     padding-top: 6px;
     padding-bottom: 6px;
-    top: 10px;
     font-size: 15px;
     border-radius: 5px;
     cursor: pointer;

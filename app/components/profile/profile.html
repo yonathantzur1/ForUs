@@ -18,7 +18,7 @@
                     <form class="form-horizontal">
                         <input (change)="ChangeImage()" style="display:none;" type="file" id="inputImage" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
 
-                        <div class="upload-image-sector col-md-12 col-xs-12" *ngIf="isNewPhoto">
+                        <div class="upload-image-sector col-12" *ngIf="isNewPhoto">
                             <div class="upload-image-container edit-image-preview-sector" (click)="EditUserPhoto()" *ngIf="userImage">
                                 <div class="new-image-text">עריכת תמונה</div>
                                 <img class="edit-image-preview" [src]="userImage">
@@ -31,12 +31,12 @@
 
                         <div class="image-sector" [hidden]="isNewPhoto">
                             <div class="form-group align-mini">
-                                <div class="col-md-6 col-xs-8 edit-left-side">
+                                <div class="col-md-6 col-8 edit-left-side">
                                     <div id="main-img-container" class="main-img-container">
                                         <img id="main-img" class="main-img" [src]="userImage">
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-xs-4 edit-right-side">
+                                <div class="col-md-6 col-4 edit-right-side">
                                     <div class="right-container">
                                         <div id="preview-img-container" class="preview-img-container">
                                         </div>

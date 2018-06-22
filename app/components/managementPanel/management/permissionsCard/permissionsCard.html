@@ -6,10 +6,9 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i class="material-icons">close</i>
                     </button>
-                    <h4 class="modal-title modal-title-label">
-                        <span>הרשאות - {{user && (user.firstName + " " + user.lastName)}}</span>
-                        <i class="material-icons modal-title-icon">lock_open</i>
-                    </h4>
+                    <h4 class="title" title="הרשאות - {{user && (user.firstName + ' ' + user.lastName)}}">
+                        הרשאות - {{user && (user.firstName + " " + user.lastName)}}
+                    </h4>                    
                 </div>
                 <div class="modal-body">
                     <loaderSpinner class="permissions-loader" *ngIf="isLoading"></loaderSpinner>

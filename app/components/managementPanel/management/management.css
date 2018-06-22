@@ -26,10 +26,6 @@
     }
 }
 
-#management .form-control, #management .form-group .form-control {
-    background-image: linear-gradient(#7882b6, #7882b6), linear-gradient(#9d9d9d, #9d9d9d) !important;
-}
-
 #management ::-webkit-input-placeholder
 {
     color: #afafaf;
@@ -93,6 +89,7 @@
     background-color: #9d9d9d;
     font-size: 22px;
     align-self: center;
+    display: flex;
 }
 
 @keyframes activesearch {
@@ -121,8 +118,9 @@
 
 #management .search-user-btn-icon {
     color: #f3f3f3;
-    margin-right: 5px;
-    margin-top: 6px;
+    width: 100%;
+    text-align: center;
+    align-self: center;
 }
 
 #management .search-friend-btn-icon {
@@ -180,6 +178,8 @@
     width: 100%;
     padding-left: 15px;
     padding-right: 15px;
+    font-family: var(--main-font);
+    color: var(--main-text-color);
 }
 
 @keyframes opencard {
@@ -228,8 +228,7 @@
 
 #management .info-table {
     width: 100%;
-    height: calc(100% - 24px);
-    font-family: var(--main-font);
+    height: calc(100% - 24px);    
     font-size: 16px
 }
 
@@ -344,12 +343,15 @@
     z-index: 2;
 }
 
-#management .block-reason-container {
-    padding: 15px;    
+#management .block-reason-container {    
+    padding: 15px;
+    text-align: right;
+    font-size: 12px;
 }
 
 #management .block-label {
-    width: 80px;
+    font-size: 12px;
+    align-self: center;
 }
 
 #management .block-reason-text {

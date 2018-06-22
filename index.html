@@ -1,4 +1,4 @@
-<html dir="rtl">
+<html dir="rtl" lang="he">
 
 <head>
     <base href="/">
@@ -38,6 +38,8 @@
 
     <!-- START libraries css -->
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap-grid.min.css">
     <link rel="stylesheet" href="node_modules/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
     <link rel="stylesheet" href="node_modules/bootstrap-material-design/dist/css/ripples.min.css">
     <link rel="stylesheet" href="node_modules/cropper/dist/cropper.min.css">
@@ -46,12 +48,12 @@
     <!-- END libraries css -->
 
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js"></script>
     <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
     <script src="node_modules/cropper/dist/cropper.min.js"></script>
-    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="node_modules/snackbarjs/dist/snackbar.min.js"></script>
-    <script src="node_modules/bootstrap-material-design/dist/js/material.min.js"></script>
-    <script src="node_modules/bootstrap-material-design/dist/js/ripples.min.js"></script>
     <script src="node_modules/blueimp-load-image/js/load-image.all.min.js"></script>
     <script src="node_modules/chart.js/dist/Chart.min.js"></script>
     <script src="./app/utils.js"></script>
@@ -65,11 +67,7 @@
     <!-- Configure SystemJS -->
     <script src="systemjs.config.js"></script>
     <script>
-        $(document).ready(function () {
-            $(function () {
-                $.material.init();
-            });
-        });
+        $(document).ready(function () { $('body').bootstrapMaterialDesign(); });
 
         System.import('./app/main/main.js').catch(function (err) { console.error(err); });
     </script>

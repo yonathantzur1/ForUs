@@ -35,7 +35,7 @@
                     <button type="button" class="close" (click)="CloseModal(menu.id);(menu.onCancel && menu.onCancel(this))" aria-label="Close">
                         <i class="material-icons">close</i>
                     </button>
-                    <h4 class="modal-title modal-title-label">
+                    <h4>
                         <span>{{menu.title}}</span>
                         <i class="modal-title-icon {{menu.icon}}"></i>
                     </h4>
@@ -63,10 +63,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <div class="modal-footer-buttons">
                         <a (click)="CloseModal(menu.id);(menu.onCancel && menu.onCancel(this))" class="btn btn-default cancel-modal-btn">ביטול</a>
                         <a (click)="menu.onConfirm(this, menu.options)" [ngClass]="{'accept-btn-disabled': menu.isDisableConfirm && menu.isDisableConfirm(this)}" class="btn btn-primary save-charts-menu-btn">אישור</a>
-                    </div>
                 </div>
             </div>
         </div>

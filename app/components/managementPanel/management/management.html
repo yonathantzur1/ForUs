@@ -63,9 +63,9 @@
                             </div>
                             <div *ngIf="user.isFriendsObjectsLoaded">
                                 <div class="form-group friend-search-form-group">
-                                    <input id="friend-search-input" [(ngModel)]="user.friendSearchInput" class="form-control search-input friend-search-input"
-                                        placeholder="חיפוש חברים" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"
-                                        maxlength="25" type="text">
+                                    <input [(ngModel)]="user.friendSearchInput" class="form-control search-input friend-search-input" placeholder="חיפוש חברים"
+                                        autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="25"
+                                        type="text">
                                     <div class="search-friend-btn">
                                         <i class="material-icons search-friend-btn-icon">search</i>
                                     </div>
@@ -124,34 +124,39 @@
 
                         <!-- User Block Screen -->
                         <div *ngIf="user.isBlockScreenOpen && !user.isSaveLoader">
-                            <div class="form-group block-reason-container">
-                                <label for="textArea" class="control-label block-label">תיאור סיבת החסימה:</label>
-                                <div class="block-reason-text">
-                                    <textarea [(ngModel)]="user.blockReason" class="form-control" rows="1" id="textArea"></textarea>
-                                    <span class="help-block">* הסיבה המתוארת תוצג למשתמש</span>
+                            <form>
+                                <div class="form-group block-reason-container">
+                                    <label for="text-area" class="control-label block-label">תיאור סיבת החסימה:</label>
+                                    <div class="block-reason-text">
+                                        <input type="text" [(ngModel)]="user.blockReason" name="block-reason" class="form-control" id="text-area">
+                                        <span class="help-block">* הסיבה המתוארת תוצג למשתמש</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group block-amount-container" *ngIf="!user.blockAmount.forever">
-                                <div class="amount-secotr">
-                                    <label for="block-days" class="control-label block-label">מספר ימים:</label>
-                                    <input name="block-days" [(ngModel)]="user.blockAmount.days" class="form-control block-amount-input" type="number" min="0">
-                                </div>
+                                <div class="form-group block-amount-container" *ngIf="!user.blockAmount.forever">
+                                    <div class="amount-secotr">
+                                        <label for="block-days" class="control-label block-label">מספר ימים:</label>
+                                        <input name="block-days" [(ngModel)]="user.blockAmount.days" name="block-amount-days" class="form-control block-amount-input"
+                                            type="number" min="0">
+                                    </div>
 
-                                <div class="amount-secotr">
-                                    <label for="block-weeks" class="control-label block-label">מספר שבועות:</label>
-                                    <input name="block-weeks" [(ngModel)]="user.blockAmount.weeks" class="form-control block-amount-input" type="number" min="0">
-                                </div>
+                                    <div class="amount-secotr">
+                                        <label for="block-weeks" class="control-label block-label">מספר שבועות:</label>
+                                        <input name="block-weeks" [(ngModel)]="user.blockAmount.weeks" name="block-amount-weeks" class="form-control block-amount-input"
+                                            type="number" min="0">
+                                    </div>
 
-                                <div class="amount-secotr">
-                                    <label for="block-months" class="control-label block-label">מספר חודשים:</label>
-                                    <input name="block-months" [(ngModel)]="user.blockAmount.months" class="form-control block-amount-input" type="number" min="0">
+                                    <div class="amount-secotr">
+                                        <label for="block-months" class="control-label block-label">מספר חודשים:</label>
+                                        <input name="block-months" [(ngModel)]="user.blockAmount.months" name="block-amount-months" class="form-control block-amount-input"
+                                            type="number" min="0">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="block-forever-sector">
-                                <i class="far fa-square" (click)="user.blockAmount.forever = true;" [hidden]="user.blockAmount.forever"></i>
-                                <i class="far fa-check-square" (click)="user.blockAmount.forever = false;" [hidden]="!user.blockAmount.forever"></i>
-                                <label>לצמיתות</label>
-                            </div>
+                                <div class="block-forever-sector">
+                                    <i class="far fa-square" (click)="user.blockAmount.forever = true;" [hidden]="user.blockAmount.forever"></i>
+                                    <i class="far fa-check-square" (click)="user.blockAmount.forever = false;" [hidden]="!user.blockAmount.forever"></i>
+                                    <label>לצמיתות</label>
+                                </div>
+                            </form>
                         </div>
 
                     </div>

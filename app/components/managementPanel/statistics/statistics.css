@@ -41,37 +41,34 @@
 }
 
 #statistics .close {
-    float: left;
+    position: absolute;
+    left: 10px;
+    top: 28px;
 }
 
-#statistics .modal-header, .modal-body, .modal-footer {
+#statistics .modal-header, #statistics .modal-body, #statistics .modal-footer {
     -webkit-user-select: none;
     user-select: none;
     color: var(--main-text-color);
     font-family: var(--main-font);
+    text-align: right;
 }
 
 #statistics .modal-title-icon {
-    font-size: 20px;
-    position: absolute;
+    font-size: 20px;    
     top: 26px;
     padding-right: 10px;
     color: var(--main-text-color);
 }
 
-#statistics .modal-footer-buttons {
-    float: left;
-}
-
 #statistics .save-charts-menu-btn {
     padding: 0;
-    left: 15px;
+    left: 0;
 }
 
 #statistics .cancel-modal-btn {
-    padding: 0;
-    top: 6px;
-    left: 35px;
+    padding: 0;    
+    left: 20px;
 }
 
 #statistics .menu-option {

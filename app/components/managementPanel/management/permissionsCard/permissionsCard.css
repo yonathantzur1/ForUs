@@ -1,18 +1,30 @@
 #permissionsCard .close {
-    float: left;
+    position: absolute;
+    left: 0;
 }
 
-#permissionsCard .modal-header, .modal-body, .modal-footer {
+#permissionsCard .modal-header, #permissionsCard .modal-body, #permissionsCard .modal-footer {
     -webkit-user-select: none;
     user-select: none;
+    text-align: right;
+}
+
+#permissionsCard .title {
+    font-size: 18px;
+    color: var(--main-text-color);
+    font-family: var(--main-font);
+    width: calc(100% - 18px);
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 #permissionsCard .modal-title-icon {
     font-size: 26px;
     position: absolute;
     top: 22px;
-    padding-right: 5px;
-    color: var(--main-text-color);
+    padding-right: 5px;    
 }
 
 #permissionsCard .modal-footer-buttons {
@@ -21,13 +33,12 @@
 
 #permissionsCard .save-permissions-btn {
     padding: 0;
-    left: 15px;
+    left: 0;
 }
 
 #permissionsCard .cancel-permissions-btn {
     padding: 0;
-    top: 6px;
-    left: 35px;
+    left: 20px;
 }
 
 #permissionsCard .permissions-container {
