@@ -94,10 +94,10 @@
     border: 0;
     position: relative;
     font-size: 14px;
-    width: 100%;
-    padding-left: 25px;
     height: 24px;
-    outline: 0;
+    width: 100%;
+    padding-left: 25px;    
+    outline: none;
 }
 
 #navbar .search-icon {

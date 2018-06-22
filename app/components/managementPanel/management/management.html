@@ -23,7 +23,7 @@
                         <img class="user-profile-image" [src]="user.profileImage ? user.profileImage.image : globalService.defaultProfileImage">
                         <i id="user-settings-icon" *ngIf="user.isOpen && !user.isOpenCardAnimationActive && !user.isFriendsScreenOpen && !user.isEditScreenOpen && !user.isBlockScreenOpen"
                             (click)="OpenUserMenu(user)" class="material-icons user-left-icon">settings</i>
-                        <dropMenu id="user-options" *ngIf="user.isMenuOpen" class="drop-menu-position col-md-3 col-xs-5" [options]="dropMenuDataList"></dropMenu>
+                        <dropMenu id="user-options" *ngIf="user.isMenuOpen" class="drop-menu-position col-md-3 col-5" [options]="dropMenuDataList"></dropMenu>
                         <i *ngIf="user.isEditScreenOpen || user.isBlockScreenOpen" class="material-icons user-left-icon" [ngClass]="{'save-edit-btn-disabled': (user.isEditScreenOpen && IsDisableSaveEdit(user)) || (user.isBlockScreenOpen && IsDisableSaveBlocking(user))}"
                             (click)="SaveChanges(user)">save</i>
                         <i *ngIf="user.isFriendsScreenOpen || user.isEditScreenOpen || user.isBlockScreenOpen" (click)="ReturnMainCard(user)" class="material-icons user-card-back-icon">arrow_forward</i>
