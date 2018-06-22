@@ -97,7 +97,8 @@
     height: 24px;
     width: 100%;
     padding-left: 25px;    
-    outline: none;
+    outline: none !important;
+    overflow: hidden !important;
 }
 
 #navbar .search-icon {
