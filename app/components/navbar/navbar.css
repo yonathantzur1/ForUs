@@ -440,19 +440,32 @@
     position: absolute;
     left: 15px;
     font-size: 18px;
-    top: 12px;
+    top: 10px;
     color: #efeded;
     cursor: pointer;
 }
 
 #navbar #friend-search {    
-    background-image: linear-gradient(0deg,#D2D2D2 2px,rgba(0,150,136,0) 0),linear-gradient(0deg,#D2D2D2 0.5px,transparent 0) !important;
+    background-image: linear-gradient(0deg,#D2D2D2 2px,rgba(0,150,136,0) 0),linear-gradient(0deg,#D2D2D2 1px,transparent 0) !important;
     color: #efeded !important;
 }
 
-#navbar #friend-search-container ::-webkit-input-placeholder {
+#navbar #friend-search-container ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: #DBD8D8 !important;
     font-size: 12px;
+    padding: 5px 0 !important;
+}
+
+#navbar #friend-search-container :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #DBD8D8 !important;
+    font-size: 12px;
+    padding: 5px 0 !important;
+}
+
+#navbar #friend-search-container ::-ms-input-placeholder { /* Microsoft Edge */
+    color: #DBD8D8 !important;
+    font-size: 12px;
+    padding: 5px 0 !important;
 }
 
 #navbar .friends-loader {
