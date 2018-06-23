@@ -54,15 +54,3 @@ function GetDateDetailsString(localDate, currDate, isShortMonths) {
 
     return dateDetailsString;
 }
-
-var snackbarId;
-
-window.snackbar = function (text) {
-    if (snackbarId) {
-        $(snackbarId).hide()
-    }
-
-    snackbarId = $.snackbar({
-        content: text
-    });
-}

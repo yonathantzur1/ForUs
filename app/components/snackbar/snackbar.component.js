@@ -10,22 +10,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var alert_service_1 = require("../../services/alert/alert.service");
 var snackbar_service_1 = require("../../services/snackbar/snackbar.service");
-var AppComponent = /** @class */ (function () {
-    function AppComponent(alertService, snackbarService) {
-        this.alertService = alertService;
+var SnackbarComponent = /** @class */ (function () {
+    function SnackbarComponent(snackbarService) {
         this.snackbarService = snackbarService;
     }
-    AppComponent = __decorate([
+    SnackbarComponent = __decorate([
         core_1.Component({
-            selector: 'app',
-            templateUrl: './main.html'
+            selector: 'snackbar',
+            templateUrl: './snackbar.html',
+            providers: []
         }),
-        __metadata("design:paramtypes", [alert_service_1.AlertService,
-            snackbar_service_1.SnackbarService])
-    ], AppComponent);
-    return AppComponent;
+        __metadata("design:paramtypes", [snackbar_service_1.SnackbarService])
+    ], SnackbarComponent);
+    return SnackbarComponent;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.SnackbarComponent = SnackbarComponent;
+//# sourceMappingURL=snackbar.component.js.map

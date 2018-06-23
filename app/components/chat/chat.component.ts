@@ -3,9 +3,9 @@ import { Component, OnInit, OnDestroy, Input, AfterViewChecked } from '@angular/
 import { topIcon, canvasTopIcon } from '../../objects/classes';
 import { ChatService } from '../../services/chat/chat.service';
 import { GlobalService } from '../../services/global/global.service';
+import { SnackbarService } from '../../services/snackbar/snackbar.service';
 
 declare var $: any;
-declare var snackbar: Function;
 declare var window: any;
 declare var loadImage: any;
 declare function GetDateDetailsString(localDate: Date, currDate: Date, isShortMonths: boolean): string;
@@ -64,7 +64,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     subscribeObj: any;
 
-    constructor(private chatService: ChatService, private globalService: GlobalService) {
+    constructor(private chatService: ChatService,
+        private snackbarService: SnackbarService,
+        private globalService: GlobalService) {
 
         this.subscribeObj = this.globalService.data.subscribe((value: any) => {
             if (value["chatData"]) {
@@ -605,10 +607,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         var isSuccess = this.UploadImage();
 
         if (isSuccess == false) {
-            snackbar("הקובץ שנבחר אינו תמונה");
+            this.snackbarService.Snackbar("הקובץ שנבחר אינו תמונה");
         }
         else if (isSuccess == null) {
-            snackbar("שגיאה בהעלאת התמונה");
+            this.snackbarService.Snackbar("שגיאה בהעלאת התמונה");
         }
     }
 

@@ -11,6 +11,7 @@ import { AppComponent } from '../components/app/app.component';
 import { LoaderSpinnerComponent } from '../components/loaders/loaderSpinner/loaderSpinner.component';
 import { LoaderDotsComponent } from '../components/loaders/loaderDots/loaderDots.component';
 import { AlertComponent } from '../components/alert/alert.component';
+import { SnackbarComponent } from '../components/snackbar/snackbar.component';
 import { LoginComponent } from '../components/login/login.component';
 import { HomeComponent } from '../components/home/home.component';
 import { NavbarComponent } from '../components/navbar/navbar.component';
@@ -35,6 +36,7 @@ import { Routing } from '../routes/app.routing'
 
 import { GlobalService } from '../services/global/global.service';
 import { AlertService } from '../services/alert/alert.service';
+import { SnackbarService } from '../services/snackbar/snackbar.service';
 
 @NgModule({
   imports: [
@@ -49,6 +51,7 @@ import { AlertService } from '../services/alert/alert.service';
     LoaderSpinnerComponent,
     LoaderDotsComponent,
     AlertComponent,
+    SnackbarComponent,
     LoginComponent,
     HomeComponent,
     PageNotFoundComponent,
@@ -73,7 +76,8 @@ import { AlertService } from '../services/alert/alert.service';
     LoginGuard,
     AuthService,
     GlobalService,
-    AlertService
+    AlertService,
+    SnackbarService
   ],
   bootstrap: [AppComponent]
 })

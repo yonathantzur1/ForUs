@@ -12,10 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var permissionsCard_service_1 = require("../../../../services/managementPanel/management/permissionsCard/permissionsCard.service");
 var global_service_1 = require("../../../../services/global/global.service");
+var snackbar_service_1 = require("../../../../services/snackbar/snackbar.service");
 var PermissionsCardComponent = /** @class */ (function () {
-    function PermissionsCardComponent(globalService, permissionsCardService) {
+    function PermissionsCardComponent(globalService, snackbarService, permissionsCardService) {
         var _this = this;
         this.globalService = globalService;
+        this.snackbarService = snackbarService;
         this.permissionsCardService = permissionsCardService;
         this.permissions = [];
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
@@ -56,10 +58,10 @@ var PermissionsCardComponent = /** @class */ (function () {
             _this.isLoading = false;
             $("#permissions-modal").modal('hide');
             if (result) {
-                snackbar("עדכון ההרשאות בוצע בהצלחה");
+                _this.snackbarService.Snackbar("עדכון ההרשאות בוצע בהצלחה");
             }
             else {
-                snackbar("שגיאה בעדכון ההרשאות");
+                _this.snackbarService.Snackbar("שגיאה בעדכון ההרשאות");
             }
         });
     };
@@ -70,6 +72,7 @@ var PermissionsCardComponent = /** @class */ (function () {
             providers: [permissionsCard_service_1.PermissionsCardService]
         }),
         __metadata("design:paramtypes", [global_service_1.GlobalService,
+            snackbar_service_1.SnackbarService,
             permissionsCard_service_1.PermissionsCardService])
     ], PermissionsCardComponent);
     return PermissionsCardComponent;

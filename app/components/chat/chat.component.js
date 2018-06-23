@@ -12,10 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var chat_service_1 = require("../../services/chat/chat.service");
 var global_service_1 = require("../../services/global/global.service");
+var snackbar_service_1 = require("../../services/snackbar/snackbar.service");
 var ChatComponent = /** @class */ (function () {
-    function ChatComponent(chatService, globalService) {
+    function ChatComponent(chatService, snackbarService, globalService) {
         var _this = this;
         this.chatService = chatService;
+        this.snackbarService = snackbarService;
         this.globalService = globalService;
         this.chatBodyScrollHeight = 0;
         this.messageNotificationDelay = 3800; // milliseconds
@@ -470,10 +472,10 @@ var ChatComponent = /** @class */ (function () {
     ChatComponent.prototype.ChangeImage = function () {
         var isSuccess = this.UploadImage();
         if (isSuccess == false) {
-            snackbar("הקובץ שנבחר אינו תמונה");
+            this.snackbarService.Snackbar("הקובץ שנבחר אינו תמונה");
         }
         else if (isSuccess == null) {
-            snackbar("שגיאה בהעלאת התמונה");
+            this.snackbarService.Snackbar("שגיאה בהעלאת התמונה");
         }
     };
     ChatComponent.prototype.ShowChatNotification = function (msgData, isSelfMessageNotification) {
@@ -548,7 +550,9 @@ var ChatComponent = /** @class */ (function () {
             templateUrl: './chat.html',
             providers: [chat_service_1.ChatService]
         }),
-        __metadata("design:paramtypes", [chat_service_1.ChatService, global_service_1.GlobalService])
+        __metadata("design:paramtypes", [chat_service_1.ChatService,
+            snackbar_service_1.SnackbarService,
+            global_service_1.GlobalService])
     ], ChatComponent);
     return ChatComponent;
 }());

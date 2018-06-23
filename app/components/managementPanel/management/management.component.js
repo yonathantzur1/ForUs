@@ -14,12 +14,14 @@ var navbar_component_1 = require("../../../components/navbar/navbar.component");
 var management_service_1 = require("../../../services/managementPanel/management/management.service");
 var global_service_1 = require("../../../services/global/global.service");
 var alert_service_1 = require("../../../services/alert/alert.service");
+var snackbar_service_1 = require("../../../services/snackbar/snackbar.service");
 var ManagementComponent = /** @class */ (function () {
-    function ManagementComponent(globalService, managementService, alertService) {
+    function ManagementComponent(globalService, managementService, alertService, snackbarService) {
         var _this = this;
         this.globalService = globalService;
         this.managementService = managementService;
         this.alertService = alertService;
+        this.snackbarService = snackbarService;
         this.users = [];
         this.friendsCache = {};
         this.friendsElementsPadding = 0;
@@ -267,10 +269,10 @@ var ManagementComponent = /** @class */ (function () {
                         user[field] = updateFields[field];
                     });
                     _this.ReturnMainCard(user);
-                    snackbar("המשתמש עודכן בהצלחה");
+                    _this.snackbarService.Snackbar("המשתמש עודכן בהצלחה");
                 }
                 else {
-                    snackbar("שגיאה בעדכון המשתמש");
+                    _this.snackbarService.Snackbar("שגיאה בעדכון המשתמש");
                 }
             });
         }
@@ -286,7 +288,7 @@ var ManagementComponent = /** @class */ (function () {
                 if (result) {
                     user.block = result;
                     _this.ReturnMainCard(user);
-                    snackbar("חסימת המשתמש בוצעה בהצלחה");
+                    _this.snackbarService.Snackbar("חסימת המשתמש בוצעה בהצלחה");
                     var blockUserMsg = "חשבון זה נחסם" + "\n\n" +
                         "<b>סיבה: </b>" + user.block.reason + "\n" +
                         "<b>עד תאריך: </b>" +
@@ -294,7 +296,7 @@ var ManagementComponent = /** @class */ (function () {
                     _this.globalService.socket.emit("LogoutUserSessionServer", user._id, blockUserMsg);
                 }
                 else {
-                    snackbar("שגיאה בחסימת המשתמש");
+                    _this.snackbarService.Snackbar("שגיאה בחסימת המשתמש");
                 }
             });
         }
@@ -312,10 +314,10 @@ var ManagementComponent = /** @class */ (function () {
                 self.managementService.UnblockUser(user._id).then(function (result) {
                     if (result) {
                         delete user.block;
-                        snackbar("ביטול החסימה בוצע בהצלחה");
+                        self.snackbarService.Snackbar("ביטול החסימה בוצע בהצלחה");
                     }
                     else {
-                        snackbar("שגיאה בביטול חסימת המשתמש");
+                        self.snackbarService.Snackbar("שגיאה בביטול חסימת המשתמש");
                     }
                 });
             }
@@ -367,14 +369,14 @@ var ManagementComponent = /** @class */ (function () {
                         }
                         if (index != null) {
                             user.friends.splice(index, 1);
-                            snackbar("מחיקת החברות בוצעה בהצלחה");
+                            self.snackbarService.Snackbar("מחיקת החברות בוצעה בהצלחה");
                         }
                         var logoutMsg = "נותקת מהאתר, יש להתחבר מחדש.";
                         self.globalService.socket.emit("LogoutUserSessionServer", user._id, logoutMsg);
                         self.globalService.socket.emit("LogoutUserSessionServer", friend._id, logoutMsg);
                     }
                     else {
-                        snackbar("שגיאה במחיקת החברות");
+                        self.snackbarService.Snackbar("שגיאה במחיקת החברות");
                     }
                 });
             }
@@ -389,7 +391,7 @@ var ManagementComponent = /** @class */ (function () {
             confirmFunc: function () {
                 self.managementService.DeleteUser(user._id).then(function (result) {
                     if (result) {
-                        snackbar("מחיקת המשתמש בוצעה בהצלחה");
+                        self.snackbarService.Snackbar("מחיקת המשתמש בוצעה בהצלחה");
                         // Logout the user from the system.
                         var logoutMsg = "חשבונך נמחק מהמערכת לצמיתות. \nלפרטים נוספים, פנה להנהלת האתר.";
                         self.globalService.socket.emit("LogoutUserSessionServer", user._id, logoutMsg);
@@ -399,7 +401,7 @@ var ManagementComponent = /** @class */ (function () {
                         self.globalService.socket.emit("ServerRemoveFriendUser", user._id, user.firstName + " " + user.lastName, result);
                     }
                     else {
-                        snackbar("שגיאה במחיקת המשתמש");
+                        self.snackbarService.Snackbar("שגיאה במחיקת המשתמש");
                     }
                 });
             }
@@ -429,7 +431,8 @@ var ManagementComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [global_service_1.GlobalService,
             management_service_1.ManagementService,
-            alert_service_1.AlertService])
+            alert_service_1.AlertService,
+            snackbar_service_1.SnackbarService])
     ], ManagementComponent);
     return ManagementComponent;
 }());

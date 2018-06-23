@@ -13,6 +13,7 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var global_service_1 = require("../../services/global/global.service");
 var alert_service_1 = require("../../services/alert/alert.service");
+var snackbar_service_1 = require("../../services/snackbar/snackbar.service");
 var auth_service_1 = require("../../services/auth/auth.service");
 var navbar_service_1 = require("../../services/navbar/navbar.service");
 var DropMenuData = /** @class */ (function () {
@@ -26,12 +27,13 @@ var DropMenuData = /** @class */ (function () {
 }());
 exports.DropMenuData = DropMenuData;
 var NavbarComponent = /** @class */ (function () {
-    function NavbarComponent(router, authService, globalService, alertService, navbarService) {
+    function NavbarComponent(router, authService, globalService, alertService, snackbarService, navbarService) {
         var _this = this;
         this.router = router;
         this.authService = authService;
         this.globalService = globalService;
         this.alertService = alertService;
+        this.snackbarService = snackbarService;
         this.navbarService = navbarService;
         this.friends = [];
         this.isFriendsLoading = false;
@@ -637,7 +639,7 @@ var NavbarComponent = /** @class */ (function () {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("SendFriendRequest", friendId);
-                snackbar("נשלחה בקשת חברות");
+                self.snackbarService.Snackbar("נשלחה בקשת חברות");
             }
         });
     };
@@ -649,7 +651,7 @@ var NavbarComponent = /** @class */ (function () {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("RemoveFriendRequest", self.user._id, friendId);
-                snackbar("בקשת החברות בוטלה");
+                self.snackbarService.Snackbar("בקשת החברות בוטלה");
             }
         });
     };
@@ -864,6 +866,7 @@ var NavbarComponent = /** @class */ (function () {
             auth_service_1.AuthService,
             global_service_1.GlobalService,
             alert_service_1.AlertService,
+            snackbar_service_1.SnackbarService,
             navbar_service_1.NavbarService])
     ], NavbarComponent);
     return NavbarComponent;

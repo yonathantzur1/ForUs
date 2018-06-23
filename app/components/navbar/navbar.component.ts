@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 import { Friend, ToolbarItem } from '../../objects/classes';
 import { GlobalService } from '../../services/global/global.service';
 import { AlertService } from '../../services/alert/alert.service';
+import { SnackbarService } from '../../services/snackbar/snackbar.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { NavbarService } from '../../services/navbar/navbar.service';
 
 declare var $: any;
-declare var snackbar: Function;
 
 export class DropMenuData {
     link: string;
@@ -96,6 +96,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         private authService: AuthService,
         private globalService: GlobalService,
         private alertService: AlertService,
+        private snackbarService: SnackbarService,
         private navbarService: NavbarService) {
 
         this.subscribeObj = this.globalService.data.subscribe((value: any) => {
@@ -779,7 +780,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("SendFriendRequest", friendId);
-                snackbar("נשלחה בקשת חברות");
+                self.snackbarService.Snackbar("נשלחה בקשת חברות");
             }
         });
     }
@@ -793,7 +794,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("RemoveFriendRequest", self.user._id, friendId);
-                snackbar("בקשת החברות בוטלה");
+                self.snackbarService.Snackbar("בקשת החברות בוטלה");
             }
         });
     }

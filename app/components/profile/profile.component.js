@@ -10,14 +10,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-require("./jsProfileFunctions.js");
+require("./profileExternalFunctions.js");
 var global_service_1 = require("../../services/global/global.service");
 var alert_service_1 = require("../../services/alert/alert.service");
+var snackbar_service_1 = require("../../services/snackbar/snackbar.service");
 var profile_service_1 = require("../../services/profile/profile.service");
 var ProfileComponent = /** @class */ (function () {
-    function ProfileComponent(profileService, alertService, globalService) {
+    function ProfileComponent(profileService, alertService, snackbarService, globalService) {
         this.profileService = profileService;
         this.alertService = alertService;
+        this.snackbarService = snackbarService;
         this.globalService = globalService;
         this.isLoading = false;
         this.isNewPhoto = true;
@@ -187,10 +189,10 @@ var ProfileComponent = /** @class */ (function () {
             this.isNewPhoto = false;
         }
         else if (isSuccess == false) {
-            snackbar("הקובץ שנבחר אינו תמונה");
+            this.snackbarService.Snackbar("הקובץ שנבחר אינו תמונה");
         }
         else {
-            snackbar("שגיאה בהעלאת התמונה");
+            this.snackbarService.Snackbar("שגיאה בהעלאת התמונה");
         }
     };
     ProfileComponent.prototype.UploadNewPhoto = function () {
@@ -211,7 +213,7 @@ var ProfileComponent = /** @class */ (function () {
                     self.isLoading = false;
                     // In case of error or the user was not fount.
                     if (!result) {
-                        snackbar("שגיאה בהעלאת התמונה");
+                        self.snackbarService.Snackbar("שגיאה בהעלאת התמונה");
                         self.CloseWindow();
                     }
                     else {
@@ -265,6 +267,7 @@ var ProfileComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [profile_service_1.ProfileService,
             alert_service_1.AlertService,
+            snackbar_service_1.SnackbarService,
             global_service_1.GlobalService])
     ], ProfileComponent);
     return ProfileComponent;

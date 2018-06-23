@@ -4,9 +4,9 @@ import { DropMenuData } from '../../../components/navbar/navbar.component';
 import { ManagementService } from '../../../services/managementPanel/management/management.service';
 import { GlobalService } from '../../../services/global/global.service';
 import { AlertService } from '../../../services/alert/alert.service';
+import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 
 declare var $: any;
-declare var snackbar: Function;
 
 @Component({
     selector: 'management',
@@ -32,7 +32,8 @@ export class ManagementComponent implements OnDestroy {
 
     constructor(private globalService: GlobalService,
         private managementService: ManagementService,
-        private alertService: AlertService) {
+        private alertService: AlertService,
+        private snackbarService: SnackbarService) {
 
         this.subscribeObj = this.globalService.data.subscribe((value: any) => {
             if (value["closeDropMenu"]) {
@@ -331,10 +332,10 @@ export class ManagementComponent implements OnDestroy {
                     });
 
                     this.ReturnMainCard(user);
-                    snackbar("המשתמש עודכן בהצלחה");
+                    this.snackbarService.Snackbar("המשתמש עודכן בהצלחה");
                 }
                 else {
-                    snackbar("שגיאה בעדכון המשתמש");
+                    this.snackbarService.Snackbar("שגיאה בעדכון המשתמש");
                 }
             });
         }
@@ -353,7 +354,7 @@ export class ManagementComponent implements OnDestroy {
                 if (result) {
                     user.block = result;
                     this.ReturnMainCard(user);
-                    snackbar("חסימת המשתמש בוצעה בהצלחה");
+                    this.snackbarService.Snackbar("חסימת המשתמש בוצעה בהצלחה");
 
                     var blockUserMsg = "חשבון זה נחסם" + "\n\n" +
                         "<b>סיבה: </b>" + user.block.reason + "\n" +
@@ -365,7 +366,7 @@ export class ManagementComponent implements OnDestroy {
                         blockUserMsg);
                 }
                 else {
-                    snackbar("שגיאה בחסימת המשתמש");
+                    this.snackbarService.Snackbar("שגיאה בחסימת המשתמש");
                 }
             });
         }
@@ -385,10 +386,10 @@ export class ManagementComponent implements OnDestroy {
                 self.managementService.UnblockUser(user._id).then((result: any) => {
                     if (result) {
                         delete user.block;
-                        snackbar("ביטול החסימה בוצע בהצלחה");
+                        self.snackbarService.Snackbar("ביטול החסימה בוצע בהצלחה");
                     }
                     else {
-                        snackbar("שגיאה בביטול חסימת המשתמש");
+                        self.snackbarService.Snackbar("שגיאה בביטול חסימת המשתמש");
                     }
                 });
             }
@@ -449,7 +450,7 @@ export class ManagementComponent implements OnDestroy {
 
                         if (index != null) {
                             user.friends.splice(index, 1);
-                            snackbar("מחיקת החברות בוצעה בהצלחה");
+                            self.snackbarService.Snackbar("מחיקת החברות בוצעה בהצלחה");
                         }
 
                         var logoutMsg = "נותקת מהאתר, יש להתחבר מחדש.";
@@ -457,7 +458,7 @@ export class ManagementComponent implements OnDestroy {
                         self.globalService.socket.emit("LogoutUserSessionServer", friend._id, logoutMsg);
                     }
                     else {
-                        snackbar("שגיאה במחיקת החברות");
+                        self.snackbarService.Snackbar("שגיאה במחיקת החברות");
                     }
                 });
             }
@@ -474,7 +475,7 @@ export class ManagementComponent implements OnDestroy {
             confirmFunc: function () {
                 self.managementService.DeleteUser(user._id).then((result: any) => {
                     if (result) {
-                        snackbar("מחיקת המשתמש בוצעה בהצלחה");
+                        self.snackbarService.Snackbar("מחיקת המשתמש בוצעה בהצלחה");
 
                         // Logout the user from the system.
                         var logoutMsg = "חשבונך נמחק מהמערכת לצמיתות. \nלפרטים נוספים, פנה להנהלת האתר.";
@@ -489,7 +490,7 @@ export class ManagementComponent implements OnDestroy {
                             result);
                     }
                     else {
-                        snackbar("שגיאה במחיקת המשתמש");
+                        self.snackbarService.Snackbar("שגיאה במחיקת המשתמש");
                     }
                 })
             }

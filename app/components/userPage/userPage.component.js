@@ -15,13 +15,15 @@ var router_2 = require("@angular/router");
 var global_service_1 = require("../../services/global/global.service");
 var alert_service_1 = require("../../services/alert/alert.service");
 var userPage_service_1 = require("../../services/userPage/userPage.service");
+var snackbar_service_1 = require("../../services/snackbar/snackbar.service");
 var UserPageComponent = /** @class */ (function () {
-    function UserPageComponent(router, route, userPageService, alertService, globalService) {
+    function UserPageComponent(router, route, userPageService, alertService, snackbarService, globalService) {
         var _this = this;
         this.router = router;
         this.route = route;
         this.userPageService = userPageService;
         this.alertService = alertService;
+        this.snackbarService = snackbarService;
         this.globalService = globalService;
         this.isTouchDevice = globalVariables.isTouchDevice;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
@@ -70,7 +72,7 @@ var UserPageComponent = /** @class */ (function () {
                                         if (result) {
                                             self.globalService.socket.emit("ServerRemoveFriend", self.user._id);
                                             self.UnsetUserFriendStatus("isFriend");
-                                            snackbar("הסרת החברות עם " + self.user.fullName + " בוצעה בהצלחה");
+                                            self.snackbarService.Snackbar("הסרת החברות עם " + self.user.fullName + " בוצעה בהצלחה");
                                             self.globalService.RefreshSocket();
                                         }
                                         else {
@@ -241,6 +243,7 @@ var UserPageComponent = /** @class */ (function () {
             router_1.ActivatedRoute,
             userPage_service_1.UserPageService,
             alert_service_1.AlertService,
+            snackbar_service_1.SnackbarService,
             global_service_1.GlobalService])
     ], UserPageComponent);
     return UserPageComponent;

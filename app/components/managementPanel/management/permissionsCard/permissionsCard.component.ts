@@ -2,10 +2,9 @@ import { Component, OnDestroy } from '@angular/core';
 
 import { PermissionsCardService } from '../../../../services/managementPanel/management/permissionsCard/permissionsCard.service';
 import { GlobalService } from '../../../../services/global/global.service';
-import { AlertService } from '../../../../services/alert/alert.service';
+import { SnackbarService } from '../../../../services/snackbar/snackbar.service';
 
 declare var $: any;
-declare var snackbar: Function;
 
 @Component({
     selector: 'permissionsCard',
@@ -22,6 +21,7 @@ export class PermissionsCardComponent implements OnDestroy {
     subscribeObj: any;
 
     constructor(private globalService: GlobalService,
+        private snackbarService: SnackbarService,
         private permissionsCardService: PermissionsCardService) {
         this.subscribeObj = this.globalService.data.subscribe((value: any) => {
             if (value["isOpenPermissionsCard"]) {
@@ -68,10 +68,10 @@ export class PermissionsCardComponent implements OnDestroy {
             $("#permissions-modal").modal('hide');
 
             if (result) {
-                snackbar("עדכון ההרשאות בוצע בהצלחה");
+                this.snackbarService.Snackbar("עדכון ההרשאות בוצע בהצלחה");
             }
             else {
-                snackbar("שגיאה בעדכון ההרשאות");
+                this.snackbarService.Snackbar("שגיאה בעדכון ההרשאות");
             }
         });
     }

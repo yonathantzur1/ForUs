@@ -17,6 +17,7 @@ var app_component_1 = require("../components/app/app.component");
 var loaderSpinner_component_1 = require("../components/loaders/loaderSpinner/loaderSpinner.component");
 var loaderDots_component_1 = require("../components/loaders/loaderDots/loaderDots.component");
 var alert_component_1 = require("../components/alert/alert.component");
+var snackbar_component_1 = require("../components/snackbar/snackbar.component");
 var login_component_1 = require("../components/login/login.component");
 var home_component_1 = require("../components/home/home.component");
 var navbar_component_1 = require("../components/navbar/navbar.component");
@@ -37,6 +38,7 @@ var auth_service_1 = require("../services/auth/auth.service");
 var app_routing_1 = require("../routes/app.routing");
 var global_service_1 = require("../services/global/global.service");
 var alert_service_1 = require("../services/alert/alert.service");
+var snackbar_service_1 = require("../services/snackbar/snackbar.service");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -54,6 +56,7 @@ var AppModule = /** @class */ (function () {
                 loaderSpinner_component_1.LoaderSpinnerComponent,
                 loaderDots_component_1.LoaderDotsComponent,
                 alert_component_1.AlertComponent,
+                snackbar_component_1.SnackbarComponent,
                 login_component_1.LoginComponent,
                 home_component_1.HomeComponent,
                 pageNotFound_component_1.PageNotFoundComponent,
@@ -78,7 +81,8 @@ var AppModule = /** @class */ (function () {
                 auth_guard_1.LoginGuard,
                 auth_service_1.AuthService,
                 global_service_1.GlobalService,
-                alert_service_1.AlertService
+                alert_service_1.AlertService,
+                snackbar_service_1.SnackbarService
             ],
             bootstrap: [app_component_1.AppComponent]
         })

@@ -3,12 +3,11 @@ import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
 import { AlertService } from '../../services/alert/alert.service';
-import { AuthService } from '../../services/auth/auth.service';
+import { SnackbarService } from '../../services/snackbar/snackbar.service';
 
 import { LoginService } from '../../services/login/login.service';
 
 declare var $: any;
-declare var snackbar: Function;
 
 export class User {
   constructor() { this.email = ""; this.password = ""; }
@@ -57,8 +56,8 @@ export class LoginComponent {
 
   constructor(private router: Router,
     private alertService: AlertService,
+    private snackbarService: SnackbarService,
     private globalService: GlobalService,
-    private authService: AuthService,
     private loginService: LoginService) { }
 
   // Running on the array of validation functions and make sure all valid.
@@ -114,11 +113,11 @@ export class LoginComponent {
 
         // In case of server error.
         if (result == null) {
-          snackbar("אירעה שגיאה בחיבור לשרת");
+          this.snackbarService.Snackbar("אירעה שגיאה בחיבור לשרת");
         }
         // In case the login details is incorrect.
         else if (result == false) {
-          snackbar("שם המשתמש או הסיסמא שגויים");
+          this.snackbarService.Snackbar("שם המשתמש או הסיסמא שגויים");
         }
         // In case the user was not found.
         else if (result == "-1") {
@@ -139,7 +138,7 @@ export class LoginComponent {
         else {
           // In case the user is locked via brute attack.
           if (result.lock) {
-            snackbar("החשבון ננעל למשך " + result.lock + " דקות");
+            this.snackbarService.Snackbar("החשבון ננעל למשך " + result.lock + " דקות");
           }
           // In case the user is blocked.
           else if (result.block) {
@@ -153,6 +152,7 @@ export class LoginComponent {
           }
           else {
             // Show the loader again because the gurd validates the token.
+            this.snackbarService.HideSnackbar();
             this.isLoading = true;
             this.router.navigateByUrl('');
           }
@@ -177,7 +177,7 @@ export class LoginComponent {
 
         // In case of server error.
         if (result == null) {
-          snackbar("אירעה שגיאה בחיבור לשרת");
+          this.snackbarService.Snackbar("אירעה שגיאה בחיבור לשרת");
         }
         // In case the email is already exists.
         else if (result == false) {
@@ -208,7 +208,7 @@ export class LoginComponent {
 
           // In case of server error.
           if (result == null) {
-            snackbar("אירעה שגיאה בחיבור לשרת");
+            this.snackbarService.Snackbar("אירעה שגיאה בחיבור לשרת");
           }
           // In case the user was not found.
           else if (result == false) {
@@ -219,7 +219,7 @@ export class LoginComponent {
           else {
             this.forgotUser.showResetCodeField = true;
             this.forgotUser.forgotBtnText = forgotBtnTextObj.resetPassText;
-            snackbar("קוד לאיפוס הסיסמא נשלח לאימייל שלך");
+            this.snackbarService.Snackbar("קוד לאיפוס הסיסמא נשלח לאימייל שלך");
           }
         });
       }
@@ -231,7 +231,7 @@ export class LoginComponent {
 
           // In case of server error.
           if (result == null) {
-            snackbar("אירעה שגיאה בחיבור לשרת");
+            this.snackbarService.Snackbar("אירעה שגיאה בחיבור לשרת");
           }
           // In case the email was not found.
           else if (result == false || result.emailNotFound) {

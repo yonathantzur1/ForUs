@@ -1,14 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import './jsProfileFunctions.js';
+import './profileExternalFunctions.js';
 
 import { GlobalService } from '../../services/global/global.service';
 import { AlertService } from '../../services/alert/alert.service';
+import { SnackbarService } from '../../services/snackbar/snackbar.service';
 import { ProfileService } from '../../services/profile/profile.service';
 
 declare var $: any;
-declare var snackbar: Function;
 declare function UploadPhoto(options: Object): boolean;
 declare function GetCroppedBase64Image(): any;
 
@@ -26,6 +26,7 @@ export class ProfileComponent implements OnInit {
 
     constructor(private profileService: ProfileService,
         private alertService: AlertService,
+        private snackbarService: SnackbarService,
         private globalService: GlobalService) { }
 
     options = {
@@ -208,10 +209,10 @@ export class ProfileComponent implements OnInit {
             this.isNewPhoto = false;
         }
         else if (isSuccess == false) {
-            snackbar("הקובץ שנבחר אינו תמונה");
+            this.snackbarService.Snackbar("הקובץ שנבחר אינו תמונה");
         }
         else {
-            snackbar("שגיאה בהעלאת התמונה");
+            this.snackbarService.Snackbar("שגיאה בהעלאת התמונה");
         }
     }
 
@@ -237,7 +238,7 @@ export class ProfileComponent implements OnInit {
 
                     // In case of error or the user was not fount.
                     if (!result) {
-                        snackbar("שגיאה בהעלאת התמונה");
+                        self.snackbarService.Snackbar("שגיאה בהעלאת התמונה");
                         self.CloseWindow();
                     }
                     else {

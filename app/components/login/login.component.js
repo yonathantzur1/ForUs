@@ -13,7 +13,7 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var global_service_1 = require("../../services/global/global.service");
 var alert_service_1 = require("../../services/alert/alert.service");
-var auth_service_1 = require("../../services/auth/auth.service");
+var snackbar_service_1 = require("../../services/snackbar/snackbar.service");
 var login_service_1 = require("../../services/login/login.service");
 var User = /** @class */ (function () {
     function User() {
@@ -47,11 +47,11 @@ var ForgotUser = /** @class */ (function () {
 }());
 exports.ForgotUser = ForgotUser;
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent(router, alertService, globalService, authService, loginService) {
+    function LoginComponent(router, alertService, snackbarService, globalService, loginService) {
         this.router = router;
         this.alertService = alertService;
+        this.snackbarService = snackbarService;
         this.globalService = globalService;
-        this.authService = authService;
         this.loginService = loginService;
         this.user = new User();
         this.newUser = new NewUser();
@@ -102,11 +102,11 @@ var LoginComponent = /** @class */ (function () {
                 _this.isLoading = false;
                 // In case of server error.
                 if (result == null) {
-                    snackbar("אירעה שגיאה בחיבור לשרת");
+                    _this.snackbarService.Snackbar("אירעה שגיאה בחיבור לשרת");
                 }
                 // In case the login details is incorrect.
                 else if (result == false) {
-                    snackbar("שם המשתמש או הסיסמא שגויים");
+                    _this.snackbarService.Snackbar("שם המשתמש או הסיסמא שגויים");
                 }
                 // In case the user was not found.
                 else if (result == "-1") {
@@ -127,7 +127,7 @@ var LoginComponent = /** @class */ (function () {
                 else {
                     // In case the user is locked via brute attack.
                     if (result.lock) {
-                        snackbar("החשבון ננעל למשך " + result.lock + " דקות");
+                        _this.snackbarService.Snackbar("החשבון ננעל למשך " + result.lock + " דקות");
                     }
                     // In case the user is blocked.
                     else if (result.block) {
@@ -141,6 +141,7 @@ var LoginComponent = /** @class */ (function () {
                     }
                     else {
                         // Show the loader again because the gurd validates the token.
+                        _this.snackbarService.HideSnackbar();
                         _this.isLoading = true;
                         _this.router.navigateByUrl('');
                     }
@@ -162,7 +163,7 @@ var LoginComponent = /** @class */ (function () {
                 _this.isLoading = false;
                 // In case of server error.
                 if (result == null) {
-                    snackbar("אירעה שגיאה בחיבור לשרת");
+                    _this.snackbarService.Snackbar("אירעה שגיאה בחיבור לשרת");
                 }
                 // In case the email is already exists.
                 else if (result == false) {
@@ -190,7 +191,7 @@ var LoginComponent = /** @class */ (function () {
                     _this.isLoading = false;
                     // In case of server error.
                     if (result == null) {
-                        snackbar("אירעה שגיאה בחיבור לשרת");
+                        _this.snackbarService.Snackbar("אירעה שגיאה בחיבור לשרת");
                     }
                     // In case the user was not found.
                     else if (result == false) {
@@ -201,7 +202,7 @@ var LoginComponent = /** @class */ (function () {
                     else {
                         _this.forgotUser.showResetCodeField = true;
                         _this.forgotUser.forgotBtnText = forgotBtnTextObj.resetPassText;
-                        snackbar("קוד לאיפוס הסיסמא נשלח לאימייל שלך");
+                        _this.snackbarService.Snackbar("קוד לאיפוס הסיסמא נשלח לאימייל שלך");
                     }
                 });
             }
@@ -212,7 +213,7 @@ var LoginComponent = /** @class */ (function () {
                     _this.isLoading = false;
                     // In case of server error.
                     if (result == null) {
-                        snackbar("אירעה שגיאה בחיבור לשרת");
+                        _this.snackbarService.Snackbar("אירעה שגיאה בחיבור לשרת");
                     }
                     // In case the email was not found.
                     else if (result == false || result.emailNotFound) {
@@ -302,8 +303,8 @@ var LoginComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [router_1.Router,
             alert_service_1.AlertService,
+            snackbar_service_1.SnackbarService,
             global_service_1.GlobalService,
-            auth_service_1.AuthService,
             login_service_1.LoginService])
     ], LoginComponent);
     return LoginComponent;

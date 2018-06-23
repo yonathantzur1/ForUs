@@ -6,9 +6,9 @@ import { Router } from '@angular/router';
 import { GlobalService } from '../../services/global/global.service';
 import { AlertService } from '../../services/alert/alert.service';
 import { UserPageService } from '../../services/userPage/userPage.service';
+import { SnackbarService } from '../../services/snackbar/snackbar.service';
 
 declare function getCookie(name: string): string;
-declare var snackbar: Function;
 declare var globalVariables: any;
 
 @Component({
@@ -29,6 +29,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private userPageService: UserPageService,
         private alertService: AlertService,
+        private snackbarService: SnackbarService,
         private globalService: GlobalService) {
         this.subscribeObj = this.globalService.data.subscribe((value: any) => {
             if (value["newUploadedImage"]) {
@@ -81,7 +82,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                                         if (result) {
                                             self.globalService.socket.emit("ServerRemoveFriend", self.user._id);
                                             self.UnsetUserFriendStatus("isFriend");
-                                            snackbar("הסרת החברות עם " + self.user.fullName + " בוצעה בהצלחה");
+                                            self.snackbarService.Snackbar("הסרת החברות עם " + self.user.fullName + " בוצעה בהצלחה");
                                             self.globalService.RefreshSocket();
                                         }
                                         else {

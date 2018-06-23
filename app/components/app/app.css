@@ -35,6 +35,11 @@ a, a:hover, a:focus {
     color: #7882b6 !important;
 }
 
+.btn:focus {
+    background-color: transparent !important;
+    border-color: #ccc !important;
+}
+
 .btn:hover {
     background-color: transparent !important;
     border-color: #7882b6 !important;
