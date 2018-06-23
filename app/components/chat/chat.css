@@ -171,6 +171,7 @@
 #chat .message {
     font-family: var(--main-font);
     font-size: 14px;
+    text-align: right;
     padding: 5px 8px 5px 8px;
     border-radius: 10px;
     color: #f1f1f1;
