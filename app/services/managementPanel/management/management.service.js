@@ -25,7 +25,7 @@ var ManagementService = /** @class */ (function (_super) {
             .then(function (result) {
             return result;
         })
-            .catch(function (result) {
+            .catch(function (e) {
             return null;
         });
     };
@@ -36,7 +36,7 @@ var ManagementService = /** @class */ (function (_super) {
             .then(function (result) {
             return result;
         })
-            .catch(function (result) {
+            .catch(function (e) {
             return null;
         });
     };
@@ -47,7 +47,7 @@ var ManagementService = /** @class */ (function (_super) {
             .then(function (result) {
             return result;
         })
-            .catch(function (result) {
+            .catch(function (e) {
             return null;
         });
     };
@@ -58,7 +58,7 @@ var ManagementService = /** @class */ (function (_super) {
             .then(function (result) {
             return result;
         })
-            .catch(function (result) {
+            .catch(function (e) {
             return null;
         });
     };
@@ -69,7 +69,7 @@ var ManagementService = /** @class */ (function (_super) {
             .then(function (result) {
             return result;
         })
-            .catch(function (result) {
+            .catch(function (e) {
             return null;
         });
     };
@@ -80,7 +80,7 @@ var ManagementService = /** @class */ (function (_super) {
             .then(function (result) {
             return result;
         })
-            .catch(function (result) {
+            .catch(function (e) {
             return null;
         });
     };
@@ -90,7 +90,7 @@ var ManagementService = /** @class */ (function (_super) {
             .then(function (result) {
             return result;
         })
-            .catch(function (result) {
+            .catch(function (e) {
             return null;
         });
     };

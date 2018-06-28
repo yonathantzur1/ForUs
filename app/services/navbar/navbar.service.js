@@ -24,7 +24,7 @@ var NavbarService = /** @class */ (function (_super) {
             .then(function (result) {
             return result;
         })
-            .catch(function (result) {
+            .catch(function (e) {
             return null;
         });
     };
@@ -35,7 +35,7 @@ var NavbarService = /** @class */ (function (_super) {
             .then(function (result) {
             return result;
         })
-            .catch(function (result) {
+            .catch(function (e) {
             return null;
         });
     };
@@ -46,7 +46,7 @@ var NavbarService = /** @class */ (function (_super) {
             .then(function (result) {
             return result;
         })
-            .catch(function (result) {
+            .catch(function (e) {
             return null;
         });
     };
@@ -56,7 +56,7 @@ var NavbarService = /** @class */ (function (_super) {
             .then(function (result) {
             return result;
         })
-            .catch(function (result) {
+            .catch(function (e) {
             return null;
         });
     };
@@ -65,14 +65,14 @@ var NavbarService = /** @class */ (function (_super) {
         _super.prototype.post.call(this, this.prefix + '/updateMessagesNotifications', JSON.stringify(details))
             .toPromise()
             .then(function (result) { })
-            .catch(function (result) { });
+            .catch(function (e) { });
     };
     NavbarService.prototype.RemoveMessagesNotifications = function (messagesNotifications) {
         var details = { messagesNotifications: messagesNotifications };
         _super.prototype.post.call(this, this.prefix + '/removeMessagesNotifications', JSON.stringify(details))
             .toPromise()
             .then(function (result) { })
-            .catch(function (result) { });
+            .catch(function (e) { });
     };
     NavbarService.prototype.GetUserFriendRequests = function () {
         return _super.prototype.get.call(this, this.prefix + '/getUserFriendRequests')
@@ -80,7 +80,7 @@ var NavbarService = /** @class */ (function (_super) {
             .then(function (result) {
             return result;
         })
-            .catch(function (result) {
+            .catch(function (e) {
             return null;
         });
     };
@@ -91,7 +91,7 @@ var NavbarService = /** @class */ (function (_super) {
             .then(function (result) {
             return result;
         })
-            .catch(function (result) {
+            .catch(function (e) {
             return null;
         });
     };
@@ -102,7 +102,7 @@ var NavbarService = /** @class */ (function (_super) {
             .then(function (result) {
             return result;
         })
-            .catch(function (result) {
+            .catch(function (e) {
             return null;
         });
     };
@@ -113,7 +113,7 @@ var NavbarService = /** @class */ (function (_super) {
             .then(function (result) {
             return result;
         })
-            .catch(function (result) {
+            .catch(function (e) {
             return null;
         });
     };
@@ -124,7 +124,7 @@ var NavbarService = /** @class */ (function (_super) {
             .then(function (result) {
             return result;
         })
-            .catch(function (result) {
+            .catch(function (e) {
             return null;
         });
     };

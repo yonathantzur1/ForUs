@@ -24,7 +24,7 @@ var LoginService = /** @class */ (function (_super) {
             .then(function (result) {
             return result;
         })
-            .catch(function (result) {
+            .catch(function (e) {
             return null;
         });
     };
@@ -37,7 +37,7 @@ var LoginService = /** @class */ (function (_super) {
             .then(function (result) {
             return result;
         })
-            .catch(function (result) {
+            .catch(function (e) {
             return null;
         });
     };
@@ -53,7 +53,7 @@ var LoginService = /** @class */ (function (_super) {
             .then(function (result) {
             return result;
         })
-            .catch(function (result) {
+            .catch(function (e) {
             return null;
         });
     };
@@ -64,7 +64,7 @@ var LoginService = /** @class */ (function (_super) {
             .then(function (result) {
             return result;
         })
-            .catch(function (result) {
+            .catch(function (e) {
             return null;
         });
     };
@@ -79,7 +79,7 @@ var LoginService = /** @class */ (function (_super) {
             .then(function (result) {
             return result;
         })
-            .catch(function (result) {
+            .catch(function (e) {
             return null;
         });
     };

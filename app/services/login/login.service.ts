@@ -13,7 +13,7 @@ export class LoginService extends BasicService {
             .then((result: any) => {
                 return result;
             })
-            .catch((result: any) => {
+            .catch((e: any) => {
                 return null;
             });
     }
@@ -28,7 +28,7 @@ export class LoginService extends BasicService {
             .then((result: any) => {
                 return result;
             })
-            .catch((result: any) => {
+            .catch((e: any) => {
                 return null;
             });
     }
@@ -46,7 +46,7 @@ export class LoginService extends BasicService {
             .then((result: any) => {
                 return result;
             })
-            .catch((result: any) => {
+            .catch((e: any) => {
                 return null;
             });
     }
@@ -59,7 +59,7 @@ export class LoginService extends BasicService {
             .then((result: any) => {
                 return result;
             })
-            .catch((result: any) => {
+            .catch((e: any) => {
                 return null;
             });
     }
@@ -76,7 +76,7 @@ export class LoginService extends BasicService {
             .then((result: any) => {
                 return result;
             })
-            .catch((result: any) => {
+            .catch((e: any) => {
                 return null;
             });
     }

@@ -12,7 +12,7 @@ export class FriendRequestsWindowService extends BasicService {
             .then((result: any) => {
                 return result;
             })
-            .catch((result: any) => {
+            .catch((e: any) => {
                 return null;
             });
     }

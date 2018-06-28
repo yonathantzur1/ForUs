@@ -1,5 +1,4 @@
 import { BasicService } from '../basic/basic.service';
-import { StringifyOptions } from 'querystring';
 
 export class UserPageService extends BasicService {
 
@@ -11,7 +10,7 @@ export class UserPageService extends BasicService {
             .then((result: any) => {
                 return result;
             })
-            .catch((result: any) => {
+            .catch((e: any) => {
                 return null;
             });
     }
@@ -22,7 +21,7 @@ export class UserPageService extends BasicService {
             .then((result: any) => {
                 return result;
             })
-            .catch((result: any) => {
+            .catch((e: any) => {
                 return null;
             });
     }

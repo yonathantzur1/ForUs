@@ -11,24 +11,14 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var basic_service_1 = require("../../basic/basic.service");
-var ChatsWindowService = /** @class */ (function (_super) {
-    __extends(ChatsWindowService, _super);
-    function ChatsWindowService() {
+var EditUserWindowService = /** @class */ (function (_super) {
+    __extends(EditUserWindowService, _super);
+    function EditUserWindowService() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.prefix = "/api/chatsWindow";
+        _this.prefix = "/api/editUserWindow";
         return _this;
     }
-    ChatsWindowService.prototype.GetAllChats = function () {
-        return _super.prototype.get.call(this, this.prefix + '/getAllChats')
-            .toPromise()
-            .then(function (result) {
-            return result;
-        })
-            .catch(function (e) {
-            return null;
-        });
-    };
-    return ChatsWindowService;
+    return EditUserWindowService;
 }(basic_service_1.BasicService));
-exports.ChatsWindowService = ChatsWindowService;
-//# sourceMappingURL=chatsWindow.service.js.map
+exports.EditUserWindowService = EditUserWindowService;
+//# sourceMappingURL=editUserWindow.service.js.map

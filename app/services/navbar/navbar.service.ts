@@ -10,7 +10,7 @@ export class NavbarService extends BasicService {
             .then((result: any) => {
                 return result;
             })
-            .catch((result: any) => {
+            .catch((e: any) => {
                 return null;
             });
     }
@@ -23,7 +23,7 @@ export class NavbarService extends BasicService {
             .then((result: any) => {
                 return result;
             })
-            .catch((result: any) => {
+            .catch((e: any) => {
                 return null;
             });
     }
@@ -36,7 +36,7 @@ export class NavbarService extends BasicService {
             .then((result: any) => {
                 return result;
             })
-            .catch((result: any) => {
+            .catch((e: any) => {
                 return null;
             });
     }
@@ -47,7 +47,7 @@ export class NavbarService extends BasicService {
             .then((result: any) => {
                 return result;
             })
-            .catch((result: any) => {
+            .catch((e: any) => {
                 return null;
             });
     }
@@ -58,7 +58,7 @@ export class NavbarService extends BasicService {
         super.post(this.prefix + '/updateMessagesNotifications', JSON.stringify(details))
             .toPromise()
             .then((result: any) => { })
-            .catch((result: any) => { });
+            .catch((e: any) => { });
     }
 
     RemoveMessagesNotifications(messagesNotifications: any) {
@@ -67,7 +67,7 @@ export class NavbarService extends BasicService {
         super.post(this.prefix + '/removeMessagesNotifications', JSON.stringify(details))
             .toPromise()
             .then((result: any) => { })
-            .catch((result: any) => { });
+            .catch((e: any) => { });
     }
 
     GetUserFriendRequests() {
@@ -76,7 +76,7 @@ export class NavbarService extends BasicService {
             .then((result: any) => {
                 return result;
             })
-            .catch((result: any) => {
+            .catch((e: any) => {
                 return null;
             });
     }
@@ -89,7 +89,7 @@ export class NavbarService extends BasicService {
             .then((result: any) => {
                 return result;
             })
-            .catch((result: any) => {
+            .catch((e: any) => {
                 return null;
             });
     }
@@ -102,7 +102,7 @@ export class NavbarService extends BasicService {
             .then((result: any) => {
                 return result;
             })
-            .catch((result: any) => {
+            .catch((e: any) => {
                 return null;
             });
     }
@@ -115,7 +115,7 @@ export class NavbarService extends BasicService {
             .then((result: any) => {
                 return result;
             })
-            .catch((result: any) => {
+            .catch((e: any) => {
                 return null;
             });
     }
@@ -128,7 +128,7 @@ export class NavbarService extends BasicService {
             .then((result: any) => {
                 return result;
             })
-            .catch((result: any) => {
+            .catch((e: any) => {
                 return null;
             });
     }

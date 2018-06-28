@@ -43,11 +43,16 @@ var UserPageComponent = /** @class */ (function () {
                 id: "edit",
                 icon: "fas fa-user-edit",
                 innerIconText: "",
+                isSelected: false,
                 title: "עריכת פרטים",
                 isShow: function () {
                     return self.IsUserPageSelf();
                 },
                 onClick: function () {
+                    this.isSelected = true;
+                },
+                onClose: function () {
+                    this.isSelected = false;
                 }
             },
             {
@@ -232,6 +237,11 @@ var UserPageComponent = /** @class */ (function () {
         if (this.IsUserPageSelf()) {
             this.globalService.setData("openProfileEditWindow", true);
         }
+    };
+    UserPageComponent.prototype.CloseOpenTabs = function () {
+        this.tabs.forEach(function (tab) {
+            tab.onClose && tab.onClose();
+        });
     };
     UserPageComponent = __decorate([
         core_1.Component({
