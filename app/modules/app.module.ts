@@ -26,7 +26,7 @@ import { ManagementComponent } from '../components/managementPanel/management/ma
 import { StatisticsComponent } from '../components/managementPanel/statistics/statistics.component';
 import { PermissionsCardComponent } from '../components/managementPanel/management/permissionsCard/permissionsCard.component';
 import { UserPageComponent } from '../components/userPage/userPage.component';
-import { EditUserWindowComponent } from '../components/userPage/editUserWindow/editUserWindow.component';
+import { UserEditWindowComponent } from '../components/userPage/userEditWindow/userEditWindow.component';
 
 import { PageNotFoundComponent } from '../components/pageNotFound/pageNotFound.component';
 
@@ -68,7 +68,7 @@ import { SnackbarService } from '../services/snackbar/snackbar.service';
     StatisticsComponent,
     PermissionsCardComponent,
     UserPageComponent,
-    EditUserWindowComponent,
+    UserEditWindowComponent,
     // ---------Pipes---------
     SortObjects
   ],

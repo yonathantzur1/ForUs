@@ -11,14 +11,14 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var basic_service_1 = require("../../basic/basic.service");
-var EditUserWindowService = /** @class */ (function (_super) {
-    __extends(EditUserWindowService, _super);
-    function EditUserWindowService() {
+var UserEditWindowService = /** @class */ (function (_super) {
+    __extends(UserEditWindowService, _super);
+    function UserEditWindowService() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.prefix = "/api/editUserWindow";
+        _this.prefix = "/api/UserEditWindow";
         return _this;
     }
-    return EditUserWindowService;
+    return UserEditWindowService;
 }(basic_service_1.BasicService));
-exports.EditUserWindowService = EditUserWindowService;
-//# sourceMappingURL=editUserWindow.service.js.map
+exports.UserEditWindowService = UserEditWindowService;
+//# sourceMappingURL=userEditWindow.service.js.map

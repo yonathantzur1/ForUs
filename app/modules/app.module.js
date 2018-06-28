@@ -32,7 +32,7 @@ var management_component_1 = require("../components/managementPanel/management/m
 var statistics_component_1 = require("../components/managementPanel/statistics/statistics.component");
 var permissionsCard_component_1 = require("../components/managementPanel/management/permissionsCard/permissionsCard.component");
 var userPage_component_1 = require("../components/userPage/userPage.component");
-var editUserWindow_component_1 = require("../components/userPage/editUserWindow/editUserWindow.component");
+var userEditWindow_component_1 = require("../components/userPage/userEditWindow/userEditWindow.component");
 var pageNotFound_component_1 = require("../components/pageNotFound/pageNotFound.component");
 var auth_guard_1 = require("../gurds/auth.guard");
 var auth_service_1 = require("../services/auth/auth.service");
@@ -73,7 +73,7 @@ var AppModule = /** @class */ (function () {
                 statistics_component_1.StatisticsComponent,
                 permissionsCard_component_1.PermissionsCardComponent,
                 userPage_component_1.UserPageComponent,
-                editUserWindow_component_1.EditUserWindowComponent,
+                userEditWindow_component_1.UserEditWindowComponent,
                 // ---------Pipes---------
                 sort_pipe_1.SortObjects
             ],

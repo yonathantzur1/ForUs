@@ -10,21 +10,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var editUserWindow_service_js_1 = require("../../../services/userPage/editUserWindow/editUserWindow.service.js");
-var EditUserWindowComponent = /** @class */ (function () {
-    function EditUserWindowComponent(editUserWindowService) {
+var userEditWindow_service_1 = require("../../../services/userPage/userEditWindow/userEditWindow.service");
+var UserEditWindowComponent = /** @class */ (function () {
+    function UserEditWindowComponent(userEditWindowService) {
     }
-    EditUserWindowComponent.prototype.ngOnInit = function () {
+    UserEditWindowComponent.prototype.ngOnInit = function () {
     };
-    EditUserWindowComponent = __decorate([
+    UserEditWindowComponent = __decorate([
         core_1.Component({
-            selector: 'editUserWindow',
-            templateUrl: './editUserWindow.html',
-            providers: [editUserWindow_service_js_1.EditUserWindowService]
+            selector: 'userEditWindow',
+            templateUrl: './userEditWindow.html',
+            providers: [userEditWindow_service_1.UserEditWindowService]
         }),
-        __metadata("design:paramtypes", [editUserWindow_service_js_1.EditUserWindowService])
-    ], EditUserWindowComponent);
-    return EditUserWindowComponent;
+        __metadata("design:paramtypes", [userEditWindow_service_1.UserEditWindowService])
+    ], UserEditWindowComponent);
+    return UserEditWindowComponent;
 }());
-exports.EditUserWindowComponent = EditUserWindowComponent;
-//# sourceMappingURL=editUserWindow.component.js.map
+exports.UserEditWindowComponent = UserEditWindowComponent;
+//# sourceMappingURL=userEditWindow.component.js.map
