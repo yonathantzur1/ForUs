@@ -299,41 +299,41 @@ export class ManagementComponent implements OnDestroy {
     SaveChanges(user: any) {
         if (user.isEditScreenOpen && !this.IsDisableSaveEdit(user)) {
             var editObj = user.editObj;
-            var updateFields = { "_id": user._id };
+            var updatedFields = { "_id": user._id };
 
-            if (editObj.firstName != user.firstName) {
-                updateFields["firstName"] = editObj.firstName;
+            if (editObj.firstName.trim() != user.firstName) {
+                updatedFields["firstName"] = editObj.firstName.trim();
             }
 
-            if (editObj.lastName != user.lastName) {
-                updateFields["lastName"] = editObj.lastName;
+            if (editObj.lastName.trim() != user.lastName) {
+                updatedFields["lastName"] = editObj.lastName.trim();
             }
 
-            if (editObj.email != user.email) {
-                updateFields["email"] = editObj.email;
+            if (editObj.email.trim() != user.email) {
+                updatedFields["email"] = editObj.email.trim();
             }
 
             if (editObj.password) {
-                updateFields["password"] = editObj.password;
+                updatedFields["password"] = editObj.password.trim();
             }
 
             user.isSaveLoader = true;
 
             // Update user info.
-            this.managementService.EditUser(updateFields).then((result: any) => {
+            this.managementService.EditUser(updatedFields).then((result: any) => {
                 user.isSaveLoader = false;
 
                 // In case the user info edit succeeded. 
                 if (result) {
-                    if (updateFields["password"]) {
-                        delete updateFields["password"];
+                    if (updatedFields["password"]) {
+                        delete updatedFields["password"];
                         this.globalService.socket.emit("LogoutUserSessionServer",
                             user._id,
                             "נותקת מהאתר, יש להתחבר מחדש");
                     }
 
-                    Object.keys(updateFields).forEach(field => {
-                        user[field] = updateFields[field];
+                    Object.keys(updatedFields).forEach(field => {
+                        user[field] = updatedFields[field];
                     });
 
                     this.ReturnMainCard(user);

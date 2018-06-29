@@ -247,31 +247,31 @@ var ManagementComponent = /** @class */ (function () {
         var _this = this;
         if (user.isEditScreenOpen && !this.IsDisableSaveEdit(user)) {
             var editObj = user.editObj;
-            var updateFields = { "_id": user._id };
-            if (editObj.firstName != user.firstName) {
-                updateFields["firstName"] = editObj.firstName;
+            var updatedFields = { "_id": user._id };
+            if (editObj.firstName.trim() != user.firstName) {
+                updatedFields["firstName"] = editObj.firstName.trim();
             }
-            if (editObj.lastName != user.lastName) {
-                updateFields["lastName"] = editObj.lastName;
+            if (editObj.lastName.trim() != user.lastName) {
+                updatedFields["lastName"] = editObj.lastName.trim();
             }
-            if (editObj.email != user.email) {
-                updateFields["email"] = editObj.email;
+            if (editObj.email.trim() != user.email) {
+                updatedFields["email"] = editObj.email.trim();
             }
             if (editObj.password) {
-                updateFields["password"] = editObj.password;
+                updatedFields["password"] = editObj.password.trim();
             }
             user.isSaveLoader = true;
             // Update user info.
-            this.managementService.EditUser(updateFields).then(function (result) {
+            this.managementService.EditUser(updatedFields).then(function (result) {
                 user.isSaveLoader = false;
                 // In case the user info edit succeeded. 
                 if (result) {
-                    if (updateFields["password"]) {
-                        delete updateFields["password"];
+                    if (updatedFields["password"]) {
+                        delete updatedFields["password"];
                         _this.globalService.socket.emit("LogoutUserSessionServer", user._id, "נותקת מהאתר, יש להתחבר מחדש");
                     }
-                    Object.keys(updateFields).forEach(function (field) {
-                        user[field] = updateFields[field];
+                    Object.keys(updatedFields).forEach(function (field) {
+                        user[field] = updatedFields[field];
                     });
                     _this.ReturnMainCard(user);
                     _this.snackbarService.Snackbar("המשתמש עודכן בהצלחה");

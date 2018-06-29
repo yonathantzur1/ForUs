@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var AlertType;
 (function (AlertType) {
-    AlertType["CONFIRM"] = "confirm";
+    AlertType["SUCCESS"] = "success";
     AlertType["DANGER"] = "danger";
     AlertType["WARNING"] = "warning";
 })(AlertType = exports.AlertType || (exports.AlertType = {}));

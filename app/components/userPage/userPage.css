@@ -152,7 +152,7 @@
     position: absolute;
     top: 70px;
     width: 200%;
-    height: calc(100vh - 240px);
+    height: calc(100vh - 255px);
     max-height: 400px;
     min-height: 300px;
 }

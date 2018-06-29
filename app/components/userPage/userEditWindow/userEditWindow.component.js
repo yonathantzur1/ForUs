@@ -11,8 +11,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var userEditWindow_service_1 = require("../../../services/userPage/userEditWindow/userEditWindow.service");
+var alert_service_1 = require("../../../services/alert/alert.service");
 var UserEditWindowComponent = /** @class */ (function () {
-    function UserEditWindowComponent(userEditWindowService) {
+    function UserEditWindowComponent(userEditWindowService, alertService) {
+        this.userEditWindowService = userEditWindowService;
+        this.alertService = alertService;
         this.editUser = {};
     }
     UserEditWindowComponent.prototype.ngOnInit = function () {
@@ -31,7 +34,36 @@ var UserEditWindowComponent = /** @class */ (function () {
         }
     };
     UserEditWindowComponent.prototype.SaveChanges = function () {
+        var _this = this;
         if (!this.IsDisableSaveEdit()) {
+            var updatedFields = {};
+            if (this.editUser.firstName.trim() != this.user.firstName) {
+                updatedFields["firstName"] = this.editUser.firstName;
+            }
+            if (this.editUser.lastName.trim() != this.user.lastName) {
+                updatedFields["lastName"] = this.editUser.lastName;
+            }
+            if (this.editUser.email.trim() != this.user.email) {
+                updatedFields["email"] = this.editUser.email;
+            }
+            this.userEditWindowService.UpdateUserInfo(updatedFields).then(function (result) {
+                if (result) {
+                    _this.alertService.Alert({
+                        title: "עדכון מידע",
+                        text: "העדכון בוצע בהצלחה",
+                        type: alert_service_1.AlertType.SUCCESS,
+                        showCancelButton: false
+                    });
+                }
+                else {
+                    _this.alertService.Alert({
+                        title: "עדכון מידע",
+                        text: "אופס...אירעה שגיאה בעדכון הפרטים",
+                        type: alert_service_1.AlertType.DANGER,
+                        showCancelButton: false
+                    });
+                }
+            });
         }
     };
     __decorate([
@@ -44,7 +76,8 @@ var UserEditWindowComponent = /** @class */ (function () {
             templateUrl: './userEditWindow.html',
             providers: [userEditWindow_service_1.UserEditWindowService]
         }),
-        __metadata("design:paramtypes", [userEditWindow_service_1.UserEditWindowService])
+        __metadata("design:paramtypes", [userEditWindow_service_1.UserEditWindowService,
+            alert_service_1.AlertService])
     ], UserEditWindowComponent);
     return UserEditWindowComponent;
 }());
