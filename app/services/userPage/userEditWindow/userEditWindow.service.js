@@ -15,9 +15,20 @@ var UserEditWindowService = /** @class */ (function (_super) {
     __extends(UserEditWindowService, _super);
     function UserEditWindowService() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.prefix = "/api/UserEditWindow";
+        _this.prefix = "/api/userEditWindow";
         return _this;
     }
+    UserEditWindowService.prototype.UpdateUserInfo = function (editUser) {
+        var details = { editUser: editUser };
+        return _super.prototype.put.call(this, this.prefix + '/updateUserInfo', details)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     return UserEditWindowService;
 }(basic_service_1.BasicService));
 exports.UserEditWindowService = UserEditWindowService;

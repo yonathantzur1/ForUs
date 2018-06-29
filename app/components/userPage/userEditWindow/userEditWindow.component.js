@@ -13,9 +13,31 @@ var core_1 = require("@angular/core");
 var userEditWindow_service_1 = require("../../../services/userPage/userEditWindow/userEditWindow.service");
 var UserEditWindowComponent = /** @class */ (function () {
     function UserEditWindowComponent(userEditWindowService) {
+        this.editUser = {};
     }
     UserEditWindowComponent.prototype.ngOnInit = function () {
+        this.editUser.firstName = this.user.firstName;
+        this.editUser.lastName = this.user.lastName;
+        this.editUser.email = this.user.email;
     };
+    UserEditWindowComponent.prototype.IsDisableSaveEdit = function () {
+        if (!this.editUser.firstName || !this.editUser.lastName || !this.editUser.email) {
+            return true;
+        }
+        else {
+            return (this.editUser.firstName.trim() == this.user.firstName &&
+                this.editUser.lastName.trim() == this.user.lastName &&
+                this.editUser.email.trim() == this.user.email);
+        }
+    };
+    UserEditWindowComponent.prototype.SaveChanges = function () {
+        if (!this.IsDisableSaveEdit()) {
+        }
+    };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], UserEditWindowComponent.prototype, "user", void 0);
     UserEditWindowComponent = __decorate([
         core_1.Component({
             selector: 'userEditWindow',

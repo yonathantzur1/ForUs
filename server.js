@@ -86,6 +86,7 @@ require('./routes/management')(app);
 require('./routes/statistics')(app);
 require('./routes/permissionsCard')(app);
 require('./routes/userPage')(app);
+require('./routes/userEditWindow')(app);
 
 // Import server jobs and scripts.
 require('./modules/schedules')(connectedUsers);

@@ -1,0 +1,27 @@
+<div id="userEditWindow">
+    <i class="material-icons save-icon" [ngClass]="{'disabled-icon': IsDisableSaveEdit()}" (click)="SaveChanges()">save</i>
+    <div class="title">
+        עדכון מידע
+    </div>
+    <form>
+        <div class="row form-group">
+            <span class="col-6">
+                <label>שם פרטי</label>
+                <input [(ngModel)]="editUser.firstName" name="firstName" class="form-control" maxlength="10" autocapitalize="off" autocomplete="off" autocorrect="off"
+                    spellcheck="false" type="text">
+            </span>
+            <span class="col-6">
+                <label>שם משפחה</label>
+                <input [(ngModel)]="editUser.lastName" name="lastName" class="form-control" maxlength="10" autocapitalize="off" autocomplete="off" autocorrect="off"
+                    spellcheck="false" type="text">
+            </span>
+        </div>
+        <div class="row form-group">
+            <span class="col-12">
+                <label>אימייל</label>
+                <input [(ngModel)]="editUser.email" name="email" class="form-control email-input" autocapitalize="off" autocomplete="off" autocorrect="off"
+                    spellcheck="false" type="email">
+            </span>
+        </div>
+    </form>
+</div>

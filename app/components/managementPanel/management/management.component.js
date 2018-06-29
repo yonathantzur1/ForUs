@@ -217,10 +217,15 @@ var ManagementComponent = /** @class */ (function () {
     };
     ManagementComponent.prototype.IsDisableSaveEdit = function (user) {
         var editObj = user.editObj;
-        return (editObj.firstName == user.firstName &&
-            editObj.lastName == user.lastName &&
-            editObj.email == user.email &&
-            !editObj.password);
+        if (!editObj.firstName || !editObj.lastName || !editObj.email) {
+            return true;
+        }
+        else {
+            return (editObj.firstName.trim() == user.firstName &&
+                editObj.lastName.trim() == user.lastName &&
+                editObj.email.trim() == user.email &&
+                !editObj.password);
+        }
     };
     ManagementComponent.prototype.IsDisableSaveBlocking = function (user) {
         var blockAmount = user.blockAmount;

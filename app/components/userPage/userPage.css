@@ -102,6 +102,7 @@
     cursor: pointer;
     -webkit-user-select: none;
     user-select: none;
+    color: var(--main-text-color);
 }
 
 #userPage .selected-tab {
@@ -135,7 +136,7 @@
     background-color: whitesmoke;
     font-family: var(--main-font);
     font-size: 14px;
-    color: var(--main-text-color);    
+    color: var(--main-text-color);
 }
 
 #userPage .option-container:hover {
@@ -145,4 +146,13 @@
 #userPage .option-icon-align {
     width: 100%;
     text-align: center;
+}
+
+#userPage .user-edit-container {
+    position: absolute;
+    top: 70px;
+    width: 200%;
+    height: calc(100vh - 240px);
+    max-height: 400px;
+    min-height: 300px;
 }

@@ -265,10 +265,15 @@ export class ManagementComponent implements OnDestroy {
     IsDisableSaveEdit(user: any) {
         var editObj = user.editObj;
 
-        return (editObj.firstName == user.firstName &&
-            editObj.lastName == user.lastName &&
-            editObj.email == user.email &&
-            !editObj.password);
+        if (!editObj.firstName || !editObj.lastName || !editObj.email) {
+            return true;
+        }
+        else {
+            return (editObj.firstName.trim() == user.firstName &&
+                editObj.lastName.trim() == user.lastName &&
+                editObj.email.trim() == user.email &&
+                !editObj.password);
+        }
     }
 
     IsDisableSaveBlocking(user: any) {
