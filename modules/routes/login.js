@@ -1,9 +1,9 @@
-const loginBL = require('../modules/BL/loginBL');
-const logsBL = require('../modules/BL/logsBL');
-const mailer = require('../modules/mailer');
-const general = require('../modules/general');
-const config = require('../modules/config');
-const validate = require('../modules/validate');
+const loginBL = require('../BL/loginBL');
+const logsBL = require('../BL/logsBL');
+const mailer = require('../mailer');
+const general = require('../general');
+const config = require('../config');
+const validate = require('../validate');
 const ExpressBrute = require('express-brute'),
     store = new ExpressBrute.MemoryStore();
 

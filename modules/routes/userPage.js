@@ -1,4 +1,4 @@
-const userPageBL = require('../modules/BL/userPageBL');
+const userPageBL = require('../BL/userPageBL');
 
 module.exports = function (app) {
 

@@ -1,5 +1,5 @@
-const loginBL = require('../modules/BL/loginBL');
-const general = require('../modules/general');
+const loginBL = require('../BL/loginBL');
+const general = require('../general');
 
 module.exports = (app, connectedUsers) => {
     prefix = "/api/auth";

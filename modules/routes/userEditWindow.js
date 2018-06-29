@@ -1,4 +1,4 @@
-const userEditWindowBL = require('../modules/BL/userEditWindowBL');
+const userEditWindowBL = require('../BL/userEditWindowBL');
 
 module.exports = function (app) {
 

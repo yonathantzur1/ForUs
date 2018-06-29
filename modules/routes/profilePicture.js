@@ -1,4 +1,4 @@
-const profilePictureBL = require('../modules/BL/profilePictureBL');
+const profilePictureBL = require('../BL/profilePictureBL');
 
 module.exports = function (app) {
     prefix = "/api/profilePicture";

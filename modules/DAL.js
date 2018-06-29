@@ -14,22 +14,26 @@ var db;
 GetDB = (callback) => {
     // In case there is no connected db.
     if (!db || !db.serverConfig || !db.serverConfig.isConnected()) {
-        MongoClient.connect(connectionString, (err, client) => {
-            if (err == null) {
-                db = client.db(dbName);
-                callback(null, db);
-            }
-            else {
-                // In case number of retries is smaller then maximum
-                if (retryCount < maxConnectionAttemptsNumber) {
-                    retryCount++;
-                    GetDB(callback);
+        MongoClient.connect(connectionString,
+            {
+                useNewUrlParser: true                
+            },
+            (err, client) => {
+                if (err == null) {
+                    db = client.db(dbName);
+                    callback(null, db);
                 }
                 else {
-                    callback(err, db);
+                    // In case number of retries is smaller then maximum
+                    if (retryCount < maxConnectionAttemptsNumber) {
+                        retryCount++;
+                        GetDB(callback);
+                    }
+                    else {
+                        callback(err, db);
+                    }
                 }
-            }
-        });
+            });
     }
     else {
         callback(null, db);

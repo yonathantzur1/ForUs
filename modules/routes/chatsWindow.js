@@ -1,4 +1,4 @@
-const chatsWindowBL = require('../modules/BL/chatsWindowBL');
+const chatsWindowBL = require('../BL/chatsWindowBL');
 
 module.exports = function (app) {
     prefix = "/api/chatsWindow";

@@ -1,5 +1,5 @@
-const profileBL = require('../modules/BL/profileBL');
-const general = require("../modules/general");
+const profileBL = require('../BL/profileBL');
+const general = require("../general");
 
 module.exports = function (app) {
 

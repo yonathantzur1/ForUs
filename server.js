@@ -74,19 +74,19 @@ http.listen((process.env.PORT || config.server.port), () => {
 var connectedUsers = require('./modules/sockets/socket')(io);
 
 // Routes requires
-require('./routes/auth')(app, connectedUsers);
-require('./routes/login')(app);
-require('./routes/profile')(app);
-require('./routes/profilePicture')(app);
-require('./routes/navbar')(app);
-require('./routes/chat')(app);
-require('./routes/chatsWindow')(app);
-require('./routes/friendRequestsWindow')(app);
-require('./routes/management')(app);
-require('./routes/statistics')(app);
-require('./routes/permissionsCard')(app);
-require('./routes/userPage')(app);
-require('./routes/userEditWindow')(app);
+require('./modules/routes/auth')(app, connectedUsers);
+require('./modules/routes/login')(app);
+require('./modules/routes/profile')(app);
+require('./modules/routes/profilePicture')(app);
+require('./modules/routes/navbar')(app);
+require('./modules/routes/chat')(app);
+require('./modules/routes/chatsWindow')(app);
+require('./modules/routes/friendRequestsWindow')(app);
+require('./modules/routes/management')(app);
+require('./modules/routes/statistics')(app);
+require('./modules/routes/permissionsCard')(app);
+require('./modules/routes/userPage')(app);
+require('./modules/routes/userEditWindow')(app);
 
 // Import server jobs and scripts.
 require('./modules/schedules')(connectedUsers);

@@ -1,4 +1,4 @@
-const friendRequestsWindowBL = require('../modules/BL/friendRequestsWindowBL');
+const friendRequestsWindowBL = require('../BL/friendRequestsWindowBL');
 
 module.exports = function (app) {
     prefix = "/api/friendRequestsWindow";

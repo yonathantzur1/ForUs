@@ -1,5 +1,5 @@
-const permissionsCardBL = require('../modules/BL/permissionsCardBL');
-const general = require('../modules/general');
+const permissionsCardBL = require('../BL/permissionsCardBL');
+const general = require('../general');
 
 module.exports = function (app) {
     prefix = "/api/permissionsCard";

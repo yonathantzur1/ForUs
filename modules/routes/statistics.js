@@ -1,5 +1,5 @@
-const statisticsBL = require('../modules/BL/statisticsBL');
-const general = require('../modules/general');
+const statisticsBL = require('../BL/statisticsBL');
+const general = require('../general');
 
 module.exports = function (app) {
 
