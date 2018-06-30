@@ -18,8 +18,8 @@ var UserEditWindowService = /** @class */ (function (_super) {
         _this.prefix = "/api/userEditWindow";
         return _this;
     }
-    UserEditWindowService.prototype.UpdateUserInfo = function (editUser) {
-        var details = { editUser: editUser };
+    UserEditWindowService.prototype.UpdateUserInfo = function (updateFields) {
+        var details = { updateFields: updateFields };
         return _super.prototype.put.call(this, this.prefix + '/updateUserInfo', details)
             .toPromise()
             .then(function (result) {

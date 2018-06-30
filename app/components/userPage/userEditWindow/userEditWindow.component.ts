@@ -51,12 +51,17 @@ export class UserEditWindowComponent implements OnInit {
 
             this.userEditWindowService.UpdateUserInfo(updatedFields).then(result => {
                 if (result) {
-                    this.alertService.Alert({
-                        title: "עדכון מידע",
-                        text: "העדכון בוצע בהצלחה",
-                        type: AlertType.SUCCESS,
-                        showCancelButton: false
-                    });
+                    if (result == -1) {
+                        this.editUser.emailMicrotext = "כתובת אימייל זו כבר נמצאת בשימוש";
+                    }
+                    else {
+                        this.alertService.Alert({
+                            title: "עדכון מידע",
+                            text: "העדכון בוצע בהצלחה",
+                            type: AlertType.SUCCESS,
+                            showCancelButton: false
+                        });
+                    }
                 }
                 else {
                     this.alertService.Alert({
@@ -68,5 +73,9 @@ export class UserEditWindowComponent implements OnInit {
                 }
             });
         }
+    }
+
+    CloseWindow() {
+
     }
 }

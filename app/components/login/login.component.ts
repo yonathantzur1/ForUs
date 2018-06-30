@@ -54,6 +54,149 @@ export class LoginComponent {
   forgotUser: ForgotUser = new ForgotUser();
   isLoading: boolean = false;
 
+  // Login validation functions array.
+  loginValidationFuncs: Array<any> = [
+    {
+      isFieldValid(user: User) {
+        return (user.email ? true : false);
+      },
+      errMsg: "יש להזין כתובת אימייל",
+      fieldId: "login-email-micro",
+      inputId: "login-email"
+    },
+    {
+      isFieldValid(user: User) {
+        var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+        return (emailPattern.test(user.email));
+      },
+      errMsg: "כתובת אימייל לא תקינה",
+      fieldId: "login-email-micro",
+      inputId: "login-email"
+    },
+    {
+      isFieldValid(user: User) {
+        return (user.password ? true : false);
+      },
+      errMsg: "יש להזין סיסמא",
+      fieldId: "login-password-micro",
+      inputId: "login-password"
+    }
+  ];
+
+  // Register validation functions array.
+  registerValidationFuncs: Array<any> = [
+    {
+      isFieldValid(newUser: NewUser) {
+        return (newUser.firstName ? true : false);
+      },
+      errMsg: "יש להזין שם פרטי",
+      fieldId: "register-firstName-micro",
+      inputId: "register-firstName"
+    },
+    {
+      isFieldValid(newUser: NewUser) {
+        var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i;
+        return (namePattern.test(newUser.firstName));
+      },
+      errMsg: "יש להזין שם תקין בעברית",
+      fieldId: "register-firstName-micro",
+      inputId: "register-firstName"
+    },
+    {
+      isFieldValid(newUser: NewUser) {
+        return (newUser.lastName ? true : false);
+      },
+      errMsg: "יש להזין שם משפחה",
+      fieldId: "register-lastName-micro",
+      inputId: "register-lastName"
+    },
+    {
+      isFieldValid(newUser: NewUser) {
+        var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i;
+        return (namePattern.test(newUser.lastName));
+      },
+      errMsg: "יש להזין שם תקין בעברית",
+      fieldId: "register-lastName-micro",
+      inputId: "register-lastName"
+    },
+    {
+      isFieldValid(newUser: NewUser) {
+        return (newUser.email ? true : false);
+      },
+      errMsg: "יש להזין כתובת אימייל",
+      fieldId: "register-email-micro",
+      inputId: "register-email"
+    },
+    {
+      isFieldValid(newUser: NewUser) {
+        var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+
+        return (emailPattern.test(newUser.email));
+      },
+      errMsg: "כתובת אימייל לא תקינה",
+      fieldId: "register-email-micro",
+      inputId: "register-email"
+    },
+    {
+      isFieldValid(newUser: NewUser) {
+        return (newUser.password ? true : false);
+      },
+      errMsg: "יש להזין סיסמא",
+      fieldId: "register-password-micro",
+      inputId: "register-password"
+    }
+  ];
+
+  // Forgot password validation functions array.
+  forgotValidationFuncs: Array<any> = [
+    {
+      isFieldValid(forgotUser: ForgotUser) {
+        return (forgotUser.email ? true : false);
+      },
+      errMsg: "יש להזין כתובת אימייל",
+      fieldId: "forgot-email-micro",
+      inputId: "forgot-email"
+    },
+    {
+      isFieldValid(forgotUser: ForgotUser) {
+        var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+
+        return (emailPattern.test(forgotUser.email));
+      },
+      errMsg: "כתובת אימייל לא תקינה",
+      fieldId: "forgot-email-micro",
+      inputId: "forgot-email"
+    },
+    {
+      isFieldValid(forgotUser: ForgotUser) {
+        // In case the code field is shown.
+        if (forgotUser.showResetCodeField || forgotUser.hasResetCode) {
+          return (forgotUser.code ? true : false);
+        }
+        else {
+          return true;
+        }
+      },
+      errMsg: "יש להזין קוד אימות",
+      fieldId: "forgot-code-micro",
+      inputId: "forgot-code"
+    },
+    {
+      isFieldValid(forgotUser: ForgotUser) {
+        // In case the code field is shown.
+        if (forgotUser.showResetCodeField || forgotUser.hasResetCode) {
+          return (forgotUser.newPassword ? true : false);
+        }
+        else {
+          return true;
+        }
+      },
+      errMsg: "יש להזין סיסמא חדשה",
+      fieldId: "forgot-newPassword-micro",
+      inputId: "forgot-newPassword"
+    }
+  ];
+
   constructor(private router: Router,
     private alertService: AlertService,
     private snackbarService: SnackbarService,
@@ -62,14 +205,14 @@ export class LoginComponent {
 
   // Running on the array of validation functions and make sure all valid.
   // Getting validation array and object to valid.
-  Validation(funcArray: any[], obj: any) {
+  Validation(funcArray: Array<any>, obj: any) {
     var isValid = true;
-    var checkedFieldsIds: any[] = [];
+    var checkedFieldsIds: Array<any> = [];
 
-    // Running on all login validation functions.
+    // Running on all validation functions.
     for (var i = 0; i < funcArray.length; i++) {
       // In case the field was not invalid before.
-      if (!IsInArray(checkedFieldsIds, funcArray[i].fieldId)) {
+      if (!this.IsInArray(checkedFieldsIds, funcArray[i].fieldId)) {
         // In case the field is not valid.
         if (!funcArray[i].isFieldValid(obj)) {
           // In case the field is the first invalid field.
@@ -103,7 +246,7 @@ export class LoginComponent {
     this.user.email = this.user.email.trim();
 
     // In case the login fields are valid.
-    if (this.Validation(loginValidationFuncs, this.user)) {
+    if (this.Validation(this.loginValidationFuncs, this.user)) {
       this.isLoading = true;
       var self = this;
 
@@ -168,7 +311,7 @@ export class LoginComponent {
     this.newUser.email = this.newUser.email.trim();
 
     // In case the register modal fields are valid.
-    if (this.Validation(registerValidationFuncs, this.newUser)) {
+    if (this.Validation(this.registerValidationFuncs, this.newUser)) {
       this.isLoading = true;
 
       this.loginService.Register(this.newUser).then((data: any) => {
@@ -197,7 +340,7 @@ export class LoginComponent {
     this.forgotUser.email = this.forgotUser.email.trim();
 
     // In case the forgot modal fields are valid.
-    if (this.Validation(forgotValidationFuncs, this.forgotUser)) {
+    if (this.Validation(this.forgotValidationFuncs, this.forgotUser)) {
       this.isLoading = true;
 
       // In case the user is in the first stage of reset password.
@@ -323,161 +466,16 @@ export class LoginComponent {
     $("#" + fieldId).html("");
   }
 
-}
-
-//***Help vars and functions***//
-
-// Login validation functions array.
-var loginValidationFuncs = [
-  {
-    isFieldValid(user: User) {
-      return (user.email ? true : false);
-    },
-    errMsg: "יש להזין כתובת אימייל",
-    fieldId: "login-email-micro",
-    inputId: "login-email"
-  },
-  {
-    isFieldValid(user: User) {
-      var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
-      return (emailPattern.test(user.email));
-    },
-    errMsg: "כתובת אימייל לא תקינה",
-    fieldId: "login-email-micro",
-    inputId: "login-email"
-  },
-  {
-    isFieldValid(user: User) {
-      return (user.password ? true : false);
-    },
-    errMsg: "יש להזין סיסמא",
-    fieldId: "login-password-micro",
-    inputId: "login-password"
-  }
-];
-
-// Register validation functions array.
-var registerValidationFuncs = [
-  {
-    isFieldValid(newUser: NewUser) {
-      return (newUser.firstName ? true : false);
-    },
-    errMsg: "יש להזין שם פרטי",
-    fieldId: "register-firstName-micro",
-    inputId: "register-firstName"
-  },
-  {
-    isFieldValid(newUser: NewUser) {
-      var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i;
-      return (namePattern.test(newUser.firstName));
-    },
-    errMsg: "יש להזין שם תקין בעברית",
-    fieldId: "register-firstName-micro",
-    inputId: "register-firstName"
-  },
-  {
-    isFieldValid(newUser: NewUser) {
-      return (newUser.lastName ? true : false);
-    },
-    errMsg: "יש להזין שם משפחה",
-    fieldId: "register-lastName-micro",
-    inputId: "register-lastName"
-  },
-  {
-    isFieldValid(newUser: NewUser) {
-      var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i;
-      return (namePattern.test(newUser.lastName));
-    },
-    errMsg: "יש להזין שם תקין בעברית",
-    fieldId: "register-lastName-micro",
-    inputId: "register-lastName"
-  },
-  {
-    isFieldValid(newUser: NewUser) {
-      return (newUser.email ? true : false);
-    },
-    errMsg: "יש להזין כתובת אימייל",
-    fieldId: "register-email-micro",
-    inputId: "register-email"
-  },
-  {
-    isFieldValid(newUser: NewUser) {
-      var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
-
-      return (emailPattern.test(newUser.email));
-    },
-    errMsg: "כתובת אימייל לא תקינה",
-    fieldId: "register-email-micro",
-    inputId: "register-email"
-  },
-  {
-    isFieldValid(newUser: NewUser) {
-      return (newUser.password ? true : false);
-    },
-    errMsg: "יש להזין סיסמא",
-    fieldId: "register-password-micro",
-    inputId: "register-password"
-  }
-];
-
-var forgotValidationFuncs = [
-  {
-    isFieldValid(forgotUser: ForgotUser) {
-      return (forgotUser.email ? true : false);
-    },
-    errMsg: "יש להזין כתובת אימייל",
-    fieldId: "forgot-email-micro",
-    inputId: "forgot-email"
-  },
-  {
-    isFieldValid(forgotUser: ForgotUser) {
-      var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
-
-      return (emailPattern.test(forgotUser.email));
-    },
-    errMsg: "כתובת אימייל לא תקינה",
-    fieldId: "forgot-email-micro",
-    inputId: "forgot-email"
-  },
-  {
-    isFieldValid(forgotUser: ForgotUser) {
-      // In case the code field is shown.
-      if (forgotUser.showResetCodeField || forgotUser.hasResetCode) {
-        return (forgotUser.code ? true : false);
-      }
-      else {
+  // Check if object is in array.
+  IsInArray(array: any[], value: any): boolean {
+    // Running on all the array.
+    for (var i = 0; i < array.length; i++) {
+      // In case the value is in the array.
+      if (array[i] === value) {
         return true;
       }
-    },
-    errMsg: "יש להזין קוד אימות",
-    fieldId: "forgot-code-micro",
-    inputId: "forgot-code"
-  },
-  {
-    isFieldValid(forgotUser: ForgotUser) {
-      // In case the code field is shown.
-      if (forgotUser.showResetCodeField || forgotUser.hasResetCode) {
-        return (forgotUser.newPassword ? true : false);
-      }
-      else {
-        return true;
-      }
-    },
-    errMsg: "יש להזין סיסמא חדשה",
-    fieldId: "forgot-newPassword-micro",
-    inputId: "forgot-newPassword"
-  }
-];
-
-// Check if object is in array.
-function IsInArray(array: any[], value: any): boolean {
-  // Running on all the array.
-  for (var i = 0; i < array.length; i++) {
-    // In case the value is in the array.
-    if (array[i] === value) {
-      return true;
     }
-  }
 
-  return false;
+    return false;
+  }
 }

@@ -16,7 +16,7 @@ GetDB = (callback) => {
     if (!db || !db.serverConfig || !db.serverConfig.isConnected()) {
         MongoClient.connect(connectionString,
             {
-                useNewUrlParser: true                
+                useNewUrlParser: true
             },
             (err, client) => {
                 if (err == null) {
@@ -328,6 +328,21 @@ module.exports = {
                             reject(err);
                         }
                     });
+                }
+                else {
+                    reject(err);
+                }
+            });
+        });
+    },
+
+    // Getting documents amount by filter.
+    Count: (collectionName, filter) => {
+        return new Promise((resolve, reject) => {
+            GetDB((err, db) => {
+                if (err == null) {
+                    var collection = db.collection(collectionName);
+                    collection.find(filter).count().then(resolve).catch(reject);
                 }
                 else {
                     reject(err);

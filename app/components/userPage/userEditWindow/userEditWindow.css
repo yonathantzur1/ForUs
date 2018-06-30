@@ -33,15 +33,27 @@
     font-size: 14px;
 }
 
-#userEditWindow .save-icon {
+#userEditWindow .top-icon {
     position: absolute;
     top: 15px;
-    left: 15px;
     font-size: 24px;
     cursor: pointer;
     color: var(--main-text-color);
     -webkit-user-select: none;
     user-select: none;
+}
+
+#userEditWindow .save-icon {
+    right: 15px;
+}
+
+#userEditWindow .close-icon {
+    left: 15px;
+    color: #7d7d7d;
+}
+
+#userEditWindow .close-icon:hover {
+    color: #696969;
 }
 
 #userEditWindow .disabled-icon {
@@ -51,4 +63,11 @@
 
 .email-input {
     text-align: left;
+    direction: ltr;
+}
+
+#userEditWindow .microtext {
+    color: var(--microtext-color);
+    font-size: 12px;
+    position: absolute;
 }

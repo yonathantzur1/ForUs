@@ -4,8 +4,8 @@ export class UserEditWindowService extends BasicService {
 
     prefix = "/api/userEditWindow";
 
-    UpdateUserInfo(editUser: any) {
-        var details = { editUser };
+    UpdateUserInfo(updateFields: any) {
+        var details = { updateFields };
 
         return super.put(this.prefix + '/updateUserInfo', details)
             .toPromise()

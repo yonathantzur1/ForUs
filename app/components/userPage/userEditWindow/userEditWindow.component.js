@@ -48,12 +48,17 @@ var UserEditWindowComponent = /** @class */ (function () {
             }
             this.userEditWindowService.UpdateUserInfo(updatedFields).then(function (result) {
                 if (result) {
-                    _this.alertService.Alert({
-                        title: "עדכון מידע",
-                        text: "העדכון בוצע בהצלחה",
-                        type: alert_service_1.AlertType.SUCCESS,
-                        showCancelButton: false
-                    });
+                    if (result == -1) {
+                        _this.editUser.emailMicrotext = "כתובת אימייל זו כבר נמצאת בשימוש";
+                    }
+                    else {
+                        _this.alertService.Alert({
+                            title: "עדכון מידע",
+                            text: "העדכון בוצע בהצלחה",
+                            type: alert_service_1.AlertType.SUCCESS,
+                            showCancelButton: false
+                        });
+                    }
                 }
                 else {
                     _this.alertService.Alert({
@@ -65,6 +70,8 @@ var UserEditWindowComponent = /** @class */ (function () {
                 }
             });
         }
+    };
+    UserEditWindowComponent.prototype.CloseWindow = function () {
     };
     __decorate([
         core_1.Input(),
