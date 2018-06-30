@@ -40,6 +40,7 @@ import { AuthService } from '../services/auth/auth.service';
 import { GlobalService } from '../services/global/global.service';
 import { AlertService } from '../services/alert/alert.service';
 import { SnackbarService } from '../services/snackbar/snackbar.service';
+import { MicrotextService } from '../services/microtext/microtext.service';
 
 // Routing
 import { Routing } from '../routes/app.routing'
@@ -84,7 +85,8 @@ import { Routing } from '../routes/app.routing'
     AuthService,
     GlobalService,
     AlertService,
-    SnackbarService
+    SnackbarService,
+    MicrotextService
   ],
   bootstrap: [AppComponent]
 })

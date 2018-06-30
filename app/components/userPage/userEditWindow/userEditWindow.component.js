@@ -12,11 +12,48 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var userEditWindow_service_1 = require("../../../services/userPage/userEditWindow/userEditWindow.service");
 var alert_service_1 = require("../../../services/alert/alert.service");
+var microtext_service_1 = require("../../../services/microtext/microtext.service");
+var EditUser = /** @class */ (function () {
+    function EditUser() {
+    }
+    return EditUser;
+}());
 var UserEditWindowComponent = /** @class */ (function () {
-    function UserEditWindowComponent(userEditWindowService, alertService) {
+    function UserEditWindowComponent(userEditWindowService, alertService, microtextService) {
         this.userEditWindowService = userEditWindowService;
         this.alertService = alertService;
+        this.microtextService = microtextService;
         this.editUser = {};
+        // Login validation functions array.
+        this.editValidationFuncs = [
+            {
+                isFieldValid: function (editUser) {
+                    var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i;
+                    return (namePattern.test(editUser.firstName));
+                },
+                errMsg: "יש להזין שם תקין בעברית",
+                fieldId: "edit-user-first-name-micro",
+                inputId: "edit-first-name"
+            },
+            {
+                isFieldValid: function (editUser) {
+                    var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i;
+                    return (namePattern.test(editUser.lastName));
+                },
+                errMsg: "יש להזין שם תקין בעברית",
+                fieldId: "edit-user-last-name-micro",
+                inputId: "edit-last-name"
+            },
+            {
+                isFieldValid: function (editUser) {
+                    var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+                    return (emailPattern.test(editUser.email));
+                },
+                errMsg: "כתובת אימייל לא תקינה",
+                fieldId: "edit-user-email-micro",
+                inputId: "edit-email"
+            }
+        ];
     }
     UserEditWindowComponent.prototype.ngOnInit = function () {
         this.editUser.firstName = this.user.firstName;
@@ -35,7 +72,8 @@ var UserEditWindowComponent = /** @class */ (function () {
     };
     UserEditWindowComponent.prototype.SaveChanges = function () {
         var _this = this;
-        if (!this.IsDisableSaveEdit()) {
+        if (!this.IsDisableSaveEdit() &&
+            this.microtextService.Validation(this.editValidationFuncs, this.editUser)) {
             var updatedFields = {};
             if (this.editUser.firstName.trim() != this.user.firstName) {
                 updatedFields["firstName"] = this.editUser.firstName;
@@ -49,7 +87,7 @@ var UserEditWindowComponent = /** @class */ (function () {
             this.userEditWindowService.UpdateUserInfo(updatedFields).then(function (result) {
                 if (result) {
                     if (result == -1) {
-                        _this.editUser.emailMicrotext = "כתובת אימייל זו כבר נמצאת בשימוש";
+                        //this.editUser.emailMicrotext = "כתובת אימייל זו כבר נמצאת בשימוש";
                     }
                     else {
                         _this.alertService.Alert({
@@ -73,6 +111,10 @@ var UserEditWindowComponent = /** @class */ (function () {
     };
     UserEditWindowComponent.prototype.CloseWindow = function () {
     };
+    // Hide microtext in a specific field.
+    UserEditWindowComponent.prototype.HideMicrotext = function (microtextId) {
+        this.microtextService.HideMicrotext(microtextId);
+    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object)
@@ -84,7 +126,8 @@ var UserEditWindowComponent = /** @class */ (function () {
             providers: [userEditWindow_service_1.UserEditWindowService]
         }),
         __metadata("design:paramtypes", [userEditWindow_service_1.UserEditWindowService,
-            alert_service_1.AlertService])
+            alert_service_1.AlertService,
+            microtext_service_1.MicrotextService])
     ], UserEditWindowComponent);
     return UserEditWindowComponent;
 }());

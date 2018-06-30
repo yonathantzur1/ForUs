@@ -14,6 +14,7 @@ var router_1 = require("@angular/router");
 var global_service_1 = require("../../services/global/global.service");
 var alert_service_1 = require("../../services/alert/alert.service");
 var snackbar_service_1 = require("../../services/snackbar/snackbar.service");
+var microtext_service_1 = require("../../services/microtext/microtext.service");
 var login_service_1 = require("../../services/login/login.service");
 var User = /** @class */ (function () {
     function User() {
@@ -33,7 +34,11 @@ var NewUser = /** @class */ (function () {
     return NewUser;
 }());
 exports.NewUser = NewUser;
-var forgotBtnTextObj = { searchText: "חיפוש", resetPassText: "איפוס סיסמא" };
+var FORGOT_BTN_TEXT;
+(function (FORGOT_BTN_TEXT) {
+    FORGOT_BTN_TEXT["SEARCH"] = "\u05D7\u05D9\u05E4\u05D5\u05E9";
+    FORGOT_BTN_TEXT["RESET_PASSWORD"] = "\u05D0\u05D9\u05E4\u05D5\u05E1 \u05E1\u05D9\u05E1\u05DE\u05D0";
+})(FORGOT_BTN_TEXT || (FORGOT_BTN_TEXT = {}));
 var ForgotUser = /** @class */ (function () {
     function ForgotUser() {
         this.email = "";
@@ -41,16 +46,17 @@ var ForgotUser = /** @class */ (function () {
         this.newPassword = "";
         this.showResetCodeField = false;
         this.hasResetCode = false;
-        this.forgotBtnText = forgotBtnTextObj.searchText;
+        this.forgotBtnText = FORGOT_BTN_TEXT.SEARCH;
     }
     return ForgotUser;
 }());
 exports.ForgotUser = ForgotUser;
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent(router, alertService, snackbarService, globalService, loginService) {
+    function LoginComponent(router, alertService, snackbarService, microtextService, globalService, loginService) {
         this.router = router;
         this.alertService = alertService;
         this.snackbarService = snackbarService;
+        this.microtextService = microtextService;
         this.globalService = globalService;
         this.loginService = loginService;
         this.user = new User();
@@ -198,34 +204,8 @@ var LoginComponent = /** @class */ (function () {
     }
     // Running on the array of validation functions and make sure all valid.
     // Getting validation array and object to valid.
-    LoginComponent.prototype.Validation = function (funcArray, obj) {
-        var isValid = true;
-        var checkedFieldsIds = [];
-        // Running on all validation functions.
-        for (var i = 0; i < funcArray.length; i++) {
-            // In case the field was not invalid before.
-            if (!this.IsInArray(checkedFieldsIds, funcArray[i].fieldId)) {
-                // In case the field is not valid.
-                if (!funcArray[i].isFieldValid(obj)) {
-                    // In case the field is the first invalid field.
-                    if (isValid) {
-                        $("#" + funcArray[i].inputId).focus();
-                    }
-                    isValid = false;
-                    // Push the field id to the array,
-                    // so in the next validation of this field it will not be checked.
-                    checkedFieldsIds.push(funcArray[i].fieldId);
-                    // Show the microtext of the field. 
-                    $("#" + funcArray[i].fieldId).html(funcArray[i].errMsg);
-                }
-                else {
-                    // Clear the microtext of the field.
-                    $("#" + funcArray[i].fieldId).html("");
-                }
-            }
-        }
-        checkedFieldsIds = [];
-        return isValid;
+    LoginComponent.prototype.Validation = function (validations, obj) {
+        return this.microtextService.Validation(validations, obj);
     };
     // Login user and redirect him to main page.
     LoginComponent.prototype.Login = function () {
@@ -339,7 +319,7 @@ var LoginComponent = /** @class */ (function () {
                     // In case the user was found.
                     else {
                         _this.forgotUser.showResetCodeField = true;
-                        _this.forgotUser.forgotBtnText = forgotBtnTextObj.resetPassText;
+                        _this.forgotUser.forgotBtnText = FORGOT_BTN_TEXT.RESET_PASSWORD;
                         _this.snackbarService.Snackbar("קוד לאיפוס הסיסמא נשלח לאימייל שלך");
                     }
                 });
@@ -395,7 +375,7 @@ var LoginComponent = /** @class */ (function () {
     LoginComponent.prototype.hasResetCode = function () {
         this.forgotUser.hasResetCode = true;
         this.forgotUser.showResetCodeField = true;
-        this.forgotUser.forgotBtnText = forgotBtnTextObj.resetPassText;
+        this.forgotUser.forgotBtnText = FORGOT_BTN_TEXT.RESET_PASSWORD;
         $(".microtext").html("");
     };
     // Open modal and clear all.
@@ -430,8 +410,8 @@ var LoginComponent = /** @class */ (function () {
         }
     };
     // Hide microtext in a specific field.
-    LoginComponent.prototype.HideMicrotext = function (fieldId) {
-        $("#" + fieldId).html("");
+    LoginComponent.prototype.HideMicrotext = function (microtextId) {
+        this.microtextService.HideMicrotext(microtextId);
     };
     // Check if object is in array.
     LoginComponent.prototype.IsInArray = function (array, value) {
@@ -453,6 +433,7 @@ var LoginComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [router_1.Router,
             alert_service_1.AlertService,
             snackbar_service_1.SnackbarService,
+            microtext_service_1.MicrotextService,
             global_service_1.GlobalService,
             login_service_1.LoginService])
     ], LoginComponent);

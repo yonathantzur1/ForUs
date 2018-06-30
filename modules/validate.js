@@ -1,32 +1,51 @@
 const joi = require('joi');
 
 module.exports = function (req, res, next) {
-    var schemaPath = req.originalUrl.split('/');
-    schemaPath[0] = req.method;
-
-    var data = (schemaPath[0] == "POST" || schemaPath[0] == "PUT") ? req.body : req.query;
-    var schema;
-
     try {
-        schema = validateSchemaObj[schemaPath[0]][schemaPath[1]][schemaPath[2]];
-    }
-    catch (err) {
-        console.error("No validation scheme at: " + schemaPath[0] + "-" + schemaPath[1] + "-" + schemaPath[2]);
-    }
+        var schemaPath = req.originalUrl.split('/');
+        schemaPath[0] = req.method;
 
-    if (schema) {
+        var data = (schemaPath[0] == "POST" || schemaPath[0] == "PUT") ? req.body : req.query;
+        var schema = validateSchemaObj[schemaPath[0]];
+
+        for (var i = 1; i < schemaPath.length; i++) {
+            schema = schema[schemaPath[i]];
+
+            if (schema == null) {
+                throw ("No validation scheme at: " + BuildSchemaPathString(schemaPath));
+            }
+        }
+
         var result = joi.validate(data, schema);
 
-        // In case there is no validation error.
-        if (result && !result.error) {
-            next();
+        if (!result) {
+            throw ("Validate result is null");
+        }
+        else if (result.error) {
+            throw (result.error.message);
         }
         else {
-            res.status(400).end();
+            next()
         }
     }
-    else {
+    catch (err) {
+        console.error(err);
         res.status(400).end();
+    }
+}
+
+function BuildSchemaPathString(schemaPath) {
+    if (schemaPath.length > 0) {
+        var schema = schemaPath[0];
+
+        for (var i = 1; i < schemaPath.length; i++) {
+            schema += "->" + schemaPath[i]
+        }
+
+        return schema;
+    }
+    else {
+        return "";
     }
 }
 
@@ -54,6 +73,17 @@ var validateSchemaObj = {
                 email: joi.string().email(),
                 code: joi.string().required(),
                 newPassword: joi.string().required()
+            }
+        },
+        "api": {
+            "userEditWindow": {
+                "updateUserInfo": {
+                    updateFields: joi.object().keys({
+                        firstName: joi.string().regex(/^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i).optional(),
+                        lastName: joi.string().regex(/^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i).optional(),
+                        email: joi.string().email().optional()
+                    })
+                }
             }
         }
     }

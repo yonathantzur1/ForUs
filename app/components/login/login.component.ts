@@ -4,42 +4,49 @@ import { Router } from '@angular/router';
 import { GlobalService } from '../../services/global/global.service';
 import { AlertService } from '../../services/alert/alert.service';
 import { SnackbarService } from '../../services/snackbar/snackbar.service';
+import { MicrotextService, InputFieldValidation } from '../../services/microtext/microtext.service';
 
 import { LoginService } from '../../services/login/login.service';
 
 declare var $: any;
 
 export class User {
-  constructor() { this.email = ""; this.password = ""; }
   email: string;
   password: string;
+
+  constructor() { this.email = ""; this.password = ""; }
 }
 
 export class NewUser {
-  constructor() { this.firstName = ""; this.lastName = ""; this.email = ""; this.password = ""; }
   firstName: string;
   lastName: string;
   email: string;
   password: string;
+
+  constructor() { this.firstName = ""; this.lastName = ""; this.email = ""; this.password = ""; }
 }
 
-var forgotBtnTextObj = { searchText: "חיפוש", resetPassText: "איפוס סיסמא" };
+enum FORGOT_BTN_TEXT {
+  SEARCH = "חיפוש",
+  RESET_PASSWORD = "איפוס סיסמא"
+}
 
 export class ForgotUser {
-  constructor() {
-    this.email = "";
-    this.code = "";
-    this.newPassword = "";
-    this.showResetCodeField = false;
-    this.hasResetCode = false;
-    this.forgotBtnText = forgotBtnTextObj.searchText;
-  }
   email: string;
   code: string;
   newPassword: string;
   showResetCodeField: boolean;
   hasResetCode: boolean;
   forgotBtnText: string;
+
+  constructor() {
+    this.email = "";
+    this.code = "";
+    this.newPassword = "";
+    this.showResetCodeField = false;
+    this.hasResetCode = false;
+    this.forgotBtnText = FORGOT_BTN_TEXT.SEARCH;
+  }
 }
 
 @Component({
@@ -55,7 +62,7 @@ export class LoginComponent {
   isLoading: boolean = false;
 
   // Login validation functions array.
-  loginValidationFuncs: Array<any> = [
+  loginValidationFuncs: Array<InputFieldValidation> = [
     {
       isFieldValid(user: User) {
         return (user.email ? true : false);
@@ -84,7 +91,7 @@ export class LoginComponent {
   ];
 
   // Register validation functions array.
-  registerValidationFuncs: Array<any> = [
+  registerValidationFuncs: Array<InputFieldValidation> = [
     {
       isFieldValid(newUser: NewUser) {
         return (newUser.firstName ? true : false);
@@ -148,7 +155,7 @@ export class LoginComponent {
   ];
 
   // Forgot password validation functions array.
-  forgotValidationFuncs: Array<any> = [
+  forgotValidationFuncs: Array<InputFieldValidation> = [
     {
       isFieldValid(forgotUser: ForgotUser) {
         return (forgotUser.email ? true : false);
@@ -200,45 +207,14 @@ export class LoginComponent {
   constructor(private router: Router,
     private alertService: AlertService,
     private snackbarService: SnackbarService,
+    private microtextService: MicrotextService,
     private globalService: GlobalService,
     private loginService: LoginService) { }
 
   // Running on the array of validation functions and make sure all valid.
   // Getting validation array and object to valid.
-  Validation(funcArray: Array<any>, obj: any) {
-    var isValid = true;
-    var checkedFieldsIds: Array<any> = [];
-
-    // Running on all validation functions.
-    for (var i = 0; i < funcArray.length; i++) {
-      // In case the field was not invalid before.
-      if (!this.IsInArray(checkedFieldsIds, funcArray[i].fieldId)) {
-        // In case the field is not valid.
-        if (!funcArray[i].isFieldValid(obj)) {
-          // In case the field is the first invalid field.
-          if (isValid) {
-            $("#" + funcArray[i].inputId).focus();
-          }
-
-          isValid = false;
-
-          // Push the field id to the array,
-          // so in the next validation of this field it will not be checked.
-          checkedFieldsIds.push(funcArray[i].fieldId);
-
-          // Show the microtext of the field. 
-          $("#" + funcArray[i].fieldId).html(funcArray[i].errMsg);
-        }
-        else {
-          // Clear the microtext of the field.
-          $("#" + funcArray[i].fieldId).html("");
-        }
-      }
-    }
-
-    checkedFieldsIds = [];
-
-    return isValid;
+  Validation(validations: Array<InputFieldValidation>, obj: any) {
+    return this.microtextService.Validation(validations, obj);
   }
 
   // Login user and redirect him to main page.
@@ -361,7 +337,7 @@ export class LoginComponent {
           // In case the user was found.
           else {
             this.forgotUser.showResetCodeField = true;
-            this.forgotUser.forgotBtnText = forgotBtnTextObj.resetPassText;
+            this.forgotUser.forgotBtnText = FORGOT_BTN_TEXT.RESET_PASSWORD;
             this.snackbarService.Snackbar("קוד לאיפוס הסיסמא נשלח לאימייל שלך");
           }
         });
@@ -422,7 +398,7 @@ export class LoginComponent {
   hasResetCode() {
     this.forgotUser.hasResetCode = true;
     this.forgotUser.showResetCodeField = true;
-    this.forgotUser.forgotBtnText = forgotBtnTextObj.resetPassText;
+    this.forgotUser.forgotBtnText = FORGOT_BTN_TEXT.RESET_PASSWORD;
     $(".microtext").html("");
   }
 
@@ -462,8 +438,8 @@ export class LoginComponent {
   }
 
   // Hide microtext in a specific field.
-  HideMicrotext(fieldId: string) {
-    $("#" + fieldId).html("");
+  HideMicrotext(microtextId: string) {
+    this.microtextService.HideMicrotext(microtextId);
   }
 
   // Check if object is in array.

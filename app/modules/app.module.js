@@ -43,6 +43,7 @@ var auth_service_1 = require("../services/auth/auth.service");
 var global_service_1 = require("../services/global/global.service");
 var alert_service_1 = require("../services/alert/alert.service");
 var snackbar_service_1 = require("../services/snackbar/snackbar.service");
+var microtext_service_1 = require("../services/microtext/microtext.service");
 // Routing
 var app_routing_1 = require("../routes/app.routing");
 var AppModule = /** @class */ (function () {
@@ -89,7 +90,8 @@ var AppModule = /** @class */ (function () {
                 auth_service_1.AuthService,
                 global_service_1.GlobalService,
                 alert_service_1.AlertService,
-                snackbar_service_1.SnackbarService
+                snackbar_service_1.SnackbarService,
+                microtext_service_1.MicrotextService
             ],
             bootstrap: [app_component_1.AppComponent]
         })
