@@ -3,10 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-// Pipes import
+// Pipes
 import { SortObjects } from '../pipes/sort/sort.pipe';
 
-// Components import
+// Components
 import { AppComponent } from '../components/app/app.component';
 import { LoaderSpinnerComponent } from '../components/loaders/loaderSpinner/loaderSpinner.component';
 import { LoaderDotsComponent } from '../components/loaders/loaderDots/loaderDots.component';
@@ -30,14 +30,19 @@ import { UserEditWindowComponent } from '../components/userPage/userEditWindow/u
 
 import { PageNotFoundComponent } from '../components/pageNotFound/pageNotFound.component';
 
-import { AuthGuard, RootAuthGuard, LoginGuard } from '../gurds/auth.guard';
+// Guards
+import { AuthGuard } from '../guards/auth/auth.guard';
+import { RootAuthGuard } from '../guards/rootAuth/rootAuth.guard';
+import { LoginGuard } from '../guards/login/login.guard';
+
+// Global services
 import { AuthService } from '../services/auth/auth.service';
-
-import { Routing } from '../routes/app.routing'
-
 import { GlobalService } from '../services/global/global.service';
 import { AlertService } from '../services/alert/alert.service';
 import { SnackbarService } from '../services/snackbar/snackbar.service';
+
+// Routing
+import { Routing } from '../routes/app.routing'
 
 @NgModule({
   imports: [

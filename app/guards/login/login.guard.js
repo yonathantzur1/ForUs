@@ -12,34 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var rxjs_1 = require("rxjs");
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var auth_service_1 = require("../services/auth/auth.service");
-var global_service_1 = require("../services/global/global.service");
-var AuthGuard = /** @class */ (function () {
-    function AuthGuard(router, authService, globalService) {
-        this.router = router;
-        this.authService = authService;
-        this.globalService = globalService;
-    }
-    AuthGuard.prototype.canActivate = function (route, state) {
-        var _this = this;
-        return this.authService.IsUserOnSession().then(function (result) {
-            if (result) {
-                _this.globalService.Initialize();
-                return true;
-            }
-            else {
-                _this.router.navigateByUrl('/login');
-                return false;
-            }
-        });
-    };
-    AuthGuard = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [router_1.Router, auth_service_1.AuthService, global_service_1.GlobalService])
-    ], AuthGuard);
-    return AuthGuard;
-}());
-exports.AuthGuard = AuthGuard;
+var auth_service_1 = require("../../services/auth/auth.service");
+var global_service_1 = require("../../services/global/global.service");
 var LoginGuard = /** @class */ (function () {
     function LoginGuard(router, authService, globalService) {
         this.router = router;
@@ -72,29 +46,4 @@ var LoginGuard = /** @class */ (function () {
     return LoginGuard;
 }());
 exports.LoginGuard = LoginGuard;
-var RootAuthGuard = /** @class */ (function () {
-    function RootAuthGuard(router, authService, globalService) {
-        this.router = router;
-        this.authService = authService;
-        this.globalService = globalService;
-    }
-    RootAuthGuard.prototype.canActivate = function (route, state) {
-        var _this = this;
-        return this.authService.IsUserRoot().then(function (result) {
-            if (result) {
-                return true;
-            }
-            else {
-                _this.router.navigateByUrl('/page-not-found');
-                return false;
-            }
-        });
-    };
-    RootAuthGuard = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [router_1.Router, auth_service_1.AuthService, global_service_1.GlobalService])
-    ], RootAuthGuard);
-    return RootAuthGuard;
-}());
-exports.RootAuthGuard = RootAuthGuard;
-//# sourceMappingURL=auth.guard.js.map
+//# sourceMappingURL=login.guard.js.map

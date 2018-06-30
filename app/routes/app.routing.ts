@@ -9,7 +9,9 @@ import { StatisticsComponent } from '../components/managementPanel/statistics/st
 import { UserPageComponent } from '../components/userPage/userPage.component';
 import { PageNotFoundComponent } from '../components/pageNotFound/pageNotFound.component';
 
-import { AuthGuard, RootAuthGuard, LoginGuard } from '../gurds/auth.guard';
+import { AuthGuard } from '../guards/auth/auth.guard';
+import { RootAuthGuard } from '../guards/rootAuth/rootAuth.guard';
+import { LoginGuard } from '../guards/login/login.guard';
 
 const routes: Routes = [
   {

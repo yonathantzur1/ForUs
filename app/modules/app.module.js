@@ -10,9 +10,9 @@ var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var forms_1 = require("@angular/forms");
 var http_1 = require("@angular/common/http");
-// Pipes import
+// Pipes
 var sort_pipe_1 = require("../pipes/sort/sort.pipe");
-// Components import
+// Components
 var app_component_1 = require("../components/app/app.component");
 var loaderSpinner_component_1 = require("../components/loaders/loaderSpinner/loaderSpinner.component");
 var loaderDots_component_1 = require("../components/loaders/loaderDots/loaderDots.component");
@@ -34,12 +34,17 @@ var permissionsCard_component_1 = require("../components/managementPanel/managem
 var userPage_component_1 = require("../components/userPage/userPage.component");
 var userEditWindow_component_1 = require("../components/userPage/userEditWindow/userEditWindow.component");
 var pageNotFound_component_1 = require("../components/pageNotFound/pageNotFound.component");
-var auth_guard_1 = require("../gurds/auth.guard");
+// Guards
+var auth_guard_1 = require("../guards/auth/auth.guard");
+var rootAuth_guard_1 = require("../guards/rootAuth/rootAuth.guard");
+var login_guard_1 = require("../guards/login/login.guard");
+// Global services
 var auth_service_1 = require("../services/auth/auth.service");
-var app_routing_1 = require("../routes/app.routing");
 var global_service_1 = require("../services/global/global.service");
 var alert_service_1 = require("../services/alert/alert.service");
 var snackbar_service_1 = require("../services/snackbar/snackbar.service");
+// Routing
+var app_routing_1 = require("../routes/app.routing");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -79,8 +84,8 @@ var AppModule = /** @class */ (function () {
             ],
             providers: [
                 auth_guard_1.AuthGuard,
-                auth_guard_1.RootAuthGuard,
-                auth_guard_1.LoginGuard,
+                rootAuth_guard_1.RootAuthGuard,
+                login_guard_1.LoginGuard,
                 auth_service_1.AuthService,
                 global_service_1.GlobalService,
                 alert_service_1.AlertService,
