@@ -34,17 +34,17 @@ var StatisticsComponent = /** @class */ (function () {
                 icon: "far fa-chart-bar",
                 options: [
                     {
-                        text: "התחברויות",
+                        text: "כניסות",
                         logType: enums_1.LOG_TYPE.LOGIN,
                         isSelected: true
                     },
                     {
-                        text: "התחברויות שגויות",
+                        text: "כניסות שגויות",
                         logType: enums_1.LOG_TYPE.LOGIN_FAIL,
                         isSelected: false
                     },
                     {
-                        text: "התחברויות משתמשים חסומים",
+                        text: "ניסיונות כניסת משתמש חסום",
                         logType: enums_1.LOG_TYPE.BLOCK_USER_LOGIN_TRY,
                         isSelected: false
                     },
@@ -54,7 +54,7 @@ var StatisticsComponent = /** @class */ (function () {
                         isSelected: false
                     },
                     {
-                        text: "הרשמות",
+                        text: "משתמשים חדשים",
                         logType: enums_1.LOG_TYPE.REGISTER,
                         isSelected: false
                     }

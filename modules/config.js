@@ -1,6 +1,7 @@
 module.exports = {
     server: {
-        port: 8000
+        port: 8000,
+        isProd: (process.env.IS_PROD == 'true') ? true : false
     },
     addresses: {
         site: "https://forus.herokuapp.com",

@@ -27,7 +27,7 @@ var self = module.exports = {
                     var chat;
 
                     // In case the chat is not exists.
-                    if (result.length == 0) {
+                    if (true) {
                         chat = false;
                         self.CreateChat(membersIds);
                     }

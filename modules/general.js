@@ -153,18 +153,5 @@ var self = module.exports = {
         else {
             return null;
         }
-    },
-
-    IsProd() {
-        if (process.env.IS_PROD == 'true') {
-            return true;
-        }
-        else if (process.env.IS_PROD == 'false') {
-            return false;
-        }
-        else {
-            console.warn("No is_prod (true/false) environment variable definition");
-            return false;
-        }
     }
 }

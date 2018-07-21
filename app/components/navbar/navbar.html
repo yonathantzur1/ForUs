@@ -54,7 +54,7 @@
           <input type="text" id="search-input" class="search-input" placeholder="חיפוש" [(ngModel)]="searchInput" (keyup)="SearchKeyUp($event)"
             (ngModelChange)="SearchChange(searchInput)" (focus)="ClickSearchInput(searchInput)" (click)="ClickSearchInput(searchInput)"
             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-          <div *ngIf="isNewFriendsLabel && !isSidenavOpen && !isShowSearchResults">
+          <div class="new-friends-label-container" *ngIf="isNewFriendsLabel && !isSidenavOpen && !isShowSearchResults">
             <i class="fas fa-caret-up menu-top-arrow new-friends-label-top-arrow"></i>
             <div class="new-friends-label">חיפוש חברים חדשים</div>
           </div>
@@ -110,7 +110,7 @@
     <span *ngIf="isMessageNotificationImage" class="notification-text">שלח/ה לך תמונה</span>
   </span>
   <span id="notification" class="notification" *ngIf="(isShowFriendRequestNotification || isShowFriendConfirmNotification) && !isShowMessageNotification">
-    <span class="notification-name">{{friendRequestNotificationName}}</span>
+    <span class="notification-name">{{friendRequestNotificationName}} </span>
     <span *ngIf="isShowFriendRequestNotification" class="notification-text">שלח/ה לך בקשת חברות</span>
     <span *ngIf="isShowFriendConfirmNotification" class="notification-text">אישר/ה את בקשת החברות</span>
   </span>

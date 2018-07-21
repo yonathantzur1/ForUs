@@ -146,10 +146,15 @@
     z-index: 1;
 }
 
+#navbar .new-friends-label-container {
+    position: absolute;
+}
+
 #navbar .new-friends-label-top-arrow {
-    right: 15px;
     color: #b2b2b2 !important;
-    top: 21px !important;
+    top: -3px;
+    width: 100%;
+    text-align: right;
 }
 
 #navbar .drop-menu-position {
@@ -581,7 +586,7 @@
 #navbar .new-friends-label {
     background-color: rgba(0, 0, 0, 0.25);
     color: white;
-    width: 140px;
+    width: 150px;
     margin-top: 12px;
     padding: 8px;
     border-bottom-left-radius: 3px;

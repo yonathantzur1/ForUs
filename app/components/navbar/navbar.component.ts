@@ -942,7 +942,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             self.hideNewFriendsLabelTimeout = setTimeout(function () {
                 self.isNewFriendsLabel = false;
             }, self.newFriendsLabelDelay);
-        }, 200);
+        }, 200);        
     }
 
     CloseChatWindow() {

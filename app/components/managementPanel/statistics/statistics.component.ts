@@ -47,17 +47,17 @@ export class StatisticsComponent {
                 icon: "far fa-chart-bar",
                 options: [
                     {
-                        text: "התחברויות",
+                        text: "כניסות",
                         logType: LOG_TYPE.LOGIN,
                         isSelected: true
                     },
                     {
-                        text: "התחברויות שגויות",
+                        text: "כניסות שגויות",
                         logType: LOG_TYPE.LOGIN_FAIL,
                         isSelected: false
                     },
                     {
-                        text: "התחברויות משתמשים חסומים",
+                        text: "ניסיונות כניסת משתמש חסום",
                         logType: LOG_TYPE.BLOCK_USER_LOGIN_TRY,
                         isSelected: false
                     },
@@ -67,7 +67,7 @@ export class StatisticsComponent {
                         isSelected: false
                     },
                     {
-                        text: "הרשמות",
+                        text: "משתמשים חדשים",
                         logType: LOG_TYPE.REGISTER,
                         isSelected: false
                     }
