@@ -7,10 +7,10 @@ const collectionName = config.db.collections.chats;
 var self = module.exports = {
     GetChat: (membersIds, user) => {
         return new Promise((resolve, reject) => {
-            if (ValidateUserGetChat(membersIds, user.friends, user._id)) {
+            if (self.ValidateUserGetChat(membersIds, user.friends, user._id)) {
                 var chatQueryFilter = {
                     $match: {
-                        "membersIds": { $all: membersIds }
+                        "membersIds": { $all: self.ConvertStringArrayToObjectArrayQuery(membersIds) }
                     }
                 }
 
@@ -33,7 +33,7 @@ var self = module.exports = {
                     }
                     else {
                         chat = result[0];
-                        chat.messages = DecryptChatMessages(chat.messages);
+                        chat.messages = self.DecryptChatMessages(chat.messages);
                     }
 
                     resolve(chat);
@@ -47,10 +47,10 @@ var self = module.exports = {
 
     GetChatPage: (membersIds, user, currMessagesNum, totalMessagesNum) => {
         return new Promise((resolve, reject) => {
-            if (ValidateUserGetChat(membersIds, user.friends, user._id)) {
+            if (self.ValidateUserGetChat(membersIds, user.friends, user._id)) {
                 var chatQueryFilter = {
                     $match: {
-                        "membersIds": { $all: membersIds }
+                        "membersIds": { $all: self.ConvertStringArrayToObjectArrayQuery(membersIds) }
                     }
                 }
 
@@ -71,7 +71,7 @@ var self = module.exports = {
 
                     if (result.length != 0) {
                         chat = result[0];
-                        chat.messages = DecryptChatMessages(chat.messages);
+                        chat.messages = self.DecryptChatMessages(chat.messages);
                     }
 
                     resolve(chat);
@@ -85,12 +85,14 @@ var self = module.exports = {
 
     CreateChat: (membersIds) => {
         var chatQueryFilter = {
-            "membersIds": { $all: membersIds }
+            "membersIds": { $all: self.ConvertStringArrayToObjectArrayQuery(membersIds) }
         }
 
         var chatObj = {
-            "membersIds": membersIds,
-            "messages": []
+            $set: {
+                "membersIds": self.ConvertStringArrayToObjectArrayQuery(membersIds, true),
+                "messages": []
+            }
         }
 
         DAL.UpdateOne(collectionName, chatQueryFilter, chatObj, true).then((result) => { }).catch((error) => {
@@ -104,7 +106,7 @@ var self = module.exports = {
             msgData.text = encryption.encrypt(msgData.text);
 
             var membersIds = [msgData.from, msgData.to];
-            var chatFilter = { "membersIds": { $all: membersIds } }
+            var chatFilter = { "membersIds": { $all: self.ConvertStringArrayToObjectArrayQuery(membersIds) } }
 
             var chatUpdateQuery = {
                 $push: { "messages": msgData },
@@ -130,23 +132,41 @@ var self = module.exports = {
         return new Promise((resolve, reject) => {
             DAL.Delete(collectionName, { "_id": { $in: ids } }).then(resolve).catch(reject);
         });
-    }
-}
+    },
 
-function ValidateUserGetChat(membersIds, userFriends, userId) {
-    for (var i = 0; i < membersIds.length; i++) {
-        if (userFriends.indexOf(membersIds[i]) == -1 && membersIds[i] != userId) {
-            return false;
+    DecryptChatMessages: (messages) => {
+        messages.forEach((msgData) => {
+            msgData.text = encryption.decrypt(msgData.text);
+        });
+
+        return messages;
+    },
+
+    ValidateUserGetChat: (membersIds, userFriends, userId) => {
+        for (var i = 0; i < membersIds.length; i++) {
+            if (userFriends.indexOf(membersIds[i]) == -1 && membersIds[i] != userId) {
+                return false;
+            }
         }
+
+        return true;
+    },
+
+    ConvertStringArrayToObjectArrayQuery: (arr, removeElemMatch) => {
+        var objArr = [];
+
+        arr.forEach(elem => {
+            var elemObj = {};
+            elemObj[elem] = elem;
+
+            if (removeElemMatch) {
+                objArr.push(elemObj);
+            }
+            else {
+                objArr.push({ $elemMatch: elemObj });
+            }
+        });
+
+        return objArr;
     }
-
-    return true;
-}
-
-function DecryptChatMessages(messages) {
-    messages.forEach((msgData) => {
-        msgData.text = encryption.decrypt(msgData.text);
-    });
-
-    return messages;
 }
