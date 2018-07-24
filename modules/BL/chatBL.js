@@ -1,6 +1,7 @@
 const DAL = require('../DAL.js');
 const config = require('../config');
 const encryption = require('../encryption');
+const general = require('../general');
 
 const collectionName = config.db.collections.chats;
 
@@ -10,7 +11,7 @@ var self = module.exports = {
             if (self.ValidateUserGetChat(membersIds, user.friends, user._id)) {
                 var chatQueryFilter = {
                     $match: {
-                        "membersIds": { $all: self.ConvertStringArrayToObjectArrayQuery(membersIds) }
+                        "membersIds": general.SortArray(membersIds)
                     }
                 }
 
@@ -50,7 +51,7 @@ var self = module.exports = {
             if (self.ValidateUserGetChat(membersIds, user.friends, user._id)) {
                 var chatQueryFilter = {
                     $match: {
-                        "membersIds": { $all: self.ConvertStringArrayToObjectArrayQuery(membersIds) }
+                        "membersIds": general.SortArray(membersIds)
                     }
                 }
 
@@ -84,13 +85,15 @@ var self = module.exports = {
     },
 
     CreateChat: (membersIds) => {
+        general.SortArray(membersIds);
+
         var chatQueryFilter = {
-            "membersIds": { $all: self.ConvertStringArrayToObjectArrayQuery(membersIds) }
+            "membersIds": membersIds
         }
 
         var chatObj = {
             $set: {
-                "membersIds": self.ConvertStringArrayToObjectArrayQuery(membersIds, true),
+                "membersIds": membersIds,
                 "messages": []
             }
         }
@@ -105,9 +108,7 @@ var self = module.exports = {
             // Encrypt message text.
             msgData.text = encryption.encrypt(msgData.text);
 
-            var membersIds = [msgData.from, msgData.to];
-            var chatFilter = { "membersIds": { $all: self.ConvertStringArrayToObjectArrayQuery(membersIds) } }
-
+            var chatFilter = { "membersIds": general.SortArray([msgData.from, msgData.to]) };
             var chatUpdateQuery = {
                 $push: { "messages": msgData },
                 $set: { "lastMessage": { "text": (msgData.isImage ? "" : msgData.text), "time": msgData.time, "isImage": (msgData.isImage ? true : false) } }
@@ -150,23 +151,5 @@ var self = module.exports = {
         }
 
         return true;
-    },
-
-    ConvertStringArrayToObjectArrayQuery: (arr, removeElemMatch) => {
-        var objArr = [];
-
-        arr.forEach(elem => {
-            var elemObj = {};
-            elemObj[elem] = elem;
-
-            if (removeElemMatch) {
-                objArr.push(elemObj);
-            }
-            else {
-                objArr.push({ $elemMatch: elemObj });
-            }
-        });
-
-        return objArr;
     }
 }

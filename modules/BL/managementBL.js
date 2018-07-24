@@ -222,13 +222,8 @@ module.exports = {
             notificationsUnsetJson["messagesNotifications." + userId] = 1;
             notificationsUnsetJson["messagesNotifications." + friendId] = 1;
 
-            var userIdObject = { $elemMatch: {} };
-            var friendIdObject = { $elemMatch: {} };
-            userIdObject.$elemMatch[userId] = userId;
-            friendIdObject.$elemMatch[friendId] = friendId;
-
             DAL.Delete(chatsCollectionName,
-                { "membersIds": { $all: [userIdObject, friendIdObject] } }).then((result) => {
+                { "membersIds": general.SortArray([userIdObject, friendIdObject]) }).then((result) => {
                     DAL.Update(usersCollectionName,
                         {
                             $or: [

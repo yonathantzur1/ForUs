@@ -153,5 +153,13 @@ var self = module.exports = {
         else {
             return null;
         }
+    },
+
+    SortArray(arr) {
+        arr.sort((a, b) => {
+            return (a < b) ? -1 : 1;
+        });
+
+        return arr;
     }
 }
