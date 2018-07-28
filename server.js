@@ -59,6 +59,7 @@ app.get('/login', (req, res, next) => {
     var token = general.DecodeToken(general.GetTokenFromRequest(req));
 
     if (!token) {
+        general.DeleteAuthCookies(res);
         next();
     }
     else {
