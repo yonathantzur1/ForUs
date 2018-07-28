@@ -6,7 +6,7 @@ const path = require('path');
 const compression = require('compression');
 const io = require('socket.io')(http);
 const general = require('./modules/general');
-const config = require('./modules/config');
+const config = require('./config');
 
 // app define
 app.set('trust proxy', 1);

@@ -1,4 +1,4 @@
-const config = require('./config');
+const config = require('../config');
 const encryption = require('./encryption');
 const generator = require('./generator');
 const generel = require('./general');

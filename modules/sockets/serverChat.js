@@ -1,6 +1,6 @@
 const chatBL = require('../BL/chatBL.js');
 const navbarBL = require('../BL/navbarBL.js');
-const config = require('../config');
+const config = require('../../config');
 const general = require('../general');
 const jwt = require('jsonwebtoken');
 

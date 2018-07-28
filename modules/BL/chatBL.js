@@ -1,5 +1,5 @@
 const DAL = require('../DAL.js');
-const config = require('../config');
+const config = require('../../config');
 const encryption = require('../encryption');
 const general = require('../general');
 

@@ -6,7 +6,7 @@ module.exports = {
     addresses: {
         site: "https://forus.herokuapp.com",
         mail: "forusmailer@gmail.com",
-        mainConnectionString: process.env.MAIL_CONNECTION_STRING
+        mailConnectionString: process.env.MAIL_CONNECTION_STRING
     },
     db: {
         name: "forus",

@@ -1,5 +1,5 @@
 const DAL = require('../DAL.js');
-const config = require('../config.js');
+const config = require('../../config.js');
 const enums = require('../enums');
 
 const logsCollectionName = config.db.collections.logs;

@@ -1,4 +1,4 @@
-const config = require('../config');
+const config = require('../../config');
 const general = require('../general');
 const enums = require('../enums');
 const logsBL = require('../BL/logsBL')

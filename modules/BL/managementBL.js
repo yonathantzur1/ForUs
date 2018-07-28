@@ -1,5 +1,5 @@
 const DAL = require('../DAL');
-const config = require('../config');
+const config = require('../../config');
 const general = require('../general');
 const generator = require('../generator');
 const mailer = require('../mailer');

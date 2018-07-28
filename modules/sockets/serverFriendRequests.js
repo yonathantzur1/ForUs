@@ -1,6 +1,6 @@
 const loginBL = require('../BL/loginBL');
 const profilePictureBL = require('../BL/profilePictureBL');
-const config = require('../config');
+const config = require('../../config');
 const general = require('../general');
 const mailer = require('../mailer');
 const jwt = require('jsonwebtoken');
