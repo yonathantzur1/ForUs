@@ -16,6 +16,7 @@ var alert_service_1 = require("../../services/alert/alert.service");
 var snackbar_service_1 = require("../../services/snackbar/snackbar.service");
 var microtext_service_1 = require("../../services/microtext/microtext.service");
 var login_service_1 = require("../../services/login/login.service");
+var regexpEnums_1 = require("../../regex/regexpEnums");
 var User = /** @class */ (function () {
     function User() {
         this.email = "";
@@ -74,8 +75,8 @@ var LoginComponent = /** @class */ (function () {
                 inputId: "login-email"
             },
             {
-                isFieldValid: function (user) {
-                    var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+                isFieldValid: function (user, userRegexp) {
+                    var emailPattern = userRegexp.email;
                     return (emailPattern.test(user.email));
                 },
                 errMsg: "כתובת אימייל לא תקינה",
@@ -102,8 +103,8 @@ var LoginComponent = /** @class */ (function () {
                 inputId: "register-firstName"
             },
             {
-                isFieldValid: function (newUser) {
-                    var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i;
+                isFieldValid: function (newUser, userRegexp) {
+                    var namePattern = userRegexp.name;
                     return (namePattern.test(newUser.firstName));
                 },
                 errMsg: "יש להזין שם תקין בעברית",
@@ -119,8 +120,8 @@ var LoginComponent = /** @class */ (function () {
                 inputId: "register-lastName"
             },
             {
-                isFieldValid: function (newUser) {
-                    var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i;
+                isFieldValid: function (newUser, userRegexp) {
+                    var namePattern = userRegexp.name;
                     return (namePattern.test(newUser.lastName));
                 },
                 errMsg: "יש להזין שם תקין בעברית",
@@ -136,8 +137,8 @@ var LoginComponent = /** @class */ (function () {
                 inputId: "register-email"
             },
             {
-                isFieldValid: function (newUser) {
-                    var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+                isFieldValid: function (newUser, userRegexp) {
+                    var emailPattern = userRegexp.email;
                     return (emailPattern.test(newUser.email));
                 },
                 errMsg: "כתובת אימייל לא תקינה",
@@ -164,8 +165,8 @@ var LoginComponent = /** @class */ (function () {
                 inputId: "forgot-email"
             },
             {
-                isFieldValid: function (forgotUser) {
-                    var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+                isFieldValid: function (forgotUser, userRegexp) {
+                    var emailPattern = userRegexp.email;
                     return (emailPattern.test(forgotUser.email));
                 },
                 errMsg: "כתובת אימייל לא תקינה",
@@ -204,15 +205,15 @@ var LoginComponent = /** @class */ (function () {
     }
     // Running on the array of validation functions and make sure all valid.
     // Getting validation array and object to valid.
-    LoginComponent.prototype.Validation = function (validations, obj) {
-        return this.microtextService.Validation(validations, obj);
+    LoginComponent.prototype.Validation = function (validations, obj, regex) {
+        return this.microtextService.Validation(validations, obj, regex);
     };
     // Login user and redirect him to main page.
     LoginComponent.prototype.Login = function () {
         var _this = this;
         this.user.email = this.user.email.trim();
         // In case the login fields are valid.
-        if (this.Validation(this.loginValidationFuncs, this.user)) {
+        if (this.Validation(this.loginValidationFuncs, this.user, regexpEnums_1.UserRegexp)) {
             this.isLoading = true;
             var self = this;
             this.loginService.Login(this.user).then(function (data) {
@@ -274,7 +275,7 @@ var LoginComponent = /** @class */ (function () {
         this.newUser.lastName = this.newUser.lastName.trim();
         this.newUser.email = this.newUser.email.trim();
         // In case the register modal fields are valid.
-        if (this.Validation(this.registerValidationFuncs, this.newUser)) {
+        if (this.Validation(this.registerValidationFuncs, this.newUser, regexpEnums_1.UserRegexp)) {
             this.isLoading = true;
             this.loginService.Register(this.newUser).then(function (data) {
                 var result = data ? data.result : null;
@@ -300,7 +301,7 @@ var LoginComponent = /** @class */ (function () {
         var _this = this;
         this.forgotUser.email = this.forgotUser.email.trim();
         // In case the forgot modal fields are valid.
-        if (this.Validation(this.forgotValidationFuncs, this.forgotUser)) {
+        if (this.Validation(this.forgotValidationFuncs, this.forgotUser, regexpEnums_1.UserRegexp)) {
             this.isLoading = true;
             // In case the user is in the first stage of reset password.
             if (this.forgotUser.showResetCodeField == false) {

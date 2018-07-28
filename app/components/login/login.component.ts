@@ -8,6 +8,8 @@ import { MicrotextService, InputFieldValidation } from '../../services/microtext
 
 import { LoginService } from '../../services/login/login.service';
 
+import { UserRegexp } from '../../regex/regexpEnums'
+
 declare var $: any;
 
 export class User {
@@ -72,8 +74,8 @@ export class LoginComponent {
       inputId: "login-email"
     },
     {
-      isFieldValid(user: User) {
-        var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+      isFieldValid(user: User, userRegexp: any) {
+        var emailPattern = userRegexp.email;
         return (emailPattern.test(user.email));
       },
       errMsg: "כתובת אימייל לא תקינה",
@@ -101,8 +103,8 @@ export class LoginComponent {
       inputId: "register-firstName"
     },
     {
-      isFieldValid(newUser: NewUser) {
-        var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i;
+      isFieldValid(newUser: NewUser, userRegexp: any) {
+        var namePattern = userRegexp.name;
         return (namePattern.test(newUser.firstName));
       },
       errMsg: "יש להזין שם תקין בעברית",
@@ -118,8 +120,8 @@ export class LoginComponent {
       inputId: "register-lastName"
     },
     {
-      isFieldValid(newUser: NewUser) {
-        var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i;
+      isFieldValid(newUser: NewUser, userRegexp: any) {
+        var namePattern = userRegexp.name;
         return (namePattern.test(newUser.lastName));
       },
       errMsg: "יש להזין שם תקין בעברית",
@@ -135,8 +137,8 @@ export class LoginComponent {
       inputId: "register-email"
     },
     {
-      isFieldValid(newUser: NewUser) {
-        var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+      isFieldValid(newUser: NewUser, userRegexp: any) {
+        var emailPattern = userRegexp.email;
 
         return (emailPattern.test(newUser.email));
       },
@@ -165,8 +167,8 @@ export class LoginComponent {
       inputId: "forgot-email"
     },
     {
-      isFieldValid(forgotUser: ForgotUser) {
-        var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+      isFieldValid(forgotUser: ForgotUser, userRegexp: any) {
+        var emailPattern = userRegexp.email;
 
         return (emailPattern.test(forgotUser.email));
       },
@@ -213,8 +215,8 @@ export class LoginComponent {
 
   // Running on the array of validation functions and make sure all valid.
   // Getting validation array and object to valid.
-  Validation(validations: Array<InputFieldValidation>, obj: any) {
-    return this.microtextService.Validation(validations, obj);
+  Validation(validations: Array<InputFieldValidation>, obj: any, regex?: any) {
+    return this.microtextService.Validation(validations, obj, regex);
   }
 
   // Login user and redirect him to main page.
@@ -222,7 +224,7 @@ export class LoginComponent {
     this.user.email = this.user.email.trim();
 
     // In case the login fields are valid.
-    if (this.Validation(this.loginValidationFuncs, this.user)) {
+    if (this.Validation(this.loginValidationFuncs, this.user, UserRegexp)) {
       this.isLoading = true;
       var self = this;
 
@@ -287,7 +289,7 @@ export class LoginComponent {
     this.newUser.email = this.newUser.email.trim();
 
     // In case the register modal fields are valid.
-    if (this.Validation(this.registerValidationFuncs, this.newUser)) {
+    if (this.Validation(this.registerValidationFuncs, this.newUser, UserRegexp)) {
       this.isLoading = true;
 
       this.loginService.Register(this.newUser).then((data: any) => {
@@ -316,7 +318,7 @@ export class LoginComponent {
     this.forgotUser.email = this.forgotUser.email.trim();
 
     // In case the forgot modal fields are valid.
-    if (this.Validation(this.forgotValidationFuncs, this.forgotUser)) {
+    if (this.Validation(this.forgotValidationFuncs, this.forgotUser, UserRegexp)) {
       this.isLoading = true;
 
       // In case the user is in the first stage of reset password.

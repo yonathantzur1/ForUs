@@ -1,4 +1,5 @@
 const joi = require('joi');
+const regexp = require('../app/regex/regexpEnums');
 
 module.exports = function (req, res, next) {
     try {
@@ -57,8 +58,8 @@ var validateSchemaObj = {
                 password: joi.string().required()
             },
             "register": {
-                firstName: joi.string().regex(/^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i),
-                lastName: joi.string().regex(/^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i),
+                firstName: joi.string().regex(new RegExp(regexp.UserRegexp.name, "i")),
+                lastName: joi.string().regex(new RegExp(regexp.UserRegexp.name, "i")),
                 email: joi.string().email(),
                 password: joi.string().required()
             }
@@ -79,8 +80,8 @@ var validateSchemaObj = {
             "userEditWindow": {
                 "updateUserInfo": {
                     updateFields: joi.object().keys({
-                        firstName: joi.string().regex(/^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i).optional(),
-                        lastName: joi.string().regex(/^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i).optional(),
+                        firstName: joi.string().regex(new RegExp(regexp.UserRegexp.name, "i")).optional(),
+                        lastName: joi.string().regex(new RegExp(regexp.UserRegexp.name, "i")).optional(),
                         email: joi.string().email().optional()
                     })
                 }

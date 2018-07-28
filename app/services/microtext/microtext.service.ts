@@ -9,7 +9,15 @@ declare var $: any;
 
 export class MicrotextService {
 
-    Validation(validations: Array<InputFieldValidation>, obj: any) {
+    Validation(validations: Array<InputFieldValidation>, obj: any, regexp?: any) {
+        var regexpPatterns = {};
+        // Convert strings to regex patterns in case regex was sent.
+        if (regexp) {
+            Object.keys(regexp).forEach((key: string) => {
+                regexpPatterns[key] = new RegExp(regexp[key], "i");
+            });
+        }
+
         var isValid = true;
         var checkedFieldsIds: Array<any> = [];
 
@@ -18,7 +26,7 @@ export class MicrotextService {
             // In case the field was not invalid before.
             if (!this.IsInArray(checkedFieldsIds, validations[i].fieldId)) {
                 // In case the field is not valid.
-                if (!validations[i].isFieldValid(obj)) {
+                if (!validations[i].isFieldValid(obj, regexpPatterns)) {
                     // In case the field is the first invalid field.
                     if (isValid) {
                         $("#" + validations[i].inputId).focus();
@@ -56,6 +64,11 @@ export class MicrotextService {
         }
 
         return false;
+    }
+
+    // Hide microtext in a specific field.
+    ShowMicrotext(fieldId: string, text: string) {
+        $("#" + fieldId).html(text);
     }
 
     // Hide microtext in a specific field.

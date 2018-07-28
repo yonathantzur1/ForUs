@@ -5,6 +5,8 @@ import { AlertService, AlertType } from '../../../services/alert/alert.service';
 import { GlobalService } from '../../../services/global/global.service';
 import { MicrotextService, InputFieldValidation } from '../../../services/microtext/microtext.service';
 
+import { UserRegexp } from '../../../regex/regexpEnums'
+
 class EditUser {
     firstName?: string;
     lastName?: string;
@@ -24,8 +26,8 @@ export class UserEditWindowComponent implements OnInit {
     // Login validation functions array.
     editValidationFuncs: Array<InputFieldValidation> = [
         {
-            isFieldValid(editUser: EditUser) {
-                var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i;
+            isFieldValid(editUser: EditUser, userRegexp: any) {
+                var namePattern = userRegexp.name;
                 return (namePattern.test(editUser.firstName));
             },
             errMsg: "יש להזין שם תקין בעברית",
@@ -33,8 +35,8 @@ export class UserEditWindowComponent implements OnInit {
             inputId: "edit-first-name"
         },
         {
-            isFieldValid(editUser: EditUser) {
-                var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i;
+            isFieldValid(editUser: EditUser, userRegexp: any) {
+                var namePattern = userRegexp.name;
                 return (namePattern.test(editUser.lastName));
             },
             errMsg: "יש להזין שם תקין בעברית",
@@ -42,8 +44,8 @@ export class UserEditWindowComponent implements OnInit {
             inputId: "edit-last-name"
         },
         {
-            isFieldValid(editUser: EditUser) {
-                var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+            isFieldValid(editUser: EditUser, userRegexp: any) {
+                var emailPattern = userRegexp.email;
                 return (emailPattern.test(editUser.email));
             },
             errMsg: "כתובת אימייל לא תקינה",
@@ -64,7 +66,9 @@ export class UserEditWindowComponent implements OnInit {
     }
 
     IsDisableSaveEdit() {
-        if (!this.editUser.firstName || !this.editUser.lastName || !this.editUser.email) {
+        if (!this.editUser.firstName.trim() ||
+            !this.editUser.lastName.trim() ||
+            !this.editUser.email.trim()) {
             return true;
         }
         else {
@@ -76,7 +80,7 @@ export class UserEditWindowComponent implements OnInit {
 
     SaveChanges() {
         if (!this.IsDisableSaveEdit() &&
-            this.microtextService.Validation(this.editValidationFuncs, this.editUser)) {
+            this.microtextService.Validation(this.editValidationFuncs, this.editUser, UserRegexp)) {
             var updatedFields = {};
 
             if (this.editUser.firstName.trim() != this.user.firstName) {
@@ -94,9 +98,11 @@ export class UserEditWindowComponent implements OnInit {
             this.userEditWindowService.UpdateUserInfo(updatedFields).then(result => {
                 if (result) {
                     if (result == -1) {
-                        //this.editUser.emailMicrotext = "כתובת אימייל זו כבר נמצאת בשימוש";
+                        this.microtextService.ShowMicrotext("edit-user-email-micro",
+                            "כתובת אימייל זו כבר נמצאת בשימוש")
                     }
                     else {
+                        this.globalService.setData("closeUserEditWindow", true);
                         this.alertService.Alert({
                             title: "עדכון מידע",
                             text: "העדכון בוצע בהצלחה",
@@ -108,7 +114,7 @@ export class UserEditWindowComponent implements OnInit {
                 else {
                     this.alertService.Alert({
                         title: "עדכון מידע",
-                        text: "אופס...אירעה שגיאה בעדכון הפרטים",
+                        text: "אופס... אירעה שגיאה בעדכון הפרטים",
                         type: AlertType.DANGER,
                         showCancelButton: false
                     });

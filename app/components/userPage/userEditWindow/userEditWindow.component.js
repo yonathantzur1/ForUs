@@ -14,6 +14,7 @@ var userEditWindow_service_1 = require("../../../services/userPage/userEditWindo
 var alert_service_1 = require("../../../services/alert/alert.service");
 var global_service_1 = require("../../../services/global/global.service");
 var microtext_service_1 = require("../../../services/microtext/microtext.service");
+var regexpEnums_1 = require("../../../regex/regexpEnums");
 var EditUser = /** @class */ (function () {
     function EditUser() {
     }
@@ -29,8 +30,8 @@ var UserEditWindowComponent = /** @class */ (function () {
         // Login validation functions array.
         this.editValidationFuncs = [
             {
-                isFieldValid: function (editUser) {
-                    var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i;
+                isFieldValid: function (editUser, userRegexp) {
+                    var namePattern = userRegexp.name;
                     return (namePattern.test(editUser.firstName));
                 },
                 errMsg: "יש להזין שם תקין בעברית",
@@ -38,8 +39,8 @@ var UserEditWindowComponent = /** @class */ (function () {
                 inputId: "edit-first-name"
             },
             {
-                isFieldValid: function (editUser) {
-                    var namePattern = /^[א-ת]{2,}([ ]+[א-ת]{2,})*([-]+[א-ת]{2,})*$/i;
+                isFieldValid: function (editUser, userRegexp) {
+                    var namePattern = userRegexp.name;
                     return (namePattern.test(editUser.lastName));
                 },
                 errMsg: "יש להזין שם תקין בעברית",
@@ -47,8 +48,8 @@ var UserEditWindowComponent = /** @class */ (function () {
                 inputId: "edit-last-name"
             },
             {
-                isFieldValid: function (editUser) {
-                    var emailPattern = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+                isFieldValid: function (editUser, userRegexp) {
+                    var emailPattern = userRegexp.email;
                     return (emailPattern.test(editUser.email));
                 },
                 errMsg: "כתובת אימייל לא תקינה",
@@ -63,7 +64,9 @@ var UserEditWindowComponent = /** @class */ (function () {
         this.editUser.email = this.user.email;
     };
     UserEditWindowComponent.prototype.IsDisableSaveEdit = function () {
-        if (!this.editUser.firstName || !this.editUser.lastName || !this.editUser.email) {
+        if (!this.editUser.firstName.trim() ||
+            !this.editUser.lastName.trim() ||
+            !this.editUser.email.trim()) {
             return true;
         }
         else {
@@ -75,7 +78,7 @@ var UserEditWindowComponent = /** @class */ (function () {
     UserEditWindowComponent.prototype.SaveChanges = function () {
         var _this = this;
         if (!this.IsDisableSaveEdit() &&
-            this.microtextService.Validation(this.editValidationFuncs, this.editUser)) {
+            this.microtextService.Validation(this.editValidationFuncs, this.editUser, regexpEnums_1.UserRegexp)) {
             var updatedFields = {};
             if (this.editUser.firstName.trim() != this.user.firstName) {
                 updatedFields["firstName"] = this.editUser.firstName;
@@ -89,9 +92,10 @@ var UserEditWindowComponent = /** @class */ (function () {
             this.userEditWindowService.UpdateUserInfo(updatedFields).then(function (result) {
                 if (result) {
                     if (result == -1) {
-                        //this.editUser.emailMicrotext = "כתובת אימייל זו כבר נמצאת בשימוש";
+                        _this.microtextService.ShowMicrotext("edit-user-email-micro", "כתובת אימייל זו כבר נמצאת בשימוש");
                     }
                     else {
+                        _this.globalService.setData("closeUserEditWindow", true);
                         _this.alertService.Alert({
                             title: "עדכון מידע",
                             text: "העדכון בוצע בהצלחה",
@@ -103,7 +107,7 @@ var UserEditWindowComponent = /** @class */ (function () {
                 else {
                     _this.alertService.Alert({
                         title: "עדכון מידע",
-                        text: "אופס...אירעה שגיאה בעדכון הפרטים",
+                        text: "אופס... אירעה שגיאה בעדכון הפרטים",
                         type: alert_service_1.AlertType.DANGER,
                         showCancelButton: false
                     });
