@@ -56,8 +56,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
             {
                 id: "edit",
                 icon: "fas fa-user-edit",
-                innerIconText: "",
-                isSelected: false,
+                innerIconText: "",                
                 title: "עריכת פרטים",
                 isShow: function () {
                     return self.IsUserPageSelf();
@@ -265,11 +264,5 @@ export class UserPageComponent implements OnInit, OnDestroy {
         if (this.IsUserPageSelf()) {
             this.globalService.setData("openProfileEditWindow", true);
         }
-    }
-
-    CloseOpenTabs() {
-        this.tabs.forEach((tab: any) => {
-            tab.onClose && tab.onClose();
-        });
     }
 }

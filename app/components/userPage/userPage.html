@@ -13,7 +13,7 @@
             <!-- Tabs for user page -->
             <div class="tab-line">
                 <span class="tab-container" *ngFor="let tab of GetTabs()">
-                    <span [title]="tab.title" class="tab" (click)="CloseOpenTabs();tab.onClick()">
+                    <span [title]="tab.title" class="tab" (click)="tab.onClick()">
                         <i class="tab-icon {{tab.icon}}">{{tab.innerIconText}}</i>
                     </span>
                     <div *ngIf="tab.isOptionsMenuOpen" class="options-drop-menu">

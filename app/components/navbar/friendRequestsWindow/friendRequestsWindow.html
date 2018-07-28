@@ -10,8 +10,7 @@
                 <div class="friend-request-container no-hover" *ngFor="let request of friendConfirmObjects">
                     <img class="friend-request-image" [src]="request.profileImage || globalService.defaultProfileImage">
                     <span class="friend-accept-text">
-                        <b>{{request.firstName + " " + request.lastName}}</b>
-                        בחברים שלך עכשיו
+                        {{request.firstName + " " + request.lastName + " "}} אישר/ה את בקשת החברות
                     </span>
                 </div>
                 <div class="friend-request-container" *ngFor="let request of friendRequestsObjects">

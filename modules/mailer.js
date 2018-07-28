@@ -24,16 +24,16 @@ module.exports = {
     },
     RegisterMail: function (email, name) {
         this.SendMail(email,
-            "ברוך הבא!",
-            "שלום " + name + ", ברוך הבא לאתר ForUs!");
+            "ForUs",
+            GetTimeBlessing() + name + ", אנחנו שמחים לברך אותך על הצטרפותך לאתר ForUs!");
     },
     ForgotPasswordMail: function (email, name, code) {
         this.SendMail(email,
             "איפוס סיסמא",
-            "שלום " + name + ", " + "<br>" + "הקוד שהונפק עבורך לאיפוס הסיסמא הוא: <b>" + code + "<b>");
+            GetTimeBlessing() + name + ", " + "<br>" + "הקוד שהונפק עבורך לאיפוס הסיסמא הוא: <b>" + code + "<b>");
     },
     MessageNotificationAlert: function (email, name, senderName) {
-        var text = "שלום " + name + ", " + "<br>" + "ממתינה עבורך הודעה חדשה<name>." + "<br>" + config.addresses.site;
+        var text = GetTimeBlessing() + name + ", " + "<br>" + "ממתינה עבורך הודעה חדשה<name>." + "<br>" + config.addresses.site;
         text = senderName ? text.replace("<name>", " מ" + senderName) : text.replace("<name>", "");
 
         this.SendMail(email,
@@ -43,12 +43,12 @@ module.exports = {
     FriendRequestAlert: function (email, name, friendName) {
         this.SendMail(email,
             "בקשת חברות",
-            "שלום " + name + "," + "<br>" + "בקשת חברות חדשה הגיעה מ" + friendName + ".<br>" + config.addresses.site);
+            GetTimeBlessing() + name + "," + "<br>" + "בקשת חברות חדשה הגיעה מ" + friendName + ".<br>" + config.addresses.site);
     },
     FriendRequestConfirm: function (email, name, friendName) {
         this.SendMail(email,
             "אישור בקשת חברות",
-            "שלום " + friendName + "," + "<br>" + "החברות עם " + name + " אושרה.<br>" + config.addresses.site);
+            GetTimeBlessing() + friendName + "," + "<br>" + "החברות עם " + name + " אושרה.<br>" + config.addresses.site);
     },
     BlockMessage: function (email, name, reason, date) {
         var dateString;
@@ -65,7 +65,7 @@ module.exports = {
 
         this.SendMail(email,
             "חסימת משתמש",
-            "שלום " + name + ", " + "<br>" + "חשבונך באתר נחסם לשימוש.<br><br>" +
+            GetTimeBlessing() + name + ", " + "<br>" + "חשבונך באתר נחסם לשימוש.<br><br>" +
             "סיבת החסימה: " + reason + "<br>" + dateString + "<b>" + date + "</b>");
     }
 };
@@ -73,4 +73,24 @@ module.exports = {
 function ConvertDateFormat(date) {
     date = new Date(date);
     return (date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
+}
+
+function GetTimeBlessing() {
+    var hour = new Date().getHours();
+
+    if (hour >= 5 && hour < 12) {
+        return "בוקר טוב ";
+    }
+    else if (hour >= 12 && hour < 14) {
+        return "צהריים טובים ";
+    }
+    else if (hour >= 14 && hour < 17) {
+        return "אחר הצהריים טובים ";
+    }
+    else if (hour >= 17 && hour < 20) {
+        return "ערב טוב ";
+    }
+    else {
+        return "לילה טוב ";
+    }
 }
