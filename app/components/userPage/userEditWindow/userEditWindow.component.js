@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var userEditWindow_service_1 = require("../../../services/userPage/userEditWindow/userEditWindow.service");
 var alert_service_1 = require("../../../services/alert/alert.service");
+var global_service_1 = require("../../../services/global/global.service");
 var microtext_service_1 = require("../../../services/microtext/microtext.service");
 var EditUser = /** @class */ (function () {
     function EditUser() {
@@ -19,9 +20,10 @@ var EditUser = /** @class */ (function () {
     return EditUser;
 }());
 var UserEditWindowComponent = /** @class */ (function () {
-    function UserEditWindowComponent(userEditWindowService, alertService, microtextService) {
+    function UserEditWindowComponent(userEditWindowService, alertService, globalService, microtextService) {
         this.userEditWindowService = userEditWindowService;
         this.alertService = alertService;
+        this.globalService = globalService;
         this.microtextService = microtextService;
         this.editUser = {};
         // Login validation functions array.
@@ -110,6 +112,7 @@ var UserEditWindowComponent = /** @class */ (function () {
         }
     };
     UserEditWindowComponent.prototype.CloseWindow = function () {
+        this.globalService.setData("closeUserEditWindow", true);
     };
     // Hide microtext in a specific field.
     UserEditWindowComponent.prototype.HideMicrotext = function (microtextId) {
@@ -127,6 +130,7 @@ var UserEditWindowComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [userEditWindow_service_1.UserEditWindowService,
             alert_service_1.AlertService,
+            global_service_1.GlobalService,
             microtext_service_1.MicrotextService])
     ], UserEditWindowComponent);
     return UserEditWindowComponent;

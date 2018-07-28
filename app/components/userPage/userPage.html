@@ -13,7 +13,7 @@
             <!-- Tabs for user page -->
             <div class="tab-line">
                 <span class="tab-container" *ngFor="let tab of GetTabs()">
-                    <span [title]="tab.title" class="tab" [ngClass]="{'selected-tab' : tab.isSelected}" (click)="CloseOpenTabs();tab.onClick()">
+                    <span [title]="tab.title" class="tab" (click)="CloseOpenTabs();tab.onClick()">
                         <i class="tab-icon {{tab.icon}}">{{tab.innerIconText}}</i>
                     </span>
                     <div *ngIf="tab.isOptionsMenuOpen" class="options-drop-menu">
@@ -22,10 +22,10 @@
                             <i *ngIf="isTouchDevice" class="option-icon-align {{option.icon}}"></i>
                         </div>
                     </div>
-                    <div *ngIf="tab.id=='edit'" class="user-edit-container">                        
-                        <userEditWindow [user]="user"></userEditWindow>
-                    </div>
                 </span>
+                <div *ngIf="isShowUserEdit">
+                    <userEditWindow [user]="user"></userEditWindow>
+                </div>
             </div>
         </div>
     </div>

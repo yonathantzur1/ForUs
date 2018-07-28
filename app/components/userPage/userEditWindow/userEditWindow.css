@@ -1,13 +1,32 @@
-#userEditWindow {
-    position: relative;
-    width: 100%;
+#userEditWindow .overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
     height: 100%;
+    width: 100%;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.30);
+}
+
+#userEditWindow .container {
+    position: fixed;
+    width: 400;
+    height: 400px;
     background-color: #f3f3f3;
-    box-shadow: 1px 1px 8px 1px #b7b7b7;
+    box-shadow: 4px 4px 30px 5px #5d5d5d;
     font-family: var(--main-font);
     color: var(--main-text-color);
-    max-width: 500px;
+    border-radius: 3px;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1001;
     margin: auto;
+    max-width: 90%;
+    max-height: 70%;
+    min-height: 250px;
 }
 
 #userEditWindow .title {

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { UserEditWindowService } from '../../../services/userPage/userEditWindow/userEditWindow.service';
 import { AlertService, AlertType } from '../../../services/alert/alert.service';
+import { GlobalService } from '../../../services/global/global.service';
 import { MicrotextService, InputFieldValidation } from '../../../services/microtext/microtext.service';
 
 class EditUser {
@@ -53,6 +54,7 @@ export class UserEditWindowComponent implements OnInit {
 
     constructor(private userEditWindowService: UserEditWindowService,
         private alertService: AlertService,
+        private globalService: GlobalService,
         private microtextService: MicrotextService) { }
 
     ngOnInit() {
@@ -116,7 +118,7 @@ export class UserEditWindowComponent implements OnInit {
     }
 
     CloseWindow() {
-
+        this.globalService.setData("closeUserEditWindow", true);
     }
 
     // Hide microtext in a specific field.

@@ -20,6 +20,7 @@ declare var globalVariables: any;
 export class UserPageComponent implements OnInit, OnDestroy {
     isTouchDevice: boolean = globalVariables.isTouchDevice;
     isLoading: boolean;
+    isShowUserEdit: boolean = false;
     user: any;
     tabs: any;
 
@@ -43,6 +44,10 @@ export class UserPageComponent implements OnInit, OnDestroy {
             if (value["isImageDeleted"]) {
                 delete this.user.profileImage;
             }
+
+            if (value["closeUserEditWindow"]) {
+                this.isShowUserEdit = false;
+            }
         });
 
         var self = this;
@@ -58,10 +63,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                     return self.IsUserPageSelf();
                 },
                 onClick: function () {
-                    this.isSelected = true;
-                },
-                onClose: function() {
-                    this.isSelected = false;
+                    self.isShowUserEdit = true;
                 }
             },
             {

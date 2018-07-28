@@ -1,31 +1,34 @@
 <div id="userEditWindow">
-    <i class="material-icons top-icon save-icon" [ngClass]="{'disabled-icon': IsDisableSaveEdit()}" (click)="SaveChanges()">save</i>
-    <i class="material-icons top-icon close-icon" (click)="CloseWindow()">close</i>
-    <div class="title">
-        עדכון מידע
+    <div class="overlay"></div>
+    <div class="container">
+        <i class="material-icons top-icon save-icon" [ngClass]="{'disabled-icon': IsDisableSaveEdit()}" (click)="SaveChanges()">save</i>
+        <i class="material-icons top-icon close-icon" (click)="CloseWindow()">close</i>
+        <div class="title">
+            עדכון מידע
+        </div>
+        <form>
+            <div class="row form-group">
+                <span class="col-6">
+                    <label>שם פרטי</label>
+                    <input [(ngModel)]="editUser.firstName" id="edit-first-name" name="editFirstName" class="form-control" maxlength="10" autocapitalize="off"
+                        autocomplete="off" autocorrect="off" spellcheck="false" type="text" (keyup)="HideMicrotext('edit-user-first-name-micro')">
+                    <span id="edit-user-first-name-micro" class="microtext"></span>
+                </span>
+                <span class="col-6">
+                    <label>שם משפחה</label>
+                    <input [(ngModel)]="editUser.lastName" id="edit-last-name" name="editLastName" class="form-control" maxlength="10" autocapitalize="off"
+                        autocomplete="off" autocorrect="off" spellcheck="false" type="text" (keyup)="HideMicrotext('edit-user-last-name-micro')">
+                    <span id="edit-user-last-name-micro" class="microtext"></span>
+                </span>
+            </div>
+            <div class="row form-group">
+                <span class="col-12">
+                    <label>אימייל</label>
+                    <input [(ngModel)]="editUser.email" id="edit-email" name="editEmail" class="form-control email-input" autocapitalize="off"
+                        autocomplete="off" autocorrect="off" spellcheck="false" type="email" (keyup)="HideMicrotext('edit-user-email-micro')">
+                    <span id="edit-user-email-micro" class="microtext"></span>
+                </span>
+            </div>
+        </form>
     </div>
-    <form>
-        <div class="row form-group">
-            <span class="col-6">
-                <label>שם פרטי</label>
-                <input [(ngModel)]="editUser.firstName" id="edit-first-name" name="editFirstName" class="form-control" maxlength="10" autocapitalize="off"
-                    autocomplete="off" autocorrect="off" spellcheck="false" type="text" (keyup)="HideMicrotext('edit-user-first-name-micro')">
-                <span id="edit-user-first-name-micro" class="microtext"></span>
-            </span>
-            <span class="col-6">
-                <label>שם משפחה</label>
-                <input [(ngModel)]="editUser.lastName" id="edit-last-name" name="editLastName" class="form-control" maxlength="10" autocapitalize="off"
-                    autocomplete="off" autocorrect="off" spellcheck="false" type="text" (keyup)="HideMicrotext('edit-user-last-name-micro')">
-                <span id="edit-user-last-name-micro" class="microtext"></span>
-            </span>
-        </div>
-        <div class="row form-group">
-            <span class="col-12">
-                <label>אימייל</label>
-                <input [(ngModel)]="editUser.email" id="edit-email" name="editEmail" class="form-control email-input" autocapitalize="off"
-                    autocomplete="off" autocorrect="off" spellcheck="false" type="email" (keyup)="HideMicrotext('edit-user-email-micro')">
-                <span id="edit-user-email-micro" class="microtext"></span>
-            </span>
-        </div>
-    </form>
 </div>

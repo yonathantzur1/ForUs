@@ -26,6 +26,7 @@ var UserPageComponent = /** @class */ (function () {
         this.snackbarService = snackbarService;
         this.globalService = globalService;
         this.isTouchDevice = globalVariables.isTouchDevice;
+        this.isShowUserEdit = false;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
             if (value["newUploadedImage"]) {
                 if (!_this.user.profileImage) {
@@ -35,6 +36,9 @@ var UserPageComponent = /** @class */ (function () {
             }
             if (value["isImageDeleted"]) {
                 delete _this.user.profileImage;
+            }
+            if (value["closeUserEditWindow"]) {
+                _this.isShowUserEdit = false;
             }
         });
         var self = this;
@@ -49,10 +53,7 @@ var UserPageComponent = /** @class */ (function () {
                     return self.IsUserPageSelf();
                 },
                 onClick: function () {
-                    this.isSelected = true;
-                },
-                onClose: function () {
-                    this.isSelected = false;
+                    self.isShowUserEdit = true;
                 }
             },
             {
