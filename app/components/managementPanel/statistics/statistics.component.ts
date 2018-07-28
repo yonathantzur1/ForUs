@@ -57,11 +57,6 @@ export class StatisticsComponent {
                         isSelected: false
                     },
                     {
-                        text: "ניסיונות כניסת משתמש חסום",
-                        logType: LOG_TYPE.BLOCK_USER_LOGIN_TRY,
-                        isSelected: false
-                    },
-                    {
                         text: "בקשות שינוי סיסמא",
                         logType: LOG_TYPE.RESET_PASSWORD_REQUEST,
                         isSelected: false

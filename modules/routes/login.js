@@ -69,8 +69,6 @@ module.exports = (app) => {
                         req.brute.reset(() => {
                             res.send({ result: { "block": result.block } });
                         });
-
-                        logsBL.BlockUserLoginTry(req.body.email, general.GetIpFromRequest(req), general.GetUserAgentFromRequest(req));
                     }
                     // In case the user email and password are valid.
                     else {

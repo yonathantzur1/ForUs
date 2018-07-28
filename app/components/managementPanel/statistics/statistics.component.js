@@ -44,11 +44,6 @@ var StatisticsComponent = /** @class */ (function () {
                         isSelected: false
                     },
                     {
-                        text: "ניסיונות כניסת משתמש חסום",
-                        logType: enums_1.LOG_TYPE.BLOCK_USER_LOGIN_TRY,
-                        isSelected: false
-                    },
-                    {
                         text: "בקשות שינוי סיסמא",
                         logType: enums_1.LOG_TYPE.RESET_PASSWORD_REQUEST,
                         isSelected: false
