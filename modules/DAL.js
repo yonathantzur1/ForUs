@@ -198,7 +198,8 @@ module.exports = {
                 if (err == null) {
                     var collection = db.collection(collectionName);
 
-                    var updateConfig = {                        
+                    var updateConfig = {
+                        returnOriginal: false,                    
                         upsert: isInsertIfNotExists
                     }
 
