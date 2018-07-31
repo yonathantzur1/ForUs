@@ -16,6 +16,7 @@ var alert_service_1 = require("../../services/alert/alert.service");
 var snackbar_service_1 = require("../../services/snackbar/snackbar.service");
 var microtext_service_1 = require("../../services/microtext/microtext.service");
 var login_service_1 = require("../../services/login/login.service");
+var forgotPassword_service_1 = require("../../services/login/forgotPassword/forgotPassword.service");
 var regexpEnums_1 = require("../../regex/regexpEnums");
 var User = /** @class */ (function () {
     function User() {
@@ -53,13 +54,14 @@ var ForgotUser = /** @class */ (function () {
 }());
 exports.ForgotUser = ForgotUser;
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent(router, alertService, snackbarService, microtextService, globalService, loginService) {
+    function LoginComponent(router, alertService, snackbarService, microtextService, globalService, loginService, forgotPasswordService) {
         this.router = router;
         this.alertService = alertService;
         this.snackbarService = snackbarService;
         this.microtextService = microtextService;
         this.globalService = globalService;
         this.loginService = loginService;
+        this.forgotPasswordService = forgotPasswordService;
         this.user = new User();
         this.newUser = new NewUser();
         this.forgotUser = new ForgotUser();
@@ -305,7 +307,7 @@ var LoginComponent = /** @class */ (function () {
             this.isLoading = true;
             // In case the user is in the first stage of reset password.
             if (this.forgotUser.showResetCodeField == false) {
-                this.loginService.Forgot(this.forgotUser.email).then(function (data) {
+                this.forgotPasswordService.Forgot(this.forgotUser.email).then(function (data) {
                     var result = data ? data.result : null;
                     _this.isLoading = false;
                     // In case of server error.
@@ -327,7 +329,7 @@ var LoginComponent = /** @class */ (function () {
             }
             // In case the user is in the second stage of reset password.
             else {
-                this.loginService.ResetPassword(this.forgotUser).then(function (data) {
+                this.forgotPasswordService.ResetPassword(this.forgotUser).then(function (data) {
                     var result = data ? data.result : null;
                     _this.isLoading = false;
                     // In case of server error.
@@ -389,7 +391,7 @@ var LoginComponent = /** @class */ (function () {
     // Key up in login.
     LoginComponent.prototype.LoginKeyUp = function (event) {
         // In case the key is enter.
-        if (event.keyCode == 13) {
+        if (event.key == "Enter" || event.key == "NumpadEnter") {
             $(".user-input").blur();
             this.Login();
         }
@@ -397,7 +399,7 @@ var LoginComponent = /** @class */ (function () {
     // Key up in register modal.
     LoginComponent.prototype.RegisterKeyUp = function (event) {
         // In case the key is enter.
-        if (event.keyCode == 13) {
+        if (event.key == "Enter" || event.key == "NumpadEnter") {
             $(".user-input").blur();
             this.Register();
         }
@@ -405,7 +407,7 @@ var LoginComponent = /** @class */ (function () {
     // Key up in forgot modal.
     LoginComponent.prototype.ForgotKeyUp = function (event) {
         // In case the key is enter.
-        if (event.keyCode == 13) {
+        if (event.key == "Enter" || event.key == "NumpadEnter") {
             $(".user-input").blur();
             this.ResetPassword();
         }
@@ -429,14 +431,15 @@ var LoginComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'login',
             templateUrl: './login.html',
-            providers: [login_service_1.LoginService]
+            providers: [login_service_1.LoginService, forgotPassword_service_1.ForgotPasswordService]
         }),
         __metadata("design:paramtypes", [router_1.Router,
             alert_service_1.AlertService,
             snackbar_service_1.SnackbarService,
             microtext_service_1.MicrotextService,
             global_service_1.GlobalService,
-            login_service_1.LoginService])
+            login_service_1.LoginService,
+            forgotPassword_service_1.ForgotPasswordService])
     ], LoginComponent);
     return LoginComponent;
 }());

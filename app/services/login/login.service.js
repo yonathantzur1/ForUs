@@ -57,32 +57,6 @@ var LoginService = /** @class */ (function (_super) {
             return null;
         });
     };
-    LoginService.prototype.Forgot = function (email) {
-        var details = { "email": email };
-        return _super.prototype.put.call(this, this.prefix + '/forgot', JSON.stringify(details))
-            .toPromise()
-            .then(function (result) {
-            return result;
-        })
-            .catch(function (e) {
-            return null;
-        });
-    };
-    LoginService.prototype.ResetPassword = function (forgotUser) {
-        var details = {
-            "email": forgotUser.email,
-            "code": forgotUser.code,
-            "newPassword": forgotUser.newPassword
-        };
-        return _super.prototype.put.call(this, this.prefix + '/resetPassword', JSON.stringify(details))
-            .toPromise()
-            .then(function (result) {
-            return result;
-        })
-            .catch(function (e) {
-            return null;
-        });
-    };
     LoginService.prototype.DeleteTokenFromCookie = function () {
         return _super.prototype.delete.call(this, this.prefix + '/deleteToken')
             .toPromise()

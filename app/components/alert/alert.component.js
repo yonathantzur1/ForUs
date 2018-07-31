@@ -14,7 +14,7 @@ var alert_service_1 = require("../../services/alert/alert.service");
 var AlertComponent = /** @class */ (function () {
     function AlertComponent(alertService) {
         this.alertService = alertService;
-        this.alertType = alert_service_1.AlertType;
+        this.ALERT_TYPE = alert_service_1.ALERT_TYPE;
     }
     AlertComponent.prototype.ConfirmClick = function () {
         !this.alertService.isLoading && this.alertService.Confirm();

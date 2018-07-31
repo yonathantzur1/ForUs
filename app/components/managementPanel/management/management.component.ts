@@ -140,7 +140,7 @@ export class ManagementComponent implements OnDestroy {
 
     SearhUserInputKeyup(event: any) {
         // In case of pressing ENTER.
-        if (event.keyCode == 13) {
+        if (event.key == "Enter" || event.key == "NumpadEnter") {
             this.SearchUser();
         }
     }

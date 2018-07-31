@@ -152,49 +152,6 @@ module.exports = (app) => {
             });
         });
 
-    // Sending to the user an email with code to reset his password.
-    app.put(prefix + '/forgot',
-        validate,
-        (req, res) => {
-            var email = req.body.email;
-
-            loginBL.SetUserResetCode(email).then((result) => {
-                if (result) {
-                    mailer.ForgotPasswordMail(email, result.firstName, result.resetCode.code);
-                    res.send({ "result": true });
-
-                    // Log - in case the user has found.
-                    logsBL.ResetPasswordRequest(email, general.GetIpFromRequest(req), general.GetUserAgentFromRequest(req));
-                }
-                else {
-                    // Return to the client false in case the email was not found,
-                    // or null in case of error.
-                    res.send({ result });
-                }
-            }).catch((err) => {
-                res.status(500).end();
-            });
-        });
-
-    // Changing user password in db.
-    app.put(prefix + '/resetPassword',
-        validate,
-        (req, res) => {
-            loginBL.ResetPassword(req.body).then((result) => {
-                if (result && result.isChanged) {
-                    var token = general.GetTokenFromUserObject(result.user);
-                    general.SetTokenOnCookie(token, res);
-
-                    res.send({ "result": true });
-                }
-                else {
-                    res.send({ result });
-                }
-            }).catch((err) => {
-                res.status(500).end();
-            });
-        });
-
     // Delete token from cookies.
     app.delete(prefix + '/deleteToken', (req, res) => {
         general.DeleteTokenFromCookie(res);

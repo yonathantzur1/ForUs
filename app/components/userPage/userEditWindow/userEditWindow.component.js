@@ -99,7 +99,7 @@ var UserEditWindowComponent = /** @class */ (function () {
                         _this.alertService.Alert({
                             title: "עדכון מידע",
                             text: "העדכון בוצע בהצלחה",
-                            type: alert_service_1.AlertType.SUCCESS,
+                            type: alert_service_1.ALERT_TYPE.SUCCESS,
                             showCancelButton: false
                         });
                     }
@@ -108,7 +108,7 @@ var UserEditWindowComponent = /** @class */ (function () {
                     _this.alertService.Alert({
                         title: "עדכון מידע",
                         text: "אופס... אירעה שגיאה בעדכון הפרטים",
-                        type: alert_service_1.AlertType.DANGER,
+                        type: alert_service_1.ALERT_TYPE.DANGER,
                         showCancelButton: false
                     });
                 }

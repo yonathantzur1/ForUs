@@ -77,6 +77,7 @@ var connectedUsers = require('./modules/sockets/socket')(io);
 // Routes requires
 require('./modules/routes/auth')(app, connectedUsers);
 require('./modules/routes/login')(app);
+require('./modules/routes/forgotPassword')(app);
 require('./modules/routes/profile')(app);
 require('./modules/routes/profilePicture')(app);
 require('./modules/routes/navbar')(app);

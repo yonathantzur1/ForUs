@@ -118,7 +118,7 @@ var ManagementComponent = /** @class */ (function () {
     };
     ManagementComponent.prototype.SearhUserInputKeyup = function (event) {
         // In case of pressing ENTER.
-        if (event.keyCode == 13) {
+        if (event.key == "Enter" || event.key == "NumpadEnter") {
             this.SearchUser();
         }
     };

@@ -27,10 +27,12 @@ module.exports = {
             "ForUs",
             GetTimeBlessing() + name + ", אנחנו שמחים לברך אותך על הצטרפותך לאתר ForUs!");
     },
-    ForgotPasswordMail: function (email, name, code) {
+    ForgotPasswordMail: function (email, name, code, resetAddress) {
         this.SendMail(email,
             "איפוס סיסמא",
-            GetTimeBlessing() + name + ", " + "<br>" + "הקוד שהונפק עבורך לאיפוס הסיסמא הוא: <b>" + code + "<b>");
+            GetTimeBlessing() + name +
+            ", " + "<br>" + "הקוד שהונפק עבורך לאיפוס הסיסמא הוא: <b>" + code + "</b><br><br>" +
+            "או לחילופין, כניסה לקישור:<br>" + resetAddress);
     },
     MessageNotificationAlert: function (email, name, senderName) {
         var text = GetTimeBlessing() + name + ", " + "<br>" + "ממתינה עבורך הודעה חדשה<name>." + "<br>" + config.addresses.site;
@@ -87,7 +89,7 @@ function GetTimeBlessing() {
     else if (hour >= 14 && hour < 17) {
         return "אחר הצהריים טובים ";
     }
-    else if (hour >= 17 && hour < 20) {
+    else if (hour >= 17 && hour < 21) {
         return "ערב טוב ";
     }
     else {

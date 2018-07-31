@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { UserEditWindowService } from '../../../services/userPage/userEditWindow/userEditWindow.service';
-import { AlertService, AlertType } from '../../../services/alert/alert.service';
+import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
 import { GlobalService } from '../../../services/global/global.service';
 import { MicrotextService, InputFieldValidation } from '../../../services/microtext/microtext.service';
 
@@ -106,7 +106,7 @@ export class UserEditWindowComponent implements OnInit {
                         this.alertService.Alert({
                             title: "עדכון מידע",
                             text: "העדכון בוצע בהצלחה",
-                            type: AlertType.SUCCESS,
+                            type: ALERT_TYPE.SUCCESS,
                             showCancelButton: false
                         });
                     }
@@ -115,7 +115,7 @@ export class UserEditWindowComponent implements OnInit {
                     this.alertService.Alert({
                         title: "עדכון מידע",
                         text: "אופס... אירעה שגיאה בעדכון הפרטים",
-                        type: AlertType.DANGER,
+                        type: ALERT_TYPE.DANGER,
                         showCancelButton: false
                     });
                 }

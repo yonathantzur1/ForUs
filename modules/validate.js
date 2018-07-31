@@ -3,11 +3,28 @@ const regexp = require('../app/regex/regexpEnums');
 
 module.exports = function (req, res, next) {
     try {
-        var schemaPath = req.originalUrl.split('/');
-        schemaPath[0] = req.method;
+        var fullRequestPath = req.originalUrl;
+        var reqMethod = req.method;
+        var data;
 
-        var data = (schemaPath[0] == "POST" || schemaPath[0] == "PUT") ? req.body : req.query;
-        var schema = validateSchemaObj[schemaPath[0]];
+        if (reqMethod == "POST" || reqMethod == "PUT") {
+            data = req.body;
+        }
+        else if (reqMethod == "GET" || reqMethod == "DELETE") {
+            data = req.query;
+
+            // Searching for ? of query parameters.
+            var startParametersIndex = fullRequestPath.indexOf('?');
+
+            if (startParametersIndex != -1) {
+                fullRequestPath = fullRequestPath.substring(0, startParametersIndex);
+            }
+        }
+
+        var schemaPath = fullRequestPath.split('/');
+        schemaPath[0] = reqMethod;
+
+        var schema = validateSchemaObj[reqMethod];
 
         for (var i = 1; i < schemaPath.length; i++) {
             schema = schema[schemaPath[i]];
@@ -26,7 +43,7 @@ module.exports = function (req, res, next) {
             throw (result.error.message);
         }
         else {
-            next()
+            next();
         }
     }
     catch (err) {
@@ -51,6 +68,13 @@ function BuildSchemaPathString(schemaPath) {
 }
 
 var validateSchemaObj = {
+    "GET": {
+        "forgotPassword": {
+            "validateResetPasswordToken": {
+                token: joi.string().regex(new RegExp(regexp.PasswordRegexp.hash, "i"))
+            }
+        }
+    },
     "POST": {
         "login": {
             "userLogin": {
@@ -66,13 +90,17 @@ var validateSchemaObj = {
         }
     },
     "PUT": {
-        "login": {
+        "forgotPassword": {
             "forgot": {
                 email: joi.string().email()
             },
             "resetPassword": {
                 email: joi.string().email(),
                 code: joi.string().required(),
+                newPassword: joi.string().required()
+            },
+            "resetPasswordByToken": {
+                token: joi.string().regex(new RegExp(regexp.PasswordRegexp.hash, "i")),
                 newPassword: joi.string().required()
             }
         },

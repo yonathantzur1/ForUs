@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var router_2 = require("@angular/router");
 var global_service_1 = require("../../services/global/global.service");
 var alert_service_1 = require("../../services/alert/alert.service");
 var userPage_service_1 = require("../../services/userPage/userPage.service");
@@ -244,7 +243,7 @@ var UserPageComponent = /** @class */ (function () {
             templateUrl: './userPage.html',
             providers: [userPage_service_1.UserPageService]
         }),
-        __metadata("design:paramtypes", [router_2.Router,
+        __metadata("design:paramtypes", [router_1.Router,
             router_1.ActivatedRoute,
             userPage_service_1.UserPageService,
             alert_service_1.AlertService,

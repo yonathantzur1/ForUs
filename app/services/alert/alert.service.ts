@@ -1,4 +1,4 @@
-export enum AlertType {
+export enum ALERT_TYPE {
     SUCCESS = "success",
     DANGER = "danger",
     WARNING = "warning"
@@ -10,7 +10,7 @@ export class AlertService {
     public showCancelButton: boolean;
     public title: string;
     public text: string;
-    public type: AlertType;
+    public type: ALERT_TYPE;
     public preConfirm: Function;
     public confirmFunc: Function;
     public closeFunc: Function;

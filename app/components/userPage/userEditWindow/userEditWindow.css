@@ -87,6 +87,7 @@
 
 #userEditWindow .microtext {
     color: var(--microtext-color);
+    font-family: var(--main-font);
     font-size: 12px;
     position: absolute;
 }

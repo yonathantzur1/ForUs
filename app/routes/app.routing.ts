@@ -2,6 +2,7 @@ import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { LoginComponent } from '../components/login/login.component';
+import { ForgotPasswordComponent } from '../components/login/forgotPassword/forgotPassword.component';
 import { HomeComponent } from '../components/home/home.component';
 import { ManagementPanelComponent } from '../components/managementPanel/managementPanel.component';
 import { ManagementComponent } from '../components/managementPanel/management/management.component';
@@ -14,6 +15,7 @@ import { RootAuthGuard } from '../guards/rootAuth/rootAuth.guard';
 import { LoginGuard } from '../guards/login/login.guard';
 
 const routes: Routes = [
+  { path: 'forgot/:passToken', component: ForgotPasswordComponent },
   {
     path: '',
     component: HomeComponent,

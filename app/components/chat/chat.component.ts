@@ -373,7 +373,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     MsgInputKeyup(event: any) {
         // In case of pressing ENTER.
-        if (event.keyCode == 13) {
+        if (event.key == "Enter" || event.key == "NumpadEnter") {
             this.SendMessage();
         }
         // In case of pressing ESCAPE.

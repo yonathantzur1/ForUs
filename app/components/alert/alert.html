@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="btns-sector">
-                <div class="alert-btn confirm-btn" [ngClass]="{'danger-btn' : alertService.type == alertType.DANGER || alertService.type == alertType.WARNING}"
+                <div class="alert-btn confirm-btn" [ngClass]="{'danger-btn' : alertService.type == ALERT_TYPE.DANGER || alertService.type == ALERT_TYPE.WARNING}"
                     (click)="ConfirmClick()">
                     <span *ngIf="!alertService.isLoading">{{alertService.confirmBtnText}}</span>
                     <div class="mini-loader alert-loader" *ngIf="alertService.isLoading">

@@ -280,7 +280,7 @@ var ChatComponent = /** @class */ (function () {
     };
     ChatComponent.prototype.MsgInputKeyup = function (event) {
         // In case of pressing ENTER.
-        if (event.keyCode == 13) {
+        if (event.key == "Enter" || event.key == "NumpadEnter") {
             this.SendMessage();
         }
         // In case of pressing ESCAPE.

@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var AlertType;
-(function (AlertType) {
-    AlertType["SUCCESS"] = "success";
-    AlertType["DANGER"] = "danger";
-    AlertType["WARNING"] = "warning";
-})(AlertType = exports.AlertType || (exports.AlertType = {}));
+var ALERT_TYPE;
+(function (ALERT_TYPE) {
+    ALERT_TYPE["SUCCESS"] = "success";
+    ALERT_TYPE["DANGER"] = "danger";
+    ALERT_TYPE["WARNING"] = "warning";
+})(ALERT_TYPE = exports.ALERT_TYPE || (exports.ALERT_TYPE = {}));
 var AlertService = /** @class */ (function () {
     function AlertService() {
         this.Initialize();

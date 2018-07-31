@@ -7,9 +7,6 @@ const sha512 = require('js-sha512');
 const collectionName = config.db.collections.users;
 const permissionsCollectionName = config.db.collections.permissions;
 const saltNumOfDigits = config.security.loginSecure.saltNumOfDigits;
-const resetCodeNumOfDigits = config.security.loginSecure.resetCodeNumOfDigits;
-const resetCodeNumOfHoursValid = config.security.loginSecure.resetCodeNumOfHoursValid;
-const resetPasswordMaxTries = config.security.loginSecure.resetPasswordMaxTries;
 
 var self = module.exports = {
 
@@ -18,12 +15,12 @@ var self = module.exports = {
             var userFilter = { $match: { "_id": DAL.GetObjectId(id) } };
             var joinFilter = {
                 $lookup:
-                    {
-                        from: permissionsCollectionName,
-                        localField: '_id',
-                        foreignField: 'members',
-                        as: 'permissions'
-                    }
+                {
+                    from: permissionsCollectionName,
+                    localField: '_id',
+                    foreignField: 'members',
+                    as: 'permissions'
+                }
             }
 
             // Remove unnecessary fields. 
@@ -159,101 +156,6 @@ var self = module.exports = {
             else {
                 resolve(null);
             }
-        });
-    },
-
-    // Add reset password code to the DB and return the name of the user.
-    SetUserResetCode: (email) => {
-        return new Promise((resolve, reject) => {
-            var code = generator.GenerateCode(resetCodeNumOfDigits, true);
-
-            var resetCode = {
-                $set: {
-                    "resetCode":
-                        {
-                            "code": code,
-                            "date": new Date(),
-                            "tryNum": 0,
-                            "isUsed": false
-                        }
-                }
-            };
-
-            DAL.UpdateOne(collectionName, { email }, resetCode).then(resolve).catch(reject);
-        });
-    },
-
-    // Rest password of the user.
-    ResetPassword: (forgotUser) => {
-        return new Promise((resolve, reject) => {
-            var emailObj = { "email": forgotUser.email };
-            var errorsObj = {
-                emailNotFound: false,
-                codeNotFound: false,
-                codeNotValid: false,
-                codeIsExpired: false,
-                maxTry: false,
-                codeIsUsed: false
-            };
-
-            DAL.Find(collectionName, emailObj).then((result) => {
-                if (result.length > 1) {
-                    resolve(null);
-                }
-                // In case the email was not found.
-                else if (result.length == 0) {
-                    errorsObj.emailNotFound = true;
-                    resolve(errorsObj);
-                }
-                // In case the code was not found.
-                else if (!result[0].resetCode) {
-                    errorsObj.codeNotFound = true;
-                    resolve(errorsObj);
-                }
-                // In case the code is used.
-                else if (result[0].resetCode.isUsed) {
-                    errorsObj.codeIsUsed = true;
-                    resolve(errorsObj);
-                }
-                // In case the code is in max try.
-                else if (result[0].resetCode.tryNum >= resetPasswordMaxTries) {
-                    errorsObj.maxTry = true;
-                    resolve(errorsObj);
-                }
-                // In case the code is expired.
-                else if (new Date(result[0].resetCode.date).addHours(resetCodeNumOfHoursValid).getTime() < (new Date()).getTime()) {
-                    errorsObj.codeIsExpired = true;
-                    resolve(errorsObj);
-                }
-                // In case the code is wrong.
-                else if (result[0].resetCode.code != forgotUser.code) {
-                    errorsObj.codeNotValid = true;
-                    var resetCodeObj = result[0].resetCode;
-                    resetCodeObj.tryNum++;
-
-                    var updateCodeObj = { $set: { "resetCode": resetCodeObj } };
-
-                    // Update num of tries to the code.
-                    DAL.UpdateOne(collectionName, emailObj, updateCodeObj).then((updateResult) => {
-                        updateResult ? resolve(errorsObj) : resolve(updateResult);
-                    }).catch(reject);
-                }
-                // In case the reset code is valid, change the user password.
-                else {
-                    var updateUser = result[0];
-                    updateUser.uid = general.GenerateId();
-                    updateUser.salt = generator.GenerateCode(saltNumOfDigits);
-                    updateUser.password = sha512(forgotUser.newPassword + updateUser.salt);
-                    updateUser.resetCode.isUsed = true;
-                    updateUser.resetCode.tryNum++;
-
-                    updateUserObj = { $set: updateUser };
-
-                    DAL.UpdateOne(collectionName, emailObj, updateUserObj).then((updateResult) => {
-                        updateResult ? resolve({ "isChanged": true, "user": updateResult }) : resolve(updateResult);
-                    });
-                }
-            }).catch(reject);
         });
     }
 

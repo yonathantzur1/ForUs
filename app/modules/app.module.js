@@ -19,6 +19,7 @@ var loaderDots_component_1 = require("../components/loaders/loaderDots/loaderDot
 var alert_component_1 = require("../components/alert/alert.component");
 var snackbar_component_1 = require("../components/snackbar/snackbar.component");
 var login_component_1 = require("../components/login/login.component");
+var forgotPassword_component_1 = require("../components/login/forgotPassword/forgotPassword.component");
 var home_component_1 = require("../components/home/home.component");
 var navbar_component_1 = require("../components/navbar/navbar.component");
 var dropMenu_component_1 = require("../components/dropMenu/dropMenu.component");
@@ -65,6 +66,7 @@ var AppModule = /** @class */ (function () {
                 alert_component_1.AlertComponent,
                 snackbar_component_1.SnackbarComponent,
                 login_component_1.LoginComponent,
+                forgotPassword_component_1.ForgotPasswordComponent,
                 home_component_1.HomeComponent,
                 pageNotFound_component_1.PageNotFoundComponent,
                 navbar_component_1.NavbarComponent,

@@ -7,6 +7,7 @@ import { SnackbarService } from '../../services/snackbar/snackbar.service';
 import { MicrotextService, InputFieldValidation } from '../../services/microtext/microtext.service';
 
 import { LoginService } from '../../services/login/login.service';
+import { ForgotPasswordService } from '../../services/login/forgotPassword/forgotPassword.service';
 
 import { UserRegexp } from '../../regex/regexpEnums'
 
@@ -54,7 +55,7 @@ export class ForgotUser {
 @Component({
   selector: 'login',
   templateUrl: './login.html',
-  providers: [LoginService]
+  providers: [LoginService, ForgotPasswordService]
 })
 
 export class LoginComponent {
@@ -211,7 +212,8 @@ export class LoginComponent {
     private snackbarService: SnackbarService,
     private microtextService: MicrotextService,
     private globalService: GlobalService,
-    private loginService: LoginService) { }
+    private loginService: LoginService,
+    private forgotPasswordService: ForgotPasswordService) { }
 
   // Running on the array of validation functions and make sure all valid.
   // Getting validation array and object to valid.
@@ -323,7 +325,7 @@ export class LoginComponent {
 
       // In case the user is in the first stage of reset password.
       if (this.forgotUser.showResetCodeField == false) {
-        this.loginService.Forgot(this.forgotUser.email).then((data: any) => {
+        this.forgotPasswordService.Forgot(this.forgotUser.email).then((data: any) => {
           var result = data ? data.result : null;
           this.isLoading = false;
 
@@ -346,7 +348,7 @@ export class LoginComponent {
       }
       // In case the user is in the second stage of reset password.
       else {
-        this.loginService.ResetPassword(this.forgotUser).then((data: any) => {
+        this.forgotPasswordService.ResetPassword(this.forgotUser).then((data: any) => {
           var result = data ? data.result : null;
           this.isLoading = false;
 
@@ -415,7 +417,7 @@ export class LoginComponent {
   // Key up in login.
   LoginKeyUp(event: any) {
     // In case the key is enter.
-    if (event.keyCode == 13) {
+    if (event.key == "Enter" || event.key == "NumpadEnter") {
       $(".user-input").blur();
       this.Login();
     }
@@ -424,7 +426,7 @@ export class LoginComponent {
   // Key up in register modal.
   RegisterKeyUp(event: any) {
     // In case the key is enter.
-    if (event.keyCode == 13) {
+    if (event.key == "Enter" || event.key == "NumpadEnter") {
       $(".user-input").blur();
       this.Register();
     }
@@ -433,7 +435,7 @@ export class LoginComponent {
   // Key up in forgot modal.
   ForgotKeyUp(event: any) {
     // In case the key is enter.
-    if (event.keyCode == 13) {
+    if (event.key == "Enter" || event.key == "NumpadEnter") {
       $(".user-input").blur();
       this.ResetPassword();
     }
