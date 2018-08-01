@@ -46,7 +46,7 @@ var UserPageComponent = /** @class */ (function () {
                 id: "edit",
                 icon: "fas fa-user-edit",
                 innerIconText: "",
-                title: "עריכת פרטים",
+                title: "עדכון פרטים",
                 isShow: function () {
                     return self.IsUserPageSelf();
                 },
@@ -62,10 +62,11 @@ var UserPageComponent = /** @class */ (function () {
                 isShow: function () {
                     return self.user.isFriend;
                 },
+                onClick: function () {
+                },
                 options: [
                     {
                         text: "הסרת חברות",
-                        icon: "fas fa-user-minus",
                         action: function () {
                             self.alertService.Alert({
                                 title: "הסרת חברות",
@@ -94,12 +95,10 @@ var UserPageComponent = /** @class */ (function () {
                     },
                     {
                         text: "דיווח",
-                        icon: "fas fa-ban"
+                        action: function () {
+                        }
                     }
-                ],
-                onClick: function () {
-                    this.isOptionsMenuOpen = !this.isOptionsMenuOpen;
-                }
+                ]
             },
             {
                 id: "addFriendRequest",
@@ -146,9 +145,24 @@ var UserPageComponent = /** @class */ (function () {
                 id: "menu",
                 icon: "fas fa-bars",
                 innerIconText: "",
-                title: "",
+                title: "עוד",
                 onClick: function () {
-                }
+                },
+                isShow: function () {
+                    return self.IsUserPageSelf();
+                },
+                options: [
+                    {
+                        text: "שינוי סיסמא",
+                        action: function () {
+                        }
+                    },
+                    {
+                        text: "מחיקת משתמש",
+                        action: function () {
+                        }
+                    }
+                ]
             }
         ];
     }
@@ -200,10 +214,21 @@ var UserPageComponent = /** @class */ (function () {
     UserPageComponent.prototype.ngOnDestroy = function () {
         this.subscribeObj.unsubscribe();
     };
-    UserPageComponent.prototype.InitializePage = function (user) {
+    UserPageComponent.prototype.ChangeTabOptionsMenuState = function (tab) {
+        if (tab.options) {
+            tab.isOptionsMenuOpen = !tab.isOptionsMenuOpen;
+        }
+    };
+    // Close all tabs without the tab with the given id.
+    UserPageComponent.prototype.CloseAllTabsOptionsMenus = function (id) {
         this.tabs.forEach(function (tab) {
-            tab.isOptionsMenuOpen = false;
+            if (tab.id != id) {
+                tab.isOptionsMenuOpen = false;
+            }
         });
+    };
+    UserPageComponent.prototype.InitializePage = function (user) {
+        this.CloseAllTabsOptionsMenus();
         this.globalService.setData("changeSearchInput", user.firstName + " " + user.lastName);
         this.user = user;
     };

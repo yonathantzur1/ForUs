@@ -54,8 +54,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
             {
                 id: "edit",
                 icon: "fas fa-user-edit",
-                innerIconText: "",                
-                title: "עריכת פרטים",
+                innerIconText: "",
+                title: "עדכון פרטים",
                 isShow: function () {
                     return self.IsUserPageSelf();
                 },
@@ -71,10 +71,12 @@ export class UserPageComponent implements OnInit, OnDestroy {
                 isShow: function () {
                     return self.user.isFriend;
                 },
+                onClick: function () {
+
+                },
                 options: [
                     {
                         text: "הסרת חברות",
-                        icon: "fas fa-user-minus",
                         action: function () {
                             self.alertService.Alert({
                                 title: "הסרת חברות",
@@ -103,12 +105,11 @@ export class UserPageComponent implements OnInit, OnDestroy {
                     },
                     {
                         text: "דיווח",
-                        icon: "fas fa-ban"
+                        action: function () {
+
+                        }
                     }
-                ],
-                onClick: function () {
-                    this.isOptionsMenuOpen = !this.isOptionsMenuOpen;
-                }
+                ]
             },
             {
                 id: "addFriendRequest",
@@ -155,10 +156,27 @@ export class UserPageComponent implements OnInit, OnDestroy {
                 id: "menu",
                 icon: "fas fa-bars",
                 innerIconText: "",
-                title: "",
+                title: "עוד",
                 onClick: function () {
 
-                }
+                },
+                isShow: function () {
+                    return self.IsUserPageSelf();
+                },
+                options: [
+                    {
+                        text: "שינוי סיסמא",
+                        action: function () {
+
+                        }
+                    },
+                    {
+                        text: "מחיקת משתמש",
+                        action: function () {
+
+                        }
+                    }
+                ]
             }
         ]
     }
@@ -219,10 +237,23 @@ export class UserPageComponent implements OnInit, OnDestroy {
         this.subscribeObj.unsubscribe();
     }
 
-    InitializePage(user: any) {
+    ChangeTabOptionsMenuState(tab: any) {
+        if (tab.options) {
+            tab.isOptionsMenuOpen = !tab.isOptionsMenuOpen;
+        }
+    }
+
+    // Close all tabs without the tab with the given id.
+    CloseAllTabsOptionsMenus(id?: string) {
         this.tabs.forEach((tab: any) => {
-            tab.isOptionsMenuOpen = false;
+            if (tab.id != id) {
+                tab.isOptionsMenuOpen = false;
+            }
         });
+    }
+
+    InitializePage(user: any) {
+        this.CloseAllTabsOptionsMenus();
 
         this.globalService.setData("changeSearchInput", user.firstName + " " + user.lastName);
         this.user = user;

@@ -1,5 +1,5 @@
 <div id="userPage">
-    <div *ngIf="user" class="container">
+    <div *ngIf="user" class="page-container">
         <div class="head-container">
             <span (click)="OpenProfileEditWindow()" class="user-image-container">
                 <i *ngIf="IsUserPageSelf()" class="fas fa-camera change-image-icon"></i>
@@ -13,13 +13,12 @@
             <!-- Tabs for user page -->
             <div class="tab-line">
                 <span class="tab-container" *ngFor="let tab of GetTabs()">
-                    <span [title]="tab.title" class="tab" (click)="tab.onClick()">
+                    <span [title]="tab.title" class="tab" (click)="CloseAllTabsOptionsMenus(tab.id);ChangeTabOptionsMenuState(tab);tab.onClick && tab.onClick()">
                         <i class="tab-icon {{tab.icon}}">{{tab.innerIconText}}</i>
                     </span>
                     <div *ngIf="tab.isOptionsMenuOpen" class="options-drop-menu">
-                        <div class="option-container" *ngFor="let option of tab.options" (click)="tab.isOptionsMenuOpen=false; option.action();">
-                            <span *ngIf="!isTouchDevice">{{option.text}}</span>
-                            <i *ngIf="isTouchDevice" class="option-icon-align {{option.icon}}"></i>
+                        <div class="option-container" *ngFor="let option of tab.options" (click)="tab.isOptionsMenuOpen=false;option.action && option.action();">
+                            <span>{{option.text}}</span>                            
                         </div>
                     </div>
                 </span>
