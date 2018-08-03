@@ -19,7 +19,7 @@ module.exports = (app, connectedUsers) => {
                     general.SetTokenOnCookie(general.GetTokenFromUserObject(user), res, true);
                     res.send(true);
                 }
-                else {
+                else {                    
                     res.send(false);
                 }
             }).catch((err) => {

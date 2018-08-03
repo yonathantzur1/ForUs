@@ -382,7 +382,8 @@ export class LoginComponent {
 
             var self = this;
 
-            self.globalService.CallSocketFunction('LogoutUserSessionServer');
+            self.globalService.CallSocketFunction('LogoutUserSessionServer',
+              [null, "תוקף הסיסמא פג, יש להתחבר מחדש"]);
 
             self.alertService.Alert({
               title: "איפוס סיסמא",

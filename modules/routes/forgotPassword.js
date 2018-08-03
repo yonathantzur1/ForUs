@@ -70,7 +70,14 @@ module.exports = (app) => {
         validate,
         (req, res) => {
             forgotPasswordBL.ResetPasswordByToken(req.body).then(result => {
-                res.send(result);
+                if (result) {
+                    var token = general.GetTokenFromUserObject(result);
+                    general.SetTokenOnCookie(token, res, true);
+                    res.send(true);
+                }
+                else {
+                    res.send(result);
+                }
             }).catch(err => {
                 res.status(500).end();
             });

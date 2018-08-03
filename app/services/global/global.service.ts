@@ -41,12 +41,37 @@ export class GlobalService extends LoginService {
     }
 
     // Emit socket event before initialize the socket object.
-    CallSocketFunction(funcName: string, obj?: any) {
+    CallSocketFunction(funcName: string, params?: Array<any>) {
         if (!this.socket) {
-            io().emit(funcName, obj);
+            eval("io().emit('" + funcName + "'," + this.GetParamsArrayAsString(params) + ");");
         }
         else {
-            this.socket.emit(funcName, obj);
+            eval("this.socket.emit('" + funcName + "'," + this.GetParamsArrayAsString(params) + ");");
+        }
+    }
+
+    GetParamsArrayAsString(params: Array<any>): string {
+        var paramsString = "";
+
+        if (!params || params.length == 0) {
+            return null;
+        }
+        else {
+            params.forEach((param: any) => {
+                if (typeof (param) == "object") {
+                    paramsString += JSON.stringify(param);
+                }
+                else if (typeof (param) == "string") {
+                    paramsString += '"' + param + '"';
+                }
+                else {
+                    paramsString += param.toString();
+                }
+
+                paramsString += ",";
+            });
+
+            return paramsString.substring(0, paramsString.length - 1);
         }
     }
 

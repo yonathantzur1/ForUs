@@ -13,13 +13,15 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var alert_service_1 = require("../../../services/alert/alert.service");
 var microtext_service_1 = require("../../../services/microtext/microtext.service");
+var global_service_1 = require("../../../services/global/global.service");
 var forgotPassword_service_1 = require("../../../services/login/forgotPassword/forgotPassword.service");
 var ForgotPasswordComponent = /** @class */ (function () {
-    function ForgotPasswordComponent(router, route, alertService, microtextService, forgotPasswordService) {
+    function ForgotPasswordComponent(router, route, alertService, microtextService, globalService, forgotPasswordService) {
         this.router = router;
         this.route = route;
         this.alertService = alertService;
         this.microtextService = microtextService;
+        this.globalService = globalService;
         this.forgotPasswordService = forgotPasswordService;
         // Login validation functions array.
         this.newPasswordValidations = [
@@ -60,6 +62,7 @@ var ForgotPasswordComponent = /** @class */ (function () {
                 .then(function (result) {
                 var self = _this;
                 if (result) {
+                    self.globalService.CallSocketFunction('LogoutUserSessionServer', [null, "תוקף הסיסמא פג, יש להתחבר מחדש"]);
                     self.alertService.Alert({
                         title: "איפוס סיסמא",
                         text: "הסיסמא הוחלפה בהצלחה!",
@@ -104,6 +107,7 @@ var ForgotPasswordComponent = /** @class */ (function () {
             router_1.ActivatedRoute,
             alert_service_1.AlertService,
             microtext_service_1.MicrotextService,
+            global_service_1.GlobalService,
             forgotPassword_service_1.ForgotPasswordService])
     ], ForgotPasswordComponent);
     return ForgotPasswordComponent;

@@ -360,7 +360,7 @@ var LoginComponent = /** @class */ (function () {
                     else {
                         $("#forgot-modal").modal('hide');
                         var self = _this;
-                        self.globalService.CallSocketFunction('LogoutUserSessionServer');
+                        self.globalService.CallSocketFunction('LogoutUserSessionServer', [null, "תוקף הסיסמא פג, יש להתחבר מחדש"]);
                         self.alertService.Alert({
                             title: "איפוס סיסמא",
                             text: "הסיסמא הוחלפה בהצלחה!",

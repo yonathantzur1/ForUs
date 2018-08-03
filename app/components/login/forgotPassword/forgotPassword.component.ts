@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
 import { MicrotextService, InputFieldValidation } from '../../../services/microtext/microtext.service';
+import { GlobalService } from '../../../services/global/global.service';
+
 import { ForgotPasswordService } from '../../../services/login/forgotPassword/forgotPassword.service';
 
 @Component({
@@ -33,6 +35,7 @@ export class ForgotPasswordComponent implements OnInit {
         private route: ActivatedRoute,
         private alertService: AlertService,
         private microtextService: MicrotextService,
+        private globalService: GlobalService,
         private forgotPasswordService: ForgotPasswordService) { }
 
     ngOnInit() {
@@ -64,6 +67,9 @@ export class ForgotPasswordComponent implements OnInit {
                     var self = this;
 
                     if (result) {
+                        self.globalService.CallSocketFunction('LogoutUserSessionServer',
+                            [null, "תוקף הסיסמא פג, יש להתחבר מחדש"]);
+
                         self.alertService.Alert({
                             title: "איפוס סיסמא",
                             text: "הסיסמא הוחלפה בהצלחה!",

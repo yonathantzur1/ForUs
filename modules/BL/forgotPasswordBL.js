@@ -136,7 +136,7 @@ module.exports = {
             }
 
             DAL.UpdateOne(collectionName, findObj, updateObj).then(result => {
-                resolve(result ? true : false);
+                resolve(result);
             }).catch(reject);
         });
     }

@@ -44,12 +44,33 @@ var GlobalService = /** @class */ (function (_super) {
             (this.userPermissions.indexOf(enums_1.PERMISSION.ADMIN) != -1));
     };
     // Emit socket event before initialize the socket object.
-    GlobalService.prototype.CallSocketFunction = function (funcName, obj) {
+    GlobalService.prototype.CallSocketFunction = function (funcName, params) {
         if (!this.socket) {
-            io().emit(funcName, obj);
+            eval("io().emit('" + funcName + "'," + this.GetParamsArrayAsString(params) + ");");
         }
         else {
-            this.socket.emit(funcName, obj);
+            eval("this.socket.emit('" + funcName + "'," + this.GetParamsArrayAsString(params) + ");");
+        }
+    };
+    GlobalService.prototype.GetParamsArrayAsString = function (params) {
+        var paramsString = "";
+        if (!params || params.length == 0) {
+            return null;
+        }
+        else {
+            params.forEach(function (param) {
+                if (typeof (param) == "object") {
+                    paramsString += JSON.stringify(param);
+                }
+                else if (typeof (param) == "string") {
+                    paramsString += '"' + param + '"';
+                }
+                else {
+                    paramsString += param.toString();
+                }
+                paramsString += ",";
+            });
+            return paramsString.substring(0, paramsString.length - 1);
         }
     };
     GlobalService.prototype.ResetGlobalVariables = function () {
