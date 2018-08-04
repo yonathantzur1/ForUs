@@ -39,7 +39,7 @@
 
 #management .friend-search-form-group {
     margin-top: 0px !important;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
 }
 
 #management .users-container {
@@ -299,8 +299,8 @@
 }
 
 #management .user-friend-container {
-    width: 85px;
-    height: 85px;    
+    width: 110px; /* If changing this property, change userFriendContainerWidth property */
+    height: 85px;
     display: inline-block;
     margin: 5px;
     text-align: center;

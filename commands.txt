@@ -18,6 +18,7 @@ npm install joi --save
 npm install node-schedule --save
 npm install chart.js --save
 npm install popper.js --save
+npm install @fortawesome/fontawesome-free --save
 npm install @angular/common --save
 npm install @angular/compiler --save
 npm install @angular/core --save

@@ -25,6 +25,8 @@ var ManagementComponent = /** @class */ (function () {
         this.users = [];
         this.friendsCache = {};
         this.friendsElementsPadding = 0;
+        // Css properties
+        this.userFriendContainerWidth = 110;
         // Animation properties    
         this.openCardAnimationTime = 200;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
@@ -203,7 +205,8 @@ var ManagementComponent = /** @class */ (function () {
     };
     // Calculate align friends elements to center of screen.
     ManagementComponent.prototype.CalculateFriendsElementsPadding = function () {
-        var friendElementSpace = 85 + 5 + 5; // width: 85 + margin (left and right): 5 + 5
+        // width: user-friend-container width + margin (left and right): 5 + 5
+        var friendElementSpace = this.userFriendContainerWidth + 5 + 5;
         var containerWidth = $("#friends-container")[0].clientWidth;
         var maxElementsOnRow = friendElementSpace;
         var counter = 0;

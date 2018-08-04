@@ -15,7 +15,6 @@ declare var $: any;
 })
 
 export class ManagementComponent implements OnDestroy {
-
     isLoadingUsers: boolean;
     isPreventFirstOpenCardAnimation: boolean;
     searchInput: string;
@@ -24,6 +23,9 @@ export class ManagementComponent implements OnDestroy {
     friendsElementsPadding: number = 0;
     dropMenuDataList: Array<DropMenuData>;
     isShowNotFoundUsersMessage: boolean;
+
+    // Css properties
+    userFriendContainerWidth: number = 110;
 
     // Animation properties    
     openCardAnimationTime: number = 200;
@@ -244,7 +246,8 @@ export class ManagementComponent implements OnDestroy {
 
     // Calculate align friends elements to center of screen.
     CalculateFriendsElementsPadding() {
-        var friendElementSpace = 85 + 5 + 5; // width: 85 + margin (left and right): 5 + 5
+        // width: user-friend-container width + margin (left and right): 5 + 5
+        var friendElementSpace = this.userFriendContainerWidth + 5 + 5;
         var containerWidth = $("#friends-container")[0].clientWidth;
         var maxElementsOnRow = friendElementSpace;
 

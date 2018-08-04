@@ -148,6 +148,8 @@ var ChatComponent = /** @class */ (function () {
                 self.drawing = false;
             },
             "touchstart": function (e) {
+                e.preventDefault();
+                e.stopPropagation();
                 self.mousePos = self.GetTouchPos(self.canvas, e);
                 var touch = e.touches[0];
                 var mouseEvent = new MouseEvent("mousedown", {
@@ -157,10 +159,14 @@ var ChatComponent = /** @class */ (function () {
                 self.canvas.dispatchEvent(mouseEvent);
             },
             "touchend": function (e) {
+                e.preventDefault();
+                e.stopPropagation();
                 var mouseEvent = new MouseEvent("mouseup", {});
                 self.canvas.dispatchEvent(mouseEvent);
             },
             "touchmove": function (e) {
+                e.preventDefault();
+                e.stopPropagation();
                 var touch = e.touches[0];
                 var mouseEvent = new MouseEvent("mousemove", {
                     clientX: touch.clientX,
