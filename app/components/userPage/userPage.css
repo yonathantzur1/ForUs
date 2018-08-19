@@ -92,10 +92,9 @@
 #userPage .tab-container {
     display: inline-flex;
     width: 100%;    
-    border: 0.5px solid #9e9e9e;
+    box-shadow: 0px 0px 0px 1px #c9c9c9;
     background-color: whitesmoke;
-    position: relative;
-    margin-left: 8px;
+    position: relative;    
 }
 
 #userPage .tab {
@@ -119,9 +118,7 @@
     position: absolute;
     right: 0;
     width: 100%;
-    top: 50px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    top: 51px;
     -webkit-user-select: none;
     user-select: none;
     box-shadow: 0px 0px 0px 1px #c9c9c9;
