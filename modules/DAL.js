@@ -73,13 +73,13 @@ module.exports = {
     },
 
     // Getting documents from collection by filter.
-    FindOneSpecific: (collectionName, filter, fields) => {
+    FindOneSpecific: (collectionName, filter, projection) => {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
                     var collection = db.collection(collectionName);
 
-                    collection.findOne(filter, { fields }, (err, docs) => {
+                    collection.findOne(filter, { projection }, (err, docs) => {
                         if (err == null) {
                             resolve(docs);
                         }
@@ -121,7 +121,7 @@ module.exports = {
     },
 
     // Getting documents from collection by filter.
-    FindSpecific: (collectionName, filter, fields, sortObj) => {
+    FindSpecific: (collectionName, filter, projection, sortObj) => {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
@@ -129,7 +129,7 @@ module.exports = {
 
                     sortObj = sortObj ? sortObj : {};
 
-                    collection.find(filter, { fields }).sort(sortObj).toArray((err, docs) => {
+                    collection.find(filter, { projection }).sort(sortObj).toArray((err, docs) => {
                         if (err == null) {
                             resolve(docs);
                         }
