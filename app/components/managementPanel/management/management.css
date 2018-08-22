@@ -403,7 +403,7 @@
 
 #management .remove-friend-icon {
     position: absolute;
-    right: 14px;
+    margin-right: -3px;
     top: 0px;
     background-color: var(--main-text-color);
     color: white;
