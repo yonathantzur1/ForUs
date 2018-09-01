@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
-import { AlertService } from '../../services/alert/alert.service';
+import { AlertService, ALERT_TYPE } from '../../services/alert/alert.service';
 import { UserPageService } from '../../services/userPage/userPage.service';
 import { SnackbarService } from '../../services/snackbar/snackbar.service';
 
@@ -81,7 +81,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                             self.alertService.Alert({
                                 title: "הסרת חברות",
                                 text: "האם להסיר את החברות עם " + self.user.fullName + "?",
-                                type: "warning",
+                                type: ALERT_TYPE.WARNING,
                                 confirmFunc: function () {
                                     self.userPageService.RemoveFriends(self.user._id).then(result => {
                                         if (result) {
@@ -94,7 +94,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                                             self.alertService.Alert({
                                                 title: "שגיאה בהסרת החברות",
                                                 text: "אירעה שגיאה בהסרת החברות עם " + self.user.fullName,
-                                                type: "warning",
+                                                type: ALERT_TYPE.WARNING,
                                                 showCancelButton: false
                                             });
                                         }
@@ -167,13 +167,38 @@ export class UserPageComponent implements OnInit, OnDestroy {
                     {
                         text: "שינוי סיסמא",
                         action: function () {
-
+                            self.userPageService.ChangePassword().then(result => {
+                                if (result) {
+                                    self.alertService.Alert({
+                                        title: "שינוי סיסמא",
+                                        text: "יש להיכנס לקישור שנשלח לכתובת האימייל שלך.",
+                                        type: ALERT_TYPE.SUCCESS,
+                                        showCancelButton: false
+                                    });
+                                }
+                                else {
+                                    self.alertService.Alert({
+                                        title: "שינוי סיסמא",
+                                        text: "שגיאה בתהליך שינוי הסיסמא",
+                                        type: ALERT_TYPE.WARNING,
+                                        showCancelButton: false
+                                    });
+                                }
+                            });
                         }
                     },
                     {
                         text: "מחיקת משתמש",
                         action: function () {
-
+                            self.alertService.Alert({
+                                title: "מחיקת המשתמש באתר לצמיתות",
+                                text: "משמעות פעולה זו היא מחיקת חשבונך באתר. \n" + 
+                                "הפעולה תוביל למחיקת כל הנתונים בחשבון לרבות: \n" +
+                                "מידע אישי, צ'אטים ושיחות, תמונות, וכל מידע אחר שהועלה על ידך לאתר.\n" +
+                                "יש לשים לב כי פעולה זו היא בלתי הפיכה, ואינה ניתנת לשחזור!\n\n" +
+                                "<b>האם למחוק את המשתמש שלך מהאתר?</b>",
+                                type: ALERT_TYPE.DANGER                                
+                            });
                         }
                     }
                 ]

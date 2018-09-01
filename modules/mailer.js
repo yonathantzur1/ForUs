@@ -34,6 +34,12 @@ module.exports = {
             ", " + "<br>" + "הקוד שהונפק עבורך לאיפוס הסיסמא הוא: <b>" + code + "</b><br><br>" +
             "או לחילופין, כניסה לקישור:<br>" + resetAddress);
     },
+    ChangePasswordMail: function (email, name, resetAddress) {
+        this.SendMail(email,
+            "שינוי סיסמא",
+            GetTimeBlessing() + name +
+            ", " + "<br>" + "לשינוי הסיסמא - יש להיכנס לקישור:<br>" + resetAddress);
+    },
     MessageNotificationAlert: function (email, name, senderName) {
         var text = GetTimeBlessing() + name + ", " + "<br>" + "ממתינה עבורך הודעה חדשה<name>." + "<br>" + config.addresses.site;
         text = senderName ? text.replace("<name>", " מ" + senderName) : text.replace("<name>", "");

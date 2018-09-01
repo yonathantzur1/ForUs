@@ -41,6 +41,16 @@ var UserPageService = /** @class */ (function (_super) {
             return null;
         });
     };
+    UserPageService.prototype.ChangePassword = function () {
+        return _super.prototype.get.call(this, this.prefix + '/changePassword')
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     return UserPageService;
 }(basic_service_1.BasicService));
 exports.UserPageService = UserPageService;

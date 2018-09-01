@@ -71,7 +71,7 @@ var UserPageComponent = /** @class */ (function () {
                             self.alertService.Alert({
                                 title: "הסרת חברות",
                                 text: "האם להסיר את החברות עם " + self.user.fullName + "?",
-                                type: "warning",
+                                type: alert_service_1.ALERT_TYPE.WARNING,
                                 confirmFunc: function () {
                                     self.userPageService.RemoveFriends(self.user._id).then(function (result) {
                                         if (result) {
@@ -84,7 +84,7 @@ var UserPageComponent = /** @class */ (function () {
                                             self.alertService.Alert({
                                                 title: "שגיאה בהסרת החברות",
                                                 text: "אירעה שגיאה בהסרת החברות עם " + self.user.fullName,
-                                                type: "warning",
+                                                type: alert_service_1.ALERT_TYPE.WARNING,
                                                 showCancelButton: false
                                             });
                                         }
@@ -155,11 +155,38 @@ var UserPageComponent = /** @class */ (function () {
                     {
                         text: "שינוי סיסמא",
                         action: function () {
+                            self.userPageService.ChangePassword().then(function (result) {
+                                if (result) {
+                                    self.alertService.Alert({
+                                        title: "שינוי סיסמא",
+                                        text: "יש להיכנס לקישור שנשלח לכתובת האימייל שלך.",
+                                        type: alert_service_1.ALERT_TYPE.SUCCESS,
+                                        showCancelButton: false
+                                    });
+                                }
+                                else {
+                                    self.alertService.Alert({
+                                        title: "שינוי סיסמא",
+                                        text: "שגיאה בתהליך שינוי הסיסמא",
+                                        type: alert_service_1.ALERT_TYPE.WARNING,
+                                        showCancelButton: false
+                                    });
+                                }
+                            });
                         }
                     },
                     {
                         text: "מחיקת משתמש",
                         action: function () {
+                            self.alertService.Alert({
+                                title: "מחיקת המשתמש באתר לצמיתות",
+                                text: "משמעות פעולה זו היא מחיקת חשבונך באתר. \n" +
+                                    "הפעולה תוביל למחיקת כל הנתונים בחשבון לרבות: \n" +
+                                    "מידע אישי, צ'אטים ושיחות, תמונות, וכל מידע אחר שהועלה על ידך לאתר.\n" +
+                                    "יש לשים לב כי פעולה זו היא בלתי הפיכה, ואינה ניתנת לשחזור!\n\n" +
+                                    "<b>האם למחוק את המשתמש שלך מהאתר?</b>",
+                                type: alert_service_1.ALERT_TYPE.DANGER
+                            });
                         }
                     }
                 ]
