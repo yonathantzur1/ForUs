@@ -71,7 +71,7 @@ http.listen((process.env.PORT || config.server.port), () => {
     console.log("Server is up!");
 });
 
-// Import socket.io mudule
+// Import socket.io module
 var connectedUsers = require('./modules/sockets/socket')(io);
 
 // Routes requires
