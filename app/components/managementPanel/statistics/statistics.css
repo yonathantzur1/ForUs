@@ -47,8 +47,7 @@
 
 #statistics .modal-header, #statistics .modal-body, #statistics .modal-footer {
     -webkit-user-select: none;
-    user-select: none;
-    text-align: right;
+    user-select: none;    
 }
 
 #statistics .modal-title-icon {

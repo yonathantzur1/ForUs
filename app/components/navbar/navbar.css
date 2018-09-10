@@ -150,8 +150,7 @@
 #navbar .new-friends-label-top-arrow {
     color: #b2b2b2 !important;
     top: -3px;
-    width: 100%;
-    text-align: right;
+    width: 100%;    
 }
 
 #navbar .drop-menu-position {
@@ -190,8 +189,7 @@
     white-space: nowrap;  
     text-overflow: ellipsis;
     overflow: hidden;
-    width: calc(100% - 55px);
-    text-align: right;
+    width: calc(100% - 55px);    
 }
 
 #navbar .bold-friend-name {
@@ -234,8 +232,7 @@
     text-overflow: ellipsis;
     position: absolute;
     top: 15px;
-    right: 75px;
-    text-align: right;
+    right: 75px;    
 }
 
 #navbar .toolbar-menu {
@@ -333,8 +330,7 @@
     overflow-x: hidden;
     white-space: nowrap;
     align-self: center;
-    font-size: 14px;
-    text-align: right;
+    font-size: 14px;    
 }
 
 #navbar .friend-request-btn {

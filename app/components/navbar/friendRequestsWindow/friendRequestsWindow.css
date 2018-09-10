@@ -39,8 +39,7 @@
 #friendRequestsWindow .body-container {
     height: calc(100% - 20px) !important;
     width: 100%;
-    overflow-y: auto;
-    text-align: right;
+    overflow-y: auto;    
 }
 
 #friendRequestsWindow .friend-request-container {

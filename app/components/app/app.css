@@ -64,6 +64,11 @@ body {
     background-color: #EEE !important;
     font-family: var(--main-font) !important;
     color: var(--main-text-color) !important;
+    text-align: right !important;
+}
+
+input {
+    color: var(--main-text-color) !important;
 }
 
 .main-container {

@@ -11,7 +11,8 @@
     cursor: default;
     margin-right: 10%;
     -webkit-user-select: none;
-    user-select: none;    
+    user-select: none;
+    text-align: left;
 }
 
 #profile .modal-title-icon {

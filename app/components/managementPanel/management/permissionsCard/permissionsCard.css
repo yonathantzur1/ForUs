@@ -5,8 +5,7 @@
 
 #permissionsCard .modal-header, #permissionsCard .modal-body, #permissionsCard .modal-footer {
     -webkit-user-select: none;
-    user-select: none;
-    text-align: right;
+    user-select: none;    
 }
 
 #permissionsCard .title {

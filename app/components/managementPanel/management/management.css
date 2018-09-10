@@ -276,8 +276,7 @@
 
 #management .friends-container {
     overflow-y: auto;
-    height: calc(100% - 80px);
-    text-align: right;
+    height: calc(100% - 80px);    
     width: 100%;
     position: absolute;
     right: 0;
@@ -327,8 +326,7 @@
 }
 
 #management .block-reason-container {    
-    padding: 15px;
-    text-align: right;
+    padding: 15px;    
     font-size: 12px;
 }
 

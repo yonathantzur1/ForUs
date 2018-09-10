@@ -20,8 +20,8 @@
 #dropMenu .option-sector {
     display: block;
     padding: 5px;    
-    font-size: 14px;
-    text-align: right;
+    font-size: 14px;    
+    color: var(--main-text-color);
 }
 
 #dropMenu .option-sector:hover {
