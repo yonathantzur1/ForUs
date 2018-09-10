@@ -236,7 +236,7 @@
 
     #profile .right-container {
         width: 100%;
-        height: 180px;
+        height: 70px;
     }
 
     #profile .img-btn {
@@ -306,6 +306,7 @@
     direction: ltr !important;
     -webkit-user-select: none;
     user-select: none;
+    text-align: left;
 }
 
 #profile .modal-footer-buttons {
