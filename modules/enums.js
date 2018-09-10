@@ -14,5 +14,10 @@ module.exports = {
     STATISTICS_RANGE: {
         YEARLY: "yearly",
         WEEKLY: "weekly"
+    },
+
+    USER_UPDATE_INFO_ERROR: {
+        EMAIL_EXISTS: "-1",
+        WRONG_PASSWORD: "-2"
     }
 }

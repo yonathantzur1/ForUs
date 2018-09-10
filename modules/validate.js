@@ -110,7 +110,8 @@ var validateSchemaObj = {
                     updateFields: joi.object().keys({
                         firstName: joi.string().regex(new RegExp(regexp.UserRegexp.name, "i")).optional(),
                         lastName: joi.string().regex(new RegExp(regexp.UserRegexp.name, "i")).optional(),
-                        email: joi.string().email().optional()
+                        email: joi.string().email().optional(),
+                        password: joi.string().required()
                     })
                 }
             }

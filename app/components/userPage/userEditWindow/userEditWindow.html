@@ -1,34 +1,51 @@
 <div id="userEditWindow">
     <div class="overlay"></div>
     <div class="container">
-        <i class="material-icons top-icon save-icon" [ngClass]="{'disabled-icon': IsDisableSaveEdit()}" (click)="SaveChanges()">save</i>
-        <i class="material-icons top-icon close-icon" (click)="CloseWindow()">close</i>
+        <i class="material-icons icon top-icon back-icon" *ngIf="isShowPasswordValidationWindow" (click)="BackToDetailsWindow()">arrow_forward</i>
+        <i class="material-icons icon top-icon close-icon" (click)="CloseWindow()">close</i>
         <div class="title">
-            עדכון מידע
+            {{isShowPasswordValidationWindow ? "אימות חשבון" : "עדכון מידע"}}
         </div>
-        <form>
+        <form [hidden]="isShowPasswordValidationWindow">
             <div class="row form-group">
                 <span class="col-6">
                     <label>שם פרטי</label>
-                    <input [(ngModel)]="editUser.firstName" id="edit-first-name" name="editFirstName" class="form-control" maxlength="10" autocapitalize="off"
-                        autocomplete="off" autocorrect="off" spellcheck="false" type="text" (keyup)="HideMicrotext('edit-user-first-name-micro')">
+                    <input [(ngModel)]="editUser.firstName" id="edit-first-name" name="editFirstName" class="form-control"
+                        maxlength="10" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"
+                        type="text" (keyup)="HideMicrotext('edit-user-first-name-micro')">
                     <span id="edit-user-first-name-micro" class="microtext"></span>
                 </span>
                 <span class="col-6">
                     <label>שם משפחה</label>
-                    <input [(ngModel)]="editUser.lastName" id="edit-last-name" name="editLastName" class="form-control" maxlength="10" autocapitalize="off"
-                        autocomplete="off" autocorrect="off" spellcheck="false" type="text" (keyup)="HideMicrotext('edit-user-last-name-micro')">
+                    <input [(ngModel)]="editUser.lastName" id="edit-last-name" name="editLastName" class="form-control"
+                        maxlength="10" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"
+                        type="text" (keyup)="HideMicrotext('edit-user-last-name-micro')">
                     <span id="edit-user-last-name-micro" class="microtext"></span>
                 </span>
             </div>
             <div class="row form-group">
                 <span class="col-12">
                     <label>אימייל</label>
-                    <input [(ngModel)]="editUser.email" id="edit-email" name="editEmail" class="form-control email-input" autocapitalize="off"
-                        autocomplete="off" autocorrect="off" spellcheck="false" type="email" (keyup)="HideMicrotext('edit-user-email-micro')">
+                    <input [(ngModel)]="editUser.email" id="edit-email" name="editEmail" class="form-control email-input"
+                        autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" type="email"
+                        (keyup)="HideMicrotext('edit-user-email-micro')">
                     <span id="edit-user-email-micro" class="microtext"></span>
                 </span>
             </div>
+            <i class="material-icons icon bottom-icon next-icon" [ngClass]="{'disabled-icon': IsDisableSaveEdit()}"
+                (click)="ShowValidatePasswordWindow()">arrow_back</i>
+        </form>
+        <form [hidden]="!isShowPasswordValidationWindow">
+            <div class="row form-group">
+                <span class="col-12">
+                    <label>סיסמא:</label>
+                    <input [(ngModel)]="editUser.password" id="edit-password" name="editPassword" class="form-control"
+                        type="password" (keyup)="HideMicrotext('edit-user-password-micro')">
+                    <span id="edit-user-password-micro" class="microtext"></span>
+                </span>
+            </div>
+            <p class="validate-user-info">*לצורך אימות החשבון, יש להזין סיסמא</p>
+            <a class="btn btn-primary save-btn" (click)="SaveChanges()">שמירה</a>
         </form>
     </div>
 </div>

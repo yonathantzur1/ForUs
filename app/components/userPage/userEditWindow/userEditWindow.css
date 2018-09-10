@@ -12,7 +12,7 @@
 #userEditWindow .container {
     position: fixed;
     width: 400;
-    height: 400px;
+    height: 300px;
     background-color: #f3f3f3;
     box-shadow: 4px 4px 30px 5px #5d5d5d;
     font-family: var(--main-font);
@@ -52,9 +52,7 @@
     font-size: 14px;
 }
 
-#userEditWindow .top-icon {
-    position: absolute;
-    top: 15px;
+#userEditWindow .icon {
     font-size: 24px;
     cursor: pointer;
     color: var(--main-text-color);
@@ -62,8 +60,31 @@
     user-select: none;
 }
 
-#userEditWindow .save-icon {
-    right: 15px;
+#userEditWindow .top-icon {
+    position: absolute;
+    top: 15px;
+}
+
+#userEditWindow .bottom-icon {
+    position: absolute;
+    bottom: 15px;    
+}
+
+#userEditWindow .next-icon {
+    left: 15px;
+    width: 25px;
+    height: 25px;
+    font-size: 20px;
+    border: 1px solid var(--main-text-color);
+    border-radius: 50%;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+#userEditWindow .next-icon:hover {
+    background-color: #89a6ff;
+    color: white;
 }
 
 #userEditWindow .close-icon {
@@ -76,13 +97,15 @@
 }
 
 #userEditWindow .disabled-icon {
-    color: #bdbdbd;
+    color: #bdbdbd !important;
+    border-color: #bdbdbd;
+    background-color: transparent !important;
     cursor: default;
 }
 
 .email-input {
     text-align: left;
-    direction: ltr;
+    direction: ltr;    
 }
 
 #userEditWindow .microtext {
@@ -90,4 +113,27 @@
     font-family: var(--main-font);
     font-size: 12px;
     position: absolute;
+    line-height: 20px
+}
+
+#userEditWindow .validate-user-info {
+    font-size: 12px;
+    padding: 15px;
+    color: var(--main-text-color);
+    font-family: var(--main-font);
+    position: absolute;
+    bottom: 0;
+    text-align: right;
+}
+
+#userEditWindow .save-btn {
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+    box-shadow: 1px 1px 5px 1px #a7a7a7;
+    padding: 6px 15px 6px 15px;
+}
+
+#userEditWindow .back-icon {
+    right: 15px;
 }

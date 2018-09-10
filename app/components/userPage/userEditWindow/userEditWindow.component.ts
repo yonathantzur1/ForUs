@@ -5,12 +5,14 @@ import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service'
 import { GlobalService } from '../../../services/global/global.service';
 import { MicrotextService, InputFieldValidation } from '../../../services/microtext/microtext.service';
 
+import { USER_UPDATE_INFO_ERROR } from '../../../enums/enums'
 import { UserRegexp } from '../../../regex/regexpEnums'
 
 class EditUser {
     firstName?: string;
     lastName?: string;
     email?: string;
+    password?: string;
 }
 
 @Component({
@@ -22,6 +24,7 @@ class EditUser {
 export class UserEditWindowComponent implements OnInit {
     @Input() user: any;
     editUser: EditUser = {};
+    isShowPasswordValidationWindow: boolean = false;
 
     // Login validation functions array.
     editValidationFuncs: Array<InputFieldValidation> = [
@@ -54,6 +57,17 @@ export class UserEditWindowComponent implements OnInit {
         }
     ]
 
+    passwordValidationFuncs: Array<InputFieldValidation> = [
+        {
+            isFieldValid(editUser: EditUser) {
+                return (editUser.password != null);
+            },
+            errMsg: "יש להזין את סיסמת החשבון",
+            fieldId: "edit-user-password-micro",
+            inputId: "edit-password"
+        },
+    ]
+
     constructor(private userEditWindowService: UserEditWindowService,
         private alertService: AlertService,
         private globalService: GlobalService,
@@ -78,37 +92,53 @@ export class UserEditWindowComponent implements OnInit {
         }
     }
 
-    SaveChanges() {
+    ShowValidatePasswordWindow() {
         if (!this.IsDisableSaveEdit() &&
             this.microtextService.Validation(this.editValidationFuncs, this.editUser, UserRegexp)) {
+            this.isShowPasswordValidationWindow = true;
+        }
+    }
+
+    BackToDetailsWindow() {
+        this.isShowPasswordValidationWindow = false;
+        this.editUser.password = "";
+    }
+
+    SaveChanges() {
+        if (this.microtextService.Validation(this.passwordValidationFuncs, this.editUser)) {
             var updatedFields = {};
 
-            if (this.editUser.firstName.trim() != this.user.firstName) {
-                updatedFields["firstName"] = this.editUser.firstName;
-            }
+            updatedFields["password"] = this.editUser.password;
+            delete this.editUser.password;
 
-            if (this.editUser.lastName.trim() != this.user.lastName) {
-                updatedFields["lastName"] = this.editUser.lastName;
-            }
+            // Trim all editUser properties.
+            Object.keys(this.editUser).forEach(key => {
+                // Trim the field in case it is string.
+                if (typeof this.editUser[key] == "string") {
+                    this.editUser[key] = this.editUser[key].trim();
+                }
 
-            if (this.editUser.email.trim() != this.user.email) {
-                updatedFields["email"] = this.editUser.email;
-            }
+                // In case the new field is not equal to the old one.
+                if (this.editUser[key] != this.user[key]) {
+                    // Put the field on update object to send the server.
+                    updatedFields[key] = this.editUser[key];
+                }
+            });
 
-            this.userEditWindowService.UpdateUserInfo(updatedFields).then(result => {
+            this.userEditWindowService.UpdateUserInfo(updatedFields).then(result => {                
                 if (result) {
-                    if (result == -1) {
+                    if (result == USER_UPDATE_INFO_ERROR.EMAIL_EXISTS) {
+                        this.BackToDetailsWindow();
                         this.microtextService.ShowMicrotext("edit-user-email-micro",
-                            "כתובת אימייל זו כבר נמצאת בשימוש")
+                            "כתובת אימייל זו כבר נמצאת בשימוש");
                     }
-                    else {
+                    else if (result == USER_UPDATE_INFO_ERROR.WRONG_PASSWORD) {
+                        this.microtextService.ShowMicrotext("edit-user-password-micro",
+                            "הסיסמא שהוזנה שגוייה");
+                    }
+                    else {                        
                         this.globalService.setData("closeUserEditWindow", true);
-                        this.alertService.Alert({
-                            title: "עדכון מידע",
-                            text: "העדכון בוצע בהצלחה",
-                            type: ALERT_TYPE.SUCCESS,
-                            showCancelButton: false
-                        });
+                        this.globalService.socket.emit("LogoutUserSessionServer", this.user._id, "הפרטים התעדכנו בהצלחה!\nיש להיכנס מחדש.");
                     }
                 }
                 else {
