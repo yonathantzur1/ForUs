@@ -17,8 +17,7 @@
 }
 
 #snackbar .text {
-    color: #FFFFFF;
-    font-family: var(--main-font);
+    color: #FFFFFF;    
     font-size: 14px;
 }
 

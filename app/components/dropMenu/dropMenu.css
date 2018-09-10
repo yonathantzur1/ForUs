@@ -19,8 +19,7 @@
 
 #dropMenu .option-sector {
     display: block;
-    padding: 5px;
-    color: var(--main-text-color);
+    padding: 5px;    
     font-size: 14px;
     text-align: right;
 }

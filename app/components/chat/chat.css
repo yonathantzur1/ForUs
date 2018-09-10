@@ -59,8 +59,7 @@
     color: white;
     font-size: 15px;
     align-self: center;
-    margin-right: 8px;
-    font-family: var(--main-font);
+    margin-right: 8px;    
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -71,8 +70,7 @@
     color: white;
     font-size: 10px;
     align-self: flex-end;
-    margin-right: 10px;
-    font-family: var(--main-font);
+    margin-right: 10px;    
     white-space: nowrap;
     max-width: 50%;
     margin-bottom: 6px;
@@ -121,8 +119,7 @@
 #chat .msg-input-sector {
     width: calc(100% - 35px);
     height: 100%;
-    font-size: 15px;
-    font-family: var(--main-font);
+    font-size: 15px;    
     display: inline-block;
 }
 
@@ -168,8 +165,7 @@
     padding-left: 12px;
 }
 
-#chat .message {
-    font-family: var(--main-font);
+#chat .message {    
     font-size: 14px;
     text-align: right;
     padding: 5px 8px 5px 8px;
@@ -284,8 +280,7 @@
 
 #chat .bubble-message-text {
     align-self: center;
-    font-size: 12px;
-    font-family: var(--main-font);
+    font-size: 12px;    
 }
 
 #chat .top-icon {
@@ -325,8 +320,7 @@
 
 #chat .notification-text {
     align-self: center;
-    font-size: 14px;
-    font-family: var(--main-font);
+    font-size: 14px;    
     color: #ebe8e8;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -455,8 +449,7 @@
     margin: auto;
     border-left: 0.5px solid var(--main-text-color);
     padding-left: 6px;
-    padding-right: 6px;
-    color: var(--main-text-color);    
+    padding-right: 6px;    
 }
 
 #chat .message-img {
@@ -498,8 +491,7 @@
     padding: 7px;
     cursor: pointer;
     border-left: 0.5px solid var(--main-text-color);
-    margin-top: 3px;
-    color: var(--main-text-color);
+    margin-top: 3px;    
 }
 
 #chat .img-sign {
@@ -516,8 +508,7 @@
     z-index: 1;
     display: flex;
     align-items: center;
-    padding-right: 5px;
-    color: var(--main-text-color);
+    padding-right: 5px;    
 }
 
 #chat .reload-chat-icon {

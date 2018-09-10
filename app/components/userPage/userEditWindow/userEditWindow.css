@@ -15,8 +15,6 @@
     height: 300px;
     background-color: #f3f3f3;
     box-shadow: 4px 4px 30px 5px #5d5d5d;
-    font-family: var(--main-font);
-    color: var(--main-text-color);
     border-radius: 3px;
     top: 0;
     right: 0;
@@ -54,8 +52,7 @@
 
 #userEditWindow .icon {
     font-size: 24px;
-    cursor: pointer;
-    color: var(--main-text-color);
+    cursor: pointer;    
     -webkit-user-select: none;
     user-select: none;
 }
@@ -110,7 +107,6 @@
 
 #userEditWindow .microtext {
     color: var(--microtext-color);
-    font-family: var(--main-font);
     font-size: 12px;
     position: absolute;
     line-height: 20px
@@ -119,8 +115,6 @@
 #userEditWindow .validate-user-info {
     font-size: 12px;
     padding: 15px;
-    color: var(--main-text-color);
-    font-family: var(--main-font);
     position: absolute;
     bottom: 0;
     text-align: right;

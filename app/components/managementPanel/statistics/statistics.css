@@ -32,7 +32,6 @@
     cursor: pointer;
     -webkit-user-select: none;
     user-select: none;
-    color: var(--main-text-color);
 }
 
 #statistics .tab-icon {
@@ -49,16 +48,13 @@
 #statistics .modal-header, #statistics .modal-body, #statistics .modal-footer {
     -webkit-user-select: none;
     user-select: none;
-    color: var(--main-text-color);
-    font-family: var(--main-font);
     text-align: right;
 }
 
 #statistics .modal-title-icon {
     font-size: 20px;    
     top: 26px;
-    padding-right: 10px;
-    color: var(--main-text-color);
+    padding-right: 10px;    
 }
 
 #statistics .save-charts-menu-btn {
@@ -93,8 +89,6 @@
     text-align: center;
     margin-top: 95px;
     font-size: 45px;
-    color: var(--main-text-color);
-    font-family: var(--main-font);
     position: absolute;
     -webkit-user-select: none;
     user-select: none;
@@ -106,8 +100,6 @@
 
 #statistics .chart-dates-container {    
     text-align: center;
-    color: var(--main-text-color);
-    font-family: var(--main-font);
 }
 
 #statistics .dates-range-string-title {

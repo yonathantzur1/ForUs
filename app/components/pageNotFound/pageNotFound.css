@@ -4,8 +4,6 @@
 }
 
 #pageNotFound .text {
-    font-family: var(--main-font);
-    color: var(--main-text-color);
     font-size: 40px;
 }
 

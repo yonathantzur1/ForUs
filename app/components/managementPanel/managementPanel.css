@@ -28,8 +28,6 @@
 #managementPanel .panel-btn-data {
     text-align: center;
     width: 100%;
-    color: var(--main-text-color);
-    font-family: var(--main-font);
     font-size: 18px;
 }
 

@@ -11,8 +11,6 @@
 
 #permissionsCard .title {
     font-size: 18px;
-    color: var(--main-text-color);
-    font-family: var(--main-font);
     width: calc(100% - 18px);
     display: inline-block;
     overflow: hidden;
@@ -41,10 +39,8 @@
     left: 20px;
 }
 
-#permissionsCard .permissions-container {
-    font-family: var(--main-font);
-    font-size: 16px;
-    color: var(--main-text-color);
+#permissionsCard .permissions-container {    
+    font-size: 16px;    
 }
 
 #permissionsCard .permission-sector {

@@ -11,15 +11,13 @@
 
 #alert .box-container {
     position: relative;
-    background-color: #ededed;
-    color: var(--main-text-color);
+    background-color: #ededed;    
     width: calc(100% - 15px);
     max-width: 500px;
     min-height: 190px;
     margin: auto;
     margin-top: 70px; 
-    border-radius: 8px;
-    font-family: var(--main-font);
+    border-radius: 8px;    
     -webkit-user-select: none;
     user-select: none;
     padding-left: 20px;

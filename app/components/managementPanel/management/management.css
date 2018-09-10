@@ -58,8 +58,6 @@
     margin-right: 10px;
     padding-bottom: 0 !important;
     display: inline-block;
-    color: var(--main-text-color);
-    font-family: var(--main-font);
 }
 
 #management .friend-search-input {
@@ -156,11 +154,9 @@
 }
 
 #management .user-name {
-    font-size: 22px;
-    font-family: var(--main-font);
+    font-size: 22px;    
     font-weight: bold;
-    align-self: center;
-    color: var(--main-text-color);
+    align-self: center;    
     -webkit-user-select: text;
     user-select: text;
 }
@@ -178,8 +174,6 @@
     width: 100%;
     padding-left: 15px;
     padding-right: 15px;
-    font-family: var(--main-font);
-    color: var(--main-text-color);
 }
 
 @keyframes opencard {
@@ -239,14 +233,12 @@
 }
 
 #management .info-title {
-    margin-bottom: 5px;
-    color: var(--main-text-color);
+    margin-bottom: 5px;    
 }
 
 #management .info-data {
     width: 100%;
-    display: inline-block;
-    color: var(--main-text-color);
+    display: inline-block;    
     -webkit-user-select: text;
     user-select: text;
 }
@@ -257,7 +249,6 @@
 
 #management .friends-info-icon {
     font-size: 30px;    
-    color: var(--main-text-color);
 }
 
 #management .clickable {
@@ -268,8 +259,7 @@
     left: 12px;
     top: 15px;
     position: absolute;
-    cursor: pointer;
-    color: var(--main-text-color);
+    cursor: pointer;    
 }
 
 #management .save-edit-btn-disabled {
@@ -281,12 +271,7 @@
     right: 12px;
     top: 15px;
     position: absolute;
-    cursor: pointer;
-    color: var(--main-text-color);
-}
-
-#management .open-user-card-icon {
-    color: var(--main-text-color);
+    cursor: pointer;    
 }
 
 #management .friends-container {
@@ -317,8 +302,6 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    color: var(--main-text-color);
-    font-family: var(--main-font);
 }
 
 #management .edit-input {
@@ -395,8 +378,6 @@
 }
 
 #management .not-found-users-sector {
-    color: var(--main-text-color);
-    font-family: var(--main-font);
     text-align: center;
     margin-top: 20px;
 }

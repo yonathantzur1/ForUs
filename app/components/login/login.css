@@ -87,11 +87,9 @@
 }
 
 #login .modal-title-label {
-    font-size: 20px;
-    font-family: var(--main-font);
+    font-size: 20px;    
     cursor: default;
-    margin-right: 10%;
-    color: var(--main-text-color);
+    margin-right: 10%;    
 }
 
 #login .modal-footer-buttons {
@@ -110,8 +108,7 @@
     font-size: 35px;
     position: absolute;
     top: 18px;
-    padding-right: 10px;
-    color: var(--main-text-color);
+    padding-right: 10px;    
 }
 
 #login .modal-content {
@@ -122,8 +119,7 @@
     font-size: 11px;
     position: absolute;
     color: var(--microtext-color) !important;
-    line-height: 10px;
-    font-family: var(--main-font);
+    line-height: 10px;    
     right: 15px;
 }
 
@@ -178,8 +174,7 @@
 
 #login .forgot-email-label {
     color: #003469;
-    font-size: 14px;
-    font-family: var(--main-font);
+    font-size: 14px;    
     display: block;
     text-align: right;
 }
