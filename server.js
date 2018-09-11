@@ -67,7 +67,7 @@ app.get('/login', (req, res, next) => {
     }
 });
 
-http.listen((process.env.PORT || config.server.port), () => {
+http.listen(process.env.PORT, () => {
     console.log("Server is up!");
 });
 
