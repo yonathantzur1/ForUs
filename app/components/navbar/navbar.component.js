@@ -88,6 +88,9 @@ var NavbarComponent = /** @class */ (function () {
             if (value["RemoveFriendRequest"]) {
                 _this.RemoveFriendRequest(value["RemoveFriendRequest"]);
             }
+            if (value["OpenUserProfile"]) {
+                _this.OpenUserProfile(value["OpenUserProfile"]);
+            }
         });
         var self = this;
         self.toolbarItems = [

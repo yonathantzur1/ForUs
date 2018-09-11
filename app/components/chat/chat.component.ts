@@ -213,7 +213,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             },
             "touchstart": function (e: any) {
                 e.preventDefault();
-                e.stopPropagation()           
+                e.stopPropagation()
                 self.mousePos = self.GetTouchPos(self.canvas, e);
                 var touch = e.touches[0];
                 var mouseEvent = new MouseEvent("mousedown", {
@@ -685,6 +685,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 });
 
         }
+    }
+
+    MoveToFriendPage(friendObj: any) {
+        this.globalService.setData("OpenUserProfile", friendObj);
     }
 }
 

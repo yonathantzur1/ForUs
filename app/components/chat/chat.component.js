@@ -538,6 +538,9 @@ var ChatComponent = /** @class */ (function () {
             });
         }
     };
+    ChatComponent.prototype.MoveToFriendPage = function (friendObj) {
+        this.globalService.setData("OpenUserProfile", friendObj);
+    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object)

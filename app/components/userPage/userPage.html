@@ -18,7 +18,7 @@
                     </span>
                     <div *ngIf="tab.isOptionsMenuOpen" class="options-drop-menu">
                         <div class="option-container" *ngFor="let option of tab.options" (click)="tab.isOptionsMenuOpen=false;option.action && option.action();">
-                            <span>{{option.text}}</span>                            
+                            <span>{{option.text}}</span>
                         </div>
                     </div>
                 </span>
@@ -27,5 +27,11 @@
                 </div>
             </div>
         </div>
+    </div>
+    <!-- Loading user page animation -->
+    <div *ngIf="!user" class="rings">
+        <div class="ring__ringlet"></div>
+        <div class="ring__ringlet"></div>
+        <div class="ring__ringlet"></div>
     </div>
 </div>

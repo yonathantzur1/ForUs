@@ -27,12 +27,12 @@ var UserPageComponent = /** @class */ (function () {
         this.isTouchDevice = globalVariables.isTouchDevice;
         this.isShowUserEdit = false;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
+            // In case the user profile picture updated.
             if (value["newUploadedImage"]) {
-                if (!_this.user.profileImage) {
-                    _this.user.profileImage = {};
-                }
+                _this.user.profileImage = _this.user.profileImage || {};
                 _this.user.profileImage.image = value["newUploadedImage"];
             }
+            // In case the user profile picture deleted.
             if (value["isImageDeleted"]) {
                 delete _this.user.profileImage;
             }
@@ -195,12 +195,15 @@ var UserPageComponent = /** @class */ (function () {
     }
     UserPageComponent.prototype.ngOnInit = function () {
         var _this = this;
-        // In case of route params changes.
+        // In case of route params changed.
         this.route.params.subscribe(function (params) {
+            // Reset user object.
+            _this.user = null;
             // Close chat window in case it is open.
             _this.globalService.setData("closeChat", true);
+            // Get user details by user id route parameter.
             _this.userPageService.GetUserDetails(params["id"]).then(function (user) {
-                // In case the user found.
+                // In case the user was found.
                 if (user) {
                     user.fullName = user.firstName + " " + user.lastName;
                     _this.InitializePage(user);

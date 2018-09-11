@@ -31,14 +31,13 @@ export class UserPageComponent implements OnInit, OnDestroy {
         private snackbarService: SnackbarService,
         private globalService: GlobalService) {
         this.subscribeObj = this.globalService.data.subscribe((value: any) => {
+            // In case the user profile picture updated.
             if (value["newUploadedImage"]) {
-                if (!this.user.profileImage) {
-                    this.user.profileImage = {};
-                }
-
+                this.user.profileImage = this.user.profileImage || {};
                 this.user.profileImage.image = value["newUploadedImage"];
             }
 
+            // In case the user profile picture deleted.
             if (value["isImageDeleted"]) {
                 delete this.user.profileImage;
             }
@@ -192,12 +191,12 @@ export class UserPageComponent implements OnInit, OnDestroy {
                         action: function () {
                             self.alertService.Alert({
                                 title: "מחיקת המשתמש באתר לצמיתות",
-                                text: "משמעות פעולה זו היא מחיקת חשבונך באתר. \n" + 
-                                "הפעולה תוביל למחיקת כל הנתונים בחשבון לרבות: \n" +
-                                "מידע אישי, שיחות, תמונות, וכל מידע אחר שהועלה על ידך לאתר.\n" +
-                                "יש לשים לב כי פעולה זו היא בלתי הפיכה, ואינה ניתנת לשחזור!\n\n" +
-                                "<b>האם למחוק את המשתמש שלך מהאתר?</b>",
-                                type: ALERT_TYPE.DANGER                                
+                                text: "משמעות פעולה זו היא מחיקת חשבונך באתר. \n" +
+                                    "הפעולה תוביל למחיקת כל הנתונים בחשבון לרבות: \n" +
+                                    "מידע אישי, שיחות, תמונות, וכל מידע אחר שהועלה על ידך לאתר.\n" +
+                                    "יש לשים לב כי פעולה זו היא בלתי הפיכה, ואינה ניתנת לשחזור!\n\n" +
+                                    "<b>האם למחוק את המשתמש שלך מהאתר?</b>",
+                                type: ALERT_TYPE.DANGER
                             });
                         }
                     }
@@ -207,13 +206,17 @@ export class UserPageComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        // In case of route params changes.
+        // In case of route params changed.
         this.route.params.subscribe(params => {
+            // Reset user object.
+            this.user = null;
+
             // Close chat window in case it is open.
             this.globalService.setData("closeChat", true);
 
+            // Get user details by user id route parameter.
             this.userPageService.GetUserDetails(params["id"]).then((user: any) => {
-                // In case the user found.
+                // In case the user was found.
                 if (user) {
                     user.fullName = user.firstName + " " + user.lastName;
                     this.InitializePage(user);

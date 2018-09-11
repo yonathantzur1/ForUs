@@ -2,7 +2,7 @@
     <div class="chat-window-container">
         <div class="top-chat-info-line">
             <img class="friend-chat-profile" [src]="chatData.friend.profileImage">
-            <span class="friend-chat-name" [title]="chatData.friend.firstName + ' ' + chatData.friend.lastName">
+            <span (click)="MoveToFriendPage(chatData.friend)" class="friend-chat-name">
                 {{chatData.friend.firstName + " " + chatData.friend.lastName}}
             </span>
             <div class="online-icon" *ngIf="chatData.friend.isOnline"></div>

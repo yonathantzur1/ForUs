@@ -129,6 +129,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
             if (value["RemoveFriendRequest"]) {
                 this.RemoveFriendRequest(value["RemoveFriendRequest"]);
             }
+
+            if (value["OpenUserProfile"]) {
+                this.OpenUserProfile(value["OpenUserProfile"]);
+            }
         });
 
         var self = this;
