@@ -153,10 +153,11 @@
 
 #login .forgot-inner-link {
     display: inline-block;
-    width: 40%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    position: absolute;
+    right: 0;
 }
 
 #login .has-reset-code-link {    
@@ -186,8 +187,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     position: absolute;
-    direction: ltr;
-    left: 0px;
+    text-align: left;
+    left: 0;
     width: 100%;
 }
 
