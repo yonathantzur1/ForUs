@@ -1,9 +1,9 @@
 const navbarBL = require('../BL/navbarBL');
 const general = require("../general");
 
-module.exports = function (app) {
+var prefix = "/api/navbar";
 
-    prefix = "/api/navbar";
+module.exports = function (app) {    
 
     app.post(prefix + '/getFriends', function (req, res) {
         navbarBL.GetFriends(req.body).then((friends) => {

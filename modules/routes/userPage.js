@@ -3,10 +3,9 @@ const forgotPasswordBL = require('../BL/forgotPasswordBL');
 const config = require('../../config');
 const mailer = require('../mailer');
 
-module.exports = function (app) {
+var prefix = "/api/userPage";
 
-    prefix = "/api/userPage";
-
+module.exports = function (app) {    
     // Get user details by id.
     app.get(prefix + '/getUserDetails', function (req, res) {
         var userId = req.query.id;

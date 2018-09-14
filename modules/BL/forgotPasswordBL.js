@@ -8,7 +8,7 @@ const collectionName = config.db.collections.users;
 const saltSize = config.security.loginSecure.saltSize;
 const resetCodeNumOfDigits = config.security.loginSecure.resetCodeNumOfDigits;
 const resetCodeNumOfHoursValid = config.security.loginSecure.resetCodeNumOfHoursValid;
-const resetPasswordMaxTries = config.security.loginSecure.resetPasswordMaxTries;
+const resetCodeFreeRetries = config.security.loginSecure.resetCodeFreeRetries;
 
 module.exports = {
     // Add reset password code to the DB and return the user.
@@ -67,7 +67,7 @@ module.exports = {
                     resolve(errorsObj);
                 }
                 // In case the code is in max try.
-                else if (result[0].resetCode.tryNum >= resetPasswordMaxTries) {
+                else if (result[0].resetCode.tryNum >= resetCodeFreeRetries) {
                     errorsObj.maxTry = true;
                     resolve(errorsObj);
                 }
@@ -151,7 +151,7 @@ function GetUserByTokenFilterQuery(token) {
     var query = {
         "resetCode.token": token,
         "resetCode.isUsed": false,
-        "resetCode.tryNum": { $lt: resetPasswordMaxTries },
+        "resetCode.tryNum": { $lt: resetCodeFreeRetries },
         "resetCode.date": resetDateObjectRuleForQuery
     }
 

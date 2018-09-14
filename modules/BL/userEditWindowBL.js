@@ -16,7 +16,7 @@ var self = module.exports = {
             // Check if the validation password match to the user password on DB.
             self.IsPasswordMatchToUser(userObjId, userPassword).then(result => {
                 if (result) {
-                    // In case the user updated the email field.
+                    // In case email field was updated.
                     if (updateFields.email) {
                         DAL.Count(collectionName, { "email": updateFields.email }).then(amount => {
                             if (amount > 0) {

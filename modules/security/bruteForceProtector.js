@@ -32,7 +32,7 @@ function putValueInJsonByStringPath(obj, path, value) {
 module.exports = {
     // Start slowing requests after few attempts.
     userBruteforce: new ExpressBrute(store, {
-        freeRetries: config.security.expressBrute.freeRetries,
+        freeRetries: config.security.expressBrute.freeRetries - 1,
         minWait: config.security.expressBrute.minWait,
         maxWait: config.security.expressBrute.maxWait,
         failCallback: failCallback,

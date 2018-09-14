@@ -5,19 +5,20 @@ const general = require('../general');
 const validate = require('../security/validate');
 const bruteForceProtector = require('../security/bruteForceProtector');
 
-bruteForceProtector.setFailReturnObj({ "result": { "lock": null } }, "result.lock");
+var prefix = prefix = "/login";
 
 module.exports = (app) => {
-
-    prefix = "/login";
-
     // Validate the user details and login the user.
     app.post(prefix + '/userLogin',
         validate,
+        (req, res, next) => {
+            bruteForceProtector.setFailReturnObj({ "result": { "lock": null } }, "result.lock");
+            next();
+        },
         bruteForceProtector.globalBruteforce.prevent,
         bruteForceProtector.userBruteforce.getMiddleware({
             key: (req, res, next) => {
-                next(req.body.email);
+                next(req.body.email + prefix);
             }
         }),
         (req, res) => {
@@ -42,7 +43,7 @@ module.exports = (app) => {
                             res.send({ result: { "block": result.block } });
                         });
                     }
-                    // In case the user email and password are valid.
+                    // In case user email and password are valid.
                     else {
                         req.brute.reset(() => {
                             general.SetTokenOnCookie(general.GetTokenFromUserObject(result), res);

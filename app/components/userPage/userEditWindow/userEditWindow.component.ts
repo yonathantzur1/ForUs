@@ -127,7 +127,11 @@ export class UserEditWindowComponent implements OnInit {
 
             this.userEditWindowService.UpdateUserInfo(updatedFields).then(result => {                
                 if (result) {
-                    if (result == USER_UPDATE_INFO_ERROR.EMAIL_EXISTS) {
+                    if (result.lock) {
+                        this.microtextService.ShowMicrotext("edit-user-password-micro",
+                            "העדכון ננעל למשך " + result.lock + " דקות");
+                    }
+                    else if (result == USER_UPDATE_INFO_ERROR.EMAIL_EXISTS) {
                         this.BackToDetailsWindow();
                         this.microtextService.ShowMicrotext("edit-user-email-micro",
                             "כתובת אימייל זו כבר נמצאת בשימוש");

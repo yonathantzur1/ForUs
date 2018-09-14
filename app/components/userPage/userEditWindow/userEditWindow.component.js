@@ -117,7 +117,10 @@ var UserEditWindowComponent = /** @class */ (function () {
             });
             this.userEditWindowService.UpdateUserInfo(updatedFields).then(function (result) {
                 if (result) {
-                    if (result == enums_1.USER_UPDATE_INFO_ERROR.EMAIL_EXISTS) {
+                    if (result.lock) {
+                        _this.microtextService.ShowMicrotext("edit-user-password-micro", "העדכון ננעל למשך " + result.lock + " דקות");
+                    }
+                    else if (result == enums_1.USER_UPDATE_INFO_ERROR.EMAIL_EXISTS) {
                         _this.BackToDetailsWindow();
                         _this.microtextService.ShowMicrotext("edit-user-email-micro", "כתובת אימייל זו כבר נמצאת בשימוש");
                     }

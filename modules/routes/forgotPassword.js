@@ -5,9 +5,9 @@ const general = require('../general');
 const validate = require('../security/validate');
 const config = require('../../config');
 
-module.exports = (app) => {
-    prefix = "/forgotPassword";
+var prefix = "/forgotPassword";
 
+module.exports = (app) => {    
     // Sending to the user an email with code to reset his password.
     app.put(prefix + '/forgot',
         validate,

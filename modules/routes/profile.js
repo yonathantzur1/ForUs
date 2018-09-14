@@ -1,10 +1,9 @@
 const profileBL = require('../BL/profileBL');
 const general = require("../general");
 
-module.exports = function (app) {
+var prefix = "/api/profile";
 
-    prefix = "/api/profile";
-
+module.exports = function (app) {    
     // Add new profile image.
     app.post(prefix + '/saveImage', function (req, res) {
         var imageData = req.body;

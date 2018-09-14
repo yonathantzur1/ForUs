@@ -42,7 +42,7 @@ module.exports = {
             saltSize: 8,
             resetCodeNumOfDigits: 6,
             resetCodeNumOfHoursValid: 24,
-            resetPasswordMaxTries: 5
+            resetCodeFreeRetries: 5
         },
     },
     chat: {

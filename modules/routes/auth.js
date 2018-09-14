@@ -1,9 +1,9 @@
 const loginBL = require('../BL/loginBL');
 const general = require('../general');
 
-module.exports = (app, connectedUsers) => {
-    prefix = "/api/auth";
+var prefix = "/api/auth";
 
+module.exports = (app, connectedUsers) => {    
     // Checking if the session of the user is open.
     app.get(prefix + '/isUserOnSession', (req, res) => {
         if (!req.user) {
