@@ -76,19 +76,19 @@ var connectedUsers = require('./modules/sockets/socket')(io);
 
 // Routes requires
 require('./modules/routes/auth')(app, connectedUsers);
-require('./modules/routes/login')(app);
-require('./modules/routes/forgotPassword')(app);
+require('./modules/routes/login/login')(app);
+require('./modules/routes/login/forgotPassword')(app);
 require('./modules/routes/profile')(app);
 require('./modules/routes/profilePicture')(app);
-require('./modules/routes/navbar')(app);
+require('./modules/routes/navbar/navbar')(app);
 require('./modules/routes/chat')(app);
-require('./modules/routes/chatsWindow')(app);
-require('./modules/routes/friendRequestsWindow')(app);
-require('./modules/routes/management')(app);
-require('./modules/routes/statistics')(app);
+require('./modules/routes/navbar/chatsWindow')(app);
+require('./modules/routes/navbar/friendRequestsWindow')(app);
+require('./modules/routes/managementPanel/management')(app);
+require('./modules/routes/managementPanel/statistics')(app);
 require('./modules/routes/permissionsCard')(app);
-require('./modules/routes/userPage')(app);
-require('./modules/routes/userEditWindow')(app);
+require('./modules/routes/userPage/userPage')(app);
+require('./modules/routes/userPage/userEditWindow')(app);
 
 // Import server jobs and scripts.
 require('./modules/schedules')(connectedUsers);

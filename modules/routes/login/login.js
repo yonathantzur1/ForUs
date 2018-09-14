@@ -1,9 +1,9 @@
-const loginBL = require('../BL/loginBL');
-const logsBL = require('../BL/logsBL');
-const mailer = require('../mailer');
-const general = require('../general');
-const validate = require('../security/validate');
-const bruteForceProtector = require('../security/bruteForceProtector');
+const loginBL = require('../../BL/loginBL');
+const logsBL = require('../../BL/logsBL');
+const mailer = require('../../mailer');
+const general = require('../../general');
+const validate = require('../../security/validate');
+const bruteForceProtector = require('../../security/bruteForceProtector');
 
 var prefix = prefix = "/login";
 

@@ -1,5 +1,5 @@
-const navbarBL = require('../BL/navbarBL');
-const general = require("../general");
+const navbarBL = require('../../BL/navbarBL');
+const general = require("../../general");
 
 var prefix = "/api/navbar";
 

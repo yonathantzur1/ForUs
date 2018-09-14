@@ -1,7 +1,6 @@
 const DAL = require('../DAL');
 const config = require('../../config');
 const general = require('../general');
-const generator = require('../generator');
 const mailer = require('../mailer');
 const sha512 = require('js-sha512');
 
@@ -156,7 +155,7 @@ module.exports = {
             // Generate password hash and salt.
             if (updateFields.password) {
                 updateFields.uid = general.GenerateId();
-                updateFields.salt = generator.GenerateCode(config.security.loginSecure.saltSize);
+                updateFields.salt = general.GenerateCode(config.security.loginSecure.saltSize);
                 updateFields.password = sha512(updateFields.password + updateFields.salt);
             }
 

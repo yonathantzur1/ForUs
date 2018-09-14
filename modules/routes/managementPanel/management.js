@@ -1,5 +1,5 @@
-const managementBL = require('../BL/managementBL');
-const general = require('../general');
+const managementBL = require('../../BL/managementBL');
+const general = require('../../general');
 
 var prefix = "/api/management";
 

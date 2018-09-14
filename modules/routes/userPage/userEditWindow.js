@@ -1,6 +1,6 @@
-const userEditWindowBL = require('../BL/userEditWindowBL');
-const validate = require('../security/validate');
-const bruteForceProtector = require('../security/bruteForceProtector');
+const userEditWindowBL = require('../../BL/userEditWindowBL');
+const validate = require('../../security/validate');
+const bruteForceProtector = require('../../security/bruteForceProtector');
 
 var prefix = "/api/userEditWindow";
 

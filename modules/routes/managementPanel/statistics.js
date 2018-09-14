@@ -1,5 +1,5 @@
-const statisticsBL = require('../BL/statisticsBL');
-const general = require('../general');
+const statisticsBL = require('../../BL/statisticsBL');
+const general = require('../../general');
 
 var prefix = "/api/statistics";
 

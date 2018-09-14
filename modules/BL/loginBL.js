@@ -1,7 +1,6 @@
 const DAL = require('../DAL');
 const config = require('../../config');
 const general = require('../general');
-const generator = require('../generator');
 const sha512 = require('js-sha512');
 
 const collectionName = config.db.collections.users;
@@ -123,7 +122,7 @@ var self = module.exports = {
     AddUser: (newUser) => {
         return new Promise((resolve, reject) => {
             if (ValidateUserObject(newUser)) {
-                var salt = generator.GenerateCode(saltSize);
+                var salt = general.GenerateCode(saltSize);
                 newUser.password = sha512(newUser.password + salt);
 
                 // Creat the new user object.

@@ -1,4 +1,4 @@
-const chatsWindowBL = require('../BL/chatsWindowBL');
+const chatsWindowBL = require('../../BL/chatsWindowBL');
 
 var prefix = "/api/chatsWindow";
 

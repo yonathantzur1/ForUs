@@ -1,7 +1,7 @@
-const userPageBL = require('../BL/userPageBL');
-const forgotPasswordBL = require('../BL/forgotPasswordBL');
-const config = require('../../config');
-const mailer = require('../mailer');
+const userPageBL = require('../../BL/userPageBL');
+const forgotPasswordBL = require('../../BL/forgotPasswordBL');
+const config = require('../../../config');
+const mailer = require('../../mailer');
 
 var prefix = "/api/userPage";
 
