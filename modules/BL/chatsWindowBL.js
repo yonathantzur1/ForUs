@@ -1,6 +1,6 @@
-const DAL = require('../DAL.js');
-const config = require('../../config.js');
-const encryption = require('../encryption.js');
+const DAL = require('../DAL');
+const config = require('../../config');
+const encryption = require('../security/encryption');
 
 const navbarBL = require('./navbarBL');
 

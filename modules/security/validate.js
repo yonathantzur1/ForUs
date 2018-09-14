@@ -1,5 +1,5 @@
 const joi = require('joi');
-const regexp = require('../app/regex/regexpEnums');
+const regexp = require('../../app/regex/regexpEnums');
 
 module.exports = function (req, res, next) {
     try {

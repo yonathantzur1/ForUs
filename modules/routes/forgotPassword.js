@@ -2,7 +2,7 @@ const forgotPasswordBL = require('../BL/forgotPasswordBL');
 const logsBL = require('../BL/logsBL');
 const mailer = require('../mailer');
 const general = require('../general');
-const validate = require('../validate');
+const validate = require('../security/validate');
 const config = require('../../config');
 
 module.exports = (app) => {

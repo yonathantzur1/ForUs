@@ -1,4 +1,4 @@
-const config = require('../config');
+const config = require('../../config');
 const ExpressBrute = require('express-brute');
 const store = new ExpressBrute.MemoryStore();
 

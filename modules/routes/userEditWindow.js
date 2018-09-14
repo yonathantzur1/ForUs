@@ -1,5 +1,5 @@
 const userEditWindowBL = require('../BL/userEditWindowBL');
-const validate = require('../validate');
+const validate = require('../security/validate');
 
 module.exports = function (app) {
 

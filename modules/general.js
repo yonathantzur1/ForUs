@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const config = require('../config');
-const encryption = require('./encryption');
+const encryption = require('./security/encryption');
 const enums = require('./enums');
 
 var self = module.exports = {

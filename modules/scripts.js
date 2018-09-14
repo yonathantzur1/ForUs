@@ -1,5 +1,5 @@
 const config = require('../config');
-const encryption = require('./encryption');
+const encryption = require('./security/encryption');
 const generator = require('./generator');
 const generel = require('./general');
 const DAL = require('./DAL');

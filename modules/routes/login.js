@@ -2,8 +2,8 @@ const loginBL = require('../BL/loginBL');
 const logsBL = require('../BL/logsBL');
 const mailer = require('../mailer');
 const general = require('../general');
-const validate = require('../validate');
-const bruteForceProtector = require('../bruteForceProtector');
+const validate = require('../security/validate');
+const bruteForceProtector = require('../security/bruteForceProtector');
 
 bruteForceProtector.setFailReturnObj({ "result": { "lock": null } }, "result.lock");
 
