@@ -2,45 +2,10 @@ const loginBL = require('../BL/loginBL');
 const logsBL = require('../BL/logsBL');
 const mailer = require('../mailer');
 const general = require('../general');
-const config = require('../../config');
 const validate = require('../validate');
-const ExpressBrute = require('express-brute'),
-    store = new ExpressBrute.MemoryStore();
+const bruteForceProtector = require('../bruteForceProtector');
 
-var failCallback = (req, res, next, nextValidRequestDate) => {
-    var minutesLockTime =
-        Math.ceil((nextValidRequestDate.getTime() - (new Date()).getTime()) / (1000 * 60));
-    res.send({ "result": { "lock": minutesLockTime } });
-};
-
-var handleStoreError = (error) => {
-    log.error(error);
-
-    throw {
-        message: error.message,
-        parent: error.parent
-    };
-}
-// Start slowing requests after 5 failed attempts.
-var userBruteforce = new ExpressBrute(store, {
-    freeRetries: config.security.expressBrute.freeRetries,
-    minWait: config.security.expressBrute.minWait,
-    maxWait: config.security.expressBrute.maxWait,
-    failCallback: failCallback,
-    handleStoreError: handleStoreError
-});
-
-// No more than 1000 login attempts per day per IP.
-var globalBruteforce = new ExpressBrute(store, {
-    freeRetries: 1000,
-    attachResetToRequest: false,
-    refreshTimeoutOnRequest: false,
-    minWait: 25 * 60 * 60 * 1000, // 1 day 1 hour (should never reach this wait time) 
-    maxWait: 25 * 60 * 60 * 1000, // 1 day 1 hour (should never reach this wait time) 
-    lifetime: 24 * 60 * 60, // 1 day (seconds not milliseconds) 
-    failCallback: failCallback,
-    handleStoreError: handleStoreError
-});
+bruteForceProtector.setFailReturnObj({ "result": { "lock": null } }, "result.lock");
 
 module.exports = (app) => {
 
@@ -49,16 +14,23 @@ module.exports = (app) => {
     // Validate the user details and login the user.
     app.post(prefix + '/userLogin',
         validate,
-        globalBruteforce.prevent,
-        userBruteforce.getMiddleware({
+        bruteForceProtector.globalBruteforce.prevent,
+        bruteForceProtector.userBruteforce.getMiddleware({
             key: (req, res, next) => {
                 next(req.body.email);
             }
         }),
         (req, res) => {
+            // Input: { email, password }
+            // Output: result ->
+            // (result == null): error or exception on the function.
+            // (result == false): wrong password.
+            // (result == "-1"): email is not exists on DB.
+            // (result.block != null): The user is blocked.
+            // else: email and password are valid.
             loginBL.GetUser(req.body).then((result) => {
                 if (result) {
-                    // In case the user is not exists.
+                    // In case the email is not exists on DB.
                     if (result == "-1") {
                         req.brute.reset(() => {
                             res.send({ result });
@@ -78,12 +50,16 @@ module.exports = (app) => {
                         });
                     }
                 }
-                // In case of error
+                // In case of error.
                 else {
                     res.send({ result });
 
                     // Log - in case the password is wrong.
-                    (result == false) && logsBL.LoginFail(req.body.email, general.GetIpFromRequest(req), general.GetUserAgentFromRequest(req));
+                    if (result == false) {
+                        logsBL.LoginFail(req.body.email,
+                            general.GetIpFromRequest(req),
+                            general.GetUserAgentFromRequest(req));
+                    }
                 }
             }).catch((err) => {
                 res.status(500).end();

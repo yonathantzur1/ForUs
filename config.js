@@ -39,10 +39,10 @@ module.exports = {
             maxWait: 600000 // (10 * 60 * 1000) - 10 minutes 
         },
         loginSecure: {
-            saltNumOfDigits: 8,
+            saltSize: 8,
             resetCodeNumOfDigits: 6,
             resetCodeNumOfHoursValid: 24,
-            resetPasswordMaxTries: 3
+            resetPasswordMaxTries: 5
         },
     },
     chat: {

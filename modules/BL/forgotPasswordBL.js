@@ -5,7 +5,7 @@ const generator = require('../generator');
 const sha512 = require('js-sha512');
 
 const collectionName = config.db.collections.users;
-const saltNumOfDigits = config.security.loginSecure.saltNumOfDigits;
+const saltSize = config.security.loginSecure.saltSize;
 const resetCodeNumOfDigits = config.security.loginSecure.resetCodeNumOfDigits;
 const resetCodeNumOfHoursValid = config.security.loginSecure.resetCodeNumOfHoursValid;
 const resetPasswordMaxTries = config.security.loginSecure.resetPasswordMaxTries;
@@ -93,7 +93,7 @@ module.exports = {
                 else {
                     var updateUser = result[0];
                     updateUser.uid = general.GenerateId();
-                    updateUser.salt = generator.GenerateCode(saltNumOfDigits);
+                    updateUser.salt = generator.GenerateCode(saltSize);
                     updateUser.password = sha512(forgotUser.newPassword + updateUser.salt);
                     updateUser.resetCode.isUsed = true;
                     updateUser.resetCode.tryNum++;
@@ -122,7 +122,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             var token = data.token;
             var newPassword = data.newPassword;
-            var salt = generator.GenerateCode(saltNumOfDigits);
+            var salt = generator.GenerateCode(saltSize);
 
             var findObj = GetUserByTokenFilterQuery(token);
 
