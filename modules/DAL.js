@@ -1,6 +1,7 @@
 const config = require('../config');
-const MongoClient = require('mongodb').MongoClient, assert = require('assert');
-const ObjectId = require('mongodb').ObjectId;
+const mongodb = require('mongodb');
+const MongoClient = mongodb.MongoClient;
+const ObjectId = mongodb.ObjectId;
 
 // Connection URL consts
 const connectionString = config.db.connectionString;
@@ -232,14 +233,16 @@ module.exports = {
                     var collection = db.collection(collectionName);
 
                     var updateConfig = {
-                        "multi": true,
                         "upsert": false
                     }
 
-                    collection.update(findObj, updateObj, updateConfig, (err, result) => {
+                    collection.updateMany(findObj, updateObj, updateConfig, (err, result) => {
                         if (err == null) {
-                            if (result.result.nModified != 0) {
-                                resolve(result.result.nModified);
+                            var updatedDocumentsAmount = result.result.nModified;
+
+                            // In case any document was updated.
+                            if (updatedDocumentsAmount != 0) {
+                                resolve(updatedDocumentsAmount);
                             }
                             else {
                                 resolve(false);
