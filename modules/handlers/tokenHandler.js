@@ -17,7 +17,9 @@ module.exports = {
         }
 
         var tokenObject = { "user": tokenUserObject };
-        var token = encryption.encrypt(jwt.sign(tokenObject, config.security.jwt.secret, config.security.jwt.options));
+        var token = encryption.encrypt(jwt.sign(tokenObject,
+            config.security.jwt.secret,
+            config.security.jwt.options));
 
         return token;
     },
@@ -42,12 +44,16 @@ module.exports = {
     },
 
     SetTokenOnCookie: function (token, res, isDisableUidCookieUpdate) {
-        res.cookie(config.security.token.cookieName, token, { maxAge: config.security.token.maxAge, httpOnly: true });
+        res.cookie(config.security.token.cookieName,
+            token,
+            { maxAge: config.security.token.maxAge, httpOnly: true });
 
         var token = this.DecodeToken(token);
 
         if (token.user && !isDisableUidCookieUpdate) {
-            res.cookie(config.security.token.uidCookieName, token.user.uid, { maxAge: config.security.token.maxAge, httpOnly: false });
+            res.cookie(config.security.token.uidCookieName,
+                token.user.uid,
+                { maxAge: config.security.token.maxAge, httpOnly: false });
         }
     },
 
@@ -55,13 +61,13 @@ module.exports = {
         res.clearCookie(config.security.token.cookieName);
     },
 
-    DeleteUserIdFromCookie: function (res) {
+    DeleteUidFromCookie: function (res) {
         res.clearCookie(config.security.token.uidCookieName);
     },
 
     DeleteAuthCookies: function (res) {
         this.DeleteTokenFromCookie(res);
-        this.DeleteUserIdFromCookie(res);
+        this.DeleteUidFromCookie(res);
     },
 
     GetTokenFromCookie: function (cookie) {
