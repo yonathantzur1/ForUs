@@ -5,7 +5,7 @@ const mailer = require('../mailer');
 
 module.exports = function (io, socket, socketsDictionary, connectedUsers) {
     socket.on('ServerUpdateFriendRequestsStatus', function (friendId) {
-        var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromSocket(socket));
+        var token = tokenHandler.DecodeTokenFromSocket(socket);
 
         if (token) {
             io.to(token.user._id).emit('ClientUpdateFriendRequestsStatus', friendId);
@@ -13,7 +13,7 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
     });
 
     socket.on('ServerUpdateFriendRequests', function (friendRequests) {
-        var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromSocket(socket));
+        var token = tokenHandler.DecodeTokenFromSocket(socket);
 
         if (token) {
             io.to(token.user._id).emit('ClientUpdateFriendRequests', friendRequests);
@@ -21,7 +21,7 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
     });
 
     socket.on('SendFriendRequest', function (friendId) {
-        var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromSocket(socket));
+        var token = tokenHandler.DecodeTokenFromSocket(socket);
 
         if (token) {
             var user = token.user;
@@ -51,7 +51,7 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
     });
 
     socket.on('ServerAddFriend', function (friend) {
-        var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromSocket(socket));
+        var token = tokenHandler.DecodeTokenFromSocket(socket);
 
         if (token) {
             // In case the confirmed user is not login.
@@ -68,7 +68,7 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
     });
 
     socket.on('ServerFriendAddedUpdate', function (friendId) {
-        var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromSocket(socket));
+        var token = tokenHandler.DecodeTokenFromSocket(socket);
 
         if (token) {
             var user = token.user;
@@ -96,7 +96,7 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
     });
 
     socket.on('ServerRemoveFriend', function (friendId) {
-        var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromSocket(socket));
+        var token = tokenHandler.DecodeTokenFromSocket(socket);
 
         var x = socketsDictionary;
         var y = connectedUsers;

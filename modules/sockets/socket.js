@@ -14,7 +14,7 @@ module.exports = function (io) {
         require('./serverFriendRequests.js')(io, socket, socketsDictionary, connectedUsers);
 
         socket.on('login', function () {
-            var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromSocket(socket));
+            var token = tokenHandler.DecodeTokenFromSocket(socket);
 
             if (token) {
                 var user = token.user;
@@ -56,7 +56,7 @@ module.exports = function (io) {
         });
 
         socket.on('LogoutUserSessionServer', function (userId, msg) {
-            var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromSocket(socket));
+            var token = tokenHandler.DecodeTokenFromSocket(socket);
 
             // Logout the given user in case the sender is admin, or in case the logout is self.
             if (token &&
@@ -67,7 +67,7 @@ module.exports = function (io) {
         });
 
         socket.on('ServerRemoveFriendUser', function (userId, userName, friendsIds) {
-            var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromSocket(socket));
+            var token = tokenHandler.DecodeTokenFromSocket(socket);
 
             if (token &&
                 token.user &&

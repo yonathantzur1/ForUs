@@ -29,7 +29,7 @@ function RedirectToLogin(req, res) {
 }
 
 app.use('/api', (req, res, next) => {
-    var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromRequest(req));
+    var token = tokenHandler.DecodeTokenFromRequest(req);
     var cookieUid = tokenHandler.GetUidFromRequest(req);
 
     // In case the user login and authorized.
@@ -52,7 +52,7 @@ app.use('/api', (req, res, next) => {
 });
 
 app.get('/login', (req, res, next) => {
-    var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromRequest(req));
+    var token = tokenHandler.DecodeTokenFromRequest(req);
 
     if (!token) {
         tokenHandler.DeleteAuthCookies(res);

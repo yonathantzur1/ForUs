@@ -12,7 +12,7 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
         msgData.time = new Date();
         msgData.id = general.GenerateId();
         msgData.text = (msgData.isImage) ? msgData.text : msgData.text.trim();
-        var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromSocket(socket));
+        var token = tokenHandler.DecodeTokenFromSocket(socket);
 
         // In case the message is to the user friend.
         if (token && ValidateMessage(msgData, token.user)) {
@@ -38,7 +38,7 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
     });
 
     socket.on('ServerGetOnlineFriends', function () {
-        var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromSocket(socket));
+        var token = tokenHandler.DecodeTokenFromSocket(socket);
 
         if (token) {
             var user = token.user;
@@ -55,7 +55,7 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
     });
 
     socket.on('ServerFriendTyping', function (friendId) {
-        var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromSocket(socket));
+        var token = tokenHandler.DecodeTokenFromSocket(socket);
 
         if (token) {
             io.to(friendId).emit('ClientFriendTyping', token.user._id);

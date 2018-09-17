@@ -70,7 +70,7 @@ module.exports = (app) => {
 
     // Update user last login time in DB.
     app.post(prefix + '/updateLastLogin', (req, res) => {
-        var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromRequest(req));
+        var token = tokenHandler.DecodeTokenFromRequest(req);
 
         if (token) {
             loginBL.UpdateLastLogin(token.user._id).then(() => {
@@ -86,7 +86,7 @@ module.exports = (app) => {
 
     // Get user permissions from token.
     app.get(prefix + '/getUserPermissions', (req, res) => {
-        var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromRequest(req));
+        var token = tokenHandler.DecodeTokenFromRequest(req);
 
         if (token) {
             res.send(token.user.permissions);

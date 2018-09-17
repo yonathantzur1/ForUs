@@ -31,6 +31,16 @@ module.exports = {
         }
     },
 
+    DecodeTokenFromRequest: function (request) {
+        var token = this.GetTokenFromRequest(request);
+        return this.DecodeToken(token);
+    },
+
+    DecodeTokenFromSocket: function (socket) {
+        var token = this.GetTokenFromSocket(socket);
+        return this.DecodeToken(token);
+    },
+
     SetTokenOnCookie: function (token, res, isDisableUidCookieUpdate) {
         res.cookie(config.security.token.cookieName, token, { maxAge: config.security.token.maxAge, httpOnly: true });
 
