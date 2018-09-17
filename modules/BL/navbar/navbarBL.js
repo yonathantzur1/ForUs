@@ -1,7 +1,7 @@
-const DAL = require('../DAL');
-const tokenHandler = require('../handlers/tokenHandler');
-const mailer = require('../mailer');
-const config = require('../../config');
+const DAL = require('../../DAL');
+const tokenHandler = require('../../handlers/tokenHandler');
+const mailer = require('../../mailer');
+const config = require('../../../config');
 
 const usersCollectionName = config.db.collections.users;
 const profilesCollectionName = config.db.collections.profiles;

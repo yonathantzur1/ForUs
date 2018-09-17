@@ -1,7 +1,7 @@
-const permissionsCardBL = require('../BL/permissionsCardBL');
-const permissionHandler = require('../handlers/permissionHandler');
+const permissionsBL = require('../../BL/managementPanel/permissionsBL');
+const permissionHandler = require('../../handlers/permissionHandler');
 
-var prefix = "/api/permissionsCard";
+var prefix = "/api/permissions";
 
 module.exports = function (app) {    
     // Master permissions check for all management routes
@@ -15,7 +15,7 @@ module.exports = function (app) {
     });
 
     app.get(prefix + '/getAllPermissions', function (req, res) {
-        permissionsCardBL.GetAllPermissions().then((result) => {
+        permissionsBL.GetAllPermissions().then((result) => {
             res.send(result);
         }).catch((err) => {
             res.status(500).end();
@@ -23,7 +23,7 @@ module.exports = function (app) {
     });
 
     app.get(prefix + '/getUserPermissions', function (req, res) {
-        permissionsCardBL.GetUserPermissions(req.query.userId).then((result) => {
+        permissionsBL.GetUserPermissions(req.query.userId).then((result) => {
             res.send(result);
         }).catch((err) => {
             res.status(500).end();
@@ -31,7 +31,7 @@ module.exports = function (app) {
     });
 
     app.put(prefix + '/updatePermissions', function (req, res) {
-        permissionsCardBL.UpdatePermissions(req.body.userId, req.body.permissions).then((result) => {
+        permissionsBL.UpdatePermissions(req.body.userId, req.body.permissions).then((result) => {
             res.send(result);
         }).catch((err) => {
             res.status(500).end();

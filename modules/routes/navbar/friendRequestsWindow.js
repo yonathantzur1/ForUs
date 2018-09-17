@@ -1,4 +1,4 @@
-const friendRequestsWindowBL = require('../../BL/friendRequestsWindowBL');
+const friendRequestsWindowBL = require('../../BL/navbar/friendRequestsWindowBL');
 
 var prefix = "/api/friendRequestsWindow";
 

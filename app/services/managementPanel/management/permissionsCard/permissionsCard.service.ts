@@ -1,7 +1,7 @@
 import { BasicService } from '../../../basic/basic.service';
 
 export class PermissionsCardService extends BasicService {
-    prefix = "/api/permissionsCard";
+    prefix = "/api/permissions";
 
     GetAllPermissions() {
         return super.get(this.prefix + '/getAllPermissions')

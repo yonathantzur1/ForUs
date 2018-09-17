@@ -1,5 +1,5 @@
-const userPageBL = require('../../BL/userPageBL');
-const forgotPasswordBL = require('../../BL/forgotPasswordBL');
+const userPageBL = require('../../BL/userPage/userPageBL');
+const forgotPasswordBL = require('../../BL/login/forgotPasswordBL');
 const config = require('../../../config');
 const mailer = require('../../mailer');
 const requestHandler = require('../../handlers/requestHandler')

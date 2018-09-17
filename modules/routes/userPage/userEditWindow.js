@@ -1,4 +1,4 @@
-const userEditWindowBL = require('../../BL/userEditWindowBL');
+const userEditWindowBL = require('../../BL/userPage/userEditWindowBL');
 const validate = require('../../security/validate');
 const bruteForceProtector = require('../../security/bruteForceProtector');
 

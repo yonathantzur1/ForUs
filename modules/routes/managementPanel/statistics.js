@@ -1,4 +1,4 @@
-const statisticsBL = require('../../BL/statisticsBL');
+const statisticsBL = require('../../BL/managementPanel/statisticsBL');
 const permissionHandler = require('../../handlers/permissionHandler');
 
 var prefix = "/api/statistics";

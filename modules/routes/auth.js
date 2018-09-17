@@ -1,4 +1,4 @@
-const loginBL = require('../BL/loginBL');
+const loginBL = require('../BL/login/loginBL');
 const tokenHandler = require('../handlers/tokenHandler');
 const permissionHandler = require('../handlers/permissionHandler');
 

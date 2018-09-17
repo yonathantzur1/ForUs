@@ -1,4 +1,4 @@
-const managementBL = require('../../BL/managementBL');
+const managementBL = require('../../BL/managementPanel/managementBL');
 const permissionHandler = require('../../handlers/permissionHandler');
 
 var prefix = "/api/management";

@@ -1,7 +1,7 @@
-const DAL = require('../DAL.js');
-const config = require('../../config.js');
+const DAL = require('../../DAL');
+const config = require('../../../config');
 
-const managementBL = require('../BL/managementBL');
+const managementBL = require('../../BL/managementPanel/managementBL');
 
 const usersCollectionName = config.db.collections.users;
 const profilesCollectionName = config.db.collections.profiles;

@@ -1,6 +1,6 @@
-const DAL = require('../DAL');
-const config = require('../../config');
-const general = require('../general');
+const DAL = require('../../DAL');
+const config = require('../../../config');
+const general = require('../../general');
 const sha512 = require('js-sha512');
 
 const collectionName = config.db.collections.users;

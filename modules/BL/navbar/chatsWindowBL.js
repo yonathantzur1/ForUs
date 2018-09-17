@@ -1,8 +1,7 @@
-const DAL = require('../DAL');
-const config = require('../../config');
-const encryption = require('../security/encryption');
+const DAL = require('../../DAL');
+const encryption = require('../../security/encryption');
 
-const navbarBL = require('./navbarBL');
+const navbarBL = require('../navbar/navbarBL');
 
 const collectionName = "Chats";
 

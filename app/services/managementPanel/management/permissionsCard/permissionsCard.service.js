@@ -18,7 +18,7 @@ var PermissionsCardService = /** @class */ (function (_super) {
     __extends(PermissionsCardService, _super);
     function PermissionsCardService() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.prefix = "/api/permissionsCard";
+        _this.prefix = "/api/permissions";
         return _this;
     }
     PermissionsCardService.prototype.GetAllPermissions = function () {

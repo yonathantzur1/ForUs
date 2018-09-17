@@ -1,7 +1,7 @@
-const DAL = require('../DAL');
-const config = require('../../config');
-const general = require('../general');
-const mailer = require('../mailer');
+const DAL = require('../../DAL');
+const config = require('../../../config');
+const general = require('../../general');
+const mailer = require('../../mailer');
 const sha512 = require('js-sha512');
 
 const usersCollectionName = config.db.collections.users;

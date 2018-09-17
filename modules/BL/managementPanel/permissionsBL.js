@@ -1,5 +1,5 @@
-const DAL = require('../DAL');
-const config = require('../../config');
+const DAL = require('../../DAL');
+const config = require('../../../config');
 
 const collectionName = config.db.collections.permissions;
 

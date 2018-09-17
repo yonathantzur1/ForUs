@@ -1,5 +1,5 @@
-const chatBL = require('../BL/chatBL.js');
-const navbarBL = require('../BL/navbarBL.js');
+const chatBL = require('../BL/chatBL');
+const navbarBL = require('../BL/navbar/navbarBL');
 const general = require('../general');
 const tokenHandler = require('../handlers/tokenHandler');
 

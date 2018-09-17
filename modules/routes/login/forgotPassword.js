@@ -1,4 +1,4 @@
-const forgotPasswordBL = require('../../BL/forgotPasswordBL');
+const forgotPasswordBL = require('../../BL/login/forgotPasswordBL');
 const logsBL = require('../../BL/logsBL');
 const mailer = require('../../mailer');
 const tokenHandler = require('../../handlers/tokenHandler');

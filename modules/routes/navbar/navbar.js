@@ -1,4 +1,4 @@
-const navbarBL = require('../../BL/navbarBL');
+const navbarBL = require('../../BL/navbar/navbarBL');
 const tokenHandler = require("../../handlers/tokenHandler");
 
 var prefix = "/api/navbar";
