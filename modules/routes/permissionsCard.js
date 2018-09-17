@@ -1,12 +1,12 @@
 const permissionsCardBL = require('../BL/permissionsCardBL');
-const general = require('../general');
+const permissionHandler = require('../handlers/permissionHandler');
 
 var prefix = "/api/permissionsCard";
 
 module.exports = function (app) {    
     // Master permissions check for all management routes
     app.use(prefix, function (req, res, next) {
-        if (general.IsUserHasMasterPermission(req.user.permissions)) {
+        if (permissionHandler.IsUserHasMasterPermission(req.user.permissions)) {
             next();
         }
         else {

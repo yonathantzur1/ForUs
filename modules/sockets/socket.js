@@ -1,8 +1,7 @@
-const config = require('../../config');
-const general = require('../general');
-const enums = require('../enums');
 const logsBL = require('../BL/logsBL')
-const jwt = require('jsonwebtoken');
+const tokenHandler = require('../handlers/tokenHandler');
+const permissionHandler = require('../handlers/permissionHandler');
+const requestHandler = require('../handlers/requestHandler');
 
 var socketsDictionary = {};
 var connectedUsers = {};
@@ -15,7 +14,7 @@ module.exports = function (io) {
         require('./serverFriendRequests.js')(io, socket, socketsDictionary, connectedUsers);
 
         socket.on('login', function () {
-            var token = general.DecodeToken(general.GetTokenFromSocket(socket));
+            var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromSocket(socket));
 
             if (token) {
                 var user = token.user;
@@ -46,7 +45,9 @@ module.exports = function (io) {
                 });
 
                 // Log - in case the email and password are valid but the user is blocked.
-                logsBL.Login(user.email, general.GetIpFromSocket(socket), general.GetUserAgentFromSocket(socket));
+                logsBL.Login(user.email,
+                    requestHandler.GetIpFromSocket(socket),
+                    requestHandler.GetUserAgentFromSocket(socket));
             }
         });
 
@@ -55,22 +56,22 @@ module.exports = function (io) {
         });
 
         socket.on('LogoutUserSessionServer', function (userId, msg) {
-            var token = general.DecodeToken(general.GetTokenFromSocket(socket));
+            var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromSocket(socket));
 
             // Logout the given user in case the sender is admin, or in case the logout is self.
             if (token &&
                 token.user &&
-                (general.IsUserHasRootPermission(token.user.permissions) || userId == null)) {
+                (permissionHandler.IsUserHasRootPermission(token.user.permissions) || userId == null)) {
                 io.to(userId || token.user._id).emit('LogoutUserSessionClient', msg);
             }
         });
 
         socket.on('ServerRemoveFriendUser', function (userId, userName, friendsIds) {
-            var token = general.DecodeToken(general.GetTokenFromSocket(socket));
+            var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromSocket(socket));
 
             if (token &&
                 token.user &&
-                general.IsUserHasRootPermission(token.user.permissions)) {
+                permissionHandler.IsUserHasRootPermission(token.user.permissions)) {
                 friendsIds.forEach(friendId => {
                     io.to(friendId).emit('ClientRemoveFriendUser', userId, userName);
                 });

@@ -1,5 +1,5 @@
 const profileBL = require('../BL/profileBL');
-const general = require("../general");
+const tokenHandler = require("../handlers/tokenHandler");
 
 var prefix = "/api/profile";
 
@@ -13,8 +13,8 @@ module.exports = function (app) {
         profileBL.SaveImage(imageData).then((result) => {
             if (result) {
                 req.user.profile = result.profile.toString();
-                var token = general.GetTokenFromUserObject(req.user);
-                general.SetTokenOnCookie(token, res);
+                var token = tokenHandler.GetTokenFromUserObject(req.user);
+                tokenHandler.SetTokenOnCookie(token, res);
                 res.send(true);
             }
             else {
@@ -33,8 +33,8 @@ module.exports = function (app) {
         profileBL.DeleteImage(userId, profileId).then((result) => {
             if (result) {
                 delete req.user.profile;
-                var token = general.GetTokenFromUserObject(req.user);
-                general.SetTokenOnCookie(token, res);
+                var token = tokenHandler.GetTokenFromUserObject(req.user);
+                tokenHandler.SetTokenOnCookie(token, res);
                 res.send(true);
             }
             else {

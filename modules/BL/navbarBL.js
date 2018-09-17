@@ -1,5 +1,5 @@
 const DAL = require('../DAL');
-const general = require('../general');
+const tokenHandler = require('../handlers/tokenHandler');
 const mailer = require('../mailer');
 const config = require('../../config');
 
@@ -349,7 +349,7 @@ var self = module.exports = {
                     if (updatedUser) {
                         // Getting a new token from the user object with the friend.
                         user.friends.push(friendId);
-                        var newToken = general.GetTokenFromUserObject(user);
+                        var newToken = tokenHandler.GetTokenFromUserObject(user);
 
                         // Add the user to the friend as a friend.
                         DAL.UpdateOne(usersCollectionName, friendIdObject, { $push: { "friends": user._id } }).then((updatedFriend) => {

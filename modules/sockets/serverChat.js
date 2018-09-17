@@ -1,8 +1,7 @@
 const chatBL = require('../BL/chatBL.js');
 const navbarBL = require('../BL/navbarBL.js');
-const config = require('../../config');
 const general = require('../general');
-const jwt = require('jsonwebtoken');
+const tokenHandler = require('../handlers/tokenHandler');
 
 module.exports = function (io, socket, socketsDictionary, connectedUsers) {
 
@@ -13,7 +12,7 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
         msgData.time = new Date();
         msgData.id = general.GenerateId();
         msgData.text = (msgData.isImage) ? msgData.text : msgData.text.trim();
-        var token = general.DecodeToken(general.GetTokenFromSocket(socket));
+        var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromSocket(socket));
 
         // In case the message is to the user friend.
         if (token && ValidateMessage(msgData, token.user)) {
@@ -39,7 +38,7 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
     });
 
     socket.on('ServerGetOnlineFriends', function () {
-        var token = general.DecodeToken(general.GetTokenFromSocket(socket));
+        var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromSocket(socket));
 
         if (token) {
             var user = token.user;
@@ -56,7 +55,7 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
     });
 
     socket.on('ServerFriendTyping', function (friendId) {
-        var token = general.DecodeToken(general.GetTokenFromSocket(socket));
+        var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromSocket(socket));
 
         if (token) {
             io.to(friendId).emit('ClientFriendTyping', token.user._id);

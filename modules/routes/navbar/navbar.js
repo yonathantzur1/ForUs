@@ -1,5 +1,5 @@
 const navbarBL = require('../../BL/navbarBL');
-const general = require("../../general");
+const tokenHandler = require("../../handlers/tokenHandler");
 
 var prefix = "/api/navbar";
 
@@ -86,7 +86,7 @@ module.exports = function (app) {
     app.post(prefix + '/addFriend', function (req, res) {
         navbarBL.AddFriend(req.user, req.body.friendId).then((result) => {
             if (result) {
-                general.SetTokenOnCookie(result.token, res);
+                tokenHandler.SetTokenOnCookie(result.token, res);
                 res.send(result.friend);
             }
         }).catch((err) => {

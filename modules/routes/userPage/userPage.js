@@ -2,10 +2,11 @@ const userPageBL = require('../../BL/userPageBL');
 const forgotPasswordBL = require('../../BL/forgotPasswordBL');
 const config = require('../../../config');
 const mailer = require('../../mailer');
+const requestHandler = require('../../handlers/requestHandler')
 
 var prefix = "/api/userPage";
 
-module.exports = function (app) {    
+module.exports = function (app) {
     // Get user details by id.
     app.get(prefix + '/getUserDetails', function (req, res) {
         var userId = req.query.id;
@@ -44,7 +45,9 @@ module.exports = function (app) {
                 res.send(true);
 
                 // Log - in case the user has found.
-                logsBL.ResetPasswordRequest(email, general.GetIpFromRequest(req), general.GetUserAgentFromRequest(req));
+                logsBL.ResetPasswordRequest(email,
+                    requestHandler.GetIpFromRequest(req),
+                    requestHandler.GetUserAgentFromRequest(req));
             }
             else {
                 // Return to the client null in case of error.

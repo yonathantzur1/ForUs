@@ -1,13 +1,14 @@
 const forgotPasswordBL = require('../../BL/forgotPasswordBL');
 const logsBL = require('../../BL/logsBL');
 const mailer = require('../../mailer');
-const general = require('../../general');
+const tokenHandler = require('../../handlers/tokenHandler');
+const requestHandler = require('../../handlers/requestHandler');
 const validate = require('../../security/validate');
 const config = require('../../../config');
 
 var prefix = "/forgotPassword";
 
-module.exports = (app) => {    
+module.exports = (app) => {
     // Sending to the user an email with code to reset his password.
     app.put(prefix + '/forgot',
         validate,
@@ -25,7 +26,9 @@ module.exports = (app) => {
                     res.send({ "result": true });
 
                     // Log - in case the user has found.
-                    logsBL.ResetPasswordRequest(email, general.GetIpFromRequest(req), general.GetUserAgentFromRequest(req));
+                    logsBL.ResetPasswordRequest(email,
+                        requestHandler.GetIpFromRequest(req),
+                        requestHandler.GetUserAgentFromRequest(req));
                 }
                 else {
                     // Return to the client false in case the email was not found,
@@ -43,8 +46,8 @@ module.exports = (app) => {
         (req, res) => {
             forgotPasswordBL.ResetPassword(req.body).then(result => {
                 if (result && result.isChanged) {
-                    var token = general.GetTokenFromUserObject(result.user);
-                    general.SetTokenOnCookie(token, res);
+                    var token = tokenHandler.GetTokenFromUserObject(result.user);
+                    tokenHandler.SetTokenOnCookie(token, res);
                     res.send({ "result": true });
                 }
                 else {
@@ -71,8 +74,8 @@ module.exports = (app) => {
         (req, res) => {
             forgotPasswordBL.ResetPasswordByToken(req.body).then(result => {
                 if (result) {
-                    var token = general.GetTokenFromUserObject(result);
-                    general.SetTokenOnCookie(token, res, true);
+                    var token = tokenHandler.GetTokenFromUserObject(result);
+                    tokenHandler.SetTokenOnCookie(token, res, true);
                     res.send(true);
                 }
                 else {

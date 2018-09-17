@@ -1,7 +1,8 @@
 const loginBL = require('../../BL/loginBL');
 const logsBL = require('../../BL/logsBL');
 const mailer = require('../../mailer');
-const general = require('../../general');
+const tokenHandler = require('../../handlers/tokenHandler');
+const requestHandler = require('../../handlers/requestHandler');
 const validate = require('../../security/validate');
 const bruteForceProtector = require('../../security/bruteForceProtector');
 
@@ -46,7 +47,7 @@ module.exports = (app) => {
                     // In case user email and password are valid.
                     else {
                         req.brute.reset(() => {
-                            general.SetTokenOnCookie(general.GetTokenFromUserObject(result), res);
+                            tokenHandler.SetTokenOnCookie(tokenHandler.GetTokenFromUserObject(result), res);
                             res.send({ "result": true });
                         });
                     }
@@ -58,8 +59,8 @@ module.exports = (app) => {
                     // Log - in case the password is wrong.
                     if (result == false) {
                         logsBL.LoginFail(req.body.email,
-                            general.GetIpFromRequest(req),
-                            general.GetUserAgentFromRequest(req));
+                            requestHandler.GetIpFromRequest(req),
+                            requestHandler.GetUserAgentFromRequest(req));
                     }
                 }
             }).catch((err) => {
@@ -69,7 +70,7 @@ module.exports = (app) => {
 
     // Update user last login time in DB.
     app.post(prefix + '/updateLastLogin', (req, res) => {
-        var token = general.DecodeToken(general.GetTokenFromRequest(req));
+        var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromRequest(req));
 
         if (token) {
             loginBL.UpdateLastLogin(token.user._id).then(() => {
@@ -85,7 +86,7 @@ module.exports = (app) => {
 
     // Get user permissions from token.
     app.get(prefix + '/getUserPermissions', (req, res) => {
-        var token = general.DecodeToken(general.GetTokenFromRequest(req));
+        var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromRequest(req));
 
         if (token) {
             res.send(token.user.permissions);
@@ -114,10 +115,10 @@ module.exports = (app) => {
                         if (result) {
                             // Sending a welcome mail to the new user.
                             mailer.RegisterMail(req.body.email, req.body.firstName);
-                            var token = general.GetTokenFromUserObject(result);
-                            general.SetTokenOnCookie(token, res);
+                            var token = tokenHandler.GetTokenFromUserObject(result);
+                            tokenHandler.SetTokenOnCookie(token, res);
                             res.send({ "result": true });
-                            logsBL.Register(email, general.GetIpFromRequest(req), general.GetUserAgentFromRequest(req));
+                            logsBL.Register(email, requestHandler.GetIpFromRequest(req), requestHandler.GetUserAgentFromRequest(req));
                         }
                         else {
                             res.send({ result });
@@ -131,7 +132,7 @@ module.exports = (app) => {
 
     // Delete token from cookies.
     app.delete(prefix + '/deleteToken', (req, res) => {
-        general.DeleteTokenFromCookie(res);
+        tokenHandler.DeleteTokenFromCookie(res);
         res.end();
     });
 };

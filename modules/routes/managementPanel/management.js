@@ -1,12 +1,12 @@
 const managementBL = require('../../BL/managementBL');
-const general = require('../../general');
+const permissionHandler = require('../../handlers/permissionHandler');
 
 var prefix = "/api/management";
 
 module.exports = function (app) {    
     // Root permissions check for all management routes
     app.use(prefix, function (req, res, next) {
-        if (general.IsUserHasRootPermission(req.user.permissions)) {
+        if (permissionHandler.IsUserHasRootPermission(req.user.permissions)) {
             next();
         }
         else {
@@ -64,7 +64,7 @@ module.exports = function (app) {
 
     app.delete(prefix + '/deleteUser', function (req, res) {
         // Checking master permission for this route.
-        if (general.IsUserHasMasterPermission(req.user.permissions)) {
+        if (permissionHandler.IsUserHasMasterPermission(req.user.permissions)) {
             managementBL.DeleteUser(req.query.userId).then((result) => {
                 res.send(result);
             }).catch((err) => {

@@ -5,8 +5,7 @@ const http = require('http').Server(app);
 const path = require('path');
 const compression = require('compression');
 const io = require('socket.io')(http);
-const general = require('./modules/general');
-const config = require('./config');
+const tokenHandler = require('./modules/handlers/tokenHandler');
 
 // app define
 app.set('trust proxy', 1);
@@ -19,12 +18,9 @@ app.use(express.static('./'));
 app.use(express.static('public'));
 app.use(compression());
 
-// BL requires
-const loginBL = require('./modules/BL/loginBL');
-
 function RedirectToLogin(req, res) {
     if (req.method == "GET") {
-        general.DeleteAuthCookies(res);
+        tokenHandler.DeleteAuthCookies(res);
         res.redirect('/login');
     }
     else {
@@ -33,8 +29,8 @@ function RedirectToLogin(req, res) {
 }
 
 app.use('/api', (req, res, next) => {
-    var token = general.DecodeToken(general.GetTokenFromRequest(req));
-    var cookieUid = general.GetUidFromRequest(req);
+    var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromRequest(req));
+    var cookieUid = tokenHandler.GetUidFromRequest(req);
 
     // In case the user login and authorized.
     if (token && token.user.uid == cookieUid) {
@@ -56,10 +52,10 @@ app.use('/api', (req, res, next) => {
 });
 
 app.get('/login', (req, res, next) => {
-    var token = general.DecodeToken(general.GetTokenFromRequest(req));
+    var token = tokenHandler.DecodeToken(tokenHandler.GetTokenFromRequest(req));
 
     if (!token) {
-        general.DeleteAuthCookies(res);
+        tokenHandler.DeleteAuthCookies(res);
         next();
     }
     else {

@@ -1,12 +1,12 @@
 const statisticsBL = require('../../BL/statisticsBL');
-const general = require('../../general');
+const permissionHandler = require('../../handlers/permissionHandler');
 
 var prefix = "/api/statistics";
 
 module.exports = function (app) {    
     // Root permissions check for all management routes
     app.use(prefix, function (req, res, next) {
-        if (general.IsUserHasRootPermission(req.user.permissions)) {
+        if (permissionHandler.IsUserHasRootPermission(req.user.permissions)) {
             next();
         }
         else {

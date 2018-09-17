@@ -1,5 +1,6 @@
 const loginBL = require('../BL/loginBL');
-const general = require('../general');
+const tokenHandler = require('../handlers/tokenHandler');
+const permissionHandler = require('../handlers/permissionHandler');
 
 var prefix = "/api/auth";
 
@@ -11,12 +12,12 @@ module.exports = (app, connectedUsers) => {
         }
         else {
             loginBL.GetUserById(req.user._id).then((user) => {
-                var cookieUid = general.GetUidFromRequest(req);
+                var cookieUid = tokenHandler.GetUidFromRequest(req);
 
                 // Double check uid (after main server token validae middleware)
                 // from the original DB user object.
                 if (user && user.uid == cookieUid && !(loginBL.IsUserBlocked(user))) {
-                    general.SetTokenOnCookie(general.GetTokenFromUserObject(user), res, true);
+                    tokenHandler.SetTokenOnCookie(tokenHandler.GetTokenFromUserObject(user), res, true);
                     res.send(true);
                 }
                 else {                    
@@ -30,7 +31,7 @@ module.exports = (app, connectedUsers) => {
 
     // Checking if user has ADMIN permission.
     app.get(prefix + '/isUserRoot', (req, res) => {
-        res.send(req.user && general.IsUserHasRootPermission(req.user.permissions));
+        res.send(req.user && permissionHandler.IsUserHasRootPermission(req.user.permissions));
     });
 
     // Getting the current login user.
@@ -53,8 +54,8 @@ module.exports = (app, connectedUsers) => {
     app.get(prefix + '/setCurrUserToken', (req, res) => {
         loginBL.GetUserById(req.user._id).then((user) => {
             if (user) {
-                var token = general.GetTokenFromUserObject(user);
-                general.SetTokenOnCookie(token, res);
+                var token = tokenHandler.GetTokenFromUserObject(user);
+                tokenHandler.SetTokenOnCookie(token, res);
                 res.send(true);
             }
             else {
