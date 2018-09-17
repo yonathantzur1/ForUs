@@ -11,7 +11,7 @@ const maxConnectionAttemptsNumber = config.db.maxConnectionAttemptsNumber;
 var retryCount = 0;
 var db;
 
-GetDB = (callback) => {
+function GetDB(callback) {
     // In case there is no connected db.
     if (!db || !db.serverConfig || !db.serverConfig.isConnected()) {
         MongoClient.connect(connectionString,
@@ -199,7 +199,7 @@ module.exports = {
                     var collection = db.collection(collectionName);
 
                     var updateConfig = {
-                        returnOriginal: false,                    
+                        returnOriginal: false,
                         upsert: isInsertIfNotExists
                     }
 

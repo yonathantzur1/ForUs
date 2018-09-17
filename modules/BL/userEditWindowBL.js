@@ -32,8 +32,7 @@ var self = module.exports = {
                     }
                 }
                 else {
-                    //resolve(enums.USER_UPDATE_INFO_ERROR.WRONG_PASSWORD);
-                    resolve("-2");
+                    resolve(enums.USER_UPDATE_INFO_ERROR.WRONG_PASSWORD);
                 }
             }).catch(reject);
         });
