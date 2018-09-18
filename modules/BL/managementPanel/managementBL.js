@@ -222,7 +222,7 @@ module.exports = {
             notificationsUnsetJson["messagesNotifications." + friendId] = 1;
 
             DAL.Delete(chatsCollectionName,
-                { "membersIds": general.SortArray([userIdObject, friendIdObject]) }).then((result) => {
+                { "membersIds": general.SortArray([userId, friendId]) }).then((result) => {
                     DAL.Update(usersCollectionName,
                         {
                             $or: [
