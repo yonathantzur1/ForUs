@@ -189,7 +189,7 @@ var UserPageComponent = /** @class */ (function () {
                                 confirmFunc: function () {
                                     self.userPageService.DeleteUser().then(function (result) {
                                         if (result) {
-                                            self.globalService.socket.emit("LogoutUserSessionServer", self.user._id, "המשתמש נמחק בהצלחה, החשבון נסגר.");
+                                            self.globalService.socket.emit("LogoutUserSessionServer", null, "המשתמש נמחק בהצלחה, החשבון נסגר.");
                                         }
                                         else {
                                             self.alertService.Alert({

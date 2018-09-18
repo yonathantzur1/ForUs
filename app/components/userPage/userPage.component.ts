@@ -201,7 +201,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                                     self.userPageService.DeleteUser().then(result => {
                                         if (result) {
                                             self.globalService.socket.emit("LogoutUserSessionServer",
-                                                self.user._id,
+                                                null,
                                                 "המשתמש נמחק בהצלחה, החשבון נסגר.");
                                         }
                                         else {

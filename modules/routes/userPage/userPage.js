@@ -3,7 +3,8 @@ const forgotPasswordBL = require('../../BL/login/forgotPasswordBL');
 const managementBL = require('../../BL/managementPanel/managementBL');
 const config = require('../../../config');
 const mailer = require('../../mailer');
-const requestHandler = require('../../handlers/requestHandler')
+const requestHandler = require('../../handlers/requestHandler');
+const events = require('../../events');
 
 var prefix = "/api/userPage";
 
@@ -60,8 +61,18 @@ module.exports = function (app) {
     });
 
     app.delete(prefix + '/deleteUser', function (req, res) {
-        managementBL.DeleteUser(req.user._id).then((result) => {            
-            res.send(result);
+        managementBL.DeleteUser(req.user._id).then((result) => {
+            if (result) {
+                if (result.length > 0) {
+                    var userName = req.user.firstName + " " + req.user.lastName;
+                    events.emit('socket.RemoveFriendUser', req.user._id, userName, result);
+                }
+
+                res.send(true);
+            }
+            else {
+                res.send(result);
+            }
         }).catch((err) => {
             res.status(500).end();
         });

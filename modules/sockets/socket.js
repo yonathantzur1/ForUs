@@ -2,6 +2,7 @@ const logsBL = require('../BL/logsBL')
 const tokenHandler = require('../handlers/tokenHandler');
 const permissionHandler = require('../handlers/permissionHandler');
 const requestHandler = require('../handlers/requestHandler');
+const events = require('../events');
 
 var socketsDictionary = {};
 var connectedUsers = {};
@@ -72,12 +73,18 @@ module.exports = function (io) {
             if (token &&
                 token.user &&
                 permissionHandler.IsUserHasRootPermission(token.user.permissions)) {
-                friendsIds.forEach(friendId => {
-                    io.to(friendId).emit('ClientRemoveFriendUser', userId, userName);
-                });
+                RemoveFriendUser(userId, userName, friendsIds)
             }
         });
     });
+
+    function RemoveFriendUser(userId, userName, friendsIds) {
+        friendsIds.forEach(friendId => {
+            io.to(friendId).emit('ClientRemoveFriendUser', userId, userName);
+        });
+    }
+
+    events.on('socket.RemoveFriendUser', RemoveFriendUser);
 
     return connectedUsers;
 }
