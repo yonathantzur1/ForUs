@@ -196,7 +196,24 @@ export class UserPageComponent implements OnInit, OnDestroy {
                                     "מידע אישי, שיחות, תמונות, וכל מידע אחר שהועלה על ידך לאתר.\n" +
                                     "יש לשים לב כי פעולה זו היא בלתי הפיכה, ואינה ניתנת לשחזור!\n\n" +
                                     "<b>האם למחוק את המשתמש שלך מהאתר?</b>",
-                                type: ALERT_TYPE.DANGER
+                                type: ALERT_TYPE.DANGER,
+                                confirmFunc: function () {
+                                    self.userPageService.DeleteUser().then(result => {
+                                        if (result) {
+                                            self.globalService.socket.emit("LogoutUserSessionServer",
+                                                self.user._id,
+                                                "המשתמש נמחק בהצלחה, החשבון נסגר.");
+                                        }
+                                        else {
+                                            self.alertService.Alert({
+                                                title: "מחיקת משתמש",
+                                                text: "שגיאה בתהליך מחיקת המשתמש",
+                                                type: ALERT_TYPE.WARNING,
+                                                showCancelButton: false
+                                            });
+                                        }
+                                    })
+                                }
                             });
                         }
                     }

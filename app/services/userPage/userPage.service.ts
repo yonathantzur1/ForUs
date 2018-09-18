@@ -37,4 +37,15 @@ export class UserPageService extends BasicService {
             });
     }
 
+    DeleteUser() {
+        return super.delete(this.prefix + '/deleteUser')
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((e: any) => {
+                return null;
+            });
+    }
+
 }

@@ -287,7 +287,7 @@ module.exports = {
                                                         // Remove the user object.
                                                         DAL.DeleteOne(usersCollectionName,
                                                             { "_id": userObjectId }).then((result) => {
-                                                                // Change result to true in case the delete succeeded.
+                                                                // Return user friends ids in case the delete succeeded.
                                                                 result && (result = deletedUserFriends);
                                                                 resolve(result);
                                                             }).catch(reject);

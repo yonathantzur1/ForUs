@@ -51,6 +51,16 @@ var UserPageService = /** @class */ (function (_super) {
             return null;
         });
     };
+    UserPageService.prototype.DeleteUser = function () {
+        return _super.prototype.delete.call(this, this.prefix + '/deleteUser')
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     return UserPageService;
 }(basic_service_1.BasicService));
 exports.UserPageService = UserPageService;

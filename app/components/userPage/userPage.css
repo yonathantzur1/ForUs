@@ -100,8 +100,8 @@
 
 #userPage .tab {
     display: inline-flex;   
-    width: calc(100% - 1px); 
-    height: 48px;    
+    width: 100%; 
+    height: 50px;    
     margin-left: auto;
     margin-right: auto;
     cursor: pointer;

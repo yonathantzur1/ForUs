@@ -1,5 +1,6 @@
 const userPageBL = require('../../BL/userPage/userPageBL');
 const forgotPasswordBL = require('../../BL/login/forgotPasswordBL');
+const managementBL = require('../../BL/managementPanel/managementBL');
 const config = require('../../../config');
 const mailer = require('../../mailer');
 const requestHandler = require('../../handlers/requestHandler')
@@ -54,6 +55,14 @@ module.exports = function (app) {
                 res.send(null);
             }
         }).catch(err => {
+            res.status(500).end();
+        });
+    });
+
+    app.delete(prefix + '/deleteUser', function (req, res) {
+        managementBL.DeleteUser(req.user._id).then((result) => {            
+            res.send(result);
+        }).catch((err) => {
             res.status(500).end();
         });
     });

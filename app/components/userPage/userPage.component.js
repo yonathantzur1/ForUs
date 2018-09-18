@@ -185,7 +185,22 @@ var UserPageComponent = /** @class */ (function () {
                                     "מידע אישי, שיחות, תמונות, וכל מידע אחר שהועלה על ידך לאתר.\n" +
                                     "יש לשים לב כי פעולה זו היא בלתי הפיכה, ואינה ניתנת לשחזור!\n\n" +
                                     "<b>האם למחוק את המשתמש שלך מהאתר?</b>",
-                                type: alert_service_1.ALERT_TYPE.DANGER
+                                type: alert_service_1.ALERT_TYPE.DANGER,
+                                confirmFunc: function () {
+                                    self.userPageService.DeleteUser().then(function (result) {
+                                        if (result) {
+                                            self.globalService.socket.emit("LogoutUserSessionServer", self.user._id, "המשתמש נמחק בהצלחה, החשבון נסגר.");
+                                        }
+                                        else {
+                                            self.alertService.Alert({
+                                                title: "מחיקת משתמש",
+                                                text: "שגיאה בתהליך מחיקת המשתמש",
+                                                type: alert_service_1.ALERT_TYPE.WARNING,
+                                                showCancelButton: false
+                                            });
+                                        }
+                                    });
+                                }
                             });
                         }
                     }
