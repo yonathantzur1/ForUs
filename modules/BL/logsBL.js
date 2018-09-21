@@ -1,26 +1,25 @@
 const DAL = require('../DAL');
 const config = require('../../config');
-const general = require('../general');
 const enums = require('../enums');
 
 var collectionName = config.db.collections.logs;
 
-var self = module.exports = {
+module.exports = {
 
     ResetPasswordRequest: function (email, ip, userAgent) {
-        return self.InsertStandartLog(enums.LOG_TYPE.RESET_PASSWORD_REQUEST, email, ip, userAgent);
+        return this.InsertStandartLog(enums.LOG_TYPE.RESET_PASSWORD_REQUEST, email, ip, userAgent);
     },
 
     Login: function (email, ip, userAgent) {
-        return self.InsertStandartLog(enums.LOG_TYPE.LOGIN, email, ip, userAgent);
+        return this.InsertStandartLog(enums.LOG_TYPE.LOGIN, email, ip, userAgent);
     },
 
     LoginFail: function (email, ip, userAgent) {
-        return self.InsertStandartLog(enums.LOG_TYPE.LOGIN_FAIL, email, ip, userAgent);
+        return this.InsertStandartLog(enums.LOG_TYPE.LOGIN_FAIL, email, ip, userAgent);
     },
 
     Register: function (email, ip, userAgent) {
-        return self.InsertStandartLog(enums.LOG_TYPE.REGISTER, email, ip, userAgent);
+        return this.InsertStandartLog(enums.LOG_TYPE.REGISTER, email, ip, userAgent);
     },
 
     InsertStandartLog: function (type, email, ip, userAgent) {

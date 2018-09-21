@@ -6,7 +6,7 @@ const logsCollectionName = config.db.collections.logs;
 const usersCollectionName = config.db.collections.users;
 const profilesCollectionName = config.db.collections.profiles;
 
-var self = module.exports = {
+module.exports = {
     GetLoginsData: (logType, range, datesRange, email) => {
         return new Promise((resolve, reject) => {
             var barsNumber;
