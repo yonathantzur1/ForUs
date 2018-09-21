@@ -1,40 +1,3 @@
-#userEditWindow .overlay {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    z-index: 1000;
-    background-color: rgba(0, 0, 0, 0.30);
-}
-
-#userEditWindow .container {
-    position: fixed;
-    width: 400;
-    height: 300px;
-    background-color: #f3f3f3;
-    box-shadow: 4px 4px 30px 5px #5d5d5d;
-    border-radius: 3px;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    z-index: 1001;
-    margin: auto;
-    max-width: 90%;
-    max-height: 70%;
-    min-height: 250px;
-}
-
-#userEditWindow .title {
-    font-size: 20px;
-    text-align: center;
-    padding: 10px;
-    -webkit-user-select: none;
-    user-select: none;
-}
-
 #userEditWindow .row {    
     margin: 17px;
     height: calc(50% - 50px);
@@ -47,18 +10,6 @@
     margin-bottom: 3px;
     line-height: 0;
     font-size: 14px;
-}
-
-#userEditWindow .icon {
-    font-size: 24px;
-    cursor: pointer;    
-    -webkit-user-select: none;
-    user-select: none;
-}
-
-#userEditWindow .top-icon {
-    position: absolute;
-    top: 15px;
 }
 
 #userEditWindow .bottom-icon {
@@ -81,15 +32,6 @@
 #userEditWindow .next-icon:hover {
     background-color: #89a6ff;
     color: white;
-}
-
-#userEditWindow .close-icon {
-    left: 15px;
-    color: #7d7d7d;
-}
-
-#userEditWindow .close-icon:hover {
-    color: #696969;
 }
 
 #userEditWindow .disabled-icon {

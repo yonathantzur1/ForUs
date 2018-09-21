@@ -28,6 +28,7 @@ import { StatisticsComponent } from '../components/managementPanel/statistics/st
 import { PermissionsCardComponent } from '../components/managementPanel/management/permissionsCard/permissionsCard.component';
 import { UserPageComponent } from '../components/userPage/userPage.component';
 import { UserEditWindowComponent } from '../components/userPage/userEditWindow/userEditWindow.component';
+import { UserReportWindow } from '../components/userPage/userReportWindow/userReportWindow.component';
 
 import { PageNotFoundComponent } from '../components/pageNotFound/pageNotFound.component';
 
@@ -77,6 +78,7 @@ import { Routing } from '../routes/app.routing'
     PermissionsCardComponent,
     UserPageComponent,
     UserEditWindowComponent,
+    UserReportWindow,
     // ---------Pipes---------
     SortObjects
   ],

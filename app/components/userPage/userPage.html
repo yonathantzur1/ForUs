@@ -22,9 +22,8 @@
                         </div>
                     </div>
                 </span>
-                <div *ngIf="isShowUserEdit">
-                    <userEditWindow [user]="user"></userEditWindow>
-                </div>
+                <userEditWindow *ngIf="isShowUserEditWindow" [user]="user"></userEditWindow>
+                <userReportWindow *ngIf="isShowUserReportWindow" [user]="user"></userReportWindow>
             </div>
         </div>
     </div>

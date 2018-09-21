@@ -25,7 +25,8 @@ var UserPageComponent = /** @class */ (function () {
         this.snackbarService = snackbarService;
         this.globalService = globalService;
         this.isTouchDevice = globalVariables.isTouchDevice;
-        this.isShowUserEdit = false;
+        this.isShowUserEditWindow = false;
+        this.isShowUserReportWindow = false;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
             // In case the user profile picture updated.
             if (value["newUploadedImage"]) {
@@ -37,7 +38,10 @@ var UserPageComponent = /** @class */ (function () {
                 delete _this.user.profileImage;
             }
             if (value["closeUserEditWindow"]) {
-                _this.isShowUserEdit = false;
+                _this.isShowUserEditWindow = false;
+            }
+            if (value["closeUserReportWindow"]) {
+                _this.isShowUserReportWindow = false;
             }
         });
         var self = this;
@@ -51,7 +55,7 @@ var UserPageComponent = /** @class */ (function () {
                     return self.IsUserPageSelf();
                 },
                 onClick: function () {
-                    self.isShowUserEdit = true;
+                    self.isShowUserEditWindow = true;
                 }
             },
             {
@@ -96,6 +100,7 @@ var UserPageComponent = /** @class */ (function () {
                     {
                         text: "דיווח",
                         action: function () {
+                            self.isShowUserReportWindow = true;
                         }
                     }
                 ]

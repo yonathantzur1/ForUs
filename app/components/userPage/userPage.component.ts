@@ -18,7 +18,8 @@ declare var globalVariables: any;
 export class UserPageComponent implements OnInit, OnDestroy {
     isTouchDevice: boolean = globalVariables.isTouchDevice;
     isLoading: boolean;
-    isShowUserEdit: boolean = false;
+    isShowUserEditWindow: boolean = false;
+    isShowUserReportWindow: boolean = false;
     user: any;
     tabs: any;
 
@@ -43,7 +44,11 @@ export class UserPageComponent implements OnInit, OnDestroy {
             }
 
             if (value["closeUserEditWindow"]) {
-                this.isShowUserEdit = false;
+                this.isShowUserEditWindow = false;
+            }
+
+            if (value["closeUserReportWindow"]) {
+                this.isShowUserReportWindow = false;
             }
         });
 
@@ -59,7 +64,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                     return self.IsUserPageSelf();
                 },
                 onClick: function () {
-                    self.isShowUserEdit = true;
+                    self.isShowUserEditWindow = true;
                 }
             },
             {
@@ -105,7 +110,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                     {
                         text: "דיווח",
                         action: function () {
-
+                            self.isShowUserReportWindow = true;
                         }
                     }
                 ]
