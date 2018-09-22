@@ -5,42 +5,6 @@
     align-items: center;
 }
 
-#userEditWindow label {
-    margin: 0;
-    margin-bottom: 3px;
-    line-height: 0;
-    font-size: 14px;
-}
-
-#userEditWindow .bottom-icon {
-    position: absolute;
-    bottom: 15px;    
-}
-
-#userEditWindow .next-icon {
-    left: 15px;
-    width: 25px;
-    height: 25px;
-    font-size: 20px;
-    border: 1px solid var(--main-text-color);
-    border-radius: 50%;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-}
-
-#userEditWindow .next-icon:hover {
-    background-color: #89a6ff;
-    color: white;
-}
-
-#userEditWindow .disabled-icon {
-    color: #bdbdbd !important;
-    border-color: #bdbdbd;
-    background-color: transparent !important;
-    cursor: default;
-}
-
 .email-input {
     text-align: left;
     direction: ltr;    
@@ -55,19 +19,7 @@
 
 #userEditWindow .validate-user-info {
     font-size: 12px;
-    padding: 15px;
+    padding-right: 15px;
     position: absolute;
-    bottom: 0;    
-}
-
-#userEditWindow .save-btn {
-    position: absolute;
-    left: 20px;
-    bottom: 20px;
-    box-shadow: 1px 1px 5px 1px #a7a7a7;
-    padding: 6px 15px 6px 15px;
-}
-
-#userEditWindow .back-icon {
-    right: 15px;
+    bottom: 5px;
 }

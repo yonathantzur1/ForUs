@@ -2,10 +2,29 @@
     <div id="userReportWindow">
         <div class="overlay"></div>
         <div class="container">
+            <i class="material-icons icon top-icon back-icon" *ngIf="isShowTextReasonWindow" (click)="BackToReasonsWindow()">arrow_forward</i>
             <i class="material-icons icon top-icon close-icon" (click)="CloseWindow()">close</i>
             <div class="title">
-                דיווח
+                דיווח - {{user.firstName + " " + user.lastName}}
             </div>
+            <div [hidden]="isShowTextReasonWindow" class="reasons-sector">
+                <div (click)="ClickReasonButton(reason)" [ngClass]="{'selected': reason.isClicked}" class="reason"
+                    *ngFor="let reason of reportReasons">
+                    {{reason.name}}
+                </div>
+            </div>
+            <form [hidden]="!isShowTextReasonWindow">
+                <div class="row form-group">
+                    <span class="col-12">
+                        <label>תיאור המקרה:</label>
+                        <textarea id="reason-text" name="reasonText" type="text"></textarea>
+                    </span>
+                </div>
+            </form>
+            <p *ngIf="!isShowTextReasonWindow" class="select-reason-info">*יש לבחור את סיבת הדיווח</p>
+            <i (click)="ShowTextReasonWindow()" *ngIf="!isShowTextReasonWindow" class="material-icons icon bottom-icon next-icon"
+                [ngClass]="{'disabled-icon': reportReasons && IsDisableReportBtn()}">arrow_back</i>
+            <a class="btn btn-primary save-btn" *ngIf="isShowTextReasonWindow" (click)="ReportUser()">דיווח</a>
         </div>
     </div>
 </div>

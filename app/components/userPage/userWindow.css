@@ -55,3 +55,51 @@
 #userWindow .close-icon:hover {
     color: #696969;
 }
+
+#userWindow label {
+    margin: 0;
+    margin-bottom: 3px;
+    line-height: 0;
+    font-size: 14px;
+}
+
+#userWindow .bottom-icon {
+    position: absolute;
+    bottom: 15px;    
+}
+
+#userWindow .next-icon {
+    left: 15px;
+    width: 25px;
+    height: 25px;
+    font-size: 20px;
+    border: 1px solid var(--main-text-color);
+    border-radius: 50%;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+#userWindow .next-icon:hover {
+    background-color: #89a6ff;
+    color: white;
+}
+
+#userWindow .disabled-icon {
+    color: #bdbdbd !important;
+    border-color: #bdbdbd;
+    background-color: transparent !important;
+    cursor: default;
+}
+
+#userWindow .save-btn {
+    position: absolute;
+    left: 20px;
+    bottom: 10px;
+    box-shadow: 1px 1px 5px 1px #a7a7a7;
+    padding: 6px 15px 6px 15px;
+}
+
+#userWindow .back-icon {
+    right: 15px;
+}

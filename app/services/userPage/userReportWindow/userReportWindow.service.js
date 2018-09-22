@@ -21,6 +21,16 @@ var UserReportWindowService = /** @class */ (function (_super) {
         _this.prefix = "/api/userReportWindow";
         return _this;
     }
+    UserReportWindowService.prototype.GetAllReportReasons = function () {
+        return _super.prototype.get.call(this, this.prefix + '/getAllReportReasons')
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     return UserReportWindowService;
 }(basic_service_1.BasicService));
 exports.UserReportWindowService = UserReportWindowService;
