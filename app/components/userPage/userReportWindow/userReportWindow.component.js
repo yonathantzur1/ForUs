@@ -38,6 +38,13 @@ var UserReportWindow = /** @class */ (function () {
                 _this.InitializeReasonButtons();
             }
             else {
+                _this.CloseWindow();
+                _this.alertService.Alert({
+                    title: "דיווח משתמש",
+                    text: "אופס... אירעה שגיאה בפתיחת חלון הדיווח.",
+                    type: alert_service_1.ALERT_TYPE.DANGER,
+                    showCancelButton: false
+                });
             }
         });
     };
@@ -92,13 +99,34 @@ var UserReportWindow = /** @class */ (function () {
         return null;
     };
     UserReportWindow.prototype.ReportUser = function () {
+        var _this = this;
         // In case the user did not fill the description text.
         if (this.reportText.trim().length == 0) {
             this.isShowEmptyFieldAlert = true;
         }
         else {
             var selectedReasonId = this.GetSelectedReasonId();
-            this.userReportWindowService.ReportUser(this.user._id, selectedReasonId, this.reportText);
+            this.userReportWindowService.ReportUser(this.user._id, selectedReasonId, this.reportText).then(function (result) {
+                if (result) {
+                    _this.CloseWindow();
+                    var successMsg = "הדיווח שהזנת נשמר בהצלחה, ויבדק על ידי צוות האתר." + "\n" +
+                        "תודה שעזרת לנו לשמור על סביבה בטוחה יותר!";
+                    _this.alertService.Alert({
+                        title: "דיווח משתמש",
+                        text: successMsg,
+                        type: alert_service_1.ALERT_TYPE.SUCCESS,
+                        showCancelButton: false
+                    });
+                }
+                else {
+                    _this.alertService.Alert({
+                        title: "דיווח משתמש",
+                        text: "אופס... אירעה שגיאה בשמירת הדיווח.",
+                        type: alert_service_1.ALERT_TYPE.DANGER,
+                        showCancelButton: false
+                    });
+                }
+            });
         }
     };
     __decorate([

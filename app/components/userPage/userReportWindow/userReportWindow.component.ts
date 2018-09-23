@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { UserReportWindowService } from '../../../services/userPage/userReportWindow/userReportWindow.service';
-import { AlertService } from '../../../services/alert/alert.service';
+import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
 import { GlobalService } from '../../../services/global/global.service';
 
 class ReportReason {
@@ -39,7 +39,13 @@ export class UserReportWindow implements OnInit {
                 this.InitializeReasonButtons();
             }
             else {
-
+                this.CloseWindow();
+                this.alertService.Alert({
+                    title: "דיווח משתמש",
+                    text: "אופס... אירעה שגיאה בפתיחת חלון הדיווח.",
+                    type: ALERT_TYPE.DANGER,
+                    showCancelButton: false
+                });
             }
         });
     }
@@ -111,7 +117,27 @@ export class UserReportWindow implements OnInit {
         }
         else {
             var selectedReasonId = this.GetSelectedReasonId();
-            this.userReportWindowService.ReportUser(this.user._id, selectedReasonId, this.reportText);
+            this.userReportWindowService.ReportUser(this.user._id, selectedReasonId, this.reportText).then(result => {
+                if (result) {
+                    this.CloseWindow();
+                    var successMsg = "הדיווח שהזנת נשמר בהצלחה, ויבדק על ידי צוות האתר." + "\n" +
+                        "תודה שעזרת לנו לשמור על סביבה בטוחה יותר!";
+                    this.alertService.Alert({
+                        title: "דיווח משתמש",
+                        text: successMsg,
+                        type: ALERT_TYPE.SUCCESS,
+                        showCancelButton: false
+                    });
+                }
+                else {
+                    this.alertService.Alert({
+                        title: "דיווח משתמש",
+                        text: "אופס... אירעה שגיאה בשמירת הדיווח.",
+                        type: ALERT_TYPE.DANGER,
+                        showCancelButton: false
+                    });
+                }
+            });
         }
     }
 }
