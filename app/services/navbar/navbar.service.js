@@ -43,8 +43,7 @@ var NavbarService = /** @class */ (function (_super) {
         });
     };
     NavbarService.prototype.GetMainSearchResultsWithImages = function (ids) {
-        var details = { ids: ids };
-        return _super.prototype.post.call(this, this.prefix + '/getMainSearchResultsWithImages', JSON.stringify(details))
+        return _super.prototype.post.call(this, this.prefix + '/getMainSearchResultsWithImages', JSON.stringify(ids))
             .toPromise()
             .then(function (result) {
             return result;

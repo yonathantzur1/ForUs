@@ -3,7 +3,7 @@ const tokenHandler = require("../../handlers/tokenHandler");
 
 var prefix = "/api/navbar";
 
-module.exports = function (app) {    
+module.exports = function (app) {
 
     app.post(prefix + '/getFriends', function (req, res) {
         navbarBL.GetFriends(req.body).then((friends) => {
@@ -24,7 +24,7 @@ module.exports = function (app) {
 
     // Getting search result profiles for the main search.
     app.post(prefix + '/getMainSearchResultsWithImages', function (req, res) {
-        navbarBL.GetMainSearchResultsWithImages(req.body.ids).then((profiles) => {
+        navbarBL.GetMainSearchResultsWithImages(req.body).then((profiles) => {
             res.send(profiles);
         }).catch((err) => {
             res.status(500).end();

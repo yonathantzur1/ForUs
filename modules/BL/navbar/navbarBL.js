@@ -101,27 +101,30 @@ var self = module.exports = {
         });
     },
 
-    GetMainSearchResultsWithImages(ids) {
+    GetMainSearchResultsWithImages(profilesIds) {
         return new Promise((resolve, reject) => {
-            var profilesIds = ids.profilesIds;
+            if (profilesIds.length == 0) {
+                resolve(profilesIds);
+            }
+            else {
+                DAL.Find(profilesCollectionName, { "_id": { $in: ConvertIdsToObjectIds(profilesIds) } }).then((profiles) => {
+                    if (!profiles) {
+                        resolve(null);
+                    }
+                    else if (profiles.length > 0) {
+                        var profilesDictionary = {};
 
-            DAL.Find(profilesCollectionName, { "_id": { $in: ConvertIdsToObjectIds(profilesIds) } }).then((profiles) => {
-                if (!profiles) {
-                    resolve(null);
-                }
-                else if (profiles.length > 0) {
-                    var profilesDictionary = {};
+                        profiles.forEach((profile) => {
+                            profilesDictionary[profile._id] = profile.image;
+                        });
 
-                    profiles.forEach((profile) => {
-                        profilesDictionary[profile._id] = profile.image;
-                    });
-
-                    resolve(profilesDictionary);
-                }
-                else {
-                    resolve(profiles);
-                }
-            }).catch(reject);
+                        resolve(profilesDictionary);
+                    }
+                    else {
+                        resolve(profiles);
+                    }
+                }).catch(reject);
+            }
         });
     },
 

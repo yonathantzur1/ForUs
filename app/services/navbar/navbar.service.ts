@@ -29,9 +29,7 @@ export class NavbarService extends BasicService {
     }
 
     GetMainSearchResultsWithImages(ids: any) {
-        var details = { ids };
-
-        return super.post(this.prefix + '/getMainSearchResultsWithImages', JSON.stringify(details))
+        return super.post(this.prefix + '/getMainSearchResultsWithImages', JSON.stringify(ids))
             .toPromise()
             .then((result: any) => {
                 return result;

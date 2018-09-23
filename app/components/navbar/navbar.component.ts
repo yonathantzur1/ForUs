@@ -946,7 +946,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             self.hideNewFriendsLabelTimeout = setTimeout(function () {
                 self.isNewFriendsLabel = false;
             }, self.newFriendsLabelDelay);
-        }, 200);        
+        }, 200);
     }
 
     CloseChatWindow() {
@@ -1023,25 +1023,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     GetResultsIds(results: Array<any>) {
         var profilesIds: Array<string> = [];
-        var resultsIdsWithNoProfile: Array<string> = [];
 
         results.forEach((result: any) => {
             var id: string = result.originalProfile;
-
-            if (id) {
-                profilesIds.push(id);
-            }
-            else {
-                resultsIdsWithNoProfile.push(result._id);
-            }
+            id && profilesIds.push(id);
         });
 
-        var data = {
-            "profilesIds": profilesIds,
-            "resultsIdsWithNoProfile": resultsIdsWithNoProfile
-        };
-
-        return data;
+        return profilesIds;
     }
 
     OpenUserProfile(user: any) {

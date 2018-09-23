@@ -834,21 +834,11 @@ var NavbarComponent = /** @class */ (function () {
     };
     NavbarComponent.prototype.GetResultsIds = function (results) {
         var profilesIds = [];
-        var resultsIdsWithNoProfile = [];
         results.forEach(function (result) {
             var id = result.originalProfile;
-            if (id) {
-                profilesIds.push(id);
-            }
-            else {
-                resultsIdsWithNoProfile.push(result._id);
-            }
+            id && profilesIds.push(id);
         });
-        var data = {
-            "profilesIds": profilesIds,
-            "resultsIdsWithNoProfile": resultsIdsWithNoProfile
-        };
-        return data;
+        return profilesIds;
     };
     NavbarComponent.prototype.OpenUserProfile = function (user) {
         this.HideSearchResults();
