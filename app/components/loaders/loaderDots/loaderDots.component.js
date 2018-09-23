@@ -10,19 +10,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var loaderDotsComponentinstances = 0;
+var loaderDotsComponentInstances = 0;
 var LoaderDotsComponent = /** @class */ (function () {
     function LoaderDotsComponent() {
         this.idIndex = "";
         this.isShow = false;
     }
     LoaderDotsComponent.prototype.ngOnInit = function () {
-        this.idIndex += loaderDotsComponentinstances;
-        loaderDotsComponentinstances++;
+        var _this = this;
+        this.idIndex += loaderDotsComponentInstances;
+        loaderDotsComponentInstances++;
         try {
             setTimeout((function () {
-                this.css && $('#load-icon-' + this.idIndex).css(JSON.parse(this.css));
-                this.isShow = true;
+                _this.css && $('#load-icon-' + _this.idIndex).css(JSON.parse(_this.css));
+                _this.isShow = true;
             }).bind(this), 0);
         }
         catch (e) {

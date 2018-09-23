@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 declare var $: any;
 
-var loaderDotsComponentinstances = 0;
+var loaderDotsComponentInstances = 0;
 
 @Component({
   selector: 'loaderDots',
@@ -15,11 +15,11 @@ export class LoaderDotsComponent implements OnInit {
   isShow: boolean = false;
 
   ngOnInit() {
-    this.idIndex += loaderDotsComponentinstances;
-    loaderDotsComponentinstances++;
+    this.idIndex += loaderDotsComponentInstances;
+    loaderDotsComponentInstances++;
 
     try {
-      setTimeout((function () {
+      setTimeout((() => {
         this.css && $('#load-icon-' + this.idIndex).css(JSON.parse(this.css));
         this.isShow = true;
       }).bind(this), 0);

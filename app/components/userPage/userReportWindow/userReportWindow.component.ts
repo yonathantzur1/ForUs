@@ -1,9 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { UserReportWindowService } from '../../../services/userPage/userReportWindow/userReportWindow.service';
-import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
+import { AlertService } from '../../../services/alert/alert.service';
 import { GlobalService } from '../../../services/global/global.service';
-import { MicrotextService, InputFieldValidation } from '../../../services/microtext/microtext.service';
 
 class ReportReason {
     _id: string;
@@ -24,14 +23,17 @@ export class UserReportWindow implements OnInit {
     maxReportTextLength: number = 600;
     isShowTextReasonWindow: boolean = false;
     isShowEmptyFieldAlert: boolean = false;
+    isLoading: boolean;
 
     constructor(private userReportWindowService: UserReportWindowService,
         private alertService: AlertService,
-        private globalService: GlobalService,
-        private microtextService: MicrotextService) { }
+        private globalService: GlobalService) { }
 
     ngOnInit() {
+        this.isLoading = true;
         this.userReportWindowService.GetAllReportReasons().then((result: Array<ReportReason>) => {
+            this.isLoading = false;
+
             if (result) {
                 this.reportReasons = result;
                 this.InitializeReasonButtons();
@@ -64,13 +66,18 @@ export class UserReportWindow implements OnInit {
     }
 
     IsDisableReportBtn() {
-        for (var i = 0; i < this.reportReasons.length; i++) {
-            if (this.reportReasons[i].isClicked) {
-                return false;
-            }
+        if (!this.reportReasons) {
+            return true;
         }
+        else {
+            for (var i = 0; i < this.reportReasons.length; i++) {
+                if (this.reportReasons[i].isClicked) {
+                    return false;
+                }
+            }
 
-        return true;
+            return true;
+        }
     }
 
     ShowTextReasonWindow() {

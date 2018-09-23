@@ -7,6 +7,7 @@
             <div class="title">
                 דיווח - {{user.firstName + " " + user.lastName}}
             </div>
+            <loaderSpinner class="reasons-loader" *ngIf="isLoading"></loaderSpinner>
             <div [hidden]="isShowTextReasonWindow" class="reasons-sector">
                 <div (click)="ClickReasonButton(reason)" [ngClass]="{'selected': reason.isClicked}" class="reason"
                     *ngFor="let reason of reportReasons">
@@ -18,7 +19,7 @@
                     <span class="col-12">
                         <label>תיאור המקרה:</label>
                         <textarea [(ngModel)]="reportText" [maxlength]="maxReportTextLength" (keyup)="HideEmptyFieldAlert()"
-                        id="reason-text" name="reasonText" type="text"></textarea>
+                            id="reason-text" name="reasonText" type="text"></textarea>
                         <span [ngClass]="{'max-details-text-length': reportText.length == maxReportTextLength}" class="char-counter">
                             תווים {{reportText.length}}/{{maxReportTextLength}}
                         </span>
@@ -29,7 +30,7 @@
             <p *ngIf="isShowTextReasonWindow && isShowEmptyFieldAlert" class="select-reason-info">*יש להזין את תיאור
                 המקרה</p>
             <i (click)="ShowTextReasonWindow()" *ngIf="!isShowTextReasonWindow" class="material-icons icon bottom-icon next-icon"
-                [ngClass]="{'disabled-icon': reportReasons && IsDisableReportBtn()}">arrow_back</i>
+                [ngClass]="{'disabled-icon': IsDisableReportBtn()}">arrow_back</i>
             <a class="btn btn-primary save-btn" *ngIf="isShowTextReasonWindow" (click)="ReportUser()">דיווח</a>
         </div>
     </div>

@@ -13,18 +13,16 @@ var core_1 = require("@angular/core");
 var userReportWindow_service_1 = require("../../../services/userPage/userReportWindow/userReportWindow.service");
 var alert_service_1 = require("../../../services/alert/alert.service");
 var global_service_1 = require("../../../services/global/global.service");
-var microtext_service_1 = require("../../../services/microtext/microtext.service");
 var ReportReason = /** @class */ (function () {
     function ReportReason() {
     }
     return ReportReason;
 }());
 var UserReportWindow = /** @class */ (function () {
-    function UserReportWindow(userReportWindowService, alertService, globalService, microtextService) {
+    function UserReportWindow(userReportWindowService, alertService, globalService) {
         this.userReportWindowService = userReportWindowService;
         this.alertService = alertService;
         this.globalService = globalService;
-        this.microtextService = microtextService;
         this.reportText = "";
         this.maxReportTextLength = 600;
         this.isShowTextReasonWindow = false;
@@ -32,7 +30,9 @@ var UserReportWindow = /** @class */ (function () {
     }
     UserReportWindow.prototype.ngOnInit = function () {
         var _this = this;
+        this.isLoading = true;
         this.userReportWindowService.GetAllReportReasons().then(function (result) {
+            _this.isLoading = false;
             if (result) {
                 _this.reportReasons = result;
                 _this.InitializeReasonButtons();
@@ -60,12 +60,17 @@ var UserReportWindow = /** @class */ (function () {
         }
     };
     UserReportWindow.prototype.IsDisableReportBtn = function () {
-        for (var i = 0; i < this.reportReasons.length; i++) {
-            if (this.reportReasons[i].isClicked) {
-                return false;
-            }
+        if (!this.reportReasons) {
+            return true;
         }
-        return true;
+        else {
+            for (var i = 0; i < this.reportReasons.length; i++) {
+                if (this.reportReasons[i].isClicked) {
+                    return false;
+                }
+            }
+            return true;
+        }
     };
     UserReportWindow.prototype.ShowTextReasonWindow = function () {
         if (!this.IsDisableReportBtn()) {
@@ -108,8 +113,7 @@ var UserReportWindow = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [userReportWindow_service_1.UserReportWindowService,
             alert_service_1.AlertService,
-            global_service_1.GlobalService,
-            microtext_service_1.MicrotextService])
+            global_service_1.GlobalService])
     ], UserReportWindow);
     return UserReportWindow;
 }());
