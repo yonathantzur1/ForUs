@@ -31,6 +31,17 @@ var UserReportWindowService = /** @class */ (function (_super) {
             return null;
         });
     };
+    UserReportWindowService.prototype.ReportUser = function (reportedUserId, reasonId, reasonDetails) {
+        var data = { reportedUserId: reportedUserId, reasonId: reasonId, reasonDetails: reasonDetails };
+        return _super.prototype.post.call(this, this.prefix + '/reportUser', data)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     return UserReportWindowService;
 }(basic_service_1.BasicService));
 exports.UserReportWindowService = UserReportWindowService;

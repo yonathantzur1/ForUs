@@ -87,6 +87,15 @@ var validateSchemaObj = {
                 email: joi.string().email(),
                 password: joi.string().required()
             }
+        },
+        "api": {
+            "userReportWindow": {
+                "reportUser": {
+                    reportedUserId: joi.string().required(),
+                    reasonId: joi.string().required(),
+                    reasonDetails: joi.string().max(600).required()
+                }
+            }
         }
     },
     "PUT": {

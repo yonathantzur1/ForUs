@@ -47,3 +47,13 @@
     position: absolute;
     bottom: 2px;
 }
+
+#userReportWindow .char-counter {
+    font-size: 12px;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#userReportWindow .max-details-text-length {
+    color: var(--microtext-color);    
+}

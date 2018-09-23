@@ -20,7 +20,10 @@ class ReportReason {
 export class UserReportWindow implements OnInit {
     @Input() user: any;
     reportReasons: Array<ReportReason>;
+    reportText: string = "";
+    maxReportTextLength: number = 600;
     isShowTextReasonWindow: boolean = false;
+    isShowEmptyFieldAlert: boolean = false;
 
     constructor(private userReportWindowService: UserReportWindowService,
         private alertService: AlertService,
@@ -73,14 +76,35 @@ export class UserReportWindow implements OnInit {
     ShowTextReasonWindow() {
         if (!this.IsDisableReportBtn()) {
             this.isShowTextReasonWindow = true;
-        }        
+        }
     }
 
     BackToReasonsWindow() {
         this.isShowTextReasonWindow = false;
     }
 
-    ReportUser() {
+    HideEmptyFieldAlert() {
+        this.isShowEmptyFieldAlert = false;
+    }
 
+    GetSelectedReasonId() {
+        for (var i = 0; i < this.reportReasons.length; i++) {
+            if (this.reportReasons[i].isClicked) {
+                return this.reportReasons[i]._id;
+            }
+        }
+
+        return null;
+    }
+
+    ReportUser() {
+        // In case the user did not fill the description text.
+        if (this.reportText.trim().length == 0) {
+            this.isShowEmptyFieldAlert = true;
+        }
+        else {
+            var selectedReasonId = this.GetSelectedReasonId();
+            this.userReportWindowService.ReportUser(this.user._id, selectedReasonId, this.reportText);
+        }
     }
 }

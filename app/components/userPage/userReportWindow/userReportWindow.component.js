@@ -25,7 +25,10 @@ var UserReportWindow = /** @class */ (function () {
         this.alertService = alertService;
         this.globalService = globalService;
         this.microtextService = microtextService;
+        this.reportText = "";
+        this.maxReportTextLength = 600;
         this.isShowTextReasonWindow = false;
+        this.isShowEmptyFieldAlert = false;
     }
     UserReportWindow.prototype.ngOnInit = function () {
         var _this = this;
@@ -72,7 +75,26 @@ var UserReportWindow = /** @class */ (function () {
     UserReportWindow.prototype.BackToReasonsWindow = function () {
         this.isShowTextReasonWindow = false;
     };
+    UserReportWindow.prototype.HideEmptyFieldAlert = function () {
+        this.isShowEmptyFieldAlert = false;
+    };
+    UserReportWindow.prototype.GetSelectedReasonId = function () {
+        for (var i = 0; i < this.reportReasons.length; i++) {
+            if (this.reportReasons[i].isClicked) {
+                return this.reportReasons[i]._id;
+            }
+        }
+        return null;
+    };
     UserReportWindow.prototype.ReportUser = function () {
+        // In case the user did not fill the description text.
+        if (this.reportText.trim().length == 0) {
+            this.isShowEmptyFieldAlert = true;
+        }
+        else {
+            var selectedReasonId = this.GetSelectedReasonId();
+            this.userReportWindowService.ReportUser(this.user._id, selectedReasonId, this.reportText);
+        }
     };
     __decorate([
         core_1.Input(),

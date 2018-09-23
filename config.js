@@ -17,7 +17,8 @@ module.exports = {
             chats: "Chats",
             permissions: "Permissions",
             logs: "Logs",
-            reportReasons: "ReportReasons"
+            reportReasons: "ReportReasons",
+            usersReports: "UsersReports"
         }
     },
     security: {

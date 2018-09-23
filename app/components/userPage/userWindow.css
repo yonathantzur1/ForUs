@@ -33,6 +33,10 @@
     padding: 10px;
     -webkit-user-select: none;
     user-select: none;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: calc(100% - 25px);
 }
 
 #userWindow .icon {
@@ -61,6 +65,8 @@
     margin-bottom: 3px;
     line-height: 0;
     font-size: 14px;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 #userWindow .bottom-icon {
