@@ -7,7 +7,7 @@ const usersCollectionName = config.db.collections.users;
 const profilesCollectionName = config.db.collections.profiles;
 
 module.exports = {
-    GetLoginsData: (logType, range, datesRange, email) => {
+    GetLoginsData(logType, range, datesRange, email) {
         return new Promise((resolve, reject) => {
             var barsNumber;
             var rangeKey;
@@ -79,7 +79,7 @@ module.exports = {
         });
     },
 
-    GetUserByEmail: (email) => {
+    GetUserByEmail(email) {
         return new Promise((resolve, reject) => {
             email = email.replace(/\\/g, '');
 

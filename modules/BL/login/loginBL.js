@@ -9,7 +9,7 @@ const saltSize = config.security.loginSecure.saltSize;
 
 var self = module.exports = {
 
-    GetUserById: (id) => {
+    GetUserById(id) {
         return new Promise((resolve, reject) => {
             var userFilter = { $match: { "_id": DAL.GetObjectId(id) } };
             var joinFilter = {
@@ -45,7 +45,7 @@ var self = module.exports = {
     },
 
     // Return user object on login if the user was found else false.
-    GetUser: (user) => {
+    GetUser(user) {
         return new Promise((resolve, reject) => {
             var filter = { "email": user.email };
 
@@ -88,7 +88,7 @@ var self = module.exports = {
         });
     },
 
-    IsUserBlocked: (user) => {
+    IsUserBlocked(user) {
         return (user.block &&
             (!user.block.unblockDate || user.block.unblockDate.getTime() > Date.now()));
     },
@@ -103,7 +103,7 @@ var self = module.exports = {
     },
 
     // Check if user is exists on DB.
-    CheckIfUserExists: (email) => {
+    CheckIfUserExists(email) {
         return new Promise((resolve, reject) => {
             DAL.Find(collectionName, email).then((result) => {
                 // In case user was not found.
@@ -119,7 +119,7 @@ var self = module.exports = {
     },
 
     // Add user to the DB.
-    AddUser: (newUser) => {
+    AddUser(newUser) {
         return new Promise((resolve, reject) => {
             if (ValidateUserObject(newUser)) {
                 var salt = general.GenerateCode(saltSize);

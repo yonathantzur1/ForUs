@@ -4,7 +4,7 @@ const config = require('../../../config');
 const collectionName = config.db.collections.permissions;
 
 module.exports = {
-    GetAllPermissions: () => {
+    GetAllPermissions() {
         return new Promise((resolve, reject) => {
             var queryFields = { "type": 1, "name": 1 };
 
@@ -12,7 +12,7 @@ module.exports = {
         });
     },
 
-    GetUserPermissions: (userId) => {
+    GetUserPermissions(userId) {
         return new Promise((resolve, reject) => {
             var query = { "members": DAL.GetObjectId(userId) };
             var queryFields = { "type": 1 };
@@ -29,7 +29,7 @@ module.exports = {
         });
     },
 
-    UpdatePermissions: (userId, permissions) => {
+    UpdatePermissions(userId, permissions) {
         return new Promise((resolve, reject) => {
             var userObjId = DAL.GetObjectId(userId);
 

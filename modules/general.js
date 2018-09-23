@@ -1,5 +1,5 @@
 module.exports = {
-    GenerateCode: function (numOfChars, isOnlyNumbers) {
+    GenerateCode(numOfChars, isOnlyNumbers) {
         var code = "";
         var possible = isOnlyNumbers ? "0123456789" : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -10,7 +10,7 @@ module.exports = {
         return code;
     },
 
-    GenerateId: function () {
+    GenerateId() {
         var timestamp = (new Date().getTime() / 1000 | 0).toString(16);
         return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function () {
             return (Math.random() * 16 | 0).toString(16);

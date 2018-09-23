@@ -1,21 +1,21 @@
 module.exports = {
-    GetIpFromRequest: function (request) {
+    GetIpFromRequest(request) {
         var ip = request.ip;
 
         return CutIpAddressStringPrefix(ip);
     },
 
-    GetUserAgentFromRequest: function (request) {
+    GetUserAgentFromRequest(request) {
         return request.headers["user-agent"];
     },
 
-    GetIpFromSocket: function (socket) {
+    GetIpFromSocket(socket) {
         var ip = socket.handshake.address;
 
         return CutIpAddressStringPrefix(ip);
     },
 
-    GetUserAgentFromSocket: function (socket) {
+    GetUserAgentFromSocket(socket) {
         return socket.request.headers["user-agent"];
     }
 }

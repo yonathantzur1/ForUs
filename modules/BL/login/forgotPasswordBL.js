@@ -11,7 +11,7 @@ const resetCodeFreeRetries = config.security.loginSecure.resetCodeFreeRetries;
 
 module.exports = {
     // Add reset password code to the DB and return the user.
-    SetUserResetCode: (email) => {
+    SetUserResetCode(email) {
         return new Promise((resolve, reject) => {
             var code = general.GenerateCode(resetCodeNumOfDigits, true);
             var resetPasswordToken = sha512(email + code);
@@ -34,7 +34,7 @@ module.exports = {
     },
 
     // Reset user password by code.
-    ResetPassword: (forgotUser) => {
+    ResetPassword(forgotUser) {
         return new Promise((resolve, reject) => {
             var emailObj = { "email": forgotUser.email };
             var errorsObj = {
@@ -107,7 +107,7 @@ module.exports = {
         });
     },
 
-    ValidateResetPasswordToken: (token) => {
+    ValidateResetPasswordToken(token) {
         return new Promise((resolve, reject) => {
             var query = GetUserByTokenFilterQuery(token);
             var fields = { "_id": 0, "firstName": 1, "lastName": 1 };
@@ -117,7 +117,7 @@ module.exports = {
     },
 
     // Reset user password by token.
-    ResetPasswordByToken: (data) => {
+    ResetPasswordByToken(data) {
         return new Promise((resolve, reject) => {
             var token = data.token;
             var newPassword = data.newPassword;

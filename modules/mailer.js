@@ -5,7 +5,7 @@ const config = require('../config');
 var transporter = nodemailer.createTransport(config.addresses.mailConnectionString);
 
 module.exports = {
-    SendMail: function (destEmail, title, text) {
+    SendMail(destEmail, title, text) {
         // Setup email data with unicode symbols
         var mailOptions = {
             from: "'ForUs' <" + config.addresses.mail + ">", // Sender address
@@ -22,25 +22,29 @@ module.exports = {
             console.log('Message sent: ' + info.response);
         });
     },
-    RegisterMail: function (email, name) {
+
+    RegisterMail(email, name) {
         this.SendMail(email,
             "ForUs",
             GetTimeBlessing() + name + ", אנחנו שמחים לברך אותך על הצטרפותך לאתר ForUs!");
     },
-    ForgotPasswordMail: function (email, name, code, resetAddress) {
+
+    ForgotPasswordMail(email, name, code, resetAddress) {
         this.SendMail(email,
             "איפוס סיסמא",
             GetTimeBlessing() + name +
             ", " + "<br>" + "הקוד שהונפק עבורך לאיפוס הסיסמא הוא: <b>" + code + "</b><br><br>" +
             "או לחילופין, כניסה לקישור:<br>" + resetAddress);
     },
-    ChangePasswordMail: function (email, name, resetAddress) {
+
+    ChangePasswordMail(email, name, resetAddress) {
         this.SendMail(email,
             "שינוי סיסמא",
             GetTimeBlessing() + name +
             ", " + "<br>" + "לשינוי הסיסמא - יש להיכנס לקישור:<br>" + resetAddress);
     },
-    MessageNotificationAlert: function (email, name, senderName) {
+
+    MessageNotificationAlert(email, name, senderName) {
         var text = GetTimeBlessing() + name + ", " + "<br>" + "ממתינה עבורך הודעה חדשה<name>." + "<br>" + config.addresses.site;
         text = senderName ? text.replace("<name>", " מ" + senderName) : text.replace("<name>", "");
 
@@ -48,17 +52,20 @@ module.exports = {
             "הודעה חדשה",
             text);
     },
-    FriendRequestAlert: function (email, name, friendName) {
+
+    FriendRequestAlert(email, name, friendName) {
         this.SendMail(email,
             "בקשת חברות",
             GetTimeBlessing() + name + "," + "<br>" + "בקשת חברות חדשה הגיעה מ" + friendName + ".<br>" + config.addresses.site);
     },
-    FriendRequestConfirm: function (email, name, friendName) {
+
+    FriendRequestConfirm(email, name, friendName) {
         this.SendMail(email,
             "אישור בקשת חברות",
             GetTimeBlessing() + friendName + "," + "<br>" + "החברות עם " + name + " אושרה.<br>" + config.addresses.site);
     },
-    BlockMessage: function (email, name, reason, date) {
+    
+    BlockMessage(email, name, reason, date) {
         var dateString;
         var date;
 

@@ -5,7 +5,7 @@ const collectionName = config.db.collections.profiles;
 const usersCollectionName = config.db.collections.users;
 
 module.exports = {
-    SaveImage: (imageData) => {
+    SaveImage(imageData) {
         return new Promise((resolve, reject) => {
             var userIdObject = DAL.GetObjectId(imageData.userId);
 
@@ -29,7 +29,7 @@ module.exports = {
         });
     },
 
-    DeleteImage: (userId, profileId) => {
+    DeleteImage(userId, profileId) {
         return new Promise((resolve, reject) => {
             var usersFilter = { "_id": DAL.GetObjectId(userId) };
             var userObjectFieldDeleteQuery = { $unset: { profile: "" } };

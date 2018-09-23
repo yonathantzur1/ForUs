@@ -10,7 +10,7 @@ const profilesCollectionName = config.db.collections.profiles;
 const permissionsCollectionName = config.db.collections.permissions;
 
 module.exports = {
-    GetUserByName: (searchInput) => {
+    GetUserByName(searchInput) {
         return new Promise((resolve, reject) => {
             searchInput = searchInput.replace(/\\/g, '');
 
@@ -101,7 +101,7 @@ module.exports = {
         });
     },
 
-    GetUserFriends: (friendsIds) => {
+    GetUserFriends(friendsIds) {
         return new Promise((resolve, reject) => {
             friendsIds = friendsIds.map((id) => {
                 return DAL.GetObjectId(id);
@@ -147,7 +147,7 @@ module.exports = {
         });
     },
 
-    UpdateUser: (updateFields) => {
+    UpdateUser(updateFields) {
         return new Promise((resolve, reject) => {
             var userId = DAL.GetObjectId(updateFields._id);
             delete updateFields._id;
@@ -169,7 +169,7 @@ module.exports = {
         });
     },
 
-    BlockUser: (blockObj) => {
+    BlockUser(blockObj) {
         return new Promise((resolve, reject) => {
             var userId = DAL.GetObjectId(blockObj._id);
             var unblockDate = null;
@@ -203,7 +203,7 @@ module.exports = {
         });
     },
 
-    UnblockUser: (userId) => {
+    UnblockUser(userId) {
         return new Promise((resolve, reject) => {
             DAL.UpdateOne(usersCollectionName,
                 { "_id": DAL.GetObjectId(userId) },
@@ -215,7 +215,7 @@ module.exports = {
         });
     },
 
-    RemoveFriends: (userId, friendId) => {
+    RemoveFriends(userId, friendId) {
         return new Promise((resolve, reject) => {
             var notificationsUnsetJson = {};
             notificationsUnsetJson["messagesNotifications." + userId] = 1;
@@ -247,7 +247,7 @@ module.exports = {
         });
     },
 
-    DeleteUser: (userId) => {
+    DeleteUser(userId) {
         return new Promise((resolve, reject) => {
             var userObjectId = DAL.GetObjectId(userId);
             var notificationsUnsetJson = {};

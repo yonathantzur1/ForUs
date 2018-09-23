@@ -6,7 +6,7 @@ const navbarBL = require('../navbar/navbarBL');
 const collectionName = "Chats";
 
 module.exports = {
-    GetAllChats: (userId) => {
+    GetAllChats(userId) {
         return new Promise((resolve, reject) => {
             var sortObj = { "lastMessage.time": -1 };
             var queryObj = {
@@ -27,7 +27,7 @@ module.exports = {
                             var friendId = chat.membersIds.find((id) => {
                                 return (id != userId);
                             });
-                            
+
                             indexChatPositionByFriendId[friendId] = index;
                             chatsFriendsIds.push(friendId);
                         });

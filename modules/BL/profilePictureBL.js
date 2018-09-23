@@ -4,7 +4,7 @@ const config = require('../../config.js');
 const collectionName = config.db.collections.profiles;
 
 module.exports = {
-    GetUserProfileImage: (profileId) => {
+    GetUserProfileImage(profileId) {
         return new Promise((resolve, reject) => {
             if (!profileId) {
                 resolve(null);

@@ -11,18 +11,18 @@ const searchResultsLimit = config.navbar.searchResultsLimit;
 
 var self = module.exports = {
 
-    GetFriends: (friendsIds) => {
+    GetFriends(friendsIds) {
         return new Promise((resolve, reject) => {
             var friendsObjectIds = ConvertIdsToObjectIds(friendsIds);
             var friendsFilter = { $match: { "_id": { $in: friendsObjectIds } } };
             var joinFilter = {
                 $lookup:
-                    {
-                        from: profilesCollectionName,
-                        localField: 'profile',
-                        foreignField: '_id',
-                        as: 'profileImage'
-                    }
+                {
+                    from: profilesCollectionName,
+                    localField: 'profile',
+                    foreignField: '_id',
+                    as: 'profileImage'
+                }
             };
             var unwindObject = { $unwind: "$profileImage" };
             var friendsFileds = { $project: { "firstName": 1, "lastName": 1, "profileImage.image": 1 } };
@@ -44,7 +44,7 @@ var self = module.exports = {
         });
     },
 
-    GetMainSearchResults: (searchInput) => {
+    GetMainSearchResults(searchInput) {
         return new Promise((resolve, reject) => {
             searchInput = searchInput.replace(/\\/g, '');
 
@@ -101,10 +101,9 @@ var self = module.exports = {
         });
     },
 
-    GetMainSearchResultsWithImages: (ids) => {
+    GetMainSearchResultsWithImages(ids) {
         return new Promise((resolve, reject) => {
             var profilesIds = ids.profilesIds;
-            var resultsIdsWithNoProfile = ids.resultsIdsWithNoProfile;
 
             DAL.Find(profilesCollectionName, { "_id": { $in: ConvertIdsToObjectIds(profilesIds) } }).then((profiles) => {
                 if (!profiles) {
@@ -126,7 +125,7 @@ var self = module.exports = {
         });
     },
 
-    GetUserMessagesNotifications: (userId) => {
+    GetUserMessagesNotifications(userId) {
         return new Promise((resolve, reject) => {
             DAL.FindOneSpecific(usersCollectionName,
                 { _id: DAL.GetObjectId(userId) },
@@ -134,7 +133,7 @@ var self = module.exports = {
         });
     },
 
-    AddMessageNotification: (userId, friendId, msgId, senderName) => {
+    AddMessageNotification(userId, friendId, msgId, senderName) {
         var friendIdObject = {
             "_id": DAL.GetObjectId(friendId)
         }
@@ -168,7 +167,7 @@ var self = module.exports = {
                     messagesNotifications = messagesNotifications || {};
                     messagesNotifications[userId] = {
                         "unreadMessagesNumber": 1,
-                        "firstUnreadMessageId": msgId                        
+                        "firstUnreadMessageId": msgId
                     }
                 }
 
@@ -185,7 +184,7 @@ var self = module.exports = {
         });
     },
 
-    UpdateMessagesNotifications: (userId, messagesNotifications) => {
+    UpdateMessagesNotifications(userId, messagesNotifications) {
         var userIdObject = {
             "_id": DAL.GetObjectId(userId)
         }
@@ -196,7 +195,7 @@ var self = module.exports = {
             });
     },
 
-    RemoveMessagesNotifications: (userId, messagesNotifications) => {
+    RemoveMessagesNotifications(userId, messagesNotifications) {
         var userIdObject = {
             "_id": DAL.GetObjectId(userId)
         }
@@ -207,7 +206,7 @@ var self = module.exports = {
             });
     },
 
-    GetUserFriendRequests: (userId) => {
+    GetUserFriendRequests(userId) {
         return new Promise((resolve, reject) => {
             DAL.FindOneSpecific(usersCollectionName,
                 { _id: DAL.GetObjectId(userId) },
@@ -215,7 +214,7 @@ var self = module.exports = {
         });
     },
 
-    AddFriendRequest: (user, friendId) => {
+    AddFriendRequest(user, friendId) {
         return new Promise((resolve, reject) => {
             // Validation check in order to check if the user and the friend are not already friends.
             if (user.friends.indexOf(friendId) != -1) {
@@ -246,7 +245,7 @@ var self = module.exports = {
         });
     },
 
-    RemoveFriendRequest: (userId, friendId) => {
+    RemoveFriendRequest(userId, friendId) {
         return new Promise((resolve, reject) => {
             var userIdObject = {
                 "_id": DAL.GetObjectId(userId)
@@ -273,7 +272,7 @@ var self = module.exports = {
     },
 
     // Remove the friend request from DB after the request confirmed.
-    RemoveFriendRequestAfterConfirm: (userId, friendId) => {
+    RemoveFriendRequestAfterConfirm(userId, friendId) {
         return new Promise((resolve, reject) => {
             var userIdObject = {
                 "_id": DAL.GetObjectId(userId)
@@ -304,7 +303,7 @@ var self = module.exports = {
     },
 
     // Remove the friend request from DB if the request was not confirmed.
-    IgnoreFriendRequest: (userId, friendId) => {
+    IgnoreFriendRequest(userId, friendId) {
         return new Promise((resolve, reject) => {
             var userIdObject = {
                 "_id": DAL.GetObjectId(userId)
@@ -329,7 +328,7 @@ var self = module.exports = {
         });
     },
 
-    AddFriend: (user, friendId) => {
+    AddFriend(user, friendId) {
         return new Promise((resolve, reject) => {
             // Validation check in order to check if the user and the friend are not already friends.
             if (user.friends.indexOf(friendId) != -1) {

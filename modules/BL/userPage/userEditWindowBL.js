@@ -6,7 +6,7 @@ const sha512 = require('js-sha512');
 const collectionName = config.db.collections.users;
 
 var self = module.exports = {
-    UpdateUserInfo: (updateFields) => {
+    UpdateUserInfo(updateFields) {
         return new Promise((resolve, reject) => {
             var userObjId = DAL.GetObjectId(updateFields._id);
             var userPassword = updateFields.password;
@@ -38,7 +38,7 @@ var self = module.exports = {
         });
     },
 
-    IsPasswordMatchToUser: (userObjId, password) => {
+    IsPasswordMatchToUser(userObjId, password) {
         return new Promise((resolve, reject) => {
             DAL.FindOneSpecific(collectionName,
                 { "_id": userObjId },
@@ -53,7 +53,7 @@ var self = module.exports = {
         });
     },
 
-    UpdateUserOnDB: (resolve, reject, userObjId, updateFields) => {
+    UpdateUserOnDB(resolve, reject, userObjId, updateFields) {
         DAL.UpdateOne(collectionName,
             { "_id": userObjId },
             { $set: updateFields }).then((result) => {

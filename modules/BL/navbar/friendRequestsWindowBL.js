@@ -4,7 +4,7 @@ const config = require('../../../config');
 const collectionName = config.db.collections.users;
 
 module.exports = {
-    RemoveRequestConfirmAlert: (data) => {
+    RemoveRequestConfirmAlert(data) {
         return new Promise((resolve, reject) => {
             var userObjId = DAL.GetObjectId(data.userId);
             var confirmedFriendsIds = data.confirmedFriendsIds;

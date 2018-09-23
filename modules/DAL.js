@@ -46,12 +46,12 @@ GetDB((err, db) => { });
 
 module.exports = {
     // Convert string id to mongo object id.
-    GetObjectId: (id) => {
+    GetObjectId(id) {
         return new ObjectId(id);
     },
 
     // Getting documents from collection by filter.
-    FindOne: (collectionName, filter) => {
+    FindOne(collectionName, filter) {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
@@ -74,7 +74,7 @@ module.exports = {
     },
 
     // Getting documents from collection by filter.
-    FindOneSpecific: (collectionName, filter, projection) => {
+    FindOneSpecific(collectionName, filter, projection) {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
@@ -97,7 +97,7 @@ module.exports = {
     },
 
     // Getting documents from collection by filter.
-    Find: (collectionName, filter, sortObj) => {
+    Find(collectionName, filter, sortObj) {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
@@ -122,7 +122,7 @@ module.exports = {
     },
 
     // Getting documents from collection by filter.
-    FindSpecific: (collectionName, filter, projection, sortObj) => {
+    FindSpecific(collectionName, filter, projection, sortObj) {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
@@ -147,7 +147,7 @@ module.exports = {
     },
 
     // Getting documents from collection by filter.
-    Aggregate: (collectionName, aggregateArray) => {
+    Aggregate(collectionName, aggregateArray) {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
@@ -170,7 +170,7 @@ module.exports = {
     },
 
     // Insert new document.
-    Insert: (collectionName, doc) => {
+    Insert(collectionName, doc) {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
@@ -193,7 +193,7 @@ module.exports = {
     },
 
     // Update one document.
-    UpdateOne: (collectionName, findObj, updateObj, isInsertIfNotExists) => {
+    UpdateOne(collectionName, findObj, updateObj, isInsertIfNotExists) {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
@@ -226,7 +226,7 @@ module.exports = {
     },
 
     // Update documents.
-    Update: (collectionName, findObj, updateObj) => {
+    Update(collectionName, findObj, updateObj) {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
@@ -261,7 +261,7 @@ module.exports = {
     },
 
     // Delete documents by filter.
-    Delete: (collectionName, filter) => {
+    Delete(collectionName, filter) {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
@@ -289,7 +289,7 @@ module.exports = {
     },
 
     // Delete documents by filter.
-    DeleteOne: (collectionName, filter) => {
+    DeleteOne(collectionName, filter) {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
@@ -317,7 +317,7 @@ module.exports = {
     },
 
     // Save or update document.
-    Save: (collectionName, object) => {
+    Save(collectionName, object) {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
@@ -340,7 +340,7 @@ module.exports = {
     },
 
     // Getting documents amount by filter.
-    Count: (collectionName, filter) => {
+    Count(collectionName, filter) {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {

@@ -24,7 +24,7 @@ var handleStoreError = (error) => {
 
 // Sending json and path in json (keys separated by . sign) 
 // and put the value on that path.
-function putValueInJsonByStringPath(obj, path, value) {    
+function putValueInJsonByStringPath(obj, path, value) {
     eval("obj." + path + "=" + value);
     return obj;
 }
@@ -38,6 +38,7 @@ module.exports = {
         failCallback: failCallback,
         handleStoreError: handleStoreError
     }),
+
     // No more than 1000 login attempts per day per IP.
     globalBruteforce: new ExpressBrute(store, {
         freeRetries: 1000,
@@ -49,7 +50,8 @@ module.exports = {
         failCallback: failCallback,
         handleStoreError: handleStoreError
     }),
-    setFailReturnObj: (obj, path) => {
+
+    setFailReturnObj(obj, path) {
         failReturnObj = obj;
         failReturnObjPath = path;
     }

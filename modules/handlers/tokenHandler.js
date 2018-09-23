@@ -3,7 +3,7 @@ const config = require('../../config');
 const encryption = require('../security/encryption');
 
 module.exports = {
-    GetTokenFromUserObject: function (user) {
+    GetTokenFromUserObject(user) {
         var tokenUserObject = {
             "_id": user._id,
             "uid": user.uid,
@@ -24,7 +24,7 @@ module.exports = {
         return token;
     },
 
-    DecodeToken: function (token) {
+    DecodeToken(token) {
         try {
             return jwt.verify(encryption.decrypt(token), config.security.jwt.secret);
         }
@@ -33,17 +33,17 @@ module.exports = {
         }
     },
 
-    DecodeTokenFromRequest: function (request) {
+    DecodeTokenFromRequest(request) {
         var token = this.GetTokenFromRequest(request);
         return this.DecodeToken(token);
     },
 
-    DecodeTokenFromSocket: function (socket) {
+    DecodeTokenFromSocket(socket) {
         var token = this.GetTokenFromSocket(socket);
         return this.DecodeToken(token);
     },
 
-    SetTokenOnCookie: function (token, res, isDisableUidCookieUpdate) {
+    SetTokenOnCookie(token, res, isDisableUidCookieUpdate) {
         res.cookie(config.security.token.cookieName,
             token,
             { maxAge: config.security.token.maxAge, httpOnly: true });
@@ -57,32 +57,32 @@ module.exports = {
         }
     },
 
-    DeleteTokenFromCookie: function (res) {
+    DeleteTokenFromCookie(res) {
         res.clearCookie(config.security.token.cookieName);
     },
 
-    DeleteUidFromCookie: function (res) {
+    DeleteUidFromCookie(res) {
         res.clearCookie(config.security.token.uidCookieName);
     },
 
-    DeleteAuthCookies: function (res) {
+    DeleteAuthCookies(res) {
         this.DeleteTokenFromCookie(res);
         this.DeleteUidFromCookie(res);
     },
 
-    GetTokenFromCookie: function (cookie) {
+    GetTokenFromCookie(cookie) {
         return GetCookieByName(config.security.token.cookieName, cookie);
     },
 
-    GetTokenFromSocket: function (socket) {
+    GetTokenFromSocket(socket) {
         return GetCookieByName(config.security.token.cookieName, socket.request.headers.cookie);
     },
 
-    GetTokenFromRequest: function (request) {
+    GetTokenFromRequest(request) {
         return GetCookieByName(config.security.token.cookieName, request.headers.cookie);
     },
 
-    GetUidFromRequest: function (request) {
+    GetUidFromRequest(request) {
         return GetCookieByName(config.security.token.uidCookieName, request.headers.cookie);
     }
 }

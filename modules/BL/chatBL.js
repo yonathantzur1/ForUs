@@ -6,7 +6,7 @@ const general = require('../general');
 const collectionName = config.db.collections.chats;
 
 var self = module.exports = {
-    GetChat: (membersIds, user) => {
+    GetChat(membersIds, user) {
         return new Promise((resolve, reject) => {
             if (self.ValidateUserGetChat(membersIds, user.friends, user._id)) {
                 var chatQueryFilter = {
@@ -46,7 +46,7 @@ var self = module.exports = {
         });
     },
 
-    GetChatPage: (membersIds, user, currMessagesNum, totalMessagesNum) => {
+    GetChatPage(membersIds, user, currMessagesNum, totalMessagesNum) {
         return new Promise((resolve, reject) => {
             if (self.ValidateUserGetChat(membersIds, user.friends, user._id)) {
                 var chatQueryFilter = {
@@ -84,7 +84,7 @@ var self = module.exports = {
         });
     },
 
-    CreateChat: (membersIds) => {
+    CreateChat(membersIds) {
         general.SortArray(membersIds);
 
         var chatQueryFilter = {
@@ -103,7 +103,7 @@ var self = module.exports = {
         });
     },
 
-    AddMessageToChat: (msgData) => {
+    AddMessageToChat(msgData) {
         return new Promise((resolve, reject) => {
             // Encrypt message text.
             msgData.text = encryption.encrypt(msgData.text);
@@ -120,7 +120,7 @@ var self = module.exports = {
         });
     },
 
-    GetAllEmptyChats: () => {
+    GetAllEmptyChats() {
         return new Promise((resolve, reject) => {
             var chatFields = { "membersIds": 1 };
 
@@ -129,13 +129,13 @@ var self = module.exports = {
         });
     },
 
-    RemoveChatsByIds: (ids) => {
+    RemoveChatsByIds(ids) {
         return new Promise((resolve, reject) => {
             DAL.Delete(collectionName, { "_id": { $in: ids } }).then(resolve).catch(reject);
         });
     },
 
-    DecryptChatMessages: (messages) => {
+    DecryptChatMessages(messages) {
         messages.forEach((msgData) => {
             msgData.text = encryption.decrypt(msgData.text);
         });
@@ -143,7 +143,7 @@ var self = module.exports = {
         return messages;
     },
 
-    ValidateUserGetChat: (membersIds, userFriends, userId) => {
+    ValidateUserGetChat(membersIds, userFriends, userId) {
         for (var i = 0; i < membersIds.length; i++) {
             if (userFriends.indexOf(membersIds[i]) == -1 && membersIds[i] != userId) {
                 return false;

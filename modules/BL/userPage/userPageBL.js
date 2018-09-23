@@ -7,7 +7,7 @@ const usersCollectionName = config.db.collections.users;
 const profilesCollectionName = config.db.collections.profiles;
 
 var self = module.exports = {
-    GetUserDetails: (userId, currUserId) => {
+    GetUserDetails(userId, currUserId) {
         return new Promise((resolve, reject) => {
             var userObjectId = DAL.GetObjectId(userId);
             var userFilter = { $match: { "_id": userObjectId } };
@@ -72,11 +72,11 @@ var self = module.exports = {
     },
 
     // In case the user is in own page, return his personal information.
-    AddUserPersonalInfoToQueryObject: (obj) => {
+    AddUserPersonalInfoToQueryObject(obj) {
         obj["email"] = 1;
     },
 
-    SetUserData: (user, currUserId) => {
+    SetUserData(user, currUserId) {
         // Boolean value that indicates if the current user is friend of the user.
         user.isFriend = (user.friends.indexOf(currUserId) != -1);
 
@@ -89,7 +89,7 @@ var self = module.exports = {
         delete user.friendRequests;
     },
 
-    RemoveFriends: (userId, friendId) => {
+    RemoveFriends(userId, friendId) {
         return new Promise((resolve, reject) => {
             managementBL.RemoveFriends(userId, friendId).then(resolve).catch(reject);
         });
