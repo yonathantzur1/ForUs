@@ -39,8 +39,7 @@
     font-size: 14px;
     line-height: 1;
     color: inherit;
-    border-radius: 5px;
-    box-shadow: none !important;
+    border-radius: 5px;    
  }
 
  #userReportWindow .select-reason-info {
