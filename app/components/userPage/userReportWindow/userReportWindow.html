@@ -26,7 +26,7 @@
                     </span>
                 </div>
             </form>
-            <p *ngIf="!isShowTextReasonWindow" class="select-reason-info">*יש לבחור את סיבת הדיווח</p>
+            <p *ngIf="!isShowTextReasonWindow && IsDisableReportBtn()" class="select-reason-info">*יש לבחור את סיבת הדיווח</p>
             <p *ngIf="isShowTextReasonWindow && isShowEmptyFieldAlert" class="select-reason-info">*יש להזין את תיאור
                 המקרה</p>
             <i (click)="ShowTextReasonWindow()" *ngIf="!isShowTextReasonWindow" class="material-icons icon bottom-icon next-icon"
