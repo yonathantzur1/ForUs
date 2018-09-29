@@ -56,7 +56,7 @@ var NavbarComponent = /** @class */ (function () {
         // START CONFIG VARIABLES //
         this.searchInputChangeDelay = 220; // milliseconds
         this.notificationDelay = 3800; // milliseconds
-        this.checkSocketConnectDelay = 5; // seconds
+        this.checkSocketConnectDelay = 3; // seconds
         this.chatTypingDelay = 1500; // milliseconds
         this.newFriendsLabelDelay = 4000; // milliseconds    
         this.sidenavWidth = "230px";
@@ -69,6 +69,9 @@ var NavbarComponent = /** @class */ (function () {
             if (value["isOpenProfileEditWindow"] != null) {
                 value["isOpenProfileEditWindow"] && _this.ClosePopups();
                 _this.isOpenProfileEditWindow = value["isOpenProfileEditWindow"];
+            }
+            if (value["HideSidenav"]) {
+                _this.HideSidenav();
             }
             if (value["closeDropMenu"]) {
                 _this.isDropMenuOpen = false;
@@ -87,6 +90,12 @@ var NavbarComponent = /** @class */ (function () {
             }
             if (value["RemoveFriendRequest"]) {
                 _this.RemoveFriendRequest(value["RemoveFriendRequest"]);
+            }
+            if (value["AddFriend"]) {
+                _this.AddFriend(value["AddFriend"]);
+            }
+            if (value["IgnoreFriendRequest"]) {
+                _this.IgnoreFriendRequest(value["IgnoreFriendRequest"]);
             }
             if (value["OpenUserProfile"]) {
                 _this.OpenUserProfile(value["OpenUserProfile"]);

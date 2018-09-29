@@ -13,8 +13,10 @@ var core_1 = require("@angular/core");
 var global_service_1 = require("../../../services/global/global.service");
 var friendRequestsWindow_service_1 = require("../../../services/navbar/friendRequestsWindow/friendRequestsWindow.service");
 var navbar_service_1 = require("../../../services/navbar/navbar.service");
+var router_1 = require("@angular/router");
 var FriendRequestsWindowComponent = /** @class */ (function () {
-    function FriendRequestsWindowComponent(navbarService, friendRequestsWindowService, globalService) {
+    function FriendRequestsWindowComponent(router, navbarService, friendRequestsWindowService, globalService) {
+        this.router = router;
         this.navbarService = navbarService;
         this.friendRequestsWindowService = friendRequestsWindowService;
         this.globalService = globalService;
@@ -139,6 +141,10 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
             return (friendConfirm._id != friendId);
         });
     };
+    FriendRequestsWindowComponent.prototype.OpenUserPage = function (friendId) {
+        this.router.navigateByUrl("/profile/" + friendId);
+        this.globalService.setData("HideSidenav", true);
+    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", Array)
@@ -165,7 +171,8 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
             templateUrl: './friendRequestsWindow.html',
             providers: [friendRequestsWindow_service_1.FriendRequestsWindowService]
         }),
-        __metadata("design:paramtypes", [navbar_service_1.NavbarService,
+        __metadata("design:paramtypes", [router_1.Router,
+            navbar_service_1.NavbarService,
             friendRequestsWindow_service_1.FriendRequestsWindowService,
             global_service_1.GlobalService])
     ], FriendRequestsWindowComponent);

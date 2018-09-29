@@ -79,7 +79,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     searchInputChangeDelay: number = 220; // milliseconds
     notificationDelay: number = 3800; // milliseconds
-    checkSocketConnectDelay: number = 5; // seconds
+    checkSocketConnectDelay: number = 3; // seconds
     chatTypingDelay: number = 1500; // milliseconds
     newFriendsLabelDelay: number = 4000; // milliseconds    
     sidenavWidth: string = "230px";
@@ -106,6 +106,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 this.isOpenProfileEditWindow = value["isOpenProfileEditWindow"];
             }
 
+            if (value["HideSidenav"]) {
+                this.HideSidenav();
+            }
+
             if (value["closeDropMenu"]) {
                 this.isDropMenuOpen = false;
             }
@@ -128,6 +132,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
             if (value["RemoveFriendRequest"]) {
                 this.RemoveFriendRequest(value["RemoveFriendRequest"]);
+            }
+
+            if (value["AddFriend"]) {
+                this.AddFriend(value["AddFriend"]);
+            }
+
+            if (value["IgnoreFriendRequest"]) {
+                this.IgnoreFriendRequest(value["IgnoreFriendRequest"]);
             }
 
             if (value["OpenUserProfile"]) {

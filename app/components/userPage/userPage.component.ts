@@ -75,9 +75,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
                 isShow: function () {
                     return self.user.isFriend;
                 },
-                onClick: function () {
-
-                },
                 options: [
                     {
                         text: "הסרת חברות",
@@ -130,6 +127,31 @@ export class UserPageComponent implements OnInit, OnDestroy {
                     self.SetUserFriendStatus("isGetFriendRequest");
                     self.globalService.setData("AddFriendRequest", self.user._id);
                 }
+            },
+            {
+                id: "friendRequestOptions",
+                icon: "fas fa-user-friends",
+                innerIconText: "",
+                title: "בקשת חברות",
+                isShow: function () {
+                    return self.user.isSendFriendRequest;
+                },
+                options: [
+                    {
+                        text: "אישור חברות",
+                        action: function () {
+                            self.SetUserFriendStatus("isFriend");
+                            self.globalService.setData("AddFriend", self.user._id);
+                        }
+                    },
+                    {
+                        text: "דחיית חברות",
+                        action: function () {
+                            self.UnsetUserFriendStatus("isSendFriendRequest");
+                            self.globalService.setData("IgnoreFriendRequest", self.user._id);
+                        }
+                    }
+                ]
             },
             {
                 id: "removeFriendRequest",

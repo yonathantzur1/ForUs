@@ -33,8 +33,9 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
             }
             else {
                 loginBL.GetUserById(friendId).then((friendObj) => {
-                    friendObj &&
-                        mailer.FriendRequestAlert(friendObj.email, friendObj.firstName, userFullName);
+                    if (friendObj) {
+                        mailer.FriendRequestAlert(friendObj.email, friendObj.firstName, userFullName, user._id);
+                    }
                 }).catch((err) => {
                     // TODO: error log.
                 });

@@ -4,6 +4,8 @@ import { GlobalService } from '../../../services/global/global.service';
 import { FriendRequestsWindowService } from '../../../services/navbar/friendRequestsWindow/friendRequestsWindow.service';
 import { NavbarService } from '../../../services/navbar/navbar.service';
 
+import { Router } from '@angular/router';
+
 @Component({
     selector: 'friendRequestsWindow',
     templateUrl: './friendRequestsWindow.html',
@@ -26,7 +28,8 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     isFirstOpenning: boolean = true;
     isFriendRequestsLoaded: boolean = false;
 
-    constructor(private navbarService: NavbarService,
+    constructor(private router: Router,
+        private navbarService: NavbarService,
         private friendRequestsWindowService: FriendRequestsWindowService,
         private globalService: GlobalService) { }
 
@@ -165,5 +168,10 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
         this.friendConfirmObjects = this.friendConfirmObjects.filter((friendConfirm: any) => {
             return (friendConfirm._id != friendId);
         });
+    }
+
+    OpenUserPage(friendId: string) {
+        this.router.navigateByUrl("/profile/" + friendId);
+        this.globalService.setData("HideSidenav", true);
     }
 }

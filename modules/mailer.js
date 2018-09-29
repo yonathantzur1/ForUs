@@ -53,10 +53,11 @@ module.exports = {
             text);
     },
 
-    FriendRequestAlert(email, name, friendName) {
+    FriendRequestAlert(email, name, friendName, friendId) {
+        var friendProfilePageUrl = config.addresses.site + "/profile/" + friendId;
         this.SendMail(email,
             "בקשת חברות",
-            GetTimeBlessing() + name + "," + "<br>" + "בקשת חברות חדשה הגיעה מ" + friendName + ".<br>" + config.addresses.site);
+            GetTimeBlessing() + name + "," + "<br>" + "בקשת חברות חדשה הגיעה מ" + friendName + ".<br>" + friendProfilePageUrl);
     },
 
     FriendRequestConfirm(email, name, friendName) {
@@ -64,7 +65,7 @@ module.exports = {
             "אישור בקשת חברות",
             GetTimeBlessing() + friendName + "," + "<br>" + "החברות עם " + name + " אושרה.<br>" + config.addresses.site);
     },
-    
+
     BlockMessage(email, name, reason, date) {
         var dateString;
         var date;

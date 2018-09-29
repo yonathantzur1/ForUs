@@ -37,7 +37,7 @@ module.exports = function (req, res, next) {
         var result = joi.validate(data, schema);
 
         if (!result) {
-            throw ("Validate result is null");
+            throw ("Validate result is " + result);
         }
         else if (result.error) {
             throw (result.error.message);
