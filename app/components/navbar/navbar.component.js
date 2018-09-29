@@ -57,7 +57,7 @@ var NavbarComponent = /** @class */ (function () {
         this.searchInputChangeDelay = 220; // milliseconds
         this.notificationDelay = 3800; // milliseconds
         this.checkSocketConnectDelay = 3; // seconds
-        this.chatTypingDelay = 1500; // milliseconds
+        this.chatTypingDelay = 1200; // milliseconds
         this.newFriendsLabelDelay = 4000; // milliseconds    
         this.sidenavWidth = "230px";
         // END CONFIG VARIABLES //
@@ -336,11 +336,14 @@ var NavbarComponent = /** @class */ (function () {
             this.isShowMessageNotification = true;
             var self = this;
             self.messageNotificationInterval = setInterval(function () {
-                self.isShowMessageNotification = false;
-                clearInterval(self.messageNotificationInterval);
-                self.messageNotificationInterval = null;
+                self.HideMessageNotification();
             }, self.notificationDelay);
         }
+    };
+    NavbarComponent.prototype.HideMessageNotification = function () {
+        this.isShowMessageNotification = false;
+        clearInterval(this.messageNotificationInterval);
+        this.messageNotificationInterval = null;
     };
     NavbarComponent.prototype.GetFriendNameById = function (id) {
         for (var i = 0; i < this.friends.length; i++) {
@@ -604,6 +607,7 @@ var NavbarComponent = /** @class */ (function () {
         }
     };
     NavbarComponent.prototype.OpenChat = function (friend) {
+        this.HideMessageNotification();
         this.HideSidenav();
         if (!this.chatData.isOpen || !this.chatData.friend || this.chatData.friend._id != friend._id) {
             var messagesNotifications = Object.assign({}, this.GetToolbarItem("messages").content);

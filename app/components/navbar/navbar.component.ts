@@ -80,7 +80,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     searchInputChangeDelay: number = 220; // milliseconds
     notificationDelay: number = 3800; // milliseconds
     checkSocketConnectDelay: number = 3; // seconds
-    chatTypingDelay: number = 1500; // milliseconds
+    chatTypingDelay: number = 1200; // milliseconds
     newFriendsLabelDelay: number = 4000; // milliseconds    
     sidenavWidth: string = "230px";
 
@@ -122,7 +122,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 this.searchInput = value["changeSearchInput"];
             }
 
-            if (value["openChat"]) {
+            if (value["openChat"]) {                
                 this.OpenChat(value["openChat"]);
             }
 
@@ -423,11 +423,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
             var self = this;
             self.messageNotificationInterval = setInterval(function () {
-                self.isShowMessageNotification = false;
-                clearInterval(self.messageNotificationInterval);
-                self.messageNotificationInterval = null;
+                self.HideMessageNotification();
             }, self.notificationDelay);
         }
+    }
+
+    HideMessageNotification() {
+        this.isShowMessageNotification = false;
+        clearInterval(this.messageNotificationInterval);
+        this.messageNotificationInterval = null;
     }
 
     GetFriendNameById(id: string): string {
@@ -736,6 +740,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     OpenChat(friend: any) {
+        this.HideMessageNotification();
         this.HideSidenav();
 
         if (!this.chatData.isOpen || !this.chatData.friend || this.chatData.friend._id != friend._id) {

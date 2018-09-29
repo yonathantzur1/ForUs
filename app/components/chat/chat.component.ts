@@ -170,6 +170,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             if (msgData.from == self.chatData.friend._id) {
                 msgData.time = new Date();
                 self.isAllowScrollDown = true;
+                self.chatData.friend.isTyping = false;
                 self.messages.push(msgData);
 
                 // In case the chat is on canvas mode.
