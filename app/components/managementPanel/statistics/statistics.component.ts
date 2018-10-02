@@ -6,7 +6,6 @@ import { StatisticsService } from '../../../services/managementPanel/statistics/
 import { GlobalService } from '../../../services/global/global.service';
 
 declare var $: any;
-declare var document: any;
 declare var Chart: any;
 declare var globalVariables: any;
 
@@ -153,7 +152,7 @@ export class StatisticsComponent {
                     self.userEmailInput = null;
                     self.isUserEmailFound = null;
                 },
-                isDisableConfirm: function(self: any) {
+                isDisableConfirm: function (self: any) {
                     return (self.userEmailInput ? false : true);
                 },
                 onConfirm: function (self: any) {
@@ -188,12 +187,17 @@ export class StatisticsComponent {
 
     LoadChart(type: LOG_TYPE, range: STATISTICS_RANGE, chartName: string, datesRange?: Object) {
         this.datesRange = datesRange || this.CalculateDatesRangeByRangeType(range);
+        var clientTimeZone = new Date().getTimezoneOffset();
         this.isLoadingChart = true;
 
-        this.statisticsService.GetChartData(type, range, this.datesRange, this.userEmail).then(data => {
-            this.isLoadingChart = false;
-            this.InitializeChart(chartName, range, this.datesRange, data);
-        });
+        this.statisticsService.GetChartData(type,
+            range,
+            this.datesRange,
+            clientTimeZone,
+            this.userEmail).then(data => {
+                this.isLoadingChart = false;
+                this.InitializeChart(chartName, range, this.datesRange, data);
+            });
     }
 
     InitializeChart(name: string, range: STATISTICS_RANGE, datesRange: Object, data: Array<number>) {

@@ -21,11 +21,12 @@ var StatisticsService = /** @class */ (function (_super) {
         _this.prefix = "/api/statistics";
         return _this;
     }
-    StatisticsService.prototype.GetChartData = function (logType, range, datesRange, email) {
+    StatisticsService.prototype.GetChartData = function (logType, range, datesRange, clientTimeZone, email) {
         var data = {
             logType: logType,
             range: range,
             datesRange: datesRange,
+            clientTimeZone: clientTimeZone,
             email: email
         };
         return _super.prototype.post.call(this, this.prefix + '/getChartData', data)

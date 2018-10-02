@@ -165,8 +165,9 @@ var StatisticsComponent = /** @class */ (function () {
     StatisticsComponent.prototype.LoadChart = function (type, range, chartName, datesRange) {
         var _this = this;
         this.datesRange = datesRange || this.CalculateDatesRangeByRangeType(range);
+        var clientTimeZone = new Date().getTimezoneOffset();
         this.isLoadingChart = true;
-        this.statisticsService.GetChartData(type, range, this.datesRange, this.userEmail).then(function (data) {
+        this.statisticsService.GetChartData(type, range, this.datesRange, clientTimeZone, this.userEmail).then(function (data) {
             _this.isLoadingChart = false;
             _this.InitializeChart(chartName, range, _this.datesRange, data);
         });

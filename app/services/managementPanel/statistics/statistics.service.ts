@@ -6,14 +6,19 @@ export class StatisticsService extends BasicService {
 
     prefix = "/api/statistics";
 
-    GetChartData(logType: LOG_TYPE, range: STATISTICS_RANGE, datesRange: Object, email: string) {
+    GetChartData(logType: LOG_TYPE,
+        range: STATISTICS_RANGE,
+        datesRange: Object,
+        clientTimeZone: number,
+        email: string) {
         var data = {
             logType,
             range,
             datesRange,
+            clientTimeZone,
             email
         }
-        
+
         return super.post(this.prefix + '/getChartData', data)
             .toPromise()
             .then((result: any) => {
@@ -24,7 +29,7 @@ export class StatisticsService extends BasicService {
             });
     }
 
-    GetUserByEmail(email: string) {        
+    GetUserByEmail(email: string) {
         return super.get(this.prefix + '/getUserByEmail?email=' + email)
             .toPromise()
             .then((result: any) => {

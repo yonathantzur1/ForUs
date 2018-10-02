@@ -7,13 +7,13 @@ const usersCollectionName = config.db.collections.users;
 const profilesCollectionName = config.db.collections.profiles;
 
 module.exports = {
-    GetLoginsData(logType, range, datesRange, email) {
+    GetLoginsData(logType, range, datesRange, clientTimeZone, email) {
         return new Promise((resolve, reject) => {
             var barsNumber;
             var rangeKey;
             var groupFilter;
             var isRangeValid = true;
-            var dateWithOffsetQuery = { date: "$date", timezone: GetTimeZoneOffsetString() };
+            var dateWithOffsetQuery = { date: "$date", timezone: GetTimeZoneOffsetString(clientTimeZone) };
 
             switch (range) {
                 case enums.STATISTICS_RANGE.YEARLY: {
@@ -133,15 +133,13 @@ module.exports = {
     }
 }
 
-function GetTimeZoneOffsetString() {
-    var timeZone = new Date().getTimezoneOffset();
-
+function GetTimeZoneOffsetString(clientTimeZone) {    
     // Convert the sign to the opposite for the mongo timezone calculation.
-    timeZone *= -1;
-    var isPositive = (timeZone >= 0);
+    clientTimeZone *= -1;
+    var isPositive = (clientTimeZone >= 0);
 
-    var hours = timeZone / 60;
-    var minutes = timeZone - (hours * 60);
+    var hours = clientTimeZone / 60;
+    var minutes = clientTimeZone - (hours * 60);
 
     if (hours < 10) {
         hours = "0" + hours;
