@@ -57,6 +57,7 @@ var NavbarComponent = /** @class */ (function () {
         this.searchInputChangeDelay = 220; // milliseconds
         this.notificationDelay = 3800; // milliseconds
         this.checkSocketConnectDelay = 3; // seconds
+        this.checkOnlineFriendsDelay = 5; // seconds
         this.chatTypingDelay = 1200; // milliseconds
         this.newFriendsLabelDelay = 4000; // milliseconds    
         this.sidenavWidth = "230px";
@@ -175,6 +176,9 @@ var NavbarComponent = /** @class */ (function () {
                 }
             });
         }, self.checkSocketConnectDelay * 1000);
+        self.checkOnlineFriendsInterval = setInterval(function () {
+            self.globalService.socket.emit("ServerGetOnlineFriends");
+        }, self.checkOnlineFriendsDelay * 1000);
         self.LoadFriendsData(self.user.friends);
         // Loading user messages notifications.
         self.navbarService.GetUserMessagesNotifications().then(function (result) {
@@ -215,11 +219,15 @@ var NavbarComponent = /** @class */ (function () {
             }
         });
         self.globalService.SocketOn('ClientGetOnlineFriends', function (onlineFriendsIds) {
+            // In case one or more friends are connected. 
             if (onlineFriendsIds.length > 0) {
                 self.friends.forEach(function (friend) {
-                    if (onlineFriendsIds.indexOf(friend._id) != -1) {
-                        friend.isOnline = true;
-                    }
+                    friend.isOnline = (onlineFriendsIds.indexOf(friend._id) != -1);
+                });
+            }
+            else {
+                self.friends.forEach(function (friend) {
+                    friend.isOnline = false;
                 });
             }
         });
@@ -294,6 +302,7 @@ var NavbarComponent = /** @class */ (function () {
     NavbarComponent.prototype.ngOnDestroy = function () {
         this.subscribeObj.unsubscribe();
         clearInterval(this.checkSocketConnectInterval);
+        clearInterval(this.checkOnlineFriendsInterval);
     };
     NavbarComponent.prototype.IsShowFriendFindInput = function () {
         return $(".sidenav-body-sector").hasScrollBar();

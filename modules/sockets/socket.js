@@ -3,6 +3,7 @@ const tokenHandler = require('../handlers/tokenHandler');
 const permissionHandler = require('../handlers/permissionHandler');
 const requestHandler = require('../handlers/requestHandler');
 const events = require('../events');
+const config = require('../../config');
 
 var socketsDictionary = {};
 var connectedUsers = {};
@@ -33,6 +34,7 @@ module.exports = function (io) {
                 socket.join(user._id);
                 socketsDictionary[socket.id] = user._id;
                 connectedUsers[user._id] = user;
+                connectedUsers[user._id].lastKeepAlive = new Date();
 
                 var connectionUserFriends = user.friends;
 
@@ -116,3 +118,32 @@ function LogoutUser(io, socket) {
         }
     }
 }
+
+function CleanDisconnectUsers() {
+    var disconnectUsersIds = [];
+
+    // Running on all the connected users.
+    Object.keys(connectedUsers).forEach(userId => {
+        // Calculate seconds diffrence from the last user keep alive.
+        lastKeepAliveSecondsDelay = (new Date() - connectedUsers[userId].lastKeepAlive) / 1000;
+
+        var x = socketsDictionary;
+        // In case the diffrence is big, disconnect the user.
+        if (lastKeepAliveSecondsDelay > config.socket.maxLastKeepAliveDelay) {
+            disconnectUsersIds.push(userId);
+        }
+    });
+
+    // Remove the disconnected user and his sockets from dictionaries.
+    disconnectUsersIds.forEach(userId => {
+        var socketIds = connectedUsers[userId].socketIds;
+        delete connectedUsers[userId];
+        
+        socketIds.forEach(socketId => {
+            delete socketsDictionary[socketId];
+        });
+    });
+
+}
+
+setInterval(CleanDisconnectUsers, config.socket.cleanDisconnectUsersIntervalTime * 1000);

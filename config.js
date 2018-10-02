@@ -47,6 +47,10 @@ module.exports = {
             resetCodeFreeRetries: 5
         },
     },
+    socket: {
+        cleanDisconnectUsersIntervalTime: 8, // seconds
+        maxLastKeepAliveDelay: 1 // seconds
+    },
     chat: {
         messagesInPage: 40 // For chat pagination
     },

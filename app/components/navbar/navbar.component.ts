@@ -71,6 +71,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     isShowSearchResults: boolean = false;
     inputInterval: any;
     checkSocketConnectInterval: any;
+    checkOnlineFriendsInterval: any;
 
     toolbarItems: Array<ToolbarItem>;
     dropMenuDataList: Array<DropMenuData>;
@@ -80,6 +81,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     searchInputChangeDelay: number = 220; // milliseconds
     notificationDelay: number = 3800; // milliseconds
     checkSocketConnectDelay: number = 3; // seconds
+    checkOnlineFriendsDelay: number = 5; // seconds
     chatTypingDelay: number = 1200; // milliseconds
     newFriendsLabelDelay: number = 4000; // milliseconds    
     sidenavWidth: string = "230px";
@@ -122,7 +124,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 this.searchInput = value["changeSearchInput"];
             }
 
-            if (value["openChat"]) {                
+            if (value["openChat"]) {
                 this.OpenChat(value["openChat"]);
             }
 
@@ -228,6 +230,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
             });
         }, self.checkSocketConnectDelay * 1000);
 
+        self.checkOnlineFriendsInterval = setInterval(function () {
+            self.globalService.socket.emit("ServerGetOnlineFriends");
+        }, self.checkOnlineFriendsDelay * 1000);
+
         self.LoadFriendsData(self.user.friends);
 
         // Loading user messages notifications.
@@ -276,11 +282,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
         });
 
         self.globalService.SocketOn('ClientGetOnlineFriends', function (onlineFriendsIds: Array<string>) {
+            // In case one or more friends are connected. 
             if (onlineFriendsIds.length > 0) {
                 self.friends.forEach(friend => {
-                    if (onlineFriendsIds.indexOf(friend._id) != -1) {
-                        friend.isOnline = true;
-                    }
+                    friend.isOnline = (onlineFriendsIds.indexOf(friend._id) != -1);
+                });
+            }
+            else {
+                self.friends.forEach(friend => {
+                    friend.isOnline = false;
                 });
             }
         });
@@ -372,6 +382,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.subscribeObj.unsubscribe();
         clearInterval(this.checkSocketConnectInterval);
+        clearInterval(this.checkOnlineFriendsInterval);
     }
 
     IsShowFriendFindInput() {

@@ -67,6 +67,14 @@ module.exports = (app, connectedUsers) => {
     });
 
     app.get(prefix + '/isUserSocketConnect', (req, res) => {
-        res.send(connectedUsers[req.user._id] ? true : false);
+        var socketUser = connectedUsers[req.user._id];
+
+        if (socketUser) {
+            socketUser.lastKeepAlive = new Date();
+            res.send(true);
+        }
+        else {
+            res.send(false);
+        }        
     });
 };
