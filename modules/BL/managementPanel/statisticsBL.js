@@ -13,9 +13,7 @@ module.exports = {
             var rangeKey;
             var groupFilter;
             var isRangeValid = true;
-
-            var dateMillisecondsOffset = GetTimeZoneMillisecondsOffset();
-            var dateWithOffsetQuery = { $add: ["$date", dateMillisecondsOffset] };
+            var dateWithOffsetQuery = { date: "$date", timezone: GetTimeZoneOffsetString() };
 
             switch (range) {
                 case enums.STATISTICS_RANGE.YEARLY: {
@@ -135,12 +133,27 @@ module.exports = {
     }
 }
 
-function GetTimeZoneMillisecondsOffset() {
+function GetTimeZoneOffsetString() {
     var timeZone = new Date().getTimezoneOffset();
 
     // Convert the sign to the opposite for the mongo timezone calculation.
     timeZone *= -1;
+    var isPositive = (timeZone >= 0);
+
+    var hours = timeZone / 60;
+    var minutes = timeZone - (hours * 60);
+
+    if (hours < 10) {
+        hours = "0" + hours;
+    }
+
+    if (minutes < 10) {
+        minutes = "0" + minutes;
+    }
+
+    var offsetString = hours + ":" + minutes;
+    isPositive ? (offsetString = "+" + offsetString) : (offsetString = "-" + offsetString);
 
     // Convert time zone from minutes to milliseconds.
-    return (timeZone * 60 * 1000);
+    return offsetString;
 }
