@@ -66,8 +66,8 @@ var self = module.exports = {
                     lastName: 1
                 }
             }, usersFilter,
-            { $limit: searchResultsLimit },
-            { $sort: { "fullName": 1, "fullNameReversed": 1 } }];
+            { $sort: { "fullName": 1, "fullNameReversed": 1 } },
+            { $limit: searchResultsLimit }];
 
             DAL.Aggregate(usersCollectionName, aggregateArray).then((results) => {
                 // Running on all results and order profiles structure to the next query
