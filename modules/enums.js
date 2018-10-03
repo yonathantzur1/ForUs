@@ -1,4 +1,8 @@
 module.exports = {
+    SYSTEM_JOBS_NAMES: {
+        CLEAN_DISCONNECT_USERS: "clean_disconnect_users"
+    },
+
     PERMISSION: {
         MASTER: "master",
         ADMIN: "admin"

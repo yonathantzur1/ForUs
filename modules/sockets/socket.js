@@ -4,6 +4,8 @@ const permissionHandler = require('../handlers/permissionHandler');
 const requestHandler = require('../handlers/requestHandler');
 const events = require('../events');
 const config = require('../../config');
+const enums = require('../enums');
+const jobs = require('../jobs');
 
 var socketsDictionary = {};
 var connectedUsers = {};
@@ -138,7 +140,7 @@ function CleanDisconnectUsers() {
     disconnectUsersIds.forEach(userId => {
         var socketIds = connectedUsers[userId].socketIds;
         delete connectedUsers[userId];
-        
+
         socketIds.forEach(socketId => {
             delete socketsDictionary[socketId];
         });
@@ -146,4 +148,6 @@ function CleanDisconnectUsers() {
 
 }
 
-setInterval(CleanDisconnectUsers, config.socket.cleanDisconnectUsersIntervalTime * 1000);
+jobs.RegisterJob(enums.SYSTEM_JOBS_NAMES.CLEAN_DISCONNECT_USERS,
+    CleanDisconnectUsers,
+    config.socket.cleanDisconnectUsersIntervalTime * 1000);
