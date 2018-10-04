@@ -5,7 +5,6 @@ const sha512 = require('js-sha512');
 
 const collectionName = config.db.collections.users;
 const permissionsCollectionName = config.db.collections.permissions;
-const saltSize = config.security.loginSecure.saltSize;
 
 var self = module.exports = {
 
@@ -122,7 +121,7 @@ var self = module.exports = {
     AddUser(newUser) {
         return new Promise((resolve, reject) => {
             if (ValidateUserObject(newUser)) {
-                var salt = general.GenerateCode(saltSize);
+                var salt = general.GenerateCode(config.security.password.saltSize);
                 newUser.password = sha512(newUser.password + salt);
 
                 // Creat the new user object.

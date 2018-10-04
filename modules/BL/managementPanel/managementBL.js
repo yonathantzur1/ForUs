@@ -155,7 +155,7 @@ module.exports = {
             // Generate password hash and salt.
             if (updateFields.password) {
                 updateFields.uid = general.GenerateId();
-                updateFields.salt = general.GenerateCode(config.security.loginSecure.saltSize);
+                updateFields.salt = general.GenerateCode(config.security.password.saltSize);
                 updateFields.password = sha512(updateFields.password + updateFields.salt);
             }
 

@@ -40,12 +40,14 @@ module.exports = {
             minWait: 60000, // (1 * 60 * 1000) - 1 minutes 
             maxWait: 600000 // (10 * 60 * 1000) - 10 minutes 
         },
-        loginSecure: {
+        password: {
             saltSize: 8,
-            resetCodeNumOfDigits: 6,
-            resetCodeNumOfHoursValid: 24,
-            resetCodeFreeRetries: 5
-        },
+            resetCode: {
+                numOfDigits: 6,
+                numOfHoursValid: 24,
+                freeRetries: 5
+            }
+        }
     },
     socket: {
         cleanDisconnectUsersIntervalTime: 8, // seconds

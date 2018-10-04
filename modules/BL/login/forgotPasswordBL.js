@@ -4,16 +4,15 @@ const general = require('../../general');
 const sha512 = require('js-sha512');
 
 const collectionName = config.db.collections.users;
-const saltSize = config.security.loginSecure.saltSize;
-const resetCodeNumOfDigits = config.security.loginSecure.resetCodeNumOfDigits;
-const resetCodeNumOfHoursValid = config.security.loginSecure.resetCodeNumOfHoursValid;
-const resetCodeFreeRetries = config.security.loginSecure.resetCodeFreeRetries;
+const saltSize = config.security.passwrd.saltSize;
+const resetCodeNumOfHoursValid = config.security.password.resetCode.numOfHoursValid;
+const resetCodeFreeRetries = config.security.password.resetCode.freeRetries;
 
 module.exports = {
     // Add reset password code to the DB and return the user.
     SetUserResetCode(email) {
         return new Promise((resolve, reject) => {
-            var code = general.GenerateCode(resetCodeNumOfDigits, true);
+            var code = general.GenerateCode(config.security.password.resetCode.numOfDigits, true);
             var resetPasswordToken = sha512(email + code);
 
             var resetCode = {
@@ -141,6 +140,7 @@ module.exports = {
     }
 }
 
+// Return mongo query object to find user by reset password token string.
 function GetUserByTokenFilterQuery(token) {
     var currDate = new Date();
     var resetDateObjectRuleForQuery = {
