@@ -644,6 +644,33 @@
     text-align: center;
 }
 
+#navbar .see-more-results-btn {
+    width: 100%;
+    height: 35px;
+    border-top: 0.5px solid #1b5484;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    color: #1d4695;
+    cursor: pointer;
+}
+
+#navbar .see-more-results-btn:hover {
+    background-color: #6887c2;
+    color: #f7f7f7;
+}
+
+#navbar .see-more-results-btn-text {
+    font-size: 12px;    
+    margin-right: 3px;    
+}
+
+#navbar .more-result-icon {
+    font-size: 16px;
+    margin-right: 5px;
+    margin-bottom: 2px;
+}
+
 #navbar ::-webkit-scrollbar-thumb {
     background-color: #e3e3e3 !important;
 }

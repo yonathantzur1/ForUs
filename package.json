@@ -31,7 +31,7 @@
     "express": "^4.16.3",
     "express-brute": "^1.0.1",
     "hover.css": "^2.3.2",
-    "joi": "^13.6.0",
+    "joi": "^13.7.0",
     "jquery": "^3.3.1",
     "js-sha512": "^0.8.0",
     "jsonwebtoken": "^8.3.0",
