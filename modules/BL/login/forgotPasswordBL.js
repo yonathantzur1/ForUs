@@ -4,7 +4,7 @@ const general = require('../../general');
 const sha512 = require('js-sha512');
 
 const collectionName = config.db.collections.users;
-const saltSize = config.security.passwrd.saltSize;
+const saltSize = config.security.password.saltSize;
 const resetCodeNumOfHoursValid = config.security.password.resetCode.numOfHoursValid;
 const resetCodeFreeRetries = config.security.password.resetCode.freeRetries;
 

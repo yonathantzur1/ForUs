@@ -121,7 +121,7 @@
 #userPage .options-drop-menu {
     position: absolute;
     right: 0;
-    width: 100%;
+    width: calc(100% - 1px);
     top: 51px;
     -webkit-user-select: none;
     user-select: none;

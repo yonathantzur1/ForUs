@@ -29,6 +29,7 @@ import { PermissionsCardComponent } from '../components/managementPanel/manageme
 import { UserPageComponent } from '../components/userPage/userPage.component';
 import { UserEditWindowComponent } from '../components/userPage/userEditWindow/userEditWindow.component';
 import { UserReportWindow } from '../components/userPage/userReportWindow/userReportWindow.component';
+import { SearchPage } from '../components/searchPage/searchPage.component';
 
 import { PageNotFoundComponent } from '../components/pageNotFound/pageNotFound.component';
 
@@ -79,6 +80,7 @@ import { Routing } from '../routes/app.routing'
     UserPageComponent,
     UserEditWindowComponent,
     UserReportWindow,
+    SearchPage,
     // ---------Pipes---------
     SortObjects
   ],
