@@ -15,4 +15,15 @@ export class SearchPageService extends BasicService {
             });
     }
 
+    GetUserFriendsStatus() {
+        return super.get(this.prefix + '/getUserFriendsStatus')
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((e: any) => {
+                return null;
+            });
+    }
+
 }

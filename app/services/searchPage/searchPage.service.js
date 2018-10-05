@@ -31,6 +31,16 @@ var SearchPageService = /** @class */ (function (_super) {
             return null;
         });
     };
+    SearchPageService.prototype.GetUserFriendsStatus = function () {
+        return _super.prototype.get.call(this, this.prefix + '/getUserFriendsStatus')
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     return SearchPageService;
 }(basic_service_1.BasicService));
 exports.SearchPageService = SearchPageService;

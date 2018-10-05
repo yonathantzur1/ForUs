@@ -39,13 +39,15 @@ module.exports = {
                 }
             };
             var unwindObject = { $unwind: "$profileImage" };
-            var usersFinalFieldsWithProfile = { $project: { "fullName": 1, "profileImage.image": 1 } };
+            var sort = { $sort: { "fullName": 1, "fullNameReversed": 1 } };
+            var usersFinalFieldsWithProfile = { $project: { "fullName": 1, "profileImage.image": 1 } };            
 
             var joinAggregateArray = [
                 concatFields,
                 usersFilter,
                 joinFilter,
                 unwindObject,
+                sort,
                 usersFinalFieldsWithProfile
             ];
 
@@ -57,12 +59,21 @@ module.exports = {
                 usersFilter.$match.profile = null;
                 var usersFinalFieldsWithNoProfile = { $project: { "fullName": 1 } };
 
-                var aggregateArray = [concatFields, usersFilter, usersFinalFieldsWithNoProfile];
+                var aggregateArray = [concatFields, usersFilter, sort, usersFinalFieldsWithNoProfile];
 
                 DAL.Aggregate(usersCollectionName, aggregateArray).then((usersWithNoProfile) => {
                     resolve(usersWithProfile.concat(usersWithNoProfile));
                 }).catch(reject);
             }).catch(reject);
+        });
+    },
+
+    GetUserFriendRequests(userId) {
+        return new Promise((resolve, reject) => {
+            var query = { "_id": DAL.GetObjectId(userId) };
+            var fields = { "_id": 0, "friendRequests.get": 1, "friendRequests.send": 1 };
+
+            DAL.FindOneSpecific(usersCollectionName, query, fields).then(resolve).catch(reject);
         });
     }
 }

@@ -126,7 +126,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
             if (value["openChat"]) {
                 this.OpenChat(value["openChat"]);
+            }            
+
+            if (value["OpenUserProfile"]) {
+                this.OpenUserProfile(value["OpenUserProfile"]);
             }
+
+            // ------------ Friend requests functions ------------
 
             if (value["AddFriendRequest"]) {
                 this.AddFriendRequest(value["AddFriendRequest"]);
@@ -144,10 +150,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 this.IgnoreFriendRequest(value["IgnoreFriendRequest"]);
             }
 
-            if (value["OpenUserProfile"]) {
-                this.OpenUserProfile(value["OpenUserProfile"]);
-            }
-        });
+            // ----------------------------------------------------------
+        });        
 
         var self = this;
 
@@ -887,7 +891,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    IsShowFriendRequestConfirmSector(friendId: string) {
+    IsIncomeFriendRequest(friendId: string) {
         var friendRequests: any = this.GetToolbarItem("friendRequests").content;
 
         if (friendRequests.get.indexOf(friendId) != -1) {

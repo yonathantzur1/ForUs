@@ -13,6 +13,11 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var global_service_1 = require("../../services/global/global.service");
 var searchPage_service_1 = require("../../services/searchPage/searchPage.service");
+var FriendsStatus = /** @class */ (function () {
+    function FriendsStatus() {
+    }
+    return FriendsStatus;
+}());
 var SearchPage = /** @class */ (function () {
     function SearchPage(router, route, globalService, searchPageService) {
         this.router = router;
@@ -25,10 +30,35 @@ var SearchPage = /** @class */ (function () {
         var _this = this;
         // In case of route params changes.
         this.route.params.subscribe(function (params) {
-            // Search users by givven name parameter.
-            _this.searchPageService.GetSearchResults(params["name"]).then(function (result) {
-                if (result) {
-                    _this.users = result;
+            _this.searchPageService.GetUserFriendsStatus().then(function (friendsStatus) {
+                if (friendsStatus) {
+                    // Search users by given name parameter.
+                    _this.searchPageService.GetSearchResults(params["name"]).then(function (users) {
+                        if (users) {
+                            users.forEach(function (user) {
+                                var userId = user._id;
+                                // In case the result user and the current user are friends.
+                                if (friendsStatus.friends.indexOf(userId) != -1) {
+                                    user.isFriend = true;
+                                }
+                                // In case the result user sent a friend request to the current user.
+                                else if (friendsStatus.get.indexOf(userId) != -1) {
+                                    user.isGetFriendRequest = true;
+                                }
+                                // In case the current user sent a friend request to the result user.
+                                else if (friendsStatus.send.indexOf(userId) != -1) {
+                                    user.isSendFriendRequest = true;
+                                }
+                            });
+                            _this.users = users;
+                        }
+                        else {
+                            // TODO: implement no results/error message.
+                        }
+                    });
+                }
+                else {
+                    // TODO: implement error message.
                 }
             });
         });

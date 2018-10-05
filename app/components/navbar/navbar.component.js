@@ -86,6 +86,10 @@ var NavbarComponent = /** @class */ (function () {
             if (value["openChat"]) {
                 _this.OpenChat(value["openChat"]);
             }
+            if (value["OpenUserProfile"]) {
+                _this.OpenUserProfile(value["OpenUserProfile"]);
+            }
+            // ------------ Friend requests functions ------------
             if (value["AddFriendRequest"]) {
                 _this.AddFriendRequest(value["AddFriendRequest"]);
             }
@@ -98,9 +102,7 @@ var NavbarComponent = /** @class */ (function () {
             if (value["IgnoreFriendRequest"]) {
                 _this.IgnoreFriendRequest(value["IgnoreFriendRequest"]);
             }
-            if (value["OpenUserProfile"]) {
-                _this.OpenUserProfile(value["OpenUserProfile"]);
-            }
+            // ----------------------------------------------------------
         });
         var self = this;
         self.toolbarItems = [
@@ -726,7 +728,7 @@ var NavbarComponent = /** @class */ (function () {
             return false;
         }
     };
-    NavbarComponent.prototype.IsShowFriendRequestConfirmSector = function (friendId) {
+    NavbarComponent.prototype.IsIncomeFriendRequest = function (friendId) {
         var friendRequests = this.GetToolbarItem("friendRequests").content;
         if (friendRequests.get.indexOf(friendId) != -1) {
             return true;

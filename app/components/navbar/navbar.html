@@ -79,14 +79,14 @@
               </div>
               <div *ngIf="IsShowAddFriendRequestBtn(result._id) ||
                 IsShowRemoveFriendRequestBtn(result._id) ||
-                IsShowFriendRequestConfirmSector(result._id)"
+                IsIncomeFriendRequest(result._id)"
                 class="result-friend-request-btns-container">
                 <i *ngIf="IsShowAddFriendRequestBtn(result._id)" (click)="AddFriendRequest(result._id)" class="fas fa-user-plus friend-request-btn"
                   title="בקשת חברות"></i>
                 <i *ngIf="IsShowRemoveFriendRequestBtn(result._id)" (click)="RemoveFriendRequest(result._id)" class="fas fa-user-times friend-request-btn remove-request"
                   title="ביטול בקשת חברות"></i>
                 <!-- Sign in case of income friend request -->
-                <div class="friend-request-alert-dot" *ngIf="IsShowFriendRequestConfirmSector(result._id)"></div>
+                <div class="friend-request-alert-dot" *ngIf="IsIncomeFriendRequest(result._id)"></div>
               </div>
             </div>
             <!-- See more results btn -->

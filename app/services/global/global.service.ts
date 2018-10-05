@@ -15,7 +15,7 @@ export class GlobalService extends LoginService {
     public socket: any;
     public socketOnDictionary: any = {};
     public userProfileImage: string;
-    public userPermissions: Array<string> = [];
+    public userPermissions: Array<string> = [];    
     public defaultProfileImage: string = EmptyProfile;
     public uidCookieName: string = "uid";
 
