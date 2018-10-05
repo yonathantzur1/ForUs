@@ -867,6 +867,10 @@ var NavbarComponent = /** @class */ (function () {
         this.searchInput = user.firstName + " " + user.lastName;
         this.router.navigateByUrl("/profile/" + user._id);
     };
+    NavbarComponent.prototype.OpenSearchPage = function (name) {
+        this.HideSearchResults();
+        this.router.navigateByUrl("/search/" + name.trim());
+    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object)

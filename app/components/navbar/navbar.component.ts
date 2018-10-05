@@ -1065,4 +1065,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.searchInput = user.firstName + " " + user.lastName;
         this.router.navigateByUrl("/profile/" + user._id);
     }
+
+    OpenSearchPage(name: string) {
+        this.HideSearchResults();
+        this.router.navigateByUrl("/search/" + name.trim());
+    }
 }

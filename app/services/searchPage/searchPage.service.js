@@ -21,6 +21,16 @@ var SearchPageService = /** @class */ (function (_super) {
         _this.prefix = "/api/searchPage";
         return _this;
     }
+    SearchPageService.prototype.GetSearchResults = function (input) {
+        return _super.prototype.get.call(this, this.prefix + '/getSearchResults?input=' + input)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     return SearchPageService;
 }(basic_service_1.BasicService));
 exports.SearchPageService = SearchPageService;

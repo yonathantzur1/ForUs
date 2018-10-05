@@ -107,11 +107,11 @@
     height: 8px;
     width: 8px;
     border-radius: 50%;
-    background-color: #8fa8ef;
-    right: 16px;
+    background-color: #7699ff;
+    right: 12px;
     top: 8px;
     position: absolute;
-    border: 0.5px solid white;
+    border: 0.5px solid #f7f7f7;
 }
 
 #chatsWindow .img-sign {    

@@ -10,16 +10,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 var searchPage_service_1 = require("../../services/searchPage/searchPage.service");
-var ReportReason = /** @class */ (function () {
-    function ReportReason() {
-    }
-    return ReportReason;
-}());
 var SearchPage = /** @class */ (function () {
-    function SearchPage() {
+    function SearchPage(router, route, searchPageService) {
+        this.router = router;
+        this.route = route;
+        this.searchPageService = searchPageService;
+        this.users = [];
     }
     SearchPage.prototype.ngOnInit = function () {
+        var _this = this;
+        // In case of route params changes.
+        this.route.params.subscribe(function (params) {
+            _this.searchPageService.GetSearchResults(params["name"]).then(function (result) {
+                if (result) {
+                    _this.users = result;
+                }
+            });
+        });
     };
     SearchPage = __decorate([
         core_1.Component({
@@ -27,7 +36,9 @@ var SearchPage = /** @class */ (function () {
             templateUrl: './searchPage.html',
             providers: [searchPage_service_1.SearchPageService]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [router_1.Router,
+            router_1.ActivatedRoute,
+            searchPage_service_1.SearchPageService])
     ], SearchPage);
     return SearchPage;
 }());

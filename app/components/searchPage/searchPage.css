@@ -1,0 +1,9 @@
+#searchPage .users-container {
+    width: 660px;
+    max-width: 100%;
+    height: 100%;
+    margin: auto;
+    position: relative;
+    -webkit-user-select: none;
+    user-select: none;    
+}
