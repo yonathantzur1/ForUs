@@ -1,8 +1,14 @@
 <div id="searchPage">
     <div class="users-container">
-        <div class="user-tab" *ngFor="let user of users">
-            <img [src]="user.profileImage || globalService.defaultProfileImage">
-            <span>{{user.fullName}}</span>
+        <div class="title-container">
+            <i class="fas fa-users"></i>
+            <span class="title-text">
+                משתמשים
+            </span>
+        </div>
+        <div class="user-tab" (click)="UserClick(user._id)" *ngFor="let user of users">
+            <img class="user-image" [src]="user.profileImage || globalService.defaultProfileImage">
+            <span class="user-name">{{user.fullName}}</span>
         </div>
     </div>
 </div>

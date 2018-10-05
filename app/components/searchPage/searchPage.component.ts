@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { GlobalService } from '../../services/global/global.service';
 import { SearchPageService } from '../../services/searchPage/searchPage.service';
 
 @Component({
@@ -15,12 +16,13 @@ export class SearchPage implements OnInit {
 
     constructor(private router: Router,
         private route: ActivatedRoute,
+        private globalService: GlobalService,
         private searchPageService: SearchPageService) { }
 
     ngOnInit() {
         // In case of route params changes.
         this.route.params.subscribe(params => {
-
+            // Search users by givven name parameter.
             this.searchPageService.GetSearchResults(params["name"]).then(result => {
                 if (result) {
                     this.users = result;
@@ -28,5 +30,9 @@ export class SearchPage implements OnInit {
             });
 
         });
+    }
+
+    UserClick(userId: string) {
+        this.router.navigateByUrl('/profile/' + userId);
     }
 }

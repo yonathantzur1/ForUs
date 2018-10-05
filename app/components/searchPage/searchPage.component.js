@@ -11,11 +11,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var global_service_1 = require("../../services/global/global.service");
 var searchPage_service_1 = require("../../services/searchPage/searchPage.service");
 var SearchPage = /** @class */ (function () {
-    function SearchPage(router, route, searchPageService) {
+    function SearchPage(router, route, globalService, searchPageService) {
         this.router = router;
         this.route = route;
+        this.globalService = globalService;
         this.searchPageService = searchPageService;
         this.users = [];
     }
@@ -23,12 +25,16 @@ var SearchPage = /** @class */ (function () {
         var _this = this;
         // In case of route params changes.
         this.route.params.subscribe(function (params) {
+            // Search users by givven name parameter.
             _this.searchPageService.GetSearchResults(params["name"]).then(function (result) {
                 if (result) {
                     _this.users = result;
                 }
             });
         });
+    };
+    SearchPage.prototype.UserClick = function (userId) {
+        this.router.navigateByUrl('/profile/' + userId);
     };
     SearchPage = __decorate([
         core_1.Component({
@@ -38,6 +44,7 @@ var SearchPage = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [router_1.Router,
             router_1.ActivatedRoute,
+            global_service_1.GlobalService,
             searchPage_service_1.SearchPageService])
     ], SearchPage);
     return SearchPage;
