@@ -346,24 +346,6 @@
     left: 28px !important;
 }
 
-#navbar .friend-request-confirm-icon {    
-    width: 100%;
-    position: absolute;
-    right: 0;
-}
-
-#navbar .friend-request-confirm-btn {
-    font-size: 22px;
-    margin-top: 18px;
-    float: right;
-}
-
-#navbar .friend-request-decline-btn {
-    font-size: 22px;
-    margin-top: 18px;
-    float: left;
-}
-
 @media (max-width: 768px) {
     #navbar .search-result {
         height: 45px !important;
@@ -382,18 +364,6 @@
     #navbar .search-result-image-loading {
         width: 35px !important;
         height: 35px !important;
-    }
-
-    #navbar .friend-request-confirm-icon {
-        font-size: 14px !important;
-    }
-
-    #navbar .friend-request-confirm-btn {
-        font-size: 18px !important;
-    }
-    
-    #navbar .friend-request-decline-btn {
-        font-size: 18px !important;
     }
 
     #navbar .search-result-image-loading {
@@ -668,6 +638,16 @@
     font-size: 16px;
     margin-right: 5px;
     margin-bottom: 2px;
+}
+
+#navbar .friend-request-alert-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin: auto;
+    align-self: center;
+    background-color: #7699ff;
+    border: 0.5px solid #f7f7f7;
 }
 
 #navbar ::-webkit-scrollbar-thumb {

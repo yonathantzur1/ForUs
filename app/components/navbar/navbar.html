@@ -85,11 +85,8 @@
                   title="בקשת חברות"></i>
                 <i *ngIf="IsShowRemoveFriendRequestBtn(result._id)" (click)="RemoveFriendRequest(result._id)" class="fas fa-user-times friend-request-btn remove-request"
                   title="ביטול בקשת חברות"></i>
-                <span *ngIf="IsShowFriendRequestConfirmSector(result._id)">
-                  <i class="fas fa-user-plus friend-request-confirm-icon" title="אישור בקשת חברות"></i>
-                  <i (click)="AddFriend(result._id)" class="material-icons friend-request-confirm-btn" title="אישור">check</i>
-                  <i (click)="IgnoreFriendRequest(result._id)" class="material-icons friend-request-decline-btn" title="ביטול">close</i>
-                </span>
+                <!-- Sign in case of income friend request -->
+                <div class="friend-request-alert-dot" *ngIf="IsShowFriendRequestConfirmSector(result._id)"></div>
               </div>
             </div>
             <!-- See more results btn -->
