@@ -29,6 +29,7 @@ var HomeComponent = /** @class */ (function () {
         var self = this;
         self.authService.GetCurrUser().then(function (result) {
             self.currUser = result;
+            self.globalService.userId = result._id;
         });
         self.profilePictureService.GetUserProfileImage().then(function (result) {
             if (result) {

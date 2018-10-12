@@ -25,8 +25,7 @@
     border: 0.5px solid var(--main-text-color);
     border-top: none;
     display: flex;
-    align-items: center;
-    padding: 10px;
+    align-items: center;    
     cursor: pointer;
     background-color: whitesmoke;
 }
@@ -46,5 +45,61 @@
 
 #searchPage .user-name {
     font-size: 20px;
-    margin-right: 12px;    
+    margin-right: 12px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;    
+}
+
+#searchPage .short-user-name {
+    width: calc(100% - 70px) !important;
+    margin-left: 5px;
+}
+
+#searchPage .friend-request-action-sector {
+    height: 100%;
+    width: 70px;
+    display: flex;    
+}
+
+#searchPage .action-btn {
+    width: 100%;
+    text-align: center;
+    align-self: center;
+    font-size: 22px;
+}
+
+#searchPage .friend-request-alert-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin: auto;
+    align-self: center;
+    background-color: #7699ff;
+    border: 0.5px solid #f7f7f7;
+}
+
+#searchPage .user-details-container {    
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+/* Css design for small screens. */
+@media (max-width: 750px) {
+    #searchPage .user-image {
+        width: 50px;
+        height: 50px;
+    }
+
+    #searchPage .user-tab {
+        height: 70px;
+    }
+
+    #searchPage .user-name {
+        font-size: 14px;
+    }
 }

@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit {
 
         self.authService.GetCurrUser().then((result: any) => {
             self.currUser = result;
+            self.globalService.userId = result._id;
         });
 
         self.profilePictureService.GetUserProfileImage().then((result: any) => {

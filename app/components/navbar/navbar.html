@@ -86,7 +86,7 @@
                 <i *ngIf="IsShowRemoveFriendRequestBtn(result._id)" (click)="RemoveFriendRequest(result._id)" class="fas fa-user-times friend-request-btn remove-request"
                   title="ביטול בקשת חברות"></i>
                 <!-- Sign in case of income friend request -->
-                <div class="friend-request-alert-dot" *ngIf="IsIncomeFriendRequest(result._id)"></div>
+                <div title="בקשת חברות ממתינה" class="friend-request-alert-dot" *ngIf="IsIncomeFriendRequest(result._id)"></div>
               </div>
             </div>
             <!-- See more results btn -->

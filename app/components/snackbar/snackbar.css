@@ -21,7 +21,7 @@
 }
 
 /* Css design for small screens. */
-@media (max-width: 800px) {
+@media (max-width: 750px) {
     #snackbar .container {
         left: unset;
         right: 0;

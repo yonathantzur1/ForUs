@@ -14,6 +14,7 @@ export class GlobalService extends LoginService {
     public data: BehaviorSubject<boolean> = new BehaviorSubject<any>({});
     public socket: any;
     public socketOnDictionary: any = {};
+    public userId: string;
     public userProfileImage: string;
     public userPermissions: Array<string> = [];    
     public defaultProfileImage: string = EmptyProfile;
@@ -25,7 +26,7 @@ export class GlobalService extends LoginService {
             super.UpdateLastLogin();
 
             var self = this;
-            super.GetUserPermissions().then(function (result) {
+            super.GetUserPermissions().then((result) => {
                 result && (self.userPermissions = result);
             });
         }

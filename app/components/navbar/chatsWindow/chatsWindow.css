@@ -1,5 +1,5 @@
 /* Css design for small screens. */
-@media (max-width: 800px) {
+@media (max-width: 750px) {
     #chatsWindow .chat-last-text {
         font-size: 14px !important;
     }

@@ -6,9 +6,20 @@
                 משתמשים
             </span>
         </div>
-        <div class="user-tab" (click)="UserClick(user._id)" *ngFor="let user of users">
-            <img class="user-image" [src]="user.profileImage || globalService.defaultProfileImage">
-            <span class="user-name">{{user.fullName}}</span>
+        <div class="user-tab" *ngFor="let user of users">
+            <div class="user-details-container" (click)="UserClick(user._id)" [ngClass]="{'short-user-name' : isFriendRequestAction(user)}">
+                <img class="user-image" [src]="user.profileImage || globalService.defaultProfileImage">
+                <span class="user-name" [title]="user.fullName">
+                    {{user.fullName}}
+                </span>
+            </div>
+            <div *ngIf="isFriendRequestAction(user)" class="friend-request-action-sector">
+                <i *ngIf="!user.isFriend && !user.isGetFriendRequest && !user.isSendFriendRequest" (click)="AddFriendRequest(user)"
+                    class="fas fa-user-plus action-btn" title="בקשת חברות"></i>
+                <i *ngIf="user.isGetFriendRequest" (click)="RemoveFriendRequest(user)" class="fas fa-user-times action-btn"
+                    title="ביטול בקשת חברות"></i>
+                <div class="friend-request-alert-dot" title="בקשת חברות ממתינה" *ngIf="user.isSendFriendRequest"></div>
+            </div>
         </div>
     </div>
 </div>

@@ -43,11 +43,11 @@ var SearchPage = /** @class */ (function () {
                                 }
                                 // In case the result user sent a friend request to the current user.
                                 else if (friendsStatus.get.indexOf(userId) != -1) {
-                                    user.isGetFriendRequest = true;
+                                    user.isSendFriendRequest = true;
                                 }
                                 // In case the current user sent a friend request to the result user.
                                 else if (friendsStatus.send.indexOf(userId) != -1) {
-                                    user.isSendFriendRequest = true;
+                                    user.isGetFriendRequest = true;
                                 }
                             });
                             _this.users = users;
@@ -65,6 +65,22 @@ var SearchPage = /** @class */ (function () {
     };
     SearchPage.prototype.UserClick = function (userId) {
         this.router.navigateByUrl('/profile/' + userId);
+    };
+    SearchPage.prototype.isFriendRequestAction = function (user) {
+        if ((!user.isFriend && this.globalService.userId != user._id) ||
+            user.isGetFriendRequest ||
+            user.isSendFriendRequest) {
+            return true;
+        }
+        return false;
+    };
+    SearchPage.prototype.AddFriendRequest = function (user) {
+        this.globalService.setData("AddFriendRequest", user._id);
+        user.isGetFriendRequest = true;
+    };
+    SearchPage.prototype.RemoveFriendRequest = function (user) {
+        this.globalService.setData("RemoveFriendRequest", user._id);
+        user.isGetFriendRequest = false;
     };
     SearchPage = __decorate([
         core_1.Component({

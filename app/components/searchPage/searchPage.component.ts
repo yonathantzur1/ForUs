@@ -42,11 +42,11 @@ export class SearchPage implements OnInit {
                                 }
                                 // In case the result user sent a friend request to the current user.
                                 else if (friendsStatus.get.indexOf(userId) != -1) {
-                                    user.isGetFriendRequest = true;
+                                    user.isSendFriendRequest = true;
                                 }
                                 // In case the current user sent a friend request to the result user.
                                 else if (friendsStatus.send.indexOf(userId) != -1) {
-                                    user.isSendFriendRequest = true;
+                                    user.isGetFriendRequest = true;
                                 }
                             });
 
@@ -66,5 +66,25 @@ export class SearchPage implements OnInit {
 
     UserClick(userId: string) {
         this.router.navigateByUrl('/profile/' + userId);
+    }
+
+    isFriendRequestAction(user: any) {        
+        if ((!user.isFriend && this.globalService.userId != user._id) ||
+            user.isGetFriendRequest ||
+            user.isSendFriendRequest) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    AddFriendRequest(user: any) {
+        this.globalService.setData("AddFriendRequest", user._id);
+        user.isGetFriendRequest = true;
+    }
+
+    RemoveFriendRequest(user: any) {
+        this.globalService.setData("RemoveFriendRequest", user._id);
+        user.isGetFriendRequest = false;
     }
 }
