@@ -38,9 +38,14 @@ module.exports = {
                     as: 'profileImage'
                 }
             };
-            var unwindObject = { $unwind: "$profileImage" };
+            var unwindObject = {
+                $unwind: {
+                    path: "$profileImage",
+                    preserveNullAndEmptyArrays: true
+                }
+            };
             var sort = { $sort: { "fullName": 1, "fullNameReversed": 1 } };
-            var usersFinalFieldsWithProfile = { $project: { "fullName": 1, "profileImage.image": 1 } };            
+            var usersFinalFieldsWithProfile = { $project: { "fullName": 1, "profileImage.image": 1 } };
 
             var joinAggregateArray = [
                 concatFields,
@@ -51,19 +56,14 @@ module.exports = {
                 usersFinalFieldsWithProfile
             ];
 
-            DAL.Aggregate(usersCollectionName, joinAggregateArray).then((usersWithProfile) => {
-                usersWithProfile.forEach(user => {
-                    user.profileImage = user.profileImage.image;
+            DAL.Aggregate(usersCollectionName, joinAggregateArray).then((users) => {
+                users && users.forEach(user => {
+                    if (user.profileImage) {
+                        user.profileImage = user.profileImage.image;
+                    }
                 });
 
-                usersFilter.$match.profile = null;
-                var usersFinalFieldsWithNoProfile = { $project: { "fullName": 1 } };
-
-                var aggregateArray = [concatFields, usersFilter, sort, usersFinalFieldsWithNoProfile];
-
-                DAL.Aggregate(usersCollectionName, aggregateArray).then((usersWithNoProfile) => {
-                    resolve(usersWithProfile.concat(usersWithNoProfile));
-                }).catch(reject);
+                resolve(users);
             }).catch(reject);
         });
     },

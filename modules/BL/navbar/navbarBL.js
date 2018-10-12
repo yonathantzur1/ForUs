@@ -24,22 +24,41 @@ var self = module.exports = {
                     as: 'profileImage'
                 }
             };
-            var unwindObject = { $unwind: "$profileImage" };
+            var unwindObject = {
+                $unwind: {
+                    path: "$profileImage",
+                    preserveNullAndEmptyArrays: true
+                }
+            };
+            var concatFields = {
+                $project: {
+                    "firstName": 1,
+                    "lastName": 1,
+                    "profileImage": 1,
+                    fullName: { $concat: ["$firstName", " ", "$lastName"] },
+                    fullNameReversed: { $concat: ["$lastName", " ", "$firstName"] }
+                }
+            }
+            var sort = { $sort: { "fullName": 1, "fullNameReversed": 1 } };
             var friendsFileds = { $project: { "firstName": 1, "lastName": 1, "profileImage.image": 1 } };
 
-            var aggregateArray = [friendsFilter, joinFilter, unwindObject, friendsFileds];
+            var aggregateArray = [
+                friendsFilter,
+                joinFilter,
+                unwindObject,
+                concatFields,
+                sort,
+                friendsFileds
+            ];
 
-            DAL.Aggregate(usersCollectionName, aggregateArray).then((friendsWithProfile) => {
-                friendsWithProfile.forEach(friend => {
-                    friend.profileImage = friend.profileImage.image;
+            DAL.Aggregate(usersCollectionName, aggregateArray).then((friends) => {
+                friends && friends.forEach(friend => {
+                    if (friend.profileImage) {
+                        friend.profileImage = friend.profileImage.image;
+                    }
                 });
 
-                var friendsFilterWithNoProfile = { "_id": { $in: friendsObjectIds }, profile: { $eq: null } };
-                var friendsFiledsWithNoProfile = { "firstName": true, "lastName": true };
-
-                DAL.FindSpecific(usersCollectionName, friendsFilterWithNoProfile, friendsFiledsWithNoProfile).then((friendsWithNoProfile) => {
-                    resolve(friendsWithProfile.concat(friendsWithNoProfile));
-                }).catch(reject);
+                resolve(friends);
             }).catch(reject);
         });
     },
