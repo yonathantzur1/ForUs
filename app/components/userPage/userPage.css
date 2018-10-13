@@ -192,6 +192,7 @@
         display: block;
         text-align: center;
         height: 110px;
+        z-index: 1;
     }
 
     #userPage .body-container {        
