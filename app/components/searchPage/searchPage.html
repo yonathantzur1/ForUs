@@ -6,6 +6,9 @@
                 משתמשים
             </span>
         </div>
+        <div *ngIf="!users" class="users-loading-container">
+            <loaderDots></loaderDots>
+        </div>
         <div class="user-tab" *ngFor="let user of users">
             <div class="user-details-container" (click)="UserClick(user._id)" [ngClass]="{'short-user-name' : isFriendRequestAction(user)}">
                 <img class="user-image" [src]="user.profileImage || globalService.defaultProfileImage">

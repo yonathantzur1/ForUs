@@ -362,8 +362,14 @@ export class UserPageComponent implements OnInit, OnDestroy {
     }
 
     OpenProfileEditWindow() {
-        if (this.IsUserPageSelf()) {
+        this.CloseAllTabsOptionsMenus();
+        
+        if (this.IsUserPageSelf()) {            
             this.globalService.setData("openProfileEditWindow", true);
         }
+    }
+
+    CloseTabOptions() {
+        this.CloseAllTabsOptionsMenus();
     }
 }

@@ -1,5 +1,6 @@
 <div id="userPage">
     <div *ngIf="user" class="page-container">
+        <div class="overlay" (click)="CloseTabOptions()"></div>
         <div class="head-container">
             <span (click)="OpenProfileEditWindow()" class="user-image-container">
                 <i *ngIf="IsUserPageSelf()" class="fas fa-camera change-image-icon"></i>

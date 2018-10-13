@@ -331,9 +331,13 @@ var UserPageComponent = /** @class */ (function () {
         return (this.user && this.user.uid == getCookie(this.globalService.uidCookieName));
     };
     UserPageComponent.prototype.OpenProfileEditWindow = function () {
+        this.CloseAllTabsOptionsMenus();
         if (this.IsUserPageSelf()) {
             this.globalService.setData("openProfileEditWindow", true);
         }
+    };
+    UserPageComponent.prototype.CloseTabOptions = function () {
+        this.CloseAllTabsOptionsMenus();
     };
     UserPageComponent = __decorate([
         core_1.Component({

@@ -24,7 +24,6 @@ var SearchPage = /** @class */ (function () {
         this.route = route;
         this.globalService = globalService;
         this.searchPageService = searchPageService;
-        this.users = [];
     }
     SearchPage.prototype.ngOnInit = function () {
         var _this = this;
