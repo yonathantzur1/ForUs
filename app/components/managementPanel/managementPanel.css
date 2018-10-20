@@ -7,7 +7,7 @@
     width: 100%;
     max-width: 700px;
     margin: auto;
-    height: 310px;
+    height: 305px;
 }
 
 #managementPanel td {
@@ -38,4 +38,15 @@
 
 #managementPanel .btn-icon {
     margin-top: 5px;
+}
+
+/* Css design for small screens. */
+@media (max-height: 360px) {
+    #managementPanel .panel-table {
+        height: 250px;
+    }
+
+    #managementPanel .panel-btn {
+        height: 110px;
+    }
 }

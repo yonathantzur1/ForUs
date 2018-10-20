@@ -25,6 +25,7 @@ import { FriendRequestsWindowComponent } from '../components/navbar/friendReques
 import { ManagementPanelComponent } from '../components/managementPanel/managementPanel.component';
 import { ManagementComponent } from '../components/managementPanel/management/management.component';
 import { StatisticsComponent } from '../components/managementPanel/statistics/statistics.component';
+import { UsersReportsComponent } from '../components/managementPanel/usersReports/usersReports';
 import { PermissionsCardComponent } from '../components/managementPanel/management/permissionsCard/permissionsCard.component';
 import { UserPageComponent } from '../components/userPage/userPage.component';
 import { UserEditWindowComponent } from '../components/userPage/userEditWindow/userEditWindow.component';
@@ -76,6 +77,7 @@ import { Routing } from '../routes/app.routing'
     ManagementPanelComponent,
     ManagementComponent,
     StatisticsComponent,
+    UsersReportsComponent,
     PermissionsCardComponent,
     UserPageComponent,
     UserEditWindowComponent,

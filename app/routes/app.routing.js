@@ -7,6 +7,7 @@ var home_component_1 = require("../components/home/home.component");
 var managementPanel_component_1 = require("../components/managementPanel/managementPanel.component");
 var management_component_1 = require("../components/managementPanel/management/management.component");
 var statistics_component_1 = require("../components/managementPanel/statistics/statistics.component");
+var usersReports_1 = require("../components/managementPanel/usersReports/usersReports");
 var userPage_component_1 = require("../components/userPage/userPage.component");
 var searchPage_component_1 = require("../components/searchPage/searchPage.component");
 var pageNotFound_component_1 = require("../components/pageNotFound/pageNotFound.component");
@@ -21,6 +22,7 @@ var routes = [
             { path: 'panel', component: managementPanel_component_1.ManagementPanelComponent, canActivate: [rootAuth_guard_1.RootAuthGuard] },
             { path: 'management', component: management_component_1.ManagementComponent, canActivate: [rootAuth_guard_1.RootAuthGuard] },
             { path: 'statistics', component: statistics_component_1.StatisticsComponent, canActivate: [rootAuth_guard_1.RootAuthGuard] },
+            { path: 'reports', component: usersReports_1.UsersReportsComponent, canActivate: [rootAuth_guard_1.RootAuthGuard] },
             { path: 'page-not-found', component: pageNotFound_component_1.PageNotFoundComponent },
             { path: 'profile/:id', component: userPage_component_1.UserPageComponent },
             { path: 'search/:name', component: searchPage_component_1.SearchPage }

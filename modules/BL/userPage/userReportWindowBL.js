@@ -25,8 +25,9 @@ module.exports = {
                     "reportedUserId": DAL.GetObjectId(reportedUserId),
                     "reasonId": DAL.GetObjectId(data.reasonId),
                     "details": data.reasonDetails,
-                    "isOpened": false,
-                    "date": new Date()
+                    "handledManagerId": null,
+                    "openDate": new Date(),
+                    "closeDate": null
                 }
 
                 DAL.Insert(UsersReportsCollectionName, reportObj).then(result => {

@@ -7,6 +7,7 @@ import { HomeComponent } from '../components/home/home.component';
 import { ManagementPanelComponent } from '../components/managementPanel/managementPanel.component';
 import { ManagementComponent } from '../components/managementPanel/management/management.component';
 import { StatisticsComponent } from '../components/managementPanel/statistics/statistics.component';
+import { UsersReportsComponent } from '../components/managementPanel/usersReports/usersReports';
 import { UserPageComponent } from '../components/userPage/userPage.component';
 import { SearchPage } from '../components/searchPage/searchPage.component';
 import { PageNotFoundComponent } from '../components/pageNotFound/pageNotFound.component';
@@ -23,6 +24,7 @@ const routes: Routes = [
       { path: 'panel', component: ManagementPanelComponent, canActivate: [RootAuthGuard] },
       { path: 'management', component: ManagementComponent, canActivate: [RootAuthGuard] },
       { path: 'statistics', component: StatisticsComponent, canActivate: [RootAuthGuard] },
+      { path: 'reports', component: UsersReportsComponent, canActivate: [RootAuthGuard] },
       { path: 'page-not-found', component: PageNotFoundComponent },
       { path: 'profile/:id', component: UserPageComponent },
       { path: 'search/:name', component: SearchPage }

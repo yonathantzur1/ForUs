@@ -31,6 +31,7 @@ var friendRequestsWindow_component_1 = require("../components/navbar/friendReque
 var managementPanel_component_1 = require("../components/managementPanel/managementPanel.component");
 var management_component_1 = require("../components/managementPanel/management/management.component");
 var statistics_component_1 = require("../components/managementPanel/statistics/statistics.component");
+var usersReports_1 = require("../components/managementPanel/usersReports/usersReports");
 var permissionsCard_component_1 = require("../components/managementPanel/management/permissionsCard/permissionsCard.component");
 var userPage_component_1 = require("../components/userPage/userPage.component");
 var userEditWindow_component_1 = require("../components/userPage/userEditWindow/userEditWindow.component");
@@ -81,6 +82,7 @@ var AppModule = /** @class */ (function () {
                 managementPanel_component_1.ManagementPanelComponent,
                 management_component_1.ManagementComponent,
                 statistics_component_1.StatisticsComponent,
+                usersReports_1.UsersReportsComponent,
                 permissionsCard_component_1.PermissionsCardComponent,
                 userPage_component_1.UserPageComponent,
                 userEditWindow_component_1.UserEditWindowComponent,
