@@ -21,6 +21,16 @@ var UsersReportsService = /** @class */ (function (_super) {
         _this.prefix = "/api/usersReports";
         return _this;
     }
+    UsersReportsService.prototype.GetAllReports = function () {
+        return _super.prototype.get.call(this, this.prefix + '/getAllReports')
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     return UsersReportsService;
 }(basic_service_1.BasicService));
 exports.UsersReportsService = UsersReportsService;

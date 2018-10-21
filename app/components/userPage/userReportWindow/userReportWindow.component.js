@@ -110,7 +110,7 @@ var UserReportWindow = /** @class */ (function () {
                 if (result) {
                     _this.CloseWindow();
                     var successMsg = "הדיווח שהזנת נשמר בהצלחה, ויבדק על ידי צוות האתר." + "\n" +
-                        "תודה שעזרת לנו לשמור על סביבה בטוחה יותר!";
+                        "תודה שעזרת לשמור על סביבה בטוחה יותר!";
                     _this.alertService.Alert({
                         title: "דיווח משתמש",
                         text: successMsg,

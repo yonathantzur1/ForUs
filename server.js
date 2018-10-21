@@ -82,6 +82,7 @@ require('./modules/routes/navbar/chatsWindow')(app);
 require('./modules/routes/navbar/friendRequestsWindow')(app);
 require('./modules/routes/managementPanel/management')(app);
 require('./modules/routes/managementPanel/statistics')(app);
+require('./modules/routes/managementPanel/usersReports')(app);
 require('./modules/routes/managementPanel/permissions')(app);
 require('./modules/routes/userPage/userPage')(app);
 require('./modules/routes/userPage/userEditWindow')(app);

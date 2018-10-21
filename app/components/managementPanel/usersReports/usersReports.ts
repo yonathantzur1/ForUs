@@ -12,6 +12,8 @@ export class UsersReportsComponent implements OnInit {
     constructor(private usersReportsService: UsersReportsService) { }
 
     ngOnInit() {
-
+        this.usersReportsService.GetAllReports().then(result => {
+            var x = result;
+        });
     }
 }

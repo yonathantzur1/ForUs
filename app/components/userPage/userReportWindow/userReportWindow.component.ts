@@ -121,7 +121,7 @@ export class UserReportWindow implements OnInit {
                 if (result) {
                     this.CloseWindow();
                     var successMsg = "הדיווח שהזנת נשמר בהצלחה, ויבדק על ידי צוות האתר." + "\n" +
-                        "תודה שעזרת לנו לשמור על סביבה בטוחה יותר!";
+                        "תודה שעזרת לשמור על סביבה בטוחה יותר!";
                     this.alertService.Alert({
                         title: "דיווח משתמש",
                         text: successMsg,

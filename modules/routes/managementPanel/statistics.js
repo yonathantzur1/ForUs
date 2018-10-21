@@ -4,7 +4,7 @@ const permissionHandler = require('../../handlers/permissionHandler');
 var prefix = "/api/statistics";
 
 module.exports = function (app) {
-    // Root permissions check for all management routes
+    // Root permissions check for all statistics routes
     app.use(prefix, function (req, res, next) {
         if (permissionHandler.IsUserHasRootPermission(req.user.permissions)) {
             next();
