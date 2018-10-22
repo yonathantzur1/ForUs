@@ -1,7 +1,18 @@
 <div id="usersReports">
+    <div class="reports-title">
+        <span>דיווחים</span>
+        <i class="fas fa-flag-checkered title-icon"></i>
+    </div>
     <div class="reports-container">
-        <div class="report-card">
-            
+        <div class="report-card" *ngFor="let report of reports">
+            <div class="report-group">
+                <span class="report-label">סיבה</span>:
+                <span class="report-field">{{report.reason}}</span>
+            </div>
+            <div class="report-group">
+                <span class="report-label">תיאור</span>:
+                <span class="report-field">{{report.details}}</span>
+            </div>
         </div>
     </div>
 </div>

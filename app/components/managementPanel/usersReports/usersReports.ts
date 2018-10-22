@@ -9,11 +9,13 @@ import { UsersReportsService } from '../../../services/managementPanel/usersRepo
 })
 
 export class UsersReportsComponent implements OnInit {
+    reports: Array<any>;
+
     constructor(private usersReportsService: UsersReportsService) { }
 
     ngOnInit() {
         this.usersReportsService.GetAllReports().then(result => {
-            var x = result;
+            this.reports = result;
         });
     }
 }

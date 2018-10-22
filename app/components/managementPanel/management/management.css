@@ -1,31 +1,3 @@
-/* Css design for small screens. */
-@media (max-width: 600px) {
-    #management .info-table {
-        font-size: 14px !important;
-    }
-
-    #management .email-address {
-        font-size: 12px !important;
-    }
-
-    #management .friends-number {
-        font-size: 12px !important;
-    }
-
-    #management .friends-info-sector {
-        margin-bottom: 12px !important;
-    }
-
-    #management .edit-input {
-        width: 80% !important;        
-        font-size: 12px !important;
-    }
-
-    #management .block-amount-input {
-        font-size: 12px !important;
-    }
-}
-
 #management ::-webkit-input-placeholder
 {
     color: #afafaf;
@@ -390,4 +362,32 @@
     border: 0.5px solid white;
     font-size: 14px;
     cursor: pointer;  
+}
+
+/* Css design for small screens. */
+@media (max-width: 600px) {
+    #management .info-table {
+        font-size: 14px;
+    }
+
+    #management .email-address {
+        font-size: 12px;
+    }
+
+    #management .friends-number {
+        font-size: 12px;
+    }
+
+    #management .friends-info-sector {
+        margin-bottom: 12px;
+    }
+
+    #management .edit-input {
+        width: 80%;        
+        font-size: 12px;
+    }
+
+    #management .block-amount-input {
+        font-size: 12px;
+    }
 }

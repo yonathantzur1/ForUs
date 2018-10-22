@@ -16,8 +16,9 @@ var UsersReportsComponent = /** @class */ (function () {
         this.usersReportsService = usersReportsService;
     }
     UsersReportsComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.usersReportsService.GetAllReports().then(function (result) {
-            var x = result;
+            _this.reports = result;
         });
     };
     UsersReportsComponent = __decorate([

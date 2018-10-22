@@ -37,7 +37,8 @@ module.exports = {
 
             var unwindReportingUser = {
                 $unwind: {
-                    path: "$reportingUser"
+                    path: "$reportingUser",
+                    preserveNullAndEmptyArrays: true
                 }
             };
 
@@ -53,11 +54,12 @@ module.exports = {
 
             var unwindReportedUser = {
                 $unwind: {
-                    path: "$reportedUser"
+                    path: "$reportedUser",
+                    preserveNullAndEmptyArrays: true
                 }
             };
 
-            var sort = { $sort: { "openDate": 1 } };            
+            var sort = { $sort: { "openDate": 1 } };
 
             var aggregateArray = [
                 joinReason,
@@ -65,31 +67,29 @@ module.exports = {
                 joinReportingUser,
                 unwindReportingUser,
                 joinReportedUser,
-                unwindReportedUser,                
+                unwindReportedUser,
                 sort
             ];
 
             DAL.Aggregate(usersReportsCollectionName, aggregateArray).then(reports => {
                 reports && reports.forEach(report => {
-                    delete report.reasonId; 
+                    delete report.reasonId;
                     report.reason = report.reason.name;
 
-                    // Prepare reporting user object to client.
-                    var reportingUser = {
-                        "_id":  report.reportingUser._id,
-                        "fullName": report.reportingUser.firstName + " " + report.reportingUser.lastName
-                    }
+                    var reportingUser = null;
+                    var reportedUser = null;
 
-                    delete report.reportingUserId;
-                    report.reportingUser = reportingUser;
+                    // Prepare reporting user object to client.
+                    report.reportingUser && (reportingUser = {
+                        "fullName": report.reportingUser.firstName + " " + report.reportingUser.lastName
+                    });
 
                     // Prepare reported user object to client.
-                    var reportedUser = {
-                        "_id":  report.reportedUser._id,
+                    report.reportedUser && (reportedUser = {
                         "fullName": report.reportedUser.firstName + " " + report.reportedUser.lastName
-                    }
-                    
-                    delete report.reportedUserId;
+                    });
+
+                    report.reportingUser = reportingUser;
                     report.reportedUser = reportedUser;
 
                 });
