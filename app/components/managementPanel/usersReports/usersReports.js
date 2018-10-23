@@ -11,15 +11,45 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var usersReports_service_1 = require("../../../services/managementPanel/usersReports/usersReports.service");
+var snackbar_service_1 = require("../../../services/snackbar/snackbar.service");
+var enums_1 = require("../../../enums/enums");
+var Report = /** @class */ (function () {
+    function Report() {
+    }
+    return Report;
+}());
 var UsersReportsComponent = /** @class */ (function () {
-    function UsersReportsComponent(usersReportsService) {
+    function UsersReportsComponent(usersReportsService, snackbarService) {
         this.usersReportsService = usersReportsService;
+        this.snackbarService = snackbarService;
+        this.userReportStatus = enums_1.USER_REPORT_STATUS;
     }
     UsersReportsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.usersReportsService.GetAllReports().then(function (result) {
-            _this.reports = result;
+        this.usersReportsService.GetAllReports().then(function (reports) {
+            if (!reports) {
+                _this.snackbarService.Snackbar("שגיאה בטעינת דיווחי משתמשים");
+            }
+            else {
+                reports.forEach(function (report) {
+                    _this.CalculateReportStatus(report);
+                });
+                _this.reports = reports;
+            }
         });
+    };
+    UsersReportsComponent.prototype.CalculateReportStatus = function (report) {
+        // In case the report was closed.
+        if (report.closeDate) {
+            report.status = enums_1.USER_REPORT_STATUS.CLOSE;
+        }
+        // In case the report was taken by manager.
+        else if (report.handledManagerId) {
+            report.status = enums_1.USER_REPORT_STATUS.IS_PROCESS;
+        }
+        else {
+            report.status = enums_1.USER_REPORT_STATUS.ACTIVE;
+        }
     };
     UsersReportsComponent = __decorate([
         core_1.Component({
@@ -27,7 +57,8 @@ var UsersReportsComponent = /** @class */ (function () {
             templateUrl: './usersReports.html',
             providers: [usersReports_service_1.UsersReportsService]
         }),
-        __metadata("design:paramtypes", [usersReports_service_1.UsersReportsService])
+        __metadata("design:paramtypes", [usersReports_service_1.UsersReportsService,
+            snackbar_service_1.SnackbarService])
     ], UsersReportsComponent);
     return UsersReportsComponent;
 }());

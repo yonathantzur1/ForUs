@@ -1,6 +1,8 @@
 #usersReports .reports-title {
     text-align: center;
     margin-bottom: 10px;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 #usersReports .title-icon {
@@ -25,6 +27,8 @@
     display: inline-block;
     margin: 5px;
     border-radius: 10px;
+    background-color: whitesmoke;
+    position: relative;
 }
 
 #usersReports .report-group {
@@ -33,6 +37,7 @@
 
 #usersReports .report-label {
     text-decoration: underline;
+    font-weight: bold;
 }
 
 #usersReports .report-field {
@@ -41,4 +46,31 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     display: inline-block;
+}
+
+#usersReports .users-details-container {
+    position: absolute;
+    bottom: 0;
+    line-height: 30px;
+}
+
+#usersReports .report-status {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;        
+    position: absolute;
+    top: 12px;
+    left: 12px;
+}
+
+#usersReports .report-status-green {
+    background-color: rgb(76, 175, 80);
+}
+
+#usersReports .report-status-yellow {
+    background-color: rgb(255, 193, 7);
+}
+
+#usersReports .report-status-red {
+    background: rgb(244, 67, 54);
 }

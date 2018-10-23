@@ -14,19 +14,15 @@ import { UserRegexp } from '../../regex/regexpEnums'
 declare var $: any;
 
 export class User {
-  email: string;
-  password: string;
-
-  constructor() { this.email = ""; this.password = ""; }
+  email: string = "";
+  password: string = "";
 }
 
 export class NewUser {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-
-  constructor() { this.firstName = ""; this.lastName = ""; this.email = ""; this.password = ""; }
+  firstName: string = "";
+  lastName: string = "";
+  email: string = "";
+  password: string = "";
 }
 
 enum FORGOT_BTN_TEXT {

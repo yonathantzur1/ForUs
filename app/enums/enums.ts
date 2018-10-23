@@ -19,3 +19,9 @@ export enum USER_UPDATE_INFO_ERROR {
     EMAIL_EXISTS = "-1",
     WRONG_PASSWORD = "-2"
 }
+
+export enum USER_REPORT_STATUS {
+    ACTIVE,
+    IS_PROCESS,
+    CLOSE
+}

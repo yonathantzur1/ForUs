@@ -1,6 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 
 import { UsersReportsService } from '../../../services/managementPanel/usersReports/usersReports.service';
+import { SnackbarService } from '../../../services/snackbar/snackbar.service';
+import { USER_REPORT_STATUS } from '../../../enums/enums';
+
+class Report {
+    _id: string;
+    reportingUserId: string;
+    reportedUserId: string;
+    reasonId: string;
+    details: string;
+    handledManagerId: string;
+    openDate: Date;
+    closeDate: Date;
+    status: USER_REPORT_STATUS;
+}
 
 @Component({
     selector: 'usersReports',
@@ -10,12 +24,37 @@ import { UsersReportsService } from '../../../services/managementPanel/usersRepo
 
 export class UsersReportsComponent implements OnInit {
     reports: Array<any>;
+    userReportStatus = USER_REPORT_STATUS;
 
-    constructor(private usersReportsService: UsersReportsService) { }
+    constructor(private usersReportsService: UsersReportsService,
+        private snackbarService: SnackbarService) { }
 
     ngOnInit() {
-        this.usersReportsService.GetAllReports().then(result => {
-            this.reports = result;
+        this.usersReportsService.GetAllReports().then((reports: Array<Report>) => {
+            if (!reports) {
+                this.snackbarService.Snackbar("שגיאה בטעינת דיווחי משתמשים");
+            }
+            else {
+                reports.forEach((report: Report) => {
+                    this.CalculateReportStatus(report);
+                });
+
+                this.reports = reports;
+            }
         });
+    }
+
+    CalculateReportStatus(report: Report) {
+        // In case the report was closed.
+        if (report.closeDate) {
+            report.status = USER_REPORT_STATUS.CLOSE;
+        }
+        // In case the report was taken by manager.
+        else if (report.handledManagerId) {
+            report.status = USER_REPORT_STATUS.IS_PROCESS;
+        }
+        else {
+            report.status = USER_REPORT_STATUS.ACTIVE;
+        }
     }
 }

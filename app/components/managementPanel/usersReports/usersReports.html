@@ -5,6 +5,11 @@
     </div>
     <div class="reports-container">
         <div class="report-card" *ngFor="let report of reports">
+            <div [ngSwitch]="report.status">
+                <div *ngSwitchCase="userReportStatus.ACTIVE" title="פעיל" class="report-status report-status-green"></div>
+                <div *ngSwitchCase="userReportStatus.IS_PROCESS" title="בטיפול" class="report-status report-status-yellow"></div>
+                <div *ngSwitchCase="userReportStatus.CLOSE" title="סגור" class="report-status report-status-red"></div>
+            </div>
             <div class="report-group">
                 <span class="report-label">סיבה</span>:
                 <span class="report-field">{{report.reason}}</span>
@@ -12,6 +17,12 @@
             <div class="report-group">
                 <span class="report-label">תיאור</span>:
                 <span class="report-field">{{report.details}}</span>
+            </div>
+            <div class="report-group users-details-container">
+                <div><span class="report-label">מדווח</span>: {{report.reportingUser ? report.reportingUser.fullName :
+                    "(משתמש מחוק)"}}</div>
+                <div><span class="report-label">על</span>: {{report.reportedUser ? report.reportedUser.fullName :
+                    "(משתמש מחוק)"}}</div>
             </div>
         </div>
     </div>
