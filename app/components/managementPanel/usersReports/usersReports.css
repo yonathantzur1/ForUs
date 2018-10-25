@@ -11,7 +11,7 @@
 
 #usersReports .reports-container {
     width: 100%;
-    max-width: 750px;    
+    max-width: 700px;    
     height: calc(100% - 44px);
     min-height: 400px;
     position: relative;
@@ -48,6 +48,10 @@
     display: inline-block;
 }
 
+#usersReports .report-top-field {
+    width: calc(100% - 25px) !important;
+}
+
 #usersReports .users-details-container {
     position: absolute;
     bottom: 0;
@@ -61,6 +65,12 @@
     position: absolute;
     top: 12px;
     left: 12px;
+}
+
+#usersReports .line {
+    display: block;
+    height: 1px;
+    background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 350, from(#000000), to(#fff));
 }
 
 #usersReports .report-status-green {

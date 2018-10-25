@@ -26,7 +26,10 @@ var UsersReportsComponent = /** @class */ (function () {
     }
     UsersReportsComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.isLoading = true;
         this.usersReportsService.GetAllReports().then(function (reports) {
+            _this.isLoading = false;
+            // In case of error.
             if (!reports) {
                 _this.snackbarService.Snackbar("שגיאה בטעינת דיווחי משתמשים");
             }
@@ -50,6 +53,17 @@ var UsersReportsComponent = /** @class */ (function () {
         else {
             report.status = enums_1.USER_REPORT_STATUS.ACTIVE;
         }
+    };
+    UsersReportsComponent.prototype.GetInfoDateString = function (date) {
+        var dateObj = new Date(date);
+        var dateString = (dateObj.getDate()) + "/" + (dateObj.getMonth() + 1) + "/" + dateObj.getFullYear();
+        var HH = dateObj.getHours().toString();
+        var mm = dateObj.getMinutes().toString();
+        if (mm.length == 1) {
+            mm = "0" + mm;
+        }
+        var timeString = (HH + ":" + mm);
+        return (timeString + " - " + dateString);
     };
     UsersReportsComponent = __decorate([
         core_1.Component({

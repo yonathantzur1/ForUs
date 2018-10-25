@@ -23,6 +23,7 @@ class Report {
 })
 
 export class UsersReportsComponent implements OnInit {
+    isLoading: boolean;
     reports: Array<any>;
     userReportStatus = USER_REPORT_STATUS;
 
@@ -30,7 +31,11 @@ export class UsersReportsComponent implements OnInit {
         private snackbarService: SnackbarService) { }
 
     ngOnInit() {
+        this.isLoading = true;
         this.usersReportsService.GetAllReports().then((reports: Array<Report>) => {
+            this.isLoading = false;
+
+            // In case of error.
             if (!reports) {
                 this.snackbarService.Snackbar("שגיאה בטעינת דיווחי משתמשים");
             }
@@ -56,5 +61,22 @@ export class UsersReportsComponent implements OnInit {
         else {
             report.status = USER_REPORT_STATUS.ACTIVE;
         }
+    }
+
+    GetInfoDateString(date: string) {
+        var dateObj = new Date(date);
+
+        var dateString = (dateObj.getDate()) + "/" + (dateObj.getMonth() + 1) + "/" + dateObj.getFullYear();
+
+        var HH = dateObj.getHours().toString();
+        var mm = dateObj.getMinutes().toString();
+
+        if (mm.length == 1) {
+            mm = "0" + mm;
+        }
+
+        var timeString = (HH + ":" + mm);
+
+        return (timeString + " - " + dateString);
     }
 }

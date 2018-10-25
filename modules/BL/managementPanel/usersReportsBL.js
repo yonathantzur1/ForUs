@@ -59,7 +59,7 @@ module.exports = {
                 }
             };
 
-            var sort = { $sort: { "openDate": 1 } };
+            var sort = { $sort: { "openDate": -1 } };
 
             var aggregateArray = [
                 joinReason,
