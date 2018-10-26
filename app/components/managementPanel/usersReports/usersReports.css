@@ -70,7 +70,7 @@
 #usersReports .line {
     display: block;
     height: 1px;
-    background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 350, from(#000000), to(#fff));
+    background-image: linear-gradient(to right, #828282, black, #828282);
 }
 
 #usersReports .report-status-green {

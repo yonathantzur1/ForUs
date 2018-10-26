@@ -8,7 +8,7 @@
             <loaderSpinner *ngIf="isChatsLoading || isLoading" id="chats-loader" class="chats-loader"></loaderSpinner>
             <div *ngIf="!isChatsLoading && !isLoading">
                 <div class="chat-container" *ngFor="let chat of SortByDate(chats)" (click)="OpenChat(chat.friend)">
-                    <span *ngIf="messagesNotifications[chat.friend._id]" class="notificaiton-sign"></span>
+                    <span *ngIf="messagesNotifications[chat.friend._id]" class="notification-sign"></span>
                     <img class="chat-image" [src]="GetFriendProfile(chat.friend) || globalService.defaultProfileImage">
                     <div class="details-container">
                         <div class="chat-name">{{GetFriendName(chat.friend) || "משתמש לא קיים"}}</div>
