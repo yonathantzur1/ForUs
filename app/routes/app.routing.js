@@ -21,6 +21,7 @@ var routes = [
         children: [
             { path: 'panel', component: managementPanel_component_1.ManagementPanelComponent, canActivate: [rootAuth_guard_1.RootAuthGuard] },
             { path: 'management', component: management_component_1.ManagementComponent, canActivate: [rootAuth_guard_1.RootAuthGuard] },
+            { path: 'management/:id', component: management_component_1.ManagementComponent, canActivate: [rootAuth_guard_1.RootAuthGuard] },
             { path: 'statistics', component: statistics_component_1.StatisticsComponent, canActivate: [rootAuth_guard_1.RootAuthGuard] },
             { path: 'reports', component: usersReports_1.UsersReportsComponent, canActivate: [rootAuth_guard_1.RootAuthGuard] },
             { path: 'page-not-found', component: pageNotFound_component_1.PageNotFoundComponent },

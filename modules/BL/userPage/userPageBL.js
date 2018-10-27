@@ -2,6 +2,8 @@ const DAL = require('../../DAL');
 const config = require('../../../config');
 
 const managementBL = require('../../BL/managementPanel/managementBL');
+const permissionsBL = require('../../BL/managementPanel/permissionsBL');
+const permissionHandler = require('../../handlers/permissionHandler');
 
 const usersCollectionName = config.db.collections.users;
 const profilesCollectionName = config.db.collections.profiles;
@@ -9,6 +11,7 @@ const profilesCollectionName = config.db.collections.profiles;
 var self = module.exports = {
     GetUserDetails(userId, currUserId) {
         return new Promise((resolve, reject) => {
+            var isUserSelfPage = (userId == currUserId);
             var userObjectId = DAL.GetObjectId(userId);
             var userFilter = { $match: { "_id": userObjectId } };
             var joinFilter = {
@@ -37,8 +40,8 @@ var self = module.exports = {
                 }
             };
 
-            // In case the user is in own page.
-            (userId == currUserId) && self.AddUserPersonalInfoToQueryObject(userFileds["$project"]);
+            // In case the user is in his self page.
+            isUserSelfPage && self.AddUserPersonalInfoToQueryObject(userFileds["$project"]);
 
             var aggregateArray = [userFilter, joinFilter, unwindObject, userFileds];
 
@@ -52,9 +55,22 @@ var self = module.exports = {
                     if (user.profileImage) {
                         user.profileImage = user.profileImage.image;
                     }
-                    
-                    self.SetUserData(user, currUserId);
-                    resolve(user);
+
+                    self.SetUsersRelation(user, currUserId);
+
+                    // In case the user is not on his self page.
+                    if (!isUserSelfPage) {
+                        permissionsBL.GetUserPermissions(currUserId).then(userPermissions => {
+                            if (permissionHandler.IsUserHasRootPermission(userPermissions)) {
+                                user.isManagerView = true;
+                            }
+
+                            resolve(user);
+                        }).catch(reject);
+                    }
+                    else {
+                        resolve(user);
+                    }
                 }
                 // In case the user doesn't exist. 
                 else {
@@ -69,7 +85,7 @@ var self = module.exports = {
         obj["email"] = 1;
     },
 
-    SetUserData(user, currUserId) {
+    SetUsersRelation(user, currUserId) {
         // Boolean value that indicates if the current user is friend of the user.
         user.isFriend = (user.friends.indexOf(currUserId) != -1);
 

@@ -10,14 +10,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 var navbar_component_1 = require("../../navbar/navbar.component");
 var management_service_1 = require("../../../services/managementPanel/management/management.service");
 var global_service_1 = require("../../../services/global/global.service");
 var alert_service_1 = require("../../../services/alert/alert.service");
 var snackbar_service_1 = require("../../../services/snackbar/snackbar.service");
 var ManagementComponent = /** @class */ (function () {
-    function ManagementComponent(globalService, managementService, alertService, snackbarService) {
+    function ManagementComponent(router, route, globalService, managementService, alertService, snackbarService) {
         var _this = this;
+        this.router = router;
+        this.route = route;
         this.globalService = globalService;
         this.managementService = managementService;
         this.alertService = alertService;
@@ -90,15 +93,24 @@ var ManagementComponent = /** @class */ (function () {
             })
         ];
     }
+    ManagementComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        // In case of route params changed.
+        this.route.params.subscribe(function (params) {
+            if (params["id"]) {
+                _this.SearchUser(params["id"]);
+            }
+        });
+    };
     ManagementComponent.prototype.ngOnDestroy = function () {
         this.subscribeObj.unsubscribe();
         document.body.removeEventListener("click", this.clickFunction);
     };
-    ManagementComponent.prototype.SearchUser = function () {
+    ManagementComponent.prototype.SearchUser = function (userId) {
         var _this = this;
-        if (this.searchInput && (this.searchInput = this.searchInput.trim())) {
+        if (userId || (this.searchInput && (this.searchInput = this.searchInput.trim()))) {
             this.isLoadingUsers = true;
-            this.managementService.GetUserByName(this.searchInput).then(function (results) {
+            this.managementService.GetUserByName(userId || this.searchInput).then(function (results) {
                 _this.isLoadingUsers = false;
                 if (results && results.length > 0) {
                     _this.isShowNotFoundUsersMessage = false;
@@ -437,7 +449,9 @@ var ManagementComponent = /** @class */ (function () {
             templateUrl: './management.html',
             providers: [management_service_1.ManagementService]
         }),
-        __metadata("design:paramtypes", [global_service_1.GlobalService,
+        __metadata("design:paramtypes", [router_1.Router,
+            router_1.ActivatedRoute,
+            global_service_1.GlobalService,
             management_service_1.ManagementService,
             alert_service_1.AlertService,
             snackbar_service_1.SnackbarService])

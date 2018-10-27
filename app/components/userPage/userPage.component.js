@@ -233,7 +233,19 @@ var UserPageComponent = /** @class */ (function () {
                         }
                     }
                 ]
-            }
+            },
+            {
+                id: "manage",
+                icon: "fas fa-cog",
+                innerIconText: "",
+                title: "ניהול משתמש",
+                isShow: function () {
+                    return self.user.isManagerView;
+                },
+                onClick: function () {
+                    self.router.navigateByUrl("/management/" + self.user._id);
+                }
+            },
         ];
     }
     UserPageComponent.prototype.ngOnInit = function () {

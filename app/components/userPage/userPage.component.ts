@@ -245,7 +245,19 @@ export class UserPageComponent implements OnInit, OnDestroy {
                         }
                     }
                 ]
-            }
+            },
+            {
+                id: "manage",
+                icon: "fas fa-cog",
+                innerIconText: "",
+                title: "ניהול משתמש",
+                isShow: function () {
+                    return self.user.isManagerView;
+                },
+                onClick: function () {
+                    self.router.navigateByUrl("/management/" + self.user._id);
+                }
+            },
         ]
     }
 
@@ -363,8 +375,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
     OpenProfileEditWindow() {
         this.CloseAllTabsOptionsMenus();
-        
-        if (this.IsUserPageSelf()) {            
+
+        if (this.IsUserPageSelf()) {
             this.globalService.setData("openProfileEditWindow", true);
         }
     }

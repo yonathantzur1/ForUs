@@ -23,6 +23,7 @@ const routes: Routes = [
     children: [
       { path: 'panel', component: ManagementPanelComponent, canActivate: [RootAuthGuard] },
       { path: 'management', component: ManagementComponent, canActivate: [RootAuthGuard] },
+      { path: 'management/:id', component: ManagementComponent, canActivate: [RootAuthGuard] },
       { path: 'statistics', component: StatisticsComponent, canActivate: [RootAuthGuard] },
       { path: 'reports', component: UsersReportsComponent, canActivate: [RootAuthGuard] },
       { path: 'page-not-found', component: PageNotFoundComponent },

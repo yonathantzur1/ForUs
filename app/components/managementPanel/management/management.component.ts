@@ -1,4 +1,5 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { DropMenuData } from '../../navbar/navbar.component';
 import { ManagementService } from '../../../services/managementPanel/management/management.service';
@@ -14,7 +15,7 @@ declare var $: any;
     providers: [ManagementService]
 })
 
-export class ManagementComponent implements OnDestroy {
+export class ManagementComponent implements OnInit, OnDestroy {
     isLoadingUsers: boolean;
     isPreventFirstOpenCardAnimation: boolean;
     searchInput: string;
@@ -32,7 +33,9 @@ export class ManagementComponent implements OnDestroy {
 
     subscribeObj: any;
 
-    constructor(private globalService: GlobalService,
+    constructor(private router: Router,
+        private route: ActivatedRoute,
+        private globalService: GlobalService,
         private managementService: ManagementService,
         private alertService: AlertService,
         private snackbarService: SnackbarService) {
@@ -107,16 +110,25 @@ export class ManagementComponent implements OnDestroy {
         ];
     }
 
+    ngOnInit() {
+        // In case of route params changed.
+        this.route.params.subscribe(params => {
+            if (params["id"]) {
+                this.SearchUser(params["id"]);
+            }
+        });
+    }
+
     ngOnDestroy() {
         this.subscribeObj.unsubscribe();
         document.body.removeEventListener("click", this.clickFunction);
     }
 
-    SearchUser() {
-        if (this.searchInput && (this.searchInput = this.searchInput.trim())) {
+    SearchUser(userId?: string) {
+        if (userId || (this.searchInput && (this.searchInput = this.searchInput.trim()))) {
             this.isLoadingUsers = true;
 
-            this.managementService.GetUserByName(this.searchInput).then((results: Array<any>) => {
+            this.managementService.GetUserByName(userId || this.searchInput).then((results: Array<any>) => {
                 this.isLoadingUsers = false;
 
                 if (results && results.length > 0) {

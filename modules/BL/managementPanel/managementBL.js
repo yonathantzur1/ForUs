@@ -12,13 +12,20 @@ const permissionsCollectionName = config.db.collections.permissions;
 module.exports = {
     GetUserByName(searchInput) {
         return new Promise((resolve, reject) => {
-            searchInput = searchInput.replace(/\\/g, '');
+            try {
+                searchInput = DAL.GetObjectId(searchInput);
+            }
+            catch (e) {
+                searchInput = searchInput.replace(/\\/g, '');
+            }
 
             var usersFilter = {
                 $match: {
                     $or: [
+                        { _id: searchInput },
                         { fullName: new RegExp("^" + searchInput, 'g') },
-                        { fullNameReversed: new RegExp("^" + searchInput, 'g') }
+                        { fullNameReversed: new RegExp("^" + searchInput, 'g') },
+                        { email: new RegExp("^" + searchInput, 'g') }
                     ]
                 }
             };

@@ -126,7 +126,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
             if (value["openChat"]) {
                 this.OpenChat(value["openChat"]);
-            }            
+            }
 
             if (value["OpenUserProfile"]) {
                 this.OpenUserProfile(value["OpenUserProfile"]);
@@ -151,7 +151,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             }
 
             // ----------------------------------------------------------
-        });        
+        });
 
         var self = this;
 
