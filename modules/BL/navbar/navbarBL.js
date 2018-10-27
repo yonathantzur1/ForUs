@@ -65,7 +65,13 @@ var self = module.exports = {
 
     GetMainSearchResults(searchInput) {
         return new Promise((resolve, reject) => {
-            searchInput = searchInput.replace(/\\/g, '');
+            searchInput = searchInput.replace(/\\/g, '').trim();
+
+            // In case the input is empty, return empty result array.
+            if (!searchInput) {
+                resolve([]);
+                return;
+            }
 
             var usersFilter = {
                 $match: {
