@@ -16,7 +16,12 @@ module.exports = {
                 searchInput = DAL.GetObjectId(searchInput);
             }
             catch (e) {
-                searchInput = searchInput.replace(/\\/g, '');
+                searchInput = searchInput.replace(/\\/g, '').trim();
+
+                // In case the input is empty, return empty result array.
+                if (!searchInput) {
+                    resolve([]);
+                }
             }
 
             var usersFilter = {
@@ -82,6 +87,7 @@ module.exports = {
             ];
 
             DAL.Aggregate(usersCollectionName, aggregateArray).then((users) => {
+                // Second sort for results by the search input string.
                 users = users.sort((a, b) => {
                     var aIndex = a.fullName.indexOf(searchInput);
                     var bIndex = b.fullName.indexOf(searchInput);

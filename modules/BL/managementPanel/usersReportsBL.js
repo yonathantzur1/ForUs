@@ -81,11 +81,13 @@ module.exports = {
 
                     // Prepare reporting user object to client.
                     report.reportingUser && (reportingUser = {
+                        "_id": report.reportingUser._id,
                         "fullName": report.reportingUser.firstName + " " + report.reportingUser.lastName
                     });
 
                     // Prepare reported user object to client.
                     report.reportedUser && (reportedUser = {
+                        "_id": report.reportedUser._id,
                         "fullName": report.reportedUser.firstName + " " + report.reportedUser.lastName
                     });
 

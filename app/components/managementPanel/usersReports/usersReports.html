@@ -26,13 +26,12 @@
             </div>
             <div class="report-group users-details-container">
                 <span class="line"></span>
-                <span>{{report.reportingUser ? report.reportingUser.fullName :
-                    "(משתמש מחוק)"}}
+                <span (click)="MoveToUserPage(report.reportingUser)" [ngClass]="{'user-name-btn' : report.reportingUser}">
+                    {{report.reportingUser ? report.reportingUser.fullName : "(משתמש מחוק)"}}
                 </span>
-                <i class="fas fa-arrow-left"></i>
-                <span>
-                    {{report.reportedUser ? report.reportedUser.fullName :
-                    "(משתמש מחוק)"}}
+                <i class="fas fa-arrow-left names-arrow-icon"></i>
+                <span [ngClass]="{'user-name-btn' : report.reportedUser}" (click)="MoveToUserPage(report.reportedUser)">
+                    {{report.reportedUser ? report.reportedUser.fullName : "(משתמש מחוק)"}}
                 </span>
             </div>
         </div>

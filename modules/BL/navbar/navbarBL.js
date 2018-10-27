@@ -99,10 +99,8 @@ var self = module.exports = {
 
                 // Second sort for results by the search input string.
                 results = results.sort((a, b) => {
-                    var aIndex = Math.min(a.fullName.indexOf(searchInput),
-                        a.fullNameReversed.indexOf(searchInput));
-                    var bIndex = Math.min(b.fullName.indexOf(searchInput),
-                        b.fullNameReversed.indexOf(searchInput));
+                    var aIndex = a.fullName.indexOf(searchInput);
+                    var bIndex = b.fullName.indexOf(searchInput);
 
                     if (aIndex < bIndex) {
                         return -1;

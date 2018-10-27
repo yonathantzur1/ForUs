@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 var usersReports_service_1 = require("../../../services/managementPanel/usersReports/usersReports.service");
 var snackbar_service_1 = require("../../../services/snackbar/snackbar.service");
 var enums_1 = require("../../../enums/enums");
@@ -19,7 +20,8 @@ var Report = /** @class */ (function () {
     return Report;
 }());
 var UsersReportsComponent = /** @class */ (function () {
-    function UsersReportsComponent(usersReportsService, snackbarService) {
+    function UsersReportsComponent(router, usersReportsService, snackbarService) {
+        this.router = router;
         this.usersReportsService = usersReportsService;
         this.snackbarService = snackbarService;
         this.userReportStatus = enums_1.USER_REPORT_STATUS;
@@ -65,13 +67,19 @@ var UsersReportsComponent = /** @class */ (function () {
         var timeString = (HH + ":" + mm);
         return (timeString + " - " + dateString);
     };
+    UsersReportsComponent.prototype.MoveToUserPage = function (user) {
+        if (user) {
+            this.router.navigateByUrl("/profile/" + user._id);
+        }
+    };
     UsersReportsComponent = __decorate([
         core_1.Component({
             selector: 'usersReports',
             templateUrl: './usersReports.html',
             providers: [usersReports_service_1.UsersReportsService]
         }),
-        __metadata("design:paramtypes", [usersReports_service_1.UsersReportsService,
+        __metadata("design:paramtypes", [router_1.Router,
+            usersReports_service_1.UsersReportsService,
             snackbar_service_1.SnackbarService])
     ], UsersReportsComponent);
     return UsersReportsComponent;

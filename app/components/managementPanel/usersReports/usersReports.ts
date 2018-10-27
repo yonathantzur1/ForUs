@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { UsersReportsService } from '../../../services/managementPanel/usersReports/usersReports.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
@@ -27,7 +28,8 @@ export class UsersReportsComponent implements OnInit {
     reports: Array<any>;
     userReportStatus = USER_REPORT_STATUS;
 
-    constructor(private usersReportsService: UsersReportsService,
+    constructor(private router: Router,
+        private usersReportsService: UsersReportsService,
         private snackbarService: SnackbarService) { }
 
     ngOnInit() {
@@ -78,5 +80,11 @@ export class UsersReportsComponent implements OnInit {
         var timeString = (HH + ":" + mm);
 
         return (timeString + " - " + dateString);
+    }
+
+    MoveToUserPage(user: any) {
+        if (user) {
+            this.router.navigateByUrl("/profile/" + user._id);
+        }
     }
 }
