@@ -16,7 +16,7 @@ class ReportReason {
     providers: [UserReportWindowService]
 })
 
-export class UserReportWindow implements OnInit {
+export class UserReportWindowComponent implements OnInit {
     @Input() user: any;
     reportReasons: Array<ReportReason>;
     reportText: string = "";

@@ -36,6 +36,7 @@ var permissionsCard_component_1 = require("../components/managementPanel/managem
 var userPage_component_1 = require("../components/userPage/userPage.component");
 var userEditWindow_component_1 = require("../components/userPage/userEditWindow/userEditWindow.component");
 var userReportWindow_component_1 = require("../components/userPage/userReportWindow/userReportWindow.component");
+var userPasswordWindow_component_1 = require("../components/userPage/userPasswordWindow/userPasswordWindow.component");
 var searchPage_component_1 = require("../components/searchPage/searchPage.component");
 var pageNotFound_component_1 = require("../components/pageNotFound/pageNotFound.component");
 // Guards
@@ -86,7 +87,8 @@ var AppModule = /** @class */ (function () {
                 permissionsCard_component_1.PermissionsCardComponent,
                 userPage_component_1.UserPageComponent,
                 userEditWindow_component_1.UserEditWindowComponent,
-                userReportWindow_component_1.UserReportWindow,
+                userReportWindow_component_1.UserReportWindowComponent,
+                userPasswordWindow_component_1.UserPasswordWindowComponent,
                 searchPage_component_1.SearchPage,
                 // ---------Pipes---------
                 sort_pipe_1.SortObjects

@@ -18,8 +18,8 @@ var ReportReason = /** @class */ (function () {
     }
     return ReportReason;
 }());
-var UserReportWindow = /** @class */ (function () {
-    function UserReportWindow(userReportWindowService, alertService, globalService) {
+var UserReportWindowComponent = /** @class */ (function () {
+    function UserReportWindowComponent(userReportWindowService, alertService, globalService) {
         this.userReportWindowService = userReportWindowService;
         this.alertService = alertService;
         this.globalService = globalService;
@@ -28,7 +28,7 @@ var UserReportWindow = /** @class */ (function () {
         this.isShowTextReasonWindow = false;
         this.isShowEmptyFieldAlert = false;
     }
-    UserReportWindow.prototype.ngOnInit = function () {
+    UserReportWindowComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.isLoading = true;
         this.userReportWindowService.GetAllReportReasons().then(function (result) {
@@ -48,15 +48,15 @@ var UserReportWindow = /** @class */ (function () {
             }
         });
     };
-    UserReportWindow.prototype.CloseWindow = function () {
+    UserReportWindowComponent.prototype.CloseWindow = function () {
         this.globalService.setData("closeUserReportWindow", true);
     };
-    UserReportWindow.prototype.InitializeReasonButtons = function () {
+    UserReportWindowComponent.prototype.InitializeReasonButtons = function () {
         this.reportReasons.forEach(function (reason) {
             reason.isClicked = false;
         });
     };
-    UserReportWindow.prototype.ClickReasonButton = function (btn) {
+    UserReportWindowComponent.prototype.ClickReasonButton = function (btn) {
         // Disable selected btn in case it is already clicked.
         if (btn.isClicked) {
             btn.isClicked = false;
@@ -66,7 +66,7 @@ var UserReportWindow = /** @class */ (function () {
             btn.isClicked = true;
         }
     };
-    UserReportWindow.prototype.IsDisableReportBtn = function () {
+    UserReportWindowComponent.prototype.IsDisableReportBtn = function () {
         if (!this.reportReasons) {
             return true;
         }
@@ -79,18 +79,18 @@ var UserReportWindow = /** @class */ (function () {
             return true;
         }
     };
-    UserReportWindow.prototype.ShowTextReasonWindow = function () {
+    UserReportWindowComponent.prototype.ShowTextReasonWindow = function () {
         if (!this.IsDisableReportBtn()) {
             this.isShowTextReasonWindow = true;
         }
     };
-    UserReportWindow.prototype.BackToReasonsWindow = function () {
+    UserReportWindowComponent.prototype.BackToReasonsWindow = function () {
         this.isShowTextReasonWindow = false;
     };
-    UserReportWindow.prototype.HideEmptyFieldAlert = function () {
+    UserReportWindowComponent.prototype.HideEmptyFieldAlert = function () {
         this.isShowEmptyFieldAlert = false;
     };
-    UserReportWindow.prototype.GetSelectedReasonId = function () {
+    UserReportWindowComponent.prototype.GetSelectedReasonId = function () {
         for (var i = 0; i < this.reportReasons.length; i++) {
             if (this.reportReasons[i].isClicked) {
                 return this.reportReasons[i]._id;
@@ -98,7 +98,7 @@ var UserReportWindow = /** @class */ (function () {
         }
         return null;
     };
-    UserReportWindow.prototype.ReportUser = function () {
+    UserReportWindowComponent.prototype.ReportUser = function () {
         var _this = this;
         // In case the user did not fill the description text.
         if (this.reportText.trim().length == 0) {
@@ -132,8 +132,8 @@ var UserReportWindow = /** @class */ (function () {
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object)
-    ], UserReportWindow.prototype, "user", void 0);
-    UserReportWindow = __decorate([
+    ], UserReportWindowComponent.prototype, "user", void 0);
+    UserReportWindowComponent = __decorate([
         core_1.Component({
             selector: 'userReportWindow',
             templateUrl: './userReportWindow.html',
@@ -142,8 +142,8 @@ var UserReportWindow = /** @class */ (function () {
         __metadata("design:paramtypes", [userReportWindow_service_1.UserReportWindowService,
             alert_service_1.AlertService,
             global_service_1.GlobalService])
-    ], UserReportWindow);
-    return UserReportWindow;
+    ], UserReportWindowComponent);
+    return UserReportWindowComponent;
 }());
-exports.UserReportWindow = UserReportWindow;
+exports.UserReportWindowComponent = UserReportWindowComponent;
 //# sourceMappingURL=userReportWindow.component.js.map

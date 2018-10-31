@@ -13,6 +13,18 @@ var core_1 = require("@angular/core");
 var chat_service_1 = require("../../services/chat/chat.service");
 var global_service_1 = require("../../services/global/global.service");
 var snackbar_service_1 = require("../../services/snackbar/snackbar.service");
+var TopIcon = /** @class */ (function () {
+    function TopIcon() {
+    }
+    return TopIcon;
+}());
+exports.TopIcon = TopIcon;
+var CanvasTopIcon = /** @class */ (function () {
+    function CanvasTopIcon() {
+    }
+    return CanvasTopIcon;
+}());
+exports.CanvasTopIcon = CanvasTopIcon;
 var ChatComponent = /** @class */ (function () {
     function ChatComponent(chatService, snackbarService, globalService) {
         var _this = this;

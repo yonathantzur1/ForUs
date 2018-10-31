@@ -1,9 +1,23 @@
 import { Component, OnInit, OnDestroy, Input, AfterViewChecked } from '@angular/core';
 
-import { topIcon, canvasTopIcon } from '../../objects/classes';
 import { ChatService } from '../../services/chat/chat.service';
 import { GlobalService } from '../../services/global/global.service';
 import { SnackbarService } from '../../services/snackbar/snackbar.service';
+
+export class TopIcon {
+    id: string;
+    class: string;
+    innerIconText: string;
+    title: string;
+    isSelected: boolean;
+    onClick: Function;
+}
+
+export class CanvasTopIcon {
+    icon: string;
+    title: string;
+    onClick: Function;
+}
 
 declare var $: any;
 declare var window: any;
@@ -29,7 +43,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     isMessagesPageLoading: boolean;
     lastPageMessageId: string;
     chatBodyScrollHeight: number = 0;
-    topIcons: Array<topIcon>;
+    topIcons: Array<TopIcon>;
 
     // Unread messages line sector properties //
     isAllowShowUnreadLine: boolean;
@@ -56,7 +70,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     canvasSelectedColorIndex: number;
     isCanvasTopOpen: boolean;
 
-    canvasTopIcons: Array<canvasTopIcon>;
+    canvasTopIcons: Array<CanvasTopIcon>;
     undoArray: Array<string>;
 
     canvasEvents: any;
@@ -457,7 +471,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         return GetDateDetailsString(new Date(this.messages[index].time), new Date(), false);
     }
 
-    GetTopIconById(id: string): topIcon {
+    GetTopIconById(id: string): TopIcon {
         for (var i = 0; i < this.topIcons.length; i++) {
             if (this.topIcons[i].id == id) {
                 return this.topIcons[i];
@@ -468,7 +482,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     SelectTopIcon(iconObj: any) {
-        this.topIcons.forEach((obj: topIcon) => {
+        this.topIcons.forEach((obj: TopIcon) => {
             obj.isSelected = false;
         });
 

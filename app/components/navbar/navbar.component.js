@@ -16,6 +16,16 @@ var alert_service_1 = require("../../services/alert/alert.service");
 var snackbar_service_1 = require("../../services/snackbar/snackbar.service");
 var auth_service_1 = require("../../services/auth/auth.service");
 var navbar_service_1 = require("../../services/navbar/navbar.service");
+var Friend = /** @class */ (function () {
+    function Friend() {
+    }
+    return Friend;
+}());
+var ToolbarItem = /** @class */ (function () {
+    function ToolbarItem() {
+    }
+    return ToolbarItem;
+}());
 var DropMenuData = /** @class */ (function () {
     function DropMenuData(link, text, action, showFunction) {
         this.link = link;

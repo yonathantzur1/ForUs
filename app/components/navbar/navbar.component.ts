@@ -1,12 +1,32 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Friend, ToolbarItem } from '../../objects/classes';
 import { GlobalService } from '../../services/global/global.service';
 import { AlertService } from '../../services/alert/alert.service';
 import { SnackbarService } from '../../services/snackbar/snackbar.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { NavbarService } from '../../services/navbar/navbar.service';
+
+class Friend {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    profileImage: string;
+    isOnline: boolean;
+    isTyping: boolean;
+    typingTimer: any;
+}
+
+class ToolbarItem {
+    id: string;
+    icon: string;
+    innerIconText: string;
+    title: string;
+    content: Object;
+    getNotificationsNumber: Function;
+    isShowToolbarItemBadget: Function;
+    onClick: Function;
+}
 
 declare var $: any;
 

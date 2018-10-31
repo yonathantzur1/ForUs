@@ -7,6 +7,6 @@ var UserRegexp;
 })(UserRegexp = exports.UserRegexp || (exports.UserRegexp = {}));
 var PasswordRegexp;
 (function (PasswordRegexp) {
-    PasswordRegexp["hash"] = "^[a-z0-9]{128}$";
+    PasswordRegexp["hash"] = "^[a-z0-9]{128}$"; // For reset password by link hash.
 })(PasswordRegexp = exports.PasswordRegexp || (exports.PasswordRegexp = {}));
 //# sourceMappingURL=regexpEnums.js.map

@@ -4,5 +4,5 @@ export enum UserRegexp {
 }
 
 export enum PasswordRegexp {
-    hash = "^[a-z0-9]{128}$"
+    hash = "^[a-z0-9]{128}$" // For reset password by link hash.
 }
