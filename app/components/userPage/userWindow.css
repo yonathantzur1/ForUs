@@ -31,7 +31,6 @@
     font-size: 20px;
     text-align: center;
     padding: 10px;
-    -webkit-user-select: none;
     user-select: none;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -42,7 +41,6 @@
 #userWindow .icon {
     font-size: 24px;
     cursor: pointer;    
-    -webkit-user-select: none;
     user-select: none;
 }
 
@@ -65,7 +63,6 @@
     margin-bottom: 3px;
     line-height: 0;
     font-size: 14px;
-    -webkit-user-select: none;
     user-select: none;
 }
 

@@ -27,6 +27,8 @@ var UserPageComponent = /** @class */ (function () {
         this.isTouchDevice = globalVariables.isTouchDevice;
         this.isShowUserEditWindow = false;
         this.isShowUserReportWindow = false;
+        this.isShowUserPasswordWindow = false;
+        this.isOverlay = false;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
             // In case the user profile picture updated.
             if (value["newUploadedImage"]) {
@@ -42,6 +44,9 @@ var UserPageComponent = /** @class */ (function () {
             }
             if (value["closeUserReportWindow"]) {
                 _this.isShowUserReportWindow = false;
+            }
+            if (value["closeUserPasswordWindow"]) {
+                _this.isShowUserPasswordWindow = false;
             }
         });
         var self = this;
@@ -183,24 +188,25 @@ var UserPageComponent = /** @class */ (function () {
                     {
                         text: "שינוי סיסמא",
                         action: function () {
-                            self.userPageService.ChangePassword().then(function (result) {
-                                if (result) {
-                                    self.alertService.Alert({
-                                        title: "שינוי סיסמא",
-                                        text: "יש להיכנס לקישור שנשלח לכתובת האימייל שלך.",
-                                        type: alert_service_1.ALERT_TYPE.SUCCESS,
-                                        showCancelButton: false
-                                    });
-                                }
-                                else {
-                                    self.alertService.Alert({
-                                        title: "שינוי סיסמא",
-                                        text: "שגיאה בתהליך שינוי הסיסמא",
-                                        type: alert_service_1.ALERT_TYPE.WARNING,
-                                        showCancelButton: false
-                                    });
-                                }
-                            });
+                            self.isShowUserPasswordWindow = true;
+                            // self.userPageService.ChangePassword().then(result => {
+                            //     if (result) {
+                            //         self.alertService.Alert({
+                            //             title: "שינוי סיסמא",
+                            //             text: "יש להיכנס לקישור שנשלח לכתובת האימייל שלך.",
+                            //             type: ALERT_TYPE.SUCCESS,
+                            //             showCancelButton: false
+                            //         });
+                            //     }
+                            //     else {
+                            //         self.alertService.Alert({
+                            //             title: "שינוי סיסמא",
+                            //             text: "שגיאה בתהליך שינוי הסיסמא",
+                            //             type: ALERT_TYPE.WARNING,
+                            //             showCancelButton: false
+                            //         });
+                            //     }
+                            // });
                         }
                     },
                     {
@@ -248,6 +254,7 @@ var UserPageComponent = /** @class */ (function () {
             },
         ];
     }
+    ;
     UserPageComponent.prototype.ngOnInit = function () {
         var _this = this;
         // In case of route params changed.
@@ -300,8 +307,10 @@ var UserPageComponent = /** @class */ (function () {
         this.subscribeObj.unsubscribe();
     };
     UserPageComponent.prototype.ChangeTabOptionsMenuState = function (tab) {
+        this.CloseAllTabsOptionsMenus(tab.id);
         if (tab.options) {
             tab.isOptionsMenuOpen = !tab.isOptionsMenuOpen;
+            this.isOverlay = tab.isOptionsMenuOpen;
         }
     };
     // Close all tabs without the tab with the given id.
@@ -311,6 +320,7 @@ var UserPageComponent = /** @class */ (function () {
                 tab.isOptionsMenuOpen = false;
             }
         });
+        this.isOverlay = false;
     };
     UserPageComponent.prototype.InitializePage = function (user) {
         this.CloseAllTabsOptionsMenus();
@@ -348,8 +358,9 @@ var UserPageComponent = /** @class */ (function () {
             this.globalService.setData("openProfileEditWindow", true);
         }
     };
-    UserPageComponent.prototype.CloseTabOptions = function () {
-        this.CloseAllTabsOptionsMenus();
+    UserPageComponent.prototype.CloseTabOptions = function (tab) {
+        tab.isOptionsMenuOpen = false;
+        this.isOverlay = tab.isOptionsMenuOpen;
     };
     UserPageComponent = __decorate([
         core_1.Component({

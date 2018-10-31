@@ -20,7 +20,6 @@
     height: 100%;
     margin: auto;
     position: relative;
-    -webkit-user-select: none;
     user-select: none;    
 }
 

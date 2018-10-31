@@ -12,8 +12,7 @@
     height: 30px;
     border-radius: 5px;
     margin-right: 10px;
-    align-self: center;
-    -webkit-user-select: none;
+    align-self: center;    
     user-select: none;
 }
 
@@ -26,8 +25,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     max-width: 50%;
-    cursor: pointer;
-    -webkit-user-select: none;
+    cursor: pointer;    
     user-select: none;
 }
 
@@ -51,8 +49,7 @@
     align-self: center;
     font-size: 16px;
     color: #ebebeb;
-    cursor: pointer;
-    -webkit-user-select: none;
+    cursor: pointer;    
     user-select: none;
 }
 
@@ -72,15 +69,13 @@
     height: calc(100% - 30px);
     overflow-y: overlay;
     overflow-x: hidden;
-    border-bottom: 1px solid #cacaca;
-    -webkit-user-select: none;
+    border-bottom: 1px solid #cacaca;    
     user-select: none;
 }
 
 #chat .chat-write-sector {
     height: 30px;
-    background-color: rgba(56, 125, 145, 0.2);
-    -webkit-user-select: none;
+    background-color: rgba(56, 125, 145, 0.2);    
     user-select: none;    
 }
 
@@ -256,7 +251,6 @@
     color: #ebebeb;
     cursor: pointer;
     font-size: 18px;
-    -webkit-user-select: none;
     user-select: none;
 }
 
@@ -332,7 +326,6 @@
 #chat .canvas-body-sector {
     height: calc(100% - 40px);
     border-bottom: 1px solid #cacaca;
-    -webkit-user-select: none;
     user-select: none;
 }
 
@@ -343,7 +336,6 @@
 #chat .canvas-bar-sector {
     height: 40px;
     background-color: #f7f7f7;
-    -webkit-user-select: none;
     user-select: none;
     display: flex;
     position: relative;
@@ -444,7 +436,6 @@
     z-index: 1;
     background-color: #f7f7f7;
     transition: 0.3s;
-    -webkit-user-select: none;
     user-select: none;
 }
 

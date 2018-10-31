@@ -1,6 +1,6 @@
 <div id="userPage">
     <div *ngIf="user" class="page-container">
-        <div class="overlay" (click)="CloseTabOptions()"></div>
+        <div class="overlay" *ngIf="isOverlay" (click)="CloseAllTabsOptionsMenus()"></div>
         <div class="head-container">
             <span (click)="OpenProfileEditWindow()" class="user-image-container">
                 <i *ngIf="IsUserPageSelf()" class="fas fa-camera change-image-icon"></i>
@@ -14,18 +14,18 @@
             <!-- Tabs for user page -->
             <div class="tab-line">
                 <span class="tab-container" *ngFor="let tab of GetTabs()">
-                    <span [title]="tab.title" class="tab" (click)="CloseAllTabsOptionsMenus(tab.id);ChangeTabOptionsMenuState(tab);tab.onClick && tab.onClick()">
+                    <span [title]="tab.title" class="tab" (click)="ChangeTabOptionsMenuState(tab);tab.onClick && tab.onClick()">
                         <i class="tab-icon {{tab.icon}}">{{tab.innerIconText}}</i>
                     </span>
                     <div *ngIf="tab.isOptionsMenuOpen" class="options-drop-menu">
-                        <div class="option-container" *ngFor="let option of tab.options" (click)="tab.isOptionsMenuOpen=false;option.action && option.action();">
+                        <div class="option-container" *ngFor="let option of tab.options" (click)="CloseTabOptions(tab);option.action && option.action()">
                             <span>{{option.text}}</span>
                         </div>
                     </div>
                 </span>
                 <userEditWindow *ngIf="isShowUserEditWindow" [user]="user"></userEditWindow>
                 <userReportWindow *ngIf="isShowUserReportWindow" [user]="user"></userReportWindow>
-                <!-- <userPasswordWindow [userId]="user._id"></userPasswordWindow> -->
+                <userPasswordWindow *ngIf="isShowUserPasswordWindow" [userId]="user._id"></userPasswordWindow>
             </div>
         </div>
     </div>

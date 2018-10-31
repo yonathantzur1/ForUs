@@ -10,10 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var global_service_1 = require("../../../services/global/global.service");
 var UserPasswordWindowComponent = /** @class */ (function () {
-    function UserPasswordWindowComponent() {
+    function UserPasswordWindowComponent(globalService) {
+        this.globalService = globalService;
     }
     UserPasswordWindowComponent.prototype.CloseWindow = function () {
+        this.globalService.setData("closeUserPasswordWindow", true);
     };
     __decorate([
         core_1.Input(),
@@ -25,7 +28,7 @@ var UserPasswordWindowComponent = /** @class */ (function () {
             templateUrl: './userPasswordWindow.html',
             providers: []
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [global_service_1.GlobalService])
     ], UserPasswordWindowComponent);
     return UserPasswordWindowComponent;
 }());

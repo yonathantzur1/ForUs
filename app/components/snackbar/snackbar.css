@@ -9,7 +9,6 @@
     border-radius: 2px;
     display: flex;
     align-items: center;
-    -webkit-user-select: none;
     user-select: none;
     cursor: pointer;
     z-index: 9999;

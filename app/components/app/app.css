@@ -134,15 +134,13 @@ input {
     line-height: 42px;
     text-align: center;
     color: #7f6e99;
-    user-select: none;
-    -webkit-user-select: none;
+    user-select: none;    
     cursor: default;
 }
 
 .main-loading-image {
     width: 100px;
-    height: 100px;
-    -webkit-user-select: none;
+    height: 100px;    
     user-select: none;
 }
 

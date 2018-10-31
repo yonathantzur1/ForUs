@@ -39,7 +39,6 @@
     padding: 0 10px 0 10px;
     cursor: default;
     user-select: none;
-    -webkit-user-select: none;
     box-shadow: none;
 }
 
@@ -172,7 +171,6 @@
     overflow-x: hidden;
     transition: var(--navbar-animation-delay);
     user-select: none;
-    -webkit-user-select: none;
     border-top: 0.5px #bdb7b7 solid;
     overflow-y: hidden;
 }
@@ -508,7 +506,6 @@
     display: inline-block;
     padding-right: 10px;
     padding-left: 10px;
-    -webkit-user-select: none;
     user-select: none;    
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -567,7 +564,6 @@
     background-color: #0375d8;
     cursor: pointer;
     user-select: none;
-    -webkit-user-select: none;    
     z-index: 999;
     transition: var(--navbar-animation-delay);
 }

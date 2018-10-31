@@ -20,6 +20,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
     isLoading: boolean;
     isShowUserEditWindow: boolean = false;
     isShowUserReportWindow: boolean = false;
+    isShowUserPasswordWindow: boolean = false;
+    isOverlay: boolean = false;;
     user: any;
     tabs: any;
 
@@ -50,6 +52,11 @@ export class UserPageComponent implements OnInit, OnDestroy {
             if (value["closeUserReportWindow"]) {
                 this.isShowUserReportWindow = false;
             }
+
+            if (value["closeUserPasswordWindow"]) {
+                this.isShowUserPasswordWindow = false;
+            }
+
         });
 
         var self = this;
@@ -193,24 +200,25 @@ export class UserPageComponent implements OnInit, OnDestroy {
                     {
                         text: "שינוי סיסמא",
                         action: function () {
-                            self.userPageService.ChangePassword().then(result => {
-                                if (result) {
-                                    self.alertService.Alert({
-                                        title: "שינוי סיסמא",
-                                        text: "יש להיכנס לקישור שנשלח לכתובת האימייל שלך.",
-                                        type: ALERT_TYPE.SUCCESS,
-                                        showCancelButton: false
-                                    });
-                                }
-                                else {
-                                    self.alertService.Alert({
-                                        title: "שינוי סיסמא",
-                                        text: "שגיאה בתהליך שינוי הסיסמא",
-                                        type: ALERT_TYPE.WARNING,
-                                        showCancelButton: false
-                                    });
-                                }
-                            });
+                            self.isShowUserPasswordWindow = true;
+                            // self.userPageService.ChangePassword().then(result => {
+                            //     if (result) {
+                            //         self.alertService.Alert({
+                            //             title: "שינוי סיסמא",
+                            //             text: "יש להיכנס לקישור שנשלח לכתובת האימייל שלך.",
+                            //             type: ALERT_TYPE.SUCCESS,
+                            //             showCancelButton: false
+                            //         });
+                            //     }
+                            //     else {
+                            //         self.alertService.Alert({
+                            //             title: "שינוי סיסמא",
+                            //             text: "שגיאה בתהליך שינוי הסיסמא",
+                            //             type: ALERT_TYPE.WARNING,
+                            //             showCancelButton: false
+                            //         });
+                            //     }
+                            // });
                         }
                     },
                     {
@@ -322,8 +330,11 @@ export class UserPageComponent implements OnInit, OnDestroy {
     }
 
     ChangeTabOptionsMenuState(tab: any) {
+        this.CloseAllTabsOptionsMenus(tab.id);
+
         if (tab.options) {
             tab.isOptionsMenuOpen = !tab.isOptionsMenuOpen;
+            this.isOverlay = tab.isOptionsMenuOpen;
         }
     }
 
@@ -334,11 +345,12 @@ export class UserPageComponent implements OnInit, OnDestroy {
                 tab.isOptionsMenuOpen = false;
             }
         });
+        
+        this.isOverlay = false;
     }
 
     InitializePage(user: any) {
         this.CloseAllTabsOptionsMenus();
-
         this.globalService.setData("changeSearchInput", user.firstName + " " + user.lastName);
         this.user = user;
     }
@@ -381,7 +393,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
         }
     }
 
-    CloseTabOptions() {
-        this.CloseAllTabsOptionsMenus();
+    CloseTabOptions(tab: any) {
+        tab.isOptionsMenuOpen = false;
+        this.isOverlay = tab.isOptionsMenuOpen;
     }
 }

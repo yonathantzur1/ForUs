@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 
+import { GlobalService } from '../../../services/global/global.service';
+
 @Component({
     selector: 'userPasswordWindow',
     templateUrl: './userPasswordWindow.html',
@@ -9,9 +11,9 @@ import { Component, Input } from '@angular/core';
 export class UserPasswordWindowComponent {
     @Input() userId: string;
 
-    constructor() { }
+    constructor(private globalService: GlobalService) { }
 
     CloseWindow() {
-
+        this.globalService.setData("closeUserPasswordWindow", true);
     }
 }

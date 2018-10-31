@@ -30,7 +30,6 @@
     margin-left: auto;
     margin-right: auto;
     cursor: pointer;
-    -webkit-user-select: none;
     user-select: none;
 }
 
@@ -46,7 +45,6 @@
 }
 
 #statistics .modal-header, #statistics .modal-body, #statistics .modal-footer {
-    -webkit-user-select: none;
     user-select: none;    
 }
 
@@ -89,7 +87,6 @@
     margin-top: 95px;
     font-size: 45px;
     position: absolute;
-    -webkit-user-select: none;
     user-select: none;
 }
 
@@ -103,7 +100,6 @@
 
 #statistics .dates-range-string-title {
     position: relative;
-    -webkit-user-select: none;
     user-select: none;
     display: inline-block;
     margin-left: 5px;
@@ -139,7 +135,6 @@
 }
 
 #statistics .chart-top-details-container {
-    -webkit-user-select: none;
     user-select: none;
 }
 

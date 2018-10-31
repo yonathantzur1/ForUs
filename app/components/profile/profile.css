@@ -2,7 +2,6 @@
     position: absolute;
     left: 10px;
     cursor: pointer;
-    -webkit-user-select: none;
     user-select: none;
 }
 
@@ -10,7 +9,6 @@
     font-size: 20px;    
     cursor: default;
     margin-right: 10%;
-    -webkit-user-select: none;
     user-select: none;
     text-align: left;
 }
@@ -303,14 +301,12 @@
 
 #profile .image-sector {
     direction: ltr !important;
-    -webkit-user-select: none;
     user-select: none;
     text-align: left;
 }
 
 #profile .modal-footer-buttons {
     float: left;
-    -webkit-user-select: none;
     user-select: none;
 }
 
@@ -331,7 +327,6 @@
 
 #profile .upload-image-sector {
     direction: ltr !important;
-    -webkit-user-select: none;
     user-select: none;
     text-align: center;
 }
