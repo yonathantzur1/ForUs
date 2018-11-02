@@ -49,6 +49,7 @@ var NavbarComponent = /** @class */ (function () {
         this.isFriendsLoading = false;
         this.isNewFriendsLabel = false;
         this.chatData = { "isOpen": false };
+        this.isNavbarUnder = false;
         // START message notification variables //
         this.isShowMessageNotification = false;
         // END message notification variables //
@@ -80,6 +81,12 @@ var NavbarComponent = /** @class */ (function () {
             if (value["isOpenProfileEditWindow"] != null) {
                 value["isOpenProfileEditWindow"] && _this.ClosePopups();
                 _this.isOpenProfileEditWindow = value["isOpenProfileEditWindow"];
+            }
+            if (value["setNavbarUnder"]) {
+                _this.isNavbarUnder = true;
+            }
+            if (value["setNavbarTop"]) {
+                _this.isNavbarUnder = false;
             }
             if (value["HideSidenav"]) {
                 _this.HideSidenav();

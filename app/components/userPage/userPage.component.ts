@@ -47,14 +47,17 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
             if (value["closeUserEditWindow"]) {
                 this.isShowUserEditWindow = false;
+                this.globalService.setData("setNavbarTop", true);
             }
 
             if (value["closeUserReportWindow"]) {
                 this.isShowUserReportWindow = false;
+                this.globalService.setData("setNavbarTop", true);
             }
 
             if (value["closeUserPasswordWindow"]) {
                 this.isShowUserPasswordWindow = false;
+                this.globalService.setData("setNavbarTop", true);
             }
 
         });
@@ -71,6 +74,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                     return self.IsUserPageSelf();
                 },
                 onClick: function () {
+                    self.globalService.setData("setNavbarUnder", true);
                     self.isShowUserEditWindow = true;
                 }
             },
@@ -114,6 +118,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                     {
                         text: "דיווח",
                         action: function () {
+                            self.globalService.setData("setNavbarUnder", true);
                             self.isShowUserReportWindow = true;
                         }
                     }
@@ -200,25 +205,26 @@ export class UserPageComponent implements OnInit, OnDestroy {
                     {
                         text: "שינוי סיסמא",
                         action: function () {
-                            self.isShowUserPasswordWindow = true;
-                            // self.userPageService.ChangePassword().then(result => {
-                            //     if (result) {
-                            //         self.alertService.Alert({
-                            //             title: "שינוי סיסמא",
-                            //             text: "יש להיכנס לקישור שנשלח לכתובת האימייל שלך.",
-                            //             type: ALERT_TYPE.SUCCESS,
-                            //             showCancelButton: false
-                            //         });
-                            //     }
-                            //     else {
-                            //         self.alertService.Alert({
-                            //             title: "שינוי סיסמא",
-                            //             text: "שגיאה בתהליך שינוי הסיסמא",
-                            //             type: ALERT_TYPE.WARNING,
-                            //             showCancelButton: false
-                            //         });
-                            //     }
-                            // });
+                            // self.globalService.setData("setNavbarUnder", true);
+                            // self.isShowUserPasswordWindow = true;
+                            self.userPageService.ChangePassword().then(result => {
+                                if (result) {
+                                    self.alertService.Alert({
+                                        title: "שינוי סיסמא",
+                                        text: "יש להיכנס לקישור שנשלח לכתובת האימייל שלך.",
+                                        type: ALERT_TYPE.SUCCESS,
+                                        showCancelButton: false
+                                    });
+                                }
+                                else {
+                                    self.alertService.Alert({
+                                        title: "שינוי סיסמא",
+                                        text: "שגיאה בתהליך שינוי הסיסמא",
+                                        type: ALERT_TYPE.WARNING,
+                                        showCancelButton: false
+                                    });
+                                }
+                            });
                         }
                     },
                     {

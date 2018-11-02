@@ -60,6 +60,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     hideNewFriendsLabelTimeout: any;
     chatData: any = { "isOpen": false };
     isOpenProfileEditWindow: boolean;
+    isNavbarUnder: boolean = false;
 
     // START message notification variables //
 
@@ -126,6 +127,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
             if (value["isOpenProfileEditWindow"] != null) {
                 value["isOpenProfileEditWindow"] && this.ClosePopups();
                 this.isOpenProfileEditWindow = value["isOpenProfileEditWindow"];
+            }
+
+            if (value["setNavbarUnder"]) {
+                this.isNavbarUnder = true;
+            }
+
+            if (value["setNavbarTop"]) {
+                this.isNavbarUnder = false;
             }
 
             if (value["HideSidenav"]) {

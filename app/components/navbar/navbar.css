@@ -564,7 +564,7 @@
     background-color: #0375d8;
     cursor: pointer;
     user-select: none;
-    z-index: 999;
+    z-index: 1;
     transition: var(--navbar-animation-delay);
 }
 
@@ -583,6 +583,7 @@
 
 #navbar .open-sidenav {
     right: 230px;
+    z-index: 999;
 }
 
 #navbar .close-sidenav {
@@ -644,6 +645,10 @@
     align-self: center;
     background-color: #7699ff;
     border: 0.5px solid #f7f7f7;
+}
+
+#navbar .navbar-under {
+    z-index: -1 !important;
 }
 
 #navbar ::-webkit-scrollbar-thumb {

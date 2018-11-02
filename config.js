@@ -1,9 +1,12 @@
+const isServerProd = (process.env.IS_PROD === 'true');
+const serverPort = process.env.PORT;
+
 module.exports = {
     server: {
-        isProd: isServerProd()
+        isProd: isServerProd
     },
     addresses: {
-        site: isServerProd() ? "https://forus.herokuapp.com" : "http://localhost:" + process.env.PORT,
+        site: isServerProd ? "https://forus.herokuapp.com" : "http://localhost:" + serverPort,
         mail: "forusmailer@gmail.com",
         mailConnectionString: process.env.MAIL_CONNECTION_STRING
     },
@@ -61,7 +64,3 @@ module.exports = {
         messageMailNotificationHoursWaitingDelay: 1
     }
 };
-
-function isServerProd() {
-    return (process.env.IS_PROD === 'true');
-}
