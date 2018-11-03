@@ -10,14 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-require("./profileExternalFunctions.js");
-var global_service_1 = require("../../services/global/global.service");
-var alert_service_1 = require("../../services/alert/alert.service");
-var snackbar_service_1 = require("../../services/snackbar/snackbar.service");
-var profile_service_1 = require("../../services/profile/profile.service");
-var ProfileComponent = /** @class */ (function () {
-    function ProfileComponent(profileService, alertService, snackbarService, globalService) {
-        this.profileService = profileService;
+var global_service_1 = require("../../../services/global/global.service");
+var alert_service_1 = require("../../../services/alert/alert.service");
+var snackbar_service_1 = require("../../../services/snackbar/snackbar.service");
+var profilePictureEdit_service_1 = require("../../../services/profilePicture/profilePictureEdit/profilePictureEdit.service");
+var ProfilePictureEditComponent = /** @class */ (function () {
+    function ProfilePictureEditComponent(profilePictureEditService, alertService, snackbarService, globalService) {
+        this.profilePictureEditService = profilePictureEditService;
         this.alertService = alertService;
         this.snackbarService = snackbarService;
         this.globalService = globalService;
@@ -26,8 +25,7 @@ var ProfileComponent = /** @class */ (function () {
         this.options = {
             aspectRatio: 1 / 1,
             preview: '#preview-img-container',
-            crop: function (e) {
-            }
+            crop: function (e) { }
         };
         this.imageBtns = [
             {
@@ -144,23 +142,7 @@ var ProfileComponent = /** @class */ (function () {
             }
         ];
     }
-    ProfileComponent.prototype.ResetAllImageBtns = function () {
-        this.imageBtns.forEach(function (btn) {
-            // In case the btn is pressed.
-            if (btn.isPressed) {
-                btn.onClick();
-            }
-        });
-    };
-    ProfileComponent.prototype.ResetAllImageBtnsMode = function () {
-        this.imageBtns.forEach(function (btn) {
-            // In case the btn is pressed.
-            if (btn.isPressed) {
-                btn.isPressed = false;
-            }
-        });
-    };
-    ProfileComponent.prototype.ngOnInit = function () {
+    ProfilePictureEditComponent.prototype.ngOnInit = function () {
         this.userImage = this.globalService.userProfileImage;
         this.ActiveWindow();
         $("#profile-modal").bind('touchstart', function preventZoom(e) {
@@ -173,17 +155,33 @@ var ProfileComponent = /** @class */ (function () {
             $(this).trigger('click').trigger('click');
         });
     };
-    ProfileComponent.prototype.ActiveWindow = function () {
+    ProfilePictureEditComponent.prototype.ResetAllImageBtns = function () {
+        this.imageBtns.forEach(function (btn) {
+            // In case the btn is pressed.
+            if (btn.isPressed) {
+                btn.onClick();
+            }
+        });
+    };
+    ProfilePictureEditComponent.prototype.ResetAllImageBtnsMode = function () {
+        this.imageBtns.forEach(function (btn) {
+            // In case the btn is pressed.
+            if (btn.isPressed) {
+                btn.isPressed = false;
+            }
+        });
+    };
+    ProfilePictureEditComponent.prototype.ActiveWindow = function () {
         $('#main-img').cropper(this.options);
         $("#profile-modal").modal("show");
     };
-    ProfileComponent.prototype.CloseWindow = function () {
+    ProfilePictureEditComponent.prototype.CloseWindow = function () {
         $("#profile-modal").removeClass("fade");
         $("#profile-modal").modal("hide");
         this.globalService.setData("isOpenProfileEditWindow", false);
     };
-    ProfileComponent.prototype.ChangeImage = function () {
-        var isSuccess = UploadPhoto(this.options);
+    ProfilePictureEditComponent.prototype.ChangeImage = function () {
+        var isSuccess = this.UploadPhoto(this.options);
         if (isSuccess == true) {
             this.ResetAllImageBtnsMode();
             this.isNewPhoto = false;
@@ -195,21 +193,21 @@ var ProfileComponent = /** @class */ (function () {
             this.snackbarService.Snackbar("שגיאה בהעלאת התמונה");
         }
     };
-    ProfileComponent.prototype.UploadNewPhoto = function () {
+    ProfilePictureEditComponent.prototype.UploadNewPhoto = function () {
         $("#inputImage").trigger("click");
     };
-    ProfileComponent.prototype.EditUserPhoto = function () {
+    ProfilePictureEditComponent.prototype.EditUserPhoto = function () {
         $('#main-img').cropper('destroy').attr('src', this.userImage).cropper(this.options);
         this.isNewPhoto = false;
     };
-    ProfileComponent.prototype.SaveImage = function () {
+    ProfilePictureEditComponent.prototype.SaveImage = function () {
         // In case the user is not in the select part.
         if (!this.isNewPhoto) {
             this.isLoading = true;
             var self = this;
-            GetCroppedBase64Image().then(function (img) {
+            this.GetCroppedBase64Image().then(function (img) {
                 var imgBase64 = img[0].currentSrc;
-                self.profileService.SaveImage(imgBase64).then(function (result) {
+                self.profilePictureEditService.SaveImage(imgBase64).then(function (result) {
                     self.isLoading = false;
                     // In case of error or the user was not fount.
                     if (!result) {
@@ -226,7 +224,7 @@ var ProfileComponent = /** @class */ (function () {
                             image: imgBase64,
                             showCancelButton: false,
                             type: "info",
-                            confirmBtnText: "אוקיי",
+                            confirmBtnText: "אישור",
                             confirmFunc: function () {
                                 self.CloseWindow();
                             }
@@ -237,7 +235,7 @@ var ProfileComponent = /** @class */ (function () {
             ;
         }
     };
-    ProfileComponent.prototype.DeleteImage = function () {
+    ProfilePictureEditComponent.prototype.DeleteImage = function () {
         // Disable modal close fade animation, close modal and return the fade animation. 
         $("#profile-modal").removeClass("fade");
         $("#profile-modal").modal("hide");
@@ -247,7 +245,7 @@ var ProfileComponent = /** @class */ (function () {
             image: this.userImage,
             type: "warning",
             preConfirm: function () {
-                return self.profileService.DeleteImage();
+                return self.profilePictureEditService.DeleteImage();
             },
             confirmFunc: function () {
                 self.globalService.setData("isImageDeleted", true);
@@ -259,18 +257,69 @@ var ProfileComponent = /** @class */ (function () {
             }
         });
     };
-    ProfileComponent = __decorate([
+    ProfilePictureEditComponent.prototype.UploadPhoto = function (options) {
+        var URL = window.URL;
+        var $image = $('#main-img');
+        var $inputImage = $('#inputImage');
+        var uploadedImageURL;
+        if (URL) {
+            var files = $inputImage[0].files;
+            var file;
+            if (!$image.data('cropper')) {
+                return null;
+            }
+            if (files && files.length) {
+                file = files[0];
+                if (/^image\/\w+$/.test(file.type)) {
+                    if (uploadedImageURL) {
+                        URL.revokeObjectURL(uploadedImageURL);
+                    }
+                    uploadedImageURL = URL.createObjectURL(file);
+                    $image.cropper('destroy').attr('src', uploadedImageURL).cropper(options);
+                    $inputImage.val('');
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            $inputImage.prop('disabled', true).parent().addClass('disabled');
+            return null;
+        }
+    };
+    ProfilePictureEditComponent.prototype.GetCroppedBase64Image = function () {
+        return this.ResizeBase64Img($('#main-img').cropper('getCroppedCanvas').toDataURL(), 300, 300);
+    };
+    ProfilePictureEditComponent.prototype.ResizeBase64Img = function (base64, width, height) {
+        var canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        var context = canvas.getContext("2d");
+        var deferred = $.Deferred();
+        $("<img/>").attr("src", base64).on('load', function () {
+            context.scale(width / this.width, height / this.height);
+            context.drawImage(this, 0, 0);
+            deferred.resolve($("<img/>").attr("src", canvas.toDataURL()));
+        });
+        return deferred.promise();
+    };
+    ProfilePictureEditComponent = __decorate([
         core_1.Component({
-            selector: 'profile',
-            templateUrl: './profile.html',
-            providers: [profile_service_1.ProfileService]
+            selector: 'profilePictureEdit',
+            templateUrl: './profilePictureEdit.html',
+            providers: [profilePictureEdit_service_1.ProfilePictureEditService]
         }),
-        __metadata("design:paramtypes", [profile_service_1.ProfileService,
+        __metadata("design:paramtypes", [profilePictureEdit_service_1.ProfilePictureEditService,
             alert_service_1.AlertService,
             snackbar_service_1.SnackbarService,
             global_service_1.GlobalService])
-    ], ProfileComponent);
-    return ProfileComponent;
+    ], ProfilePictureEditComponent);
+    return ProfilePictureEditComponent;
 }());
-exports.ProfileComponent = ProfileComponent;
-//# sourceMappingURL=profile.component.js.map
+exports.ProfilePictureEditComponent = ProfilePictureEditComponent;
+//# sourceMappingURL=profilePictureEdit.component.js.map

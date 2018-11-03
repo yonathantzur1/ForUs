@@ -1,5 +1,5 @@
-const profileBL = require('../BL/profileBL');
-const tokenHandler = require("../handlers/tokenHandler");
+const profileBL = require('../../BL/profilePicture/profilePictureEditBL');
+const tokenHandler = require("../../handlers/tokenHandler");
 
 var prefix = "/api/profile";
 

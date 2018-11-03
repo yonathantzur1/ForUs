@@ -1,15 +1,13 @@
 import { Component, Input, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
-import { ProfilePictureService } from '../../services/profilePicture/profilePicture.service';
 
 declare var globalVariables: any;
 
 @Component({
     selector: 'profilePicture',
     templateUrl: './profilePicture.html',
-    providers: [ProfilePictureService]
+    providers: []
 })
 
 export class ProfilePictureComponent implements OnDestroy {
@@ -20,7 +18,7 @@ export class ProfilePictureComponent implements OnDestroy {
 
     subscribeObj: any;
 
-    constructor(private profilePictureService: ProfilePictureService, private globalService: GlobalService) {
+    constructor(private globalService: GlobalService) {
         this.subscribeObj = this.globalService.data.subscribe((value: any) => {
             if (value["newUploadedImage"]) {
                 globalService.userProfileImage = value["newUploadedImage"];

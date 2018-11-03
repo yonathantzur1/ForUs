@@ -1,4 +1,4 @@
-const profilePictureBL = require('../BL/profilePictureBL');
+const profilePictureBL = require('../../BL/profilePicture/profilePictureBL');
 
 var prefix = "/api/profilePicture";
 

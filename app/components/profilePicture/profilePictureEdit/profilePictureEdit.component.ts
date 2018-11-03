@@ -1,38 +1,51 @@
 import { Component, OnInit } from '@angular/core';
 
-import './profileExternalFunctions.js';
-
-import { GlobalService } from '../../services/global/global.service';
-import { AlertService } from '../../services/alert/alert.service';
-import { SnackbarService } from '../../services/snackbar/snackbar.service';
-import { ProfileService } from '../../services/profile/profile.service';
+import { GlobalService } from '../../../services/global/global.service';
+import { AlertService } from '../../../services/alert/alert.service';
+import { SnackbarService } from '../../../services/snackbar/snackbar.service';
+import { ProfilePictureEditService } from '../../../services/profilePicture/profilePictureEdit/profilePictureEdit.service';
 
 declare var $: any;
-declare function UploadPhoto(options: Object): boolean;
-declare function GetCroppedBase64Image(): any;
 
 @Component({
-    selector: 'profile',
-    templateUrl: './profile.html',
-    providers: [ProfileService]
+    selector: 'profilePictureEdit',
+    templateUrl: './profilePictureEdit.html',
+    providers: [ProfilePictureEditService]
 })
 
-export class ProfileComponent implements OnInit {
+export class ProfilePictureEditComponent implements OnInit {
 
     isLoading: boolean = false;
     userImage: string;
     isNewPhoto: boolean = true;
 
-    constructor(private profileService: ProfileService,
+    constructor(private profilePictureEditService: ProfilePictureEditService,
         private alertService: AlertService,
         private snackbarService: SnackbarService,
         private globalService: GlobalService) { }
 
+    ngOnInit() {
+        this.userImage = this.globalService.userProfileImage;
+        this.ActiveWindow();
+
+        $("#profile-modal").bind('touchstart', function preventZoom(e: any) {
+            var t2 = e.timeStamp
+                , t1 = $(this).data('lastTouch') || t2
+                , dt = t2 - t1
+                , fingers = e.touches.length;
+            $(this).data('lastTouch', t2);
+            if (!dt || dt > 400 || fingers > 1) return; // not double-tap
+
+            e.preventDefault(); // double tap - prevent the zoom
+            // also synthesize click events we just swallowed up
+            $(this).trigger('click').trigger('click');
+        });
+    }
+
     options = {
         aspectRatio: 1 / 1,
         preview: '#preview-img-container',
-        crop: function (e: any) {
-        }
+        crop: function (e: any) { }
     };
 
     imageBtns = [
@@ -171,24 +184,6 @@ export class ProfileComponent implements OnInit {
         });
     }
 
-    ngOnInit() {
-        this.userImage = this.globalService.userProfileImage;
-        this.ActiveWindow();
-
-        $("#profile-modal").bind('touchstart', function preventZoom(e: any) {
-            var t2 = e.timeStamp
-                , t1 = $(this).data('lastTouch') || t2
-                , dt = t2 - t1
-                , fingers = e.touches.length;
-            $(this).data('lastTouch', t2);
-            if (!dt || dt > 400 || fingers > 1) return; // not double-tap
-
-            e.preventDefault(); // double tap - prevent the zoom
-            // also synthesize click events we just swallowed up
-            $(this).trigger('click').trigger('click');
-        });
-    }
-
     ActiveWindow() {
         $('#main-img').cropper(this.options);
         $("#profile-modal").modal("show");
@@ -201,7 +196,7 @@ export class ProfileComponent implements OnInit {
     }
 
     ChangeImage() {
-        var isSuccess = UploadPhoto(this.options);
+        var isSuccess = this.UploadPhoto(this.options);
 
         if (isSuccess == true) {
             this.ResetAllImageBtnsMode();
@@ -230,9 +225,9 @@ export class ProfileComponent implements OnInit {
             this.isLoading = true;
             var self = this;
 
-            GetCroppedBase64Image().then((img: any) => {
+            this.GetCroppedBase64Image().then((img: any) => {
                 var imgBase64 = img[0].currentSrc;
-                self.profileService.SaveImage(imgBase64).then((result: any) => {
+                self.profilePictureEditService.SaveImage(imgBase64).then((result: any) => {
                     self.isLoading = false;
 
                     // In case of error or the user was not fount.
@@ -252,7 +247,7 @@ export class ProfileComponent implements OnInit {
                             image: imgBase64,
                             showCancelButton: false,
                             type: "info",
-                            confirmBtnText: "אוקיי",
+                            confirmBtnText: "אישור",
                             confirmFunc: function () {
                                 self.CloseWindow();
                             }
@@ -275,7 +270,7 @@ export class ProfileComponent implements OnInit {
             image: this.userImage,
             type: "warning",
             preConfirm: function () {
-                return self.profileService.DeleteImage();
+                return self.profilePictureEditService.DeleteImage();
             },
             confirmFunc: function () {
                 self.globalService.setData("isImageDeleted", true);
@@ -286,6 +281,69 @@ export class ProfileComponent implements OnInit {
                 $("#profile-modal").modal("show");
             }
         });
+    }
+
+    UploadPhoto(options: any) {
+        var URL = window.URL;
+        var $image = $('#main-img');
+        var $inputImage = $('#inputImage');
+        var uploadedImageURL;
+
+        if (URL) {
+            var files = $inputImage[0].files;
+            var file;
+
+            if (!$image.data('cropper')) {
+                return null;
+            }
+
+            if (files && files.length) {
+                file = files[0];
+
+                if (/^image\/\w+$/.test(file.type)) {
+                    if (uploadedImageURL) {
+                        URL.revokeObjectURL(uploadedImageURL);
+                    }
+
+                    uploadedImageURL = URL.createObjectURL(file);
+                    $image.cropper('destroy').attr('src', uploadedImageURL).cropper(options);
+                    $inputImage.val('');
+
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            $inputImage.prop('disabled', true).parent().addClass('disabled');
+
+            return null;
+        }
+    }
+
+    GetCroppedBase64Image() {
+        return this.ResizeBase64Img($('#main-img').cropper('getCroppedCanvas').toDataURL(), 300, 300);
+    }
+
+    ResizeBase64Img(base64: any, width: any, height: any) {
+        var canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        var context = canvas.getContext("2d");
+        var deferred = $.Deferred();
+
+        $("<img/>").attr("src", base64).on('load', function () {
+            context.scale(width / this.width, height / this.height);
+            context.drawImage(this, 0, 0);
+            deferred.resolve($("<img/>").attr("src", canvas.toDataURL()));
+        });
+
+        return deferred.promise();
     }
 
 }

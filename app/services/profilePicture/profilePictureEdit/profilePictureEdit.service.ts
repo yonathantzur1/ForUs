@@ -1,6 +1,6 @@
-import { BasicService } from '../basic/basic.service';
+import { BasicService } from '../../basic/basic.service';
 
-export class ProfileService extends BasicService {
+export class ProfilePictureEditService extends BasicService {
 
     prefix = "/api/profile";
 

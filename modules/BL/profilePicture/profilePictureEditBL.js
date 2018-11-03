@@ -1,5 +1,5 @@
-const DAL = require('../DAL.js');
-const config = require('../../config.js');
+const DAL = require('../../DAL.js');
+const config = require('../../../config.js');
 
 const collectionName = config.db.collections.profiles;
 const usersCollectionName = config.db.collections.users;

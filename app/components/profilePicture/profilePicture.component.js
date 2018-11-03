@@ -11,11 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var global_service_1 = require("../../services/global/global.service");
-var profilePicture_service_1 = require("../../services/profilePicture/profilePicture.service");
 var ProfilePictureComponent = /** @class */ (function () {
-    function ProfilePictureComponent(profilePictureService, globalService) {
+    function ProfilePictureComponent(globalService) {
         var _this = this;
-        this.profilePictureService = profilePictureService;
         this.globalService = globalService;
         this.isUserHasImage = null;
         this.isTouchDevice = globalVariables.isTouchDevice;
@@ -58,9 +56,9 @@ var ProfilePictureComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'profilePicture',
             templateUrl: './profilePicture.html',
-            providers: [profilePicture_service_1.ProfilePictureService]
+            providers: []
         }),
-        __metadata("design:paramtypes", [profilePicture_service_1.ProfilePictureService, global_service_1.GlobalService])
+        __metadata("design:paramtypes", [global_service_1.GlobalService])
     ], ProfilePictureComponent);
     return ProfilePictureComponent;
 }());

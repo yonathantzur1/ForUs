@@ -17,7 +17,7 @@ import { ForgotPasswordComponent } from '../components/login/forgotPassword/forg
 import { HomeComponent } from '../components/home/home.component';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { DropMenuComponent } from '../components/dropMenu/dropMenu.component';
-import { ProfileComponent } from '../components/profile/profile.component';
+import { ProfilePictureEditComponent } from '../components/profilePicture/profilePictureEdit/profilePictureEdit.component';
 import { ProfilePictureComponent } from '../components/profilePicture/profilePicture.component';
 import { ChatComponent } from '../components/chat/chat.component';
 import { ChatsWindowComponent } from '../components/navbar/chatsWindow/chatsWindow.component';
@@ -70,7 +70,7 @@ import { Routing } from '../routes/app.routing'
     PageNotFoundComponent,
     NavbarComponent,
     DropMenuComponent,
-    ProfileComponent,
+    ProfilePictureEditComponent,
     ProfilePictureComponent,
     ChatComponent,
     ChatsWindowComponent,
