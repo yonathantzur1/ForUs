@@ -13,17 +13,19 @@ var rxjs_1 = require("rxjs");
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var auth_service_1 = require("../../services/auth/auth.service");
+var cookie_service_1 = require("../../services/cookie/cookie.service");
 var global_service_1 = require("../../services/global/global.service");
 var LoginGuard = /** @class */ (function () {
-    function LoginGuard(router, authService, globalService) {
+    function LoginGuard(router, authService, cookieService, globalService) {
         this.router = router;
         this.authService = authService;
+        this.cookieService = cookieService;
         this.globalService = globalService;
     }
     LoginGuard.prototype.canActivate = function (route, state) {
         var _this = this;
         return rxjs_1.Observable.create(function (observer) {
-            if (!getCookie(_this.globalService.uidCookieName)) {
+            if (!_this.cookieService.GetCookie(_this.globalService.uidCookieName)) {
                 observer.next(true);
             }
             else {
@@ -41,7 +43,10 @@ var LoginGuard = /** @class */ (function () {
     };
     LoginGuard = __decorate([
         core_1.Injectable(),
-        __metadata("design:paramtypes", [router_1.Router, auth_service_1.AuthService, global_service_1.GlobalService])
+        __metadata("design:paramtypes", [router_1.Router,
+            auth_service_1.AuthService,
+            cookie_service_1.CookieService,
+            global_service_1.GlobalService])
     ], LoginGuard);
     return LoginGuard;
 }());

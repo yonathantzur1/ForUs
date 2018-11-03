@@ -12,11 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var global_service_1 = require("../../services/global/global.service");
+var cookie_service_1 = require("../../services/cookie/cookie.service");
 var alert_service_1 = require("../../services/alert/alert.service");
 var userPage_service_1 = require("../../services/userPage/userPage.service");
 var snackbar_service_1 = require("../../services/snackbar/snackbar.service");
 var UserPageComponent = /** @class */ (function () {
-    function UserPageComponent(router, route, userPageService, alertService, snackbarService, globalService) {
+    function UserPageComponent(router, route, userPageService, alertService, snackbarService, globalService, cookieService) {
         var _this = this;
         this.router = router;
         this.route = route;
@@ -24,6 +25,7 @@ var UserPageComponent = /** @class */ (function () {
         this.alertService = alertService;
         this.snackbarService = snackbarService;
         this.globalService = globalService;
+        this.cookieService = cookieService;
         this.isTouchDevice = globalVariables.isTouchDevice;
         this.isShowUserEditWindow = false;
         this.isShowUserReportWindow = false;
@@ -356,7 +358,8 @@ var UserPageComponent = /** @class */ (function () {
     };
     // Return true if the user page belongs to the current user.
     UserPageComponent.prototype.IsUserPageSelf = function () {
-        return (this.user && this.user.uid == getCookie(this.globalService.uidCookieName));
+        return (this.user &&
+            this.user.uid == this.cookieService.GetCookie(this.globalService.uidCookieName));
     };
     UserPageComponent.prototype.OpenProfileEditWindow = function () {
         this.CloseAllTabsOptionsMenus();
@@ -379,7 +382,8 @@ var UserPageComponent = /** @class */ (function () {
             userPage_service_1.UserPageService,
             alert_service_1.AlertService,
             snackbar_service_1.SnackbarService,
-            global_service_1.GlobalService])
+            global_service_1.GlobalService,
+            cookie_service_1.CookieService])
     ], UserPageComponent);
     return UserPageComponent;
 }());

@@ -1,13 +1,16 @@
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
+import { CookieService } from '../cookie/cookie.service';
 import { LoginService } from '../login/login.service';
 import { EmptyProfile } from '../../pictures/empty-profile';
 
 import { PERMISSION } from '../../enums/enums';
 
 declare var io: any;
-declare function deleteCookieByName(name: string): void;
 
+@Injectable()
 export class GlobalService extends LoginService {
 
     // Use this property for property binding
@@ -16,9 +19,14 @@ export class GlobalService extends LoginService {
     public socketOnDictionary: any = {};
     public userId: string;
     public userProfileImage: string;
-    public userPermissions: Array<string> = [];    
+    public userPermissions: Array<string> = [];
     public defaultProfileImage: string = EmptyProfile;
     public uidCookieName: string = "uid";
+
+    constructor(public http: HttpClient,
+        private cookieService: CookieService) {
+        super(http);
+    }
 
     Initialize() {
         if (!this.socket) {
@@ -100,7 +108,7 @@ export class GlobalService extends LoginService {
     }
 
     Logout() {
-        deleteCookieByName(this.uidCookieName);
+        this.cookieService.DeleteCookieByName(this.uidCookieName);
         this.DeleteTokenFromCookie().then((result: any) => { });
         this.ResetGlobalVariables();
     }

@@ -12,15 +12,29 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
 var rxjs_1 = require("rxjs");
+var http_1 = require("@angular/common/http");
+var cookie_service_1 = require("../cookie/cookie.service");
 var login_service_1 = require("../login/login.service");
 var empty_profile_1 = require("../../pictures/empty-profile");
 var enums_1 = require("../../enums/enums");
 var GlobalService = /** @class */ (function (_super) {
     __extends(GlobalService, _super);
-    function GlobalService() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
+    function GlobalService(http, cookieService) {
+        var _this = _super.call(this, http) || this;
+        _this.http = http;
+        _this.cookieService = cookieService;
         // Use this property for property binding
         _this.data = new rxjs_1.BehaviorSubject({});
         _this.socketOnDictionary = {};
@@ -97,7 +111,7 @@ var GlobalService = /** @class */ (function (_super) {
         this.socket.on(name, func);
     };
     GlobalService.prototype.Logout = function () {
-        deleteCookieByName(this.uidCookieName);
+        this.cookieService.DeleteCookieByName(this.uidCookieName);
         this.DeleteTokenFromCookie().then(function (result) { });
         this.ResetGlobalVariables();
     };
@@ -115,6 +129,11 @@ var GlobalService = /** @class */ (function (_super) {
         });
         this.data.next(currData);
     };
+    GlobalService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.HttpClient,
+            cookie_service_1.CookieService])
+    ], GlobalService);
     return GlobalService;
 }(login_service_1.LoginService));
 exports.GlobalService = GlobalService;

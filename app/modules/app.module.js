@@ -47,6 +47,7 @@ var login_guard_1 = require("../guards/login/login.guard");
 var auth_service_1 = require("../services/auth/auth.service");
 var global_service_1 = require("../services/global/global.service");
 var alert_service_1 = require("../services/alert/alert.service");
+var cookie_service_1 = require("../services/cookie/cookie.service");
 var snackbar_service_1 = require("../services/snackbar/snackbar.service");
 var microtext_service_1 = require("../services/microtext/microtext.service");
 // Routing
@@ -100,6 +101,7 @@ var AppModule = /** @class */ (function () {
                 auth_service_1.AuthService,
                 global_service_1.GlobalService,
                 alert_service_1.AlertService,
+                cookie_service_1.CookieService,
                 snackbar_service_1.SnackbarService,
                 microtext_service_1.MicrotextService
             ],

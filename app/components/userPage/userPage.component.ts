@@ -2,11 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
+import { CookieService } from '../../services/cookie/cookie.service';
 import { AlertService, ALERT_TYPE } from '../../services/alert/alert.service';
 import { UserPageService } from '../../services/userPage/userPage.service';
 import { SnackbarService } from '../../services/snackbar/snackbar.service';
 
-declare function getCookie(name: string): string;
 declare var globalVariables: any;
 
 @Component({
@@ -32,7 +32,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
         private userPageService: UserPageService,
         private alertService: AlertService,
         private snackbarService: SnackbarService,
-        private globalService: GlobalService) {
+        private globalService: GlobalService,
+        private cookieService: CookieService) {
         this.subscribeObj = this.globalService.data.subscribe((value: any) => {
             // In case the user profile picture updated.
             if (value["newUploadedImage"]) {
@@ -351,7 +352,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                 tab.isOptionsMenuOpen = false;
             }
         });
-        
+
         this.isOverlay = false;
     }
 
@@ -388,7 +389,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
     // Return true if the user page belongs to the current user.
     IsUserPageSelf() {
-        return (this.user && this.user.uid == getCookie(this.globalService.uidCookieName));
+        return (this.user &&
+            this.user.uid == this.cookieService.GetCookie(this.globalService.uidCookieName));
     }
 
     OpenProfileEditWindow() {
