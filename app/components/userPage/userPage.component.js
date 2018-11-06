@@ -65,8 +65,7 @@ var UserPageComponent = /** @class */ (function () {
                     return self.IsUserPageSelf();
                 },
                 onClick: function () {
-                    self.globalService.setData("setNavbarUnder", true);
-                    self.isShowUserEditWindow = true;
+                    self.OpenUserWindow("isShowUserEditWindow");
                 }
             },
             {
@@ -109,8 +108,7 @@ var UserPageComponent = /** @class */ (function () {
                     {
                         text: "דיווח",
                         action: function () {
-                            self.globalService.setData("setNavbarUnder", true);
-                            self.isShowUserReportWindow = true;
+                            self.OpenUserWindow("isShowUserReportWindow");
                         }
                     }
                 ]
@@ -195,8 +193,7 @@ var UserPageComponent = /** @class */ (function () {
                     {
                         text: "שינוי סיסמא",
                         action: function () {
-                            self.globalService.setData("setNavbarUnder", true);
-                            self.isShowUserPasswordWindow = true;
+                            self.OpenUserWindow("isShowUserPasswordWindow");
                         }
                     },
                     {
@@ -295,6 +292,11 @@ var UserPageComponent = /** @class */ (function () {
     };
     UserPageComponent.prototype.ngOnDestroy = function () {
         this.subscribeObj.unsubscribe();
+    };
+    UserPageComponent.prototype.OpenUserWindow = function (windowShowPropertyName) {
+        this.globalService.setData("setNavbarUnder", true);
+        this.globalService.setData("closeChat", true);
+        this[windowShowPropertyName] = true;
     };
     UserPageComponent.prototype.ChangeTabOptionsMenuState = function (tab) {
         this.CloseAllTabsOptionsMenus(tab.id);

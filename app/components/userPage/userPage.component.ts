@@ -75,8 +75,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                     return self.IsUserPageSelf();
                 },
                 onClick: function () {
-                    self.globalService.setData("setNavbarUnder", true);
-                    self.isShowUserEditWindow = true;
+                    self.OpenUserWindow("isShowUserEditWindow");
                 }
             },
             {
@@ -119,8 +118,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                     {
                         text: "דיווח",
                         action: function () {
-                            self.globalService.setData("setNavbarUnder", true);
-                            self.isShowUserReportWindow = true;
+                            self.OpenUserWindow("isShowUserReportWindow");
                         }
                     }
                 ]
@@ -206,8 +204,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                     {
                         text: "שינוי סיסמא",
                         action: function () {
-                            self.globalService.setData("setNavbarUnder", true);
-                            self.isShowUserPasswordWindow = true;
+                            self.OpenUserWindow("isShowUserPasswordWindow");
                         }
                     },
                     {
@@ -316,6 +313,12 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.subscribeObj.unsubscribe();
+    }
+
+    OpenUserWindow(windowShowPropertyName: string) {
+        this.globalService.setData("setNavbarUnder", true);
+        this.globalService.setData("closeChat", true);
+        this[windowShowPropertyName] = true;
     }
 
     ChangeTabOptionsMenuState(tab: any) {

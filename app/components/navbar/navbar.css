@@ -581,6 +581,10 @@
     font-size: 16px;
 }
 
+#navbar .top-sidenav-btn {    
+    z-index: 999 !important;
+}
+
 #navbar .open-sidenav {
     right: 230px;
     z-index: 999;
