@@ -104,6 +104,15 @@ export class UserEditWindowComponent implements OnInit {
         this.editUser.password = "";
     }
 
+    CloseWindow() {
+        this.globalService.setData("closeUserEditWindow", true);
+    }
+
+    // Hide microtext in a specific field.
+    HideMicrotext(microtextId: string) {
+        this.microtextService.HideMicrotext(microtextId);
+    }
+
     SaveChanges() {
         if (this.microtextService.Validation(this.passwordValidationFuncs, this.editUser)) {
             var updatedFields = {};
@@ -141,7 +150,7 @@ export class UserEditWindowComponent implements OnInit {
                             "הסיסמא שהוזנה שגוייה");
                     }
                     else {                        
-                        this.globalService.setData("closeUserEditWindow", true);
+                        this.CloseWindow();
                         this.globalService.socket.emit("LogoutUserSessionServer", this.user._id, "הפרטים התעדכנו בהצלחה!\nיש להיכנס מחדש.");
                     }
                 }
@@ -155,14 +164,5 @@ export class UserEditWindowComponent implements OnInit {
                 }
             });
         }
-    }
-
-    CloseWindow() {
-        this.globalService.setData("closeUserEditWindow", true);
-    }
-
-    // Hide microtext in a specific field.
-    HideMicrotext(microtextId: string) {
-        this.microtextService.HideMicrotext(microtextId);
     }
 }

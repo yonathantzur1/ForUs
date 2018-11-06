@@ -10,13 +10,99 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var userPasswordWindow_service_1 = require("../../../services/userPage/userPasswordWindow/userPasswordWindow.service");
+var alert_service_1 = require("../../../services/alert/alert.service");
 var global_service_1 = require("../../../services/global/global.service");
+var microtext_service_1 = require("../../../services/microtext/microtext.service");
+var enums_1 = require("../../../enums/enums");
+var Password = /** @class */ (function () {
+    function Password() {
+        this.oldPassword = "";
+        this.newPassword = "";
+    }
+    return Password;
+}());
+exports.Password = Password;
 var UserPasswordWindowComponent = /** @class */ (function () {
-    function UserPasswordWindowComponent(globalService) {
+    function UserPasswordWindowComponent(globalService, alertService, microtextService, userPasswordWindowService) {
         this.globalService = globalService;
+        this.alertService = alertService;
+        this.microtextService = microtextService;
+        this.userPasswordWindowService = userPasswordWindowService;
+        this.password = new Password();
+        // Login validation functions array.
+        this.validationFuncs = [
+            {
+                isFieldValid: function (password) {
+                    return password.oldPassword ? true : false;
+                },
+                errMsg: "יש להזין סיסמא נוכחית",
+                fieldId: "old-password-micro",
+                inputId: "oldPassword"
+            },
+            {
+                isFieldValid: function (password) {
+                    return password.newPassword ? true : false;
+                },
+                errMsg: "יש להזין סיסמא חדשה",
+                fieldId: "new-password-micro",
+                inputId: "newPassword"
+            }
+        ];
     }
     UserPasswordWindowComponent.prototype.CloseWindow = function () {
         this.globalService.setData("closeUserPasswordWindow", true);
+    };
+    // Hide microtext in a specific field.
+    UserPasswordWindowComponent.prototype.HideMicrotext = function (microtextId) {
+        this.microtextService.HideMicrotext(microtextId);
+    };
+    UserPasswordWindowComponent.prototype.ChangePassword = function () {
+        var _this = this;
+        if (this.microtextService.Validation(this.validationFuncs, this.password)) {
+            this.userPasswordWindowService.UpdateUserPassword(this.password).then(function (result) {
+                if (result) {
+                    if (result.lock) {
+                        _this.microtextService.ShowMicrotext("old-password-micro", "העדכון ננעל למשך " + result.lock + " דקות");
+                    }
+                    else if (result == enums_1.USER_UPDATE_INFO_ERROR.WRONG_PASSWORD) {
+                        _this.microtextService.ShowMicrotext("old-password-micro", "הסיסמא שהוזנה שגוייה");
+                    }
+                    else {
+                        _this.CloseWindow();
+                        _this.globalService.socket.emit("LogoutUserSessionServer", _this.userId, "הסיסמא התעדכנה בהצלחה!\nיש להיכנס מחדש.");
+                    }
+                }
+                else {
+                    _this.ChangePasswordErrorAlert();
+                }
+            });
+        }
+    };
+    UserPasswordWindowComponent.prototype.ChangePasswordByMail = function () {
+        var _this = this;
+        this.userPasswordWindowService.ChangePasswordByMail().then(function (result) {
+            _this.CloseWindow();
+            if (result) {
+                _this.alertService.Alert({
+                    title: "שינוי סיסמא",
+                    text: "יש להיכנס לקישור שנשלח לכתובת האימייל שלך.",
+                    type: alert_service_1.ALERT_TYPE.SUCCESS,
+                    showCancelButton: false
+                });
+            }
+            else {
+                _this.ChangePasswordErrorAlert();
+            }
+        });
+    };
+    UserPasswordWindowComponent.prototype.ChangePasswordErrorAlert = function () {
+        this.alertService.Alert({
+            title: "שינוי סיסמא",
+            text: "אופס... אירעה שגיאה בשינוי הסיסמא",
+            type: alert_service_1.ALERT_TYPE.DANGER,
+            showCancelButton: false
+        });
     };
     __decorate([
         core_1.Input(),
@@ -26,9 +112,12 @@ var UserPasswordWindowComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'userPasswordWindow',
             templateUrl: './userPasswordWindow.html',
-            providers: []
+            providers: [userPasswordWindow_service_1.UserPasswordWindowService]
         }),
-        __metadata("design:paramtypes", [global_service_1.GlobalService])
+        __metadata("design:paramtypes", [global_service_1.GlobalService,
+            alert_service_1.AlertService,
+            microtext_service_1.MicrotextService,
+            userPasswordWindow_service_1.UserPasswordWindowService])
     ], UserPasswordWindowComponent);
     return UserPasswordWindowComponent;
 }());

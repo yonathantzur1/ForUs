@@ -3,6 +3,8 @@ const config = require('../../../config');
 const enums = require('../../enums');
 const sha512 = require('js-sha512');
 
+const loginBL = require('../login/loginBL');
+
 const collectionName = config.db.collections.users;
 
 var self = module.exports = {
@@ -14,7 +16,7 @@ var self = module.exports = {
             delete updateFields.password;
 
             // Check if the validation password match to the user password on DB.
-            self.IsPasswordMatchToUser(userObjId, userPassword).then(result => {
+            loginBL.IsPasswordMatchToUser(userObjId, userPassword).then(result => {
                 if (result) {
                     // In case email field was updated.
                     if (updateFields.email) {
@@ -36,22 +38,7 @@ var self = module.exports = {
                 }
             }).catch(reject);
         });
-    },
-
-    IsPasswordMatchToUser(userObjId, password) {
-        return new Promise((resolve, reject) => {
-            DAL.FindOneSpecific(collectionName,
-                { "_id": userObjId },
-                { "password": 1, "salt": 1 }).then(data => {
-                    if (data) {
-                        resolve(sha512(password + data.salt) == data.password);
-                    }
-                    else {
-                        resolve(null);
-                    }
-                }).catch(reject);
-        });
-    },
+    },    
 
     UpdateUserOnDB(resolve, reject, userObjId, updateFields) {
         DAL.UpdateOne(collectionName,

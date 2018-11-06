@@ -123,6 +123,12 @@ var validateSchemaObj = {
                         password: joi.string().required()
                     })
                 }
+            },
+            "userPasswordWindow": {
+                "updateUserPassword": {
+                    oldPassword: joi.string().required(),
+                    newPassword: joi.string().required()
+                }
             }
         }
     }

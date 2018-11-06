@@ -13,16 +13,16 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var basic_service_1 = require("../basic/basic.service");
-var UserPageService = /** @class */ (function (_super) {
-    __extends(UserPageService, _super);
-    function UserPageService() {
+var basic_service_1 = require("../../basic/basic.service");
+var UserPasswordWindowService = /** @class */ (function (_super) {
+    __extends(UserPasswordWindowService, _super);
+    function UserPasswordWindowService() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.prefix = "/api/userPage";
+        _this.prefix = "/api/userPasswordWindow";
         return _this;
     }
-    UserPageService.prototype.GetUserDetails = function (id) {
-        return _super.prototype.get.call(this, this.prefix + '/getUserDetails?id=' + id)
+    UserPasswordWindowService.prototype.UpdateUserPassword = function (password) {
+        return _super.prototype.put.call(this, this.prefix + '/updateUserPassword', password)
             .toPromise()
             .then(function (result) {
             return result;
@@ -31,8 +31,8 @@ var UserPageService = /** @class */ (function (_super) {
             return null;
         });
     };
-    UserPageService.prototype.RemoveFriends = function (friendId) {
-        return _super.prototype.delete.call(this, this.prefix + '/removeFriends?friendId=' + friendId)
+    UserPasswordWindowService.prototype.ChangePasswordByMail = function () {
+        return _super.prototype.get.call(this, this.prefix + '/changePasswordByMail')
             .toPromise()
             .then(function (result) {
             return result;
@@ -41,17 +41,7 @@ var UserPageService = /** @class */ (function (_super) {
             return null;
         });
     };
-    UserPageService.prototype.DeleteUser = function () {
-        return _super.prototype.delete.call(this, this.prefix + '/deleteUser')
-            .toPromise()
-            .then(function (result) {
-            return result;
-        })
-            .catch(function (e) {
-            return null;
-        });
-    };
-    return UserPageService;
+    return UserPasswordWindowService;
 }(basic_service_1.BasicService));
-exports.UserPageService = UserPageService;
-//# sourceMappingURL=userPage.service.js.map
+exports.UserPasswordWindowService = UserPasswordWindowService;
+//# sourceMappingURL=userPasswordWindow.service.js.map

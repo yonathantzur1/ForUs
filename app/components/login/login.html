@@ -11,14 +11,14 @@
 				<div class="form-group">
 					<div class="col-10 no-padding">
 						<input [(ngModel)]="user.email" id="login-email" class="form-control user-input" type="email" name="email"
-						 (keyup)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="אימייל">
+						 (keydown)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="אימייל">
 						<label id="login-email-micro" class="microtext microtext-align"></label>
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-10 no-padding">
 						<input [(ngModel)]="user.password" id="login-password" class="form-control user-input" type="password" name="password"
-						 (keyup)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="סיסמא">
+						 (keydown)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="סיסמא">
 						<div class="forgot-link-sector">
 							<a class="forgot-link" (click)="OpenModal()" data-toggle="modal" data-target="#forgot-modal">שכחתי?</a>
 						</div>
@@ -54,7 +54,7 @@
 										<div class="form-group">
 											<div class="col">
 												<input [(ngModel)]="newUser.firstName" id="register-firstName" class="form-control user-input" type="text"
-												 name="firstName" (keyup)="HideMicrotext($event.srcElement.id + '-micro')" maxlength="10" placeholder="שם פרטי">
+												 name="firstName" (keydown)="HideMicrotext($event.srcElement.id + '-micro')" maxlength="10" placeholder="שם פרטי">
 												<label id="register-firstName-micro" class="microtext"></label>
 											</div>
 										</div>
@@ -63,7 +63,7 @@
 										<div class="form-group">
 											<div class="col">
 												<input [(ngModel)]="newUser.lastName" id="register-lastName" class="form-control user-input" type="text"
-												 name="lastName" (keyup)="HideMicrotext($event.srcElement.id + '-micro')" maxlength="10" placeholder="שם משפחה">
+												 name="lastName" (keydown)="HideMicrotext($event.srcElement.id + '-micro')" maxlength="10" placeholder="שם משפחה">
 												<label id="register-lastName-micro" class="microtext"></label>
 											</div>
 										</div>
@@ -73,14 +73,14 @@
 							<div class="form-group">
 								<div class="col-12">
 									<input [(ngModel)]="newUser.email" id="register-email" class="form-control user-input" type="email" name="email"
-									 (keyup)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="אימייל">
+									 (keydown)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="אימייל">
 									<label id="register-email-micro" class="microtext"></label>
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-12">
 									<input [(ngModel)]="newUser.password" id="register-password" class="form-control user-input" type="password"
-									 name="password" (keyup)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="סיסמא">
+									 name="password" (keydown)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="סיסמא">
 									<label id="register-password-micro" class="microtext"></label>
 								</div>
 							</div>
@@ -114,7 +114,7 @@
 							<div class="form-group">
 								<div *ngIf="!forgotUser.showResetCodeField || forgotUser.hasResetCode" class="col-12">
 									<input [(ngModel)]="forgotUser.email" id="forgot-email" class="form-control user-input" type="email" name="email"
-									 (keyup)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="אימייל">
+									 (keydown)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="אימייל">
 									<label id="forgot-email-micro" class="microtext"></label>
 								</div>
 								<div *ngIf="forgotUser.showResetCodeField && !forgotUser.hasResetCode" class="col-12">
@@ -129,7 +129,7 @@
 								<div class="form-group">
 									<div class="col-12">
 										<input [(ngModel)]="forgotUser.code" id="forgot-code" class="form-control user-input" type="text" name="code"
-										 (keyup)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="קוד איפוס" maxlength="8" autocomplete="off"
+										 (keydown)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="קוד איפוס" maxlength="8" autocomplete="off"
 										 autocorrect="off" autocapitalize="off" spellcheck="false">
 										<label id="forgot-code-micro" class="microtext"></label>
 									</div>
@@ -137,7 +137,7 @@
 								<div class="form-group">
 									<div class="col-12">
 										<input [(ngModel)]="forgotUser.newPassword" id="forgot-newPassword" class="form-control user-input" type="password"
-										 name="newPassword" (keyup)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="סיסמא חדשה"
+										 name="newPassword" (keydown)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="סיסמא חדשה"
 										 autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 										<label id="forgot-newPassword-micro" class="microtext"></label>
 									</div>

@@ -106,3 +106,10 @@
 #userWindow .back-icon {
     right: 15px;
 }
+
+#userWindow .microtext {
+    color: var(--microtext-color);
+    font-size: 12px;
+    position: absolute;
+    line-height: 20px
+}

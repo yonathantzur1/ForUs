@@ -43,6 +43,21 @@ var self = module.exports = {
         });
     },
 
+    IsPasswordMatchToUser(userObjId, password) {
+        return new Promise((resolve, reject) => {
+            DAL.FindOneSpecific(collectionName,
+                { "_id": userObjId },
+                { "password": 1, "salt": 1 }).then(data => {
+                    if (data) {
+                        resolve(sha512(password + data.salt) == data.password);
+                    }
+                    else {
+                        resolve(null);
+                    }
+                }).catch(reject);
+        });
+    },
+
     // Return user object on login if the user was found else false.
     GetUser(user) {
         return new Promise((resolve, reject) => {

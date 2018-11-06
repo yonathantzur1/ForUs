@@ -97,6 +97,13 @@ var UserEditWindowComponent = /** @class */ (function () {
         this.isShowPasswordValidationWindow = false;
         this.editUser.password = "";
     };
+    UserEditWindowComponent.prototype.CloseWindow = function () {
+        this.globalService.setData("closeUserEditWindow", true);
+    };
+    // Hide microtext in a specific field.
+    UserEditWindowComponent.prototype.HideMicrotext = function (microtextId) {
+        this.microtextService.HideMicrotext(microtextId);
+    };
     UserEditWindowComponent.prototype.SaveChanges = function () {
         var _this = this;
         if (this.microtextService.Validation(this.passwordValidationFuncs, this.editUser)) {
@@ -128,7 +135,7 @@ var UserEditWindowComponent = /** @class */ (function () {
                         _this.microtextService.ShowMicrotext("edit-user-password-micro", "הסיסמא שהוזנה שגוייה");
                     }
                     else {
-                        _this.globalService.setData("closeUserEditWindow", true);
+                        _this.CloseWindow();
                         _this.globalService.socket.emit("LogoutUserSessionServer", _this.user._id, "הפרטים התעדכנו בהצלחה!\nיש להיכנס מחדש.");
                     }
                 }
@@ -142,13 +149,6 @@ var UserEditWindowComponent = /** @class */ (function () {
                 }
             });
         }
-    };
-    UserEditWindowComponent.prototype.CloseWindow = function () {
-        this.globalService.setData("closeUserEditWindow", true);
-    };
-    // Hide microtext in a specific field.
-    UserEditWindowComponent.prototype.HideMicrotext = function (microtextId) {
-        this.microtextService.HideMicrotext(microtextId);
     };
     __decorate([
         core_1.Input(),

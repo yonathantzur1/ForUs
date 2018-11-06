@@ -26,17 +26,6 @@ export class UserPageService extends BasicService {
             });
     }
 
-    ChangePassword() {
-        return super.get(this.prefix + '/changePassword')
-            .toPromise()
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
-    }
-
     DeleteUser() {
         return super.delete(this.prefix + '/deleteUser')
             .toPromise()

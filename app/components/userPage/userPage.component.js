@@ -195,26 +195,8 @@ var UserPageComponent = /** @class */ (function () {
                     {
                         text: "שינוי סיסמא",
                         action: function () {
-                            // self.globalService.setData("setNavbarUnder", true);
-                            // self.isShowUserPasswordWindow = true;
-                            self.userPageService.ChangePassword().then(function (result) {
-                                if (result) {
-                                    self.alertService.Alert({
-                                        title: "שינוי סיסמא",
-                                        text: "יש להיכנס לקישור שנשלח לכתובת האימייל שלך.",
-                                        type: alert_service_1.ALERT_TYPE.SUCCESS,
-                                        showCancelButton: false
-                                    });
-                                }
-                                else {
-                                    self.alertService.Alert({
-                                        title: "שינוי סיסמא",
-                                        text: "שגיאה בתהליך שינוי הסיסמא",
-                                        type: alert_service_1.ALERT_TYPE.WARNING,
-                                        showCancelButton: false
-                                    });
-                                }
-                            });
+                            self.globalService.setData("setNavbarUnder", true);
+                            self.isShowUserPasswordWindow = true;
                         }
                     },
                     {

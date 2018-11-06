@@ -34,7 +34,7 @@ function RemoveEmptyChats(connectedUsers) {
             if (chatsToRemove.length > 0) {
                 chatBL.RemoveChatsByIds(chatsToRemove).then((res) => { }).catch((err) => {
                     // TODO: error log.
-                });;
+                });
             }
         }
     }).catch((err) => {
