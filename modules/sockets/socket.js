@@ -1,7 +1,6 @@
 const logsBL = require('../BL/logsBL')
 const tokenHandler = require('../handlers/tokenHandler');
 const permissionHandler = require('../handlers/permissionHandler');
-const requestHandler = require('../handlers/requestHandler');
 const events = require('../events');
 const config = require('../../config');
 const enums = require('../enums');
@@ -50,9 +49,7 @@ module.exports = function (io) {
                 });
 
                 // Log - in case the email and password are valid but the user is blocked.
-                logsBL.Login(user.email,
-                    requestHandler.GetIpFromSocket(socket),
-                    requestHandler.GetUserAgentFromSocket(socket));
+                logsBL.Login(user.email, socket);
             }
         });
 

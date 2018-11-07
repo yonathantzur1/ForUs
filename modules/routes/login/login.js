@@ -2,7 +2,6 @@ const loginBL = require('../../BL/login/loginBL');
 const logsBL = require('../../BL/logsBL');
 const mailer = require('../../mailer');
 const tokenHandler = require('../../handlers/tokenHandler');
-const requestHandler = require('../../handlers/requestHandler');
 const validate = require('../../security/validate');
 const bruteForceProtector = require('../../security/bruteForceProtector');
 
@@ -58,9 +57,7 @@ module.exports = (app) => {
 
                     // Log - in case the password is wrong.
                     if (result == false) {
-                        logsBL.LoginFail(req.body.email,
-                            requestHandler.GetIpFromRequest(req),
-                            requestHandler.GetUserAgentFromRequest(req));
+                        logsBL.LoginFail(req.body.email, req);
                     }
                 }
             }).catch((err) => {
@@ -118,7 +115,7 @@ module.exports = (app) => {
                             var token = tokenHandler.GetTokenFromUserObject(result);
                             tokenHandler.SetTokenOnCookie(token, res);
                             res.send({ "result": true });
-                            logsBL.Register(email, requestHandler.GetIpFromRequest(req), requestHandler.GetUserAgentFromRequest(req));
+                            logsBL.Register(email, req);
                         }
                         else {
                             res.send({ result });

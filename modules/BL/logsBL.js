@@ -1,31 +1,52 @@
 const DAL = require('../DAL');
 const config = require('../../config');
 const enums = require('../enums');
+const requestHandler = require('../handlers/requestHandler');
 
 var collectionName = config.db.collections.logs;
 
 module.exports = {
 
-    ResetPasswordRequest(email, ip, userAgent) {
-        return this.InsertStandartLog(enums.LOG_TYPE.RESET_PASSWORD_REQUEST, email, ip, userAgent);
+    ResetPasswordRequest(email, req) {
+        return this.InsertStandardLog(
+            enums.LOG_TYPE.RESET_PASSWORD_REQUEST,
+            email,
+            requestHandler.GetIpFromRequest(req),
+            requestHandler.GetUserAgentFromRequest(req)
+        );
     },
 
-    Login(email, ip, userAgent) {
-        return this.InsertStandartLog(enums.LOG_TYPE.LOGIN, email, ip, userAgent);
+    Login(email, socket) {
+        return this.InsertStandardLog(
+            enums.LOG_TYPE.LOGIN,
+            email,
+            requestHandler.GetIpFromSocket(socket),
+            requestHandler.GetUserAgentFromSocket(socket)
+        );
     },
 
-    LoginFail(email, ip, userAgent) {
-        return this.InsertStandartLog(enums.LOG_TYPE.LOGIN_FAIL, email, ip, userAgent);
+    LoginFail(email, req) {
+        return this.InsertStandardLog(
+            enums.LOG_TYPE.LOGIN_FAIL,
+            email,
+            requestHandler.GetIpFromRequest(req),
+            requestHandler.GetUserAgentFromRequest(req)
+        );
     },
 
-    Register(email, ip, userAgent) {
-        return this.InsertStandartLog(enums.LOG_TYPE.REGISTER, email, ip, userAgent);
+    Register(email, req) {
+        return this.InsertStandardLog(
+            enums.LOG_TYPE.REGISTER,
+            email,
+            requestHandler.GetIpFromRequest(req),
+            requestHandler.GetUserAgentFromRequest(req)
+        );
     },
 
-    InsertStandartLog(type, email, ip, userAgent) {
-        // In case of production environment.
-        if (config.server.isProd) {
-            return new Promise((resolve, reject) => {
+    InsertStandardLog(type, email, ip, userAgent) {
+        return new Promise((resolve, reject) => {
+            // In case of production environment.
+            if (config.server.isProd) {
                 log = {
                     type,
                     ip,
@@ -35,7 +56,10 @@ module.exports = {
                 };
 
                 DAL.Insert(collectionName, log).then(resolve).catch(reject);
-            });
-        }
+            }
+            else {
+                resolve(false);
+            }
+        });
     }
 }

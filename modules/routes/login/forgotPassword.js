@@ -2,7 +2,6 @@ const forgotPasswordBL = require('../../BL/login/forgotPasswordBL');
 const logsBL = require('../../BL/logsBL');
 const mailer = require('../../mailer');
 const tokenHandler = require('../../handlers/tokenHandler');
-const requestHandler = require('../../handlers/requestHandler');
 const validate = require('../../security/validate');
 const config = require('../../../config');
 
@@ -26,9 +25,7 @@ module.exports = (app) => {
                     res.send({ "result": true });
 
                     // Log - in case the user has found.
-                    logsBL.ResetPasswordRequest(email,
-                        requestHandler.GetIpFromRequest(req),
-                        requestHandler.GetUserAgentFromRequest(req));
+                    logsBL.ResetPasswordRequest(email, req);
                 }
                 else {
                     // Return to the client false in case the email was not found,

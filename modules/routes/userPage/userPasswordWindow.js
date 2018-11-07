@@ -1,10 +1,10 @@
 const userPasswordWindowBL = require('../../BL/userPage/userPasswordWindowBL');
 const forgotPasswordBL = require('../../BL/login/forgotPasswordBL');
+const logsBL = require('../../BL/logsBL');
 const validate = require('../../security/validate');
 const bruteForceProtector = require('../../security/bruteForceProtector');
 const config = require('../../../config');
 const mailer = require('../../mailer');
-const requestHandler = require('../../handlers/requestHandler');
 
 var prefix = "/api/userPasswordWindow";
 
@@ -33,6 +33,9 @@ module.exports = function (app) {
                     else {
                         res.send(result);
                     }
+
+                    // Log - in case of reset password request.
+                    logsBL.ResetPasswordRequest(req.user.email, req);
                 })
                 .catch(err => {
                     res.status(500).end();
@@ -52,10 +55,8 @@ module.exports = function (app) {
                     resetAddress);
                 res.send(true);
 
-                // Log - in case the user has found.
-                logsBL.ResetPasswordRequest(email,
-                    requestHandler.GetIpFromRequest(req),
-                    requestHandler.GetUserAgentFromRequest(req));
+                // Log - in case of reset password request.
+                logsBL.ResetPasswordRequest(email, req);
             }
             else {
                 // Return to the client null in case of error.
