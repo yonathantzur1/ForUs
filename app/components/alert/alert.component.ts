@@ -1,4 +1,4 @@
-import { Component, Input, HostListener } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 import { AlertService, ALERT_TYPE } from '../../services/alert/alert.service';
 

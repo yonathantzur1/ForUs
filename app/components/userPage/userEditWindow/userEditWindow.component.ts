@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, HostListener } from '@angular/core';
 
 import { UserEditWindowService } from '../../../services/userPage/userEditWindow/userEditWindow.service';
 import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
@@ -111,6 +111,22 @@ export class UserEditWindowComponent implements OnInit {
     // Hide microtext in a specific field.
     HideMicrotext(microtextId: string) {
         this.microtextService.HideMicrotext(microtextId);
+    }
+
+    @HostListener('document:keyup', ['$event'])
+    KeyPress(event: any) {
+        // In case of pressing escape.
+        if (event.code == "Escape") {
+            this.CloseWindow();
+        }
+        else if (event.code == "Enter" || event.code == "NumpadEnter") {
+            if (!this.isShowPasswordValidationWindow) {
+                this.ShowValidatePasswordWindow()
+            }
+            else {
+                this.SaveChanges();
+            }
+        }
     }
 
     SaveChanges() {

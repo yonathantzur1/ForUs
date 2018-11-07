@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, HostListener } from '@angular/core';
 
 import { UserReportWindowService } from '../../../services/userPage/userReportWindow/userReportWindow.service';
 import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
@@ -108,6 +108,19 @@ export class UserReportWindowComponent implements OnInit {
         }
 
         return null;
+    }
+
+    @HostListener('document:keyup', ['$event'])
+    KeyPress(event: any) {
+        // In case of pressing escape.
+        if (event.code == "Escape") {
+            this.CloseWindow();
+        }
+        else if (event.code == "Enter" || event.code == "NumpadEnter") {
+            if (!this.isShowTextReasonWindow) {
+                this.ShowTextReasonWindow();
+            }
+        }
     }
 
     ReportUser() {

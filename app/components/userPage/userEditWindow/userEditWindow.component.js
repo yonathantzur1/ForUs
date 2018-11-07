@@ -104,6 +104,20 @@ var UserEditWindowComponent = /** @class */ (function () {
     UserEditWindowComponent.prototype.HideMicrotext = function (microtextId) {
         this.microtextService.HideMicrotext(microtextId);
     };
+    UserEditWindowComponent.prototype.KeyPress = function (event) {
+        // In case of pressing escape.
+        if (event.code == "Escape") {
+            this.CloseWindow();
+        }
+        else if (event.code == "Enter" || event.code == "NumpadEnter") {
+            if (!this.isShowPasswordValidationWindow) {
+                this.ShowValidatePasswordWindow();
+            }
+            else {
+                this.SaveChanges();
+            }
+        }
+    };
     UserEditWindowComponent.prototype.SaveChanges = function () {
         var _this = this;
         if (this.microtextService.Validation(this.passwordValidationFuncs, this.editUser)) {
@@ -154,6 +168,12 @@ var UserEditWindowComponent = /** @class */ (function () {
         core_1.Input(),
         __metadata("design:type", Object)
     ], UserEditWindowComponent.prototype, "user", void 0);
+    __decorate([
+        core_1.HostListener('document:keyup', ['$event']),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", void 0)
+    ], UserEditWindowComponent.prototype, "KeyPress", null);
     UserEditWindowComponent = __decorate([
         core_1.Component({
             selector: 'userEditWindow',

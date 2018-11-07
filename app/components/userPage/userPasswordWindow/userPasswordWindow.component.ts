@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostListener } from '@angular/core';
 
 import { UserPasswordWindowService } from '../../../services/userPage/userPasswordWindow/userPasswordWindow.service';
 import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
@@ -59,6 +59,17 @@ export class UserPasswordWindowComponent {
     // Hide microtext in a specific field.
     HideMicrotext(microtextId: string) {
         this.microtextService.HideMicrotext(microtextId);
+    }
+
+    @HostListener('document:keyup', ['$event'])
+    KeyPress(event: any) {
+        // In case of pressing escape.
+        if (event.code == "Escape") {
+            this.CloseWindow();
+        }
+        else if (event.code == "Enter" || event.code == "NumpadEnter") {
+            this.ChangePassword();
+        }
     }
 
     ChangePassword() {

@@ -98,6 +98,17 @@ var UserReportWindowComponent = /** @class */ (function () {
         }
         return null;
     };
+    UserReportWindowComponent.prototype.KeyPress = function (event) {
+        // In case of pressing escape.
+        if (event.code == "Escape") {
+            this.CloseWindow();
+        }
+        else if (event.code == "Enter" || event.code == "NumpadEnter") {
+            if (!this.isShowTextReasonWindow) {
+                this.ShowTextReasonWindow();
+            }
+        }
+    };
     UserReportWindowComponent.prototype.ReportUser = function () {
         var _this = this;
         // In case the user did not fill the description text.
@@ -133,6 +144,12 @@ var UserReportWindowComponent = /** @class */ (function () {
         core_1.Input(),
         __metadata("design:type", Object)
     ], UserReportWindowComponent.prototype, "user", void 0);
+    __decorate([
+        core_1.HostListener('document:keyup', ['$event']),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", void 0)
+    ], UserReportWindowComponent.prototype, "KeyPress", null);
     UserReportWindowComponent = __decorate([
         core_1.Component({
             selector: 'userReportWindow',

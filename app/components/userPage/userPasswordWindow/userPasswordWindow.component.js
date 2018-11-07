@@ -57,6 +57,15 @@ var UserPasswordWindowComponent = /** @class */ (function () {
     UserPasswordWindowComponent.prototype.HideMicrotext = function (microtextId) {
         this.microtextService.HideMicrotext(microtextId);
     };
+    UserPasswordWindowComponent.prototype.KeyPress = function (event) {
+        // In case of pressing escape.
+        if (event.code == "Escape") {
+            this.CloseWindow();
+        }
+        else if (event.code == "Enter" || event.code == "NumpadEnter") {
+            this.ChangePassword();
+        }
+    };
     UserPasswordWindowComponent.prototype.ChangePassword = function () {
         var _this = this;
         if (this.microtextService.Validation(this.validationFuncs, this.password)) {
@@ -108,6 +117,12 @@ var UserPasswordWindowComponent = /** @class */ (function () {
         core_1.Input(),
         __metadata("design:type", String)
     ], UserPasswordWindowComponent.prototype, "userId", void 0);
+    __decorate([
+        core_1.HostListener('document:keyup', ['$event']),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", void 0)
+    ], UserPasswordWindowComponent.prototype, "KeyPress", null);
     UserPasswordWindowComponent = __decorate([
         core_1.Component({
             selector: 'userPasswordWindow',
