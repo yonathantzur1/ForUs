@@ -170,9 +170,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             }
         ];
 
-        self.colorBtns = ["#333", "#777", "#8a6d3b", "#3c763d",
-            "#4caf50", "#03a9f4", "#3f51b5", "#6f0891",
-            "#cf56d7", "#dbdb00", "#ff5722", "#eb1000"];
+        self.colorBtns = ["#211A1E", "#C3423F", "#9BC53D", "#2BC016",
+            "#5BC0EB", "#F9C22E", "#3f51b5", "#6f0891",
+            "#cf56d7", "#DAA49A", "#ff5722", "#D62839"];
         self.isCanvasInitialize = false;
         self.isCanvasTopOpen = false;
     }

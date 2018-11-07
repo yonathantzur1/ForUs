@@ -17,12 +17,10 @@ export class ChatsWindowComponent implements OnInit {
 
     isLoading: boolean;
     chats: any = [];
-    isChatsLoading: boolean;
 
     constructor(private chatsWindowService: ChatsWindowService, private globalService: GlobalService) { }
 
     ngOnInit() {
-        this.isChatsLoading = true;
         this.LoadChatsObjects();
 
         var self = this;
@@ -86,7 +84,6 @@ export class ChatsWindowComponent implements OnInit {
         this.chatsWindowService.GetAllChats().then((function (chats: any) {
             this.isLoading = false;
             this.chats = chats;
-            this.isChatsLoading = false;
         }).bind(this));
     }
 

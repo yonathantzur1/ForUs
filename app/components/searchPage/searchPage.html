@@ -1,13 +1,13 @@
 <div id="searchPage">
     <div class="users-container">
-        <div class="title-container">
+        <div class="title-container" [ngClass]="{'no-border' : !users}">
             <i class="fas fa-users"></i>
             <span class="title-text">
                 משתמשים
             </span>
         </div>
         <div *ngIf="!users" class="users-loading-container">
-            <loaderDots></loaderDots>
+            <loaderSpinner></loaderSpinner>
         </div>
         <div class="user-tab" *ngFor="let user of users">
             <div class="user-details-container" (click)="UserClick(user._id)" [ngClass]="{'short-user-name' : isFriendRequestAction(user)}">

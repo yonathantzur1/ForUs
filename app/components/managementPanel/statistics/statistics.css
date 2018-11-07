@@ -13,7 +13,7 @@
     position: relative;
     display: flex;    
     border-radius: 3px;
-    background-color: var(--main-background-color);
+    background-color: whitesmoke;
     z-index: 2;
 }
 

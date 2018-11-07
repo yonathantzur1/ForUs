@@ -53,13 +53,3 @@
     font-size: 18px;
     cursor: pointer;
 }
-
-#permissionsCard .permissions-loader {
-    position: relative;
-    right: 50%;
-    align-self: center;
-    text-align: center;
-    display: inline-block;
-    margin-right: -35px;
-    margin-bottom: 30px;
-}

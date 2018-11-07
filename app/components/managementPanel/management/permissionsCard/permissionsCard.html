@@ -11,7 +11,7 @@
                     </h4>                    
                 </div>
                 <div class="modal-body">
-                    <loaderSpinner class="permissions-loader" *ngIf="isLoading"></loaderSpinner>
+                    <loaderSpinner *ngIf="isLoading"></loaderSpinner>
                     <div class="permissions-container" *ngIf="!isLoading">
                         <div class="permission-sector" *ngFor="let permission of permissions">
                             <i [hidden]="permission.isChecked" (click)="permission.isChecked=true;" class="far fa-square permission-check-icon"></i>

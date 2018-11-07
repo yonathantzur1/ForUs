@@ -1,12 +1,12 @@
 <div id="chatsWindow">
     <i class="fas fa-caret-up window-top-arrow"></i>
     <div class="chatsWindow-container">
-        <div *ngIf="!isChatsLoading && !isLoading" class="top-line">
+        <div *ngIf="!isLoading" class="top-line">
             <span>{{GetUnreadMessagesNumberText()}}</span>
         </div>
         <div class="body-container">
-            <loaderSpinner *ngIf="isChatsLoading || isLoading" id="chats-loader" class="chats-loader"></loaderSpinner>
-            <div *ngIf="!isChatsLoading && !isLoading">
+            <loaderSpinner *ngIf="isLoading" id="chats-loader" class="chats-loader"></loaderSpinner>
+            <div *ngIf="!isLoading">
                 <div class="chat-container" *ngFor="let chat of SortByDate(chats)" (click)="OpenChat(chat.friend)">
                     <span *ngIf="messagesNotifications[chat.friend._id]" class="notification-sign"></span>
                     <img class="chat-image" [src]="GetFriendProfile(chat.friend) || globalService.defaultProfileImage">

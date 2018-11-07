@@ -15,6 +15,10 @@
     padding-right: 10px;
 }
 
+#searchPage .no-border {
+    border: none !important;
+}
+
 #searchPage .title-text {
     margin-right: 5px;
 }

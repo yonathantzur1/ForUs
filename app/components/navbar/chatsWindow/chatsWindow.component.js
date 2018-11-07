@@ -19,7 +19,6 @@ var ChatsWindowComponent = /** @class */ (function () {
         this.chats = [];
     }
     ChatsWindowComponent.prototype.ngOnInit = function () {
-        this.isChatsLoading = true;
         this.LoadChatsObjects();
         var self = this;
         self.globalService.SocketOn('ClientUpdateSendMessage', function (msgData) {
@@ -68,7 +67,6 @@ var ChatsWindowComponent = /** @class */ (function () {
         this.chatsWindowService.GetAllChats().then((function (chats) {
             this.isLoading = false;
             this.chats = chats;
-            this.isChatsLoading = false;
         }).bind(this));
     };
     ChatsWindowComponent.prototype.GetUnreadMessagesNumber = function () {

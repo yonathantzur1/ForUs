@@ -390,11 +390,12 @@
 }
 
 #chat .send-canvas-btn-icon {
-    color: white;
+    color: whitesmoke;
     text-align: center;
     width: 100%;
     align-self: center;
-    margin-right: 2px;
+    margin-right: 3px;
+    margin-bottom: 1px;
 }
 
 #chat .selected-color-line {
