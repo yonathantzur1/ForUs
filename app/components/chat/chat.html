@@ -17,7 +17,8 @@
             class="notification-sector">
             <img class="notification-img" [src]="messageNotificationFriendObj.profileImage || globalService.defaultProfileImage">
             <div class="notification-text">
-                <span class="notification-name">{{messageNotificationFriendObj.firstName + " " + messageNotificationFriendObj.lastName}}:</span>
+                <span class="notification-name">{{messageNotificationFriendObj.firstName + " " +
+                    messageNotificationFriendObj.lastName}}:</span>
                 <span class="notification-msg" *ngIf="messageNotificationText">{{messageNotificationText}}</span>
                 <span class="notification-msg" *ngIf="!messageNotificationText">
                     <i class="fas fa-camera img-sign"></i>
@@ -45,7 +46,8 @@
             </div>
             <div id="canvas-bar-sector" class="canvas-bar-sector">
                 <div (click)="ShowHideCanvasTopSector()" class="canvas-options-sector">
-                    <i class="material-icons open-canvas-icon">{{!isCanvasTopOpen ? "keyboard_arrow_up" : "keyboard_arrow_down"}}</i>
+                    <i class="material-icons open-canvas-icon">{{!isCanvasTopOpen ? "keyboard_arrow_up" :
+                        "keyboard_arrow_down"}}</i>
                 </div>
                 <div class="color-btns-sector">
                     <div *ngFor="let colorBtn of colorBtns; let i = index" (click)="ChangeCanvasColor(i)" [ngStyle]="{'backgroundColor': colorBtn}"
@@ -87,7 +89,7 @@
                         </span>
                     </div>
                     <span *ngIf="!message.isImage">
-                        <div class="message-container">
+                        <div class="message-container" [ngClass]="{'message-container-with-space' : ((i-1 > 0) && message.from != messages[i-1].from)}">
                             <div id="message-time-container" class="message-time-container" [ngClass]="{'user-message-time' : message.from == chatData.user._id, 'friend-message-time': message.from == chatData.friend._id}">
                                 <span class="message-time">
                                     {{GetTimeString(message.time)}}
@@ -101,7 +103,7 @@
                         </div>
                     </span>
                     <span *ngIf="message.isImage">
-                        <div class="message-container">
+                        <div class="message-container" [ngClass]="{'message-container-with-space' : ((i-1 > 0) && message.from != messages[i-1].from)}">
                             <div id="message-time-container" class="message-time-container" [ngClass]="{'user-message-time' : message.from == chatData.user._id, 'friend-message-time': message.from == chatData.friend._id}">
                                 <span class="message-time">
                                     {{GetTimeString(message.time)}}
@@ -114,8 +116,8 @@
             </div>
             <div class="chat-write-sector">
                 <div class="msg-input-sector">
-                    <input [(ngModel)]="msghInput" (keyup)="MsgInputKeyup($event)" maxlength="600" id="msg-input" class="msg-input" type="text"
-                        autocapitalize="off" autocomplete="off">
+                    <input [(ngModel)]="msghInput" (keyup)="MsgInputKeyup($event)" maxlength="600" id="msg-input" class="msg-input"
+                        type="text" autocapitalize="off" autocomplete="off">
                 </div>
                 <div (click)="SendMessage()" [ngClass]="{'send-msg-btn-sector-disabled' : isMessagesLoading}" class="send-msg-btn-sector">
                     <i class="fas fa-caret-left fa-lg send-msg-btn"></i>

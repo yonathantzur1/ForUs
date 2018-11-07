@@ -120,12 +120,16 @@
 }
 
 #chat .message-container {
-    margin-bottom: 5px;
+    margin-bottom: 2px;
     width: 100%;
     float: right;
     position: relative;
     padding-right: 12px;
     padding-left: 12px;
+}
+
+#chat .message-container-with-space {
+    margin-top: 5px;
 }
 
 #chat .message {    
