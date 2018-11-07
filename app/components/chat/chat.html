@@ -88,28 +88,20 @@
                             <span class="bubble-message-text">{{GetDateBubbleText(i)}}</span>
                         </span>
                     </div>
-                    <span *ngIf="!message.isImage">
-                        <div class="message-container" [ngClass]="{'message-container-with-space' : ((i-1 > 0) && message.from != messages[i-1].from)}">
+                    <span>
+                        <div class="message-container" [ngClass]="{'message-container-with-top-space' : ((i-1 > 0) && message.from != messages[i-1].from), 'message-container-with-bottom-space': i == (messages.length -1)}">
                             <div id="message-time-container" class="message-time-container" [ngClass]="{'user-message-time' : message.from == chatData.user._id, 'friend-message-time': message.from == chatData.friend._id}">
                                 <span class="message-time">
                                     {{GetTimeString(message.time)}}
                                 </span>
                             </div>
-                            <span [id]="message.id" class="message" [ngClass]="{'user-message' : message.from == chatData.user._id, 'friend-message': message.from == chatData.friend._id}">
+                            <span [id]="message.id" *ngIf="!message.isImage" class="message" [ngClass]="{'user-message' : message.from == chatData.user._id, 'friend-message': message.from == chatData.friend._id}">
                                 <div class="message-text">
                                     {{message.text}}
                                 </div>
                             </span>
-                        </div>
-                    </span>
-                    <span *ngIf="message.isImage">
-                        <div class="message-container" [ngClass]="{'message-container-with-space' : ((i-1 > 0) && message.from != messages[i-1].from)}">
-                            <div id="message-time-container" class="message-time-container" [ngClass]="{'user-message-time' : message.from == chatData.user._id, 'friend-message-time': message.from == chatData.friend._id}">
-                                <span class="message-time">
-                                    {{GetTimeString(message.time)}}
-                                </span>
-                            </div>
-                            <img [id]="message.id" class="message-img" [src]="message.text" [ngClass]="{'user-message-img' : message.from == chatData.user._id, 'friend-message-img': message.from == chatData.friend._id}">
+                            <img [id]="message.id" *ngIf="message.isImage" class="message-img" [src]="message.text"
+                                [ngClass]="{'user-message-img' : message.from == chatData.user._id, 'friend-message-img': message.from == chatData.friend._id}">
                         </div>
                     </span>
                 </div>

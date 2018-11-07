@@ -128,8 +128,12 @@
     padding-left: 12px;
 }
 
-#chat .message-container-with-space {
-    margin-top: 5px;
+#chat .message-container-with-top-space {
+    margin-top: 6px;
+}
+
+#chat .message-container-with-bottom-space {
+    margin-bottom: 6px;
 }
 
 #chat .message {    
