@@ -89,7 +89,7 @@
                         </span>
                     </div>
                     <span>
-                        <div class="message-container" [ngClass]="{'message-container-with-top-space' : ((i-1 > 0) && message.from != messages[i-1].from), 'message-container-with-bottom-space': i == (messages.length -1)}">
+                        <div class="message-container" [ngClass]="{'message-container-with-top-space' : (!IsShowDateBubble(i) && (i-1 > 0) && message.from != messages[i-1].from), 'message-container-with-bottom-space': i == (messages.length -1)}">
                             <div id="message-time-container" class="message-time-container" [ngClass]="{'user-message-time' : message.from == chatData.user._id, 'friend-message-time': message.from == chatData.friend._id}">
                                 <span class="message-time">
                                     {{GetTimeString(message.time)}}
