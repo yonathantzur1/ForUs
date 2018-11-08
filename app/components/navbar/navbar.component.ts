@@ -137,7 +137,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 this.isNavbarUnder = false;
             }
 
-            if (value["HideSidenav"]) {
+            if (value["hideSidenav"]) {
                 this.HideSidenav();
             }
 
@@ -157,26 +157,26 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 this.OpenChat(value["openChat"]);
             }
 
-            if (value["OpenUserProfile"]) {
-                this.OpenUserProfile(value["OpenUserProfile"]);
+            if (value["openUserProfile"]) {
+                this.OpenUserProfile(value["openUserProfile"]);
             }
 
             // ------------ Friend requests functions ------------
 
-            if (value["AddFriendRequest"]) {
-                this.AddFriendRequest(value["AddFriendRequest"]);
+            if (value["addFriendRequest"]) {
+                this.AddFriendRequest(value["addFriendRequest"]);
             }
 
-            if (value["RemoveFriendRequest"]) {
-                this.RemoveFriendRequest(value["RemoveFriendRequest"]);
+            if (value["removeFriendRequest"]) {
+                this.RemoveFriendRequest(value["removeFriendRequest"]);
             }
 
-            if (value["AddFriend"]) {
-                this.AddFriend(value["AddFriend"]);
+            if (value["addFriend"]) {
+                this.AddFriend(value["addFriend"]);
             }
 
-            if (value["IgnoreFriendRequest"]) {
-                this.IgnoreFriendRequest(value["IgnoreFriendRequest"]);
+            if (value["ignoreFriendRequest"]) {
+                this.IgnoreFriendRequest(value["ignoreFriendRequest"]);
             }
 
             // ----------------------------------------------------------
@@ -382,7 +382,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             self.ShowFriendRequestNotification(friend.firstName + " " + friend.lastName, true);
 
             self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
-            self.globalService.socket.emit("RemoveFriendRequest", self.user._id, friend._id);
+            self.globalService.socket.emit("removeFriendRequest", self.user._id, friend._id);
             self.globalService.socket.emit("ServerGetOnlineFriends");
         });
 
@@ -858,7 +858,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.navbarService.RemoveFriendRequest(friendId).then(function (result: any) {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
-                self.globalService.socket.emit("RemoveFriendRequest", self.user._id, friendId);
+                self.globalService.socket.emit("removeFriendRequest", self.user._id, friendId);
                 self.snackbarService.Snackbar("בקשת החברות בוטלה");
             }
         });

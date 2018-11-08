@@ -308,6 +308,18 @@ var ProfilePictureEditComponent = /** @class */ (function () {
         });
         return deferred.promise();
     };
+    ProfilePictureEditComponent.prototype.KeyPress = function (event) {
+        // In case of pressing escape.
+        if (event.code == "Escape") {
+            this.CloseWindow();
+        }
+    };
+    __decorate([
+        core_1.HostListener('document:keyup', ['$event']),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", void 0)
+    ], ProfilePictureEditComponent.prototype, "KeyPress", null);
     ProfilePictureEditComponent = __decorate([
         core_1.Component({
             selector: 'profilePictureEdit',

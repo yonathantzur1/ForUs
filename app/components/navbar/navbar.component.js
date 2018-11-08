@@ -88,7 +88,7 @@ var NavbarComponent = /** @class */ (function () {
             if (value["setNavbarTop"]) {
                 _this.isNavbarUnder = false;
             }
-            if (value["HideSidenav"]) {
+            if (value["hideSidenav"]) {
                 _this.HideSidenav();
             }
             if (value["closeDropMenu"]) {
@@ -103,21 +103,21 @@ var NavbarComponent = /** @class */ (function () {
             if (value["openChat"]) {
                 _this.OpenChat(value["openChat"]);
             }
-            if (value["OpenUserProfile"]) {
-                _this.OpenUserProfile(value["OpenUserProfile"]);
+            if (value["openUserProfile"]) {
+                _this.OpenUserProfile(value["openUserProfile"]);
             }
             // ------------ Friend requests functions ------------
-            if (value["AddFriendRequest"]) {
-                _this.AddFriendRequest(value["AddFriendRequest"]);
+            if (value["addFriendRequest"]) {
+                _this.AddFriendRequest(value["addFriendRequest"]);
             }
-            if (value["RemoveFriendRequest"]) {
-                _this.RemoveFriendRequest(value["RemoveFriendRequest"]);
+            if (value["removeFriendRequest"]) {
+                _this.RemoveFriendRequest(value["removeFriendRequest"]);
             }
-            if (value["AddFriend"]) {
-                _this.AddFriend(value["AddFriend"]);
+            if (value["addFriend"]) {
+                _this.AddFriend(value["addFriend"]);
             }
-            if (value["IgnoreFriendRequest"]) {
-                _this.IgnoreFriendRequest(value["IgnoreFriendRequest"]);
+            if (value["ignoreFriendRequest"]) {
+                _this.IgnoreFriendRequest(value["ignoreFriendRequest"]);
             }
             // ----------------------------------------------------------
         });
@@ -294,7 +294,7 @@ var NavbarComponent = /** @class */ (function () {
             self.isHideNotificationsBudget = false;
             self.ShowFriendRequestNotification(friend.firstName + " " + friend.lastName, true);
             self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
-            self.globalService.socket.emit("RemoveFriendRequest", self.user._id, friend._id);
+            self.globalService.socket.emit("removeFriendRequest", self.user._id, friend._id);
             self.globalService.socket.emit("ServerGetOnlineFriends");
         });
         self.globalService.SocketOn('ClientFriendTyping', function (friendId) {
@@ -694,7 +694,7 @@ var NavbarComponent = /** @class */ (function () {
         this.navbarService.RemoveFriendRequest(friendId).then(function (result) {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
-                self.globalService.socket.emit("RemoveFriendRequest", self.user._id, friendId);
+                self.globalService.socket.emit("removeFriendRequest", self.user._id, friendId);
                 self.snackbarService.Snackbar("בקשת החברות בוטלה");
             }
         });

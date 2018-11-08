@@ -74,11 +74,11 @@ var SearchPage = /** @class */ (function () {
         return false;
     };
     SearchPage.prototype.AddFriendRequest = function (user) {
-        this.globalService.setData("AddFriendRequest", user._id);
+        this.globalService.setData("addFriendRequest", user._id);
         user.isGetFriendRequest = true;
     };
     SearchPage.prototype.RemoveFriendRequest = function (user) {
-        this.globalService.setData("RemoveFriendRequest", user._id);
+        this.globalService.setData("removeFriendRequest", user._id);
         user.isGetFriendRequest = false;
     };
     SearchPage = __decorate([

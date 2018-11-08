@@ -126,7 +126,7 @@ var UserPageComponent = /** @class */ (function () {
                 },
                 onClick: function () {
                     self.SetUserFriendStatus("isGetFriendRequest");
-                    self.globalService.setData("AddFriendRequest", self.user._id);
+                    self.globalService.setData("addFriendRequest", self.user._id);
                 }
             },
             {
@@ -142,14 +142,14 @@ var UserPageComponent = /** @class */ (function () {
                         text: "אישור חברות",
                         action: function () {
                             self.SetUserFriendStatus("isFriend");
-                            self.globalService.setData("AddFriend", self.user._id);
+                            self.globalService.setData("addFriend", self.user._id);
                         }
                     },
                     {
                         text: "דחיית חברות",
                         action: function () {
                             self.UnsetUserFriendStatus("isSendFriendRequest");
-                            self.globalService.setData("IgnoreFriendRequest", self.user._id);
+                            self.globalService.setData("ignoreFriendRequest", self.user._id);
                         }
                     }
                 ]
@@ -164,7 +164,7 @@ var UserPageComponent = /** @class */ (function () {
                 },
                 onClick: function () {
                     self.UnsetUserFriendStatus("isGetFriendRequest");
-                    self.globalService.setData("RemoveFriendRequest", self.user._id);
+                    self.globalService.setData("removeFriendRequest", self.user._id);
                 }
             },
             {

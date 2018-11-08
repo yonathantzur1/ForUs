@@ -143,7 +143,7 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
     };
     FriendRequestsWindowComponent.prototype.OpenUserPage = function (friendId) {
         this.router.navigateByUrl("/profile/" + friendId);
-        this.globalService.setData("HideSidenav", true);
+        this.globalService.setData("hideSidenav", true);
     };
     __decorate([
         core_1.Input(),

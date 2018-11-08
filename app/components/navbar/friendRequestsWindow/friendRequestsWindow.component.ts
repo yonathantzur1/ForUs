@@ -172,6 +172,6 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
 
     OpenUserPage(friendId: string) {
         this.router.navigateByUrl("/profile/" + friendId);
-        this.globalService.setData("HideSidenav", true);
+        this.globalService.setData("hideSidenav", true);
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 
 import { GlobalService } from '../../../services/global/global.service';
 import { AlertService } from '../../../services/alert/alert.service';
@@ -344,6 +344,14 @@ export class ProfilePictureEditComponent implements OnInit {
         });
 
         return deferred.promise();
+    }
+
+    @HostListener('document:keyup', ['$event'])
+    KeyPress(event: any) {
+        // In case of pressing escape.
+        if (event.code == "Escape") {
+            this.CloseWindow();
+        }
     }
 
 }

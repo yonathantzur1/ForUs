@@ -703,7 +703,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     MoveToFriendPage(friendObj: any) {
-        this.globalService.setData("OpenUserProfile", friendObj);
+        this.globalService.setData("openUserProfile", friendObj);
     }
 }
 
