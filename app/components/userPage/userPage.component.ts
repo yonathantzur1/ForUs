@@ -61,6 +61,12 @@ export class UserPageComponent implements OnInit, OnDestroy {
                 this.globalService.setData("setNavbarTop", true);
             }
 
+            if (value["IgnoreFriendRequest"]) {
+                if (value["IgnoreFriendRequest"] == self.user._id) {
+                    self.UnsetUserFriendStatus("isSendFriendRequest");
+                }
+            }
+
         });
 
         var self = this;
@@ -307,6 +313,12 @@ export class UserPageComponent implements OnInit, OnDestroy {
         self.globalService.SocketOn('ClientRemoveFriendUser', function (friendId: string) {
             if (friendId == self.user._id) {
                 self.router.navigateByUrl("/");
+            }
+        });
+
+        self.globalService.SocketOn('GetFriendRequest', function (friendId: string) {
+            if (friendId == self.user._id) {
+                self.SetUserFriendStatus("isSendFriendRequest");
             }
         });
     }

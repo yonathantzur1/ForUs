@@ -523,14 +523,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     ShowHideSidenav() {
-        this.isNewFriendsLabel = false;
-        this.isHideNotificationsBudget = true;
+        this.isNewFriendsLabel = false;        
 
         if (this.isSidenavOpen) {
             this.HideSidenav();
         }
         else {
             this.isSidenavOpen = true;
+            this.isHideNotificationsBudget = true;
             this.HideDropMenu();
             this.HideSearchResults();
             document.getElementById("sidenav").style.width = this.sidenavWidth;
@@ -540,6 +540,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     HideSidenav() {
         if (this.isSidenavOpen) {
+            this.isHideNotificationsBudget = true;
             this.HideChatsWindow();
             this.HideFriendRequestsWindow();
             this.isSidenavOpen = false;
@@ -875,6 +876,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("ServerIgnoreFriendRequest", self.user._id, friendId);
                 self.globalService.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
+                self.globalService.setData("IgnoreFriendRequest", friendId);
             }
 
             callback && callback(result);

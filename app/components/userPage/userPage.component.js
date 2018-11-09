@@ -53,6 +53,11 @@ var UserPageComponent = /** @class */ (function () {
                 _this.isShowUserPasswordWindow = false;
                 _this.globalService.setData("setNavbarTop", true);
             }
+            if (value["IgnoreFriendRequest"]) {
+                if (value["IgnoreFriendRequest"] == self.user._id) {
+                    self.UnsetUserFriendStatus("isSendFriendRequest");
+                }
+            }
         });
         var self = this;
         self.tabs = [
@@ -287,6 +292,11 @@ var UserPageComponent = /** @class */ (function () {
         self.globalService.SocketOn('ClientRemoveFriendUser', function (friendId) {
             if (friendId == self.user._id) {
                 self.router.navigateByUrl("/");
+            }
+        });
+        self.globalService.SocketOn('GetFriendRequest', function (friendId) {
+            if (friendId == self.user._id) {
+                self.SetUserFriendStatus("isSendFriendRequest");
             }
         });
     };

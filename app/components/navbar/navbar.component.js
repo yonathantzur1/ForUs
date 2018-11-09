@@ -412,12 +412,12 @@ var NavbarComponent = /** @class */ (function () {
     };
     NavbarComponent.prototype.ShowHideSidenav = function () {
         this.isNewFriendsLabel = false;
-        this.isHideNotificationsBudget = true;
         if (this.isSidenavOpen) {
             this.HideSidenav();
         }
         else {
             this.isSidenavOpen = true;
+            this.isHideNotificationsBudget = true;
             this.HideDropMenu();
             this.HideSearchResults();
             document.getElementById("sidenav").style.width = this.sidenavWidth;
@@ -426,6 +426,7 @@ var NavbarComponent = /** @class */ (function () {
     };
     NavbarComponent.prototype.HideSidenav = function () {
         if (this.isSidenavOpen) {
+            this.isHideNotificationsBudget = true;
             this.HideChatsWindow();
             this.HideFriendRequestsWindow();
             this.isSidenavOpen = false;
@@ -709,6 +710,7 @@ var NavbarComponent = /** @class */ (function () {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("ServerIgnoreFriendRequest", self.user._id, friendId);
                 self.globalService.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
+                self.globalService.setData("IgnoreFriendRequest", friendId);
             }
             callback && callback(result);
         });
