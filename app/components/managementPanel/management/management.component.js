@@ -28,6 +28,7 @@ var ManagementComponent = /** @class */ (function () {
         this.users = [];
         this.friendsCache = {};
         this.friendsElementsPadding = 0;
+        this.userSettingsIconId = "user-settings-icon";
         // Css properties
         this.userFriendContainerWidth = 110;
         // Animation properties    
@@ -37,7 +38,6 @@ var ManagementComponent = /** @class */ (function () {
                 _this.CloseAllUsersMenu();
             }
         });
-        document.body.addEventListener("click", this.clickFunction.bind(this));
         var self = this;
         self.dropMenuDataList = [
             new navbar_component_1.DropMenuData(null, "עריכה", function () {
@@ -104,7 +104,6 @@ var ManagementComponent = /** @class */ (function () {
     };
     ManagementComponent.prototype.ngOnDestroy = function () {
         this.subscribeObj.unsubscribe();
-        document.body.removeEventListener("click", this.clickFunction);
     };
     ManagementComponent.prototype.SearchUser = function (userId) {
         var _this = this;
@@ -427,13 +426,13 @@ var ManagementComponent = /** @class */ (function () {
             }
         });
     };
-    ManagementComponent.prototype.clickFunction = function (e) {
+    ManagementComponent.prototype.ComponentClick = function (event) {
         var userWithOpenMenu = this.GetUserWithOpenMenu();
         var isMenuClick;
         if (userWithOpenMenu) {
             isMenuClick = false;
-            for (var i = 0; i < e.path.length; i++) {
-                if (e.path[i].id == "user-options" || e.path[i].id == "user-settings-icon") {
+            for (var i = 0; i < event.path.length; i++) {
+                if (event.path[i].id == this.userSettingsIconId) {
                     isMenuClick = true;
                     break;
                 }
@@ -443,6 +442,13 @@ var ManagementComponent = /** @class */ (function () {
             }
         }
     };
+    __decorate([
+        core_1.HostListener('document:click', ['$event']),
+        core_1.HostListener('document:touchend', ['$event']),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", void 0)
+    ], ManagementComponent.prototype, "ComponentClick", null);
     ManagementComponent = __decorate([
         core_1.Component({
             selector: 'management',

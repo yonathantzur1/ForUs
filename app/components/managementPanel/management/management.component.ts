@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { DropMenuData } from '../../navbar/navbar.component';
@@ -24,6 +24,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
     friendsElementsPadding: number = 0;
     dropMenuDataList: Array<DropMenuData>;
     isShowNotFoundUsersMessage: boolean;
+    userSettingsIconId: string = "user-settings-icon";
 
     // Css properties
     userFriendContainerWidth: number = 110;
@@ -45,8 +46,6 @@ export class ManagementComponent implements OnInit, OnDestroy {
                 this.CloseAllUsersMenu();
             }
         });
-
-        document.body.addEventListener("click", this.clickFunction.bind(this));
 
         var self = this;
 
@@ -121,7 +120,6 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.subscribeObj.unsubscribe();
-        document.body.removeEventListener("click", this.clickFunction);
     }
 
     SearchUser(userId?: string) {
@@ -517,15 +515,17 @@ export class ManagementComponent implements OnInit, OnDestroy {
         });
     }
 
-    clickFunction(e: any) {
+    @HostListener('document:click', ['$event'])
+    @HostListener('document:touchend', ['$event'])
+    ComponentClick(event: any) {
         var userWithOpenMenu = this.GetUserWithOpenMenu();
         var isMenuClick;
 
         if (userWithOpenMenu) {
             isMenuClick = false;
 
-            for (var i = 0; i < e.path.length; i++) {
-                if (e.path[i].id == "user-options" || e.path[i].id == "user-settings-icon") {
+            for (var i = 0; i < event.path.length; i++) {
+                if (event.path[i].id == this.userSettingsIconId) {
                     isMenuClick = true;
                     break;
                 }
