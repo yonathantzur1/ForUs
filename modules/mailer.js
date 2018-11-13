@@ -2,7 +2,15 @@ const nodemailer = require('nodemailer');
 const config = require('../config');
 
 // Create reusable transporter object using the default SMTP transport
-var transporter = nodemailer.createTransport(config.addresses.mailConnectionString);
+var transporter = nodemailer.createTransport(
+    {
+        service: 'SendGrid',
+        auth: {
+            user: 'apikey',
+            pass: config.addresses.mailKeyCode
+        }
+    }
+);
 
 module.exports = {
     SendMail(destEmail, title, text) {
@@ -67,8 +75,7 @@ module.exports = {
     },
 
     BlockMessage(email, name, reason, date) {
-        var dateString;
-        var date;
+        var dateString;        
 
         if (date) {
             dateString = "עד לתאריך: ";

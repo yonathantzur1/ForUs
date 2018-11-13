@@ -7,8 +7,8 @@ module.exports = {
     },
     addresses: {
         site: isServerProd ? "https://forus.herokuapp.com" : "http://localhost:" + serverPort,
-        mail: "forusmailer@gmail.com",
-        mailConnectionString: process.env.MAIL_CONNECTION_STRING
+        mail: "forus@mailer.com",
+        mailKeyCode: process.env.MAIL_KEY_CODE
     },
     db: {
         name: "forus",
