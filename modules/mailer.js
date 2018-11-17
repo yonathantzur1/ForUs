@@ -38,18 +38,26 @@ module.exports = {
     },
 
     ForgotPasswordMail(email, name, code, resetAddress) {
+        var codeStyle = '"padding:10px;background-color:#f2f2f2;border:1px solid #ccc;line-height:40px"';
+        var linkStyle = '"padding:7px 16px 11px 16px;border:solid 1px #344c80;' +
+            'background:#547da0;border-radius:2px;color:white;text-decoration:none;line-height:40px;"';
         this.SendMail(email,
             "איפוס סיסמא",
-            GetTimeBlessing() + name +
-            ", " + "<br>" + "הקוד שהונפק עבורך לאיפוס הסיסמא הוא: <b>" + code + "</b><br><br>" +
-            "או לחילופין, כניסה לקישור:<br>" + resetAddress);
+            GetTimeBlessing() + name + ", " +
+            "<br>" + "הקוד שהונפק עבורך לאיפוס הסיסמא הוא:<br><span style=" + codeStyle + ">" +
+            code + "</span><br><br>" +
+            "או לחילופין, לחיצה על הכפתור:<br>" +
+            "<a href='" + resetAddress + "' style=" + linkStyle + ">שינוי סיסמא</a>");
     },
 
     ChangePasswordMail(email, name, resetAddress) {
+        var linkStyle = '"padding:7px 16px 11px 16px;border:solid 1px #344c80;' +
+            'background:#547da0;border-radius:2px;color:white;text-decoration:none;line-height:40px;"';
         this.SendMail(email,
             "שינוי סיסמא",
             GetTimeBlessing() + name +
-            ", " + "<br>" + "לשינוי הסיסמא - יש להיכנס לקישור:<br>" + resetAddress);
+            ", " + "<br>" + "לשינוי הסיסמא - יש ללחוץ על הפתור:<br>" +
+            "<a href='" + resetAddress + "' style=" + linkStyle + ">שינוי סיסמא</a>");
     },
 
     MessageNotificationAlert(email, name, senderName) {
@@ -75,7 +83,7 @@ module.exports = {
     },
 
     BlockMessage(email, name, reason, date) {
-        var dateString;        
+        var dateString;
 
         if (date) {
             dateString = "עד לתאריך: ";
