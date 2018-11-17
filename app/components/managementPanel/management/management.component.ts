@@ -515,8 +515,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
         });
     }
 
-    @HostListener('document:click', ['$event'])
-    @HostListener('document:touchend', ['$event'])
+    @HostListener('document:click', ['$event'])    
     ComponentClick(event: any) {
         var userWithOpenMenu = this.GetUserWithOpenMenu();
         var isMenuClick;

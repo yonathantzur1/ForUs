@@ -4,6 +4,7 @@ const mailer = require('../../mailer');
 const tokenHandler = require('../../handlers/tokenHandler');
 const validate = require('../../security/validate');
 const bruteForceProtector = require('../../security/bruteForceProtector');
+const general = require('../../general');
 
 var prefix = prefix = "/login";
 
@@ -11,6 +12,10 @@ module.exports = (app) => {
     // Validate the user details and login the user.
     app.post(prefix + '/userLogin',
         validate,
+        (req, res, next) => {
+            general.LowerStringInObject(req, "body.email");
+            next();
+        },
         (req, res, next) => {
             bruteForceProtector.setFailReturnObj({ "result": { "lock": null } }, "result.lock");
             next();
@@ -93,9 +98,13 @@ module.exports = (app) => {
         }
     });
 
-    // Add new user to the db and make sure the email is not already exists.
+    // Add new user to the DB and make sure the email is not already exists.
     app.post(prefix + '/register',
         validate,
+        (req, res, next) => {
+            general.LowerStringInObject(req, "body.email");
+            next();
+        },
         (req, res) => {
             var email = { "email": req.body.email };
 

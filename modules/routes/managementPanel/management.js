@@ -1,9 +1,10 @@
 const managementBL = require('../../BL/managementPanel/managementBL');
 const permissionHandler = require('../../handlers/permissionHandler');
+const general = require('../../general');
 
 var prefix = "/api/management";
 
-module.exports = function (app) {    
+module.exports = function (app) {
     // Root permissions check for all management routes
     app.use(prefix, function (req, res, next) {
         if (permissionHandler.IsUserHasRootPermission(req.user.permissions)) {
@@ -14,13 +15,18 @@ module.exports = function (app) {
         }
     });
 
-    app.post(prefix + '/getUserByName', function (req, res) {
-        managementBL.GetUserByName(req.body.searchInput).then((result) => {
-            res.send(result);
-        }).catch((err) => {
-            res.status(500).end();
+    app.post(prefix + '/getUserByName',
+        (req, res, next) => {            
+            general.LowerStringInObject(req, "body.searchInput");
+            next();
+        },
+        (req, res) => {
+            managementBL.GetUserByName(req.body.searchInput).then((result) => {
+                res.send(result);
+            }).catch((err) => {
+                res.status(500).end();
+            });
         });
-    });
 
     app.post(prefix + '/getUserFriends', function (req, res) {
         managementBL.GetUserFriends(req.body.friendsIds).then((result) => {

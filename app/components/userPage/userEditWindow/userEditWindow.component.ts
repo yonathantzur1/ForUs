@@ -88,7 +88,7 @@ export class UserEditWindowComponent implements OnInit {
         else {
             return (this.editUser.firstName.trim() == this.user.firstName &&
                 this.editUser.lastName.trim() == this.user.lastName &&
-                this.editUser.email.trim() == this.user.email);
+                this.editUser.email.trim().toLowerCase() == this.user.email.toLowerCase());
         }
     }
 

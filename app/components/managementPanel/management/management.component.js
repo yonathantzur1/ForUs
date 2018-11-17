@@ -444,7 +444,6 @@ var ManagementComponent = /** @class */ (function () {
     };
     __decorate([
         core_1.HostListener('document:click', ['$event']),
-        core_1.HostListener('document:touchend', ['$event']),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", void 0)
