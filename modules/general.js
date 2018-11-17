@@ -25,8 +25,9 @@ module.exports = {
         return arr;
     },
 
-    // The function get object-(JSON) and path-(STRING) of string inside the object.     
-    // it convert the string to lower case letters.  
+    // The function gets object-(json),
+    // and path-(string of keys separated by . sign) of string inside the object.     
+    // It converts the string to lower case letters.  
     LowerStringInObject(obj, path) {
         try {            
             eval("obj." + path + " = obj." + path + ".toLowerCase()");

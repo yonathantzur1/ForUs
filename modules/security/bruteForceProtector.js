@@ -22,7 +22,7 @@ var handleStoreError = (error) => {
     };
 }
 
-// Sending json and path in json (keys separated by . sign) 
+// Sending json and path in json (keys separated by . sign)
 // and put the value on that path.
 function putValueInJsonByStringPath(obj, path, value) {
     eval("obj." + path + "=" + value);
@@ -46,7 +46,7 @@ module.exports = {
         refreshTimeoutOnRequest: false,
         minWait: 25 * 60 * 60 * 1000, // 1 day 1 hour (should never reach this wait time) 
         maxWait: 25 * 60 * 60 * 1000, // 1 day 1 hour (should never reach this wait time) 
-        lifetime: 24 * 60 * 60, // 1 day (seconds not milliseconds) 
+        lifetime: 24 * 60 * 60, // 1 day (seconds) 
         failCallback: failCallback,
         handleStoreError: handleStoreError
     }),

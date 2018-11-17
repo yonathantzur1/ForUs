@@ -7,7 +7,7 @@ var transporter = nodemailer.createTransport(
         service: 'SendGrid',
         auth: {
             user: 'apikey',
-            pass: config.addresses.mailKeyCode
+            pass: config.mailer.apiKeyCode
         }
     }
 );
@@ -16,7 +16,7 @@ module.exports = {
     SendMail(destEmail, title, text) {
         // Setup email data with unicode symbols
         var mailOptions = {
-            from: "'ForUs' <" + config.addresses.mail + ">", // Sender address
+            from: "'ForUs' <" + config.mailer.mail + ">", // Sender address
             to: destEmail, // List of receivers
             subject: title, // Subject line
             html: "<div dir='rtl'>" + text + "</div>" // html body
@@ -53,7 +53,7 @@ module.exports = {
     },
 
     MessageNotificationAlert(email, name, senderName) {
-        var text = GetTimeBlessing() + name + ", " + "<br>" + "ממתינה עבורך הודעה חדשה<name>." + "<br>" + config.addresses.site;
+        var text = GetTimeBlessing() + name + ", " + "<br>" + "ממתינה עבורך הודעה חדשה<name>." + "<br>" + config.address.site;
         text = senderName ? text.replace("<name>", " מ" + senderName) : text.replace("<name>", "");
 
         this.SendMail(email,
@@ -62,7 +62,7 @@ module.exports = {
     },
 
     FriendRequestAlert(email, name, friendName, friendId) {
-        var friendProfilePageUrl = config.addresses.site + "/profile/" + friendId;
+        var friendProfilePageUrl = config.address.site + "/profile/" + friendId;
         this.SendMail(email,
             "בקשת חברות",
             GetTimeBlessing() + name + "," + "<br>" + "בקשת חברות חדשה הגיעה מ" + friendName + ".<br>" + friendProfilePageUrl);
@@ -71,7 +71,7 @@ module.exports = {
     FriendRequestConfirm(email, name, friendName) {
         this.SendMail(email,
             "אישור בקשת חברות",
-            GetTimeBlessing() + friendName + "," + "<br>" + "החברות עם " + name + " אושרה.<br>" + config.addresses.site);
+            GetTimeBlessing() + friendName + "," + "<br>" + "החברות עם " + name + " אושרה.<br>" + config.address.site);
     },
 
     BlockMessage(email, name, reason, date) {

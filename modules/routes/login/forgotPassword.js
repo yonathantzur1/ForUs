@@ -4,6 +4,7 @@ const mailer = require('../../mailer');
 const tokenHandler = require('../../handlers/tokenHandler');
 const validate = require('../../security/validate');
 const config = require('../../../config');
+const general = require('../../general');
 
 var prefix = "/forgotPassword";
 
@@ -11,13 +12,17 @@ module.exports = (app) => {
     // Sending to the user an email with code to reset his password.
     app.put(prefix + '/forgot',
         validate,
+        (req, res, next) => {
+            general.LowerStringInObject(req, "body.email");
+            next();
+        },
         (req, res) => {
             var email = req.body.email;
 
             forgotPasswordBL.SetUserResetCode(email).then(result => {
                 if (result) {
                     var resetAddress =
-                        config.addresses.site + "/forgot/" + result.resetCode.token;
+                        config.address.site + "/forgot/" + result.resetCode.token;
                     mailer.ForgotPasswordMail(email,
                         result.firstName,
                         result.resetCode.code,
@@ -40,6 +45,10 @@ module.exports = (app) => {
     // Changing user password in DB by code.
     app.put(prefix + '/resetPassword',
         validate,
+        (req, res, next) => {
+            general.LowerStringInObject(req, "body.email");
+            next();
+        },
         (req, res) => {
             forgotPasswordBL.ResetPassword(req.body).then(result => {
                 if (result && result.isChanged) {

@@ -5,10 +5,12 @@ module.exports = {
     server: {
         isProd: isServerProd
     },
-    addresses: {
-        site: isServerProd ? "https://forus.herokuapp.com" : "http://localhost:" + serverPort,
+    address: {
+        site: isServerProd ? "https://forus.herokuapp.com" : "http://localhost:" + serverPort        
+    },
+    mailer: {
         mail: "forus@mailer.com",
-        mailKeyCode: process.env.MAIL_KEY_CODE
+        apiKeyCode: process.env.MAIL_KEY_CODE
     },
     db: {
         name: "forus",

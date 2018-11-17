@@ -49,7 +49,7 @@ module.exports = function (app) {
         forgotPasswordBL.SetUserResetCode(email).then(result => {
             if (result) {
                 var resetAddress =
-                    config.addresses.site + "/forgot/" + result.resetCode.token;
+                    config.address.site + "/forgot/" + result.resetCode.token;
                 mailer.ChangePasswordMail(email,
                     result.firstName,
                     resetAddress);
