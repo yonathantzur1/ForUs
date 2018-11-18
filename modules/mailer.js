@@ -13,13 +13,13 @@ var transporter = nodemailer.createTransport(
 );
 
 module.exports = {
-    SendMail(destEmail, title, text) {
+    SendMail(destEmail, title, text, css) {
         // Setup email data with unicode symbols
         var mailOptions = {
             from: "'ForUs' <" + config.mailer.mail + ">", // Sender address
             to: destEmail, // List of receivers
             subject: title, // Subject line
-            html: "<div dir='rtl'>" + text + "</div>" // html body
+            html: "<div dir='rtl'>" + (css ? ReplaceStyleCss(text, css) : text) + "</div>" // html body
         };
 
         // Send email with defined transport object
@@ -38,26 +38,37 @@ module.exports = {
     },
 
     ForgotPasswordMail(email, name, code, resetAddress) {
-        var codeStyle = '"padding:10px;background-color:#f2f2f2;border:1px solid #ccc;line-height:40px"';
-        var linkStyle = '"padding:7px 16px 11px 16px;border:solid 1px #344c80;' +
-            'background:#547da0;border-radius:2px;color:white;text-decoration:none;line-height:40px;"';
+        var css = {
+            resetCodeStyle: '"padding:8px;background-color:#f2f2f2;border:1px solid #ccc;display:inline-block;margin-top:3px;"',
+            resetLinkStyle: '"padding:7px 16px 11px 16px;border:solid 1px #344c80;background:#547da0;border-radius:2px;color:white;text-decoration:none;"',
+            lineSpaceStyle: '"margin-top:15px;"',
+            btnSpaceStyle: '"margin-top:10px;"'
+        }
+
         this.SendMail(email,
             "איפוס סיסמא",
-            GetTimeBlessing() + name + ", " +
-            "<br>" + "הקוד שהונפק עבורך לאיפוס הסיסמא הוא:<br><span style=" + codeStyle + ">" +
-            code + "</span><br><br>" +
-            "או לחילופין, לחיצה על הכפתור:<br>" +
-            "<a href='" + resetAddress + "' style=" + linkStyle + ">שינוי סיסמא</a>");
+            "<div>" + GetTimeBlessing() + name + ", " +
+            "<br>" + "הקוד שהונפק עבורך לאיפוס הסיסמא הוא:</div><div style={{resetCodeStyle}}>" +
+            code + "</div><br>" +
+            "<div style={{lineSpaceStyle}}>או לחילופין, לחיצה על הכפתור:</div>" +
+            "<div style={{btnSpaceStyle}}><a href='" + resetAddress +
+            "' style={{resetLinkStyle}}>שינוי סיסמא</a></div>",
+            css);
     },
 
     ChangePasswordMail(email, name, resetAddress) {
-        var linkStyle = '"padding:7px 16px 11px 16px;border:solid 1px #344c80;' +
-            'background:#547da0;border-radius:2px;color:white;text-decoration:none;line-height:40px;"';
+        var css = {
+            resetLinkStyle: '"padding:7px 16px 11px 16px;border:solid 1px #344c80;background:#547da0;border-radius:2px;color:white;text-decoration:none;"',
+            btnSpaceStyle: '"margin-top:10px;"'
+        }
+
         this.SendMail(email,
             "שינוי סיסמא",
-            GetTimeBlessing() + name +
-            ", " + "<br>" + "לשינוי הסיסמא - יש ללחוץ על הפתור:<br>" +
-            "<a href='" + resetAddress + "' style=" + linkStyle + ">שינוי סיסמא</a>");
+            "<div>" + GetTimeBlessing() + name + ", <br>" +
+            "לשינוי הסיסמא - יש ללחוץ על הפתור:</div>" +
+            "<div style={{btnSpaceStyle}}><a href='" +
+            resetAddress + "' style={{resetLinkStyle}}>שינוי סיסמא</a></div>",
+            css);
     },
 
     MessageNotificationAlert(email, name, senderName) {
@@ -124,4 +135,12 @@ function GetTimeBlessing() {
     else {
         return "לילה טוב ";
     }
+}
+
+function ReplaceStyleCss(html, css) {
+    Object.keys(css).forEach(className => {
+        html = html.replace("{{" + className + "}}", css[className]);
+    });
+
+    return html;
 }
