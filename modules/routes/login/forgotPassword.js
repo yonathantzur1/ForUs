@@ -67,6 +67,7 @@ module.exports = (app) => {
     app.get(prefix + '/validateResetPasswordToken',
         validate,
         (req, res) => {
+            tokenHandler.DeleteAuthCookies(res);
             forgotPasswordBL.ValidateResetPasswordToken(req.query.token).then(result => {
                 res.send(result ? { name: (result.firstName + " " + result.lastName) } : false);
             }).catch(err => {
