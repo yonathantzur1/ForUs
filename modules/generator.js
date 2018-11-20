@@ -15,17 +15,5 @@ module.exports = {
         return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function () {
             return (Math.random() * 16 | 0).toString(16);
         }).toLowerCase();
-    },
-
-    // The function gets object-(json),
-    // and path-(string of keys separated by . sign) of string inside the object.     
-    // It converts the string to lower case letters.  
-    LowerStringInObject(obj, path) {
-        try {            
-            eval("obj." + path + " = obj." + path + ".toLowerCase()");
-        }
-        catch (e) {
-            // TODO: error log.
-        }
     }
 }

@@ -4,7 +4,6 @@ const mailer = require('../../mailer');
 const tokenHandler = require('../../handlers/tokenHandler');
 const validate = require('../../security/validate');
 const config = require('../../../config');
-const general = require('../../general');
 
 var prefix = "/forgotPassword";
 
@@ -13,7 +12,7 @@ module.exports = (app) => {
     app.put(prefix + '/forgot',
         validate,
         (req, res, next) => {
-            general.LowerStringInObject(req, "body.email");
+            req.body.email = req.body.email.toLowerCase();
             next();
         },
         (req, res) => {
@@ -46,7 +45,7 @@ module.exports = (app) => {
     app.put(prefix + '/resetPassword',
         validate,
         (req, res, next) => {
-            general.LowerStringInObject(req, "body.email");
+            req.body.email = req.body.email.toLowerCase();
             next();
         },
         (req, res) => {

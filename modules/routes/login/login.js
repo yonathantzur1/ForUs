@@ -4,7 +4,6 @@ const mailer = require('../../mailer');
 const tokenHandler = require('../../handlers/tokenHandler');
 const validate = require('../../security/validate');
 const bruteForceProtector = require('../../security/bruteForceProtector');
-const general = require('../../general');
 
 var prefix = prefix = "/login";
 
@@ -12,8 +11,8 @@ module.exports = (app) => {
     // Validate the user details and login the user.
     app.post(prefix + '/userLogin',
         validate,
-        (req, res, next) => {
-            general.LowerStringInObject(req, "body.email");
+        (req, res, next) => {            
+            req.body.email = req.body.email.toLowerCase();
             next();
         },
         (req, res, next) => {
@@ -102,7 +101,7 @@ module.exports = (app) => {
     app.post(prefix + '/register',
         validate,
         (req, res, next) => {
-            general.LowerStringInObject(req, "body.email");
+            req.body.email = req.body.email.toLowerCase();
             next();
         },
         (req, res) => {

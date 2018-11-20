@@ -1,7 +1,7 @@
 const DAL = require('../../DAL');
 const config = require('../../../config');
 const enums = require('../../enums');
-const general = require('../../general');
+const generator = require('../../generator');
 const sha512 = require('js-sha512');
 
 const loginBL = require('../login/loginBL');
@@ -17,11 +17,11 @@ module.exports = {
             loginBL.IsPasswordMatchToUser(userObjId, oldPassword).then(result => {
                 // In case the password math to the user.
                 if (result) {
-                    var salt = general.GenerateCode(saltSize);
+                    var salt = generator.GenerateCode(saltSize);
                     var findObj = { "_id": userObjId };
                     var updateObj = {
                         $set: {
-                            "uid": general.GenerateId(),
+                            "uid": generator.GenerateId(),
                             "salt": salt,
                             "password": sha512(newPassword + salt)
                         }

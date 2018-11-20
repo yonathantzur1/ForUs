@@ -1,6 +1,5 @@
 const managementBL = require('../../BL/managementPanel/managementBL');
 const permissionHandler = require('../../handlers/permissionHandler');
-const general = require('../../general');
 
 var prefix = "/api/management";
 
@@ -16,8 +15,8 @@ module.exports = function (app) {
     });
 
     app.post(prefix + '/getUserByName',
-        (req, res, next) => {            
-            general.LowerStringInObject(req, "body.searchInput");
+        (req, res, next) => {                        
+            req.body.searchInput = req.body.searchInput.toLowerCase();
             next();
         },
         (req, res) => {

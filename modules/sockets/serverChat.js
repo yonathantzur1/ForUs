@@ -1,6 +1,6 @@
 const chatBL = require('../BL/chatBL');
 const navbarBL = require('../BL/navbar/navbarBL');
-const general = require('../general');
+const generator = require('../generator');
 const tokenHandler = require('../handlers/tokenHandler');
 
 module.exports = function (io, socket, socketsDictionary, connectedUsers) {
@@ -10,7 +10,7 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
 
         // Delete spaces from the start and the end of the message text.
         msgData.time = new Date();
-        msgData.id = general.GenerateId();
+        msgData.id = generator.GenerateId();
         msgData.text = (msgData.isImage) ? msgData.text : msgData.text.trim();
         var token = tokenHandler.DecodeTokenFromSocket(socket);
 

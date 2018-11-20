@@ -1,7 +1,6 @@
 const DAL = require('../DAL.js');
 const config = require('../../config');
 const encryption = require('../security/encryption');
-const general = require('../general');
 
 const collectionName = config.db.collections.chats;
 

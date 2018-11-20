@@ -1,6 +1,5 @@
 const statisticsBL = require('../../BL/managementPanel/statisticsBL');
 const permissionHandler = require('../../handlers/permissionHandler');
-const general = require('../../general');
 
 var prefix = "/api/statistics";
 
@@ -18,7 +17,7 @@ module.exports = function (app) {
     app.post(prefix + '/getChartData',
         (req, res, next) => {
             if (req.body.email) {
-                general.LowerStringInObject(req, "body.email");
+                req.body.email = req.body.email.toLowerCase();
             }
 
             next();
@@ -36,8 +35,8 @@ module.exports = function (app) {
         });
 
     app.get(prefix + '/getUserByEmail',
-        (req, res, next) => {
-            general.LowerStringInObject(req, "query.email");
+        (req, res, next) => {            
+            req.query.email = req.query.email.toLowerCase();
             next();
         },
         (req, res) => {

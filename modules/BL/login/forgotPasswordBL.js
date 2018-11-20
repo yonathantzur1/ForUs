@@ -1,6 +1,6 @@
 const DAL = require('../../DAL');
 const config = require('../../../config');
-const general = require('../../general');
+const generator = require('../../generator');
 const sha512 = require('js-sha512');
 
 const collectionName = config.db.collections.users;
@@ -12,7 +12,7 @@ module.exports = {
     // Add reset password code to the DB and return the user.
     SetUserResetCode(email) {
         return new Promise((resolve, reject) => {
-            var code = general.GenerateCode(config.security.password.resetCode.numOfDigits, true);
+            var code = generator.GenerateCode(config.security.password.resetCode.numOfDigits, true);
             var resetPasswordToken = sha512(email + code);
 
             var resetCode = {
@@ -90,8 +90,8 @@ module.exports = {
                 // In case the reset code is valid, change the user password.
                 else {
                     var updateUser = result[0];
-                    updateUser.uid = general.GenerateId();
-                    updateUser.salt = general.GenerateCode(saltSize);
+                    updateUser.uid = generator.GenerateId();
+                    updateUser.salt = generator.GenerateCode(saltSize);
                     updateUser.password = sha512(forgotUser.newPassword + updateUser.salt);
                     updateUser.resetCode.isUsed = true;
                     updateUser.resetCode.tryNum++;
@@ -120,13 +120,13 @@ module.exports = {
         return new Promise((resolve, reject) => {
             var token = data.token;
             var newPassword = data.newPassword;
-            var salt = general.GenerateCode(saltSize);
+            var salt = generator.GenerateCode(saltSize);
 
             var findObj = GetUserByTokenFilterQuery(token);
 
             var updateObj = {
                 $set: {
-                    "uid": general.GenerateId(),
+                    "uid": generator.GenerateId(),
                     "salt": salt,
                     "password": sha512(newPassword + salt),
                     "resetCode.isUsed": true

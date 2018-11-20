@@ -1,7 +1,6 @@
 const userEditWindowBL = require('../../BL/userPage/userEditWindowBL');
 const validate = require('../../security/validate');
 const bruteForceProtector = require('../../security/bruteForceProtector');
-const general = require('../../general');
 
 var prefix = "/api/userEditWindow";
 
@@ -12,7 +11,7 @@ module.exports = function (app) {
         (req, res, next) => {
             // In case one of the updated fields is email.
             if (req.body.updateFields.email) {
-                general.LowerStringInObject(req, "body.updateFields.email");
+                req.body.updateFields.email = req.body.updateFields.email.toLowerCase();                
             }
 
             next();
