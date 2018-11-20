@@ -11,7 +11,7 @@ var self = module.exports = {
             if (self.ValidateUserGetChat(membersIds, user.friends, user._id)) {
                 var chatQueryFilter = {
                     $match: {
-                        "membersIds": general.SortArray(membersIds)
+                        "membersIds": { $all: membersIds }
                     }
                 }
 
@@ -51,7 +51,7 @@ var self = module.exports = {
             if (self.ValidateUserGetChat(membersIds, user.friends, user._id)) {
                 var chatQueryFilter = {
                     $match: {
-                        "membersIds": general.SortArray(membersIds)
+                        "membersIds": { $all: membersIds }
                     }
                 }
 
@@ -84,9 +84,7 @@ var self = module.exports = {
         });
     },
 
-    CreateChat(membersIds) {
-        general.SortArray(membersIds);
-
+    CreateChat(membersIds) {        
         var chatQueryFilter = {
             "membersIds": membersIds
         }
@@ -108,7 +106,7 @@ var self = module.exports = {
             // Encrypt message text.
             msgData.text = encryption.encrypt(msgData.text);
 
-            var chatFilter = { "membersIds": general.SortArray([msgData.from, msgData.to]) };
+            var chatFilter = { "membersIds": { $all: [msgData.from, msgData.to] } };
             var chatUpdateQuery = {
                 $push: { "messages": msgData },
                 $set: { "lastMessage": { "text": (msgData.isImage ? "" : msgData.text), "time": msgData.time, "isImage": (msgData.isImage ? true : false) } }

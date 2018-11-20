@@ -17,14 +17,6 @@ module.exports = {
         }).toLowerCase();
     },
 
-    SortArray(arr) {
-        arr.sort((a, b) => {
-            return (a < b) ? -1 : 1;
-        });
-
-        return arr;
-    },
-
     // The function gets object-(json),
     // and path-(string of keys separated by . sign) of string inside the object.     
     // It converts the string to lower case letters.  
