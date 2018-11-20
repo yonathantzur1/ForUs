@@ -57,14 +57,6 @@
     background-color: #f7f7f7;
 }
 
-#friendRequestsWindow .no-hover {
-    cursor: default !important;
-}
-
-#friendRequestsWindow .no-hover:hover {
-    background-color: inherit !important;
-}
-
 #friendRequestsWindow .friend-request-image {
     width: 30px;
     height: 30px;

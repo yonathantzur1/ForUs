@@ -7,7 +7,7 @@
         <div class="body-container">
             <loaderSpinner *ngIf="isFriendRequestsLoading" id="friend-requests-loader" class="friend-requests-loader"></loaderSpinner>
             <div *ngIf="!isFriendRequestsLoading">
-                <div class="friend-request-container no-hover" *ngFor="let request of friendConfirmObjects">
+                <div class="friend-request-container" (click)="OpenUserPage(request._id)" *ngFor="let request of friendConfirmObjects">
                     <img class="friend-request-image" [src]="request.profileImage || globalService.defaultProfileImage">
                     <span class="friend-accept-text">
                         {{request.firstName + " " + request.lastName + " "}} אישר/ה את בקשת החברות
