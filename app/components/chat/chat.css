@@ -170,11 +170,11 @@
 }
 
 #chat .user-message-time {
-    right: 12px;
+    right: 10px;
 }
 
 #chat .friend-message-time {
-    left: 12px;
+    left: 10px;
 }
 
 #chat .message-time {

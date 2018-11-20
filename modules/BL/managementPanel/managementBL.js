@@ -4,6 +4,8 @@ const generator = require('../../generator');
 const mailer = require('../../mailer');
 const sha512 = require('js-sha512');
 
+const userPageBL = require('../userPage/userPageBL');
+
 const usersCollectionName = config.db.collections.users;
 const chatsCollectionName = config.db.collections.chats;
 const profilesCollectionName = config.db.collections.profiles;
@@ -231,33 +233,7 @@ module.exports = {
 
     RemoveFriends(userId, friendId) {
         return new Promise((resolve, reject) => {
-            var notificationsUnsetJson = {};
-            notificationsUnsetJson["messagesNotifications." + userId] = 1;
-            notificationsUnsetJson["messagesNotifications." + friendId] = 1;
-
-            DAL.Delete(chatsCollectionName,
-                { "membersIds": { $all: [userId, friendId] } }).then((result) => {
-                    DAL.Update(usersCollectionName,
-                        {
-                            $or: [
-                                { "_id": DAL.GetObjectId(userId) },
-                                { "_id": DAL.GetObjectId(friendId) }
-                            ]
-                        },
-                        {
-                            $pull: {
-                                "friends": { $in: [userId, friendId] },
-                                "friendRequests.get": { $in: [userId, friendId] },
-                                "friendRequests.send": { $in: [userId, friendId] },
-                                "friendRequests.accept": { $in: [userId, friendId] }
-                            },
-                            $unset: notificationsUnsetJson
-                        }).then((result) => {
-                            // Change result to true in case the update succeeded.
-                            result && (result = true);
-                            resolve(result);
-                        }).catch(reject);
-                }).catch(reject);
+            userPageBL.RemoveFriends(userId, friendId).then(resolve).catch(reject);
         });
     },
 

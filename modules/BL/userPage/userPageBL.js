@@ -1,11 +1,11 @@
 const DAL = require('../../DAL');
 const config = require('../../../config');
 
-const managementBL = require('../../BL/managementPanel/managementBL');
 const permissionsBL = require('../../BL/managementPanel/permissionsBL');
 const permissionHandler = require('../../handlers/permissionHandler');
 
 const usersCollectionName = config.db.collections.users;
+const chatsCollectionName = config.db.collections.chats;
 const profilesCollectionName = config.db.collections.profiles;
 
 var self = module.exports = {
@@ -100,7 +100,33 @@ var self = module.exports = {
 
     RemoveFriends(userId, friendId) {
         return new Promise((resolve, reject) => {
-            managementBL.RemoveFriends(userId, friendId).then(resolve).catch(reject);
+            var notificationsUnsetJson = {};
+            notificationsUnsetJson["messagesNotifications." + userId] = 1;
+            notificationsUnsetJson["messagesNotifications." + friendId] = 1;
+
+            DAL.Delete(chatsCollectionName,
+                { "membersIds": { $all: [userId, friendId] } }).then((result) => {
+                    DAL.Update(usersCollectionName,
+                        {
+                            $or: [
+                                { "_id": DAL.GetObjectId(userId) },
+                                { "_id": DAL.GetObjectId(friendId) }
+                            ]
+                        },
+                        {
+                            $pull: {
+                                "friends": { $in: [userId, friendId] },
+                                "friendRequests.get": { $in: [userId, friendId] },
+                                "friendRequests.send": { $in: [userId, friendId] },
+                                "friendRequests.accept": { $in: [userId, friendId] }
+                            },
+                            $unset: notificationsUnsetJson
+                        }).then((result) => {
+                            // Change result to true in case the update succeeded.
+                            result && (result = true);
+                            resolve(result);
+                        }).catch(reject);
+                }).catch(reject);
         });
     }
 }

@@ -3,7 +3,7 @@ var jobs = {};
 module.exports = {
     RegisterJob(name, func, intervalTime) {
         if (jobs[name] != null) {
-            throw ("Job with the name: '" + name + "' is already registered");
+            throw ("Job " + name + " is already registered");
         }
         else {
             // Activate job and save the interval id on dictionary.
@@ -16,6 +16,6 @@ module.exports = {
 
         if (jobId != null) {
             clearInterval(jobId);
-        }        
+        }
     }
 }
