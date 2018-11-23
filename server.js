@@ -7,7 +7,7 @@ const compression = require('compression');
 const io = require('socket.io')(http);
 const tokenHandler = require('./modules/handlers/tokenHandler');
 const requestHandler = require('./modules/handlers/requestHandler');
-const logger = require('./modules/logger');
+const logger = require('./modules/logger')(__dirname);
 
 // app define settings.
 app.set('trust proxy', 1);
