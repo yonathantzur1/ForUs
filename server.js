@@ -99,8 +99,7 @@ require('./modules/scripts')();
 // Redirect angular requests back to client side.
 app.get('**', (req, res) => {
     res.sendFile(path.join(__dirname + '/index.html'));
-    // logger.warn("IP: " + requestHandler.GetIpFromRequest(req) +
-    //     " - The route: " +
-    //     req.originalUrl +
-    //     " was not found");
+    logger.warn("Error accessing path: " +
+        req.originalUrl +
+        " (IP - " + requestHandler.GetIpFromRequest(req) + ")");
 });

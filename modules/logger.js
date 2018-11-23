@@ -4,7 +4,7 @@ const path = require('path');
 const config = require('../config');
 
 module.exports = (rootDir) => {
-    var logsDir = path.join(rootDir + "\\" + config.logs.directoryName);
+    var logsDir = path.join(rootDir, "\\", config.logs.directoryName);
 
     const logger = createLogger({
         format: combine(
@@ -12,7 +12,7 @@ module.exports = (rootDir) => {
             json()
         ),
         transports: [
-            new transports.File({ filename: logsDir + "\\" + config.logs.fileName })
+            new transports.File({ filename: path.join(logsDir, "\\", config.logs.fileName) })
         ]
     });
 
