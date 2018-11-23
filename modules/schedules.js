@@ -1,5 +1,6 @@
 const schedule = require('node-schedule');
 const chatBL = require('./BL/chatBL');
+const logger = require('./logger');
 
 module.exports = function (connectedUsers) {
     // Task that removes all empty chats from DB every night at 00:00
@@ -32,12 +33,8 @@ function RemoveEmptyChats(connectedUsers) {
             });
 
             if (chatsToRemove.length > 0) {
-                chatBL.RemoveChatsByIds(chatsToRemove).then((res) => { }).catch((err) => {
-                    // TODO: error log.
-                });
+                chatBL.RemoveChatsByIds(chatsToRemove).then((res) => { }).catch(logger.error);
             }
         }
-    }).catch((err) => {
-        // TODO: error log.
-    });
+    }).catch(logger.error);
 }

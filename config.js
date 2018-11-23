@@ -26,6 +26,9 @@ module.exports = {
             usersReports: "UsersReports"
         }
     },
+    logs: {
+        directoryName: "logs"
+    },
     security: {
         jwt: {
             secret: process.env.JWT_SECRET,

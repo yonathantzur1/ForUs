@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var alert_service_1 = require("../../services/alert/alert.service");
 var global_service_1 = require("../../services/global/global.service");
 var searchPage_service_1 = require("../../services/searchPage/searchPage.service");
 var FriendsStatus = /** @class */ (function () {
@@ -19,14 +20,21 @@ var FriendsStatus = /** @class */ (function () {
     return FriendsStatus;
 }());
 var SearchPage = /** @class */ (function () {
-    function SearchPage(router, route, globalService, searchPageService) {
+    function SearchPage(router, route, alertService, globalService, searchPageService) {
         this.router = router;
         this.route = route;
+        this.alertService = alertService;
         this.globalService = globalService;
         this.searchPageService = searchPageService;
     }
     SearchPage.prototype.ngOnInit = function () {
         var _this = this;
+        var errorJson = {
+            title: "שגיאה",
+            text: "אופס... שגיאה בטעינת הדף",
+            showCancelButton: false,
+            type: alert_service_1.ALERT_TYPE.DANGER
+        };
         // In case of route params changes.
         this.route.params.subscribe(function (params) {
             _this.searchPageService.GetUserFriendsStatus().then(function (friendsStatus) {
@@ -52,12 +60,12 @@ var SearchPage = /** @class */ (function () {
                             _this.users = users;
                         }
                         else {
-                            // TODO: implement no results/error message.
+                            _this.alertService.Alert(errorJson);
                         }
                     });
                 }
                 else {
-                    // TODO: implement error message.
+                    _this.alertService.Alert(errorJson);
                 }
             });
         });
@@ -89,6 +97,7 @@ var SearchPage = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [router_1.Router,
             router_1.ActivatedRoute,
+            alert_service_1.AlertService,
             global_service_1.GlobalService,
             searchPage_service_1.SearchPageService])
     ], SearchPage);

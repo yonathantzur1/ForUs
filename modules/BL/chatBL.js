@@ -1,6 +1,7 @@
 const DAL = require('../DAL.js');
 const config = require('../../config');
 const encryption = require('../security/encryption');
+const logger = require('../logger');
 
 const collectionName = config.db.collections.chats;
 
@@ -83,7 +84,7 @@ var self = module.exports = {
         });
     },
 
-    CreateChat(membersIds) {        
+    CreateChat(membersIds) {
         var chatQueryFilter = {
             "membersIds": membersIds
         }
@@ -95,9 +96,8 @@ var self = module.exports = {
             }
         }
 
-        DAL.UpdateOne(collectionName, chatQueryFilter, chatObj, true).then((result) => { }).catch((error) => {
-            // TODO: error log.
-        });
+        DAL.UpdateOne(collectionName, chatQueryFilter, chatObj, true)
+            .then((result) => { }).catch(logger.error);
     },
 
     AddMessageToChat(msgData) {

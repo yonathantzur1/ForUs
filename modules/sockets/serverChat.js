@@ -2,6 +2,7 @@ const chatBL = require('../BL/chatBL');
 const navbarBL = require('../BL/navbar/navbarBL');
 const generator = require('../generator');
 const tokenHandler = require('../handlers/tokenHandler');
+const logger = require('../logger');
 
 module.exports = function (io, socket, socketsDictionary, connectedUsers) {
 
@@ -31,9 +32,7 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
                     io.to(msgData.from).emit('ClientUpdateSendMessage', originalMsgData);
                     io.to(msgData.to).emit('ClientUpdateGetMessage', originalMsgData);
                 }
-            }).catch((err) => {
-                // TODO: error log.
-            });
+            }).catch(logger.error);
         }
     });
 

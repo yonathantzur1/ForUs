@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { AlertService, ALERT_TYPE } from '../../services/alert/alert.service';
 import { GlobalService } from '../../services/global/global.service';
 import { SearchPageService } from '../../services/searchPage/searchPage.service';
 
@@ -22,10 +23,18 @@ export class SearchPage implements OnInit {
 
     constructor(private router: Router,
         private route: ActivatedRoute,
+        private alertService: AlertService,
         private globalService: GlobalService,
         private searchPageService: SearchPageService) { }
 
     ngOnInit() {
+        var errorJson = {
+            title: "שגיאה",
+            text: "אופס... שגיאה בטעינת הדף",
+            showCancelButton: false,
+            type: ALERT_TYPE.DANGER
+        }
+
         // In case of route params changes.
         this.route.params.subscribe(params => {
             this.searchPageService.GetUserFriendsStatus().then((friendsStatus: FriendsStatus) => {
@@ -53,12 +62,12 @@ export class SearchPage implements OnInit {
                             this.users = users;
                         }
                         else {
-                            // TODO: implement no results/error message.
+                            this.alertService.Alert(errorJson);
                         }
                     });
                 }
                 else {
-                    // TODO: implement error message.
+                    this.alertService.Alert(errorJson);
                 }
             });
         });
@@ -68,13 +77,13 @@ export class SearchPage implements OnInit {
         this.router.navigateByUrl('/profile/' + userId);
     }
 
-    isFriendRequestAction(user: any) {        
+    isFriendRequestAction(user: any) {
         if ((!user.isFriend && this.globalService.userId != user._id) ||
             user.isGetFriendRequest ||
             user.isSendFriendRequest) {
             return true;
         }
-        
+
         return false;
     }
 

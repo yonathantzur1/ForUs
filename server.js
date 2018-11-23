@@ -6,8 +6,10 @@ const path = require('path');
 const compression = require('compression');
 const io = require('socket.io')(http);
 const tokenHandler = require('./modules/handlers/tokenHandler');
+const requestHandler = require('./modules/handlers/requestHandler');
+const logger = require('./modules/logger');
 
-// app define
+// app define settings.
 app.set('trust proxy', 1);
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({
@@ -41,7 +43,7 @@ app.use('/api', (req, res, next) => {
     else {
         if (req.originalUrl == '/api/auth/isUserOnSession') {
             res.send(false);
-        }        
+        }
         else if (req.originalUrl == '/api/auth/isUserSocketConnect') {
             res.send("-1");
         }
@@ -97,4 +99,8 @@ require('./modules/scripts')();
 // Redirect angular requests back to client side.
 app.get('**', (req, res) => {
     res.sendFile(path.join(__dirname + '/index.html'));
+    // logger.warn("IP: " + requestHandler.GetIpFromRequest(req) +
+    //     " - The route: " +
+    //     req.originalUrl +
+    //     " was not found");
 });

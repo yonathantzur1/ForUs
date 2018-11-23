@@ -2,6 +2,7 @@ const loginBL = require('../BL/login/loginBL');
 const profilePictureBL = require('../BL/profilePicture/profilePictureBL');
 const tokenHandler = require('../handlers/tokenHandler');
 const mailer = require('../mailer');
+const logger = require('../logger');
 
 module.exports = function (io, socket, socketsDictionary, connectedUsers) {
     socket.on('ServerUpdateFriendRequestsStatus', function (friendId) {
@@ -36,9 +37,7 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
                     if (friendObj) {
                         mailer.FriendRequestAlert(friendObj.email, friendObj.firstName, userFullName, user._id);
                     }
-                }).catch((err) => {
-                    // TODO: error log.
-                });
+                }).catch(logger.error);
             }
         }
     });
@@ -86,9 +85,7 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
                 profilePictureBL.GetUserProfileImage(user.profile).then((result) => {
                     clientFriendObj.profileImage = result.image;
                     io.to(friendId).emit('ClientFriendAddedUpdate', clientFriendObj);
-                }).catch((err) => {
-                    // TODO: error log.
-                });
+                }).catch(logger.error);
             }
             else {
                 io.to(friendId).emit('ClientFriendAddedUpdate', clientFriendObj);

@@ -2,6 +2,7 @@ const DAL = require('../../DAL');
 const tokenHandler = require('../../handlers/tokenHandler');
 const mailer = require('../../mailer');
 const config = require('../../../config');
+const logger = require('../../logger');
 
 const usersCollectionName = config.db.collections.users;
 const profilesCollectionName = config.db.collections.profiles;
@@ -201,13 +202,9 @@ var self = module.exports = {
                 messagesNotifications[userId].lastUnreadMessageDate = new Date();
 
                 DAL.UpdateOne(usersCollectionName, friendIdObject, { $set: { "messagesNotifications": messagesNotifications } })
-                    .then((result) => { }).catch((err) => {
-                        // TODO: error log.
-                    });
+                    .then((result) => { }).catch(logger.error);
             }
-        }).catch((err) => {
-            // TODO: error log.
-        });
+        }).catch(logger.error);
     },
 
     UpdateMessagesNotifications(userId, messagesNotifications) {
@@ -216,9 +213,7 @@ var self = module.exports = {
         }
 
         DAL.UpdateOne(usersCollectionName, userIdObject, { $set: { "messagesNotifications": messagesNotifications } })
-            .then((result) => { }).catch((err) => {
-                // TODO: error log.
-            });
+            .then((result) => { }).catch(logger.error);
     },
 
     RemoveMessagesNotifications(userId, messagesNotifications) {
@@ -227,9 +222,7 @@ var self = module.exports = {
         }
 
         DAL.UpdateOne(usersCollectionName, userIdObject, { $set: { "messagesNotifications": messagesNotifications } })
-            .then((result) => { }).catch((err) => {
-                // TODO: error log.
-            });
+            .then((result) => { }).catch(logger.error);
     },
 
     GetUserFriendRequests(userId) {
