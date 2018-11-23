@@ -1,14 +1,10 @@
 const { createLogger, format, transports } = require('winston');
 const { combine, timestamp, json } = format;
-var fs = require('fs');
 const path = require('path');
 const config = require('../config');
 
 module.exports = (rootDir) => {
     var logsDir = path.join(rootDir + "\\" + config.logs.directoryName);
-
-    (!fs.existsSync(logsDir)) && (fs.mkdirSync(logsDir));
-
 
     const logger = createLogger({
         format: combine(
@@ -20,6 +16,7 @@ module.exports = (rootDir) => {
         ]
     });
 
+    // Print log to console in case the env is not prod.
     if (!config.server.isProd) {
         logger.add(new transports.Console({
             format: json()
