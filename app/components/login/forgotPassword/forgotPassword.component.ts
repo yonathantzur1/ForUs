@@ -19,7 +19,7 @@ export class ForgotPasswordComponent implements OnInit {
     isResetTokenValid: boolean;
     userName: string;
 
-    // Login validation functions array.
+    // Validation functions array.
     newPasswordValidations: Array<InputFieldValidation> = [
         {
             isFieldValid(newPassword: string) {

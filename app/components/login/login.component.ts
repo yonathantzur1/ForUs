@@ -60,7 +60,7 @@ export class LoginComponent {
   forgotUser: ForgotUser = new ForgotUser();
   isLoading: boolean = false;
 
-  // Login validation functions array.
+  // Validation functions array.
   loginValidationFuncs: Array<InputFieldValidation> = [
     {
       isFieldValid(user: User) {

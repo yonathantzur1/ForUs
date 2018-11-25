@@ -27,7 +27,7 @@ export class UserPasswordWindowComponent {
     @Input() userId: string;
     password: Password = new Password();
 
-    // Login validation functions array.
+    // Validation functions array.
     validationFuncs: Array<InputFieldValidation> = [
         {
             isFieldValid(password: Password) {

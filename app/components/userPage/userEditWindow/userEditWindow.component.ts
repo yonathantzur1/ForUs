@@ -26,7 +26,7 @@ export class UserEditWindowComponent implements OnInit {
     editUser: EditUser = {};
     isShowPasswordValidationWindow: boolean = false;
 
-    // Login validation functions array.
+    // Validation functions array.
     editValidationFuncs: Array<InputFieldValidation> = [
         {
             isFieldValid(editUser: EditUser, userRegexp: any) {

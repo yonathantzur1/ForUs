@@ -66,7 +66,7 @@ var LoginComponent = /** @class */ (function () {
         this.newUser = new NewUser();
         this.forgotUser = new ForgotUser();
         this.isLoading = false;
-        // Login validation functions array.
+        // Validation functions array.
         this.loginValidationFuncs = [
             {
                 isFieldValid: function (user) {

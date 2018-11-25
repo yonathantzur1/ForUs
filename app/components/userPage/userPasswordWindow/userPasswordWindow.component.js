@@ -30,7 +30,7 @@ var UserPasswordWindowComponent = /** @class */ (function () {
         this.microtextService = microtextService;
         this.userPasswordWindowService = userPasswordWindowService;
         this.password = new Password();
-        // Login validation functions array.
+        // Validation functions array.
         this.validationFuncs = [
             {
                 isFieldValid: function (password) {

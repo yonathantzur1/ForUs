@@ -29,7 +29,7 @@ var UserEditWindowComponent = /** @class */ (function () {
         this.microtextService = microtextService;
         this.editUser = {};
         this.isShowPasswordValidationWindow = false;
-        // Login validation functions array.
+        // Validation functions array.
         this.editValidationFuncs = [
             {
                 isFieldValid: function (editUser, userRegexp) {

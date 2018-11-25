@@ -23,7 +23,7 @@ var ForgotPasswordComponent = /** @class */ (function () {
         this.microtextService = microtextService;
         this.globalService = globalService;
         this.forgotPasswordService = forgotPasswordService;
-        // Login validation functions array.
+        // Validation functions array.
         this.newPasswordValidations = [
             {
                 isFieldValid: function (newPassword) {
