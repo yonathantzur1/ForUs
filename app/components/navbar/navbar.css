@@ -1,9 +1,9 @@
 .sidenav-overlay {
     position: fixed;
-    top: 50px;
+    top: 0;
     right: 0;
     left: 0;
-    height: 120vh;
+    height: 100%;
     z-index: 998;
 }
 
@@ -554,13 +554,8 @@
     z-index: 999 !important;
 }
 
-#navbar .open-sidenav {
-    right: 230px;
+#navbar .open-sidenav {    
     z-index: 999;
-}
-
-#navbar .close-sidenav {
-    right: 0;
 }
 
 #navbar .notifications-budget {

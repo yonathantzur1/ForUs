@@ -71,6 +71,10 @@ body {
     text-align: right !important;
 }
 
+.no-overflow {
+    overflow: hidden;
+}
+
 input {
     color: var(--main-text-color) !important;
 }

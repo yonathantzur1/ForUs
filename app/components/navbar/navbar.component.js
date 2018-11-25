@@ -420,8 +420,8 @@ var NavbarComponent = /** @class */ (function () {
             this.isHideNotificationsBudget = true;
             this.HideDropMenu();
             this.HideSearchResults();
-            document.getElementById("sidenav").style.width = this.sidenavWidth;
-            $("#open-sidenav-btn").removeClass("close-sidenav");
+            $("#sidenav").width(this.sidenavWidth);
+            $("body").addClass("no-overflow");
         }
     };
     NavbarComponent.prototype.HideSidenav = function () {
@@ -430,8 +430,8 @@ var NavbarComponent = /** @class */ (function () {
             this.HideChatsWindow();
             this.HideFriendRequestsWindow();
             this.isSidenavOpen = false;
-            document.getElementById("sidenav").style.width = "0";
-            $("#open-sidenav-btn").addClass("close-sidenav");
+            $("#sidenav").width("0px");
+            $("body").removeClass("no-overflow");
         }
     };
     NavbarComponent.prototype.ShowHideDropMenu = function () {

@@ -523,7 +523,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     ShowHideSidenav() {
-        this.isNewFriendsLabel = false;        
+        this.isNewFriendsLabel = false;
 
         if (this.isSidenavOpen) {
             this.HideSidenav();
@@ -533,8 +533,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.isHideNotificationsBudget = true;
             this.HideDropMenu();
             this.HideSearchResults();
-            document.getElementById("sidenav").style.width = this.sidenavWidth;
-            $("#open-sidenav-btn").removeClass("close-sidenav");
+            $("#sidenav").width(this.sidenavWidth);
+            $("body").addClass("no-overflow");
         }
     }
 
@@ -544,8 +544,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.HideChatsWindow();
             this.HideFriendRequestsWindow();
             this.isSidenavOpen = false;
-            document.getElementById("sidenav").style.width = "0";
-            $("#open-sidenav-btn").addClass("close-sidenav");
+            $("#sidenav").width("0px");
+            $("body").removeClass("no-overflow");
         }
     }
 

@@ -124,7 +124,7 @@
     <span *ngIf="isShowFriendConfirmNotification" class="notification-text">אישר/ה את בקשת החברות</span>
   </span>
 
-  <div id="open-sidenav-btn" class="open-sidenav-btn" [ngClass]="{'open-sidenav' : isSidenavOpen, 'top-sidenav-btn' : chatData.isOpen}"
+  <div id="open-sidenav-btn" class="open-sidenav-btn" [ngStyle]="{'right': isSidenavOpen ? sidenavWidth : 0}" [ngClass]="{'open-sidenav' : isSidenavOpen, 'top-sidenav-btn' : chatData.isOpen}"
     (click)="ShowHideSidenav()">
     <div class="notifications-budget" *ngIf="!isHideNotificationsBudget && GetNotificationsNumber() > 0">
       <span class="notifications-number">{{GetNotificationsNumber()}}</span>
