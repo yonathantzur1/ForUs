@@ -526,28 +526,36 @@ var NavbarComponent = /** @class */ (function () {
         if (this.searchResults.length > 0 && this.isShowSearchResults) {
             if (event.key == "ArrowDown") {
                 if (this.markedResult != null) {
-                    this.markedResult = (this.markedResult + 1) % (this.searchResults.length + 1);
+                    this.markedResult = (this.markedResult + 1) % (this.searchResults.length + 2);
                 }
                 else {
-                    this.markedResult = 0;
+                    this.markedResult = 2;
                 }
             }
             else if (event.key == "ArrowUp") {
                 if (this.markedResult != null) {
                     if (this.markedResult == 0) {
-                        this.markedResult = this.searchResults.length;
+                        this.markedResult = this.searchResults.length + 1;
                     }
                     else {
                         this.markedResult -= 1;
                     }
                 }
                 else {
-                    this.markedResult = this.searchResults.length - 1;
+                    this.markedResult = 0;
                 }
             }
             else if (event.key == "Enter" || event.key == "NumpadEnter") {
                 if (this.markedResult != null) {
-                    this.OpenUserProfile(this.searchResults[this.markedResult]);
+                    if (this.markedResult == 0 || this.markedResult == 1) {
+                        this.OpenSearchPage(this.searchInput);
+                    }
+                    else {
+                        this.OpenUserProfile(this.searchResults[this.markedResult - 2]);
+                    }
+                }
+                else {
+                    this.OpenSearchPage(this.searchInput);
                 }
             }
             else if (event.key == "Escape") {

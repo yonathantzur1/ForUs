@@ -66,7 +66,7 @@
           <!-- Search results container -->
           <div class="search-results-container" *ngIf="isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0">
             <!-- Search result -->
-            <div class="search-result" [ngClass]="{'selected-search-result' : (index == markedResult)}" (mouseenter)="markedResult=index;"
+            <div class="search-result" [ngClass]="{'selected-search-result' : (index + 2 == markedResult)}" (mousemove)="markedResult=index + 2;"
               (mouseleave)="markedResult=null;" *ngFor="let result of GetFilteredSearchResults(searchInput); let index = index"
               [title]="result.fullName">
               <div class="result-details-container" (click)="OpenUserProfile(result)">
@@ -85,12 +85,13 @@
                   title="בקשת חברות"></i>
                 <i *ngIf="IsShowRemoveFriendRequestBtn(result._id)" (click)="RemoveFriendRequest(result._id)" class="fas fa-user-times friend-request-btn remove-request"
                   title="ביטול בקשת חברות"></i>
-                <!-- Sign in case of income friend request -->
+                <!-- Income friend request alert -->
                 <div title="בקשת חברות ממתינה" class="friend-request-alert-dot" *ngIf="IsIncomeFriendRequest(result._id)"></div>
               </div>
             </div>
             <!-- See more results btn -->
-            <div (mouseenter)="markedResult=null;" class="see-more-results-btn" (click)="OpenSearchPage(searchInput)">
+            <div (mousemove)="markedResult=0;" (mouseleave)="markedResult=null;" [ngClass]="{'selected-search-result' : (markedResult == 0)}"
+              class="see-more-results-btn" (click)="OpenSearchPage(searchInput)">
               <i class="material-icons more-result-icon">search</i>
               <span class="see-more-results-btn-text">תוצאות נוספות...</span>
             </div>

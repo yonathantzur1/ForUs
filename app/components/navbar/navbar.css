@@ -588,11 +588,11 @@
     color: #1d4695;
     cursor: pointer;
 }
-
+/* 
 #navbar .see-more-results-btn:hover {
     background-color: #6887c2;
     color: #f7f7f7;
-}
+} */
 
 #navbar .see-more-results-btn-text {
     font-size: 12px;    
