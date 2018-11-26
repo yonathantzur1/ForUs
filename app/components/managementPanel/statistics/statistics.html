@@ -28,8 +28,8 @@
         </div>
         <canvas [hidden]="!chart" id="statistics-chart"></canvas>
     </div>
-    <div *ngFor="let menu of menus" class="modal" data-keyboard="false" data-backdrop="static" [id]="menu.id" tabindex="-1"
-        role="dialog">
+    <div *ngFor="let menu of menus" class="modal fade" data-backdrop="static"
+        [id]="menu.id" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -58,9 +58,8 @@
                         <loaderDots *ngIf="menu.isLoaderActive" css='{"text-align": "center", "font-size": "10px", "position": "absolute", "bottom": "-44px"}'></loaderDots>
                         <div class="form-group" style="padding:0;margin:0;">
                             <input [(ngModel)]="userEmailInput" (keyup)="isUserEmailFound=null" (keyup.enter)="menu.onConfirm(this, menu.options)"
-                                id="user-search" name="user-search" (keydown)="HideMicrotext('email-micro')"
-                                class="form-control" type="email" placeholder="אימייל" autocorrect="off" autocapitalize="off"
-                                spellcheck="false">
+                                id="user-search" name="user-search" (keydown)="HideMicrotext('email-micro')" class="form-control"
+                                type="email" placeholder="אימייל" autocorrect="off" autocapitalize="off" spellcheck="false">
                             <span *ngIf="isUserEmailFound == false" class="microtext">כתובת אימייל לא נמצאה</span>
                             <span id="email-micro" class="microtext"></span>
                         </div>
