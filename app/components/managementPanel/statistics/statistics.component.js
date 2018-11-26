@@ -10,13 +10,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var enums_1 = require("../../../enums/enums");
 var statistics_service_1 = require("../../../services/managementPanel/statistics/statistics.service");
 var global_service_1 = require("../../../services/global/global.service");
+var microtext_service_1 = require("../../../services/microtext/microtext.service");
+var enums_1 = require("../../../enums/enums");
+var regexpEnums_1 = require("../../../regex/regexpEnums");
 var StatisticsComponent = /** @class */ (function () {
-    function StatisticsComponent(globalService, statisticsService) {
+    function StatisticsComponent(globalService, statisticsService, microtextService) {
         this.globalService = globalService;
         this.statisticsService = statisticsService;
+        this.microtextService = microtextService;
         this.datesRangeMovementIndex = 0;
         this.userData = {
             "fullName": null,
@@ -27,6 +30,17 @@ var StatisticsComponent = /** @class */ (function () {
             statisticsRange: enums_1.STATISTICS_RANGE.WEEKLY,
             chartName: "התחברויות"
         };
+        this.emailValidationFuncs = [
+            {
+                isFieldValid: function (email, userRegexp) {
+                    var emailPattern = userRegexp.email;
+                    return (emailPattern.test(email));
+                },
+                errMsg: "כתובת אימייל לא תקינה",
+                fieldId: "email-micro",
+                inputId: "user-search"
+            }
+        ];
         this.menus = [
             {
                 id: "charts",
@@ -132,13 +146,16 @@ var StatisticsComponent = /** @class */ (function () {
                 onCancel: function (self) {
                     self.userEmailInput = null;
                     self.isUserEmailFound = null;
+                    self.HideMicrotext("email-micro");
                 },
                 isDisableConfirm: function (self) {
                     return (self.userEmailInput ? false : true);
                 },
                 onConfirm: function (self) {
                     var _this = this;
-                    if (!this.isLoaderActive && self.userEmailInput) {
+                    if (!this.isLoaderActive &&
+                        self.userEmailInput &&
+                        self.microtextService.Validation(self.emailValidationFuncs, self.userEmailInput, regexpEnums_1.UserRegexp)) {
                         this.isLoaderActive = true;
                         self.statisticsService.GetUserByEmail(self.userEmailInput).then(function (result) {
                             _this.isLoaderActive = false;
@@ -162,6 +179,10 @@ var StatisticsComponent = /** @class */ (function () {
             }
         ];
     }
+    // Hide microtext in a specific field.
+    StatisticsComponent.prototype.HideMicrotext = function (microtextId) {
+        this.microtextService.HideMicrotext(microtextId);
+    };
     StatisticsComponent.prototype.LoadChart = function (type, range, chartName, datesRange) {
         var _this = this;
         this.datesRange = datesRange || this.CalculateDatesRangeByRangeType(range);
@@ -363,7 +384,8 @@ var StatisticsComponent = /** @class */ (function () {
             providers: [statistics_service_1.StatisticsService]
         }),
         __metadata("design:paramtypes", [global_service_1.GlobalService,
-            statistics_service_1.StatisticsService])
+            statistics_service_1.StatisticsService,
+            microtext_service_1.MicrotextService])
     ], StatisticsComponent);
     return StatisticsComponent;
 }());

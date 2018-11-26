@@ -122,7 +122,7 @@
     z-index: 1;
 }
 
-#statistics .no-email-microtext {
+#statistics .microtext {
     font-size: 11px;
     color: var(--microtext-color);
     line-height: 15px;

@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 
-import { STATISTICS_RANGE, LOG_TYPE } from '../../../enums/enums';
-
 import { StatisticsService } from '../../../services/managementPanel/statistics/statistics.service';
 import { GlobalService } from '../../../services/global/global.service';
+import { MicrotextService, InputFieldValidation } from '../../../services/microtext/microtext.service';
+
+import { STATISTICS_RANGE, LOG_TYPE } from '../../../enums/enums';
+import { UserRegexp } from '../../../regex/regexpEnums';
 
 declare var $: any;
 declare var Chart: any;
@@ -37,8 +39,21 @@ export class StatisticsComponent {
         chartName: "התחברויות"
     };
 
+    emailValidationFuncs: Array<InputFieldValidation> = [
+        {
+            isFieldValid(email: string, userRegexp: any) {
+                var emailPattern = userRegexp.email;
+                return (emailPattern.test(email));
+            },
+            errMsg: "כתובת אימייל לא תקינה",
+            fieldId: "email-micro",
+            inputId: "user-search"
+        }
+    ]
+
     constructor(private globalService: GlobalService,
-        private statisticsService: StatisticsService) {
+        private statisticsService: StatisticsService,
+        private microtextService: MicrotextService) {
         this.menus = [
             {
                 id: "charts",
@@ -151,12 +166,17 @@ export class StatisticsComponent {
                 onCancel: function (self: any) {
                     self.userEmailInput = null;
                     self.isUserEmailFound = null;
+                    self.HideMicrotext("email-micro");
                 },
                 isDisableConfirm: function (self: any) {
                     return (self.userEmailInput ? false : true);
                 },
                 onConfirm: function (self: any) {
-                    if (!this.isLoaderActive && self.userEmailInput) {
+                    if (!this.isLoaderActive &&
+                        self.userEmailInput &&
+                        self.microtextService.Validation(self.emailValidationFuncs,
+                            self.userEmailInput,
+                            UserRegexp)) {
                         this.isLoaderActive = true;
                         self.statisticsService.GetUserByEmail(self.userEmailInput).then((result: any) => {
                             this.isLoaderActive = false;
@@ -183,6 +203,11 @@ export class StatisticsComponent {
                 }
             }
         ];
+    }
+
+    // Hide microtext in a specific field.
+    HideMicrotext(microtextId: string) {
+        this.microtextService.HideMicrotext(microtextId);
     }
 
     LoadChart(type: LOG_TYPE, range: STATISTICS_RANGE, chartName: string, datesRange?: Object) {
