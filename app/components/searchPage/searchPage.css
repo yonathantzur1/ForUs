@@ -15,10 +15,6 @@
     padding-right: 10px;
 }
 
-#searchPage .no-border {
-    border: none !important;
-}
-
 #searchPage .title-text {
     margin-right: 5px;
 }
@@ -92,6 +88,11 @@
 }
 
 #searchPage .users-loading-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#searchPage .not-found-users-sector {
     text-align: center;
     margin-top: 20px;
 }

@@ -695,6 +695,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 this.isShowSearchResults = false;
             }
         }
+        else if (this.searchResults.length == 0 &&
+            (event.key == "Enter" || event.key == "NumpadEnter")) {
+            this.OpenSearchPage(this.searchInput);
+        }
     }
 
     InsertResultsImagesToCache(profiles: any) {

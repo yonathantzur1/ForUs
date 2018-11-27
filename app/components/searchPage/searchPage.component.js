@@ -26,6 +26,7 @@ var SearchPage = /** @class */ (function () {
         this.alertService = alertService;
         this.globalService = globalService;
         this.searchPageService = searchPageService;
+        this.isLoading = false;
     }
     SearchPage.prototype.ngOnInit = function () {
         var _this = this;
@@ -37,10 +38,13 @@ var SearchPage = /** @class */ (function () {
         };
         // In case of route params changes.
         this.route.params.subscribe(function (params) {
+            _this.searchString = params["name"];
+            _this.isLoading = true;
             _this.searchPageService.GetUserFriendsStatus().then(function (friendsStatus) {
                 if (friendsStatus) {
                     // Search users by given name parameter.
-                    _this.searchPageService.GetSearchResults(params["name"]).then(function (users) {
+                    _this.searchPageService.GetSearchResults(_this.searchString).then(function (users) {
+                        _this.isLoading = false;
                         if (users) {
                             users.forEach(function (user) {
                                 var userId = user._id;
@@ -65,6 +69,7 @@ var SearchPage = /** @class */ (function () {
                     });
                 }
                 else {
+                    _this.isLoading = false;
                     _this.alertService.Alert(errorJson);
                 }
             });

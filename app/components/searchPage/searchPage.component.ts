@@ -20,6 +20,8 @@ class FriendsStatus {
 export class SearchPage implements OnInit {
 
     users: Array<any>;
+    isLoading: boolean = false;
+    searchString: string;
 
     constructor(private router: Router,
         private route: ActivatedRoute,
@@ -37,10 +39,13 @@ export class SearchPage implements OnInit {
 
         // In case of route params changes.
         this.route.params.subscribe(params => {
+            this.searchString = params["name"];
+            this.isLoading = true;
             this.searchPageService.GetUserFriendsStatus().then((friendsStatus: FriendsStatus) => {
                 if (friendsStatus) {
                     // Search users by given name parameter.
-                    this.searchPageService.GetSearchResults(params["name"]).then(users => {
+                    this.searchPageService.GetSearchResults(this.searchString).then(users => {
+                        this.isLoading = false;
                         if (users) {
                             users.forEach((user: any) => {
                                 var userId = user._id;
@@ -67,6 +72,7 @@ export class SearchPage implements OnInit {
                     });
                 }
                 else {
+                    this.isLoading = false;
                     this.alertService.Alert(errorJson);
                 }
             });

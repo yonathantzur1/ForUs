@@ -562,6 +562,10 @@ var NavbarComponent = /** @class */ (function () {
                 this.isShowSearchResults = false;
             }
         }
+        else if (this.searchResults.length == 0 &&
+            (event.key == "Enter" || event.key == "NumpadEnter")) {
+            this.OpenSearchPage(this.searchInput);
+        }
     };
     NavbarComponent.prototype.InsertResultsImagesToCache = function (profiles) {
         var self = this;
