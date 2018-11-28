@@ -106,6 +106,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     chatTypingDelay: number = 1200; // milliseconds
     newFriendsLabelDelay: number = 4000; // milliseconds    
     sidenavWidth: string = "230px";
+    searchInputId: string = "search-input";
 
     // END CONFIG VARIABLES //
 
@@ -628,7 +629,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
             self.inputInterval = setTimeout(function () {
                 self.navbarService.GetMainSearchResults(input).then((results: Array<any>) => {
-                    if (results && results.length > 0 && input == self.searchInput.trim()) {
+                    if (results &&
+                        results.length > 0 &&
+                        $("#" + self.searchInputId).is(":focus") &&
+                        input == self.searchInput.trim()) {
                         self.InsertSearchUsersToCache(input, results);
                         self.GetResultImagesFromCache(results);
                         self.searchResults = results;
@@ -1012,7 +1016,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     SearchNewFriends() {
         this.searchInput = "";
-        $("#search-input").focus();
+        $("#" + this.searchInputId).focus();
         clearTimeout(this.showNewFriendsLabelTimeout);
         clearTimeout(this.hideNewFriendsLabelTimeout);
         var self = this;
@@ -1115,7 +1119,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     OpenSearchPage(name: string) {
-        $("#search-input").blur();
+        $("#" + this.searchInputId).blur();
         this.HideSearchResults();
         this.router.navigateByUrl("/search/" + name.trim());
     }

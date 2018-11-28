@@ -54,7 +54,7 @@
       <div class="col-8 navbar-right-container">
         <img src="../logo/icon.png" class="head-icon" (click)="NavigateMain()">
         <span class="search-sector col-md-6 col-10">
-          <input type="text" id="search-input" class="search-input" placeholder="חיפוש" [(ngModel)]="searchInput"
+          <input type="text" [id]="searchInputId" class="search-input" placeholder="חיפוש" [(ngModel)]="searchInput"
             (keyup)="SearchKeyUp($event)" (ngModelChange)="SearchChange(searchInput)" (focus)="ClickSearchInput(searchInput)"
             (click)="ClickSearchInput(searchInput)" autocomplete="off" autocorrect="off" autocapitalize="off"
             spellcheck="false">

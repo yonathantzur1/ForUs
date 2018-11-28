@@ -72,6 +72,7 @@ var NavbarComponent = /** @class */ (function () {
         this.chatTypingDelay = 1200; // milliseconds
         this.newFriendsLabelDelay = 4000; // milliseconds    
         this.sidenavWidth = "230px";
+        this.searchInputId = "search-input";
         // END CONFIG VARIABLES //
         // Search users cache objects
         this.searchCache = {};
@@ -498,7 +499,10 @@ var NavbarComponent = /** @class */ (function () {
             cachedUsers = null;
             self.inputInterval = setTimeout(function () {
                 self.navbarService.GetMainSearchResults(input).then(function (results) {
-                    if (results && results.length > 0 && input == self.searchInput.trim()) {
+                    if (results &&
+                        results.length > 0 &&
+                        $("#" + self.searchInputId).is(":focus") &&
+                        input == self.searchInput.trim()) {
                         self.InsertSearchUsersToCache(input, results);
                         self.GetResultImagesFromCache(results);
                         self.searchResults = results;
@@ -821,7 +825,7 @@ var NavbarComponent = /** @class */ (function () {
     };
     NavbarComponent.prototype.SearchNewFriends = function () {
         this.searchInput = "";
-        $("#search-input").focus();
+        $("#" + this.searchInputId).focus();
         clearTimeout(this.showNewFriendsLabelTimeout);
         clearTimeout(this.hideNewFriendsLabelTimeout);
         var self = this;
@@ -902,7 +906,7 @@ var NavbarComponent = /** @class */ (function () {
         this.router.navigateByUrl("/profile/" + user._id);
     };
     NavbarComponent.prototype.OpenSearchPage = function (name) {
-        $("#search-input").blur();
+        $("#" + this.searchInputId).blur();
         this.HideSearchResults();
         this.router.navigateByUrl("/search/" + name.trim());
     };
