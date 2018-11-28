@@ -22,8 +22,7 @@ module.exports = {
 
                 // In case the input is empty, return empty result array.
                 if (!searchInput) {
-                    resolve([]);
-                    return;
+                    return resolve([]);                    
                 }
             }
 

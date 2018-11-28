@@ -39,40 +39,47 @@ var SearchPage = /** @class */ (function () {
         // In case of route params changes.
         this.route.params.subscribe(function (params) {
             _this.searchString = params["name"];
-            _this.isLoading = true;
-            _this.searchPageService.GetUserFriendsStatus().then(function (friendsStatus) {
-                if (friendsStatus) {
-                    // Search users by given name parameter.
-                    _this.searchPageService.GetSearchResults(_this.searchString).then(function (users) {
+            // In case there is a search string.
+            if (_this.searchString) {
+                _this.users = [];
+                _this.isLoading = true;
+                _this.searchPageService.GetUserFriendsStatus().then(function (friendsStatus) {
+                    if (friendsStatus) {
+                        // Search users by given name parameter.
+                        _this.searchPageService.GetSearchResults(_this.searchString).then(function (users) {
+                            _this.isLoading = false;
+                            if (users) {
+                                users.forEach(function (user) {
+                                    var userId = user._id;
+                                    // In case the result user and the current user are friends.
+                                    if (friendsStatus.friends.indexOf(userId) != -1) {
+                                        user.isFriend = true;
+                                    }
+                                    // In case the result user sent a friend request to the current user.
+                                    else if (friendsStatus.get.indexOf(userId) != -1) {
+                                        user.isSendFriendRequest = true;
+                                    }
+                                    // In case the current user sent a friend request to the result user.
+                                    else if (friendsStatus.send.indexOf(userId) != -1) {
+                                        user.isGetFriendRequest = true;
+                                    }
+                                });
+                                _this.users = users;
+                            }
+                            else {
+                                _this.alertService.Alert(errorJson);
+                            }
+                        });
+                    }
+                    else {
                         _this.isLoading = false;
-                        if (users) {
-                            users.forEach(function (user) {
-                                var userId = user._id;
-                                // In case the result user and the current user are friends.
-                                if (friendsStatus.friends.indexOf(userId) != -1) {
-                                    user.isFriend = true;
-                                }
-                                // In case the result user sent a friend request to the current user.
-                                else if (friendsStatus.get.indexOf(userId) != -1) {
-                                    user.isSendFriendRequest = true;
-                                }
-                                // In case the current user sent a friend request to the result user.
-                                else if (friendsStatus.send.indexOf(userId) != -1) {
-                                    user.isGetFriendRequest = true;
-                                }
-                            });
-                            _this.users = users;
-                        }
-                        else {
-                            _this.alertService.Alert(errorJson);
-                        }
-                    });
-                }
-                else {
-                    _this.isLoading = false;
-                    _this.alertService.Alert(errorJson);
-                }
-            });
+                        _this.alertService.Alert(errorJson);
+                    }
+                });
+            }
+            else {
+                _this.router.navigateByUrl('');
+            }
         });
     };
     SearchPage.prototype.UserClick = function (userId) {

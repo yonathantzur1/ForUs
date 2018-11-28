@@ -10,6 +10,11 @@ const searchResultsLimit = config.navbar.searchResultsLimit;
 module.exports = {
     GetSearchPageResults(searchInput) {
         return new Promise((resolve, reject) => {
+            // In case the search input is empty.
+            if (!searchInput) {
+                return reject();                
+            }
+
             searchInput = searchInput.replace(/\\/g, '');
 
             var concatFields = {

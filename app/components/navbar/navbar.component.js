@@ -563,6 +563,7 @@ var NavbarComponent = /** @class */ (function () {
             }
         }
         else if (this.searchResults.length == 0 &&
+            this.searchInput &&
             (event.key == "Enter" || event.key == "NumpadEnter")) {
             this.OpenSearchPage(this.searchInput);
         }
@@ -901,6 +902,7 @@ var NavbarComponent = /** @class */ (function () {
         this.router.navigateByUrl("/profile/" + user._id);
     };
     NavbarComponent.prototype.OpenSearchPage = function (name) {
+        $("#search-input").blur();
         this.HideSearchResults();
         this.router.navigateByUrl("/search/" + name.trim());
     };

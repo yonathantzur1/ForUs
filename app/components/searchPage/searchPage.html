@@ -1,6 +1,13 @@
 <div id="searchPage">
-    <div class="users-container">
-        <div *ngIf="isLoading || (users && users.length > 0)" class="title-container">
+    <div class="not-found-users-sector" *ngIf="!isLoading && (!users || users.length == 0)">
+        <i class="far fa-times-circle" style="font-size:70px;"></i>
+        <div style="font-size:40px;">
+            לא נמצאו תוצאות לחיפוש:
+            <u>{{searchString}}</u>
+        </div>
+    </div>
+    <div class="users-container" *ngIf="isLoading || (users && users.length > 0)">
+        <div class="title-container">
             <i class="fas fa-users"></i>
             <span class="title-text">
                 משתמשים
@@ -8,13 +15,6 @@
         </div>
         <div *ngIf="isLoading" class="users-loading-container">
             <loaderSpinner></loaderSpinner>
-        </div>
-        <div class="not-found-users-sector" *ngIf="!isLoading && (!users || users.length == 0)">                
-            <i class="far fa-times-circle" style="font-size:70px;"></i>
-            <div style="font-size:40px;">
-                לא נמצאו תוצאות לחיפוש:
-                <u>{{searchString}}</u>
-            </div>
         </div>
         <div class="user-tab" *ngFor="let user of users">
             <div class="user-details-container" (click)="UserClick(user._id)" [ngClass]="{'short-user-name' : isFriendRequestAction(user)}">

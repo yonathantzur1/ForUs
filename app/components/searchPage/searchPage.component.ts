@@ -40,42 +40,50 @@ export class SearchPage implements OnInit {
         // In case of route params changes.
         this.route.params.subscribe(params => {
             this.searchString = params["name"];
-            this.isLoading = true;
-            this.searchPageService.GetUserFriendsStatus().then((friendsStatus: FriendsStatus) => {
-                if (friendsStatus) {
-                    // Search users by given name parameter.
-                    this.searchPageService.GetSearchResults(this.searchString).then(users => {
+
+            // In case there is a search string.
+            if (this.searchString) {
+                this.users = [];
+                this.isLoading = true;
+                this.searchPageService.GetUserFriendsStatus().then((friendsStatus: FriendsStatus) => {
+                    if (friendsStatus) {
+                        // Search users by given name parameter.
+                        this.searchPageService.GetSearchResults(this.searchString).then(users => {
+                            this.isLoading = false;
+                            if (users) {
+                                users.forEach((user: any) => {
+                                    var userId = user._id;
+
+                                    // In case the result user and the current user are friends.
+                                    if (friendsStatus.friends.indexOf(userId) != -1) {
+                                        user.isFriend = true;
+                                    }
+                                    // In case the result user sent a friend request to the current user.
+                                    else if (friendsStatus.get.indexOf(userId) != -1) {
+                                        user.isSendFriendRequest = true;
+                                    }
+                                    // In case the current user sent a friend request to the result user.
+                                    else if (friendsStatus.send.indexOf(userId) != -1) {
+                                        user.isGetFriendRequest = true;
+                                    }
+                                });
+
+                                this.users = users;
+                            }
+                            else {
+                                this.alertService.Alert(errorJson);
+                            }
+                        });
+                    }
+                    else {
                         this.isLoading = false;
-                        if (users) {
-                            users.forEach((user: any) => {
-                                var userId = user._id;
-
-                                // In case the result user and the current user are friends.
-                                if (friendsStatus.friends.indexOf(userId) != -1) {
-                                    user.isFriend = true;
-                                }
-                                // In case the result user sent a friend request to the current user.
-                                else if (friendsStatus.get.indexOf(userId) != -1) {
-                                    user.isSendFriendRequest = true;
-                                }
-                                // In case the current user sent a friend request to the result user.
-                                else if (friendsStatus.send.indexOf(userId) != -1) {
-                                    user.isGetFriendRequest = true;
-                                }
-                            });
-
-                            this.users = users;
-                        }
-                        else {
-                            this.alertService.Alert(errorJson);
-                        }
-                    });
-                }
-                else {
-                    this.isLoading = false;
-                    this.alertService.Alert(errorJson);
-                }
-            });
+                        this.alertService.Alert(errorJson);
+                    }
+                });
+            }
+            else {
+                this.router.navigateByUrl('');
+            }
         });
     }
 

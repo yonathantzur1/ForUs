@@ -696,6 +696,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             }
         }
         else if (this.searchResults.length == 0 &&
+            this.searchInput &&
             (event.key == "Enter" || event.key == "NumpadEnter")) {
             this.OpenSearchPage(this.searchInput);
         }
@@ -1114,6 +1115,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     OpenSearchPage(name: string) {
+        $("#search-input").blur();
         this.HideSearchResults();
         this.router.navigateByUrl("/search/" + name.trim());
     }
