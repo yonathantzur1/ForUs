@@ -8,14 +8,6 @@ const io = require('socket.io')(http);
 const tokenHandler = require('./modules/handlers/tokenHandler');
 const requestHandler = require('./modules/handlers/requestHandler');
 const logger = require('./modules/logger')(__dirname);
-const config = require('./config');
-
-app.get('*', (req, res) => {
-    // Return to https address in case the server is prod.
-    if (config.server.isProd && req.protocol == "http") {
-        res.redirect(config.address.site);        
-    }
-});
 
 // app define settings.
 app.set('trust proxy', 1);
