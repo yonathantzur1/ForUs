@@ -8,8 +8,10 @@ const io = require('socket.io')(http);
 const tokenHandler = require('./modules/handlers/tokenHandler');
 const requestHandler = require('./modules/handlers/requestHandler');
 const logger = require('./modules/logger')(__dirname);
+var secure = require('ssl-express-www');
 
 // app define settings.
+app.use(secure);
 app.set('trust proxy', 1);
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({
