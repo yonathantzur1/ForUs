@@ -8,15 +8,17 @@
                     </button>
                     <h4 class="title" title="הרשאות - {{user && (user.firstName + ' ' + user.lastName)}}">
                         הרשאות - {{user && (user.firstName + " " + user.lastName)}}
-                    </h4>                    
+                    </h4>
                 </div>
                 <div class="modal-body">
                     <loaderSpinner *ngIf="isLoading"></loaderSpinner>
                     <div class="permissions-container" *ngIf="!isLoading">
-                        <div class="permission-sector" *ngFor="let permission of permissions">
-                            <i [hidden]="permission.isChecked" (click)="permission.isChecked=true;" class="far fa-square permission-check-icon"></i>
-                            <i [hidden]="!permission.isChecked" (click)="permission.isChecked=false;" class="far fa-check-square permission-check-icon"></i>
-                            <span class="permission-name">{{permission.name}}</span>
+                        <div *ngFor="let permission of permissions">
+                            <span class="permission-sector" (click)="permission.isChecked=!permission.isChecked;">
+                                <i [hidden]="permission.isChecked" class="far fa-square permission-check-icon"></i>
+                                <i [hidden]="!permission.isChecked" class="far fa-check-square permission-check-icon"></i>
+                                <span class="permission-name">{{permission.name}}</span>
+                            </span>
                         </div>
                     </div>
                 </div>

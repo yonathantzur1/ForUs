@@ -43,6 +43,7 @@
 
 #permissionsCard .permission-sector {
     margin-top: 5px;
+    cursor: pointer;
 }
 
 #permissionsCard .permission-name {
@@ -50,6 +51,5 @@
 }
 
 #permissionsCard .permission-check-icon {
-    font-size: 18px;
-    cursor: pointer;
+    font-size: 18px;    
 }
