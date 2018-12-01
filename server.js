@@ -9,9 +9,10 @@ const tokenHandler = require('./modules/handlers/tokenHandler');
 const requestHandler = require('./modules/handlers/requestHandler');
 const logger = require('./modules/logger')(__dirname);
 var secure = require('ssl-express-www');
+const config = require('./config');
 
 // app define settings.
-app.use(secure);
+config.server.isForceHttps && app.use(secure);
 app.set('trust proxy', 1);
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({
@@ -67,7 +68,7 @@ app.get('/login', (req, res, next) => {
     }
 });
 
-http.listen(process.env.PORT, () => {
+http.listen(process.env.PORT || config.server.port, () => {
     console.log("Server is up!");
 });
 
@@ -101,7 +102,4 @@ require('./modules/scripts')();
 // Redirect angular requests back to client side.
 app.get('**', (req, res) => {
     res.sendFile(path.join(__dirname + '/index.html'));
-    logger.warn("Error accessing path: " +
-        req.originalUrl +
-        " (IP - " + requestHandler.GetIpFromRequest(req) + ")");
 });

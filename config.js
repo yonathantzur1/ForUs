@@ -1,12 +1,14 @@
-const isServerProd = (process.env.IS_PROD === 'true');
+const isServerProd = (process.env.IS_PROD == 'true');
 const serverPort = process.env.PORT;
 
 module.exports = {
     server: {
-        isProd: isServerProd
+        port: 8000,
+        isProd: isServerProd,
+        isForceHttps: true
     },
     address: {
-        site: isServerProd ? "https://forus.herokuapp.com" : "http://localhost:" + serverPort        
+        site: isServerProd ? "https://forus.herokuapp.com" : "http://localhost:" + serverPort
     },
     mailer: {
         mail: "forus@mailer.com",
