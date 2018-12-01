@@ -12,7 +12,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             // In case the search input is empty.
             if (!searchInput) {
-                return reject();                
+                return reject();
             }
 
             searchInput = searchInput.replace(/\\/g, '');
@@ -62,11 +62,29 @@ module.exports = {
             ];
 
             DAL.Aggregate(usersCollectionName, joinAggregateArray).then((users) => {
-                users && users.forEach(user => {
-                    if (user.profileImage) {
-                        user.profileImage = user.profileImage.image;
-                    }
-                });
+                if (users) {
+                    // Second sort for results by the search input string.
+                    users = users.sort((a, b) => {
+                        var aIndex = a.fullName.indexOf(searchInput);
+                        var bIndex = b.fullName.indexOf(searchInput);
+
+                        if (aIndex < bIndex) {
+                            return -1;
+                        }
+                        else if (aIndex > bIndex) {
+                            return 1;
+                        }
+                        else {
+                            return 0;
+                        }
+                    });
+
+                    users.forEach(user => {
+                        if (user.profileImage) {
+                            user.profileImage = user.profileImage.image;
+                        }
+                    });
+                }
 
                 resolve(users);
             }).catch(reject);

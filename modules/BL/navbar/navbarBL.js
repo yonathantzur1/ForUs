@@ -70,7 +70,7 @@ var self = module.exports = {
 
             // In case the input is empty, return empty result array.
             if (!searchInput) {
-                return resolve([]);                
+                return resolve([]);
             }
 
             var usersFilter = {
@@ -95,29 +95,30 @@ var self = module.exports = {
             { $limit: searchResultsLimit }];
 
             DAL.Aggregate(usersCollectionName, aggregateArray).then((results) => {
-                // Running on all results and order profiles structure to the next query
-                // for profile images.
-                for (var i = 0; i < results.length; i++) {
-                    var result = results[i];
-                    result.originalProfile = result.profile;
-                    result.profile = result.originalProfile ? -1 : false;
+                if (results) {
+                    // Running on all results and order profiles structure to the next query
+                    // for profile images.
+                    results.forEach(result => {
+                        result.originalProfile = result.profile;
+                        result.profile = result.originalProfile ? -1 : false;
+                    });
+
+                    // Second sort for results by the search input string.
+                    results = results.sort((a, b) => {
+                        var aIndex = a.fullName.indexOf(searchInput);
+                        var bIndex = b.fullName.indexOf(searchInput);
+
+                        if (aIndex < bIndex) {
+                            return -1;
+                        }
+                        else if (aIndex > bIndex) {
+                            return 1;
+                        }
+                        else {
+                            return 0;
+                        }
+                    });
                 }
-
-                // Second sort for results by the search input string.
-                results = results.sort((a, b) => {
-                    var aIndex = a.fullName.indexOf(searchInput);
-                    var bIndex = b.fullName.indexOf(searchInput);
-
-                    if (aIndex < bIndex) {
-                        return -1;
-                    }
-                    else if (aIndex > bIndex) {
-                        return 1;
-                    }
-                    else {
-                        return 0;
-                    }
-                });
 
                 resolve(results);
             }).catch(reject);
