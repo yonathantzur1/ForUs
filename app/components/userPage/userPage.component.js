@@ -30,6 +30,7 @@ var UserPageComponent = /** @class */ (function () {
         this.isShowUserEditWindow = false;
         this.isShowUserReportWindow = false;
         this.isShowUserPasswordWindow = false;
+        this.isShowUserPrivacyWindow = false;
         this.isOverlay = false;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
             // In case the user profile picture updated.
@@ -51,6 +52,10 @@ var UserPageComponent = /** @class */ (function () {
             }
             if (value["closeUserPasswordWindow"]) {
                 _this.isShowUserPasswordWindow = false;
+                _this.globalService.setData("setNavbarTop", true);
+            }
+            if (value["closeUserPrivacyWindow"]) {
+                _this.isShowUserPrivacyWindow = false;
                 _this.globalService.setData("setNavbarTop", true);
             }
             if (value["IgnoreFriendRequest"]) {
@@ -229,7 +234,13 @@ var UserPageComponent = /** @class */ (function () {
                                 }
                             });
                         }
-                    }
+                    },
+                    {
+                        text: "הגדרות פרטיות",
+                        action: function () {
+                            self.OpenUserWindow("isShowUserPrivacyWindow");
+                        }
+                    },
                 ]
             },
             {

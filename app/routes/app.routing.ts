@@ -2,14 +2,14 @@ import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { LoginComponent } from '../components/login/login.component';
-import { ForgotPasswordComponent } from '../components/login/forgotPassword/forgotPassword.component';
+import { ForgotPasswordComponent } from '../components/forgotPassword/forgotPassword.component';
 import { HomeComponent } from '../components/home/home.component';
 import { ManagementPanelComponent } from '../components/managementPanel/managementPanel.component';
 import { ManagementComponent } from '../components/managementPanel/management/management.component';
 import { StatisticsComponent } from '../components/managementPanel/statistics/statistics.component';
 import { UsersReportsComponent } from '../components/managementPanel/usersReports/usersReports';
 import { UserPageComponent } from '../components/userPage/userPage.component';
-import { SearchPage } from '../components/searchPage/searchPage.component';
+import { SearchPageComponent } from '../components/searchPage/searchPage.component';
 import { PageNotFoundComponent } from '../components/pageNotFound/pageNotFound.component';
 
 import { AuthGuard } from '../guards/auth/auth.guard';
@@ -28,7 +28,7 @@ const routes: Routes = [
       { path: 'reports', component: UsersReportsComponent, canActivate: [RootAuthGuard] },
       { path: 'page-not-found', component: PageNotFoundComponent },
       { path: 'profile/:id', component: UserPageComponent },
-      { path: 'search/:name', component: SearchPage }
+      { path: 'search/:name', component: SearchPageComponent }
     ],
     canActivate: [AuthGuard]
   },

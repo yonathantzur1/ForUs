@@ -19,7 +19,7 @@ var loaderDots_component_1 = require("../components/loaders/loaderDots/loaderDot
 var alert_component_1 = require("../components/alert/alert.component");
 var snackbar_component_1 = require("../components/snackbar/snackbar.component");
 var login_component_1 = require("../components/login/login.component");
-var forgotPassword_component_1 = require("../components/login/forgotPassword/forgotPassword.component");
+var forgotPassword_component_1 = require("../components/forgotPassword/forgotPassword.component");
 var home_component_1 = require("../components/home/home.component");
 var navbar_component_1 = require("../components/navbar/navbar.component");
 var dropMenu_component_1 = require("../components/dropMenu/dropMenu.component");
@@ -37,6 +37,7 @@ var userPage_component_1 = require("../components/userPage/userPage.component");
 var userEditWindow_component_1 = require("../components/userPage/userEditWindow/userEditWindow.component");
 var userReportWindow_component_1 = require("../components/userPage/userReportWindow/userReportWindow.component");
 var userPasswordWindow_component_1 = require("../components/userPage/userPasswordWindow/userPasswordWindow.component");
+var userPrivacyWindow_component_1 = require("../components/userPage/userPrivacyWindow/userPrivacyWindow.component");
 var searchPage_component_1 = require("../components/searchPage/searchPage.component");
 var pageNotFound_component_1 = require("../components/pageNotFound/pageNotFound.component");
 // Guards
@@ -90,7 +91,8 @@ var AppModule = /** @class */ (function () {
                 userEditWindow_component_1.UserEditWindowComponent,
                 userReportWindow_component_1.UserReportWindowComponent,
                 userPasswordWindow_component_1.UserPasswordWindowComponent,
-                searchPage_component_1.SearchPage,
+                userPrivacyWindow_component_1.UserPrivacyWindowComponent,
+                searchPage_component_1.SearchPageComponent,
                 // ---------Pipes---------
                 sort_pipe_1.SortObjects
             ],

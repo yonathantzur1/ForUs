@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var router_1 = require("@angular/router");
 var login_component_1 = require("../components/login/login.component");
-var forgotPassword_component_1 = require("../components/login/forgotPassword/forgotPassword.component");
+var forgotPassword_component_1 = require("../components/forgotPassword/forgotPassword.component");
 var home_component_1 = require("../components/home/home.component");
 var managementPanel_component_1 = require("../components/managementPanel/managementPanel.component");
 var management_component_1 = require("../components/managementPanel/management/management.component");
@@ -26,7 +26,7 @@ var routes = [
             { path: 'reports', component: usersReports_1.UsersReportsComponent, canActivate: [rootAuth_guard_1.RootAuthGuard] },
             { path: 'page-not-found', component: pageNotFound_component_1.PageNotFoundComponent },
             { path: 'profile/:id', component: userPage_component_1.UserPageComponent },
-            { path: 'search/:name', component: searchPage_component_1.SearchPage }
+            { path: 'search/:name', component: searchPage_component_1.SearchPageComponent }
         ],
         canActivate: [auth_guard_1.AuthGuard]
     },

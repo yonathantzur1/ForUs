@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
-import { MicrotextService, InputFieldValidation } from '../../../services/microtext/microtext.service';
-import { GlobalService } from '../../../services/global/global.service';
+import { AlertService, ALERT_TYPE } from '../../services/alert/alert.service';
+import { MicrotextService, InputFieldValidation } from '../../services/microtext/microtext.service';
+import { GlobalService } from '../../services/global/global.service';
 
-import { ForgotPasswordService } from '../../../services/login/forgotPassword/forgotPassword.service';
+import { ForgotPasswordService } from '../../services/login/forgotPassword/forgotPassword.service';
 
 @Component({
     selector: 'forgotPassword',

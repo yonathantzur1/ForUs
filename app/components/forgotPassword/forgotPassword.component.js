@@ -11,10 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var alert_service_1 = require("../../../services/alert/alert.service");
-var microtext_service_1 = require("../../../services/microtext/microtext.service");
-var global_service_1 = require("../../../services/global/global.service");
-var forgotPassword_service_1 = require("../../../services/login/forgotPassword/forgotPassword.service");
+var alert_service_1 = require("../../services/alert/alert.service");
+var microtext_service_1 = require("../../services/microtext/microtext.service");
+var global_service_1 = require("../../services/global/global.service");
+var forgotPassword_service_1 = require("../../services/login/forgotPassword/forgotPassword.service");
 var ForgotPasswordComponent = /** @class */ (function () {
     function ForgotPasswordComponent(router, route, alertService, microtextService, globalService, forgotPasswordService) {
         this.router = router;

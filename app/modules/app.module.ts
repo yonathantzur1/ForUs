@@ -13,7 +13,7 @@ import { LoaderDotsComponent } from '../components/loaders/loaderDots/loaderDots
 import { AlertComponent } from '../components/alert/alert.component';
 import { SnackbarComponent } from '../components/snackbar/snackbar.component';
 import { LoginComponent } from '../components/login/login.component';
-import { ForgotPasswordComponent } from '../components/login/forgotPassword/forgotPassword.component';
+import { ForgotPasswordComponent } from '../components/forgotPassword/forgotPassword.component';
 import { HomeComponent } from '../components/home/home.component';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { DropMenuComponent } from '../components/dropMenu/dropMenu.component';
@@ -31,7 +31,8 @@ import { UserPageComponent } from '../components/userPage/userPage.component';
 import { UserEditWindowComponent } from '../components/userPage/userEditWindow/userEditWindow.component';
 import { UserReportWindowComponent } from '../components/userPage/userReportWindow/userReportWindow.component';
 import { UserPasswordWindowComponent } from '../components/userPage/userPasswordWindow/userPasswordWindow.component';
-import { SearchPage } from '../components/searchPage/searchPage.component';
+import { UserPrivacyWindowComponent } from '../components/userPage/userPrivacyWindow/userPrivacyWindow.component';
+import { SearchPageComponent } from '../components/searchPage/searchPage.component';
 
 import { PageNotFoundComponent } from '../components/pageNotFound/pageNotFound.component';
 
@@ -85,7 +86,8 @@ import { Routing } from '../routes/app.routing'
     UserEditWindowComponent,
     UserReportWindowComponent,
     UserPasswordWindowComponent,
-    SearchPage,
+    UserPrivacyWindowComponent,
+    SearchPageComponent,
     // ---------Pipes---------
     SortObjects
   ],

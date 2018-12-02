@@ -21,6 +21,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
     isShowUserEditWindow: boolean = false;
     isShowUserReportWindow: boolean = false;
     isShowUserPasswordWindow: boolean = false;
+    isShowUserPrivacyWindow: boolean = false;
     isOverlay: boolean = false;;
     user: any;
     tabs: any;
@@ -58,6 +59,11 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
             if (value["closeUserPasswordWindow"]) {
                 this.isShowUserPasswordWindow = false;
+                this.globalService.setData("setNavbarTop", true);
+            }
+
+            if (value["closeUserPrivacyWindow"]) {
+                this.isShowUserPrivacyWindow = false;
                 this.globalService.setData("setNavbarTop", true);
             }
 
@@ -243,7 +249,13 @@ export class UserPageComponent implements OnInit, OnDestroy {
                                 }
                             });
                         }
-                    }
+                    },
+                    {
+                        text: "הגדרות פרטיות",
+                        action: function () {
+                            self.OpenUserWindow("isShowUserPrivacyWindow");
+                        }
+                    },
                 ]
             },
             {

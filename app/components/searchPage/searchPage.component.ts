@@ -17,7 +17,7 @@ class FriendsStatus {
     providers: [SearchPageService]
 })
 
-export class SearchPage implements OnInit {
+export class SearchPageComponent implements OnInit {
 
     users: Array<any>;
     isLoading: boolean = false;

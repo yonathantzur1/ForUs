@@ -19,8 +19,8 @@ var FriendsStatus = /** @class */ (function () {
     }
     return FriendsStatus;
 }());
-var SearchPage = /** @class */ (function () {
-    function SearchPage(router, route, alertService, globalService, searchPageService) {
+var SearchPageComponent = /** @class */ (function () {
+    function SearchPageComponent(router, route, alertService, globalService, searchPageService) {
         this.router = router;
         this.route = route;
         this.alertService = alertService;
@@ -28,7 +28,7 @@ var SearchPage = /** @class */ (function () {
         this.searchPageService = searchPageService;
         this.isLoading = false;
     }
-    SearchPage.prototype.ngOnInit = function () {
+    SearchPageComponent.prototype.ngOnInit = function () {
         var _this = this;
         var errorJson = {
             title: "שגיאה",
@@ -82,10 +82,10 @@ var SearchPage = /** @class */ (function () {
             }
         });
     };
-    SearchPage.prototype.UserClick = function (userId) {
+    SearchPageComponent.prototype.UserClick = function (userId) {
         this.router.navigateByUrl('/profile/' + userId);
     };
-    SearchPage.prototype.isFriendRequestAction = function (user) {
+    SearchPageComponent.prototype.isFriendRequestAction = function (user) {
         if ((!user.isFriend && this.globalService.userId != user._id) ||
             user.isGetFriendRequest ||
             user.isSendFriendRequest) {
@@ -93,15 +93,15 @@ var SearchPage = /** @class */ (function () {
         }
         return false;
     };
-    SearchPage.prototype.AddFriendRequest = function (user) {
+    SearchPageComponent.prototype.AddFriendRequest = function (user) {
         this.globalService.setData("addFriendRequest", user._id);
         user.isGetFriendRequest = true;
     };
-    SearchPage.prototype.RemoveFriendRequest = function (user) {
+    SearchPageComponent.prototype.RemoveFriendRequest = function (user) {
         this.globalService.setData("removeFriendRequest", user._id);
         user.isGetFriendRequest = false;
     };
-    SearchPage = __decorate([
+    SearchPageComponent = __decorate([
         core_1.Component({
             selector: 'searchPage',
             templateUrl: './searchPage.html',
@@ -112,8 +112,8 @@ var SearchPage = /** @class */ (function () {
             alert_service_1.AlertService,
             global_service_1.GlobalService,
             searchPage_service_1.SearchPageService])
-    ], SearchPage);
-    return SearchPage;
+    ], SearchPageComponent);
+    return SearchPageComponent;
 }());
-exports.SearchPage = SearchPage;
+exports.SearchPageComponent = SearchPageComponent;
 //# sourceMappingURL=searchPage.component.js.map
