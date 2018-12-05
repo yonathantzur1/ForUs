@@ -6,12 +6,18 @@
             <div class="title">
                 הגדרות פרטיות
             </div>
+            <div class="info-text">
+                הגדרה זו מהווה התאמה של ההגדרות שלך כדי לוודא שהתוכן שמופרסם על ידך משותף עם חברייך בלבד.<br><br>
+                הפעלת ההגדרה - משתמש פרטי, משמעותה שרק חברייך יוכלו לחפש ולהיכנס לדף הפרופיל האישי שלך, ולמידע המופרסם
+                על ידך.
+            </div>
             <div class="switch-container" *ngIf="isUserPrivate != null">
                 <span class="switch-text">משתמש פרטי</span>
                 <label class="switch">
                     <input [checked]="isUserPrivate" (click)="ChangePrivacyStatus()" [id]="toggleInputId" type="checkbox">
                     <span id="slider" class="slider slider-animation round"></span>
                 </label>
+                <span class="switch-status-text">- {{isUserPrivate ? "פעיל" : "כבוי"}}</span>
             </div>
             <i class="material-icons icon bottom-icon next-icon" (click)="SavePrivacyStatus()">arrow_back</i>
         </div>

@@ -15,7 +15,7 @@ module.exports = function (app) {
 
     // Getting search result for the main search.
     app.post(prefix + '/getMainSearchResults', function (req, res) {
-        navbarBL.GetMainSearchResults(req.body.searchInput).then((results) => {
+        navbarBL.GetMainSearchResults(req.body.searchInput, req.user._id).then((results) => {
             res.send(results);
         }).catch((err) => {
             res.status(500).end();

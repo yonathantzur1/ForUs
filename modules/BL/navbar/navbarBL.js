@@ -64,7 +64,7 @@ var self = module.exports = {
         });
     },
 
-    GetMainSearchResults(searchInput) {
+    GetMainSearchResults(searchInput, userId) {
         return new Promise((resolve, reject) => {
             searchInput = searchInput.replace(/\\/g, '').trim();
 
@@ -78,17 +78,25 @@ var self = module.exports = {
                     $or: [
                         { fullName: new RegExp("^" + searchInput, 'g') },
                         { fullNameReversed: new RegExp("^" + searchInput, 'g') }
+                    ],
+                    $or: [
+                        { isPrivate: false },
+                        { _id: DAL.GetObjectId(userId) },
+                        { friends: { $in: [userId] } }
                     ]
                 }
             };
 
             var aggregateArray = [{
                 $project: {
+                    _id: 1,
                     fullName: { $concat: ["$firstName", " ", "$lastName"] },
                     fullNameReversed: { $concat: ["$lastName", " ", "$firstName"] },
                     profile: 1,
                     firstName: 1,
-                    lastName: 1
+                    lastName: 1,
+                    isPrivate: 1,
+                    friends: 1
                 }
             }, usersFilter,
             { $sort: { "fullName": 1, "fullNameReversed": 1 } },

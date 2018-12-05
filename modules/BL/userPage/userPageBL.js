@@ -13,7 +13,17 @@ var self = module.exports = {
         return new Promise((resolve, reject) => {
             var isUserSelfPage = (userId == currUserId);
             var userObjectId = DAL.GetObjectId(userId);
-            var userFilter = { $match: { "_id": userObjectId } };
+            var currUserObjectId = DAL.GetObjectId(currUserId);
+            var userFilter = {
+                $match: {
+                    "_id": userObjectId,
+                    $or: [
+                        { "isPrivate": false },
+                        { "_id": currUserObjectId },
+                        { friends: { $in: [currUserId] } }
+                    ]
+                }
+            };
             var joinFilter = {
                 $lookup:
                 {
@@ -41,7 +51,9 @@ var self = module.exports = {
             };
 
             // In case the user is in his self page.
-            isUserSelfPage && self.AddUserPersonalInfoToQueryObject(userFileds["$project"]);
+            if (isUserSelfPage) {
+                userFileds["$project"]["email"] = 1;
+            }
 
             var aggregateArray = [userFilter, joinFilter, unwindObject, userFileds];
 
@@ -78,11 +90,6 @@ var self = module.exports = {
                 }
             }).catch(reject);
         });
-    },
-
-    // In case the user is in own page, return his personal information.
-    AddUserPersonalInfoToQueryObject(obj) {
-        obj["email"] = 1;
     },
 
     SetUsersRelation(user, currUserId) {
