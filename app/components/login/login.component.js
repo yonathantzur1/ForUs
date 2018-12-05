@@ -16,7 +16,7 @@ var alert_service_1 = require("../../services/alert/alert.service");
 var snackbar_service_1 = require("../../services/snackbar/snackbar.service");
 var microtext_service_1 = require("../../services/microtext/microtext.service");
 var login_service_1 = require("../../services/login/login.service");
-var forgotPassword_service_1 = require("../../services/login/forgotPassword/forgotPassword.service");
+var forgotPassword_service_1 = require("../../services/forgotPassword/forgotPassword.service");
 var regexpEnums_1 = require("../../regex/regexpEnums");
 var User = /** @class */ (function () {
     function User() {

@@ -1,6 +1,6 @@
-const DAL = require('../../DAL');
-const config = require('../../../config');
-const generator = require('../../generator');
+const DAL = require('../DAL');
+const config = require('../../config');
+const generator = require('../generator');
 const sha512 = require('js-sha512');
 
 const collectionName = config.db.collections.users;
@@ -148,6 +148,7 @@ var self = module.exports = {
                     "password": newUser.password,
                     "salt": salt,
                     "creationDate": new Date(),
+                    "isPrivate": false,
                     "friends": [],
                     "friendRequests": {
                         "get": [],

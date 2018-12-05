@@ -4,7 +4,7 @@ const enums = require('../../enums');
 const generator = require('../../generator');
 const sha512 = require('js-sha512');
 
-const loginBL = require('../login/loginBL');
+const loginBL = require('../loginBL');
 
 const usersCollectionName = config.db.collections.users;
 const saltSize = config.security.password.saltSize;

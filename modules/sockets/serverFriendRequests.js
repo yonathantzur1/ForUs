@@ -1,4 +1,4 @@
-const loginBL = require('../BL/login/loginBL');
+const loginBL = require('../BL/loginBL');
 const profilePictureBL = require('../BL/profilePicture/profilePictureBL');
 const tokenHandler = require('../handlers/tokenHandler');
 const mailer = require('../mailer');

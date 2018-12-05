@@ -18,6 +18,7 @@ var UserPrivacyWindowComponent = /** @class */ (function () {
         this.userPrivacyWindowService = userPrivacyWindowService;
         this.alertService = alertService;
         this.globalService = globalService;
+        this.toggleInputId = "toggle-input";
     }
     UserPrivacyWindowComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -53,6 +54,18 @@ var UserPrivacyWindowComponent = /** @class */ (function () {
     };
     UserPrivacyWindowComponent.prototype.CloseWindow = function () {
         this.globalService.setData("closeUserPrivacyWindow", true);
+    };
+    UserPrivacyWindowComponent.prototype.ChangePrivacyStatus = function () {
+        var self = this;
+        setTimeout(function () {
+            self.isUserPrivate = !self.isUserPrivate;
+        }, 0);
+    };
+    UserPrivacyWindowComponent.prototype.SavePrivacyStatus = function () {
+        var _this = this;
+        this.userPrivacyWindowService.SetUserPrivacy(this.isUserPrivate).then(function (result) {
+            _this.CloseWindow();
+        });
     };
     UserPrivacyWindowComponent.prototype.KeyPress = function (event) {
         // In case of pressing escape.

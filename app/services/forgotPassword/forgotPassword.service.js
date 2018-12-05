@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var basic_service_1 = require("../../basic/basic.service");
+var basic_service_1 = require("../basic/basic.service");
 var ForgotPasswordService = /** @class */ (function (_super) {
     __extends(ForgotPasswordService, _super);
     function ForgotPasswordService() {

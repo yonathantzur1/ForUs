@@ -207,6 +207,12 @@ var UserPageComponent = /** @class */ (function () {
                         }
                     },
                     {
+                        text: "הגדרות פרטיות",
+                        action: function () {
+                            self.OpenUserWindow("isShowUserPrivacyWindow");
+                        }
+                    },
+                    {
                         text: "מחיקת משתמש",
                         action: function () {
                             self.alertService.Alert({
@@ -234,13 +240,7 @@ var UserPageComponent = /** @class */ (function () {
                                 }
                             });
                         }
-                    },
-                    {
-                        text: "הגדרות פרטיות",
-                        action: function () {
-                            self.OpenUserWindow("isShowUserPrivacyWindow");
-                        }
-                    },
+                    }
                 ]
             },
             {

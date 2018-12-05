@@ -4,6 +4,8 @@ import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service'
 import { GlobalService } from '../../../services/global/global.service';
 import { UserPrivacyWindowService } from '../../../services/userPage/userPrivacyWindow/userPrivacyWindow.service';
 
+declare var $: any;
+
 @Component({
     selector: 'userPrivacyWindow',
     templateUrl: './userPrivacyWindow.html',
@@ -13,6 +15,7 @@ import { UserPrivacyWindowService } from '../../../services/userPage/userPrivacy
 export class UserPrivacyWindowComponent implements OnInit {
 
     isUserPrivate: boolean;
+    toggleInputId: string = "toggle-input";
 
     constructor(private userPrivacyWindowService: UserPrivacyWindowService,
         private alertService: AlertService,
@@ -52,6 +55,20 @@ export class UserPrivacyWindowComponent implements OnInit {
 
     CloseWindow() {
         this.globalService.setData("closeUserPrivacyWindow", true);
+    }
+
+    ChangePrivacyStatus() {
+        var self = this;
+
+        setTimeout(function () {
+            self.isUserPrivate = !self.isUserPrivate;
+        }, 0);
+    }
+
+    SavePrivacyStatus() {
+        this.userPrivacyWindowService.SetUserPrivacy(this.isUserPrivate).then(result => {
+            this.CloseWindow();
+        });
     }
 
     @HostListener('document:keyup', ['$event'])

@@ -1,5 +1,5 @@
 const userPasswordWindowBL = require('../../BL/userPage/userPasswordWindowBL');
-const forgotPasswordBL = require('../../BL/login/forgotPasswordBL');
+const forgotPasswordBL = require('../../BL/forgotPasswordBL');
 const logsBL = require('../../BL/logsBL');
 const validate = require('../../security/validate');
 const bruteForceProtector = require('../../security/bruteForceProtector');

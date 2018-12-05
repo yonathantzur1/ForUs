@@ -1,9 +1,9 @@
-const forgotPasswordBL = require('../../BL/login/forgotPasswordBL');
-const logsBL = require('../../BL/logsBL');
-const mailer = require('../../mailer');
-const tokenHandler = require('../../handlers/tokenHandler');
-const validate = require('../../security/validate');
-const config = require('../../../config');
+const forgotPasswordBL = require('../BL/forgotPasswordBL');
+const logsBL = require('../BL/logsBL');
+const mailer = require('../mailer');
+const tokenHandler = require('../handlers/tokenHandler');
+const validate = require('../security/validate');
+const config = require('../../config');
 
 var prefix = "/forgotPassword";
 

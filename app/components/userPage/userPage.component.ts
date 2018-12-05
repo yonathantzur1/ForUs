@@ -220,6 +220,12 @@ export class UserPageComponent implements OnInit, OnDestroy {
                         }
                     },
                     {
+                        text: "הגדרות פרטיות",
+                        action: function () {
+                            self.OpenUserWindow("isShowUserPrivacyWindow");
+                        }
+                    },
+                    {
                         text: "מחיקת משתמש",
                         action: function () {
                             self.alertService.Alert({
@@ -249,13 +255,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                                 }
                             });
                         }
-                    },
-                    {
-                        text: "הגדרות פרטיות",
-                        action: function () {
-                            self.OpenUserWindow("isShowUserPrivacyWindow");
-                        }
-                    },
+                    }
                 ]
             },
             {

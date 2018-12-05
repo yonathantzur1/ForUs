@@ -1,6 +1,6 @@
-import { BasicService } from '../../basic/basic.service';
+import { BasicService } from '../basic/basic.service';
 
-import { ForgotUser } from '../../../components/login/login.component';
+import { ForgotUser } from '../../components/login/login.component';
 
 export class ForgotPasswordService extends BasicService {
     prefix = "/forgotPassword";

@@ -3,7 +3,7 @@ const config = require('../../../config');
 const enums = require('../../enums');
 const sha512 = require('js-sha512');
 
-const loginBL = require('../login/loginBL');
+const loginBL = require('../loginBL');
 
 const collectionName = config.db.collections.users;
 
