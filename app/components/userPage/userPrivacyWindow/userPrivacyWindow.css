@@ -5,7 +5,7 @@
 }
 
 #userPrivacyWindow .info-text {
-  height: calc(100% - 110px);
+  height: calc(100% - 120px);
   display: flex;
   align-items: center;
 }
@@ -18,6 +18,13 @@
 
 #userPrivacyWindow .switch-status-text {
   margin-right: 5px;
+}
+
+#userPrivacyWindow .sector-line {
+  width: 100%;
+  height: 1px;
+  background-color: #d4d4d4;
+  margin-top: 15px;
 }
 
 /* The switch - the box around the slider */

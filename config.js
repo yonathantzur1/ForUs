@@ -1,9 +1,9 @@
 const isServerProd = (process.env.IS_PROD == 'true');
-const serverPort = process.env.PORT;
+const serverPort = process.env.PORT || 8000;
 
 module.exports = {
     server: {
-        port: 8000,
+        port: serverPort,
         isProd: isServerProd,
         isForceHttps: true
     },
@@ -16,7 +16,7 @@ module.exports = {
     },
     db: {
         name: "forus",
-        connectionString: process.env.DEV_CONNECTION_STRING || process.env.CONNECTION_STRING,
+        connectionString: process.env.CONNECTION_STRING || process.env.CONNECTION_STRING,
         maxConnectionAttemptsNumber: 5, // In case of failure.
         collections: {
             users: "Users",

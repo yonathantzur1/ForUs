@@ -75,14 +75,20 @@ var self = module.exports = {
 
             var usersFilter = {
                 $match: {
-                    $or: [
-                        { fullName: new RegExp("^" + searchInput, 'g') },
-                        { fullNameReversed: new RegExp("^" + searchInput, 'g') }
-                    ],
-                    $or: [
-                        { isPrivate: false },
-                        { _id: DAL.GetObjectId(userId) },
-                        { friends: { $in: [userId] } }
+                    $and: [
+                        {
+                            $or: [
+                                { fullName: new RegExp("^" + searchInput, 'g') },
+                                { fullNameReversed: new RegExp("^" + searchInput, 'g') }
+                            ]
+                        },
+                        {
+                            $or: [
+                                { isPrivate: false },
+                                { _id: DAL.GetObjectId(userId) },
+                                { friends: { $in: [userId] } }
+                            ]
+                        }
                     ]
                 }
             };

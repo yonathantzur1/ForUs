@@ -16,11 +16,15 @@ var self = module.exports = {
             var currUserObjectId = DAL.GetObjectId(currUserId);
             var userFilter = {
                 $match: {
-                    "_id": userObjectId,
-                    $or: [
-                        { "isPrivate": false },
-                        { "_id": currUserObjectId },
-                        { friends: { $in: [currUserId] } }
+                    $and: [
+                        { "_id": userObjectId },
+                        {
+                            $or: [
+                                { "isPrivate": false },
+                                { "_id": currUserObjectId },
+                                { friends: { $in: [currUserId] } }
+                            ]
+                        }
                     ]
                 }
             };
