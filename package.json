@@ -26,7 +26,7 @@
     "bootstrap-material-design": "^4.1.1",
     "chart.js": "^2.7.3",
     "compression": "^1.7.3",
-    "core-js": "^2.5.7",
+    "core-js": "^2.6.0",
     "cropper": "^4.0.0",
     "express": "^4.16.4",
     "express-brute": "^1.0.1",
@@ -48,7 +48,7 @@
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
-    "@types/node": "^10.12.11",
+    "@types/node": "^10.12.12",
     "concurrently": "^4.1.0",
     "nodemon": "^1.18.7",
     "typescript": "~3.2.1"
