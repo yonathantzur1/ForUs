@@ -24,19 +24,47 @@ export class HomeComponent implements OnInit {
         private globalService: GlobalService) { }
 
     ngOnInit() {
-        var self = this;
-
-        self.authService.GetCurrUser().then((result: any) => {
-            self.currUser = result;
-            self.globalService.userId = result._id;
+        this.authService.GetCurrUser().then((result: any) => {
+            this.currUser = result;
+            this.globalService.userId = result._id;
         });
 
-        self.profilePictureService.GetUserProfileImage().then((result: any) => {
+        this.profilePictureService.GetUserProfileImage().then((result: any) => {
             if (result) {
-                self.globalService.userProfileImage = result.image;
+                this.globalService.userProfileImage = result.image;
             }
 
-            self.globalService.setData("userProfileImageLoaded", true);
+            this.globalService.setData("userProfileImageLoaded", true);
         });
+
+        var self = this;
+
+        this.GetUserLocation((position: any) => {
+            self.homeService.SaveUserLocation(position.coords.latitude, position.coords.longitude);
+        }, (error: any) => {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    var a = "User denied the request for Geolocation."
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    var a = "Location information is unavailable."
+                    break;
+                case error.TIMEOUT:
+                    var a = "The request to get user location timed out."
+                    break;
+                case error.UNKNOWN_ERROR:
+                    var a = "An unknown error occurred."
+                    break;
+            }
+        });
+    }
+
+    GetUserLocation(successCallback: any, errorCallback: any) {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(successCallback);
+        }
+        else {
+            var a = "Geolocation is not supported by this browser.";
+        }
     }
 }

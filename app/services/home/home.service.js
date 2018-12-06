@@ -17,8 +17,21 @@ var basic_service_1 = require("../basic/basic.service");
 var HomeService = /** @class */ (function (_super) {
     __extends(HomeService, _super);
     function HomeService() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.prefix = "/api/home";
+        return _this;
     }
+    HomeService.prototype.SaveUserLocation = function (xCord, yCord) {
+        var location = { xCord: xCord, yCord: yCord };
+        return _super.prototype.put.call(this, this.prefix + '/saveUserLocation', JSON.stringify(location))
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     return HomeService;
 }(basic_service_1.BasicService));
 exports.HomeService = HomeService;

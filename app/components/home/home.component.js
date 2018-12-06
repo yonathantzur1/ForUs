@@ -26,17 +26,44 @@ var HomeComponent = /** @class */ (function () {
         this.currUser = null;
     }
     HomeComponent.prototype.ngOnInit = function () {
-        var self = this;
-        self.authService.GetCurrUser().then(function (result) {
-            self.currUser = result;
-            self.globalService.userId = result._id;
+        var _this = this;
+        this.authService.GetCurrUser().then(function (result) {
+            _this.currUser = result;
+            _this.globalService.userId = result._id;
         });
-        self.profilePictureService.GetUserProfileImage().then(function (result) {
+        this.profilePictureService.GetUserProfileImage().then(function (result) {
             if (result) {
-                self.globalService.userProfileImage = result.image;
+                _this.globalService.userProfileImage = result.image;
             }
-            self.globalService.setData("userProfileImageLoaded", true);
+            _this.globalService.setData("userProfileImageLoaded", true);
         });
+        var self = this;
+        this.GetUserLocation(function (position) {
+            self.homeService.SaveUserLocation(position.coords.latitude, position.coords.longitude);
+        }, function (error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    var a = "User denied the request for Geolocation.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    var a = "Location information is unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    var a = "The request to get user location timed out.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    var a = "An unknown error occurred.";
+                    break;
+            }
+        });
+    };
+    HomeComponent.prototype.GetUserLocation = function (successCallback, errorCallback) {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(successCallback);
+        }
+        else {
+            var a = "Geolocation is not supported by this browser.";
+        }
     };
     HomeComponent = __decorate([
         core_1.Component({
