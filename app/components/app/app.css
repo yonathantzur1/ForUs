@@ -51,10 +51,6 @@ a, a:hover, a:focus {
 
 /* END OVERRIDE BOOTSTRAP MATERIAL CSS */
 
-material-icons:before {
-    display:none;
-}
-
 :root {
     /* Define css global variables */
     --main-background-color: #eee;
