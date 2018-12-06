@@ -318,6 +318,17 @@ var NavbarComponent = /** @class */ (function () {
             });
             self.RemoveFriend(friendId);
         });
+        self.globalService.SocketOn('RemoveUserFromSearchCache', function (userId) {
+            Object.keys(self.searchCache).forEach(function (searchInput) {
+                self.searchCache[searchInput] = self.searchCache[searchInput].filter(function (user) {
+                    var isRemoveUser = (user._id == userId);
+                    if (isRemoveUser && user.originalProfile) {
+                        delete self.profilesCache[user.originalProfile];
+                    }
+                    return (!isRemoveUser);
+                });
+            });
+        });
     };
     NavbarComponent.prototype.ngOnDestroy = function () {
         this.subscribeObj.unsubscribe();

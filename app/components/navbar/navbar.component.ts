@@ -411,6 +411,20 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
             self.RemoveFriend(friendId);
         });
+
+        self.globalService.SocketOn('RemoveUserFromSearchCache', function (userId: string) {
+            Object.keys(self.searchCache).forEach((searchInput: string) => {
+                self.searchCache[searchInput] = self.searchCache[searchInput].filter((user: any) => {
+                    var isRemoveUser = (user._id == userId)
+
+                    if (isRemoveUser && user.originalProfile) {
+                        delete self.profilesCache[user.originalProfile]
+                    }
+
+                    return (!isRemoveUser);
+                });
+            });
+        });
     }
 
     ngOnDestroy() {

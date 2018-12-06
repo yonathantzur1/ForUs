@@ -1,4 +1,5 @@
 const userPrivacyWindowBL = require('../../BL/userPage/userPrivacyWindowBL');
+const events = require('../../events');
 
 var prefix = "/api/userPrivacyWindow";
 
@@ -14,6 +15,10 @@ module.exports = function (app) {
 
     app.put(prefix + '/setUserPrivacy', (req, res) => {
         userPrivacyWindowBL.SetUserPrivacy(req.user._id, req.body.isPrivate).then(result => {
+            if (req.body.isPrivate && result) {
+                events.emit('socket.RemoveUserFromSearchCache', req.user._id);
+            }
+
             res.send(result);
         }).catch(err => {
             res.status(500).end();
