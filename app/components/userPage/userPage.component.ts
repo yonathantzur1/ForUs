@@ -333,6 +333,12 @@ export class UserPageComponent implements OnInit, OnDestroy {
                 self.SetUserFriendStatus("isSendFriendRequest");
             }
         });
+
+        self.globalService.SocketOn('UserSetToPrivate', function (userId: string) {
+            if (!self.IsUserPageSelf() && !self.user.isFriend) {
+                self.router.navigateByUrl("/");
+            }
+        });
     }
 
     ngOnDestroy() {

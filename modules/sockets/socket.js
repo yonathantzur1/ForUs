@@ -87,8 +87,8 @@ module.exports = function (io) {
 
     events.on('socket.RemoveFriendUser', RemoveFriendUser);
 
-    events.on('socket.RemoveUserFromSearchCache', (userId) => {
-        io.emit('RemoveUserFromSearchCache', userId);
+    events.on('socket.UserSetToPrivate', (userId) => {
+        io.emit('UserSetToPrivate', userId);
     });
 
     return connectedUsers;

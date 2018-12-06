@@ -412,18 +412,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
             self.RemoveFriend(friendId);
         });
 
-        self.globalService.SocketOn('RemoveUserFromSearchCache', function (userId: string) {
-            Object.keys(self.searchCache).forEach((searchInput: string) => {
-                self.searchCache[searchInput] = self.searchCache[searchInput].filter((user: any) => {
-                    var isRemoveUser = (user._id == userId)
-
-                    if (isRemoveUser && user.originalProfile) {
-                        delete self.profilesCache[user.originalProfile]
-                    }
-
-                    return (!isRemoveUser);
-                });
-            });
+        self.globalService.SocketOn('UserSetToPrivate', function (userId: string) {
+            self.RemoveUserFromNavbarSearchCache(userId);
         });
     }
 
@@ -671,6 +661,20 @@ export class NavbarComponent implements OnInit, OnDestroy {
             self.HideSearchResults();
             self.searchResults = [];
         }
+    }
+
+    RemoveUserFromNavbarSearchCache(userId: string) {
+        Object.keys(this.searchCache).forEach((searchInput: string) => {
+            this.searchCache[searchInput] = this.searchCache[searchInput].filter((user: any) => {
+                var isRemoveUser = (user._id == userId);
+
+                if (isRemoveUser && user.originalProfile) {
+                    delete this.profilesCache[user.originalProfile];
+                }
+
+                return (!isRemoveUser);
+            });
+        });
     }
 
     SearchKeyUp(event: any) {

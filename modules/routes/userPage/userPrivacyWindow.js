@@ -16,7 +16,7 @@ module.exports = function (app) {
     app.put(prefix + '/setUserPrivacy', (req, res) => {
         userPrivacyWindowBL.SetUserPrivacy(req.user._id, req.body.isPrivate).then(result => {
             if (req.body.isPrivate && result) {
-                events.emit('socket.RemoveUserFromSearchCache', req.user._id);
+                events.emit('socket.UserSetToPrivate', req.user._id);
             }
 
             res.send(result);

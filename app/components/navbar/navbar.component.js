@@ -318,16 +318,8 @@ var NavbarComponent = /** @class */ (function () {
             });
             self.RemoveFriend(friendId);
         });
-        self.globalService.SocketOn('RemoveUserFromSearchCache', function (userId) {
-            Object.keys(self.searchCache).forEach(function (searchInput) {
-                self.searchCache[searchInput] = self.searchCache[searchInput].filter(function (user) {
-                    var isRemoveUser = (user._id == userId);
-                    if (isRemoveUser && user.originalProfile) {
-                        delete self.profilesCache[user.originalProfile];
-                    }
-                    return (!isRemoveUser);
-                });
-            });
+        self.globalService.SocketOn('UserSetToPrivate', function (userId) {
+            self.RemoveUserFromNavbarSearchCache(userId);
         });
     };
     NavbarComponent.prototype.ngOnDestroy = function () {
@@ -536,6 +528,18 @@ var NavbarComponent = /** @class */ (function () {
             self.HideSearchResults();
             self.searchResults = [];
         }
+    };
+    NavbarComponent.prototype.RemoveUserFromNavbarSearchCache = function (userId) {
+        var _this = this;
+        Object.keys(this.searchCache).forEach(function (searchInput) {
+            _this.searchCache[searchInput] = _this.searchCache[searchInput].filter(function (user) {
+                var isRemoveUser = (user._id == userId);
+                if (isRemoveUser && user.originalProfile) {
+                    delete _this.profilesCache[user.originalProfile];
+                }
+                return (!isRemoveUser);
+            });
+        });
     };
     NavbarComponent.prototype.SearchKeyUp = function (event) {
         if (this.searchResults.length > 0 && this.isShowSearchResults) {

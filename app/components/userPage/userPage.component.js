@@ -310,6 +310,11 @@ var UserPageComponent = /** @class */ (function () {
                 self.SetUserFriendStatus("isSendFriendRequest");
             }
         });
+        self.globalService.SocketOn('UserSetToPrivate', function (userId) {
+            if (!self.IsUserPageSelf() && !self.user.isFriend) {
+                self.router.navigateByUrl("/");
+            }
+        });
     };
     UserPageComponent.prototype.ngOnDestroy = function () {
         this.subscribeObj.unsubscribe();
