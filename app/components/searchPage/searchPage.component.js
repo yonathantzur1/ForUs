@@ -39,6 +39,7 @@ var SearchPageComponent = /** @class */ (function () {
         // In case of route params changes.
         this.route.params.subscribe(function (params) {
             _this.searchString = params["name"];
+            _this.globalService.setData("changeSearchInput", _this.searchString);
             // In case there is a search string.
             if (_this.searchString) {
                 _this.users = [];

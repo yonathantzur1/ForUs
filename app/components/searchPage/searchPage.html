@@ -7,7 +7,7 @@
         </div>
     </div>
     <div class="users-container" *ngIf="isLoading || (users && users.length > 0)">
-        <div class="title-container">
+        <div class="title-container" [ngClass]="{'title-container-bottom': !isLoading && users && users.length > 0}">
             <i class="fas fa-users"></i>
             <span class="title-text">
                 משתמשים
@@ -17,18 +17,24 @@
             <loaderSpinner></loaderSpinner>
         </div>
         <div class="user-tab" *ngFor="let user of users">
-            <div class="user-details-container" (click)="UserClick(user._id)" [ngClass]="{'short-user-name' : isFriendRequestAction(user)}">
-                <img class="user-image" [src]="user.profileImage || globalService.defaultProfileImage">
-                <span class="user-name" [title]="user.fullName">
+            <div class="user-details-container">
+                <img class="user-image" (click)="UserClick(user._id)" [src]="user.profileImage || globalService.defaultProfileImage">
+                <span class="user-name" (click)="UserClick(user._id)" [title]="user.fullName">
                     {{user.fullName}}
                 </span>
             </div>
             <div *ngIf="isFriendRequestAction(user)" class="friend-request-action-sector">
-                <i *ngIf="!user.isFriend && !user.isGetFriendRequest && !user.isSendFriendRequest" (click)="AddFriendRequest(user)"
-                    class="fas fa-user-plus action-btn" title="בקשת חברות"></i>
-                <i *ngIf="user.isGetFriendRequest" (click)="RemoveFriendRequest(user)" class="fas fa-user-times action-btn"
-                    title="ביטול בקשת חברות"></i>
-                <div class="friend-request-alert-dot" title="בקשת חברות ממתינה" *ngIf="user.isSendFriendRequest"></div>
+                <div (click)="AddFriendRequest(user)" class="action-btn" *ngIf="!user.isFriend && !user.isGetFriendRequest && !user.isSendFriendRequest">
+                    <span class="action-btn-text">בקשת חברות</span>
+                    <i class="fas fa-user-plus" title="בקשת חברות"></i>
+                </div>
+                <div (click)="RemoveFriendRequest(user)" class="action-btn" *ngIf="user.isGetFriendRequest">
+                    <span class="action-btn-text">ביטול בקשה</span>
+                    <i class="fas fa-user-times" title="ביטול בקשת חברות"></i>
+                </div>
+                <div (click)="UserClick(user._id)" class="action-btn" *ngIf="user.isSendFriendRequest">
+                    <i class="fas fa-ellipsis-h" title="בקשת חברות ממתינה"></i>
+                </div>
             </div>
         </div>
     </div>

@@ -40,6 +40,7 @@ export class SearchPageComponent implements OnInit {
         // In case of route params changes.
         this.route.params.subscribe(params => {
             this.searchString = params["name"];
+            this.globalService.setData("changeSearchInput", this.searchString);
 
             // In case there is a search string.
             if (this.searchString) {
