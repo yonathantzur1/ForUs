@@ -23,7 +23,7 @@ var HomeService = /** @class */ (function (_super) {
     }
     HomeService.prototype.SaveUserLocation = function (xCord, yCord) {
         var location = { xCord: xCord, yCord: yCord };
-        return _super.prototype.put.call(this, this.prefix + '/saveUserLocation', JSON.stringify(location))
+        return _super.prototype.put.call(this, this.prefix + '/saveUserLocation', location)
             .toPromise()
             .then(function (result) {
             return result;

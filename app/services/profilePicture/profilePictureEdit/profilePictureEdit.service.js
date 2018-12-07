@@ -25,7 +25,7 @@ var ProfilePictureEditService = /** @class */ (function (_super) {
         var image = {
             "imgBase64": imgBase64
         };
-        return _super.prototype.post.call(this, this.prefix + '/saveImage', JSON.stringify(image))
+        return _super.prototype.post.call(this, this.prefix + '/saveImage', image)
             .toPromise()
             .then(function (result) {
             return result;

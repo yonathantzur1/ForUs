@@ -9,7 +9,7 @@ export class ProfilePictureEditService extends BasicService {
             "imgBase64": imgBase64
         };
 
-        return super.post(this.prefix + '/saveImage', JSON.stringify(image))
+        return super.post(this.prefix + '/saveImage', image)
             .toPromise()
             .then((result: any) => {
                 return result;

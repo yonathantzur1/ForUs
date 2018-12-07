@@ -22,7 +22,7 @@ var NavbarService = /** @class */ (function (_super) {
         return _this;
     }
     NavbarService.prototype.GetFriends = function (friendsIds) {
-        return _super.prototype.post.call(this, this.prefix + '/getFriends', JSON.stringify(friendsIds))
+        return _super.prototype.post.call(this, this.prefix + '/getFriends', friendsIds)
             .toPromise()
             .then(function (result) {
             return result;
@@ -33,7 +33,7 @@ var NavbarService = /** @class */ (function (_super) {
     };
     NavbarService.prototype.GetMainSearchResults = function (searchInput) {
         var details = { searchInput: searchInput };
-        return _super.prototype.post.call(this, this.prefix + '/getMainSearchResults', JSON.stringify(details))
+        return _super.prototype.post.call(this, this.prefix + '/getMainSearchResults', details)
             .toPromise()
             .then(function (result) {
             return result;
@@ -43,7 +43,7 @@ var NavbarService = /** @class */ (function (_super) {
         });
     };
     NavbarService.prototype.GetMainSearchResultsWithImages = function (ids) {
-        return _super.prototype.post.call(this, this.prefix + '/getMainSearchResultsWithImages', JSON.stringify(ids))
+        return _super.prototype.post.call(this, this.prefix + '/getMainSearchResultsWithImages', ids)
             .toPromise()
             .then(function (result) {
             return result;
@@ -64,14 +64,14 @@ var NavbarService = /** @class */ (function (_super) {
     };
     NavbarService.prototype.UpdateMessagesNotifications = function (messagesNotifications) {
         var details = { messagesNotifications: messagesNotifications };
-        _super.prototype.post.call(this, this.prefix + '/updateMessagesNotifications', JSON.stringify(details))
+        _super.prototype.post.call(this, this.prefix + '/updateMessagesNotifications', details)
             .toPromise()
             .then(function (result) { })
             .catch(function (e) { });
     };
     NavbarService.prototype.RemoveMessagesNotifications = function (messagesNotifications) {
         var details = { messagesNotifications: messagesNotifications };
-        _super.prototype.post.call(this, this.prefix + '/removeMessagesNotifications', JSON.stringify(details))
+        _super.prototype.post.call(this, this.prefix + '/removeMessagesNotifications', details)
             .toPromise()
             .then(function (result) { })
             .catch(function (e) { });
@@ -88,7 +88,7 @@ var NavbarService = /** @class */ (function (_super) {
     };
     NavbarService.prototype.AddFriendRequest = function (friendId) {
         var details = { friendId: friendId };
-        return _super.prototype.post.call(this, this.prefix + '/addFriendRequest', JSON.stringify(details))
+        return _super.prototype.post.call(this, this.prefix + '/addFriendRequest', details)
             .toPromise()
             .then(function (result) {
             return result;
@@ -99,7 +99,7 @@ var NavbarService = /** @class */ (function (_super) {
     };
     NavbarService.prototype.RemoveFriendRequest = function (friendId) {
         var details = { friendId: friendId };
-        return _super.prototype.post.call(this, this.prefix + '/removeFriendRequest', JSON.stringify(details))
+        return _super.prototype.post.call(this, this.prefix + '/removeFriendRequest', details)
             .toPromise()
             .then(function (result) {
             return result;
@@ -110,7 +110,7 @@ var NavbarService = /** @class */ (function (_super) {
     };
     NavbarService.prototype.IgnoreFriendRequest = function (friendId) {
         var details = { friendId: friendId };
-        return _super.prototype.post.call(this, this.prefix + '/ignoreFriendRequest', JSON.stringify(details))
+        return _super.prototype.post.call(this, this.prefix + '/ignoreFriendRequest', details)
             .toPromise()
             .then(function (result) {
             return result;
@@ -121,7 +121,7 @@ var NavbarService = /** @class */ (function (_super) {
     };
     NavbarService.prototype.AddFriend = function (friendId) {
         var details = { friendId: friendId };
-        return _super.prototype.post.call(this, this.prefix + '/addFriend', JSON.stringify(details))
+        return _super.prototype.post.call(this, this.prefix + '/addFriend', details)
             .toPromise()
             .then(function (result) {
             return result;

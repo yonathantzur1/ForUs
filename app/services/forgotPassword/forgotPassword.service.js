@@ -23,7 +23,7 @@ var ForgotPasswordService = /** @class */ (function (_super) {
     }
     ForgotPasswordService.prototype.Forgot = function (email) {
         var details = { "email": email };
-        return _super.prototype.put.call(this, this.prefix + '/forgot', JSON.stringify(details))
+        return _super.prototype.put.call(this, this.prefix + '/forgot', details)
             .toPromise()
             .then(function (result) {
             return result;
@@ -38,7 +38,7 @@ var ForgotPasswordService = /** @class */ (function (_super) {
             "code": forgotUser.code,
             "newPassword": forgotUser.newPassword
         };
-        return _super.prototype.put.call(this, this.prefix + '/resetPassword', JSON.stringify(details))
+        return _super.prototype.put.call(this, this.prefix + '/resetPassword', details)
             .toPromise()
             .then(function (result) {
             return result;
@@ -62,7 +62,7 @@ var ForgotPasswordService = /** @class */ (function (_super) {
             "token": token,
             "newPassword": newPassword
         };
-        return _super.prototype.put.call(this, this.prefix + '/resetPasswordByToken', JSON.stringify(details))
+        return _super.prototype.put.call(this, this.prefix + '/resetPasswordByToken', details)
             .toPromise()
             .then(function (result) {
             return result;

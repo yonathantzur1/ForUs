@@ -23,7 +23,7 @@ var ChatService = /** @class */ (function (_super) {
     }
     ChatService.prototype.GetChat = function (idsArray) {
         var details = { "membersIds": idsArray };
-        return _super.prototype.post.call(this, this.prefix + '/getChat', JSON.stringify(details))
+        return _super.prototype.post.call(this, this.prefix + '/getChat', details)
             .toPromise()
             .then(function (result) {
             return result;
@@ -34,7 +34,7 @@ var ChatService = /** @class */ (function (_super) {
     };
     ChatService.prototype.GetChatPage = function (idsArray, currMessagesNum, totalMessagesNum) {
         var details = { "membersIds": idsArray, currMessagesNum: currMessagesNum, totalMessagesNum: totalMessagesNum };
-        return _super.prototype.post.call(this, this.prefix + '/getChatPage', JSON.stringify(details))
+        return _super.prototype.post.call(this, this.prefix + '/getChatPage', details)
             .toPromise()
             .then(function (result) {
             return result;

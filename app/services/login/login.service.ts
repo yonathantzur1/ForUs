@@ -7,7 +7,7 @@ export class LoginService extends BasicService {
     prefix = "/login";
 
     Login(user: User) {
-        return super.post(this.prefix + '/userLogin', JSON.stringify(user))
+        return super.post(this.prefix + '/userLogin', user)
             .toPromise()
             .then((result: any) => {
                 return result;
@@ -40,7 +40,7 @@ export class LoginService extends BasicService {
             "password": newUser.password
         };
 
-        return super.post(this.prefix + '/register', JSON.stringify(details))
+        return super.post(this.prefix + '/register', details)
             .toPromise()
             .then((result: any) => {
                 return result;

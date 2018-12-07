@@ -5,7 +5,7 @@ export class HomeService extends BasicService {
 
     SaveUserLocation(xCord: number, yCord: number) {
         var location = { xCord, yCord };
-        return super.put(this.prefix + '/saveUserLocation', JSON.stringify(location))
+        return super.put(this.prefix + '/saveUserLocation', location)
             .toPromise()
             .then((result: any) => {
                 return result;

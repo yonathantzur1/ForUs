@@ -11,10 +11,18 @@ export class BasicService {
     }
 
     post(url: string, data: any) {
+        if (typeof data == "object") {
+            data = JSON.stringify(data);
+        }
+
         return this.http.post(url, data, this.getRequestOptions());
     }
 
     put(url: string, data: any) {
+        if (typeof data == "object") {
+            data = JSON.stringify(data);
+        }
+        
         return this.http.put(url, data, this.getRequestOptions());
     }
 

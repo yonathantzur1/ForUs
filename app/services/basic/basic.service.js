@@ -19,9 +19,15 @@ var BasicService = /** @class */ (function () {
         return this.http.get(url);
     };
     BasicService.prototype.post = function (url, data) {
+        if (typeof data == "object") {
+            data = JSON.stringify(data);
+        }
         return this.http.post(url, data, this.getRequestOptions());
     };
     BasicService.prototype.put = function (url, data) {
+        if (typeof data == "object") {
+            data = JSON.stringify(data);
+        }
         return this.http.put(url, data, this.getRequestOptions());
     };
     BasicService.prototype.delete = function (url) {

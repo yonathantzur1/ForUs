@@ -22,7 +22,7 @@ var LoginService = /** @class */ (function (_super) {
         return _this;
     }
     LoginService.prototype.Login = function (user) {
-        return _super.prototype.post.call(this, this.prefix + '/userLogin', JSON.stringify(user))
+        return _super.prototype.post.call(this, this.prefix + '/userLogin', user)
             .toPromise()
             .then(function (result) {
             return result;
@@ -51,7 +51,7 @@ var LoginService = /** @class */ (function (_super) {
             "email": newUser.email,
             "password": newUser.password
         };
-        return _super.prototype.post.call(this, this.prefix + '/register', JSON.stringify(details))
+        return _super.prototype.post.call(this, this.prefix + '/register', details)
             .toPromise()
             .then(function (result) {
             return result;

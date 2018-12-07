@@ -8,7 +8,7 @@ export class ForgotPasswordService extends BasicService {
     Forgot(email: string) {
         var details = { "email": email };
 
-        return super.put(this.prefix + '/forgot', JSON.stringify(details))
+        return super.put(this.prefix + '/forgot', details)
             .toPromise()
             .then((result: any) => {
                 return result;
@@ -25,7 +25,7 @@ export class ForgotPasswordService extends BasicService {
             "newPassword": forgotUser.newPassword
         };
 
-        return super.put(this.prefix + '/resetPassword', JSON.stringify(details))
+        return super.put(this.prefix + '/resetPassword', details)
             .toPromise()
             .then((result: any) => {
                 return result;
@@ -52,7 +52,7 @@ export class ForgotPasswordService extends BasicService {
             "newPassword": newPassword
         };
 
-        return super.put(this.prefix + '/resetPasswordByToken', JSON.stringify(details))
+        return super.put(this.prefix + '/resetPasswordByToken', details)
             .toPromise()
             .then((result: any) => {
                 return result;

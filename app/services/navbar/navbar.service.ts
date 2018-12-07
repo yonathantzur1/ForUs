@@ -5,7 +5,7 @@ export class NavbarService extends BasicService {
     prefix = "/api/navbar";
 
     GetFriends(friendsIds: Array<string>) {
-        return super.post(this.prefix + '/getFriends', JSON.stringify(friendsIds))
+        return super.post(this.prefix + '/getFriends', friendsIds)
             .toPromise()
             .then((result: any) => {
                 return result;
@@ -18,7 +18,7 @@ export class NavbarService extends BasicService {
     GetMainSearchResults(searchInput: string) {
         var details = { searchInput };
 
-        return super.post(this.prefix + '/getMainSearchResults', JSON.stringify(details))
+        return super.post(this.prefix + '/getMainSearchResults', details)
             .toPromise()
             .then((result: any) => {
                 return result;
@@ -29,7 +29,7 @@ export class NavbarService extends BasicService {
     }
 
     GetMainSearchResultsWithImages(ids: any) {
-        return super.post(this.prefix + '/getMainSearchResultsWithImages', JSON.stringify(ids))
+        return super.post(this.prefix + '/getMainSearchResultsWithImages', ids)
             .toPromise()
             .then((result: any) => {
                 return result;
@@ -53,7 +53,7 @@ export class NavbarService extends BasicService {
     UpdateMessagesNotifications(messagesNotifications: any) {
         var details = { messagesNotifications };
 
-        super.post(this.prefix + '/updateMessagesNotifications', JSON.stringify(details))
+        super.post(this.prefix + '/updateMessagesNotifications', details)
             .toPromise()
             .then((result: any) => { })
             .catch((e: any) => { });
@@ -62,7 +62,7 @@ export class NavbarService extends BasicService {
     RemoveMessagesNotifications(messagesNotifications: any) {
         var details = { messagesNotifications };
 
-        super.post(this.prefix + '/removeMessagesNotifications', JSON.stringify(details))
+        super.post(this.prefix + '/removeMessagesNotifications', details)
             .toPromise()
             .then((result: any) => { })
             .catch((e: any) => { });
@@ -82,7 +82,7 @@ export class NavbarService extends BasicService {
     AddFriendRequest(friendId: string) {
         var details = { friendId };
 
-        return super.post(this.prefix + '/addFriendRequest', JSON.stringify(details))
+        return super.post(this.prefix + '/addFriendRequest', details)
             .toPromise()
             .then((result: any) => {
                 return result;
@@ -95,7 +95,7 @@ export class NavbarService extends BasicService {
     RemoveFriendRequest(friendId: string) {
         var details = { friendId };
 
-        return super.post(this.prefix + '/removeFriendRequest', JSON.stringify(details))
+        return super.post(this.prefix + '/removeFriendRequest', details)
             .toPromise()
             .then((result: any) => {
                 return result;
@@ -108,7 +108,7 @@ export class NavbarService extends BasicService {
     IgnoreFriendRequest(friendId: string) {
         var details = { friendId };
 
-        return super.post(this.prefix + '/ignoreFriendRequest', JSON.stringify(details))
+        return super.post(this.prefix + '/ignoreFriendRequest', details)
             .toPromise()
             .then((result: any) => {
                 return result;
@@ -121,7 +121,7 @@ export class NavbarService extends BasicService {
     AddFriend(friendId: string) {
         var details = { friendId };
 
-        return super.post(this.prefix + '/addFriend', JSON.stringify(details))
+        return super.post(this.prefix + '/addFriend', details)
             .toPromise()
             .then((result: any) => {
                 return result;
