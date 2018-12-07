@@ -18,11 +18,13 @@ var UserPrivacyWindowComponent = /** @class */ (function () {
         this.userPrivacyWindowService = userPrivacyWindowService;
         this.alertService = alertService;
         this.globalService = globalService;
-        this.toggleInputId = "toggle-input";
+        this.isLoading = false;
     }
     UserPrivacyWindowComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.isLoading = true;
         this.userPrivacyWindowService.GetUserPrivacyStatus().then(function (isUserPrivate) {
+            _this.isLoading = false;
             if (isUserPrivate != null) {
                 _this.isUserPrivate = isUserPrivate;
             }
@@ -33,22 +35,7 @@ var UserPrivacyWindowComponent = /** @class */ (function () {
                     showCancelButton: false,
                     type: alert_service_1.ALERT_TYPE.DANGER
                 });
-            }
-        });
-    };
-    UserPrivacyWindowComponent.prototype.SetUserPrivacy = function (isPrivate) {
-        var _this = this;
-        this.userPrivacyWindowService.SetUserPrivacy(isPrivate).then(function (result) {
-            if (result) {
                 _this.CloseWindow();
-            }
-            else {
-                _this.alertService.Alert({
-                    title: "שגיאה",
-                    text: "אופס... שגיאה בשמירת סטטוס הפרטיות",
-                    showCancelButton: false,
-                    type: alert_service_1.ALERT_TYPE.DANGER
-                });
             }
         });
     };
@@ -63,9 +50,20 @@ var UserPrivacyWindowComponent = /** @class */ (function () {
     };
     UserPrivacyWindowComponent.prototype.SavePrivacyStatus = function () {
         var _this = this;
-        this.userPrivacyWindowService.SetUserPrivacy(this.isUserPrivate).then(function (result) {
-            _this.CloseWindow();
-        });
+        !this.isLoading &&
+            this.userPrivacyWindowService.SetUserPrivacy(this.isUserPrivate).then(function (result) {
+                if (result) {
+                    _this.CloseWindow();
+                }
+                else {
+                    _this.alertService.Alert({
+                        title: "שגיאה",
+                        text: "אופס... שגיאה בשמירת סטטוס הפרטיות",
+                        showCancelButton: false,
+                        type: alert_service_1.ALERT_TYPE.DANGER
+                    });
+                }
+            });
     };
     UserPrivacyWindowComponent.prototype.KeyPress = function (event) {
         // In case of pressing escape.

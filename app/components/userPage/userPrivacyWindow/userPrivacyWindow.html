@@ -12,15 +12,16 @@
                 על ידך.
             </div>
             <div class="sector-line"></div>
-            <div class="switch-container" *ngIf="isUserPrivate != null">
+            <loaderDots *ngIf="isLoading" css='{"font-size": "12px", "position": "absolute", "bottom": "5px"}'></loaderDots>
+            <div class="switch-container" *ngIf="!isLoading">
                 <span class="switch-text">משתמש פרטי</span>
                 <label class="switch">
-                    <input [checked]="isUserPrivate" (click)="ChangePrivacyStatus()" [id]="toggleInputId" type="checkbox">
+                    <input [checked]="isUserPrivate" (click)="ChangePrivacyStatus()" type="checkbox">
                     <span id="slider" class="slider slider-animation round"></span>
                 </label>
                 <span class="switch-status-text">- {{isUserPrivate ? "פעיל" : "כבוי"}}</span>
             </div>
-            <i class="material-icons icon bottom-icon next-icon" (click)="SavePrivacyStatus()">arrow_back</i>
+            <i class="material-icons icon bottom-icon next-icon" [ngClass]="{'disabled-icon': isLoading}" (click)="SavePrivacyStatus()">arrow_back</i>
         </div>
     </div>
 </div>

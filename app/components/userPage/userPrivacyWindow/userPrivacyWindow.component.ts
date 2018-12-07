@@ -15,14 +15,17 @@ declare var $: any;
 export class UserPrivacyWindowComponent implements OnInit {
 
     isUserPrivate: boolean;
-    toggleInputId: string = "toggle-input";
+    isLoading: boolean = false;    
 
     constructor(private userPrivacyWindowService: UserPrivacyWindowService,
         private alertService: AlertService,
         private globalService: GlobalService) { }
 
     ngOnInit() {
+        this.isLoading = true;
         this.userPrivacyWindowService.GetUserPrivacyStatus().then((isUserPrivate: boolean) => {
+            this.isLoading = false;
+
             if (isUserPrivate != null) {
                 this.isUserPrivate = isUserPrivate;
             }
@@ -33,22 +36,7 @@ export class UserPrivacyWindowComponent implements OnInit {
                     showCancelButton: false,
                     type: ALERT_TYPE.DANGER
                 });
-            }
-        });
-    }
-
-    SetUserPrivacy(isPrivate: boolean) {
-        this.userPrivacyWindowService.SetUserPrivacy(isPrivate).then(result => {
-            if (result) {
                 this.CloseWindow();
-            }
-            else {
-                this.alertService.Alert({
-                    title: "שגיאה",
-                    text: "אופס... שגיאה בשמירת סטטוס הפרטיות",
-                    showCancelButton: false,
-                    type: ALERT_TYPE.DANGER
-                });
             }
         });
     }
@@ -66,9 +54,20 @@ export class UserPrivacyWindowComponent implements OnInit {
     }
 
     SavePrivacyStatus() {
-        this.userPrivacyWindowService.SetUserPrivacy(this.isUserPrivate).then(result => {
-            this.CloseWindow();
-        });
+        !this.isLoading &&
+            this.userPrivacyWindowService.SetUserPrivacy(this.isUserPrivate).then(result => {
+                if (result) {
+                    this.CloseWindow();
+                }
+                else {
+                    this.alertService.Alert({
+                        title: "שגיאה",
+                        text: "אופס... שגיאה בשמירת סטטוס הפרטיות",
+                        showCancelButton: false,
+                        type: ALERT_TYPE.DANGER
+                    });
+                }
+            });
     }
 
     @HostListener('document:keyup', ['$event'])

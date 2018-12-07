@@ -11,7 +11,7 @@ export class BasicService {
     }
 
     post(url: string, data: any) {
-        if (typeof data == "object") {
+        if (data != null && typeof data == "object") {
             data = JSON.stringify(data);
         }
 
