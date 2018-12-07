@@ -15,7 +15,7 @@ declare var $: any;
 export class UserPrivacyWindowComponent implements OnInit {
 
     isUserPrivate: boolean;
-    isLoading: boolean = false;    
+    isLoading: boolean = false;
 
     constructor(private userPrivacyWindowService: UserPrivacyWindowService,
         private alertService: AlertService,

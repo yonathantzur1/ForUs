@@ -1,4 +1,5 @@
 const userPrivacyWindowBL = require('../../BL/userPage/userPrivacyWindowBL');
+const validate = require('../../security/validate');
 const events = require('../../events');
 
 var prefix = "/api/userPrivacyWindow";
@@ -13,16 +14,18 @@ module.exports = function (app) {
         });
     });
 
-    app.put(prefix + '/setUserPrivacy', (req, res) => {
-        userPrivacyWindowBL.SetUserPrivacy(req.user._id, req.body.isPrivate).then(result => {
-            if (req.body.isPrivate && result) {
-                events.emit('socket.UserSetToPrivate', req.user._id);
-            }
+    app.put(prefix + '/setUserPrivacy',
+        validate,
+        (req, res) => {
+            userPrivacyWindowBL.SetUserPrivacy(req.user._id, req.body.isPrivate).then(result => {
+                if (req.body.isPrivate && result) {
+                    events.emit('socket.UserSetToPrivate', req.user._id);
+                }
 
-            res.send(result);
-        }).catch(err => {
-            res.status(500).end();
+                res.send(result);
+            }).catch(err => {
+                res.status(500).end();
+            });
         });
-    });
 
 }

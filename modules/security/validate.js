@@ -129,6 +129,11 @@ var validateSchemaObj = {
                     oldPassword: joi.string().required(),
                     newPassword: joi.string().required()
                 }
+            },
+            "userPrivacyWindow": {
+                "setUserPrivacy": {
+                    isPrivate: joi.boolean().required()
+                }
             }
         }
     }
