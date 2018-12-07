@@ -5,6 +5,7 @@ import { GlobalService } from '../../services/global/global.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { ProfilePictureService } from '../../services/profilePicture/profilePicture.service';
 import { HomeService } from '../../services/home/home.service';
+import { LOCATION_ERROR } from '../../enums/enums';
 
 @Component({
     selector: 'home',
@@ -42,29 +43,34 @@ export class HomeComponent implements OnInit {
         this.GetUserLocation((position: any) => {
             self.homeService.SaveUserLocation(position.coords.latitude, position.coords.longitude);
         }, (error: any) => {
+            var errorEnum: LOCATION_ERROR;
+
             switch (error.code) {
                 case error.PERMISSION_DENIED:
-                    var a = "User denied the request for Geolocation."
+                    errorEnum = LOCATION_ERROR.PERMISSION_DENIED
                     break;
                 case error.POSITION_UNAVAILABLE:
-                    var a = "Location information is unavailable."
+                    errorEnum = LOCATION_ERROR.POSITION_UNAVAILABLE
                     break;
                 case error.TIMEOUT:
-                    var a = "The request to get user location timed out."
+                    errorEnum = LOCATION_ERROR.TIMEOUT
                     break;
                 case error.UNKNOWN_ERROR:
-                    var a = "An unknown error occurred."
+                    errorEnum = LOCATION_ERROR.UNKNOWN_ERROR
                     break;
             }
+
+            self.homeService.SaveUserLocationError(errorEnum);
         });
     }
 
     GetUserLocation(successCallback: any, errorCallback: any) {
+        // In case the browser support geo location.
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(successCallback);
+            navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
         }
         else {
-            var a = "Geolocation is not supported by this browser.";
+            this.homeService.SaveUserLocationError(LOCATION_ERROR.BROWSER_NOT_SUPPORT);
         }
     }
 }

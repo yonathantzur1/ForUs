@@ -8,7 +8,7 @@
         <div class="report-card" *ngFor="let report of reports">
             <div [ngSwitch]="report.status">
                 <div *ngSwitchCase="userReportStatus.ACTIVE" title="פעיל" class="report-status report-status-green"></div>
-                <div *ngSwitchCase="userReportStatus.IS_PROCESS" title="בטיפול" class="report-status report-status-yellow"></div>
+                <div *ngSwitchCase="userReportStatus.TAKEN" title="בטיפול" class="report-status report-status-yellow"></div>
                 <div *ngSwitchCase="userReportStatus.CLOSE" title="סגור" class="report-status report-status-red"></div>
             </div>
             <div class="report-group">

@@ -11,7 +11,7 @@ module.exports = {
     LOG_TYPE: {
         RESET_PASSWORD_REQUEST: "reset_password_request",
         LOGIN: "login",
-        LOGIN_FAIL: "login_fail",        
+        LOGIN_FAIL: "login_fail",
         REGISTER: "register"
     },
 
@@ -21,7 +21,15 @@ module.exports = {
     },
 
     USER_UPDATE_INFO_ERROR: {
-        EMAIL_EXISTS: "-1",
-        WRONG_PASSWORD: "-2"
+        EMAIL_EXISTS: "email_exists",
+        WRONG_PASSWORD: "wrong_password"
+    },
+
+    LOCATION_ERROR: {
+        PERMISSION_DENIED: 0,
+        POSITION_UNAVAILABLE: 1,
+        TIMEOUT: 2,
+        BROWSER_NOT_SUPPORT: 3,
+        UNKNOWN_ERROR: 4
     }
 }

@@ -15,6 +15,7 @@ var global_service_1 = require("../../services/global/global.service");
 var auth_service_1 = require("../../services/auth/auth.service");
 var profilePicture_service_1 = require("../../services/profilePicture/profilePicture.service");
 var home_service_1 = require("../../services/home/home.service");
+var enums_1 = require("../../enums/enums");
 var HomeComponent = /** @class */ (function () {
     function HomeComponent(router, authService, profilePictureService, homeService, globalService) {
         this.router = router;
@@ -41,28 +42,31 @@ var HomeComponent = /** @class */ (function () {
         this.GetUserLocation(function (position) {
             self.homeService.SaveUserLocation(position.coords.latitude, position.coords.longitude);
         }, function (error) {
+            var errorEnum;
             switch (error.code) {
                 case error.PERMISSION_DENIED:
-                    var a = "User denied the request for Geolocation.";
+                    errorEnum = enums_1.LOCATION_ERROR.PERMISSION_DENIED;
                     break;
                 case error.POSITION_UNAVAILABLE:
-                    var a = "Location information is unavailable.";
+                    errorEnum = enums_1.LOCATION_ERROR.POSITION_UNAVAILABLE;
                     break;
                 case error.TIMEOUT:
-                    var a = "The request to get user location timed out.";
+                    errorEnum = enums_1.LOCATION_ERROR.TIMEOUT;
                     break;
                 case error.UNKNOWN_ERROR:
-                    var a = "An unknown error occurred.";
+                    errorEnum = enums_1.LOCATION_ERROR.UNKNOWN_ERROR;
                     break;
             }
+            self.homeService.SaveUserLocationError(errorEnum);
         });
     };
     HomeComponent.prototype.GetUserLocation = function (successCallback, errorCallback) {
+        // In case the browser support geo location.
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(successCallback);
+            navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
         }
         else {
-            var a = "Geolocation is not supported by this browser.";
+            this.homeService.SaveUserLocationError(enums_1.LOCATION_ERROR.BROWSER_NOT_SUPPORT);
         }
     };
     HomeComponent = __decorate([

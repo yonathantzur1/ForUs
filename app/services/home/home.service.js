@@ -32,6 +32,17 @@ var HomeService = /** @class */ (function (_super) {
             return null;
         });
     };
+    HomeService.prototype.SaveUserLocationError = function (error) {
+        var details = { error: error };
+        return _super.prototype.put.call(this, this.prefix + '/saveUserLocationError', details)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     return HomeService;
 }(basic_service_1.BasicService));
 exports.HomeService = HomeService;

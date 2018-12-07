@@ -50,7 +50,7 @@ var UsersReportsComponent = /** @class */ (function () {
         }
         // In case the report was taken by manager.
         else if (report.handledManagerId) {
-            report.status = enums_1.USER_REPORT_STATUS.IS_PROCESS;
+            report.status = enums_1.USER_REPORT_STATUS.TAKEN;
         }
         else {
             report.status = enums_1.USER_REPORT_STATUS.ACTIVE;

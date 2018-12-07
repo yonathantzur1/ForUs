@@ -58,7 +58,7 @@ export class UsersReportsComponent implements OnInit {
         }
         // In case the report was taken by manager.
         else if (report.handledManagerId) {
-            report.status = USER_REPORT_STATUS.IS_PROCESS;
+            report.status = USER_REPORT_STATUS.TAKEN;
         }
         else {
             report.status = USER_REPORT_STATUS.ACTIVE;
