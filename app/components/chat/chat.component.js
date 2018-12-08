@@ -361,7 +361,8 @@ var ChatComponent = /** @class */ (function () {
         }
     };
     ChatComponent.prototype.GetDateBubbleText = function (index) {
-        return GetDateDetailsString(new Date(this.messages[index].time), new Date(), false);
+        return this.globalService.globalObject.
+            GetDateDetailsString(new Date(this.messages[index].time), new Date(), false);
     };
     ChatComponent.prototype.GetTopIconById = function (id) {
         for (var i = 0; i < this.topIcons.length; i++) {

@@ -9,7 +9,6 @@ import { UserRegexp } from '../../../regex/regexpEnums';
 
 declare var $: any;
 declare var Chart: any;
-declare var globalVariables: any;
 
 @Component({
     selector: 'statistics',
@@ -237,11 +236,11 @@ export class StatisticsComponent {
 
         switch (range) {
             case STATISTICS_RANGE.YEARLY: {
-                labels = globalVariables.months;
+                labels = this.globalService.globalObject.months;
                 break;
             }
             case STATISTICS_RANGE.WEEKLY: {
-                labels = globalVariables.days;
+                labels = this.globalService.globalObject.days;
                 break;
             }
             default: {

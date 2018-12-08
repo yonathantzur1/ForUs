@@ -22,7 +22,6 @@ export class CanvasTopIcon {
 declare var $: any;
 declare var window: any;
 declare var loadImage: any;
-declare function GetDateDetailsString(localDate: Date, currDate: Date, isShortMonths: boolean): string;
 
 @Component({
     selector: 'chat',
@@ -468,7 +467,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     GetDateBubbleText(index: number) {
-        return GetDateDetailsString(new Date(this.messages[index].time), new Date(), false);
+        return this.globalService.globalObject.
+            GetDateDetailsString(new Date(this.messages[index].time), new Date(), false);
     }
 
     GetTopIconById(id: string): TopIcon {

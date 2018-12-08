@@ -202,11 +202,11 @@ var StatisticsComponent = /** @class */ (function () {
         var labels;
         switch (range) {
             case enums_1.STATISTICS_RANGE.YEARLY: {
-                labels = globalVariables.months;
+                labels = this.globalService.globalObject.months;
                 break;
             }
             case enums_1.STATISTICS_RANGE.WEEKLY: {
-                labels = globalVariables.days;
+                labels = this.globalService.globalObject.days;
                 break;
             }
             default: {

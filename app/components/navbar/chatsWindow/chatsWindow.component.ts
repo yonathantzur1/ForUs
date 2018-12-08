@@ -3,8 +3,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ChatsWindowService } from '../../../services/navbar/chatsWindow/chatsWindow.service';
 import { GlobalService } from '../../../services/global/global.service';
 
-declare function GetDateDetailsString(localDate: Date, currDate: Date, isShortMonths: boolean): string;
-
 @Component({
     selector: 'chatsWindow',
     templateUrl: './chatsWindow.html',
@@ -18,7 +16,8 @@ export class ChatsWindowComponent implements OnInit {
     isLoading: boolean;
     chats: any = [];
 
-    constructor(private chatsWindowService: ChatsWindowService, private globalService: GlobalService) { }
+    constructor(private chatsWindowService: ChatsWindowService,
+        private globalService: GlobalService) { }
 
     ngOnInit() {
         this.LoadChatsObjects();
@@ -137,7 +136,10 @@ export class ChatsWindowComponent implements OnInit {
             dateTimeString = HH + ":" + mm;
         }
 
-        chat.timeString = { "dateDetailsString": GetDateDetailsString(localDate, currDate, true), "dateTimeString": dateTimeString };
+        chat.timeString = {
+            "dateDetailsString": this.globalService.globalObject.GetDateDetailsString(localDate, currDate, true),
+            "dateTimeString": dateTimeString
+        };
     }
 
     GetFriendName(friend: any) {

@@ -35,13 +35,66 @@ var GlobalService = /** @class */ (function (_super) {
         var _this = _super.call(this, http) || this;
         _this.http = http;
         _this.cookieService = cookieService;
-        // Use this property for property binding
+        // Close modal when click back on browser.
+        $(window).on('popstate', function () {
+            var modalObj = $(".modal");
+            if (modalObj.length > 0) {
+                modalObj.modal("hide");
+            }
+        });
+        // Add jQuery function to find if element has scroll bar.
+        (function ($) {
+            $.fn.hasScrollBar = function () {
+                return this.get(0).scrollHeight > this.get(0).clientHeight;
+            };
+        })(jQuery);
+        // Initialize variables.
         _this.data = new rxjs_1.BehaviorSubject({});
-        _this.socketOnDictionary = {};
         _this.userPermissions = [];
+        _this.socketOnDictionary = {};
         _this.defaultProfileImage = empty_profile_1.EmptyProfile;
         _this.uidCookieName = "uid";
         _this.isTouchDevice = (('ontouchstart' in window || navigator.maxTouchPoints) ? true : false);
+        // Global variables and functions
+        var globalObject = _this.globalObject = {
+            days: ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"],
+            months: ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני", "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"],
+            shortMonths: ["ינו'", "פבר'", "מרץ", "אפר'", "מאי", "יונ'", "יול'", "אוג'", "ספט'", "אוק'", "נוב'", "דצמ'"],
+            GetDateDetailsString: function (localDate, currDate, isShortMonths) {
+                currDate.setHours(23, 59, 59, 999);
+                var timeDiff = Math.abs(currDate.getTime() - localDate.getTime());
+                var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                var datesDaysDiff = Math.abs(currDate.getDay() - localDate.getDay());
+                var dateDetailsString = "";
+                if (diffDays <= 7) {
+                    if (diffDays <= 2) {
+                        if (currDate.getDate() == localDate.getDate()) {
+                            dateDetailsString = "היום";
+                        }
+                        else if (Math.min((7 - datesDaysDiff), datesDaysDiff) <= 1) {
+                            dateDetailsString = "אתמול";
+                        }
+                        else {
+                            dateDetailsString = globalObject.days[localDate.getDay()];
+                        }
+                    }
+                    else {
+                        dateDetailsString = globalObject.days[localDate.getDay()];
+                    }
+                }
+                else {
+                    // In case of the same year or different years but for the first half of year.
+                    if (localDate.getFullYear() == currDate.getFullYear() || diffDays < (365 / 2)) {
+                        var monthString = isShortMonths ? globalObject.shortMonths[localDate.getMonth()] : globalObject.months[localDate.getMonth()];
+                        dateDetailsString = (localDate.getDate()) + " ב" + monthString;
+                    }
+                    else {
+                        dateDetailsString = (localDate.getDate()) + "/" + (localDate.getMonth() + 1) + "/" + localDate.getFullYear();
+                    }
+                }
+                return dateDetailsString;
+            }
+        };
         return _this;
     }
     GlobalService.prototype.Initialize = function () {
@@ -54,12 +107,14 @@ var GlobalService = /** @class */ (function (_super) {
             });
         }
     };
+    GlobalService.prototype.IsUserHasAdminPermission = function () {
+        return (this.userPermissions.indexOf(enums_1.PERMISSION.ADMIN) != -1);
+    };
     GlobalService.prototype.IsUserHasMasterPermission = function () {
         return (this.userPermissions.indexOf(enums_1.PERMISSION.MASTER) != -1);
     };
     GlobalService.prototype.IsUserHasRootPermission = function () {
-        return ((this.userPermissions.indexOf(enums_1.PERMISSION.MASTER) != -1) ||
-            (this.userPermissions.indexOf(enums_1.PERMISSION.ADMIN) != -1));
+        return (this.IsUserHasAdminPermission() || this.IsUserHasMasterPermission());
     };
     // Emit socket event before initialize the socket object.
     GlobalService.prototype.CallSocketFunction = function (funcName, params) {

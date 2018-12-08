@@ -109,7 +109,10 @@ var ChatsWindowComponent = /** @class */ (function () {
         if (diffDays <= 7) {
             dateTimeString = HH + ":" + mm;
         }
-        chat.timeString = { "dateDetailsString": GetDateDetailsString(localDate, currDate, true), "dateTimeString": dateTimeString };
+        chat.timeString = {
+            "dateDetailsString": this.globalService.globalObject.GetDateDetailsString(localDate, currDate, true),
+            "dateTimeString": dateTimeString
+        };
     };
     ChatsWindowComponent.prototype.GetFriendName = function (friend) {
         if (!friend) {
@@ -165,7 +168,8 @@ var ChatsWindowComponent = /** @class */ (function () {
             templateUrl: './chatsWindow.html',
             providers: [chatsWindow_service_1.ChatsWindowService]
         }),
-        __metadata("design:paramtypes", [chatsWindow_service_1.ChatsWindowService, global_service_1.GlobalService])
+        __metadata("design:paramtypes", [chatsWindow_service_1.ChatsWindowService,
+            global_service_1.GlobalService])
     ], ChatsWindowComponent);
     return ChatsWindowComponent;
 }());
