@@ -14,13 +14,7 @@ var router_1 = require("@angular/router");
 var ManagementPanelComponent = /** @class */ (function () {
     function ManagementPanelComponent(router) {
         this.router = router;
-        this.isTouchDevice = globalVariables.isTouchDevice;
     }
-    ManagementPanelComponent.prototype.ngOnInit = function () {
-        if (!this.isTouchDevice) {
-            $(".panel-btn").addClass("panel-btn-hover");
-        }
-    };
     ManagementPanelComponent.prototype.Route = function (url) {
         this.router.navigateByUrl(url);
     };

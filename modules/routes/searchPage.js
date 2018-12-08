@@ -7,7 +7,7 @@ module.exports = function (app) {
     app.get(prefix + '/getSearchResults', function (req, res) {
         var input = req.query.input;
 
-        searchPageBL.GetSearchPageResults(input).then(result => {
+        searchPageBL.GetSearchPageResults(input, req.user._id).then(result => {
             res.send(result);
         }).catch(err => {
             res.status(500).end();
@@ -21,6 +21,6 @@ module.exports = function (app) {
             res.send(friendsStatus);
         }).catch(err => {
             res.status(500).end();
-        });        
+        });
     });
 }

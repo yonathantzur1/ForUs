@@ -15,8 +15,6 @@ var ProfilePictureComponent = /** @class */ (function () {
     function ProfilePictureComponent(globalService) {
         var _this = this;
         this.globalService = globalService;
-        this.isUserHasImage = null;
-        this.isTouchDevice = globalVariables.isTouchDevice;
         this.subscribeObj = this.globalService.data.subscribe(function (value) {
             if (value["newUploadedImage"]) {
                 globalService.userProfileImage = value["newUploadedImage"];

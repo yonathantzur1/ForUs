@@ -716,6 +716,7 @@ var NavbarComponent = /** @class */ (function () {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("SendFriendRequest", friendId);
+                self.globalService.setData("SendFriendRequest", friendId);
                 self.snackbarService.Snackbar("נשלחה בקשת חברות");
             }
         });
@@ -728,6 +729,7 @@ var NavbarComponent = /** @class */ (function () {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("removeFriendRequest", self.user._id, friendId);
+                self.globalService.setData("RemoveFriendRequest", friendId);
                 self.snackbarService.Snackbar("בקשת החברות בוטלה");
             }
         });
@@ -917,7 +919,7 @@ var NavbarComponent = /** @class */ (function () {
     };
     NavbarComponent.prototype.OpenUserProfile = function (user) {
         this.HideSearchResults();
-        this.searchInput = user.firstName + " " + user.lastName;
+        this.searchInput = user.fullName;
         this.router.navigateByUrl("/profile/" + user._id);
     };
     NavbarComponent.prototype.OpenSearchPage = function (name) {

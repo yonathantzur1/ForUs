@@ -26,7 +26,6 @@ var UserPageComponent = /** @class */ (function () {
         this.snackbarService = snackbarService;
         this.globalService = globalService;
         this.cookieService = cookieService;
-        this.isTouchDevice = globalVariables.isTouchDevice;
         this.isShowUserEditWindow = false;
         this.isShowUserReportWindow = false;
         this.isShowUserPasswordWindow = false;
@@ -59,8 +58,8 @@ var UserPageComponent = /** @class */ (function () {
                 _this.globalService.setData("setNavbarTop", true);
             }
             if (value["IgnoreFriendRequest"]) {
-                if (value["IgnoreFriendRequest"] == self.user._id) {
-                    self.UnsetUserFriendStatus("isSendFriendRequest");
+                if (value["IgnoreFriendRequest"] == _this.user._id) {
+                    _this.UnsetUserFriendStatus("isSendFriendRequest");
                 }
             }
         });
@@ -299,17 +298,18 @@ var UserPageComponent = /** @class */ (function () {
                 self.UnsetUserFriendStatus("isGetFriendRequest");
             }
         });
+        self.globalService.SocketOn('GetFriendRequest', function (friendId) {
+            if (friendId == self.user._id) {
+                self.SetUserFriendStatus("isSendFriendRequest");
+            }
+        });
         // In case the user has been removed from the site.
         self.globalService.SocketOn('ClientRemoveFriendUser', function (friendId) {
             if (friendId == self.user._id) {
                 self.router.navigateByUrl("/");
             }
         });
-        self.globalService.SocketOn('GetFriendRequest', function (friendId) {
-            if (friendId == self.user._id) {
-                self.SetUserFriendStatus("isSendFriendRequest");
-            }
-        });
+        // In case the user set private user.
         self.globalService.SocketOn('UserSetToPrivate', function (userId) {
             if (!self.IsUserPageSelf() && !self.user.isFriend) {
                 self.router.navigateByUrl("/");

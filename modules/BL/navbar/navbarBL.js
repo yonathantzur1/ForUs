@@ -73,6 +73,20 @@ var self = module.exports = {
                 return resolve([]);
             }
 
+            var projectFields = {
+                $project: {
+                    "_id": 1,
+                    "profile": 1,
+                    "firstName": 1,
+                    "lastName": 1,
+                    "isPrivate": 1,
+                    "friends": 1,
+                    "friendRequests.send": 1,
+                    fullName: { $concat: ["$firstName", " ", "$lastName"] },
+                    fullNameReversed: { $concat: ["$lastName", " ", "$firstName"] }
+                }
+            }
+
             var usersFilter = {
                 $match: {
                     $and: [
@@ -84,29 +98,30 @@ var self = module.exports = {
                         },
                         {
                             $or: [
-                                { isPrivate: false },
-                                { _id: DAL.GetObjectId(userId) },
-                                { friends: { $in: [userId] } }
+                                { "isPrivate": false },
+                                { "_id": DAL.GetObjectId(userId) },
+                                { "friends": { $in: [userId] } },
+                                { "friendRequests.send": { $in: [userId] } }
+
                             ]
                         }
                     ]
                 }
             };
 
-            var aggregateArray = [{
+            var userResultFields = {
                 $project: {
-                    _id: 1,
+                    "_id": 1,
+                    "profile": 1,
                     fullName: { $concat: ["$firstName", " ", "$lastName"] },
-                    fullNameReversed: { $concat: ["$lastName", " ", "$firstName"] },
-                    profile: 1,
-                    firstName: 1,
-                    lastName: 1,
-                    isPrivate: 1,
-                    friends: 1
+                    fullNameReversed: { $concat: ["$lastName", " ", "$firstName"] }
                 }
-            }, usersFilter,
-            { $sort: { "fullName": 1, "fullNameReversed": 1 } },
-            { $limit: searchResultsLimit }];
+            }
+
+            var sortObj = { $sort: { "fullName": 1, "fullNameReversed": 1 } };
+            var limitObj = { $limit: searchResultsLimit };
+
+            var aggregateArray = [projectFields, usersFilter, userResultFields, sortObj, limitObj];
 
             DAL.Aggregate(usersCollectionName, aggregateArray).then((results) => {
                 if (results) {

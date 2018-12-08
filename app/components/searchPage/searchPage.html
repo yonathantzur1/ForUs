@@ -17,23 +17,23 @@
             <loaderSpinner></loaderSpinner>
         </div>
         <div class="user-tab" *ngFor="let user of users">
-            <div class="user-details-container">
+            <div class="user-details-container" (click)="UserClickTouch(user._id)">
                 <img class="user-image" (click)="UserClick(user._id)" [src]="user.profileImage || globalService.defaultProfileImage">
                 <span class="user-name" (click)="UserClick(user._id)" [title]="user.fullName">
                     {{user.fullName}}
                 </span>
             </div>
-            <div *ngIf="isFriendRequestAction(user)" class="friend-request-action-sector">
-                <div (click)="AddFriendRequest(user)" class="action-btn" *ngIf="!user.isFriend && !user.isGetFriendRequest && !user.isSendFriendRequest">
+            <div *ngIf="IsFriendRequestAction(user)" class="friend-request-action-sector">
+                <div (click)="AddFriendRequest(user)" title="בקשת חברות" class="action-btn" *ngIf="!user.isFriend && !user.isGetFriendRequest && !user.isSendFriendRequest">
                     <span class="action-btn-text">בקשת חברות</span>
-                    <i class="fas fa-user-plus" title="בקשת חברות"></i>
+                    <i class="fas fa-user-plus"></i>
                 </div>
-                <div (click)="RemoveFriendRequest(user)" class="action-btn" *ngIf="user.isGetFriendRequest">
+                <div (click)="RemoveFriendRequest(user)" title="ביטול בקשת חברות" class="action-btn" *ngIf="user.isGetFriendRequest">
                     <span class="action-btn-text">ביטול בקשה</span>
-                    <i class="fas fa-user-times" title="ביטול בקשת חברות"></i>
+                    <i class="fas fa-user-times"></i>
                 </div>
-                <div (click)="UserClick(user._id)" class="action-btn" *ngIf="user.isSendFriendRequest">
-                    <i class="fas fa-ellipsis-h" title="בקשת חברות ממתינה"></i>
+                <div (click)="UserClick(user._id)" title="בקשת חברות ממתינה" class="action-btn" *ngIf="user.isSendFriendRequest">
+                    <i class="fas fa-ellipsis-h"></i>
                 </div>
             </div>
         </div>

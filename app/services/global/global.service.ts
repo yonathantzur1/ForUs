@@ -22,10 +22,13 @@ export class GlobalService extends LoginService {
     public userPermissions: Array<string> = [];
     public defaultProfileImage: string = EmptyProfile;
     public uidCookieName: string = "uid";
+    public isTouchDevice: boolean;
+
 
     constructor(public http: HttpClient,
         private cookieService: CookieService) {
         super(http);
+        this.isTouchDevice = (('ontouchstart' in window || navigator.maxTouchPoints) ? true : false);
     }
 
     Initialize() {

@@ -588,11 +588,6 @@
     color: #1d4695;
     cursor: pointer;
 }
-/* 
-#navbar .see-more-results-btn:hover {
-    background-color: #6887c2;
-    color: #f7f7f7;
-} */
 
 #navbar .see-more-results-btn-text {
     font-size: 12px;    
@@ -603,16 +598,6 @@
     font-size: 16px;
     margin-right: 5px;
     margin-bottom: 2px;
-}
-
-#navbar .friend-request-alert-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    margin: auto;
-    align-self: center;
-    background-color: #7699ff;
-    border: 0.5px solid #f7f7f7;
 }
 
 #navbar .navbar-under {

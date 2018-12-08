@@ -2,8 +2,6 @@ import { Component, Input, OnDestroy } from '@angular/core';
 
 import { GlobalService } from '../../services/global/global.service';
 
-declare var globalVariables: any;
-
 @Component({
     selector: 'profilePicture',
     templateUrl: './profilePicture.html',
@@ -11,10 +9,8 @@ declare var globalVariables: any;
 })
 
 export class ProfilePictureComponent implements OnDestroy {
-    isUserHasImage: boolean = null;
-    isTouchDevice: boolean = globalVariables.isTouchDevice;
-
     @Input() isEditEnable: string;
+    isUserHasImage: boolean;
 
     subscribeObj: any;
 

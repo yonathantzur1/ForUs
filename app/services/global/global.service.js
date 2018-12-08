@@ -41,6 +41,7 @@ var GlobalService = /** @class */ (function (_super) {
         _this.userPermissions = [];
         _this.defaultProfileImage = empty_profile_1.EmptyProfile;
         _this.uidCookieName = "uid";
+        _this.isTouchDevice = (('ontouchstart' in window || navigator.maxTouchPoints) ? true : false);
         return _this;
     }
     GlobalService.prototype.Initialize = function () {

@@ -21,12 +21,24 @@ var FriendsStatus = /** @class */ (function () {
 }());
 var SearchPageComponent = /** @class */ (function () {
     function SearchPageComponent(router, route, alertService, globalService, searchPageService) {
+        var _this = this;
         this.router = router;
         this.route = route;
         this.alertService = alertService;
         this.globalService = globalService;
         this.searchPageService = searchPageService;
         this.isLoading = false;
+        this.subscribeObj = this.globalService.data.subscribe(function (value) {
+            if (value["IgnoreFriendRequest"]) {
+                _this.UnsetUserFriendStatus(value["IgnoreFriendRequest"], "isSendFriendRequest");
+            }
+            if (value["SendFriendRequest"]) {
+                _this.SetUserFriendStatus(value["SendFriendRequest"], "isGetFriendRequest");
+            }
+            if (value["RemoveFriendRequest"]) {
+                _this.UnsetUserFriendStatus(value["RemoveFriendRequest"], "isGetFriendRequest");
+            }
+        });
     }
     SearchPageComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -55,14 +67,17 @@ var SearchPageComponent = /** @class */ (function () {
                                     // In case the result user and the current user are friends.
                                     if (friendsStatus.friends.indexOf(userId) != -1) {
                                         user.isFriend = true;
+                                        return;
                                     }
                                     // In case the result user sent a friend request to the current user.
                                     else if (friendsStatus.get.indexOf(userId) != -1) {
                                         user.isSendFriendRequest = true;
+                                        return;
                                     }
                                     // In case the current user sent a friend request to the result user.
                                     else if (friendsStatus.send.indexOf(userId) != -1) {
                                         user.isGetFriendRequest = true;
+                                        return;
                                     }
                                 });
                                 _this.users = users;
@@ -82,12 +97,73 @@ var SearchPageComponent = /** @class */ (function () {
                 _this.router.navigateByUrl('');
             }
         });
+        var self = this;
+        self.globalService.SocketOn('ClientAddFriend', function (friend) {
+            self.SetUserFriendStatus(friend._id, "isFriend");
+        });
+        self.globalService.SocketOn('ClientFriendAddedUpdate', function (friend) {
+            self.SetUserFriendStatus(friend._id, "isFriend");
+        });
+        self.globalService.SocketOn('ClientRemoveFriend', function (friendId) {
+            self.UnsetUserFriendStatus(friendId, "isFriend");
+        });
+        self.globalService.SocketOn('ClientIgnoreFriendRequest', function (friendId) {
+            self.UnsetUserFriendStatus(friendId, "isGetFriendRequest");
+        });
+        self.globalService.SocketOn('GetFriendRequest', function (friendId) {
+            self.SetUserFriendStatus(friendId, "isSendFriendRequest");
+        });
+        // In case the user set private user.
+        self.globalService.SocketOn('UserSetToPrivate', function (userId) {
+            var user = self.GetUserById(userId);
+            if (userId != self.GetCurrentUserId() && !user.isFriend) {
+                self.RemoveUserFromUsers(userId);
+            }
+        });
+    };
+    SearchPageComponent.prototype.ngOnDestroy = function () {
+        this.subscribeObj.unsubscribe();
+    };
+    SearchPageComponent.prototype.ResetUserFriendStatus = function (user) {
+        user.isFriend = false;
+        user.isSendFriendRequest = false;
+        user.isGetFriendRequest = false;
+    };
+    SearchPageComponent.prototype.GetUserById = function (userId) {
+        for (var i = 0; i < this.users.length; i++) {
+            var user = this.users[i];
+            if (user._id == userId) {
+                return user;
+            }
+        }
+        return null;
+    };
+    SearchPageComponent.prototype.GetCurrentUserId = function () {
+        return this.globalService.userId;
+    };
+    SearchPageComponent.prototype.SetUserFriendStatus = function (userId, statusName) {
+        var user = this.GetUserById(userId);
+        if (user) {
+            this.ResetUserFriendStatus(user);
+            user[statusName] = true;
+        }
+    };
+    SearchPageComponent.prototype.UnsetUserFriendStatus = function (userId, statusName) {
+        var user = this.GetUserById(userId);
+        if (user) {
+            user[statusName] = false;
+        }
     };
     SearchPageComponent.prototype.UserClick = function (userId) {
         this.router.navigateByUrl('/profile/' + userId);
     };
-    SearchPageComponent.prototype.isFriendRequestAction = function (user) {
-        if ((!user.isFriend && this.globalService.userId != user._id) ||
+    SearchPageComponent.prototype.UserClickTouch = function (userId) {
+        if (this.globalService.isTouchDevice) {
+            this.router.navigateByUrl('/profile/' + userId);
+        }
+    };
+    SearchPageComponent.prototype.IsFriendRequestAction = function (user) {
+        if ((!user.isFriend && this.GetCurrentUserId() != user._id) ||
             user.isGetFriendRequest ||
             user.isSendFriendRequest) {
             return true;
@@ -101,6 +177,11 @@ var SearchPageComponent = /** @class */ (function () {
     SearchPageComponent.prototype.RemoveFriendRequest = function (user) {
         this.globalService.setData("removeFriendRequest", user._id);
         user.isGetFriendRequest = false;
+    };
+    SearchPageComponent.prototype.RemoveUserFromUsers = function (userId) {
+        this.users = this.users.filter(function (user) {
+            return (user._id != userId);
+        });
     };
     SearchPageComponent = __decorate([
         core_1.Component({

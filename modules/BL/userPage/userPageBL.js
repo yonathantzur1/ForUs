@@ -22,7 +22,8 @@ var self = module.exports = {
                             $or: [
                                 { "isPrivate": false },
                                 { "_id": currUserObjectId },
-                                { friends: { $in: [currUserId] } }
+                                { "friends": { $in: [currUserId] } },
+                                { "friendRequests.send": { $in: [currUserId] } }
                             ]
                         }
                     ]
@@ -56,7 +57,7 @@ var self = module.exports = {
 
             // In case the user is in his self page.
             if (isUserSelfPage) {
-                userFileds["$project"]["email"] = 1;
+                userFileds.$project.email = 1;
             }
 
             var aggregateArray = [userFilter, joinFilter, unwindObject, userFileds];
@@ -106,6 +107,7 @@ var self = module.exports = {
         // Boolean value that indicates if the current user got friend request from the user.
         user.isSendFriendRequest = (user.friendRequests.send.indexOf(currUserId) != -1);
 
+        delete user.friends;
         delete user.friendRequests;
     },
 

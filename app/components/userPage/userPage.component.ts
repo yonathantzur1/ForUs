@@ -7,8 +7,6 @@ import { AlertService, ALERT_TYPE } from '../../services/alert/alert.service';
 import { UserPageService } from '../../services/userPage/userPage.service';
 import { SnackbarService } from '../../services/snackbar/snackbar.service';
 
-declare var globalVariables: any;
-
 @Component({
     selector: 'userPage',
     templateUrl: './userPage.html',
@@ -16,7 +14,6 @@ declare var globalVariables: any;
 })
 
 export class UserPageComponent implements OnInit, OnDestroy {
-    isTouchDevice: boolean = globalVariables.isTouchDevice;
     isLoading: boolean;
     isShowUserEditWindow: boolean = false;
     isShowUserReportWindow: boolean = false;
@@ -68,8 +65,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
             }
 
             if (value["IgnoreFriendRequest"]) {
-                if (value["IgnoreFriendRequest"] == self.user._id) {
-                    self.UnsetUserFriendStatus("isSendFriendRequest");
+                if (value["IgnoreFriendRequest"] == this.user._id) {
+                    this.UnsetUserFriendStatus("isSendFriendRequest");
                 }
             }
 
@@ -321,6 +318,12 @@ export class UserPageComponent implements OnInit, OnDestroy {
             }
         });
 
+        self.globalService.SocketOn('GetFriendRequest', function (friendId: string) {
+            if (friendId == self.user._id) {
+                self.SetUserFriendStatus("isSendFriendRequest");
+            }
+        });
+
         // In case the user has been removed from the site.
         self.globalService.SocketOn('ClientRemoveFriendUser', function (friendId: string) {
             if (friendId == self.user._id) {
@@ -328,12 +331,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
             }
         });
 
-        self.globalService.SocketOn('GetFriendRequest', function (friendId: string) {
-            if (friendId == self.user._id) {
-                self.SetUserFriendStatus("isSendFriendRequest");
-            }
-        });
-
+        // In case the user set private user.
         self.globalService.SocketOn('UserSetToPrivate', function (userId: string) {
             if (!self.IsUserPageSelf() && !self.user.isFriend) {
                 self.router.navigateByUrl("/");

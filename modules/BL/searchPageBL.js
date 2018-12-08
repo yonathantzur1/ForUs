@@ -4,11 +4,8 @@ const config = require('../../config');
 const usersCollectionName = config.db.collections.users;
 const profilesCollectionName = config.db.collections.profiles;
 
-// Define search consts.
-const searchResultsLimit = config.navbar.searchResultsLimit;
-
 module.exports = {
-    GetSearchPageResults(searchInput) {
+    GetSearchPageResults(searchInput, userId) {
         return new Promise((resolve, reject) => {
             // In case the search input is empty.
             if (!searchInput) {
@@ -17,9 +14,13 @@ module.exports = {
 
             searchInput = searchInput.replace(/\\/g, '');
 
-            var concatFields = {
+            var projectFields = {
                 $project: {
+                    "_id": 1,
                     "profile": 1,
+                    "friends": 1,
+                    "isPrivate": 1,
+                    "friendRequests.send": 1,
                     fullName: { $concat: ["$firstName", " ", "$lastName"] },
                     fullNameReversed: { $concat: ["$lastName", " ", "$firstName"] }
                 }
@@ -27,9 +28,21 @@ module.exports = {
 
             var usersFilter = {
                 $match: {
-                    $or: [
-                        { fullName: new RegExp("^" + searchInput, 'g') },
-                        { fullNameReversed: new RegExp("^" + searchInput, 'g') }
+                    $and: [
+                        {
+                            $or: [
+                                { fullName: new RegExp("^" + searchInput, 'g') },
+                                { fullNameReversed: new RegExp("^" + searchInput, 'g') }
+                            ]
+                        },
+                        {
+                            $or: [
+                                { "isPrivate": false },
+                                { "_id": DAL.GetObjectId(userId) },
+                                { "friends": { $in: [userId] } },
+                                { "friendRequests.send": { $in: [userId] } }
+                            ]
+                        }
                     ]
                 }
             };
@@ -53,7 +66,7 @@ module.exports = {
             var usersFinalFieldsWithProfile = { $project: { "fullName": 1, "profileImage.image": 1 } };
 
             var joinAggregateArray = [
-                concatFields,
+                projectFields,
                 usersFilter,
                 joinFilter,
                 unwindObject,
