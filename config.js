@@ -62,7 +62,7 @@ module.exports = {
     },
     socket: {
         cleanDisconnectUsersIntervalTime: 6, // seconds
-        maxLastKeepAliveDelay: 4 // seconds
+        maxLastKeepAliveDelay: 5 // seconds
     },
     chat: {
         messagesInPage: 40 // For chat pagination

@@ -1,10 +1,16 @@
 <div id="usersReports">
-    <div class="reports-title">
+    <div class="reports-title" *ngIf="isLoading || (reports && reports.length > 0)">
         <span>דיווחים</span>
         <i class="fas fa-flag-checkered title-icon"></i>
     </div>
     <div class="reports-container">
         <loaderDots *ngIf="isLoading" css='{"text-align": "center", "width": "100%", "position": "absolute", "top": "20px"}'></loaderDots>
+        <div class="not-found-reports-sector" *ngIf="!isLoading && (!reports || reports.length == 0)">
+            <i class="far fa-times-circle" style="font-size:70px;"></i>
+            <div style="font-size:40px;">
+                לא נמצאו דיווחים
+            </div>
+        </div>
         <div class="report-card" *ngFor="let report of reports">
             <div [ngSwitch]="report.status">
                 <div *ngSwitchCase="userReportStatus.ACTIVE" title="פעיל" class="report-status report-status-green"></div>

@@ -92,3 +92,8 @@
 #usersReports .report-status-red {
     background: rgb(244, 67, 54);
 }
+
+#usersReports .not-found-reports-sector {
+    text-align: center;
+    margin-top: 20px;
+}

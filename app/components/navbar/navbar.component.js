@@ -67,7 +67,7 @@ var NavbarComponent = /** @class */ (function () {
         // START CONFIG VARIABLES //
         this.searchInputChangeDelay = 220; // milliseconds
         this.notificationDelay = 3800; // milliseconds
-        this.checkSocketConnectDelay = 3; // seconds
+        this.checkSocketConnectDelay = 4; // seconds
         this.checkOnlineFriendsDelay = 5; // seconds
         this.chatTypingDelay = 1200; // milliseconds
         this.newFriendsLabelDelay = 4000; // milliseconds    
