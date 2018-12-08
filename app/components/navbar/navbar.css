@@ -296,8 +296,8 @@
 }
 
 #navbar .selected-search-result {
-    background-color: #6887c2;
-    color: #f7f7f7;
+    background-color: #6887c2 !important;
+    color: #f7f7f7 !important;
 }
 
 #navbar .search-result-image {

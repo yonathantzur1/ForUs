@@ -249,7 +249,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             })
         ];
 
-        self.checkSocketConnectInterval = setInterval(function () {
+        self.checkSocketConnectInterval = setInterval(() => {
             self.authService.IsUserSocketConnect().then(result => {
                 // In case the user is login with no connected socket.
                 if (result == false) {
@@ -264,7 +264,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             });
         }, self.checkSocketConnectDelay * 1000);
 
-        self.checkOnlineFriendsInterval = setInterval(function () {
+        self.checkOnlineFriendsInterval = setInterval(() => {
             self.globalService.socket.emit("ServerGetOnlineFriends");
         }, self.checkOnlineFriendsDelay * 1000);
 
@@ -471,7 +471,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.isShowMessageNotification = true;
 
             var self = this;
-            self.messageNotificationInterval = setInterval(function () {
+            self.messageNotificationInterval = setInterval(() => {
                 self.HideMessageNotification();
             }, self.notificationDelay);
         }
@@ -631,7 +631,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             // Clear cached users (with full profiles) from memory.
             cachedUsers = null;
 
-            self.inputInterval = setTimeout(function () {
+            self.inputInterval = setTimeout(() => {
                 self.navbarService.GetMainSearchResults(input).then((results: Array<any>) => {
                     if (results &&
                         results.length > 0 &&
@@ -877,7 +877,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         friendRequests.send.push(friendId);
 
         var self = this;
-        self.navbarService.AddFriendRequest(friendId).then(function (result: any) {
+        self.navbarService.AddFriendRequest(friendId).then((result: any) => {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("SendFriendRequest", friendId);
@@ -892,10 +892,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
         friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
 
         var self = this;
-        this.navbarService.RemoveFriendRequest(friendId).then(function (result: any) {
+        self.navbarService.RemoveFriendRequest(friendId).then((result: any) => {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
-                self.globalService.socket.emit("removeFriendRequest", self.user._id, friendId);
+                self.globalService.socket.emit("RemoveFriendRequest", self.user._id, friendId);
                 self.globalService.setData("RemoveFriendRequest", friendId);
                 self.snackbarService.Snackbar("בקשת החברות בוטלה");
             }
@@ -908,7 +908,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
 
         var self = this;
-        this.navbarService.IgnoreFriendRequest(friendId).then(function (result: any) {
+        self.navbarService.IgnoreFriendRequest(friendId).then((result: any) => {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("ServerIgnoreFriendRequest", self.user._id, friendId);
@@ -931,7 +931,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
 
         var self = this;
-        self.friendRequestNotificationInterval = setInterval(function () {
+        self.friendRequestNotificationInterval = setInterval(() => {
             self.isShowFriendRequestNotification = false;
             self.isShowFriendConfirmNotification = false;
             clearInterval(self.friendRequestNotificationInterval);
@@ -1028,7 +1028,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
             var self = this;
 
-            friendObj.typingTimer = setTimeout(function () {
+            friendObj.typingTimer = setTimeout(() => {
                 friendObj.isTyping = false;
             }, self.chatTypingDelay);
         }
@@ -1041,9 +1041,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
         clearTimeout(this.hideNewFriendsLabelTimeout);
         var self = this;
 
-        self.showNewFriendsLabelTimeout = setTimeout(function () {
+        self.showNewFriendsLabelTimeout = setTimeout(() => {
             self.isNewFriendsLabel = true;
-            self.hideNewFriendsLabelTimeout = setTimeout(function () {
+            self.hideNewFriendsLabelTimeout = setTimeout(() => {
                 self.isNewFriendsLabel = false;
             }, self.newFriendsLabelDelay);
         }, 200);

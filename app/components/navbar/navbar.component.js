@@ -725,10 +725,10 @@ var NavbarComponent = /** @class */ (function () {
         var friendRequests = this.GetToolbarItem("friendRequests").content;
         friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
         var self = this;
-        this.navbarService.RemoveFriendRequest(friendId).then(function (result) {
+        self.navbarService.RemoveFriendRequest(friendId).then(function (result) {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
-                self.globalService.socket.emit("removeFriendRequest", self.user._id, friendId);
+                self.globalService.socket.emit("RemoveFriendRequest", self.user._id, friendId);
                 self.globalService.setData("RemoveFriendRequest", friendId);
                 self.snackbarService.Snackbar("בקשת החברות בוטלה");
             }
@@ -739,7 +739,7 @@ var NavbarComponent = /** @class */ (function () {
         var friendRequests = this.GetToolbarItem("friendRequests").content;
         friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
         var self = this;
-        this.navbarService.IgnoreFriendRequest(friendId).then(function (result) {
+        self.navbarService.IgnoreFriendRequest(friendId).then(function (result) {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("ServerIgnoreFriendRequest", self.user._id, friendId);

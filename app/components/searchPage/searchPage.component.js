@@ -113,6 +113,9 @@ var SearchPageComponent = /** @class */ (function () {
         self.globalService.SocketOn('GetFriendRequest', function (friendId) {
             self.SetUserFriendStatus(friendId, "isSendFriendRequest");
         });
+        self.globalService.SocketOn('DeleteFriendRequest', function (friendId) {
+            self.UnsetUserFriendStatus(friendId, "isSendFriendRequest");
+        });
         // In case the user set private user.
         self.globalService.SocketOn('UserSetToPrivate', function (userId) {
             var user = self.GetUserById(userId);

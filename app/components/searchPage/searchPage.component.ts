@@ -128,6 +128,10 @@ export class SearchPageComponent implements OnInit, OnDestroy {
             self.SetUserFriendStatus(friendId, "isSendFriendRequest");
         });
 
+        self.globalService.SocketOn('DeleteFriendRequest', function (friendId: string) {
+            self.UnsetUserFriendStatus(friendId, "isSendFriendRequest");
+        });
+
         // In case the user set private user.
         self.globalService.SocketOn('UserSetToPrivate', function (userId: string) {
             var user = self.GetUserById(userId);

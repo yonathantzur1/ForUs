@@ -78,6 +78,7 @@
     border-radius: 2px;
     margin-left: 10px;
     white-space: nowrap;
+    user-select: none;
 }
 
 #searchPage .action-btn:hover {    
