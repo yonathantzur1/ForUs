@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'pageNotFound',
@@ -9,6 +10,8 @@ export class PageNotFoundComponent implements OnInit {
   numOfMonsters: number = 9;
   monsterImagePath: string = null;
 
+  constructor(private router: Router) { }
+
   ngOnInit() {
     this.monsterImagePath = "./app/pictures/monsters/" + this.GetRandomMonsterPath();
   }
@@ -17,5 +20,9 @@ export class PageNotFoundComponent implements OnInit {
     var imageNumber = Math.floor(Math.random() * this.numOfMonsters) + 1;
 
     return ("monster" + imageNumber + ".png");
+  }
+
+  BackRoute() {
+    this.router.navigateByUrl('/');
   }
 }

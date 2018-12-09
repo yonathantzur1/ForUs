@@ -1,14 +1,41 @@
-#pageNotFound {
-    text-align: center;
-    padding-top: 50px;
+#pageNotFound .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px;
+    user-select: none;
 }
 
-#pageNotFound .text {
+#pageNotFound .logo {
+    width: 70px;
+    height: 70px;
+    margin-top: -5px;
+    cursor: pointer;
+}
+
+#pageNotFound .title {
+    font-size: 65px;
+    font-family: Mona Shark;
+    color: #da7b00;
+    cursor: pointer;
+}
+
+#pageNotFound .container {
+    text-align: center;
+    margin-top: 10px;
+}
+
+#pageNotFound .main-text {
     font-size: 40px;
 }
 
-#pageNotFound img {
+#pageNotFound .sub-text {
+    font-size: 20px;
+}
+
+#pageNotFound .random-image {
     width: 255px;
     height: 240px;
     border-radius: 40%;
+    margin-top: 15px;
 }

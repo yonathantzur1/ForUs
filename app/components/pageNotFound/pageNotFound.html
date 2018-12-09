@@ -1,4 +1,11 @@
 <div id="pageNotFound">
-    <h1 class="text">העמוד לא נמצא</h1>
-    <img *ngIf="monsterImagePath" [src]="monsterImagePath">
+    <div class="top-bar">
+        <img class="logo" (click)="BackRoute()" src="../../../logo/icon.png">
+        <span class="title" (click)="BackRoute()">ForUs</span>
+    </div>
+    <div class="container">
+        <h1 class="main-text">העמוד לא נמצא</h1>
+        <div class="sub-text">ייתכן שהקישור שלחצת עליו לא פעיל או שהדף הוסר.</div>
+        <img class="random-image" *ngIf="monsterImagePath" [src]="monsterImagePath">
+    </div>
 </div>
