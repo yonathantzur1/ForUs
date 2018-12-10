@@ -5,7 +5,7 @@ const validate = require('../security/validate');
 var prefix = "/forgotPassword";
 
 module.exports = (app) => {
-
+    // Validating the reset password request unique token.
     app.get(prefix + '/validateResetPasswordToken',
         validate,
         (req, res) => {
