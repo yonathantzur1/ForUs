@@ -67,74 +67,86 @@ function BuildSchemaPathString(schemaPath) {
     }
 }
 
-var validateSchemaObj = {
-    "GET": {
-        "forgotPassword": {
-            "validateResetPasswordToken": {
-                token: joi.string().regex(new RegExp(regexp.PasswordRegexp.hash, "i"))
-            }
+var validateSchemaObj = {}
+
+// Get requests.
+validateSchemaObj["GET"] = {
+    "forgotPassword": {
+        "validateResetPasswordToken": {
+            token: joi.string().regex(new RegExp(regexp.PasswordRegexp.hash, "i"))
+        }
+    }
+}
+
+// Post requests.
+validateSchemaObj["POST"] = {
+    "login": {
+        "userLogin": {
+            email: joi.string().email(),
+            password: joi.string().required()
+        },
+        "register": {
+            firstName: joi.string().regex(new RegExp(regexp.UserRegexp.name, "i")),
+            lastName: joi.string().regex(new RegExp(regexp.UserRegexp.name, "i")),
+            email: joi.string().email(),
+            password: joi.string().required()
         }
     },
-    "POST": {
-        "login": {
-            "userLogin": {
-                email: joi.string().email(),
-                password: joi.string().required()
-            },
-            "register": {
-                firstName: joi.string().regex(new RegExp(regexp.UserRegexp.name, "i")),
-                lastName: joi.string().regex(new RegExp(regexp.UserRegexp.name, "i")),
-                email: joi.string().email(),
-                password: joi.string().required()
-            }
-        },
-        "api": {
-            "userReportWindow": {
-                "reportUser": {
-                    reportedUserId: joi.string().required(),
-                    reasonId: joi.string().required(),
-                    reasonDetails: joi.string().max(600).required()
-                }
-            }
-        }
-    },
-    "PUT": {
-        "forgotPassword": {
-            "forgot": {
-                email: joi.string().email()
-            },
-            "resetPassword": {
-                email: joi.string().email(),
-                code: joi.string().required(),
-                newPassword: joi.string().required()
-            },
-            "resetPasswordByToken": {
-                token: joi.string().regex(new RegExp(regexp.PasswordRegexp.hash, "i")),
-                newPassword: joi.string().required()
-            }
-        },
-        "api": {
-            "userEditWindow": {
-                "updateUserInfo": {
-                    updateFields: joi.object().keys({
-                        firstName: joi.string().regex(new RegExp(regexp.UserRegexp.name, "i")).optional(),
-                        lastName: joi.string().regex(new RegExp(regexp.UserRegexp.name, "i")).optional(),
-                        email: joi.string().email().optional(),
-                        password: joi.string().required()
-                    })
-                }
-            },
-            "userPasswordWindow": {
-                "updateUserPassword": {
-                    oldPassword: joi.string().required(),
-                    newPassword: joi.string().required()
-                }
-            },
-            "userPrivacyWindow": {
-                "setUserPrivacy": {
-                    isPrivate: joi.boolean().required()
-                }
+    "api": {
+        "userReportWindow": {
+            "reportUser": {
+                reportedUserId: joi.string().required(),
+                reasonId: joi.string().required(),
+                reasonDetails: joi.string().max(600).required()
             }
         }
     }
+}
+
+// Put requests.
+validateSchemaObj["PUT"] = {
+    "login": {
+        "forgotPasswordRequest": {
+            email: joi.string().email()
+        },
+        "resetPassword": {
+            email: joi.string().email(),
+            code: joi.string().required(),
+            newPassword: joi.string().required()
+        },
+    },
+    "forgotPassword": {
+        "resetPasswordByToken": {
+            token: joi.string().regex(new RegExp(regexp.PasswordRegexp.hash, "i")),
+            newPassword: joi.string().required()
+        }
+    },
+    "api": {
+        "userEditWindow": {
+            "updateUserInfo": {
+                updateFields: joi.object().keys({
+                    firstName: joi.string().regex(new RegExp(regexp.UserRegexp.name, "i")).optional(),
+                    lastName: joi.string().regex(new RegExp(regexp.UserRegexp.name, "i")).optional(),
+                    email: joi.string().email().optional(),
+                    password: joi.string().required()
+                })
+            }
+        },
+        "userPasswordWindow": {
+            "updateUserPassword": {
+                oldPassword: joi.string().required(),
+                newPassword: joi.string().required()
+            }
+        },
+        "userPrivacyWindow": {
+            "setUserPrivacy": {
+                isPrivate: joi.boolean().required()
+            }
+        }
+    }
+}
+
+// Delete requests.
+validateSchemaObj["DELETE"] = {
+
 }

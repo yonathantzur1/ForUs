@@ -21,32 +21,6 @@ var ForgotPasswordService = /** @class */ (function (_super) {
         _this.prefix = "/forgotPassword";
         return _this;
     }
-    ForgotPasswordService.prototype.Forgot = function (email) {
-        var details = { "email": email };
-        return _super.prototype.put.call(this, this.prefix + '/forgot', details)
-            .toPromise()
-            .then(function (result) {
-            return result;
-        })
-            .catch(function (e) {
-            return null;
-        });
-    };
-    ForgotPasswordService.prototype.ResetPassword = function (forgotUser) {
-        var details = {
-            "email": forgotUser.email,
-            "code": forgotUser.code,
-            "newPassword": forgotUser.newPassword
-        };
-        return _super.prototype.put.call(this, this.prefix + '/resetPassword', details)
-            .toPromise()
-            .then(function (result) {
-            return result;
-        })
-            .catch(function (e) {
-            return null;
-        });
-    };
     ForgotPasswordService.prototype.ValidateResetPasswordToken = function (token) {
         return _super.prototype.get.call(this, this.prefix + '/validateResetPasswordToken?token=' + token)
             .toPromise()

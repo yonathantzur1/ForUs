@@ -2,6 +2,7 @@ import { BasicService } from '../basic/basic.service';
 
 import { User } from '../../components/login/login.component';
 import { NewUser } from '../../components/login/login.component';
+import { ForgotUser } from '../../components/login/login.component';
 
 export class LoginService extends BasicService {
     prefix = "/login";
@@ -41,6 +42,36 @@ export class LoginService extends BasicService {
         };
 
         return super.post(this.prefix + '/register', details)
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((e: any) => {
+                return null;
+            });
+    }
+
+    ForgotPasswordRequest(email: string) {
+        var details = { "email": email };
+
+        return super.put(this.prefix + '/forgotPasswordRequest', details)
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((e: any) => {
+                return null;
+            });
+    }
+
+    ResetPassword(forgotUser: ForgotUser) {
+        var details = {
+            "email": forgotUser.email,
+            "code": forgotUser.code,
+            "newPassword": forgotUser.newPassword
+        };
+
+        return super.put(this.prefix + '/resetPassword', details)
             .toPromise()
             .then((result: any) => {
                 return result;

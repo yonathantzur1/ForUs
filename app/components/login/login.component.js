@@ -16,7 +16,6 @@ var alert_service_1 = require("../../services/alert/alert.service");
 var snackbar_service_1 = require("../../services/snackbar/snackbar.service");
 var microtext_service_1 = require("../../services/microtext/microtext.service");
 var login_service_1 = require("../../services/login/login.service");
-var forgotPassword_service_1 = require("../../modules/forgotPassword/services/forgotPassword/forgotPassword.service");
 var regexpEnums_1 = require("../../regex/regexpEnums");
 var User = /** @class */ (function () {
     function User() {
@@ -54,14 +53,13 @@ var ForgotUser = /** @class */ (function () {
 }());
 exports.ForgotUser = ForgotUser;
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent(router, alertService, snackbarService, microtextService, globalService, loginService, forgotPasswordService) {
+    function LoginComponent(router, alertService, snackbarService, microtextService, globalService, loginService) {
         this.router = router;
         this.alertService = alertService;
         this.snackbarService = snackbarService;
         this.microtextService = microtextService;
         this.globalService = globalService;
         this.loginService = loginService;
-        this.forgotPasswordService = forgotPasswordService;
         this.user = new User();
         this.newUser = new NewUser();
         this.forgotUser = new ForgotUser();
@@ -307,7 +305,7 @@ var LoginComponent = /** @class */ (function () {
             this.isLoading = true;
             // In case the user is in the first stage of reset password.
             if (this.forgotUser.showResetCodeField == false) {
-                this.forgotPasswordService.Forgot(this.forgotUser.email).then(function (data) {
+                this.loginService.ForgotPasswordRequest(this.forgotUser.email).then(function (data) {
                     var result = data ? data.result : null;
                     _this.isLoading = false;
                     // In case of server error.
@@ -329,7 +327,7 @@ var LoginComponent = /** @class */ (function () {
             }
             // In case the user is in the second stage of reset password.
             else {
-                this.forgotPasswordService.ResetPassword(this.forgotUser).then(function (data) {
+                this.loginService.ResetPassword(this.forgotUser).then(function (data) {
                     var result = data ? data.result : null;
                     _this.isLoading = false;
                     // In case of server error.
@@ -431,15 +429,14 @@ var LoginComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'login',
             templateUrl: './login.html',
-            providers: [login_service_1.LoginService, forgotPassword_service_1.ForgotPasswordService]
+            providers: [login_service_1.LoginService]
         }),
         __metadata("design:paramtypes", [router_1.Router,
             alert_service_1.AlertService,
             snackbar_service_1.SnackbarService,
             microtext_service_1.MicrotextService,
             global_service_1.GlobalService,
-            login_service_1.LoginService,
-            forgotPassword_service_1.ForgotPasswordService])
+            login_service_1.LoginService])
     ], LoginComponent);
     return LoginComponent;
 }());
