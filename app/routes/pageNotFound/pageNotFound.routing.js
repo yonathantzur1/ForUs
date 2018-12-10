@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var pageNotFound_component_1 = require("../../components/pageNotFound/pageNotFound.component");
+var pageNotFound_component_1 = require("../../modules/pageNotFound/components/pageNotFound/pageNotFound.component");
 var routes = [
     {
         path: '',

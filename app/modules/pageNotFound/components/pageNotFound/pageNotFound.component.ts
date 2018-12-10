@@ -22,7 +22,11 @@ export class PageNotFoundComponent implements OnInit {
     return ("monster" + imageNumber + ".png");
   }
 
-  BackRoute() {
+  MainRoute() {
     this.router.navigateByUrl('/');
+  }
+
+  BackRoute() {
+    window.history.back();
   }
 }

@@ -39,3 +39,10 @@
     border-radius: 40%;
     margin-top: 15px;
 }
+
+#pageNotFound .back-link {
+    text-decoration: underline;
+    margin-right: 280px;
+    cursor: pointer;
+    color: #046ad9;
+}

@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var common_1 = require("@angular/common");
 // Components
-var pageNotFound_component_1 = require("../../components/pageNotFound/pageNotFound.component");
+var pageNotFound_component_1 = require("./components/pageNotFound/pageNotFound.component");
 // Routes
 var pageNotFound_routing_1 = require("../../routes/pageNotFound/pageNotFound.routing");
 var PageNotFoundModule = /** @class */ (function () {

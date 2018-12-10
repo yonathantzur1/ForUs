@@ -24,8 +24,11 @@ var PageNotFoundComponent = /** @class */ (function () {
         var imageNumber = Math.floor(Math.random() * this.numOfMonsters) + 1;
         return ("monster" + imageNumber + ".png");
     };
-    PageNotFoundComponent.prototype.BackRoute = function () {
+    PageNotFoundComponent.prototype.MainRoute = function () {
         this.router.navigateByUrl('/');
+    };
+    PageNotFoundComponent.prototype.BackRoute = function () {
+        window.history.back();
     };
     PageNotFoundComponent = __decorate([
         core_1.Component({

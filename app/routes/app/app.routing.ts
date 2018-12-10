@@ -18,7 +18,6 @@ import { LoginGuard } from '../../guards/login/login.guard';
 const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
     component: HomeComponent,
     children: [
       { path: 'panel', component: ManagementPanelComponent, canActivate: [RootAuthGuard] },
@@ -33,7 +32,8 @@ const routes: Routes = [
   },
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
   { path: 'forgot/:passToken', component: ForgotPasswordComponent },
-  { path: '**', loadChildren: './app/modules/pageNotFound/pageNotFound.module#PageNotFoundModule' }
+  { path: 'page-not-found', loadChildren: './app/modules/pageNotFound/pageNotFound.module#PageNotFoundModule' },
+  { path: '**', redirectTo: 'page-not-found' }
 ];
 
 @NgModule({

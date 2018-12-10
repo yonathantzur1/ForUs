@@ -23,7 +23,6 @@ var login_guard_1 = require("../../guards/login/login.guard");
 var routes = [
     {
         path: '',
-        pathMatch: 'full',
         component: home_component_1.HomeComponent,
         children: [
             { path: 'panel', component: managementPanel_component_1.ManagementPanelComponent, canActivate: [rootAuth_guard_1.RootAuthGuard] },
@@ -38,7 +37,8 @@ var routes = [
     },
     { path: 'login', component: login_component_1.LoginComponent, canActivate: [login_guard_1.LoginGuard] },
     { path: 'forgot/:passToken', component: forgotPassword_component_1.ForgotPasswordComponent },
-    { path: '**', loadChildren: './app/modules/pageNotFound/pageNotFound.module#PageNotFoundModule' }
+    { path: 'page-not-found', loadChildren: './app/modules/pageNotFound/pageNotFound.module#PageNotFoundModule' },
+    { path: '**', redirectTo: 'page-not-found' }
 ];
 var Routing = /** @class */ (function () {
     function Routing() {
