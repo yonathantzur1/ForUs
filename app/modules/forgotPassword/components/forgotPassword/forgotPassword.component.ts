@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { AlertService, ALERT_TYPE } from '../../services/alert/alert.service';
-import { MicrotextService, InputFieldValidation } from '../../services/microtext/microtext.service';
-import { GlobalService } from '../../services/global/global.service';
+import { AlertService, ALERT_TYPE } from '../../../../services/alert/alert.service';
+import { MicrotextService, InputFieldValidation } from '../../../../services/microtext/microtext.service';
+import { GlobalService } from '../../../../services/global/global.service';
 
 import { ForgotPasswordService } from '../../services/forgotPassword/forgotPassword.service';
 
@@ -44,7 +44,7 @@ export class ForgotPasswordComponent implements OnInit {
             this.resetPasswordToken = params["passToken"];
 
             this.forgotPasswordService.ValidateResetPasswordToken(this.resetPasswordToken)
-                .then(result => {
+                .then((result: any) => {
                     if (result) {
                         this.isResetTokenValid = true;
                         this.userName = result.name;
@@ -63,7 +63,7 @@ export class ForgotPasswordComponent implements OnInit {
     ResetPassword() {
         if (this.microtextService.Validation(this.newPasswordValidations, this.newPassword)) {
             this.forgotPasswordService.ResetPasswordByToken(this.resetPasswordToken, this.newPassword)
-                .then(result => {
+                .then((result: boolean) => {
                     var self = this;
 
                     if (result) {

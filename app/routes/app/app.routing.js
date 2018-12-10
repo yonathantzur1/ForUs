@@ -9,7 +9,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var login_component_1 = require("../../components/login/login.component");
-var forgotPassword_component_1 = require("../../components/forgotPassword/forgotPassword.component");
 var home_component_1 = require("../../components/home/home.component");
 var managementPanel_component_1 = require("../../components/managementPanel/managementPanel.component");
 var management_component_1 = require("../../components/managementPanel/management/management.component");
@@ -36,7 +35,7 @@ var routes = [
         canActivate: [auth_guard_1.AuthGuard]
     },
     { path: 'login', component: login_component_1.LoginComponent, canActivate: [login_guard_1.LoginGuard] },
-    { path: 'forgot/:passToken', component: forgotPassword_component_1.ForgotPasswordComponent },
+    { path: 'forgot/:passToken', loadChildren: './app/modules/forgotPassword/forgotPassword.module#ForgotPasswordModule' },
     { path: 'page-not-found', loadChildren: './app/modules/pageNotFound/pageNotFound.module#PageNotFoundModule' },
     { path: '**', redirectTo: 'page-not-found' }
 ];

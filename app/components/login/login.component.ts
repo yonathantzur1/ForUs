@@ -7,7 +7,7 @@ import { SnackbarService } from '../../services/snackbar/snackbar.service';
 import { MicrotextService, InputFieldValidation } from '../../services/microtext/microtext.service';
 
 import { LoginService } from '../../services/login/login.service';
-import { ForgotPasswordService } from '../../services/forgotPassword/forgotPassword.service';
+import { ForgotPasswordService } from '../../modules/forgotPassword/services/forgotPassword/forgotPassword.service';
 
 import { UserRegexp } from '../../regex/regexpEnums'
 

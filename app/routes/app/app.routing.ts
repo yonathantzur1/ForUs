@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { LoginComponent } from '../../components/login/login.component';
-import { ForgotPasswordComponent } from '../../components/forgotPassword/forgotPassword.component';
 import { HomeComponent } from '../../components/home/home.component';
 import { ManagementPanelComponent } from '../../components/managementPanel/managementPanel.component';
 import { ManagementComponent } from '../../components/managementPanel/management/management.component';
@@ -31,7 +30,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
-  { path: 'forgot/:passToken', component: ForgotPasswordComponent },
+  { path: 'forgot/:passToken', loadChildren: './app/modules/forgotPassword/forgotPassword.module#ForgotPasswordModule' },
   { path: 'page-not-found', loadChildren: './app/modules/pageNotFound/pageNotFound.module#PageNotFoundModule' },
   { path: '**', redirectTo: 'page-not-found' }
 ];

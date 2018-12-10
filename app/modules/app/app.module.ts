@@ -13,7 +13,6 @@ import { LoaderDotsComponent } from '../../components/loaders/loaderDots/loaderD
 import { AlertComponent } from '../../components/alert/alert.component';
 import { SnackbarComponent } from '../../components/snackbar/snackbar.component';
 import { LoginComponent } from '../../components/login/login.component';
-import { ForgotPasswordComponent } from '../../components/forgotPassword/forgotPassword.component';
 import { HomeComponent } from '../../components/home/home.component';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { DropMenuComponent } from '../../components/dropMenu/dropMenu.component';
@@ -65,7 +64,6 @@ import { Routing } from '../../routes/app/app.routing'
     AlertComponent,
     SnackbarComponent,
     LoginComponent,
-    ForgotPasswordComponent,
     HomeComponent,
     NavbarComponent,
     DropMenuComponent,
