@@ -38,7 +38,8 @@ var AlertComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'alert',
             templateUrl: './alert.html',
-            providers: []
+            providers: [],
+            styleUrls: ['./alert.css']
         }),
         __metadata("design:paramtypes", [alert_service_1.AlertService])
     ], AlertComponent);

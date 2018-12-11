@@ -381,7 +381,8 @@ var StatisticsComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'statistics',
             templateUrl: './statistics.html',
-            providers: [statistics_service_1.StatisticsService]
+            providers: [statistics_service_1.StatisticsService],
+            styleUrls: ['./statistics.css']
         }),
         __metadata("design:paramtypes", [global_service_1.GlobalService,
             statistics_service_1.StatisticsService,

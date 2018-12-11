@@ -169,7 +169,8 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'friendRequestsWindow',
             templateUrl: './friendRequestsWindow.html',
-            providers: [friendRequestsWindow_service_1.FriendRequestsWindowService]
+            providers: [friendRequestsWindow_service_1.FriendRequestsWindowService],
+            styleUrls: ['./friendRequestsWindow.css']
         }),
         __metadata("design:paramtypes", [router_1.Router,
             navbar_service_1.NavbarService,

@@ -20,7 +20,8 @@ export class Password {
 @Component({
     selector: 'userPasswordWindow',
     templateUrl: './userPasswordWindow.html',
-    providers: [UserPasswordWindowService]
+    providers: [UserPasswordWindowService],
+    styleUrls: ['./userPasswordWindow.css']
 })
 
 export class UserPasswordWindowComponent {
@@ -98,7 +99,7 @@ export class UserPasswordWindowComponent {
     ChangePasswordByMail() {
         this.userPasswordWindowService.ChangePasswordByMail().then(result => {
             this.CloseWindow();
-            
+
             if (result) {
                 this.alertService.Alert({
                     title: "שינוי סיסמא",

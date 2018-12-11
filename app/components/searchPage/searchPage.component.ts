@@ -14,7 +14,8 @@ class FriendsStatus {
 @Component({
     selector: 'searchPage',
     templateUrl: './searchPage.html',
-    providers: [SearchPageService]
+    providers: [SearchPageService],
+    styleUrls: ['./searchPage.css']
 })
 
 export class SearchPageComponent implements OnInit, OnDestroy {

@@ -10,7 +10,8 @@ import { LOCATION_ERROR } from '../../enums/enums';
 @Component({
     selector: 'home',
     templateUrl: './home.html',
-    providers: [HomeService, ProfilePictureService]
+    providers: [HomeService, ProfilePictureService],
+    styleUrls: ['./home.css']
 })
 
 export class HomeComponent implements OnInit {

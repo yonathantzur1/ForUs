@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 @Component({
     selector: 'managementPanel',
     templateUrl: './managementPanel.html',
-    providers: []
+    styleUrls: ['./managementPanel.css']
 })
 
 export class ManagementPanelComponent {

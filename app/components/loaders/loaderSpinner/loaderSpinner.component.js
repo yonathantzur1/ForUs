@@ -13,7 +13,8 @@ var LoaderSpinnerComponent = /** @class */ (function () {
     LoaderSpinnerComponent = __decorate([
         core_1.Component({
             selector: 'loaderSpinner',
-            templateUrl: './loaderSpinner.html'
+            templateUrl: './loaderSpinner.html',
+            styleUrls: ['./loaderSpinner.css']
         })
     ], LoaderSpinnerComponent);
     return LoaderSpinnerComponent;

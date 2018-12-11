@@ -69,7 +69,8 @@ var PermissionsCardComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'permissionsCard',
             templateUrl: './permissionsCard.html',
-            providers: [permissionsCard_service_1.PermissionsCardService]
+            providers: [permissionsCard_service_1.PermissionsCardService],
+            styleUrls: ['./permissionsCard.css']
         }),
         __metadata("design:paramtypes", [global_service_1.GlobalService,
             snackbar_service_1.SnackbarService,

@@ -76,7 +76,8 @@ var UsersReportsComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'usersReports',
             templateUrl: './usersReports.html',
-            providers: [usersReports_service_1.UsersReportsService]
+            providers: [usersReports_service_1.UsersReportsService],
+            styleUrls: ['./usersReports.css']
         }),
         __metadata("design:paramtypes", [router_1.Router,
             usersReports_service_1.UsersReportsService,

@@ -452,7 +452,8 @@ var ManagementComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'management',
             templateUrl: './management.html',
-            providers: [management_service_1.ManagementService]
+            providers: [management_service_1.ManagementService],
+            styleUrls: ['./management.css']
         }),
         __metadata("design:paramtypes", [router_1.Router,
             router_1.ActivatedRoute,

@@ -19,7 +19,7 @@ var SnackbarComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'snackbar',
             templateUrl: './snackbar.html',
-            providers: []
+            styleUrls: ['./snackbar.css']
         }),
         __metadata("design:paramtypes", [snackbar_service_1.SnackbarService])
     ], SnackbarComponent);

@@ -571,7 +571,8 @@ var ChatComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'chat',
             templateUrl: './chat.html',
-            providers: [chat_service_1.ChatService]
+            providers: [chat_service_1.ChatService],
+            styleUrls: ['./chat.css']
         }),
         __metadata("design:paramtypes", [chat_service_1.ChatService,
             snackbar_service_1.SnackbarService,

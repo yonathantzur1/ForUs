@@ -35,7 +35,8 @@ var DropMenuComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'dropMenu',
             templateUrl: './dropMenu.html',
-            providers: []
+            providers: [],
+            styleUrls: ['./dropMenu.css']
         }),
         __metadata("design:paramtypes", [router_1.Router, global_service_1.GlobalService])
     ], DropMenuComponent);

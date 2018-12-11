@@ -5,7 +5,8 @@ import { GlobalService } from '../../services/global/global.service';
 @Component({
     selector: 'profilePicture',
     templateUrl: './profilePicture.html',
-    providers: []
+    providers: [],
+    styleUrls: ['./profilePicture.css']
 })
 
 export class ProfilePictureComponent implements OnDestroy {

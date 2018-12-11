@@ -10,7 +10,8 @@ declare var $: any;
 @Component({
     selector: 'profilePictureEdit',
     templateUrl: './profilePictureEdit.html',
-    providers: [ProfilePictureEditService]
+    providers: [ProfilePictureEditService],
+    styleUrls: ['./profilePictureEdit.css']
 })
 
 export class ProfilePictureEditComponent implements OnInit {

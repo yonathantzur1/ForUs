@@ -9,7 +9,8 @@ declare var $: any;
 @Component({
     selector: 'permissionsCard',
     templateUrl: './permissionsCard.html',
-    providers: [PermissionsCardService]
+    providers: [PermissionsCardService],
+    styleUrls: ['./permissionsCard.css']
 })
 
 export class PermissionsCardComponent implements OnDestroy {

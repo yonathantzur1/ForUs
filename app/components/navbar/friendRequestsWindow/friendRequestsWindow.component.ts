@@ -9,7 +9,8 @@ import { Router } from '@angular/router';
 @Component({
     selector: 'friendRequestsWindow',
     templateUrl: './friendRequestsWindow.html',
-    providers: [FriendRequestsWindowService]
+    providers: [FriendRequestsWindowService],
+    styleUrls: ['./friendRequestsWindow.css']
 })
 
 export class FriendRequestsWindowComponent implements OnInit, OnChanges {

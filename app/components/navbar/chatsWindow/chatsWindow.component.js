@@ -166,7 +166,8 @@ var ChatsWindowComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'chatsWindow',
             templateUrl: './chatsWindow.html',
-            providers: [chatsWindow_service_1.ChatsWindowService]
+            providers: [chatsWindow_service_1.ChatsWindowService],
+            styleUrls: ['./chatsWindow.css']
         }),
         __metadata("design:paramtypes", [chatsWindow_service_1.ChatsWindowService,
             global_service_1.GlobalService])

@@ -154,7 +154,8 @@ var UserReportWindowComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'userReportWindow',
             templateUrl: './userReportWindow.html',
-            providers: [userReportWindow_service_1.UserReportWindowService]
+            providers: [userReportWindow_service_1.UserReportWindowService],
+            styleUrls: ['./userReportWindow.css']
         }),
         __metadata("design:paramtypes", [userReportWindow_service_1.UserReportWindowService,
             alert_service_1.AlertService,

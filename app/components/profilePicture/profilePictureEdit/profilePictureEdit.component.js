@@ -324,7 +324,8 @@ var ProfilePictureEditComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'profilePictureEdit',
             templateUrl: './profilePictureEdit.html',
-            providers: [profilePictureEdit_service_1.ProfilePictureEditService]
+            providers: [profilePictureEdit_service_1.ProfilePictureEditService],
+            styleUrls: ['./profilePictureEdit.css']
         }),
         __metadata("design:paramtypes", [profilePictureEdit_service_1.ProfilePictureEditService,
             alert_service_1.AlertService,

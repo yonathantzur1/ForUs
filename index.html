@@ -5,42 +5,27 @@
     <title>ForUs</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="icon" href="logo/icon.png">    
-    <link rel="apple-touch-icon" href="logo/web_app_icon.png">    
+    <link rel="icon" href="logo/icon.png">
+    <link rel="apple-touch-icon" href="logo/web_app_icon.png">
+
+    <!-- Load angular libraries -->
+    <script src="node_modules/core-js/client/shim.min.js"></script>
+    <script src="node_modules/zone.js/dist/zone.min.js"></script>
+    <script src="node_modules/systemjs/dist/system.js"></script>
+    <!-- Configure SystemJS -->
+    <script src="systemjs.config.js"></script>
+    <script>
+        System.import('./app/main/main.js').catch(function (err) { console.error(err); });
+    </script>
 
     <!-- START fonts import -->
-
     <link rel="stylesheet" href="./app/fonts/fonts.css">
-
     <!-- END fonts import -->
 
     <!-- START application css import -->
     <link rel="stylesheet" href="./app/css/hover.css">
-    <link rel="stylesheet" href="./app/components/loaders/loaderSpinner/loaderSpinner.css">
-    <link rel="stylesheet" href="./app/components/loaders/loaderDots/loaderDots.css">
     <link rel="stylesheet" href="./app/components/app/app.css">
-    <link rel="stylesheet" href="./app/components/alert/alert.css">
-    <link rel="stylesheet" href="./app/components/snackbar/snackbar.css">
-    <link rel="stylesheet" href="./app/components/login/login.css">
-    <link rel="stylesheet" href="./app/components/dropMenu/dropMenu.css">
-    <link rel="stylesheet" href="./app/components/profilePicture/profilePictureEdit/profilePictureEdit.css">
-    <link rel="stylesheet" href="./app/components/profilePicture/profilePicture.css">
-    <link rel="stylesheet" href="./app/components/home/home.css">
-    <link rel="stylesheet" href="./app/components/chat/chat.css">
-    <link rel="stylesheet" href="./app/components/navbar/chatsWindow/chatsWindow.css">
-    <link rel="stylesheet" href="./app/components/navbar/friendRequestsWindow/friendRequestsWindow.css">
-    <link rel="stylesheet" href="./app/components/managementPanel/managementPanel.css">
-    <link rel="stylesheet" href="./app/components/managementPanel/management/management.css">
-    <link rel="stylesheet" href="./app/components/managementPanel/statistics/statistics.css">
-    <link rel="stylesheet" href="./app/components/managementPanel/usersReports/usersReports.css">
-    <link rel="stylesheet" href="./app/components/managementPanel/management/permissionsCard/permissionsCard.css">
-    <link rel="stylesheet" href="./app/components/userPage/userPage.css">
     <link rel="stylesheet" href="./app/components/userPage/userWindow.css">
-    <link rel="stylesheet" href="./app/components/userPage/userEditWindow/userEditWindow.css">
-    <link rel="stylesheet" href="./app/components/userPage/userReportWindow/userReportWindow.css">
-    <link rel="stylesheet" href="./app/components/userPage/userPasswordWindow/userPasswordWindow.css">
-    <link rel="stylesheet" href="./app/components/userPage/userPrivacyWindow/userPrivacyWindow.css">
-    <link rel="stylesheet" href="./app/components/searchPage/searchPage.css">
     <!-- END application css import -->
 
     <!-- START libraries css -->
@@ -56,22 +41,13 @@
     <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js"></script>
-    <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
+    <script src="node_modules/socket.io-client/dist/socket.io.slim.js"></script>
     <script src="node_modules/cropper/dist/cropper.min.js"></script>
     <script src="node_modules/blueimp-load-image/js/load-image.all.min.js"></script>
     <script src="node_modules/chart.js/dist/Chart.min.js"></script>
 
-    <!-- Load angular libraries -->
-    <!-- Polyfill(s) for older browsers -->
-    <script src="node_modules/core-js/client/shim.min.js"></script>
-    <script src="node_modules/zone.js/dist/zone.min.js"></script>
-    <script src="node_modules/systemjs/dist/system.js"></script>
-    <!-- Configure SystemJS -->
-    <script src="systemjs.config.js"></script>
     <script>
         $(document).ready(function () { $('body').bootstrapMaterialDesign(); });
-
-        System.import('./app/main/main.js').catch(function (err) { console.error(err); });
     </script>
 </head>
 

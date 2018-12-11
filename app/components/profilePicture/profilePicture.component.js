@@ -54,7 +54,8 @@ var ProfilePictureComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'profilePicture',
             templateUrl: './profilePicture.html',
-            providers: []
+            providers: [],
+            styleUrls: ['./profilePicture.css']
         }),
         __metadata("design:paramtypes", [global_service_1.GlobalService])
     ], ProfilePictureComponent);

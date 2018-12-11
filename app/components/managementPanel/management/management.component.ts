@@ -12,7 +12,8 @@ declare var $: any;
 @Component({
     selector: 'management',
     templateUrl: './management.html',
-    providers: [ManagementService]
+    providers: [ManagementService],
+    styleUrls: ['./management.css']
 })
 
 export class ManagementComponent implements OnInit, OnDestroy {
@@ -515,7 +516,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
         });
     }
 
-    @HostListener('document:click', ['$event'])    
+    @HostListener('document:click', ['$event'])
     ComponentClick(event: any) {
         var userWithOpenMenu = this.GetUserWithOpenMenu();
         var isMenuClick;

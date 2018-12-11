@@ -26,7 +26,8 @@ declare var loadImage: any;
 @Component({
     selector: 'chat',
     templateUrl: './chat.html',
-    providers: [ChatService]
+    providers: [ChatService],
+    styleUrls: ['./chat.css']
 })
 
 export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {

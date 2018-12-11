@@ -50,7 +50,8 @@ export class ForgotUser {
 @Component({
   selector: 'login',
   templateUrl: './login.html',
-  providers: [LoginService]
+  providers: [LoginService],
+  styleUrls: ['./login.css']
 })
 
 export class LoginComponent {

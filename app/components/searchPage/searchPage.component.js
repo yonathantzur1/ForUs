@@ -190,7 +190,8 @@ var SearchPageComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'searchPage',
             templateUrl: './searchPage.html',
-            providers: [searchPage_service_1.SearchPageService]
+            providers: [searchPage_service_1.SearchPageService],
+            styleUrls: ['./searchPage.css']
         }),
         __metadata("design:paramtypes", [router_1.Router,
             router_1.ActivatedRoute,

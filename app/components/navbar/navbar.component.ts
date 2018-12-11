@@ -47,7 +47,8 @@ export class DropMenuData {
 @Component({
     selector: 'navbar',
     templateUrl: './navbar.html',
-    providers: [NavbarService]
+    providers: [NavbarService],
+    styleUrls: ['./navbar.css']
 })
 
 export class NavbarComponent implements OnInit, OnDestroy {

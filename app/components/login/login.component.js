@@ -429,7 +429,8 @@ var LoginComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'login',
             templateUrl: './login.html',
-            providers: [login_service_1.LoginService]
+            providers: [login_service_1.LoginService],
+            styleUrls: ['./login.css']
         }),
         __metadata("design:paramtypes", [router_1.Router,
             alert_service_1.AlertService,

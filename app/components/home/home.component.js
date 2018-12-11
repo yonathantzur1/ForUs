@@ -73,7 +73,8 @@ var HomeComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'home',
             templateUrl: './home.html',
-            providers: [home_service_1.HomeService, profilePicture_service_1.ProfilePictureService]
+            providers: [home_service_1.HomeService, profilePicture_service_1.ProfilePictureService],
+            styleUrls: ['./home.css']
         }),
         __metadata("design:paramtypes", [router_1.Router,
             auth_service_1.AuthService,

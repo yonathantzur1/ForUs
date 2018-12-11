@@ -9,7 +9,8 @@ declare var $: any;
 @Component({
     selector: 'userPrivacyWindow',
     templateUrl: './userPrivacyWindow.html',
-    providers: [UserPrivacyWindowService]
+    providers: [UserPrivacyWindowService],
+    styleUrls: ['./userPrivacyWindow.css']
 })
 
 export class UserPrivacyWindowComponent implements OnInit {

@@ -7,7 +7,8 @@ import { DropMenuData } from '../navbar/navbar.component';
 @Component({
     selector: 'dropMenu',
     templateUrl: './dropMenu.html',
-    providers: []
+    providers: [],
+    styleUrls: ['./dropMenu.css']
 })
 
 export class DropMenuComponent {

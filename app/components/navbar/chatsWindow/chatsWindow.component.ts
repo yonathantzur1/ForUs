@@ -6,7 +6,8 @@ import { GlobalService } from '../../../services/global/global.service';
 @Component({
     selector: 'chatsWindow',
     templateUrl: './chatsWindow.html',
-    providers: [ChatsWindowService]
+    providers: [ChatsWindowService],
+    styleUrls: ['./chatsWindow.css']
 })
 
 export class ChatsWindowComponent implements OnInit {

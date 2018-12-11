@@ -20,7 +20,8 @@ class Report {
 @Component({
     selector: 'usersReports',
     templateUrl: './usersReports.html',
-    providers: [UsersReportsService]
+    providers: [UsersReportsService],
+    styleUrls: ['./usersReports.css']
 })
 
 export class UsersReportsComponent implements OnInit {

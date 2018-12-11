@@ -10,7 +10,8 @@ import { SnackbarService } from '../../services/snackbar/snackbar.service';
 @Component({
     selector: 'userPage',
     templateUrl: './userPage.html',
-    providers: [UserPageService]
+    providers: [UserPageService],
+    styleUrls: ['./userPage.css']
 })
 
 export class UserPageComponent implements OnInit, OnDestroy {

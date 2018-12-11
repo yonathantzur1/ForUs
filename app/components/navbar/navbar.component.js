@@ -935,7 +935,8 @@ var NavbarComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'navbar',
             templateUrl: './navbar.html',
-            providers: [navbar_service_1.NavbarService]
+            providers: [navbar_service_1.NavbarService],
+            styleUrls: ['./navbar.css']
         }),
         __metadata("design:paramtypes", [router_1.Router,
             auth_service_1.AuthService,

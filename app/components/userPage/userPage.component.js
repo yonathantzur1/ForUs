@@ -385,7 +385,8 @@ var UserPageComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'userPage',
             templateUrl: './userPage.html',
-            providers: [userPage_service_1.UserPageService]
+            providers: [userPage_service_1.UserPageService],
+            styleUrls: ['./userPage.css']
         }),
         __metadata("design:paramtypes", [router_1.Router,
             router_1.ActivatedRoute,

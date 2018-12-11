@@ -1,5 +1,6 @@
 <div id="profile">
-    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="profile-modal" tabindex="-1" role="dialog" aria-labelledby="profileLabel">
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="profile-modal" tabindex="-1" role="dialog"
+        aria-labelledby="profileLabel">
         <div class="modal-dialog" [ngClass]="{'modal-lg' : !isNewPhoto}" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -16,10 +17,12 @@
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal">
-                        <input (change)="ChangeImage()" style="display:none;" type="file" id="inputImage" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
+                        <input (change)="ChangeImage()" style="display:none;" type="file" id="inputImage" name="file"
+                            accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
 
                         <div class="upload-image-sector col-12" *ngIf="isNewPhoto">
-                            <div class="upload-image-container edit-image-preview-sector" (click)="EditUserPhoto()" *ngIf="userImage">
+                            <div class="upload-image-container edit-image-preview-sector" (click)="EditUserPhoto()"
+                                *ngIf="userImage">
                                 <div class="new-image-text">עריכת תמונה</div>
                                 <img class="edit-image-preview" [src]="userImage">
                             </div>
@@ -42,7 +45,8 @@
                                         </div>
                                     </div>
                                     <div class="image-tool-bar">
-                                        <div *ngFor="let btn of imageBtns" [title]="btn.title" (click)="btn.onClick(this)" class="img-btn" [ngClass]="{'img-btn-pressed': btn.isPressed}">
+                                        <div *ngFor="let btn of imageBtns" [title]="btn.title" (click)="btn.onClick(this)"
+                                            class="img-btn" [ngClass]="{'img-btn-pressed': btn.isPressed}">
                                             <i class="{{btn.icon}}"></i>
                                         </div>
                                     </div>

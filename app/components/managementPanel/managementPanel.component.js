@@ -22,7 +22,7 @@ var ManagementPanelComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'managementPanel',
             templateUrl: './managementPanel.html',
-            providers: []
+            styleUrls: ['./managementPanel.css']
         }),
         __metadata("design:paramtypes", [router_1.Router])
     ], ManagementPanelComponent);

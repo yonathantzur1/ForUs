@@ -5,7 +5,8 @@ import { AlertService, ALERT_TYPE } from '../../services/alert/alert.service';
 @Component({
     selector: 'alert',
     templateUrl: './alert.html',
-    providers: []
+    providers: [],
+    styleUrls: ['./alert.css']
 })
 
 export class AlertComponent {

@@ -13,7 +13,8 @@ class ReportReason {
 @Component({
     selector: 'userReportWindow',
     templateUrl: './userReportWindow.html',
-    providers: [UserReportWindowService]
+    providers: [UserReportWindowService],
+    styleUrls: ['./userReportWindow.css']
 })
 
 export class UserReportWindowComponent implements OnInit {

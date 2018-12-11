@@ -13,7 +13,8 @@ declare var Chart: any;
 @Component({
     selector: 'statistics',
     templateUrl: './statistics.html',
-    providers: [StatisticsService]
+    providers: [StatisticsService],
+    styleUrls: ['./statistics.css']
 })
 
 export class StatisticsComponent {
