@@ -136,8 +136,9 @@ var UserEditWindowComponent = /** @class */ (function () {
                     updatedFields[key] = _this.editUser[key];
                 }
             });
-            this.userEditWindowService.UpdateUserInfo(updatedFields).then(function (result) {
-                if (result) {
+            this.userEditWindowService.UpdateUserInfo(updatedFields).then(function (data) {
+                if (data) {
+                    var result = data.result;
                     if (result.lock) {
                         _this.microtextService.ShowMicrotext("edit-user-password-micro", "העדכון ננעל למשך " + result.lock + " דקות");
                     }

@@ -151,8 +151,10 @@ export class UserEditWindowComponent implements OnInit {
                 }
             });
 
-            this.userEditWindowService.UpdateUserInfo(updatedFields).then(result => {                
-                if (result) {
+            this.userEditWindowService.UpdateUserInfo(updatedFields).then(data => {
+                if (data) {
+                    var result = data.result;
+
                     if (result.lock) {
                         this.microtextService.ShowMicrotext("edit-user-password-micro",
                             "העדכון ננעל למשך " + result.lock + " דקות");
@@ -166,7 +168,7 @@ export class UserEditWindowComponent implements OnInit {
                         this.microtextService.ShowMicrotext("edit-user-password-micro",
                             "הסיסמא שהוזנה שגוייה");
                     }
-                    else {                        
+                    else {
                         this.CloseWindow();
                         this.globalService.socket.emit("LogoutUserSessionServer", this.user._id, "הפרטים התעדכנו בהצלחה!\nיש להיכנס מחדש.");
                     }

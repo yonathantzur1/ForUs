@@ -11,13 +11,13 @@ module.exports = function (app) {
         (req, res, next) => {
             // In case one of the updated fields is email.
             if (req.body.updateFields.email) {
-                req.body.updateFields.email = req.body.updateFields.email.toLowerCase();                
+                req.body.updateFields.email = req.body.updateFields.email.toLowerCase();
             }
 
             next();
         },
         (req, res, next) => {
-            bruteForceProtector.setFailReturnObj({ "lock": null }, "lock");
+            bruteForceProtector.setFailReturnObj({ "result": { "lock": null } }, "result.lock");
             next();
         },
         bruteForceProtector.globalBruteforce.prevent,
@@ -33,11 +33,11 @@ module.exports = function (app) {
             userEditWindowBL.UpdateUserInfo(updateFields).then(result => {
                 if (result == true) {
                     req.brute.reset(() => {
-                        res.send(result);
+                        res.send({ result });
                     });
                 }
                 else {
-                    res.send(result);
+                    res.send({ result });
                 }
 
             }).catch(err => {

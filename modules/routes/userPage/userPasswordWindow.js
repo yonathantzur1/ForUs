@@ -12,7 +12,7 @@ module.exports = function (app) {
     app.put(prefix + '/updateUserPassword',
         validate,
         (req, res, next) => {
-            bruteForceProtector.setFailReturnObj({ "lock": null }, "lock");
+            bruteForceProtector.setFailReturnObj({ "result": { "lock": null } }, "result.lock");
             next();
         },
         bruteForceProtector.globalBruteforce.prevent,
@@ -27,11 +27,11 @@ module.exports = function (app) {
                 .then(result => {
                     if (result == true) {
                         req.brute.reset(() => {
-                            res.send(result);
+                            res.send({ result });
                         });
                     }
                     else {
-                        res.send(result);
+                        res.send({ result });
                     }
 
                     // Log - in case of reset password request.

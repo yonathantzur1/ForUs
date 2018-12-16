@@ -75,8 +75,10 @@ export class UserPasswordWindowComponent {
 
     ChangePassword() {
         if (this.microtextService.Validation(this.validationFuncs, this.password)) {
-            this.userPasswordWindowService.UpdateUserPassword(this.password).then(result => {
-                if (result) {
+            this.userPasswordWindowService.UpdateUserPassword(this.password).then(data => {
+                if (data) {
+                    var result = data.result;
+                    
                     if (result.lock) {
                         this.microtextService.ShowMicrotext("old-password-micro",
                             "העדכון ננעל למשך " + result.lock + " דקות");

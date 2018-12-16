@@ -69,8 +69,9 @@ var UserPasswordWindowComponent = /** @class */ (function () {
     UserPasswordWindowComponent.prototype.ChangePassword = function () {
         var _this = this;
         if (this.microtextService.Validation(this.validationFuncs, this.password)) {
-            this.userPasswordWindowService.UpdateUserPassword(this.password).then(function (result) {
-                if (result) {
+            this.userPasswordWindowService.UpdateUserPassword(this.password).then(function (data) {
+                if (data) {
+                    var result = data.result;
                     if (result.lock) {
                         _this.microtextService.ShowMicrotext("old-password-micro", "העדכון ננעל למשך " + result.lock + " דקות");
                     }
