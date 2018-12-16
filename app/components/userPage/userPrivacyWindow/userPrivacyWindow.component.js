@@ -13,11 +13,13 @@ var core_1 = require("@angular/core");
 var alert_service_1 = require("../../../services/alert/alert.service");
 var global_service_1 = require("../../../services/global/global.service");
 var userPrivacyWindow_service_1 = require("../../../services/userPage/userPrivacyWindow/userPrivacyWindow.service");
+var snackbar_service_1 = require("../../../services/snackbar/snackbar.service");
 var UserPrivacyWindowComponent = /** @class */ (function () {
-    function UserPrivacyWindowComponent(userPrivacyWindowService, alertService, globalService) {
+    function UserPrivacyWindowComponent(userPrivacyWindowService, alertService, globalService, snackbarService) {
         this.userPrivacyWindowService = userPrivacyWindowService;
         this.alertService = alertService;
         this.globalService = globalService;
+        this.snackbarService = snackbarService;
         this.isLoading = false;
     }
     UserPrivacyWindowComponent.prototype.ngOnInit = function () {
@@ -54,6 +56,7 @@ var UserPrivacyWindowComponent = /** @class */ (function () {
             this.userPrivacyWindowService.SetUserPrivacy(this.isUserPrivate).then(function (result) {
                 if (result) {
                     _this.CloseWindow();
+                    _this.snackbarService.Snackbar("משתמש פרטי - " + (_this.isUserPrivate ? "פעיל" : "כבוי"));
                 }
                 else {
                     _this.alertService.Alert({
@@ -86,7 +89,8 @@ var UserPrivacyWindowComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [userPrivacyWindow_service_1.UserPrivacyWindowService,
             alert_service_1.AlertService,
-            global_service_1.GlobalService])
+            global_service_1.GlobalService,
+            snackbar_service_1.SnackbarService])
     ], UserPrivacyWindowComponent);
     return UserPrivacyWindowComponent;
 }());

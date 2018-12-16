@@ -3,6 +3,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
 import { GlobalService } from '../../../services/global/global.service';
 import { UserPrivacyWindowService } from '../../../services/userPage/userPrivacyWindow/userPrivacyWindow.service';
+import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 
 declare var $: any;
 
@@ -20,7 +21,8 @@ export class UserPrivacyWindowComponent implements OnInit {
 
     constructor(private userPrivacyWindowService: UserPrivacyWindowService,
         private alertService: AlertService,
-        private globalService: GlobalService) { }
+        private globalService: GlobalService,
+        private snackbarService: SnackbarService) { }
 
     ngOnInit() {
         this.isLoading = true;
@@ -59,6 +61,7 @@ export class UserPrivacyWindowComponent implements OnInit {
             this.userPrivacyWindowService.SetUserPrivacy(this.isUserPrivate).then(result => {
                 if (result) {
                     this.CloseWindow();
+                    this.snackbarService.Snackbar("משתמש פרטי - " + (this.isUserPrivate ? "פעיל" : "כבוי"));
                 }
                 else {
                     this.alertService.Alert({
