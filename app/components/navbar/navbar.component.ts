@@ -1142,6 +1142,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     OpenSearchPage(name: string) {
         $("#" + this.searchInputId).blur();
         this.HideSearchResults();
+        this.CloseChatWindow();
         this.router.navigateByUrl("/search/" + name.trim());
     }
 }

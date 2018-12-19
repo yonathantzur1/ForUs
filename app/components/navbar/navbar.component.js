@@ -925,6 +925,7 @@ var NavbarComponent = /** @class */ (function () {
     NavbarComponent.prototype.OpenSearchPage = function (name) {
         $("#" + this.searchInputId).blur();
         this.HideSearchResults();
+        this.CloseChatWindow();
         this.router.navigateByUrl("/search/" + name.trim());
     };
     __decorate([
