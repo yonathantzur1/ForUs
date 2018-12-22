@@ -23,13 +23,5 @@ module.exports = {
     USER_UPDATE_INFO_ERROR: {
         EMAIL_EXISTS: "email_exists",
         WRONG_PASSWORD: "wrong_password"
-    },
-
-    LOCATION_ERROR: {
-        PERMISSION_DENIED: 0,
-        POSITION_UNAVAILABLE: 1,
-        TIMEOUT: 2,
-        BROWSER_NOT_SUPPORT: 3,
-        UNKNOWN_ERROR: 4
     }
 }

@@ -21,28 +21,6 @@ var HomeService = /** @class */ (function (_super) {
         _this.prefix = "/api/home";
         return _this;
     }
-    HomeService.prototype.SaveUserLocation = function (xCord, yCord) {
-        var location = { xCord: xCord, yCord: yCord };
-        return _super.prototype.put.call(this, this.prefix + '/saveUserLocation', location)
-            .toPromise()
-            .then(function (result) {
-            return result;
-        })
-            .catch(function (e) {
-            return null;
-        });
-    };
-    HomeService.prototype.SaveUserLocationError = function (error) {
-        var details = { error: error };
-        return _super.prototype.put.call(this, this.prefix + '/saveUserLocationError', details)
-            .toPromise()
-            .then(function (result) {
-            return result;
-        })
-            .catch(function (e) {
-            return null;
-        });
-    };
     return HomeService;
 }(basic_service_1.BasicService));
 exports.HomeService = HomeService;

@@ -5,7 +5,6 @@ import { GlobalService } from '../../services/global/global.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { ProfilePictureService } from '../../services/profilePicture/profilePicture.service';
 import { HomeService } from '../../services/home/home.service';
-import { LOCATION_ERROR } from '../../enums/enums';
 
 @Component({
     selector: 'home',
@@ -38,40 +37,5 @@ export class HomeComponent implements OnInit {
 
             this.globalService.setData("userProfileImageLoaded", true);
         });
-
-        var self = this;
-
-        this.GetUserLocation((position: any) => {
-            self.homeService.SaveUserLocation(position.coords.latitude, position.coords.longitude);
-        }, (error: any) => {
-            var errorEnum: LOCATION_ERROR;
-
-            switch (error.code) {
-                case error.PERMISSION_DENIED:
-                    errorEnum = LOCATION_ERROR.PERMISSION_DENIED
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    errorEnum = LOCATION_ERROR.POSITION_UNAVAILABLE
-                    break;
-                case error.TIMEOUT:
-                    errorEnum = LOCATION_ERROR.TIMEOUT
-                    break;
-                case error.UNKNOWN_ERROR:
-                    errorEnum = LOCATION_ERROR.UNKNOWN_ERROR
-                    break;
-            }
-
-            self.homeService.SaveUserLocationError(errorEnum);
-        });
-    }
-
-    GetUserLocation(successCallback: any, errorCallback: any) {
-        // In case the browser support geo location.
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-        }
-        else {
-            this.homeService.SaveUserLocationError(LOCATION_ERROR.BROWSER_NOT_SUPPORT);
-        }
     }
 }
