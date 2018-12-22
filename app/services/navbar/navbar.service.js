@@ -64,17 +64,11 @@ var NavbarService = /** @class */ (function (_super) {
     };
     NavbarService.prototype.UpdateMessagesNotifications = function (messagesNotifications) {
         var details = { messagesNotifications: messagesNotifications };
-        _super.prototype.post.call(this, this.prefix + '/updateMessagesNotifications', details)
-            .toPromise()
-            .then(function (result) { })
-            .catch(function (e) { });
+        _super.prototype.post.call(this, this.prefix + '/updateMessagesNotifications', details).toPromise();
     };
     NavbarService.prototype.RemoveMessagesNotifications = function (messagesNotifications) {
         var details = { messagesNotifications: messagesNotifications };
-        _super.prototype.post.call(this, this.prefix + '/removeMessagesNotifications', details)
-            .toPromise()
-            .then(function (result) { })
-            .catch(function (e) { });
+        _super.prototype.post.call(this, this.prefix + '/removeMessagesNotifications', details).toPromise();
     };
     NavbarService.prototype.GetUserFriendRequests = function () {
         return _super.prototype.get.call(this, this.prefix + '/getUserFriendRequests')

@@ -185,7 +185,7 @@ export class GlobalService extends LoginService {
 
     Logout() {
         this.cookieService.DeleteCookieByName(this.uidCookieName);
-        this.DeleteTokenFromCookie().then((result: any) => { });
+        this.DeleteTokenFromCookie();
         this.ResetGlobalVariables();
     }
 

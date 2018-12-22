@@ -231,7 +231,7 @@ var self = module.exports = {
                 messagesNotifications[userId].lastUnreadMessageDate = new Date();
 
                 DAL.UpdateOne(usersCollectionName, friendIdObject, { $set: { "messagesNotifications": messagesNotifications } })
-                    .then((result) => { }).catch(logger.error);
+                    .catch(logger.error);
             }
         }).catch(logger.error);
     },
@@ -242,7 +242,7 @@ var self = module.exports = {
         }
 
         DAL.UpdateOne(usersCollectionName, userIdObject, { $set: { "messagesNotifications": messagesNotifications } })
-            .then((result) => { }).catch(logger.error);
+            .catch(logger.error);
     },
 
     RemoveMessagesNotifications(userId, messagesNotifications) {
@@ -251,7 +251,7 @@ var self = module.exports = {
         }
 
         DAL.UpdateOne(usersCollectionName, userIdObject, { $set: { "messagesNotifications": messagesNotifications } })
-            .then((result) => { }).catch(logger.error);
+            .catch(logger.error);
     },
 
     GetUserFriendRequests(userId) {

@@ -53,19 +53,13 @@ export class NavbarService extends BasicService {
     UpdateMessagesNotifications(messagesNotifications: any) {
         var details = { messagesNotifications };
 
-        super.post(this.prefix + '/updateMessagesNotifications', details)
-            .toPromise()
-            .then((result: any) => { })
-            .catch((e: any) => { });
+        super.post(this.prefix + '/updateMessagesNotifications', details).toPromise();
     }
 
     RemoveMessagesNotifications(messagesNotifications: any) {
         var details = { messagesNotifications };
 
-        super.post(this.prefix + '/removeMessagesNotifications', details)
-            .toPromise()
-            .then((result: any) => { })
-            .catch((e: any) => { });
+        super.post(this.prefix + '/removeMessagesNotifications', details).toPromise();
     }
 
     GetUserFriendRequests() {

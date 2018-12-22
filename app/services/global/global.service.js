@@ -168,7 +168,7 @@ var GlobalService = /** @class */ (function (_super) {
     };
     GlobalService.prototype.Logout = function () {
         this.cookieService.DeleteCookieByName(this.uidCookieName);
-        this.DeleteTokenFromCookie().then(function (result) { });
+        this.DeleteTokenFromCookie();
         this.ResetGlobalVariables();
     };
     GlobalService.prototype.setData = function (key, value) {

@@ -63,7 +63,7 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
             this.isFirstOpenning = false;
             if (this.confirmedReuests.length > 0) {
                 // Removing friend requests confirm alerts from DB.
-                this.friendRequestsWindowService.RemoveRequestConfirmAlert(this.confirmedReuests).then(function (result) { });
+                this.friendRequestsWindowService.RemoveRequestConfirmAlert(this.confirmedReuests);
             }
         }
         // On first closing.

@@ -79,7 +79,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
 
             if (this.confirmedReuests.length > 0) {
                 // Removing friend requests confirm alerts from DB.
-                this.friendRequestsWindowService.RemoveRequestConfirmAlert(this.confirmedReuests).then((result: any) => { });
+                this.friendRequestsWindowService.RemoveRequestConfirmAlert(this.confirmedReuests);
             }
         }
 

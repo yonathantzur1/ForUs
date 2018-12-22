@@ -96,8 +96,7 @@ var self = module.exports = {
             }
         }
 
-        DAL.UpdateOne(collectionName, chatQueryFilter, chatObj, true)
-            .then((result) => { }).catch(logger.error);
+        DAL.UpdateOne(collectionName, chatQueryFilter, chatObj, true).catch(logger.error);
     },
 
     AddMessageToChat(msgData) {

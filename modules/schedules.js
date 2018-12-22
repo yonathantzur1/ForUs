@@ -1,14 +1,20 @@
 const schedule = require('node-schedule');
-const chatBL = require('./BL/chatBL');
+const config = require('../config');
 const logger = require('./logger');
+const chatBL = require('./BL/chatBL');
+const DAL = require('./DAL');
 
-module.exports = function (connectedUsers) {
-    // Task that removes all empty chats from DB every night at 00:00
+const usersCollectionName = config.db.collections.users;
+
+module.exports = (connectedUsers) => {
+    // Task for every night at 00:00
     schedule.scheduleJob('0 0 * * *', function () {
         RemoveEmptyChats(connectedUsers);
+        ClearEndedBlocksFromUsers();
     });
 }
 
+// Remove empty chats objects from logoff users.
 function RemoveEmptyChats(connectedUsers) {
     chatBL.GetAllEmptyChats().then((chats) => {
         if (chats) {
@@ -33,8 +39,19 @@ function RemoveEmptyChats(connectedUsers) {
             });
 
             if (chatsToRemove.length > 0) {
-                chatBL.RemoveChatsByIds(chatsToRemove).then((res) => { }).catch(logger.error);
+                chatBL.RemoveChatsByIds(chatsToRemove).catch(logger.error);
             }
         }
     }).catch(logger.error);
+}
+
+// Remove block property from user document if the block was ended.
+function ClearEndedBlocksFromUsers() {
+    var removeBlockFind = {
+        "block.unblockDate": { $exists: true },
+        "block.unblockDate": { $lte: new Date() }
+    };
+    var removeBlockQuery = { $unset: { "block": 1 } };
+
+    DAL.Update(usersCollectionName, removeBlockFind, removeBlockQuery).catch(logger.error);
 }
