@@ -61,7 +61,7 @@ export class UserPrivacyWindowComponent implements OnInit {
             this.userPrivacyWindowService.SetUserPrivacy(this.isUserPrivate).then(result => {
                 if (result) {
                     this.CloseWindow();
-                    this.snackbarService.Snackbar("משתמש פרטי - " + (this.isUserPrivate ? "פעיל" : "כבוי"));
+                    this.snackbarService.Snackbar("משתמש פרטי " + (this.isUserPrivate ? "פעיל" : "כבוי"));
                 }
                 else {
                     this.alertService.Alert({
