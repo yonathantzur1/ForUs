@@ -210,7 +210,7 @@ var self = module.exports = {
                 if (!messagesNotifications ||
                     !messagesNotifications[userId] ||
                     GetDatesHoursDiff(new Date(), messagesNotifications[userId].lastUnreadMessageDate) >=
-                    config.navbar.messageMailNotificationHoursWaitingDelay) {
+                    config.chat.messageMailNotificationHoursWaitingDelay) {
                     mailer.MessageNotificationAlert(friendObj.email, friendObj.firstName, senderName);
                 }
 

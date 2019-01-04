@@ -65,10 +65,10 @@ module.exports = {
         maxLastKeepAliveDelay: 5 // seconds
     },
     chat: {
-        messagesInPage: 40 // For chat pagination
+        messagesInPage: 40, // For chat pagination
+        messageMailNotificationHoursWaitingDelay: 1
     },
     navbar: {
-        searchResultsLimit: 4,
-        messageMailNotificationHoursWaitingDelay: 1
+        searchResultsLimit: 4        
     }
 };
