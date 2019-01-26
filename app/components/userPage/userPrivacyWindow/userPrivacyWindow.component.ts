@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 
 import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
 import { GlobalService } from '../../../services/global/global.service';
+import { EventService } from '../../../services/event/event.service';
 import { UserPrivacyWindowService } from '../../../services/userPage/userPrivacyWindow/userPrivacyWindow.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 
@@ -22,6 +23,7 @@ export class UserPrivacyWindowComponent implements OnInit {
     constructor(private userPrivacyWindowService: UserPrivacyWindowService,
         private alertService: AlertService,
         private globalService: GlobalService,
+        private eventService: EventService,
         private snackbarService: SnackbarService) { }
 
     ngOnInit() {
@@ -45,7 +47,7 @@ export class UserPrivacyWindowComponent implements OnInit {
     }
 
     CloseWindow() {
-        this.globalService.setData("closeUserPrivacyWindow", true);
+        this.eventService.Emit("closeUserPrivacyWindow");
     }
 
     ChangePrivacyStatus() {

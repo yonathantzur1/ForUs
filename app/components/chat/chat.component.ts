@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, Input, AfterViewChecked } from '@angular/
 
 import { ChatService } from '../../services/chat/chat.service';
 import { GlobalService } from '../../services/global/global.service';
+import { EventService } from '../../services/event/event.service';
 import { SnackbarService } from '../../services/snackbar/snackbar.service';
 
 export class TopIcon {
@@ -45,11 +46,15 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     chatBodyScrollHeight: number = 0;
     topIcons: Array<TopIcon>;
 
-    // Unread messages line sector properties //
+    //#region unread messages line sector properties
+
     isAllowShowUnreadLine: boolean;
     unreadMessagesNumber: number;
 
-    // Chat notification properties //
+    //#endregion
+
+    //#region chat notification properties
+
     isShowMessageNotification: boolean;
     isSelfMessageNotification: boolean;
     messageNotificationText: string;
@@ -57,7 +62,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     messageNotificationDelay: number = 3800; // milliseconds
     messageNotificationInterval: any;
 
-    // Cavas sector properties //
+    //#endregion
+
+    //#region cavas sector properties
+
     isCanvasInitialize: boolean;
     canvas: any;
     ctx: any;
@@ -76,28 +84,33 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     canvasEvents: any;
     CanvasResizeFunc: any;
 
-    subscribeObj: any;
+    //#endregion
+
+    eventsIds: Array<string> = [];
 
     constructor(private chatService: ChatService,
         private snackbarService: SnackbarService,
-        private globalService: GlobalService) {
-
-        this.subscribeObj = this.globalService.data.subscribe((value: any) => {
-            if (value["chatData"]) {
-                this.chatData = value["chatData"];
-                this.InitializeChat();
-            }
-
-            if (value["moveToChatWindow"]) {
-                this.SelectTopIcon(this.GetTopIconById("chat"));
-            }
-
-            if (value["closeChat"]) {
-                this.CloseChat();
-            }
-        });
+        private globalService: GlobalService,
+        private eventService: EventService) {
 
         var self = this;
+
+        //#region events
+
+        eventService.Register("setChatData", (chatData: any) => {
+            self.chatData = chatData;
+            self.InitializeChat();
+        }, self.eventsIds);
+
+        eventService.Register("moveToChatWindow", () => {
+            self.SelectTopIcon(self.GetTopIconById("chat"));
+        }, self.eventsIds);
+
+        eventService.Register("closeChat", () => {
+            self.CloseChat();
+        }, self.eventsIds);
+
+        //#endregion
 
         self.topIcons = [
             {
@@ -302,9 +315,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     ngOnDestroy() {
         var self = this;
 
-        self.subscribeObj.unsubscribe();
+        self.eventService.unsubscribeEvents(self.eventsIds);
 
-        Object.keys(this.canvasEvents).forEach(key => {
+        Object.keys(self.canvasEvents).forEach(key => {
             self.canvas.removeEventListener(key, self.canvasEvents[key], false);
         });
 
@@ -313,7 +326,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
         window.removeEventListener("resize", self.CanvasResizeFunc);
 
-        this.isCanvasInitialize = false;
+        self.isCanvasInitialize = false;
     }
 
     ngAfterViewChecked() {
@@ -699,12 +712,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                         this.isChatLoadingError = true;
                     }
                 });
-
         }
     }
 
     MoveToFriendPage(friendObj: any) {
-        this.globalService.setData("openUserProfile", friendObj);
+        this.eventService.Emit("openUserProfile", friendObj);
     }
 }
 

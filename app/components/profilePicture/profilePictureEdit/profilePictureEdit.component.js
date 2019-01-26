@@ -11,15 +11,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var global_service_1 = require("../../../services/global/global.service");
+var event_service_1 = require("../../../services/event/event.service");
 var alert_service_1 = require("../../../services/alert/alert.service");
 var snackbar_service_1 = require("../../../services/snackbar/snackbar.service");
 var profilePictureEdit_service_1 = require("../../../services/profilePicture/profilePictureEdit/profilePictureEdit.service");
 var ProfilePictureEditComponent = /** @class */ (function () {
-    function ProfilePictureEditComponent(profilePictureEditService, alertService, snackbarService, globalService) {
+    function ProfilePictureEditComponent(profilePictureEditService, alertService, snackbarService, globalService, eventService) {
         this.profilePictureEditService = profilePictureEditService;
         this.alertService = alertService;
         this.snackbarService = snackbarService;
         this.globalService = globalService;
+        this.eventService = eventService;
         this.isLoading = false;
         this.isNewPhoto = true;
         this.options = {
@@ -178,7 +180,7 @@ var ProfilePictureEditComponent = /** @class */ (function () {
     ProfilePictureEditComponent.prototype.CloseWindow = function () {
         $("#profile-modal").removeClass("fade");
         $("#profile-modal").modal("hide");
-        this.globalService.setData("isOpenProfileEditWindow", false);
+        this.eventService.Emit("showProfileEditWindow", false);
     };
     ProfilePictureEditComponent.prototype.ChangeImage = function () {
         var isSuccess = this.UploadPhoto(this.options);
@@ -218,7 +220,7 @@ var ProfilePictureEditComponent = /** @class */ (function () {
                         // Disable modal close fade animation, close modal and return the fade animation. 
                         $("#profile-modal").removeClass("fade");
                         $("#profile-modal").modal("hide");
-                        self.globalService.setData("newUploadedImage", imgBase64);
+                        self.eventService.Emit("newUploadedImage", imgBase64);
                         self.alertService.Alert({
                             title: "התמונה הוחלפה בהצלחה",
                             image: imgBase64,
@@ -248,7 +250,7 @@ var ProfilePictureEditComponent = /** @class */ (function () {
                 return self.profilePictureEditService.DeleteImage();
             },
             confirmFunc: function () {
-                self.globalService.setData("isImageDeleted", true);
+                self.eventService.Emit("deleteProfileImage", true);
                 self.CloseWindow();
             },
             closeFunc: function () {
@@ -330,7 +332,8 @@ var ProfilePictureEditComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [profilePictureEdit_service_1.ProfilePictureEditService,
             alert_service_1.AlertService,
             snackbar_service_1.SnackbarService,
-            global_service_1.GlobalService])
+            global_service_1.GlobalService,
+            event_service_1.EventService])
     ], ProfilePictureEditComponent);
     return ProfilePictureEditComponent;
 }());

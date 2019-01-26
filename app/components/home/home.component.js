@@ -12,16 +12,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var global_service_1 = require("../../services/global/global.service");
+var event_service_1 = require("../../services/event/event.service");
 var auth_service_1 = require("../../services/auth/auth.service");
 var profilePicture_service_1 = require("../../services/profilePicture/profilePicture.service");
 var home_service_1 = require("../../services/home/home.service");
 var HomeComponent = /** @class */ (function () {
-    function HomeComponent(router, authService, profilePictureService, homeService, globalService) {
+    function HomeComponent(router, authService, profilePictureService, homeService, globalService, eventService) {
         this.router = router;
         this.authService = authService;
         this.profilePictureService = profilePictureService;
         this.homeService = homeService;
         this.globalService = globalService;
+        this.eventService = eventService;
         this.isOpenProfileEditWindow = false;
         this.currUser = null;
     }
@@ -35,7 +37,7 @@ var HomeComponent = /** @class */ (function () {
             if (result) {
                 _this.globalService.userProfileImage = result.image;
             }
-            _this.globalService.setData("userProfileImageLoaded", true);
+            _this.eventService.Emit("userProfileImageLoaded", true);
         });
     };
     HomeComponent = __decorate([
@@ -49,7 +51,8 @@ var HomeComponent = /** @class */ (function () {
             auth_service_1.AuthService,
             profilePicture_service_1.ProfilePictureService,
             home_service_1.HomeService,
-            global_service_1.GlobalService])
+            global_service_1.GlobalService,
+            event_service_1.EventService])
     ], HomeComponent);
     return HomeComponent;
 }());

@@ -12,17 +12,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var userReportWindow_service_1 = require("../../../services/userPage/userReportWindow/userReportWindow.service");
 var alert_service_1 = require("../../../services/alert/alert.service");
-var global_service_1 = require("../../../services/global/global.service");
+var event_service_1 = require("../../../services/event/event.service");
 var ReportReason = /** @class */ (function () {
     function ReportReason() {
     }
     return ReportReason;
 }());
 var UserReportWindowComponent = /** @class */ (function () {
-    function UserReportWindowComponent(userReportWindowService, alertService, globalService) {
+    function UserReportWindowComponent(userReportWindowService, alertService, eventService) {
         this.userReportWindowService = userReportWindowService;
         this.alertService = alertService;
-        this.globalService = globalService;
+        this.eventService = eventService;
         this.reportText = "";
         this.maxReportTextLength = 600;
         this.isShowTextReasonWindow = false;
@@ -49,7 +49,7 @@ var UserReportWindowComponent = /** @class */ (function () {
         });
     };
     UserReportWindowComponent.prototype.CloseWindow = function () {
-        this.globalService.setData("closeUserReportWindow", true);
+        this.eventService.Emit("closeUserReportWindow");
     };
     UserReportWindowComponent.prototype.InitializeReasonButtons = function () {
         this.reportReasons.forEach(function (reason) {
@@ -159,7 +159,7 @@ var UserReportWindowComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [userReportWindow_service_1.UserReportWindowService,
             alert_service_1.AlertService,
-            global_service_1.GlobalService])
+            event_service_1.EventService])
     ], UserReportWindowComponent);
     return UserReportWindowComponent;
 }());

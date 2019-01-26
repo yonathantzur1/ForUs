@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { GlobalService } from '../../services/global/global.service';
+import { EventService } from '../../services/event/event.service';
 import { DropMenuData } from '../navbar/navbar.component';
 
 @Component({
@@ -12,7 +12,7 @@ import { DropMenuData } from '../navbar/navbar.component';
 })
 
 export class DropMenuComponent {
-    constructor(private router: Router, private globalService: GlobalService) { }
+    constructor(private router: Router, private eventService: EventService) { }
     
     @Input() options: DropMenuData[];
 
@@ -25,7 +25,7 @@ export class DropMenuComponent {
             link && this.router.navigateByUrl(link);
         }
 
-        this.globalService.setData("closeDropMenu", true);
-        this.globalService.setData("openNewWindow", true);
+        this.eventService.Emit("closeDropMenu", true);
+        this.eventService.Emit("openNewWindow", true);
     }
 }

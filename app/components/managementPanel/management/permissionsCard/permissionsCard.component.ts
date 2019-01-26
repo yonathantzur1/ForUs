@@ -2,6 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 
 import { PermissionsCardService } from '../../../../services/managementPanel/management/permissionsCard/permissionsCard.service';
 import { GlobalService } from '../../../../services/global/global.service';
+import { EventService } from '../../../../services/event/event.service';
 import { SnackbarService } from '../../../../services/snackbar/snackbar.service';
 
 declare var $: any;
@@ -19,47 +20,53 @@ export class PermissionsCardComponent implements OnDestroy {
     isLoading: boolean;
     user: any;
 
-    subscribeObj: any;
+    eventsIds: Array<string> = [];
 
     constructor(private globalService: GlobalService,
+        private eventService: EventService,
         private snackbarService: SnackbarService,
         private permissionsCardService: PermissionsCardService) {
-        this.subscribeObj = this.globalService.data.subscribe((value: any) => {
-            if (value["isOpenPermissionsCard"]) {
-                this.user = value["isOpenPermissionsCard"];
+        var self = this;
 
-                this.isLoading = true;
-                permissionsCardService.GetUserPermissions(this.user._id).then((result: any) => {
-                    this.isLoading = false;
+        //#region events
 
-                    if (result) {
-                        this.permissions.forEach((permission: any) => {
-                            if (result.indexOf(permission.type) != -1) {
-                                permission.isChecked = true;
-                            }
-                            else {
-                                permission.isChecked = false;
-                            }
-                        });
-                    }
-                });
+        eventService.Register("openPermissionsCard", (user: any) => {
+            self.user = user;
 
-                $("#permissions-modal").modal('show');
-            }
-        });
+            self.isLoading = true;
+            permissionsCardService.GetUserPermissions(self.user._id).then((result: any) => {
+                self.isLoading = false;
 
-        this.isLoading = true;
+                if (result) {
+                    self.permissions.forEach((permission: any) => {
+                        if (result.indexOf(permission.type) != -1) {
+                            permission.isChecked = true;
+                        }
+                        else {
+                            permission.isChecked = false;
+                        }
+                    });
+                }
+            });
+
+            $("#permissions-modal").modal('show');
+        }, self.eventsIds);
+
+        //#endregion
+
+        self.isLoading = true;
+
         permissionsCardService.GetAllPermissions().then((result: any) => {
-            this.isLoading = false;
+            self.isLoading = false;
 
             if (result) {
-                this.permissions = result;
+                self.permissions = result;
             }
         });
     }
 
     ngOnDestroy() {
-        this.subscribeObj.unsubscribe();
+        this.eventService.unsubscribeEvents(this.eventsIds);
     }
 
     UpdatePermissions() {

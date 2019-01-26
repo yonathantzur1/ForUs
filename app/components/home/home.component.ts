@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
+import { EventService } from '../../services/event/event.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { ProfilePictureService } from '../../services/profilePicture/profilePicture.service';
 import { HomeService } from '../../services/home/home.service';
@@ -22,7 +23,8 @@ export class HomeComponent implements OnInit {
         private authService: AuthService,
         private profilePictureService: ProfilePictureService,
         private homeService: HomeService,
-        private globalService: GlobalService) { }
+        private globalService: GlobalService,
+        private eventService: EventService) { }
 
     ngOnInit() {
         this.authService.GetCurrUser().then((result: any) => {
@@ -35,7 +37,7 @@ export class HomeComponent implements OnInit {
                 this.globalService.userProfileImage = result.image;
             }
 
-            this.globalService.setData("userProfileImageLoaded", true);
+            this.eventService.Emit("userProfileImageLoaded", true);
         });
     }
 }

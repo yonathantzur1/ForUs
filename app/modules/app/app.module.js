@@ -45,6 +45,7 @@ var login_guard_1 = require("../../guards/login/login.guard");
 // Global services
 var auth_service_1 = require("../../services/auth/auth.service");
 var global_service_1 = require("../../services/global/global.service");
+var event_service_1 = require("../../services/event/event.service");
 var alert_service_1 = require("../../services/alert/alert.service");
 var cookie_service_1 = require("../../services/cookie/cookie.service");
 var snackbar_service_1 = require("../../services/snackbar/snackbar.service");
@@ -98,6 +99,7 @@ var AppModule = /** @class */ (function () {
                 login_guard_1.LoginGuard,
                 auth_service_1.AuthService,
                 global_service_1.GlobalService,
+                event_service_1.EventService,
                 alert_service_1.AlertService,
                 cookie_service_1.CookieService,
                 snackbar_service_1.SnackbarService,

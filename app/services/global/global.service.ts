@@ -15,8 +15,7 @@ declare var jQuery: any;
 @Injectable()
 export class GlobalService extends LoginService {
 
-    // Use this property for property binding
-    public data: BehaviorSubject<boolean>;
+    // Use this property for property binding    
     public socket: any;
     public socketOnDictionary: any;
     public userId: string;
@@ -47,8 +46,7 @@ export class GlobalService extends LoginService {
             }
         })(jQuery);
 
-        // Initialize variables.
-        this.data = new BehaviorSubject<any>({});
+        // Initialize variables        
         this.userPermissions = [];
         this.socketOnDictionary = {};
         this.defaultProfileImage = EmptyProfile;
@@ -162,8 +160,7 @@ export class GlobalService extends LoginService {
 
     ResetGlobalVariables() {
         this.socket && this.socket.destroy();
-        this.socket = null;
-        this.data = new BehaviorSubject<any>({});
+        this.socket = null;        
         this.userProfileImage = null;
         this.userPermissions = [];
     }
@@ -187,24 +184,5 @@ export class GlobalService extends LoginService {
         this.cookieService.DeleteCookieByName(this.uidCookieName);
         this.DeleteTokenFromCookie();
         this.ResetGlobalVariables();
-    }
-
-    setData(key: string, value: any) {
-        var currData: any = this.data.value;
-        currData = {};
-        currData[key] = value;
-
-        this.data.next(currData);
-    }
-
-    setMultiData(array: Array<any>) {
-        var currData: any = this.data.value;
-        currData = {};
-
-        array.forEach(element => {
-            currData[element.key] = element.value;
-        });
-
-        this.data.next(currData);
     }
 }

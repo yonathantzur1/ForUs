@@ -11,39 +11,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var global_service_1 = require("../../services/global/global.service");
+var event_service_1 = require("../../services/event/event.service");
 var ProfilePictureComponent = /** @class */ (function () {
-    function ProfilePictureComponent(globalService) {
-        var _this = this;
+    function ProfilePictureComponent(globalService, eventService) {
         this.globalService = globalService;
-        this.subscribeObj = this.globalService.data.subscribe(function (value) {
-            if (value["newUploadedImage"]) {
-                globalService.userProfileImage = value["newUploadedImage"];
-                _this.isUserHasImage = true;
-            }
-            if (value["isImageDeleted"]) {
-                globalService.userProfileImage = null;
-                _this.isUserHasImage = false;
-                _this.globalService.setData("userImage", null);
-            }
-            if (value["userProfileImageLoaded"]) {
-                if (_this.globalService.userProfileImage) {
-                    _this.isUserHasImage = true;
-                }
-                else {
-                    _this.isUserHasImage = false;
-                }
-            }
-            if (value["openProfileEditWindow"]) {
-                _this.OpenEditWindow();
-            }
-        });
+        this.eventService = eventService;
+        this.eventsIds = [];
+        var self = this;
+        //#region events
+        eventService.Register("newUploadedImage", function (img) {
+            globalService.userProfileImage = img;
+            self.isUserHasImage = true;
+        }, self.eventsIds);
+        eventService.Register("deleteProfileImage", function () {
+            globalService.userProfileImage = null;
+            self.isUserHasImage = false;
+        }, self.eventsIds);
+        eventService.Register("userProfileImageLoaded", function () {
+            self.isUserHasImage = self.globalService.userProfileImage ? true : false;
+        }, self.eventsIds);
+        eventService.Register("openProfileEditWindow", function () {
+            self.OpenEditWindow();
+        }, self.eventsIds);
+        //#endregion
     }
     ProfilePictureComponent.prototype.ngOnDestroy = function () {
-        this.subscribeObj.unsubscribe();
+        this.eventService.unsubscribeEvents(this.eventsIds);
     };
     ProfilePictureComponent.prototype.OpenEditWindow = function () {
         if (this.isEditEnable && this.isUserHasImage != null) {
-            this.globalService.setData("isOpenProfileEditWindow", true);
+            this.eventService.Emit("showProfileEditWindow", true);
         }
     };
     __decorate([
@@ -57,7 +54,8 @@ var ProfilePictureComponent = /** @class */ (function () {
             providers: [],
             styleUrls: ['./profilePicture.css']
         }),
-        __metadata("design:paramtypes", [global_service_1.GlobalService])
+        __metadata("design:paramtypes", [global_service_1.GlobalService,
+            event_service_1.EventService])
     ], ProfilePictureComponent);
     return ProfilePictureComponent;
 }());

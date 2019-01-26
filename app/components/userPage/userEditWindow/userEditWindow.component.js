@@ -13,6 +13,7 @@ var core_1 = require("@angular/core");
 var userEditWindow_service_1 = require("../../../services/userPage/userEditWindow/userEditWindow.service");
 var alert_service_1 = require("../../../services/alert/alert.service");
 var global_service_1 = require("../../../services/global/global.service");
+var event_service_1 = require("../../../services/event/event.service");
 var microtext_service_1 = require("../../../services/microtext/microtext.service");
 var enums_1 = require("../../../enums/enums");
 var regexpEnums_1 = require("../../../regex/regexpEnums");
@@ -22,10 +23,11 @@ var EditUser = /** @class */ (function () {
     return EditUser;
 }());
 var UserEditWindowComponent = /** @class */ (function () {
-    function UserEditWindowComponent(userEditWindowService, alertService, globalService, microtextService) {
+    function UserEditWindowComponent(userEditWindowService, alertService, globalService, eventService, microtextService) {
         this.userEditWindowService = userEditWindowService;
         this.alertService = alertService;
         this.globalService = globalService;
+        this.eventService = eventService;
         this.microtextService = microtextService;
         this.editUser = {};
         this.isShowPasswordValidationWindow = false;
@@ -98,7 +100,7 @@ var UserEditWindowComponent = /** @class */ (function () {
         this.editUser.password = "";
     };
     UserEditWindowComponent.prototype.CloseWindow = function () {
-        this.globalService.setData("closeUserEditWindow", true);
+        this.eventService.Emit("closeUserEditWindow", true);
     };
     // Hide microtext in a specific field.
     UserEditWindowComponent.prototype.HideMicrotext = function (microtextId) {
@@ -185,6 +187,7 @@ var UserEditWindowComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [userEditWindow_service_1.UserEditWindowService,
             alert_service_1.AlertService,
             global_service_1.GlobalService,
+            event_service_1.EventService,
             microtext_service_1.MicrotextService])
     ], UserEditWindowComponent);
     return UserEditWindowComponent;

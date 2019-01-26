@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DropMenuData } from '../../navbar/navbar.component';
 import { ManagementService } from '../../../services/managementPanel/management/management.service';
 import { GlobalService } from '../../../services/global/global.service';
+import { EventService } from '../../../services/event/event.service';
 import { AlertService } from '../../../services/alert/alert.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 
@@ -33,22 +34,25 @@ export class ManagementComponent implements OnInit, OnDestroy {
     // Animation properties    
     openCardAnimationTime: number = 200;
 
-    subscribeObj: any;
+    eventsIds: Array<string> = [];
 
     constructor(private router: Router,
         private route: ActivatedRoute,
         private globalService: GlobalService,
+        private eventService: EventService,
         private managementService: ManagementService,
         private alertService: AlertService,
         private snackbarService: SnackbarService) {
 
-        this.subscribeObj = this.globalService.data.subscribe((value: any) => {
-            if (value["closeDropMenu"]) {
-                this.CloseAllUsersMenu();
-            }
-        });
-
         var self = this;
+
+        //#region events
+
+        eventService.Register("closeDropMenu", () => {
+            self.CloseAllUsersMenu();
+        }, self.eventsIds);
+
+        //#endregion
 
         self.dropMenuDataList = [
             new DropMenuData(null, "עריכה", () => {
@@ -97,7 +101,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                 }
             }),
             new DropMenuData(null, "הרשאות", () => {
-                self.globalService.setData("isOpenPermissionsCard", self.GetUserWithOpenMenu());
+                self.eventService.Emit("openPermissionsCard", self.GetUserWithOpenMenu());
             }, () => {
                 return (self.globalService.IsUserHasMasterPermission());
             }),
@@ -120,7 +124,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.subscribeObj.unsubscribe();
+        this.eventService.unsubscribeEvents(this.eventsIds);
     }
 
     SearchUser(userId?: string) {

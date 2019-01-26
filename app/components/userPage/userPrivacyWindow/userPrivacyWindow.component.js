@@ -12,13 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var alert_service_1 = require("../../../services/alert/alert.service");
 var global_service_1 = require("../../../services/global/global.service");
+var event_service_1 = require("../../../services/event/event.service");
 var userPrivacyWindow_service_1 = require("../../../services/userPage/userPrivacyWindow/userPrivacyWindow.service");
 var snackbar_service_1 = require("../../../services/snackbar/snackbar.service");
 var UserPrivacyWindowComponent = /** @class */ (function () {
-    function UserPrivacyWindowComponent(userPrivacyWindowService, alertService, globalService, snackbarService) {
+    function UserPrivacyWindowComponent(userPrivacyWindowService, alertService, globalService, eventService, snackbarService) {
         this.userPrivacyWindowService = userPrivacyWindowService;
         this.alertService = alertService;
         this.globalService = globalService;
+        this.eventService = eventService;
         this.snackbarService = snackbarService;
         this.isLoading = false;
     }
@@ -42,7 +44,7 @@ var UserPrivacyWindowComponent = /** @class */ (function () {
         });
     };
     UserPrivacyWindowComponent.prototype.CloseWindow = function () {
-        this.globalService.setData("closeUserPrivacyWindow", true);
+        this.eventService.Emit("closeUserPrivacyWindow");
     };
     UserPrivacyWindowComponent.prototype.ChangePrivacyStatus = function () {
         var self = this;
@@ -90,6 +92,7 @@ var UserPrivacyWindowComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [userPrivacyWindow_service_1.UserPrivacyWindowService,
             alert_service_1.AlertService,
             global_service_1.GlobalService,
+            event_service_1.EventService,
             snackbar_service_1.SnackbarService])
     ], UserPrivacyWindowComponent);
     return UserPrivacyWindowComponent;

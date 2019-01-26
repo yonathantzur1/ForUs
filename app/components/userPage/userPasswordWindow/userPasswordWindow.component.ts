@@ -3,6 +3,7 @@ import { Component, Input, HostListener } from '@angular/core';
 import { UserPasswordWindowService } from '../../../services/userPage/userPasswordWindow/userPasswordWindow.service';
 import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
 import { GlobalService } from '../../../services/global/global.service';
+import { EventService } from '../../../services/event/event.service';
 import { MicrotextService, InputFieldValidation } from '../../../services/microtext/microtext.service';
 
 import { USER_UPDATE_INFO_ERROR } from '../../../enums/enums'
@@ -49,12 +50,13 @@ export class UserPasswordWindowComponent {
     ]
 
     constructor(private globalService: GlobalService,
+        private eventService: EventService,
         private alertService: AlertService,
         private microtextService: MicrotextService,
         private userPasswordWindowService: UserPasswordWindowService) { }
 
     CloseWindow() {
-        this.globalService.setData("closeUserPasswordWindow", true);
+        this.eventService.Emit("closeUserPasswordWindow");
     }
 
     // Hide microtext in a specific field.

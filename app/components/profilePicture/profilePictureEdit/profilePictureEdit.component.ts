@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 
 import { GlobalService } from '../../../services/global/global.service';
+import { EventService } from '../../../services/event/event.service';
 import { AlertService } from '../../../services/alert/alert.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { ProfilePictureEditService } from '../../../services/profilePicture/profilePictureEdit/profilePictureEdit.service';
@@ -23,7 +24,8 @@ export class ProfilePictureEditComponent implements OnInit {
     constructor(private profilePictureEditService: ProfilePictureEditService,
         private alertService: AlertService,
         private snackbarService: SnackbarService,
-        private globalService: GlobalService) { }
+        private globalService: GlobalService,
+        private eventService: EventService) { }
 
     ngOnInit() {
         this.userImage = this.globalService.userProfileImage;
@@ -193,7 +195,7 @@ export class ProfilePictureEditComponent implements OnInit {
     CloseWindow() {
         $("#profile-modal").removeClass("fade");
         $("#profile-modal").modal("hide");
-        this.globalService.setData("isOpenProfileEditWindow", false);
+        this.eventService.Emit("showProfileEditWindow", false);
     }
 
     ChangeImage() {
@@ -241,7 +243,7 @@ export class ProfilePictureEditComponent implements OnInit {
                         $("#profile-modal").removeClass("fade");
                         $("#profile-modal").modal("hide");
 
-                        self.globalService.setData("newUploadedImage", imgBase64);
+                        self.eventService.Emit("newUploadedImage", imgBase64);
 
                         self.alertService.Alert({
                             title: "התמונה הוחלפה בהצלחה",
@@ -274,7 +276,7 @@ export class ProfilePictureEditComponent implements OnInit {
                 return self.profilePictureEditService.DeleteImage();
             },
             confirmFunc: function () {
-                self.globalService.setData("isImageDeleted", true);
+                self.eventService.Emit("deleteProfileImage", true);
                 self.CloseWindow();
             },
             closeFunc: function () {

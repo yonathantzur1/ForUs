@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { AlertService, ALERT_TYPE } from '../../services/alert/alert.service';
 import { GlobalService } from '../../services/global/global.service';
+import { EventService } from '../../services/event/event.service';
 import { SearchPageService } from '../../services/searchPage/searchPage.service';
 
 class FriendsStatus {
@@ -24,26 +25,31 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     isLoading: boolean = false;
     searchString: string;
 
-    subscribeObj: any;
+    eventsIds: Array<string> = [];
 
     constructor(private router: Router,
         private route: ActivatedRoute,
         private alertService: AlertService,
         private globalService: GlobalService,
+        private eventService: EventService,
         private searchPageService: SearchPageService) {
-        this.subscribeObj = this.globalService.data.subscribe((value: any) => {
-            if (value["IgnoreFriendRequest"]) {
-                this.UnsetUserFriendStatus(value["IgnoreFriendRequest"], "isSendFriendRequest");
-            }
+        var self = this;
 
-            if (value["SendFriendRequest"]) {
-                this.SetUserFriendStatus(value["SendFriendRequest"], "isGetFriendRequest");
-            }
+        //#region events
 
-            if (value["RemoveFriendRequest"]) {
-                this.UnsetUserFriendStatus(value["RemoveFriendRequest"], "isGetFriendRequest");
-            }
-        });
+        eventService.Register("ignoreFriendRequest", (userId: string) => {
+            self.UnsetUserFriendStatus(userId, "isSendFriendRequest");
+        }, self.eventsIds);
+
+        eventService.Register("sendFriendRequest", (userId: string) => {
+            self.SetUserFriendStatus(userId, "isGetFriendRequest");
+        }, self.eventsIds);
+
+        eventService.Register("removeFriendRequest", (userId: string) => {
+            self.UnsetUserFriendStatus(userId, "isGetFriendRequest");
+        }, self.eventsIds);
+
+        //#endregion
     }
 
     ngOnInit() {
@@ -57,7 +63,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         // In case of route params changes.
         this.route.params.subscribe(params => {
             this.searchString = params["name"];
-            this.globalService.setData("changeSearchInput", this.searchString);
+            this.eventService.Emit("changeSearchInput", this.searchString);
 
             // In case there is a search string.
             if (this.searchString) {
@@ -144,7 +150,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.subscribeObj.unsubscribe();
+        this.eventService.unsubscribeEvents(this.eventsIds);
     }
 
     ResetUserFriendStatus(user: any) {
@@ -207,12 +213,12 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     }
 
     AddFriendRequest(user: any) {
-        this.globalService.setData("addFriendRequest", user._id);
+        this.eventService.Emit("addFriendRequest", user._id);
         user.isGetFriendRequest = true;
     }
 
     RemoveFriendRequest(user: any) {
-        this.globalService.setData("removeFriendRequest", user._id);
+        this.eventService.Emit("removeFriendRequest", user._id);
         user.isGetFriendRequest = false;
     }
 

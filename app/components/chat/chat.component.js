@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var chat_service_1 = require("../../services/chat/chat.service");
 var global_service_1 = require("../../services/global/global.service");
+var event_service_1 = require("../../services/event/event.service");
 var snackbar_service_1 = require("../../services/snackbar/snackbar.service");
 var TopIcon = /** @class */ (function () {
     function TopIcon() {
@@ -26,26 +27,28 @@ var CanvasTopIcon = /** @class */ (function () {
 }());
 exports.CanvasTopIcon = CanvasTopIcon;
 var ChatComponent = /** @class */ (function () {
-    function ChatComponent(chatService, snackbarService, globalService) {
-        var _this = this;
+    function ChatComponent(chatService, snackbarService, globalService, eventService) {
         this.chatService = chatService;
         this.snackbarService = snackbarService;
         this.globalService = globalService;
+        this.eventService = eventService;
         this.chatBodyScrollHeight = 0;
         this.messageNotificationDelay = 3800; // milliseconds
-        this.subscribeObj = this.globalService.data.subscribe(function (value) {
-            if (value["chatData"]) {
-                _this.chatData = value["chatData"];
-                _this.InitializeChat();
-            }
-            if (value["moveToChatWindow"]) {
-                _this.SelectTopIcon(_this.GetTopIconById("chat"));
-            }
-            if (value["closeChat"]) {
-                _this.CloseChat();
-            }
-        });
+        //#endregion
+        this.eventsIds = [];
         var self = this;
+        //#region events
+        eventService.Register("setChatData", function (chatData) {
+            self.chatData = chatData;
+            self.InitializeChat();
+        }, self.eventsIds);
+        eventService.Register("moveToChatWindow", function () {
+            self.SelectTopIcon(self.GetTopIconById("chat"));
+        }, self.eventsIds);
+        eventService.Register("closeChat", function () {
+            self.CloseChat();
+        }, self.eventsIds);
+        //#endregion
         self.topIcons = [
             {
                 id: "chat",
@@ -224,14 +227,14 @@ var ChatComponent = /** @class */ (function () {
     };
     ChatComponent.prototype.ngOnDestroy = function () {
         var self = this;
-        self.subscribeObj.unsubscribe();
-        Object.keys(this.canvasEvents).forEach(function (key) {
+        self.eventService.unsubscribeEvents(self.eventsIds);
+        Object.keys(self.canvasEvents).forEach(function (key) {
             self.canvas.removeEventListener(key, self.canvasEvents[key], false);
         });
         $("#canvas-top-bar-sector").unbind('touchstart', preventZoom);
         $("#canvas-bar-sector").unbind('touchstart', preventZoom);
         window.removeEventListener("resize", self.CanvasResizeFunc);
-        this.isCanvasInitialize = false;
+        self.isCanvasInitialize = false;
     };
     ChatComponent.prototype.ngAfterViewChecked = function () {
         if ($("#chat-body-sector")[0].scrollHeight != this.chatBodyScrollHeight && this.isAllowScrollDown) {
@@ -553,7 +556,7 @@ var ChatComponent = /** @class */ (function () {
         }
     };
     ChatComponent.prototype.MoveToFriendPage = function (friendObj) {
-        this.globalService.setData("openUserProfile", friendObj);
+        this.eventService.Emit("openUserProfile", friendObj);
     };
     __decorate([
         core_1.Input(),
@@ -576,7 +579,8 @@ var ChatComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [chat_service_1.ChatService,
             snackbar_service_1.SnackbarService,
-            global_service_1.GlobalService])
+            global_service_1.GlobalService,
+            event_service_1.EventService])
     ], ChatComponent);
     return ChatComponent;
 }());

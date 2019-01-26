@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 
 import { GlobalService } from '../../../services/global/global.service';
+import { EventService } from '../../../services/event/event.service';
 import { FriendRequestsWindowService } from '../../../services/navbar/friendRequestsWindow/friendRequestsWindow.service';
 import { NavbarService } from '../../../services/navbar/navbar.service';
 
@@ -32,7 +33,8 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     constructor(private router: Router,
         private navbarService: NavbarService,
         private friendRequestsWindowService: FriendRequestsWindowService,
-        private globalService: GlobalService) { }
+        private globalService: GlobalService,
+        private eventService: EventService) { }
 
     ngOnInit() {
         var self = this;
@@ -173,6 +175,6 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
 
     OpenUserPage(friendId: string) {
         this.router.navigateByUrl("/profile/" + friendId);
-        this.globalService.setData("hideSidenav", true);
+        this.eventService.Emit("hideSidenav", true);
     }
 }

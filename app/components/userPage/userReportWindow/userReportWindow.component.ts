@@ -3,6 +3,7 @@ import { Component, Input, OnInit, HostListener } from '@angular/core';
 import { UserReportWindowService } from '../../../services/userPage/userReportWindow/userReportWindow.service';
 import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
 import { GlobalService } from '../../../services/global/global.service';
+import { EventService } from '../../../services/event/event.service';
 
 class ReportReason {
     _id: string;
@@ -27,8 +28,8 @@ export class UserReportWindowComponent implements OnInit {
     isLoading: boolean;
 
     constructor(private userReportWindowService: UserReportWindowService,
-        private alertService: AlertService,
-        private globalService: GlobalService) { }
+        private alertService: AlertService,    
+        private eventService: EventService) { }
 
     ngOnInit() {
         this.isLoading = true;
@@ -52,7 +53,7 @@ export class UserReportWindowComponent implements OnInit {
     }
 
     CloseWindow() {
-        this.globalService.setData("closeUserReportWindow", true);
+        this.eventService.Emit("closeUserReportWindow");
     }
 
     InitializeReasonButtons() {

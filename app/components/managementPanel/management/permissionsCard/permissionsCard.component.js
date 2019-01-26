@@ -12,44 +12,47 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var permissionsCard_service_1 = require("../../../../services/managementPanel/management/permissionsCard/permissionsCard.service");
 var global_service_1 = require("../../../../services/global/global.service");
+var event_service_1 = require("../../../../services/event/event.service");
 var snackbar_service_1 = require("../../../../services/snackbar/snackbar.service");
 var PermissionsCardComponent = /** @class */ (function () {
-    function PermissionsCardComponent(globalService, snackbarService, permissionsCardService) {
-        var _this = this;
+    function PermissionsCardComponent(globalService, eventService, snackbarService, permissionsCardService) {
         this.globalService = globalService;
+        this.eventService = eventService;
         this.snackbarService = snackbarService;
         this.permissionsCardService = permissionsCardService;
         this.permissions = [];
-        this.subscribeObj = this.globalService.data.subscribe(function (value) {
-            if (value["isOpenPermissionsCard"]) {
-                _this.user = value["isOpenPermissionsCard"];
-                _this.isLoading = true;
-                permissionsCardService.GetUserPermissions(_this.user._id).then(function (result) {
-                    _this.isLoading = false;
-                    if (result) {
-                        _this.permissions.forEach(function (permission) {
-                            if (result.indexOf(permission.type) != -1) {
-                                permission.isChecked = true;
-                            }
-                            else {
-                                permission.isChecked = false;
-                            }
-                        });
-                    }
-                });
-                $("#permissions-modal").modal('show');
-            }
-        });
-        this.isLoading = true;
+        this.eventsIds = [];
+        var self = this;
+        //#region events
+        eventService.Register("openPermissionsCard", function (user) {
+            self.user = user;
+            self.isLoading = true;
+            permissionsCardService.GetUserPermissions(self.user._id).then(function (result) {
+                self.isLoading = false;
+                if (result) {
+                    self.permissions.forEach(function (permission) {
+                        if (result.indexOf(permission.type) != -1) {
+                            permission.isChecked = true;
+                        }
+                        else {
+                            permission.isChecked = false;
+                        }
+                    });
+                }
+            });
+            $("#permissions-modal").modal('show');
+        }, self.eventsIds);
+        //#endregion
+        self.isLoading = true;
         permissionsCardService.GetAllPermissions().then(function (result) {
-            _this.isLoading = false;
+            self.isLoading = false;
             if (result) {
-                _this.permissions = result;
+                self.permissions = result;
             }
         });
     }
     PermissionsCardComponent.prototype.ngOnDestroy = function () {
-        this.subscribeObj.unsubscribe();
+        this.eventService.unsubscribeEvents(this.eventsIds);
     };
     PermissionsCardComponent.prototype.UpdatePermissions = function () {
         var _this = this;
@@ -73,6 +76,7 @@ var PermissionsCardComponent = /** @class */ (function () {
             styleUrls: ['./permissionsCard.css']
         }),
         __metadata("design:paramtypes", [global_service_1.GlobalService,
+            event_service_1.EventService,
             snackbar_service_1.SnackbarService,
             permissionsCard_service_1.PermissionsCardService])
     ], PermissionsCardComponent);

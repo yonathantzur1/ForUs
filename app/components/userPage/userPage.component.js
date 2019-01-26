@@ -12,12 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var global_service_1 = require("../../services/global/global.service");
+var event_service_1 = require("../../services/event/event.service");
 var cookie_service_1 = require("../../services/cookie/cookie.service");
 var alert_service_1 = require("../../services/alert/alert.service");
 var userPage_service_1 = require("../../services/userPage/userPage.service");
 var snackbar_service_1 = require("../../services/snackbar/snackbar.service");
 var UserPageComponent = /** @class */ (function () {
-    function UserPageComponent(router, route, userPageService, alertService, snackbarService, globalService, cookieService) {
+    function UserPageComponent(router, route, userPageService, alertService, snackbarService, globalService, eventService, cookieService) {
         var _this = this;
         this.router = router;
         this.route = route;
@@ -25,45 +26,43 @@ var UserPageComponent = /** @class */ (function () {
         this.alertService = alertService;
         this.snackbarService = snackbarService;
         this.globalService = globalService;
+        this.eventService = eventService;
         this.cookieService = cookieService;
         this.isShowUserEditWindow = false;
         this.isShowUserReportWindow = false;
         this.isShowUserPasswordWindow = false;
         this.isShowUserPrivacyWindow = false;
         this.isOverlay = false;
-        this.subscribeObj = this.globalService.data.subscribe(function (value) {
-            // In case the user profile picture updated.
-            if (value["newUploadedImage"]) {
-                _this.user.profileImage = _this.user.profileImage || {};
-                _this.user.profileImage.image = value["newUploadedImage"];
-            }
-            // In case the user profile picture deleted.
-            if (value["isImageDeleted"]) {
-                delete _this.user.profileImage;
-            }
-            if (value["closeUserEditWindow"]) {
-                _this.isShowUserEditWindow = false;
-                _this.globalService.setData("setNavbarTop", true);
-            }
-            if (value["closeUserReportWindow"]) {
-                _this.isShowUserReportWindow = false;
-                _this.globalService.setData("setNavbarTop", true);
-            }
-            if (value["closeUserPasswordWindow"]) {
-                _this.isShowUserPasswordWindow = false;
-                _this.globalService.setData("setNavbarTop", true);
-            }
-            if (value["closeUserPrivacyWindow"]) {
-                _this.isShowUserPrivacyWindow = false;
-                _this.globalService.setData("setNavbarTop", true);
-            }
-            if (value["IgnoreFriendRequest"]) {
-                if (value["IgnoreFriendRequest"] == _this.user._id) {
-                    _this.UnsetUserFriendStatus("isSendFriendRequest");
-                }
-            }
-        });
+        this.eventsIds = [];
         var self = this;
+        //#region events
+        eventService.Register("newUploadedImage", function (img) {
+            self.user.profileImage = self.user.profileImage || {};
+            self.user.profileImage.image = img;
+        }, self.eventsIds);
+        eventService.Register("deleteProfileImage", function () {
+            delete self.user.profileImage;
+        }, self.eventsIds);
+        eventService.Register("closeUserEditWindow", function () {
+            self.isShowUserEditWindow = false;
+            self.eventService.Emit("setNavbarTop", true);
+        }, self.eventsIds);
+        eventService.Register("closeUserReportWindow", function () {
+            self.isShowUserReportWindow = false;
+            self.eventService.Emit("setNavbarTop", true);
+        }, self.eventsIds);
+        eventService.Register("closeUserPasswordWindow", function () {
+            self.isShowUserPasswordWindow = false;
+            self.eventService.Emit("setNavbarTop", true);
+        }, self.eventsIds);
+        eventService.Register("closeUserPrivacyWindow", function () {
+            self.isShowUserPrivacyWindow = false;
+            self.eventService.Emit("setNavbarTop", true);
+        }, self.eventsIds);
+        eventService.Register("ignoreFriendRequest", function (userId) {
+            (userId == _this.user._id) && self.UnsetUserFriendStatus("isSendFriendRequest");
+        }, self.eventsIds);
+        //#endregion
         self.tabs = [
             {
                 id: "edit",
@@ -135,7 +134,7 @@ var UserPageComponent = /** @class */ (function () {
                 },
                 onClick: function () {
                     self.SetUserFriendStatus("isGetFriendRequest");
-                    self.globalService.setData("addFriendRequest", self.user._id);
+                    self.eventService.Emit("addFriendRequest", self.user._id);
                 }
             },
             {
@@ -151,14 +150,14 @@ var UserPageComponent = /** @class */ (function () {
                         text: "אישור חברות",
                         action: function () {
                             self.SetUserFriendStatus("isFriend");
-                            self.globalService.setData("addFriend", self.user._id);
+                            self.eventService.Emit("addFriend", self.user._id);
                         }
                     },
                     {
                         text: "דחיית חברות",
                         action: function () {
                             self.UnsetUserFriendStatus("isSendFriendRequest");
-                            self.globalService.setData("ignoreFriendRequest", self.user._id);
+                            self.eventService.Emit("ignoreFriendRequest", self.user._id);
                         }
                     }
                 ]
@@ -173,7 +172,7 @@ var UserPageComponent = /** @class */ (function () {
                 },
                 onClick: function () {
                     self.UnsetUserFriendStatus("isGetFriendRequest");
-                    self.globalService.setData("removeFriendRequest", self.user._id);
+                    self.eventService.Emit("removeFriendRequest", self.user._id);
                 }
             },
             {
@@ -185,7 +184,7 @@ var UserPageComponent = /** @class */ (function () {
                     return self.user.isFriend;
                 },
                 onClick: function () {
-                    self.globalService.setData("openChat", self.user);
+                    self.eventService.Emit("openChat", self.user);
                 }
             },
             {
@@ -264,7 +263,7 @@ var UserPageComponent = /** @class */ (function () {
             // Reset user object.
             _this.user = null;
             // Close chat window in case it is open.
-            _this.globalService.setData("closeChat", true);
+            _this.eventService.Emit("closeChat", true);
             // Get user details by user id route parameter.
             _this.userPageService.GetUserDetails(params["id"]).then(function (user) {
                 // In case the user was found.
@@ -317,11 +316,11 @@ var UserPageComponent = /** @class */ (function () {
         });
     };
     UserPageComponent.prototype.ngOnDestroy = function () {
-        this.subscribeObj.unsubscribe();
+        this.eventService.unsubscribeEvents(this.eventsIds);
     };
     UserPageComponent.prototype.OpenUserWindow = function (windowShowPropertyName) {
-        this.globalService.setData("setNavbarUnder", true);
-        this.globalService.setData("closeChat", true);
+        this.eventService.Emit("setNavbarUnder", true);
+        this.eventService.Emit("closeChat", true);
         this[windowShowPropertyName] = true;
     };
     UserPageComponent.prototype.ChangeTabOptionsMenuState = function (tab) {
@@ -342,7 +341,7 @@ var UserPageComponent = /** @class */ (function () {
     };
     UserPageComponent.prototype.InitializePage = function (user) {
         this.CloseAllTabsOptionsMenus();
-        this.globalService.setData("changeSearchInput", user.firstName + " " + user.lastName);
+        this.eventService.Emit("changeSearchInput", user.firstName + " " + user.lastName);
         this.user = user;
     };
     UserPageComponent.prototype.UnsetUserFriendStatus = function (field) {
@@ -374,7 +373,7 @@ var UserPageComponent = /** @class */ (function () {
     UserPageComponent.prototype.OpenProfileEditWindow = function () {
         this.CloseAllTabsOptionsMenus();
         if (this.IsUserPageSelf()) {
-            this.globalService.setData("openProfileEditWindow", true);
+            this.eventService.Emit("openProfileEditWindow", true);
         }
     };
     UserPageComponent.prototype.CloseTabOptions = function (tab) {
@@ -394,6 +393,7 @@ var UserPageComponent = /** @class */ (function () {
             alert_service_1.AlertService,
             snackbar_service_1.SnackbarService,
             global_service_1.GlobalService,
+            event_service_1.EventService,
             cookie_service_1.CookieService])
     ], UserPageComponent);
     return UserPageComponent;

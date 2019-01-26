@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var global_service_1 = require("../../services/global/global.service");
+var event_service_1 = require("../../services/event/event.service");
 var alert_service_1 = require("../../services/alert/alert.service");
 var snackbar_service_1 = require("../../services/snackbar/snackbar.service");
 var auth_service_1 = require("../../services/auth/auth.service");
@@ -37,11 +38,12 @@ var DropMenuData = /** @class */ (function () {
 }());
 exports.DropMenuData = DropMenuData;
 var NavbarComponent = /** @class */ (function () {
-    function NavbarComponent(router, authService, globalService, alertService, snackbarService, navbarService) {
+    function NavbarComponent(router, authService, globalService, eventService, alertService, snackbarService, navbarService) {
         var _this = this;
         this.router = router;
         this.authService = authService;
         this.globalService = globalService;
+        this.eventService = eventService;
         this.alertService = alertService;
         this.snackbarService = snackbarService;
         this.navbarService = navbarService;
@@ -77,52 +79,52 @@ var NavbarComponent = /** @class */ (function () {
         // Search users cache objects
         this.searchCache = {};
         this.profilesCache = {};
-        this.subscribeObj = this.globalService.data.subscribe(function (value) {
-            // In case isOpenProfileEditWindow is true or false
-            if (value["isOpenProfileEditWindow"] != null) {
-                value["isOpenProfileEditWindow"] && _this.ClosePopups();
-                _this.isOpenProfileEditWindow = value["isOpenProfileEditWindow"];
-            }
-            if (value["setNavbarUnder"]) {
-                _this.isNavbarUnder = true;
-            }
-            if (value["setNavbarTop"]) {
-                _this.isNavbarUnder = false;
-            }
-            if (value["hideSidenav"]) {
-                _this.HideSidenav();
-            }
-            if (value["closeDropMenu"]) {
-                _this.isDropMenuOpen = false;
-            }
-            if (value["openNewWindow"]) {
-                _this.OpenNewWindow();
-            }
-            if (value["changeSearchInput"]) {
-                _this.searchInput = value["changeSearchInput"];
-            }
-            if (value["openChat"]) {
-                _this.OpenChat(value["openChat"]);
-            }
-            if (value["openUserProfile"]) {
-                _this.OpenUserProfile(value["openUserProfile"]);
-            }
-            // ------------ Friend requests functions ------------
-            if (value["addFriendRequest"]) {
-                _this.AddFriendRequest(value["addFriendRequest"]);
-            }
-            if (value["removeFriendRequest"]) {
-                _this.RemoveFriendRequest(value["removeFriendRequest"]);
-            }
-            if (value["addFriend"]) {
-                _this.AddFriend(value["addFriend"]);
-            }
-            if (value["ignoreFriendRequest"]) {
-                _this.IgnoreFriendRequest(value["ignoreFriendRequest"]);
-            }
-            // ----------------------------------------------------------
-        });
+        this.eventsIds = [];
         var self = this;
+        //#region events
+        eventService.Register("showProfileEditWindow", function (isShow) {
+            isShow && _this.ClosePopups();
+            self.isOpenProfileEditWindow = isShow;
+        }, self.eventsIds);
+        eventService.Register("setNavbarUnder", function () {
+            self.isNavbarUnder = true;
+        }, self.eventsIds);
+        eventService.Register("setNavbarTop", function () {
+            self.isNavbarUnder = false;
+        }, self.eventsIds);
+        eventService.Register("hideSidenav", function () {
+            self.HideSidenav();
+        }, self.eventsIds);
+        eventService.Register("closeDropMenu", function () {
+            self.isDropMenuOpen = false;
+        }, self.eventsIds);
+        eventService.Register("openNewWindow", function () {
+            self.OpenNewWindow();
+        }, self.eventsIds);
+        eventService.Register("changeSearchInput", function (input) {
+            self.searchInput = input;
+        }, self.eventsIds);
+        eventService.Register("openChat", function (friend) {
+            self.OpenChat(friend);
+        }, self.eventsIds);
+        eventService.Register("openUserProfile", function (user) {
+            self.OpenUserProfile(user);
+        }, self.eventsIds);
+        //#region friend requests functions
+        eventService.Register("addFriendRequest", function (friendId) {
+            self.AddFriendRequest(friendId);
+        }, self.eventsIds);
+        eventService.Register("removeFriendRequest", function (friendId) {
+            self.RemoveFriendRequest(friendId);
+        }, self.eventsIds);
+        eventService.Register("addFriend", function (friendId) {
+            self.AddFriend(friendId);
+        }, self.eventsIds);
+        eventService.Register("ignoreFriendRequest", function (friendId) {
+            self.IgnoreFriendRequest(friendId);
+        }, self.eventsIds);
+        //#endregion
+        //#endregion
         self.toolbarItems = [
             {
                 id: "messages",
@@ -323,7 +325,7 @@ var NavbarComponent = /** @class */ (function () {
         });
     };
     NavbarComponent.prototype.ngOnDestroy = function () {
-        this.subscribeObj.unsubscribe();
+        this.eventService.unsubscribeEvents(this.eventsIds);
         clearInterval(this.checkSocketConnectInterval);
         clearInterval(this.checkOnlineFriendsInterval);
     };
@@ -661,7 +663,7 @@ var NavbarComponent = /** @class */ (function () {
     NavbarComponent.prototype.GetFriendUnreadMessagesNumberText = function (friendId) {
         var friendNotificationsMessages = this.GetToolbarItem("messages").content[friendId];
         if (friendNotificationsMessages) {
-            return "(" + friendNotificationsMessages.unreadMessagesNumber + ")";
+            return "- (" + friendNotificationsMessages.unreadMessagesNumber + ")";
         }
         else {
             return "";
@@ -682,10 +684,10 @@ var NavbarComponent = /** @class */ (function () {
             this.chatData.user = this.user;
             this.chatData.messagesNotifications = messagesNotifications;
             this.chatData.isOpen = true;
-            this.globalService.setData("chatData", this.chatData);
+            this.eventService.Emit("setChatData", this.chatData);
         }
         else {
-            this.globalService.setData("moveToChatWindow", true);
+            this.eventService.Emit("moveToChatWindow", true);
         }
     };
     NavbarComponent.prototype.ShowHideChatsWindow = function () {
@@ -716,7 +718,7 @@ var NavbarComponent = /** @class */ (function () {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("SendFriendRequest", friendId);
-                self.globalService.setData("SendFriendRequest", friendId);
+                self.eventService.Emit("sendFriendRequest", friendId);
                 self.snackbarService.Snackbar("נשלחה בקשת חברות");
             }
         });
@@ -729,7 +731,7 @@ var NavbarComponent = /** @class */ (function () {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("RemoveFriendRequest", self.user._id, friendId);
-                self.globalService.setData("RemoveFriendRequest", friendId);
+                self.eventService.Emit("removeFriendRequest", friendId);
                 self.snackbarService.Snackbar("בקשת החברות בוטלה");
             }
         });
@@ -744,7 +746,7 @@ var NavbarComponent = /** @class */ (function () {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("ServerIgnoreFriendRequest", self.user._id, friendId);
                 self.globalService.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
-                self.globalService.setData("IgnoreFriendRequest", friendId);
+                self.eventService.Emit("ignoreFriendRequest", friendId);
             }
             callback && callback(result);
         });
@@ -942,6 +944,7 @@ var NavbarComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [router_1.Router,
             auth_service_1.AuthService,
             global_service_1.GlobalService,
+            event_service_1.EventService,
             alert_service_1.AlertService,
             snackbar_service_1.SnackbarService,
             navbar_service_1.NavbarService])

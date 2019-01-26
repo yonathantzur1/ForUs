@@ -11,11 +11,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var global_service_1 = require("../../services/global/global.service");
+var event_service_1 = require("../../services/event/event.service");
 var DropMenuComponent = /** @class */ (function () {
-    function DropMenuComponent(router, globalService) {
+    function DropMenuComponent(router, eventService) {
         this.router = router;
-        this.globalService = globalService;
+        this.eventService = eventService;
     }
     DropMenuComponent.prototype.ActiveAction = function (action, link) {
         if (action) {
@@ -24,8 +24,8 @@ var DropMenuComponent = /** @class */ (function () {
         else {
             link && this.router.navigateByUrl(link);
         }
-        this.globalService.setData("closeDropMenu", true);
-        this.globalService.setData("openNewWindow", true);
+        this.eventService.Emit("closeDropMenu", true);
+        this.eventService.Emit("openNewWindow", true);
     };
     __decorate([
         core_1.Input(),
@@ -38,7 +38,7 @@ var DropMenuComponent = /** @class */ (function () {
             providers: [],
             styleUrls: ['./dropMenu.css']
         }),
-        __metadata("design:paramtypes", [router_1.Router, global_service_1.GlobalService])
+        __metadata("design:paramtypes", [router_1.Router, event_service_1.EventService])
     ], DropMenuComponent);
     return DropMenuComponent;
 }());

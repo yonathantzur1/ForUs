@@ -14,14 +14,15 @@ var router_1 = require("@angular/router");
 var navbar_component_1 = require("../../navbar/navbar.component");
 var management_service_1 = require("../../../services/managementPanel/management/management.service");
 var global_service_1 = require("../../../services/global/global.service");
+var event_service_1 = require("../../../services/event/event.service");
 var alert_service_1 = require("../../../services/alert/alert.service");
 var snackbar_service_1 = require("../../../services/snackbar/snackbar.service");
 var ManagementComponent = /** @class */ (function () {
-    function ManagementComponent(router, route, globalService, managementService, alertService, snackbarService) {
-        var _this = this;
+    function ManagementComponent(router, route, globalService, eventService, managementService, alertService, snackbarService) {
         this.router = router;
         this.route = route;
         this.globalService = globalService;
+        this.eventService = eventService;
         this.managementService = managementService;
         this.alertService = alertService;
         this.snackbarService = snackbarService;
@@ -33,12 +34,13 @@ var ManagementComponent = /** @class */ (function () {
         this.userFriendContainerWidth = 110;
         // Animation properties    
         this.openCardAnimationTime = 200;
-        this.subscribeObj = this.globalService.data.subscribe(function (value) {
-            if (value["closeDropMenu"]) {
-                _this.CloseAllUsersMenu();
-            }
-        });
+        this.eventsIds = [];
         var self = this;
+        //#region events
+        eventService.Register("closeDropMenu", function () {
+            self.CloseAllUsersMenu();
+        }, self.eventsIds);
+        //#endregion
         self.dropMenuDataList = [
             new navbar_component_1.DropMenuData(null, "עריכה", function () {
                 var user = self.GetUserWithOpenMenu();
@@ -81,7 +83,7 @@ var ManagementComponent = /** @class */ (function () {
                 }
             }),
             new navbar_component_1.DropMenuData(null, "הרשאות", function () {
-                self.globalService.setData("isOpenPermissionsCard", self.GetUserWithOpenMenu());
+                self.eventService.Emit("openPermissionsCard", self.GetUserWithOpenMenu());
             }, function () {
                 return (self.globalService.IsUserHasMasterPermission());
             }),
@@ -103,7 +105,7 @@ var ManagementComponent = /** @class */ (function () {
         });
     };
     ManagementComponent.prototype.ngOnDestroy = function () {
-        this.subscribeObj.unsubscribe();
+        this.eventService.unsubscribeEvents(this.eventsIds);
     };
     ManagementComponent.prototype.SearchUser = function (userId) {
         var _this = this;
@@ -458,6 +460,7 @@ var ManagementComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [router_1.Router,
             router_1.ActivatedRoute,
             global_service_1.GlobalService,
+            event_service_1.EventService,
             management_service_1.ManagementService,
             alert_service_1.AlertService,
             snackbar_service_1.SnackbarService])

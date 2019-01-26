@@ -13,6 +13,7 @@ var core_1 = require("@angular/core");
 var userPasswordWindow_service_1 = require("../../../services/userPage/userPasswordWindow/userPasswordWindow.service");
 var alert_service_1 = require("../../../services/alert/alert.service");
 var global_service_1 = require("../../../services/global/global.service");
+var event_service_1 = require("../../../services/event/event.service");
 var microtext_service_1 = require("../../../services/microtext/microtext.service");
 var enums_1 = require("../../../enums/enums");
 var Password = /** @class */ (function () {
@@ -24,8 +25,9 @@ var Password = /** @class */ (function () {
 }());
 exports.Password = Password;
 var UserPasswordWindowComponent = /** @class */ (function () {
-    function UserPasswordWindowComponent(globalService, alertService, microtextService, userPasswordWindowService) {
+    function UserPasswordWindowComponent(globalService, eventService, alertService, microtextService, userPasswordWindowService) {
         this.globalService = globalService;
+        this.eventService = eventService;
         this.alertService = alertService;
         this.microtextService = microtextService;
         this.userPasswordWindowService = userPasswordWindowService;
@@ -51,7 +53,7 @@ var UserPasswordWindowComponent = /** @class */ (function () {
         ];
     }
     UserPasswordWindowComponent.prototype.CloseWindow = function () {
-        this.globalService.setData("closeUserPasswordWindow", true);
+        this.eventService.Emit("closeUserPasswordWindow");
     };
     // Hide microtext in a specific field.
     UserPasswordWindowComponent.prototype.HideMicrotext = function (microtextId) {
@@ -132,6 +134,7 @@ var UserPasswordWindowComponent = /** @class */ (function () {
             styleUrls: ['./userPasswordWindow.css']
         }),
         __metadata("design:paramtypes", [global_service_1.GlobalService,
+            event_service_1.EventService,
             alert_service_1.AlertService,
             microtext_service_1.MicrotextService,
             userPasswordWindow_service_1.UserPasswordWindowService])

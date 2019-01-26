@@ -11,15 +11,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var global_service_1 = require("../../../services/global/global.service");
+var event_service_1 = require("../../../services/event/event.service");
 var friendRequestsWindow_service_1 = require("../../../services/navbar/friendRequestsWindow/friendRequestsWindow.service");
 var navbar_service_1 = require("../../../services/navbar/navbar.service");
 var router_1 = require("@angular/router");
 var FriendRequestsWindowComponent = /** @class */ (function () {
-    function FriendRequestsWindowComponent(router, navbarService, friendRequestsWindowService, globalService) {
+    function FriendRequestsWindowComponent(router, navbarService, friendRequestsWindowService, globalService, eventService) {
         this.router = router;
         this.navbarService = navbarService;
         this.friendRequestsWindowService = friendRequestsWindowService;
         this.globalService = globalService;
+        this.eventService = eventService;
         this.friendRequestsObjects = [];
         this.friendConfirmObjects = [];
         this.isFirstClosing = true;
@@ -143,7 +145,7 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
     };
     FriendRequestsWindowComponent.prototype.OpenUserPage = function (friendId) {
         this.router.navigateByUrl("/profile/" + friendId);
-        this.globalService.setData("hideSidenav", true);
+        this.eventService.Emit("hideSidenav", true);
     };
     __decorate([
         core_1.Input(),
@@ -175,7 +177,8 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [router_1.Router,
             navbar_service_1.NavbarService,
             friendRequestsWindow_service_1.FriendRequestsWindowService,
-            global_service_1.GlobalService])
+            global_service_1.GlobalService,
+            event_service_1.EventService])
     ], FriendRequestsWindowComponent);
     return FriendRequestsWindowComponent;
 }());

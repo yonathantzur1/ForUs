@@ -41,6 +41,7 @@ import { LoginGuard } from '../../guards/login/login.guard';
 // Global services
 import { AuthService } from '../../services/auth/auth.service';
 import { GlobalService } from '../../services/global/global.service';
+import { EventService } from '../../services/event/event.service';
 import { AlertService } from '../../services/alert/alert.service';
 import { CookieService } from '../../services/cookie/cookie.service';
 import { SnackbarService } from '../../services/snackbar/snackbar.service';
@@ -92,6 +93,7 @@ import { Routing } from '../../routes/app/app.routing'
     LoginGuard,
     AuthService,
     GlobalService,
+    EventService,
     AlertService,
     CookieService,
     SnackbarService,

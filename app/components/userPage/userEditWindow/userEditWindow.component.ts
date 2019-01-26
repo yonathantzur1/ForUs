@@ -3,6 +3,7 @@ import { Component, Input, OnInit, HostListener } from '@angular/core';
 import { UserEditWindowService } from '../../../services/userPage/userEditWindow/userEditWindow.service';
 import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
 import { GlobalService } from '../../../services/global/global.service';
+import { EventService } from '../../../services/event/event.service';
 import { MicrotextService, InputFieldValidation } from '../../../services/microtext/microtext.service';
 
 import { USER_UPDATE_INFO_ERROR } from '../../../enums/enums'
@@ -72,6 +73,7 @@ export class UserEditWindowComponent implements OnInit {
     constructor(private userEditWindowService: UserEditWindowService,
         private alertService: AlertService,
         private globalService: GlobalService,
+        private eventService: EventService,
         private microtextService: MicrotextService) { }
 
     ngOnInit() {
@@ -106,7 +108,7 @@ export class UserEditWindowComponent implements OnInit {
     }
 
     CloseWindow() {
-        this.globalService.setData("closeUserEditWindow", true);
+        this.eventService.Emit("closeUserEditWindow", true);
     }
 
     // Hide microtext in a specific field.

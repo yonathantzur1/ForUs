@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 
 import { GlobalService } from '../../services/global/global.service';
+import { EventService } from '../../services/event/event.service';
 
 @Component({
     selector: 'profilePicture',
@@ -13,43 +14,43 @@ export class ProfilePictureComponent implements OnDestroy {
     @Input() isEditEnable: string;
     isUserHasImage: boolean;
 
-    subscribeObj: any;
+    eventsIds: Array<string> = [];
 
-    constructor(private globalService: GlobalService) {
-        this.subscribeObj = this.globalService.data.subscribe((value: any) => {
-            if (value["newUploadedImage"]) {
-                globalService.userProfileImage = value["newUploadedImage"];
-                this.isUserHasImage = true;
-            }
+    constructor(private globalService: GlobalService,
+        private eventService: EventService) {
 
-            if (value["isImageDeleted"]) {
-                globalService.userProfileImage = null;
-                this.isUserHasImage = false;
-                this.globalService.setData("userImage", null);
-            }
+        var self = this;
 
-            if (value["userProfileImageLoaded"]) {
-                if (this.globalService.userProfileImage) {
-                    this.isUserHasImage = true;
-                }
-                else {
-                    this.isUserHasImage = false;
-                }
-            }
+        //#region events
 
-            if (value["openProfileEditWindow"]) {
-                this.OpenEditWindow();
-            }
-        });
+        eventService.Register("newUploadedImage", (img: string) => {
+            globalService.userProfileImage = img;
+            self.isUserHasImage = true;
+        }, self.eventsIds);
+
+        eventService.Register("deleteProfileImage", () => {
+            globalService.userProfileImage = null;
+            self.isUserHasImage = false;
+        }, self.eventsIds);
+
+        eventService.Register("userProfileImageLoaded", () => {
+            self.isUserHasImage = self.globalService.userProfileImage ? true : false;
+        }, self.eventsIds);
+
+        eventService.Register("openProfileEditWindow", () => {
+            self.OpenEditWindow();
+        }, self.eventsIds);
+
+        //#endregion
     }
 
     ngOnDestroy() {
-        this.subscribeObj.unsubscribe();
+        this.eventService.unsubscribeEvents(this.eventsIds);
     }
 
     OpenEditWindow() {
         if (this.isEditEnable && this.isUserHasImage != null) {
-            this.globalService.setData("isOpenProfileEditWindow", true);
+            this.eventService.Emit("showProfileEditWindow", true);
         }
     }
 

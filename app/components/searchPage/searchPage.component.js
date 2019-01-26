@@ -13,6 +13,7 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var alert_service_1 = require("../../services/alert/alert.service");
 var global_service_1 = require("../../services/global/global.service");
+var event_service_1 = require("../../services/event/event.service");
 var searchPage_service_1 = require("../../services/searchPage/searchPage.service");
 var FriendsStatus = /** @class */ (function () {
     function FriendsStatus() {
@@ -20,25 +21,27 @@ var FriendsStatus = /** @class */ (function () {
     return FriendsStatus;
 }());
 var SearchPageComponent = /** @class */ (function () {
-    function SearchPageComponent(router, route, alertService, globalService, searchPageService) {
-        var _this = this;
+    function SearchPageComponent(router, route, alertService, globalService, eventService, searchPageService) {
         this.router = router;
         this.route = route;
         this.alertService = alertService;
         this.globalService = globalService;
+        this.eventService = eventService;
         this.searchPageService = searchPageService;
         this.isLoading = false;
-        this.subscribeObj = this.globalService.data.subscribe(function (value) {
-            if (value["IgnoreFriendRequest"]) {
-                _this.UnsetUserFriendStatus(value["IgnoreFriendRequest"], "isSendFriendRequest");
-            }
-            if (value["SendFriendRequest"]) {
-                _this.SetUserFriendStatus(value["SendFriendRequest"], "isGetFriendRequest");
-            }
-            if (value["RemoveFriendRequest"]) {
-                _this.UnsetUserFriendStatus(value["RemoveFriendRequest"], "isGetFriendRequest");
-            }
-        });
+        this.eventsIds = [];
+        var self = this;
+        //#region events
+        eventService.Register("ignoreFriendRequest", function (userId) {
+            self.UnsetUserFriendStatus(userId, "isSendFriendRequest");
+        }, self.eventsIds);
+        eventService.Register("sendFriendRequest", function (userId) {
+            self.SetUserFriendStatus(userId, "isGetFriendRequest");
+        }, self.eventsIds);
+        eventService.Register("removeFriendRequest", function (userId) {
+            self.UnsetUserFriendStatus(userId, "isGetFriendRequest");
+        }, self.eventsIds);
+        //#endregion
     }
     SearchPageComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -51,7 +54,7 @@ var SearchPageComponent = /** @class */ (function () {
         // In case of route params changes.
         this.route.params.subscribe(function (params) {
             _this.searchString = params["name"];
-            _this.globalService.setData("changeSearchInput", _this.searchString);
+            _this.eventService.Emit("changeSearchInput", _this.searchString);
             // In case there is a search string.
             if (_this.searchString) {
                 _this.users = [];
@@ -125,7 +128,7 @@ var SearchPageComponent = /** @class */ (function () {
         });
     };
     SearchPageComponent.prototype.ngOnDestroy = function () {
-        this.subscribeObj.unsubscribe();
+        this.eventService.unsubscribeEvents(this.eventsIds);
     };
     SearchPageComponent.prototype.ResetUserFriendStatus = function (user) {
         user.isFriend = false;
@@ -174,11 +177,11 @@ var SearchPageComponent = /** @class */ (function () {
         return false;
     };
     SearchPageComponent.prototype.AddFriendRequest = function (user) {
-        this.globalService.setData("addFriendRequest", user._id);
+        this.eventService.Emit("addFriendRequest", user._id);
         user.isGetFriendRequest = true;
     };
     SearchPageComponent.prototype.RemoveFriendRequest = function (user) {
-        this.globalService.setData("removeFriendRequest", user._id);
+        this.eventService.Emit("removeFriendRequest", user._id);
         user.isGetFriendRequest = false;
     };
     SearchPageComponent.prototype.RemoveUserFromUsers = function (userId) {
@@ -197,6 +200,7 @@ var SearchPageComponent = /** @class */ (function () {
             router_1.ActivatedRoute,
             alert_service_1.AlertService,
             global_service_1.GlobalService,
+            event_service_1.EventService,
             searchPage_service_1.SearchPageService])
     ], SearchPageComponent);
     return SearchPageComponent;

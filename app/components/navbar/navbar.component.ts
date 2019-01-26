@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
+import { EventService } from '../../services/event/event.service';
 import { AlertService } from '../../services/alert/alert.service';
 import { SnackbarService } from '../../services/snackbar/snackbar.service';
 import { AuthService } from '../../services/auth/auth.service';
@@ -115,76 +116,78 @@ export class NavbarComponent implements OnInit, OnDestroy {
     searchCache: any = {};
     profilesCache: any = {};
 
-    subscribeObj: any;
+    eventsIds: Array<string> = [];
 
     constructor(private router: Router,
         private authService: AuthService,
         private globalService: GlobalService,
+        private eventService: EventService,
         private alertService: AlertService,
         private snackbarService: SnackbarService,
         private navbarService: NavbarService) {
 
-        this.subscribeObj = this.globalService.data.subscribe((value: any) => {
-            // In case isOpenProfileEditWindow is true or false
-            if (value["isOpenProfileEditWindow"] != null) {
-                value["isOpenProfileEditWindow"] && this.ClosePopups();
-                this.isOpenProfileEditWindow = value["isOpenProfileEditWindow"];
-            }
-
-            if (value["setNavbarUnder"]) {
-                this.isNavbarUnder = true;
-            }
-
-            if (value["setNavbarTop"]) {
-                this.isNavbarUnder = false;
-            }
-
-            if (value["hideSidenav"]) {
-                this.HideSidenav();
-            }
-
-            if (value["closeDropMenu"]) {
-                this.isDropMenuOpen = false;
-            }
-
-            if (value["openNewWindow"]) {
-                this.OpenNewWindow();
-            }
-
-            if (value["changeSearchInput"]) {
-                this.searchInput = value["changeSearchInput"];
-            }
-
-            if (value["openChat"]) {
-                this.OpenChat(value["openChat"]);
-            }
-
-            if (value["openUserProfile"]) {
-                this.OpenUserProfile(value["openUserProfile"]);
-            }
-
-            // ------------ Friend requests functions ------------
-
-            if (value["addFriendRequest"]) {
-                this.AddFriendRequest(value["addFriendRequest"]);
-            }
-
-            if (value["removeFriendRequest"]) {
-                this.RemoveFriendRequest(value["removeFriendRequest"]);
-            }
-
-            if (value["addFriend"]) {
-                this.AddFriend(value["addFriend"]);
-            }
-
-            if (value["ignoreFriendRequest"]) {
-                this.IgnoreFriendRequest(value["ignoreFriendRequest"]);
-            }
-
-            // ----------------------------------------------------------
-        });
-
         var self = this;
+
+        //#region events
+
+        eventService.Register("showProfileEditWindow", (isShow: boolean) => {
+            isShow && this.ClosePopups();
+            self.isOpenProfileEditWindow = isShow;
+        }, self.eventsIds);
+
+        eventService.Register("setNavbarUnder", () => {
+            self.isNavbarUnder = true;
+        }, self.eventsIds);
+
+        eventService.Register("setNavbarTop", () => {
+            self.isNavbarUnder = false;
+        }, self.eventsIds);
+
+        eventService.Register("hideSidenav", () => {
+            self.HideSidenav();
+        }, self.eventsIds);
+
+        eventService.Register("closeDropMenu", () => {
+            self.isDropMenuOpen = false;
+        }, self.eventsIds);
+
+        eventService.Register("openNewWindow", () => {
+            self.OpenNewWindow();
+        }, self.eventsIds);
+
+        eventService.Register("changeSearchInput", (input: string) => {
+            self.searchInput = input;
+        }, self.eventsIds);
+
+        eventService.Register("openChat", (friend: any) => {
+            self.OpenChat(friend);
+        }, self.eventsIds);
+
+        eventService.Register("openUserProfile", (user: any) => {
+            self.OpenUserProfile(user);
+        }, self.eventsIds);
+
+        //#region friend requests functions
+
+        eventService.Register("addFriendRequest", (friendId: string) => {
+            self.AddFriendRequest(friendId);
+        }, self.eventsIds);
+
+        eventService.Register("removeFriendRequest", (friendId: string) => {
+            self.RemoveFriendRequest(friendId);
+        }, self.eventsIds);
+
+        eventService.Register("addFriend", (friendId: string) => {
+            self.AddFriend(friendId);
+        }, self.eventsIds);
+
+        eventService.Register("ignoreFriendRequest", (friendId: string) => {
+            self.IgnoreFriendRequest(friendId);
+        }, self.eventsIds);
+
+        //#endregion
+
+        //#endregion
 
         self.toolbarItems = [
             {
@@ -419,7 +422,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.subscribeObj.unsubscribe();
+        this.eventService.unsubscribeEvents(this.eventsIds);
         clearInterval(this.checkSocketConnectInterval);
         clearInterval(this.checkOnlineFriendsInterval);
     }
@@ -813,7 +816,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         var friendNotificationsMessages = this.GetToolbarItem("messages").content[friendId];
 
         if (friendNotificationsMessages) {
-            return "(" + friendNotificationsMessages.unreadMessagesNumber + ")"
+            return "- (" + friendNotificationsMessages.unreadMessagesNumber + ")"
         }
         else {
             return "";
@@ -840,10 +843,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.chatData.messagesNotifications = messagesNotifications;
             this.chatData.isOpen = true;
 
-            this.globalService.setData("chatData", this.chatData);
+            this.eventService.Emit("setChatData", this.chatData);
         }
         else {
-            this.globalService.setData("moveToChatWindow", true);
+            this.eventService.Emit("moveToChatWindow", true);
         }
     }
 
@@ -882,7 +885,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("SendFriendRequest", friendId);
-                self.globalService.setData("SendFriendRequest", friendId);
+                self.eventService.Emit("sendFriendRequest", friendId);
                 self.snackbarService.Snackbar("נשלחה בקשת חברות");
             }
         });
@@ -897,7 +900,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("RemoveFriendRequest", self.user._id, friendId);
-                self.globalService.setData("RemoveFriendRequest", friendId);
+                self.eventService.Emit("removeFriendRequest", friendId);
                 self.snackbarService.Snackbar("בקשת החברות בוטלה");
             }
         });
@@ -914,7 +917,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("ServerIgnoreFriendRequest", self.user._id, friendId);
                 self.globalService.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
-                self.globalService.setData("IgnoreFriendRequest", friendId);
+                self.eventService.Emit("ignoreFriendRequest", friendId);
             }
 
             callback && callback(result);

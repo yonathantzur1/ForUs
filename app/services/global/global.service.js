@@ -23,7 +23,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var rxjs_1 = require("rxjs");
 var http_1 = require("@angular/common/http");
 var cookie_service_1 = require("../cookie/cookie.service");
 var login_service_1 = require("../login/login.service");
@@ -48,8 +47,7 @@ var GlobalService = /** @class */ (function (_super) {
                 return this.get(0).scrollHeight > this.get(0).clientHeight;
             };
         })(jQuery);
-        // Initialize variables.
-        _this.data = new rxjs_1.BehaviorSubject({});
+        // Initialize variables        
         _this.userPermissions = [];
         _this.socketOnDictionary = {};
         _this.defaultProfileImage = empty_profile_1.EmptyProfile;
@@ -149,7 +147,6 @@ var GlobalService = /** @class */ (function (_super) {
     GlobalService.prototype.ResetGlobalVariables = function () {
         this.socket && this.socket.destroy();
         this.socket = null;
-        this.data = new rxjs_1.BehaviorSubject({});
         this.userProfileImage = null;
         this.userPermissions = [];
     };
@@ -170,20 +167,6 @@ var GlobalService = /** @class */ (function (_super) {
         this.cookieService.DeleteCookieByName(this.uidCookieName);
         this.DeleteTokenFromCookie();
         this.ResetGlobalVariables();
-    };
-    GlobalService.prototype.setData = function (key, value) {
-        var currData = this.data.value;
-        currData = {};
-        currData[key] = value;
-        this.data.next(currData);
-    };
-    GlobalService.prototype.setMultiData = function (array) {
-        var currData = this.data.value;
-        currData = {};
-        array.forEach(function (element) {
-            currData[element.key] = element.value;
-        });
-        this.data.next(currData);
     };
     GlobalService = __decorate([
         core_1.Injectable(),
