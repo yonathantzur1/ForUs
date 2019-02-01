@@ -222,19 +222,29 @@ var UserPageComponent = /** @class */ (function () {
                                     "<b>האם למחוק את המשתמש שלך מהאתר?</b>",
                                 type: alert_service_1.ALERT_TYPE.DANGER,
                                 confirmFunc: function () {
-                                    self.userPageService.DeleteUser().then(function (result) {
-                                        if (result) {
-                                            self.globalService.socket.emit("LogoutUserSessionServer", null, "המשתמש נמחק בהצלחה, החשבון נסגר.");
-                                        }
-                                        else {
-                                            self.alertService.Alert({
-                                                title: "מחיקת משתמש",
-                                                text: "שגיאה בתהליך מחיקת המשתמש",
-                                                type: alert_service_1.ALERT_TYPE.WARNING,
-                                                showCancelButton: false
-                                            });
-                                        }
+                                    self.userPageService.DeleteUserValidation().then(function (result) {
+                                        result && self.alertService.Alert({
+                                            title: "מחיקת משתמש",
+                                            text: "לאישור המחיקה, יש להיכנס לקישור שנשלח לכתובת האימייל שלך.",
+                                            type: alert_service_1.ALERT_TYPE.SUCCESS,
+                                            showCancelButton: false
+                                        });
                                     });
+                                    // self.userPageService.DeleteUser().then(result => {
+                                    //     if (result) {
+                                    //         self.globalService.socket.emit("LogoutUserSessionServer",
+                                    //             null,
+                                    //             "המשתמש נמחק בהצלחה, החשבון נסגר.");
+                                    //     }
+                                    //     else {
+                                    //         self.alertService.Alert({
+                                    //             title: "מחיקת משתמש",
+                                    //             text: "שגיאה בתהליך מחיקת המשתמש",
+                                    //             type: ALERT_TYPE.WARNING,
+                                    //             showCancelButton: false
+                                    //         });
+                                    //     }
+                                    // });
                                 }
                             });
                         }

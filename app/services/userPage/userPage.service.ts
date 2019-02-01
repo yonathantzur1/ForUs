@@ -26,6 +26,17 @@ export class UserPageService extends BasicService {
             });
     }
 
+    DeleteUserValidation() {
+        return super.put(this.prefix + '/deleteUserValidation')
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((e: any) => {
+                return null;
+            });
+    }
+
     DeleteUser() {
         return super.delete(this.prefix + '/deleteUser')
             .toPromise()

@@ -19,7 +19,7 @@ export class LoginService extends BasicService {
     }
 
     UpdateLastLogin() {
-        super.post(this.prefix + '/updateLastLogin', null).toPromise();
+        super.post(this.prefix + '/updateLastLogin').toPromise();
     }
 
     GetUserPermissions() {

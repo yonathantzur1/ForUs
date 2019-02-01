@@ -31,6 +31,7 @@ const routes: Routes = [
   },
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
   { path: 'forgot/:passToken', loadChildren: './app/modules/forgotPassword/forgotPassword.module#ForgotPasswordModule' },
+  { path: 'delete/:passToken', loadChildren: './app/modules/deleteUser/deleteUser.module#DeleteUserModule' },
   { path: 'page-not-found', loadChildren: './app/modules/pageNotFound/pageNotFound.module#PageNotFoundModule' },
   { path: '**', redirectTo: 'page-not-found' }
 ];

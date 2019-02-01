@@ -10,7 +10,7 @@ export class BasicService {
         return this.http.get(url);
     }
 
-    post(url: string, data: any) {
+    post(url: string, data?: any) {
         if (data != null && typeof data == "object") {
             data = JSON.stringify(data);
         }
@@ -18,8 +18,8 @@ export class BasicService {
         return this.http.post(url, data, this.getRequestOptions());
     }
 
-    put(url: string, data: any) {
-        if (typeof data == "object") {
+    put(url: string, data?: any) {
+        if (data != null && typeof data == "object") {
             data = JSON.stringify(data);
         }
         

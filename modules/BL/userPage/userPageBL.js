@@ -1,5 +1,8 @@
 const DAL = require('../../DAL');
 const config = require('../../../config');
+const mailer = require('../../mailer');
+const generator = require('../../generator');
+const sha512 = require('js-sha512');
 
 const permissionsBL = require('../../BL/managementPanel/permissionsBL');
 const permissionHandler = require('../../handlers/permissionHandler');
@@ -139,6 +142,32 @@ var self = module.exports = {
                             result && (result = true);
                             resolve(result);
                         }).catch(reject);
+                }).catch(reject);
+        });
+    },
+
+    DeleteUserValidation(userId) {
+        return new Promise((resolve, reject) => {
+            var deleteUser = {
+                token: sha512(userId + generator.GenerateId()),
+                date: new Date()
+            }
+
+            var updateObj = {
+                $set: { deleteUser }
+            }
+
+            DAL.UpdateOne(usersCollectionName, { "_id": DAL.GetObjectId(userId) }, updateObj).
+                then(result => {
+                    if (result) {                        
+                        var deleteUserLink = config.address.site +
+                            "/delete/" + deleteUser.token;
+
+                        mailer.ValidateDeleteUser(result.email, result.firstName, deleteUserLink);
+                        result = true;
+                    }
+
+                    resolve(result);
                 }).catch(reject);
         });
     }

@@ -41,6 +41,16 @@ var UserPageService = /** @class */ (function (_super) {
             return null;
         });
     };
+    UserPageService.prototype.DeleteUserValidation = function () {
+        return _super.prototype.put.call(this, this.prefix + '/deleteUserValidation')
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     UserPageService.prototype.DeleteUser = function () {
         return _super.prototype.delete.call(this, this.prefix + '/deleteUser')
             .toPromise()

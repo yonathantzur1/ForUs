@@ -78,6 +78,7 @@ var connectedUsers = require('./modules/sockets/socket')(io);
 require('./modules/routes/auth')(app, connectedUsers);
 require('./modules/routes/login')(app);
 require('./modules/routes/forgotPassword')(app);
+require('./modules/routes/deleteUser')(app);
 require('./modules/routes/home')(app);
 require('./modules/routes/profilePicture/profilePictureEdit')(app);
 require('./modules/routes/profilePicture/profilePicture')(app);

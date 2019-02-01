@@ -1,10 +1,10 @@
 import { BasicService } from '../../../../services/basic/basic.service';
 
-export class ForgotPasswordService extends BasicService {
-    prefix = "/forgotPassword";
+export class DeleteUserService extends BasicService {
+    prefix = "/deleteUser";
 
-    ValidateResetPasswordToken(token: string) {
-        return super.get(this.prefix + '/validateResetPasswordToken?token=' + token)
+    ValidateDeleteUserToken(token: string) {
+        return super.get(this.prefix + '/validateDeleteUserToken?token=' + token)
             .toPromise()
             .then((result: any) => {
                 return result;
@@ -14,13 +14,13 @@ export class ForgotPasswordService extends BasicService {
             });
     }
 
-    ResetPasswordByToken(token: string, newPassword: string) {
+    DeleteAccount(token: string, password: string) {
         var details = {
             token,
-            newPassword
+            password
         };
 
-        return super.put(this.prefix + '/resetPasswordByToken', details)
+        return super.put(this.prefix + '/deleteAccount', details)
             .toPromise()
             .then((result: any) => {
                 return result;
@@ -29,4 +29,5 @@ export class ForgotPasswordService extends BasicService {
                 return null;
             });
     }
+
 }

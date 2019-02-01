@@ -32,7 +32,7 @@ var LoginService = /** @class */ (function (_super) {
         });
     };
     LoginService.prototype.UpdateLastLogin = function () {
-        _super.prototype.post.call(this, this.prefix + '/updateLastLogin', null).toPromise();
+        _super.prototype.post.call(this, this.prefix + '/updateLastLogin').toPromise();
     };
     LoginService.prototype.GetUserPermissions = function () {
         return _super.prototype.get.call(this, this.prefix + '/getUserPermissions')

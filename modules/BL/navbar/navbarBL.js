@@ -7,8 +7,7 @@ const logger = require('../../logger');
 const usersCollectionName = config.db.collections.users;
 const profilesCollectionName = config.db.collections.profiles;
 
-// Define search consts.
-const searchResultsLimit = config.navbar.searchResultsLimit;
+const searchResultsLimit = 4;
 
 var self = module.exports = {
 
@@ -209,8 +208,8 @@ var self = module.exports = {
                 // exists or first notification is old.
                 if (!messagesNotifications ||
                     !messagesNotifications[userId] ||
-                    GetDatesHoursDiff(new Date(), messagesNotifications[userId].lastUnreadMessageDate) >=
-                    config.chat.messageMailNotificationHoursWaitingDelay) {
+                    GetDatesHoursDiff(new Date(), messagesNotifications[userId].lastUnreadMessageDate) >= 
+                        config.mailer.chatMessageNotificationDelay) {
                     mailer.MessageNotificationAlert(friendObj.email, friendObj.firstName, senderName);
                 }
 

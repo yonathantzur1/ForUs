@@ -1,17 +1,17 @@
-#forgotPassword .card-head-container {
+#deleteUser .card-head-container {
     position: relative;
     text-align: center;
     user-select: none;
     margin-top: 15px;
 }
 
-#forgotPassword .card-head-icon {
+#deleteUser .card-head-icon {
     height: 50px;
     width: 50px;
     margin-top: -20px;
 }
 
-#forgotPassword .head-label {
+#deleteUser .head-label {
     font-family: Mona Shark;
     color: #da7b00;
     font-size: 45px;
@@ -19,11 +19,11 @@
     position: relative;
 }
 
-#forgotPassword .card-label {    
+#deleteUser .card-label {    
     font-size: 16px;    
 }
 
-#forgotPassword .container {
+#deleteUser .container {
     width: 400px;
     height: 250px;
     background-color: white;
@@ -40,39 +40,39 @@
     min-height: 250px;   
 }
 
-#forgotPassword .warning-sector {
+#deleteUser .warning-sector {
     text-align: center;
     margin-top: 30px;
 }
 
-#forgotPassword .warning-icon {
+#deleteUser .warning-icon {
     color: #d8ac0e;
     font-size: 30px;
 }
 
-#forgotPassword .warning-message {
+#deleteUser .warning-message {
     font-size: 18px;
     margin-top: 5px;
 }
 
-#forgotPassword .new-password-sector {
+#deleteUser .password-sector {
     margin-top: 25px;
     position: relative;
     display: flex;
 }
 
-#forgotPassword .new-password-icon {    
+#deleteUser .password-icon {    
     align-self: flex-end;
     font-size: 26px;
     user-select: none;    
 }
 
-#forgotPassword .new-password-input {
+#deleteUser .password-input {
     width: 88%;
     margin: auto;
 }
 
-#forgotPassword .btn-sector {
+#deleteUser .btn-sector {
     position: absolute;
     width: 100%;
     bottom: 0;
@@ -81,18 +81,18 @@
     text-align: left;
 }
 
-#forgotPassword .btn {
+#deleteUser .btn {
     padding-right: 0;
 }
 
-#forgotPassword .back-icon {
+#deleteUser .back-icon {
     position: absolute;
     right: 0;
     font-size: 26px;
     cursor: pointer;    
 }
 
-#forgotPassword .microtext {
+#deleteUser .microtext {
     color: var(--microtext-color);
     font-size: 11px;    
     position: absolute;

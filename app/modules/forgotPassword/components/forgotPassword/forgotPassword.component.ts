@@ -10,7 +10,8 @@ import { ForgotPasswordService } from '../../services/forgotPassword/forgotPassw
 @Component({
     selector: 'forgotPassword',
     templateUrl: './forgotPassword.html',
-    providers: [ForgotPasswordService]
+    providers: [ForgotPasswordService],
+    styleUrls: ['./forgotPassword.css']
 })
 
 export class ForgotPasswordComponent implements OnInit {
@@ -56,40 +57,42 @@ export class ForgotPasswordComponent implements OnInit {
         });
     }
 
-    CancelReset() {
+    BackToLogin() {
         this.router.navigateByUrl('/login');
     }
 
     ResetPassword() {
-        if (this.microtextService.Validation(this.newPasswordValidations, this.newPassword)) {
-            this.forgotPasswordService.ResetPasswordByToken(this.resetPasswordToken, this.newPassword)
-                .then((result: boolean) => {
-                    var self = this;
-
-                    if (result) {
-                        self.globalService.CallSocketFunction('LogoutUserSessionServer',
-                            [null, "תוקף הסיסמא פג, יש להתחבר מחדש"]);
-
-                        self.alertService.Alert({
-                            title: "איפוס סיסמא",
-                            text: "הסיסמא הוחלפה בהצלחה!",
-                            showCancelButton: false,
-                            type: ALERT_TYPE.SUCCESS,
-                            confirmFunc: function () {
-                                self.router.navigateByUrl('/login');
-                            }
-                        });
-                    }
-                    else {
-                        self.alertService.Alert({
-                            title: "איפוס סיסמא",
-                            text: "אופס... שגיאה באיפוס הסיסמא",
-                            showCancelButton: false,
-                            type: ALERT_TYPE.DANGER
-                        });
-                    }
-                });
+        if (!this.microtextService.Validation(this.newPasswordValidations, this.newPassword)) {
+            return;
         }
+
+        this.forgotPasswordService.ResetPasswordByToken(this.resetPasswordToken, this.newPassword)
+            .then((result: boolean) => {
+                var self = this;
+
+                if (result) {
+                    self.globalService.CallSocketFunction('LogoutUserSessionServer',
+                        [null, "תוקף הסיסמא פג, יש להתחבר מחדש"]);
+
+                    self.alertService.Alert({
+                        title: "איפוס סיסמא",
+                        text: "הסיסמא הוחלפה בהצלחה!",
+                        showCancelButton: false,
+                        type: ALERT_TYPE.SUCCESS,
+                        confirmFunc: function () {
+                            self.router.navigateByUrl('/login');
+                        }
+                    });
+                }
+                else {
+                    self.alertService.Alert({
+                        title: "איפוס סיסמא",
+                        text: "אופס... שגיאה באיפוס הסיסמא",
+                        showCancelButton: false,
+                        type: ALERT_TYPE.DANGER
+                    });
+                }
+            });
     }
 
     CheckForEnter(event: any) {
@@ -97,10 +100,6 @@ export class ForgotPasswordComponent implements OnInit {
         if (event.key == "Enter" || event.key == "NumpadEnter") {
             this.ResetPassword();
         }
-    }
-
-    BackToLogin() {
-        this.router.navigateByUrl('/login');
     }
 
     // Hide microtext in a specific field.

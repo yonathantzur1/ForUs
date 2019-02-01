@@ -69,16 +69,25 @@ function BuildSchemaPathString(schemaPath) {
 
 var validateSchemaObj = {}
 
-// Get requests.
+//#region get
+
 validateSchemaObj["GET"] = {
     "forgotPassword": {
         "validateResetPasswordToken": {
             token: joi.string().regex(new RegExp(regexp.PasswordRegexp.hash, "i"))
         }
+    },
+    "deleteUser": {
+        "validateDeleteUserToken": {
+            token: joi.string().regex(new RegExp(regexp.PasswordRegexp.hash, "i"))
+        }
     }
 }
 
-// Post requests.
+//#endregion
+
+//#region post
+
 validateSchemaObj["POST"] = {
     "login": {
         "userLogin": {
@@ -103,7 +112,9 @@ validateSchemaObj["POST"] = {
     }
 }
 
-// Put requests.
+//#endregion
+
+//#region put
 validateSchemaObj["PUT"] = {
     "login": {
         "forgotPasswordRequest": {
@@ -119,6 +130,12 @@ validateSchemaObj["PUT"] = {
         "resetPasswordByToken": {
             token: joi.string().regex(new RegExp(regexp.PasswordRegexp.hash, "i")),
             newPassword: joi.string().required()
+        }
+    },
+    "deleteUser": {
+        "deleteAccount": {
+            token: joi.string().regex(new RegExp(regexp.PasswordRegexp.hash, "i")),
+            password: joi.string().required()
         }
     },
     "api": {
@@ -146,7 +163,11 @@ validateSchemaObj["PUT"] = {
     }
 }
 
-// Delete requests.
+//#endregion
+
+//#region delete
 validateSchemaObj["DELETE"] = {
 
 }
+
+//#endregion

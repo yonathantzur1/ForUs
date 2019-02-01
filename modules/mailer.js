@@ -40,7 +40,7 @@ module.exports = {
     ForgotPasswordMail(email, name, code, resetAddress) {
         var css = {
             resetCodeStyle: '"padding:8px;background-color:#f2f2f2;border:1px solid #ccc;display:inline-block;margin-top:3px;"',
-            resetLinkStyle: '"padding:7px 16px 11px 16px;border:solid 1px #344c80;background:#547da0;border-radius:2px;color:white;text-decoration:none;"',
+            linkStyle: '"padding:7px 16px 11px 16px;border:solid 1px #344c80;background:#547da0;border-radius:2px;color:white;text-decoration:none;"',
             lineSpaceStyle: '"margin-top:15px;"',
             btnSpaceStyle: '"margin-top:10px;"'
         }
@@ -52,13 +52,13 @@ module.exports = {
             code + "</div><br>" +
             "<div style={{lineSpaceStyle}}>או לחילופין, לחיצה על הכפתור:</div>" +
             "<div style={{btnSpaceStyle}}><a href='" + resetAddress +
-            "' style={{resetLinkStyle}}>שינוי סיסמא</a></div>",
+            "' style={{linkStyle}}>שינוי סיסמא</a></div>",
             css);
     },
 
     ChangePasswordMail(email, name, resetAddress) {
         var css = {
-            resetLinkStyle: '"padding:7px 16px 11px 16px;border:solid 1px #344c80;background:#547da0;border-radius:2px;color:white;text-decoration:none;"',
+            linkStyle: '"padding:7px 16px 11px 16px;border:solid 1px #344c80;background:#547da0;border-radius:2px;color:white;text-decoration:none;"',
             btnSpaceStyle: '"margin-top:10px;"'
         }
 
@@ -67,7 +67,7 @@ module.exports = {
             "<div>" + GetTimeBlessing() + name + ", <br>" +
             "לשינוי הסיסמא - יש ללחוץ על הפתור:</div>" +
             "<div style={{btnSpaceStyle}}><a href='" +
-            resetAddress + "' style={{resetLinkStyle}}>שינוי סיסמא</a></div>",
+            resetAddress + "' style={{linkStyle}}>שינוי סיסמא</a></div>",
             css);
     },
 
@@ -109,7 +109,22 @@ module.exports = {
             "חסימת משתמש",
             GetTimeBlessing() + name + ", " + "<br>" + "חשבונך באתר נחסם לשימוש.<br><br>" +
             "סיבת החסימה: " + reason + "<br>" + dateString + "<b>" + date + "</b>");
-    }
+    },
+
+    ValidateDeleteUser(email, name, deleteUserLink) {
+        var css = {
+            linkStyle: '"padding:7px 16px 11px 16px;border:solid 1px #344c80;background:#f44336;border-radius:2px;color:white;text-decoration:none;"',
+            btnSpaceStyle: '"margin-top:10px;"'
+        }
+
+        this.SendMail(email,
+            "אישור מחיקת חשבון",
+            "<div>" + GetTimeBlessing() + name + ", <br>" +
+            "למחיקת החשבון לצמיתות - יש ללחוץ על הפתור:</div>" +
+            "<div style={{btnSpaceStyle}}><a href='" +
+            deleteUserLink + "' style={{linkStyle}}>מחיקת משתמש</a></div>",
+            css);
+    },
 };
 
 function ConvertDateFormat(date) {

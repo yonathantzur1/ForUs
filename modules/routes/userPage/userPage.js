@@ -29,19 +29,9 @@ module.exports = function (app) {
         });
     });
 
-    app.delete(prefix + '/deleteUser', function (req, res) {
-        managementBL.DeleteUser(req.user._id).then((result) => {
-            if (result) {
-                if (result.length > 0) {
-                    var userName = req.user.firstName + " " + req.user.lastName;
-                    events.emit('socket.RemoveFriendUser', req.user._id, userName, result);
-                }
-
-                res.send(true);
-            }
-            else {
-                res.send(result);
-            }
+    app.put(prefix + '/deleteUserValidation', function (req, res) {
+        userPageBL.DeleteUserValidation(req.user._id).then(result => {
+            res.send(result);
         }).catch((err) => {
             res.status(500).end();
         });

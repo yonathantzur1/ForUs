@@ -9,7 +9,7 @@ declare var $: any;
 
 export class MicrotextService {
 
-    Validation(validations: Array<InputFieldValidation>, obj: any, regexp?: any) {
+    Validation(validations: Array<InputFieldValidation>, obj: any, regexp?: any): boolean {
         var regexpPatterns = {};
         // Convert strings to regex patterns in case regex was sent.
         if (regexp) {

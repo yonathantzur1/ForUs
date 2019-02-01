@@ -5,14 +5,15 @@ module.exports = {
     server: {
         port: serverPort,
         isProd: isServerProd,
-        isForceHttps: true
+        isForceHttps: true // For not localhost environment
     },
     address: {
         site: isServerProd ? "https://forus.herokuapp.com" : "http://localhost:" + serverPort
     },
     mailer: {
         mail: "forus@mailer.com",
-        apiKeyCode: process.env.MAIL_KEY_CODE
+        apiKeyCode: process.env.MAIL_KEY_CODE,
+        chatMessageNotificationDelay: 1
     },
     db: {
         name: "forus",
@@ -58,17 +59,13 @@ module.exports = {
                 numOfHoursValid: 24,
                 freeRetries: 5
             }
+        },
+        deleteUser: {
+            tokenNumOfHoursValid: 1
         }
     },
     socket: {
         cleanDisconnectUsersIntervalTime: 6, // seconds
         maxLastKeepAliveDelay: 5 // seconds
-    },
-    chat: {
-        messagesInPage: 40, // For chat pagination
-        messageMailNotificationHoursWaitingDelay: 1
-    },
-    navbar: {
-        searchResultsLimit: 4        
     }
 };

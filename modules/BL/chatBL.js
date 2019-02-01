@@ -4,6 +4,7 @@ const encryption = require('../security/encryption');
 const logger = require('../logger');
 
 const collectionName = config.db.collections.chats;
+const messagesInPage = 40;
 
 var self = module.exports = {
     GetChat(membersIds, user) {
@@ -17,7 +18,7 @@ var self = module.exports = {
 
                 var sliceObj = {
                     $project: {
-                        messages: { $slice: ["$messages", -1 * config.chat.messagesInPage] },
+                        messages: { $slice: ["$messages", -1 * messagesInPage] },
                         totalMessagesNum: { $size: "$messages" }
                     }
                 }
@@ -55,7 +56,7 @@ var self = module.exports = {
                     }
                 }
 
-                var messagesInPage = config.chat.messagesInPage;
+                var messagesInPage = messagesInPage;
                 var page = (currMessagesNum / messagesInPage) + 1;
                 var selectNextNumber = Math.min(messagesInPage, (totalMessagesNum - currMessagesNum));
 

@@ -14,15 +14,15 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var basic_service_1 = require("../../../../services/basic/basic.service");
-var ForgotPasswordService = /** @class */ (function (_super) {
-    __extends(ForgotPasswordService, _super);
-    function ForgotPasswordService() {
+var DeleteUserService = /** @class */ (function (_super) {
+    __extends(DeleteUserService, _super);
+    function DeleteUserService() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.prefix = "/forgotPassword";
+        _this.prefix = "/deleteUser";
         return _this;
     }
-    ForgotPasswordService.prototype.ValidateResetPasswordToken = function (token) {
-        return _super.prototype.get.call(this, this.prefix + '/validateResetPasswordToken?token=' + token)
+    DeleteUserService.prototype.ValidateDeleteUserToken = function (token) {
+        return _super.prototype.get.call(this, this.prefix + '/validateDeleteUserToken?token=' + token)
             .toPromise()
             .then(function (result) {
             return result;
@@ -31,12 +31,12 @@ var ForgotPasswordService = /** @class */ (function (_super) {
             return null;
         });
     };
-    ForgotPasswordService.prototype.ResetPasswordByToken = function (token, newPassword) {
+    DeleteUserService.prototype.DeleteAccount = function (token, password) {
         var details = {
             token: token,
-            newPassword: newPassword
+            password: password
         };
-        return _super.prototype.put.call(this, this.prefix + '/resetPasswordByToken', details)
+        return _super.prototype.put.call(this, this.prefix + '/deleteAccount', details)
             .toPromise()
             .then(function (result) {
             return result;
@@ -45,7 +45,7 @@ var ForgotPasswordService = /** @class */ (function (_super) {
             return null;
         });
     };
-    return ForgotPasswordService;
+    return DeleteUserService;
 }(basic_service_1.BasicService));
-exports.ForgotPasswordService = ForgotPasswordService;
-//# sourceMappingURL=forgotPassword.service.js.map
+exports.DeleteUserService = DeleteUserService;
+//# sourceMappingURL=deleteUser.service.js.map
