@@ -17,8 +17,7 @@ module.exports = {
     },
     db: {
         name: "forus",
-        connectionString: process.env.DEV_CONNECTION_STRING || process.env.CONNECTION_STRING,
-        maxConnectionAttemptsNumber: 5, // In case of failure.
+        connectionString: process.env.DEV_CONNECTION_STRING || process.env.FORUS_CONNECTION_STRING,        
         collections: {
             users: "Users",
             profiles: "Profiles",

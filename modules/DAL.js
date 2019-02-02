@@ -6,10 +6,12 @@ const ObjectId = mongodb.ObjectId;
 // Connection URL consts
 const connectionString = config.db.connectionString;
 const dbName = config.db.name;
-const maxConnectionAttemptsNumber = config.db.maxConnectionAttemptsNumber;
+
+// In case of failure
+const maxConnectionAttemptsNumber = 5;
 
 // Connection variables
-var retryCount = 0;
+var retryCounter = 0;
 var db;
 
 function GetDB(callback) {
@@ -26,8 +28,8 @@ function GetDB(callback) {
                 }
                 else {
                     // In case number of retries is smaller then maximum
-                    if (retryCount < maxConnectionAttemptsNumber) {
-                        retryCount++;
+                    if (retryCounter < maxConnectionAttemptsNumber) {
+                        retryCounter++;
                         GetDB(callback);
                     }
                     else {
