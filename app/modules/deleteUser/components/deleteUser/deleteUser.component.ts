@@ -73,6 +73,7 @@ export class DeleteUserComponent implements OnInit {
                     showCancelButton: false,
                     type: ALERT_TYPE.SUCCESS
                 });
+                
                 this.BackToLogin();
             }
             else if (result == false) {

@@ -23,9 +23,9 @@ module.exports = (app) => {
         validate,
         (req, res) => {
             deleteUserBL.IsAllowToDeleteAccount(req.body).then(user => {
-                // In case of error.
-                if (!user) {
-                    res.send(null);
+                // In case the password is wrong.
+                if (user == false) {
+                    res.send(false);
                     return;
                 }
 
