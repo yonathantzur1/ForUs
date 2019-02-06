@@ -36,7 +36,7 @@ var ProfilePictureComponent = /** @class */ (function () {
         //#endregion
     }
     ProfilePictureComponent.prototype.ngOnDestroy = function () {
-        this.eventService.unsubscribeEvents(this.eventsIds);
+        this.eventService.UnsubscribeEvents(this.eventsIds);
     };
     ProfilePictureComponent.prototype.OpenEditWindow = function () {
         if (this.isEditEnable && this.isUserHasImage != null) {

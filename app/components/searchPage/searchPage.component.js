@@ -128,7 +128,7 @@ var SearchPageComponent = /** @class */ (function () {
         });
     };
     SearchPageComponent.prototype.ngOnDestroy = function () {
-        this.eventService.unsubscribeEvents(this.eventsIds);
+        this.eventService.UnsubscribeEvents(this.eventsIds);
     };
     SearchPageComponent.prototype.ResetUserFriendStatus = function (user) {
         user.isFriend = false;

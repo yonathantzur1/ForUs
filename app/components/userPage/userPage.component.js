@@ -326,7 +326,7 @@ var UserPageComponent = /** @class */ (function () {
         });
     };
     UserPageComponent.prototype.ngOnDestroy = function () {
-        this.eventService.unsubscribeEvents(this.eventsIds);
+        this.eventService.UnsubscribeEvents(this.eventsIds);
     };
     UserPageComponent.prototype.OpenUserWindow = function (windowShowPropertyName) {
         this.eventService.Emit("setNavbarUnder", true);

@@ -227,7 +227,7 @@ var ChatComponent = /** @class */ (function () {
     };
     ChatComponent.prototype.ngOnDestroy = function () {
         var self = this;
-        self.eventService.unsubscribeEvents(self.eventsIds);
+        self.eventService.UnsubscribeEvents(self.eventsIds);
         Object.keys(self.canvasEvents).forEach(function (key) {
             self.canvas.removeEventListener(key, self.canvasEvents[key], false);
         });

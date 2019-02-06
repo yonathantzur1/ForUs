@@ -61,7 +61,7 @@ a, a:hover, a:focus {
 }
 
 body {    
-    background-color: #EEE !important;
+    background-color: var(--main-background-color) !important;
     font-family: var(--main-font) !important;
     color: var(--main-text-color) !important;
     text-align: right !important;

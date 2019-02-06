@@ -150,7 +150,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.eventService.unsubscribeEvents(this.eventsIds);
+        this.eventService.UnsubscribeEvents(this.eventsIds);
     }
 
     ResetUserFriendStatus(user: any) {

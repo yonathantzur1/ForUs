@@ -52,7 +52,7 @@ var PermissionsCardComponent = /** @class */ (function () {
         });
     }
     PermissionsCardComponent.prototype.ngOnDestroy = function () {
-        this.eventService.unsubscribeEvents(this.eventsIds);
+        this.eventService.UnsubscribeEvents(this.eventsIds);
     };
     PermissionsCardComponent.prototype.UpdatePermissions = function () {
         var _this = this;

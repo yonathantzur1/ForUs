@@ -180,6 +180,7 @@ var NavbarComponent = /** @class */ (function () {
                 self.router.navigateByUrl(link);
             }),
             new DropMenuData("/login", "התנתקות", function (link) {
+                self.snackbarService.HideSnackbar();
                 self.globalService.Logout();
                 self.router.navigateByUrl(link);
             })
@@ -325,7 +326,7 @@ var NavbarComponent = /** @class */ (function () {
         });
     };
     NavbarComponent.prototype.ngOnDestroy = function () {
-        this.eventService.unsubscribeEvents(this.eventsIds);
+        this.eventService.UnsubscribeEvents(this.eventsIds);
         clearInterval(this.checkSocketConnectInterval);
         clearInterval(this.checkOnlineFriendsInterval);
     };

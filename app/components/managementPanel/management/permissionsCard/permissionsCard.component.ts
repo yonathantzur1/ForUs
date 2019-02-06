@@ -66,7 +66,7 @@ export class PermissionsCardComponent implements OnDestroy {
     }
 
     ngOnDestroy() {
-        this.eventService.unsubscribeEvents(this.eventsIds);
+        this.eventService.UnsubscribeEvents(this.eventsIds);
     }
 
     UpdatePermissions() {

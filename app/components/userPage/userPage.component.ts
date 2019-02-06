@@ -349,7 +349,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.eventService.unsubscribeEvents(this.eventsIds);
+        this.eventService.UnsubscribeEvents(this.eventsIds);
     }
 
     OpenUserWindow(windowShowPropertyName: string) {

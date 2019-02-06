@@ -45,7 +45,7 @@ export class ProfilePictureComponent implements OnDestroy {
     }
 
     ngOnDestroy() {
-        this.eventService.unsubscribeEvents(this.eventsIds);
+        this.eventService.UnsubscribeEvents(this.eventsIds);
     }
 
     OpenEditWindow() {

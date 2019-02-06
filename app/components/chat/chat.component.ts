@@ -315,7 +315,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     ngOnDestroy() {
         var self = this;
 
-        self.eventService.unsubscribeEvents(self.eventsIds);
+        self.eventService.UnsubscribeEvents(self.eventsIds);
 
         Object.keys(self.canvasEvents).forEach(key => {
             self.canvas.removeEventListener(key, self.canvasEvents[key], false);

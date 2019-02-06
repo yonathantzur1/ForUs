@@ -47,7 +47,7 @@ export class EventService {
         }, 0);
     }
 
-    unsubscribeEvents(eventsIds: Array<string>) {
+    UnsubscribeEvents(eventsIds: Array<string>) {
         var self = this;
 
         Object.keys(self.events).forEach((name: string) => {

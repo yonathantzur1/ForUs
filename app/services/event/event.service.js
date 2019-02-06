@@ -43,7 +43,7 @@ var EventService = /** @class */ (function () {
             });
         }, 0);
     };
-    EventService.prototype.unsubscribeEvents = function (eventsIds) {
+    EventService.prototype.UnsubscribeEvents = function (eventsIds) {
         var self = this;
         Object.keys(self.events).forEach(function (name) {
             self.events[name] = self.events[name].filter(function (event) {

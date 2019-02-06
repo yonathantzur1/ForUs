@@ -248,6 +248,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 self.router.navigateByUrl(link);
             }),
             new DropMenuData("/login", "התנתקות", (link: string) => {
+                self.snackbarService.HideSnackbar();
                 self.globalService.Logout();
                 self.router.navigateByUrl(link);
             })
@@ -422,7 +423,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.eventService.unsubscribeEvents(this.eventsIds);
+        this.eventService.UnsubscribeEvents(this.eventsIds);
         clearInterval(this.checkSocketConnectInterval);
         clearInterval(this.checkOnlineFriendsInterval);
     }

@@ -105,7 +105,7 @@ var ManagementComponent = /** @class */ (function () {
         });
     };
     ManagementComponent.prototype.ngOnDestroy = function () {
-        this.eventService.unsubscribeEvents(this.eventsIds);
+        this.eventService.UnsubscribeEvents(this.eventsIds);
     };
     ManagementComponent.prototype.SearchUser = function (userId) {
         var _this = this;
