@@ -12,8 +12,7 @@ module.exports = {
     },
     mailer: {
         mail: "forus@mailer.com",
-        apiKeyCode: process.env.MAIL_KEY_CODE,
-        chatMessageNotificationDelay: 1
+        apiKeyCode: process.env.MAIL_KEY_CODE        
     },
     db: {
         name: "forus",

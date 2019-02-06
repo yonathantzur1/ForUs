@@ -8,6 +8,7 @@ const usersCollectionName = config.db.collections.users;
 const profilesCollectionName = config.db.collections.profiles;
 
 const searchResultsLimit = 4;
+const chatMailNotificationDelayTime = 1; // hours
 
 var self = module.exports = {
 
@@ -208,8 +209,8 @@ var self = module.exports = {
                 // exists or first notification is old.
                 if (!messagesNotifications ||
                     !messagesNotifications[userId] ||
-                    GetDatesHoursDiff(new Date(), messagesNotifications[userId].lastUnreadMessageDate) >= 
-                        config.mailer.chatMessageNotificationDelay) {
+                    GetDatesHoursDiff(new Date(), messagesNotifications[userId].lastUnreadMessageDate) >=
+                    chatMailNotificationDelayTime) {
                     mailer.MessageNotificationAlert(friendObj.email, friendObj.firstName, senderName);
                 }
 
