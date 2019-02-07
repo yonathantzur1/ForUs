@@ -14,9 +14,10 @@
                     <loaderSpinner *ngIf="isLoading"></loaderSpinner>
                     <div class="permissions-container" *ngIf="!isLoading">
                         <div *ngFor="let permission of permissions">
-                            <span class="permission-sector" (click)="permission.isChecked=!permission.isChecked;">
+                            <span class="permission-sector" (click)="CheckPermission(permission)">
                                 <i [hidden]="permission.isChecked" class="far fa-square permission-check-icon"></i>
-                                <i [hidden]="!permission.isChecked" class="far fa-check-square permission-check-icon"></i>
+                                <i [hidden]="!permission.isChecked"
+                                    class="far fa-check-square permission-check-icon"></i>
                                 <span class="permission-name">{{permission.name}}</span>
                             </span>
                         </div>
@@ -25,7 +26,8 @@
                 <div class="modal-footer" *ngIf="!isLoading">
                     <div class="modal-footer-buttons">
                         <a class="btn btn-default cancel-permissions-btn" data-dismiss="modal">ביטול</a>
-                        <a id="permissions-btn" (click)="UpdatePermissions()" class="btn btn-primary save-permissions-btn">שמירה</a>
+                        <a id="permissions-btn" (click)="UpdatePermissions()"
+                            class="btn btn-primary save-permissions-btn">שמירה</a>
                     </div>
                 </div>
             </div>

@@ -69,6 +69,16 @@ export class PermissionsCardComponent implements OnDestroy {
         this.eventService.UnsubscribeEvents(this.eventsIds);
     }
 
+    CheckPermission(permission: any) {
+        var currentState = permission.isChecked;
+
+        this.permissions.forEach((perm: any) => {
+            perm.isChecked = false;
+        });
+
+        permission.isChecked = !currentState;
+    }
+
     UpdatePermissions() {
         this.isLoading = true;
         this.permissionsCardService.UpdatePermissions(this.user._id, this.permissions).then((result: any) => {

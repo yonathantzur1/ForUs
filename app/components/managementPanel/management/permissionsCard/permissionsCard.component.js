@@ -54,6 +54,13 @@ var PermissionsCardComponent = /** @class */ (function () {
     PermissionsCardComponent.prototype.ngOnDestroy = function () {
         this.eventService.UnsubscribeEvents(this.eventsIds);
     };
+    PermissionsCardComponent.prototype.CheckPermission = function (permission) {
+        var currentState = permission.isChecked;
+        this.permissions.forEach(function (perm) {
+            perm.isChecked = false;
+        });
+        permission.isChecked = !currentState;
+    };
     PermissionsCardComponent.prototype.UpdatePermissions = function () {
         var _this = this;
         this.isLoading = true;

@@ -34,7 +34,7 @@
 
 #permissionsCard .cancel-permissions-btn {
     padding: 0;
-    left: 20px;
+    left: 10px;
 }
 
 #permissionsCard .permissions-container {    
@@ -42,8 +42,9 @@
 }
 
 #permissionsCard .permission-sector {
-    margin-top: 5px;
     cursor: pointer;
+    margin-bottom: 10px;
+    display: inline-block;
 }
 
 #permissionsCard .permission-name {
