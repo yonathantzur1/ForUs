@@ -137,13 +137,20 @@
     right: 0px;
 }
 
+#login .forgot-link {
+    text-decoration: none;
+    margin-left: -5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
 #login .forgot-inner-link {
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     position: absolute;
-    right: 0;
+    right: 38px;
 }
 
 #login .has-reset-code-link {    

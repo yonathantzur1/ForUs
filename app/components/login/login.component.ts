@@ -403,8 +403,7 @@ export class LoginComponent {
   }
 
   // Open modal and clear all.
-  OpenModal() {
-    this.user = new User();
+  OpenModal() {    
     this.newUser = new NewUser();
     this.forgotUser = new ForgotUser();
     $(".microtext").html("");

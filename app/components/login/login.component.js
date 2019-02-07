@@ -381,7 +381,6 @@ var LoginComponent = /** @class */ (function () {
     };
     // Open modal and clear all.
     LoginComponent.prototype.OpenModal = function () {
-        this.user = new User();
         this.newUser = new NewUser();
         this.forgotUser = new ForgotUser();
         $(".microtext").html("");
