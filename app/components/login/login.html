@@ -4,34 +4,34 @@
 			<img src="../logo/icon.png" class="login-head-icon">
 			<label class="login-label">ForUs</label>
 		</div>
-		<div (keyup)="LoginKeyUp($event)" align="center" class="row login-container col-md-4 col-10 col-6">
+		<div (keyup)="LoginKeyUp($event)" align="center" class="row login-container col-md-4 col-10">
 			<loaderSpinner class="login-loader" *ngIf="isLoading"></loaderSpinner>
 			<div class="disable-screen" *ngIf="isLoading"></div>
 			<form>
 				<div class="form-group">
-					<div class="col-10 no-padding">
+					<div class="col-12 no-padding">
 						<input [(ngModel)]="user.email" id="login-email" class="form-control user-input" type="email" name="email"
 						 (keydown)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="אימייל">
 						<label id="login-email-micro" class="microtext microtext-align"></label>
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-10 no-padding">
+					<div class="col-12 no-padding">
 						<input [(ngModel)]="user.password" id="login-password" class="form-control user-input" type="password" name="password"
 						 (keydown)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="סיסמא">
-						<div class="forgot-link-sector">
-							<a class="forgot-link" (click)="OpenModal()" data-toggle="modal" data-target="#forgot-modal">שכחתי?</a>
-						</div>
 						<label id="login-password-micro" class="microtext microtext-align"></label>
 					</div>
 				</div>
 				<div class="form-group">
 					<div>
-						<button type="button" id="login-btn" (click)="Login()" class="btn btn-primary login-btn">כניסה</button>
+						<button type="button" id="login-btn" (click)="Login()" class="col-12 btn btn-primary login-btn">כניסה</button>
+					</div>
+					<div class="options">
+						<div class="option-btn" (click)="OpenModal()" data-toggle="modal" data-target="#forgot-modal">שחזור סיסמא</div>
+						<div class="option-btn" (click)="OpenModal()" data-toggle="modal" data-target="#register-modal">משתמש חדש</div>
 					</div>
 				</div>
 			</form>
-			<a class="new-user" (click)="OpenModal()" data-toggle="modal" data-target="#register-modal">משתמש חדש?</a>
 		</div>
 		<!-- Register modal -->
 		<div (keyup)="RegisterKeyUp($event)" class="modal fade" data-backdrop="static" id="register-modal" tabindex="-1" role="dialog"
