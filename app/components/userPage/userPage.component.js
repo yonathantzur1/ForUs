@@ -37,11 +37,11 @@ var UserPageComponent = /** @class */ (function () {
         var self = this;
         //#region events
         eventService.Register("newUploadedImage", function (img) {
-            self.user.profileImage = self.user.profileImage || {};
-            self.user.profileImage.image = img;
+            self.user.profileImage = self.user.profileImage || null;
+            self.user.profileImage = img;
         }, self.eventsIds);
         eventService.Register("deleteProfileImage", function () {
-            delete self.user.profileImage;
+            self.user.profileImage = null;
         }, self.eventsIds);
         eventService.Register("closeUserEditWindow", function () {
             self.isShowUserEditWindow = false;

@@ -40,12 +40,12 @@ export class UserPageComponent implements OnInit, OnDestroy {
         //#region events
 
         eventService.Register("newUploadedImage", (img: string) => {
-            self.user.profileImage = self.user.profileImage || {};
-            self.user.profileImage.image = img;
+            self.user.profileImage = self.user.profileImage || null;
+            self.user.profileImage = img;
         }, self.eventsIds);
 
         eventService.Register("deleteProfileImage", () => {
-            delete self.user.profileImage;
+            self.user.profileImage = null;
         }, self.eventsIds);
 
         eventService.Register("closeUserEditWindow", () => {
