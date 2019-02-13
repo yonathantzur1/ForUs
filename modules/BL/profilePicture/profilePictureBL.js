@@ -10,7 +10,7 @@ module.exports = {
                 resolve(null);
             }
             else {
-                var profileObjectId = DAL.GetObjectId(profileId);
+                let profileObjectId = DAL.GetObjectId(profileId);
                 DAL.FindOne(collectionName, { "_id": profileObjectId }).then(resolve).catch(reject);
             }
         });

@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 const config = require('../config');
 
 // Create reusable transporter object using the default SMTP transport
-var transporter = nodemailer.createTransport(
+let transporter = nodemailer.createTransport(
     {
         service: 'SendGrid',
         auth: {
@@ -15,7 +15,7 @@ var transporter = nodemailer.createTransport(
 module.exports = {
     SendMail(destEmail, title, text, css) {
         // Setup email data with unicode symbols
-        var mailOptions = {
+        let mailOptions = {
             from: "'ForUs' <" + config.mailer.mail + ">", // Sender address
             to: destEmail, // List of receivers
             subject: title, // Subject line
@@ -38,7 +38,7 @@ module.exports = {
     },
 
     ForgotPasswordMail(email, name, code, resetAddress) {
-        var css = {
+        let css = {
             resetCodeStyle: '"padding:8px;background-color:#f2f2f2;border:1px solid #ccc;display:inline-block;margin-top:3px;"',
             linkStyle: '"padding:7px 16px 11px 16px;border:solid 1px #344c80;background:#547da0;border-radius:2px;color:white;text-decoration:none;"',
             lineSpaceStyle: '"margin-top:15px;"',
@@ -57,7 +57,7 @@ module.exports = {
     },
 
     ChangePasswordMail(email, name, resetAddress) {
-        var css = {
+        let css = {
             linkStyle: '"padding:7px 16px 11px 16px;border:solid 1px #344c80;background:#547da0;border-radius:2px;color:white;text-decoration:none;"',
             btnSpaceStyle: '"margin-top:10px;"'
         }
@@ -72,7 +72,7 @@ module.exports = {
     },
 
     MessageNotificationAlert(email, name, senderName) {
-        var text = GetTimeBlessing() + name + ", " + "<br>" + "ממתינה עבורך הודעה חדשה<name>." + "<br>" + config.address.site;
+        let text = GetTimeBlessing() + name + ", " + "<br>" + "ממתינה עבורך הודעה חדשה<name>." + "<br>" + config.address.site;
         text = senderName ? text.replace("<name>", " מ" + senderName) : text.replace("<name>", "");
 
         this.SendMail(email,
@@ -81,7 +81,7 @@ module.exports = {
     },
 
     FriendRequestAlert(email, name, friendName, friendId) {
-        var friendProfilePageUrl = config.address.site + "/profile/" + friendId;
+        let friendProfilePageUrl = config.address.site + "/profile/" + friendId;
         this.SendMail(email,
             "בקשת חברות",
             GetTimeBlessing() + name + "," + "<br>" + "בקשת חברות חדשה הגיעה מ" + friendName + ".<br>" + friendProfilePageUrl);
@@ -94,7 +94,7 @@ module.exports = {
     },
 
     BlockMessage(email, name, reason, date) {
-        var dateString;
+        let dateString;
 
         if (date) {
             dateString = "עד לתאריך: ";
@@ -112,7 +112,7 @@ module.exports = {
     },
 
     ValidateDeleteUser(email, name, deleteUserLink) {
-        var css = {
+        let css = {
             linkStyle: '"padding:7px 16px 11px 16px;border:solid 1px #344c80;background:#f44336;border-radius:2px;color:white;text-decoration:none;"',
             btnSpaceStyle: '"margin-top:10px;"'
         }
@@ -133,7 +133,7 @@ function ConvertDateFormat(date) {
 }
 
 function GetTimeBlessing() {
-    var hour = new Date().getHours();
+    let hour = new Date().getHours();
 
     if (hour >= 5 && hour < 12) {
         return "בוקר טוב ";

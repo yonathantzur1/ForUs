@@ -1,7 +1,7 @@
 const userReportWindowBL = require('../../BL/userPage/userReportWindowBL');
 const validate = require('../../security/validate');
 
-var prefix = "/api/userReportWindow";
+let prefix = "/api/userReportWindow";
 
 module.exports = function (app) {
     // Get all report reasons from DB.

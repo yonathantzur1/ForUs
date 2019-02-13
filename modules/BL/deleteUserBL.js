@@ -13,14 +13,14 @@ module.exports = {
 
     ValidateDeleteUserToken(token) {
         return new Promise((resolve, reject) => {
-            var query = {
+            let query = {
                 "deleteUser.token": token,
                 "deleteUser.date": {
                     $gte: new Date().addHours(tokenNumOfHoursValid * -1)
                 }
             }
 
-            var fields = { "_id": 0, "firstName": 1, "lastName": 1 };
+            let fields = { "_id": 0, "firstName": 1, "lastName": 1 };
 
             DAL.FindOneSpecific(usersCollectionName, query, fields).then(resolve).catch(reject);
         });
@@ -29,10 +29,10 @@ module.exports = {
     // Validating delete user account by token and password.
     IsAllowToDeleteAccount(data) {
         return new Promise((resolve, reject) => {
-            var token = data.token;
-            var password = data.password;
+            let token = data.token;
+            let password = data.password;
 
-            var findObj = {
+            let findObj = {
                 "deleteUser.token": token
             };
 
@@ -51,11 +51,11 @@ module.exports = {
 
     DeleteUserFromDB(userId) {
         return new Promise((resolve, reject) => {            
-            var userObjectId = DAL.GetObjectId(userId);
-            var notificationsUnsetJson = {};
+            let userObjectId = DAL.GetObjectId(userId);
+            let notificationsUnsetJson = {};
             notificationsUnsetJson["messagesNotifications." + userId] = 1;
 
-            var deletedUserFriends;
+            let deletedUserFriends;
 
             // Getting deleted user friends.
             DAL.FindOneSpecific(usersCollectionName,

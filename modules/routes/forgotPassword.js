@@ -2,7 +2,7 @@ const forgotPasswordBL = require('../BL/forgotPasswordBL');
 const tokenHandler = require('../handlers/tokenHandler');
 const validate = require('../security/validate');
 
-var prefix = "/forgotPassword";
+let prefix = "/forgotPassword";
 
 module.exports = (app) => {
     // Validating the reset password request unique token.
@@ -23,7 +23,7 @@ module.exports = (app) => {
         (req, res) => {
             forgotPasswordBL.ResetPasswordByToken(req.body).then(result => {
                 if (result) {
-                    var token = tokenHandler.GetTokenFromUserObject(result);
+                    let token = tokenHandler.GetTokenFromUserObject(result);
                     tokenHandler.SetTokenOnCookie(token, res, true);
                     res.send(true);
                 }

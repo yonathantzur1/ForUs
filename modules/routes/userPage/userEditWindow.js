@@ -2,7 +2,7 @@ const userEditWindowBL = require('../../BL/userPage/userEditWindowBL');
 const validate = require('../../security/validate');
 const bruteForceProtector = require('../../security/bruteForceProtector');
 
-var prefix = "/api/userEditWindow";
+let prefix = "/api/userEditWindow";
 
 module.exports = function (app) {
 
@@ -27,7 +27,7 @@ module.exports = function (app) {
             }
         }),
         (req, res) => {
-            var updateFields = req.body.updateFields;
+            let updateFields = req.body.updateFields;
             updateFields._id = req.user._id;
 
             userEditWindowBL.UpdateUserInfo(updateFields).then(result => {

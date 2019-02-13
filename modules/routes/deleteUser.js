@@ -3,7 +3,7 @@ const tokenHandler = require('../handlers/tokenHandler');
 const validate = require('../security/validate');
 const events = require('../events');
 
-var prefix = "/deleteUser";
+let prefix = "/deleteUser";
 
 module.exports = (app) => {
     // Validating the delete user request unique token.
@@ -42,7 +42,7 @@ module.exports = (app) => {
 
                     // In case the user has friends.
                     if (userFriendsIds.length > 0) {
-                        var userName = user.firstName + " " + user.lastName;
+                        let userName = user.firstName + " " + user.lastName;
                         events.emit('socket.RemoveFriendUser', user._id, userName, userFriendsIds);
                     }
 

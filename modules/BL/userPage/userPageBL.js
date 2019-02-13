@@ -11,13 +11,13 @@ const usersCollectionName = config.db.collections.users;
 const chatsCollectionName = config.db.collections.chats;
 const profilesCollectionName = config.db.collections.profiles;
 
-var self = module.exports = {
+let self = module.exports = {
     GetUserDetails(userId, currUserId) {
         return new Promise((resolve, reject) => {
-            var isUserSelfPage = (userId == currUserId);
-            var userObjectId = DAL.GetObjectId(userId);
-            var currUserObjectId = DAL.GetObjectId(currUserId);
-            var userFilter = {
+            let isUserSelfPage = (userId == currUserId);
+            let userObjectId = DAL.GetObjectId(userId);
+            let currUserObjectId = DAL.GetObjectId(currUserId);
+            let userFilter = {
                 $match: {
                     $and: [
                         { "_id": userObjectId },
@@ -32,7 +32,7 @@ var self = module.exports = {
                     ]
                 }
             };
-            var joinFilter = {
+            let joinFilter = {
                 $lookup:
                 {
                     from: profilesCollectionName,
@@ -41,13 +41,13 @@ var self = module.exports = {
                     as: 'profileImage'
                 }
             };
-            var unwindObject = {
+            let unwindObject = {
                 $unwind: {
                     path: "$profileImage",
                     preserveNullAndEmptyArrays: true
                 }
             };
-            var userFileds = {
+            let userFileds = {
                 $project: {
                     "firstName": 1,
                     "lastName": 1,
@@ -63,13 +63,13 @@ var self = module.exports = {
                 userFileds.$project.email = 1;
             }
 
-            var aggregateArray = [userFilter, joinFilter, unwindObject, userFileds];
+            let aggregateArray = [userFilter, joinFilter, unwindObject, userFileds];
 
             // Find only users with profile picture.
-            DAL.Aggregate(usersCollectionName, aggregateArray).then(user => {
+            DAL.Aggregate(usersCollectionName, aggregateArray).then(result => {
                 // In case the user found, extract it from the array.
-                if (user && user.length == 1) {
-                    var user = user[0];
+                if (result && result.length == 1) {
+                    let user = result[0];
 
                     // In case the user has profile image.
                     if (user.profileImage) {
@@ -116,7 +116,7 @@ var self = module.exports = {
 
     RemoveFriends(userId, friendId) {
         return new Promise((resolve, reject) => {
-            var notificationsUnsetJson = {};
+            let notificationsUnsetJson = {};
             notificationsUnsetJson["messagesNotifications." + userId] = 1;
             notificationsUnsetJson["messagesNotifications." + friendId] = 1;
 
@@ -148,19 +148,19 @@ var self = module.exports = {
 
     DeleteUserValidation(userId) {
         return new Promise((resolve, reject) => {
-            var deleteUser = {
+            let deleteUser = {
                 token: sha512(userId + generator.GenerateId()),
                 date: new Date()
             }
 
-            var updateObj = {
+            let updateObj = {
                 $set: { deleteUser }
             }
 
             DAL.UpdateOne(usersCollectionName, { "_id": DAL.GetObjectId(userId) }, updateObj).
                 then(result => {
                     if (result) {                        
-                        var deleteUserLink = config.address.site +
+                        let deleteUserLink = config.address.site +
                             "/delete/" + deleteUser.token;
 
                         mailer.ValidateDeleteUser(result.email, result.firstName, deleteUserLink);

@@ -7,7 +7,7 @@ const validate = require('../security/validate');
 const bruteForceProtector = require('../security/bruteForceProtector');
 const config = require('../../config');
 
-var prefix = prefix = "/login";
+let prefix = "/login";
 
 module.exports = (app) => {
     // Validate the user details and login the user.
@@ -73,7 +73,7 @@ module.exports = (app) => {
 
     // Update user last login time in DB.
     app.post(prefix + '/updateLastLogin', (req, res) => {
-        var token = tokenHandler.DecodeTokenFromRequest(req);
+        let token = tokenHandler.DecodeTokenFromRequest(req);
 
         if (token) {
             loginBL.UpdateLastLogin(token.user._id).then(() => {
@@ -89,7 +89,7 @@ module.exports = (app) => {
 
     // Get user permissions from token.
     app.get(prefix + '/getUserPermissions', (req, res) => {
-        var token = tokenHandler.DecodeTokenFromRequest(req);
+        let token = tokenHandler.DecodeTokenFromRequest(req);
 
         if (token) {
             res.send(token.user.permissions);
@@ -107,7 +107,7 @@ module.exports = (app) => {
             next();
         },
         (req, res) => {
-            var email = { "email": req.body.email };
+            let email = { "email": req.body.email };
 
             // Check if the email is exists in the DB.
             loginBL.CheckIfUserExists(email).then((result) => {
@@ -122,7 +122,7 @@ module.exports = (app) => {
                         if (result) {
                             // Sending a welcome mail to the new user.
                             mailer.RegisterMail(req.body.email, req.body.firstName);
-                            var token = tokenHandler.GetTokenFromUserObject(result);
+                            let token = tokenHandler.GetTokenFromUserObject(result);
                             tokenHandler.SetTokenOnCookie(token, res);
                             res.send({ "result": true });
                             logsBL.Register(email, req);
@@ -145,11 +145,11 @@ module.exports = (app) => {
             next();
         },
         (req, res) => {
-            var email = req.body.email;
+            let email = req.body.email;
 
             forgotPasswordBL.SetUserResetCode(email).then(result => {
                 if (result) {
-                    var resetAddress =
+                    let resetAddress =
                         config.address.site + "/forgot/" + result.resetCode.token;
                     mailer.ForgotPasswordMail(email,
                         result.firstName,
@@ -180,7 +180,7 @@ module.exports = (app) => {
         (req, res) => {
             forgotPasswordBL.ResetPassword(req.body).then(result => {
                 if (result && result.isChanged) {
-                    var token = tokenHandler.GetTokenFromUserObject(result.user);
+                    let token = tokenHandler.GetTokenFromUserObject(result.user);
                     tokenHandler.SetTokenOnCookie(token, res);
                     res.send({ "result": true });
                 }

@@ -13,14 +13,14 @@ module.exports = {
 
     ReportUser(reportingUserId, reportingUserFriends, data) {
         return new Promise((resolve, reject) => {
-            var reportedUserId = data.reportedUserId;
+            let reportedUserId = data.reportedUserId;
 
             // In case the reporting user is not friend of the reported user.
             if (reportingUserFriends.indexOf(reportedUserId) == -1) {
                 resolve(null);
             }
             else {
-                var reportObj = {
+                let reportObj = {
                     "reportingUserId": DAL.GetObjectId(reportingUserId),
                     "reportedUserId": DAL.GetObjectId(reportedUserId),
                     "reasonId": DAL.GetObjectId(data.reasonId),

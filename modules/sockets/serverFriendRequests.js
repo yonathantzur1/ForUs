@@ -6,7 +6,7 @@ const logger = require('../logger');
 
 module.exports = function (io, socket, socketsDictionary, connectedUsers) {
     socket.on('ServerUpdateFriendRequestsStatus', function (friendId) {
-        var token = tokenHandler.DecodeTokenFromSocket(socket);
+        let token = tokenHandler.DecodeTokenFromSocket(socket);
 
         if (token) {
             io.to(token.user._id).emit('ClientUpdateFriendRequestsStatus', friendId);
@@ -14,7 +14,7 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
     });
 
     socket.on('ServerUpdateFriendRequests', function (friendRequests) {
-        var token = tokenHandler.DecodeTokenFromSocket(socket);
+        let token = tokenHandler.DecodeTokenFromSocket(socket);
 
         if (token) {
             io.to(token.user._id).emit('ClientUpdateFriendRequests', friendRequests);
@@ -22,11 +22,11 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
     });
 
     socket.on('SendFriendRequest', function (friendId) {
-        var token = tokenHandler.DecodeTokenFromSocket(socket);
+        let token = tokenHandler.DecodeTokenFromSocket(socket);
 
         if (token) {
-            var user = token.user;
-            var userFullName = user.firstName + " " + user.lastName;
+            let user = token.user;
+            let userFullName = user.firstName + " " + user.lastName;
 
             // In case the friend is online.
             if (connectedUsers[friendId]) {
@@ -51,13 +51,13 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
     });
 
     socket.on('ServerAddFriend', function (friend) {
-        var token = tokenHandler.DecodeTokenFromSocket(socket);
+        let token = tokenHandler.DecodeTokenFromSocket(socket);
 
         if (token) {
             // In case the confirmed user is not login.
             if (!connectedUsers[friend._id]) {
-                var userName = token.user.firstName + " " + token.user.lastName;
-                var friendEmail = friend.email;
+                let userName = token.user.firstName + " " + token.user.lastName;
+                let friendEmail = friend.email;
                 mailer.FriendRequestConfirm(friendEmail, userName, friend.firstName);
             }
 
@@ -68,13 +68,13 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
     });
 
     socket.on('ServerFriendAddedUpdate', function (friendId) {
-        var token = tokenHandler.DecodeTokenFromSocket(socket);
+        let token = tokenHandler.DecodeTokenFromSocket(socket);
 
         if (token) {
-            var user = token.user;
+            let user = token.user;
 
             // Build the object that will be sent to the user that submit the friend request.
-            var clientFriendObj = {
+            let clientFriendObj = {
                 "_id": user._id,
                 "firstName": user.firstName,
                 "lastName": user.lastName,
@@ -94,13 +94,10 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
     });
 
     socket.on('ServerRemoveFriend', function (friendId) {
-        var token = tokenHandler.DecodeTokenFromSocket(socket);
-
-        var x = socketsDictionary;
-        var y = connectedUsers;
+        let token = tokenHandler.DecodeTokenFromSocket(socket);
 
         if (token && token.user.friends.indexOf(friendId) != -1) {
-            var currUserId = token.user._id;
+            let currUserId = token.user._id;
             io.to(currUserId).emit('ClientRemoveFriend', friendId);
             io.to(friendId).emit('ClientRemoveFriend', currUserId);
         }

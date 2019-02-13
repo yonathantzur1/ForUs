@@ -1,7 +1,7 @@
 const usersReportsBL = require('../../BL/managementPanel/usersReportsBL');
 const permissionHandler = require('../../handlers/permissionHandler');
 
-var prefix = "/api/usersReports";
+let prefix = "/api/usersReports";
 
 module.exports = function (app) {
     // Root permissions check for all usersReports routes

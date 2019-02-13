@@ -1,7 +1,7 @@
 const permissionsBL = require('../../BL/managementPanel/permissionsBL');
 const permissionHandler = require('../../handlers/permissionHandler');
 
-var prefix = "/api/permissions";
+let prefix = "/api/permissions";
 
 module.exports = function (app) {    
     // Master permissions check for all management routes

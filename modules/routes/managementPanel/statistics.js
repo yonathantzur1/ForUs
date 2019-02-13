@@ -1,7 +1,7 @@
 const statisticsBL = require('../../BL/managementPanel/statisticsBL');
 const permissionHandler = require('../../handlers/permissionHandler');
 
-var prefix = "/api/statistics";
+let prefix = "/api/statistics";
 
 module.exports = function (app) {
     // Root permissions check for all statistics routes

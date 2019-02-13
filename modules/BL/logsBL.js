@@ -3,7 +3,7 @@ const config = require('../../config');
 const enums = require('../enums');
 const requestHandler = require('../handlers/requestHandler');
 
-var collectionName = config.db.collections.logs;
+let collectionName = config.db.collections.logs;
 
 module.exports = {
 

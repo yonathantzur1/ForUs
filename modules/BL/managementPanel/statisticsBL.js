@@ -9,11 +9,11 @@ const profilesCollectionName = config.db.collections.profiles;
 module.exports = {
     GetLoginsData(logType, range, datesRange, clientTimeZone, email) {
         return new Promise((resolve, reject) => {
-            var barsNumber;
-            var rangeKey;
-            var groupFilter;
-            var isRangeValid = true;
-            var dateWithOffsetQuery = { date: "$date", timezone: GetTimeZoneOffsetString(clientTimeZone) };
+            let barsNumber;
+            let rangeKey;
+            let groupFilter;
+            let isRangeValid = true;
+            let dateWithOffsetQuery = { date: "$date", timezone: GetTimeZoneOffsetString(clientTimeZone) };
 
             switch (range) {
                 case enums.STATISTICS_RANGE.YEARLY: {
@@ -34,7 +34,7 @@ module.exports = {
             }
 
             if (isRangeValid) {
-                var filter = {
+                let filter = {
                     "type": logType,
                     "date": {
                         $gte: new Date(datesRange.startDate),
@@ -44,23 +44,23 @@ module.exports = {
 
                 email && (filter.email = email);
 
-                var logsFilter = {
+                let logsFilter = {
                     $match: filter
                 }
 
-                var groupObj = {
+                let groupObj = {
                     $group: {
                         _id: groupFilter,
                         count: { $sum: 1 }
                     }
                 }
 
-                var aggregate = [logsFilter, groupObj];
+                let aggregate = [logsFilter, groupObj];
 
                 DAL.Aggregate(logsCollectionName, aggregate).then((result) => {
-                    var data = [];
+                    let data = [];
 
-                    for (var i = 0; i < barsNumber; i++) {
+                    for (let i = 0; i < barsNumber; i++) {
                         data.push(null);
                     }
 
@@ -81,13 +81,13 @@ module.exports = {
         return new Promise((resolve, reject) => {
             email = email.replace(/\\/g, '');
 
-            var usersFilter = {
+            let usersFilter = {
                 $match: {
                     email
                 }
             };
 
-            var joinFilter = {
+            let joinFilter = {
                 $lookup: {
                     from: profilesCollectionName,
                     localField: 'profile',
@@ -96,7 +96,7 @@ module.exports = {
                 }
             }
 
-            var aggregateArray = [
+            let aggregateArray = [
                 {
                     $project: {
                         fullName: { $concat: ["$firstName", " ", "$lastName"] },
@@ -117,7 +117,7 @@ module.exports = {
 
             DAL.Aggregate(usersCollectionName, aggregateArray).then((users) => {
                 if (users && users.length == 1) {
-                    var user = users[0];
+                    let user = users[0];
 
                     resolve({
                         fullName: user.fullName,
@@ -136,10 +136,10 @@ module.exports = {
 function GetTimeZoneOffsetString(clientTimeZone) {    
     // Convert the sign to the opposite for the mongo timezone calculation.
     clientTimeZone *= -1;
-    var isPositive = (clientTimeZone >= 0);
+    let isPositive = (clientTimeZone >= 0);
 
-    var hours = clientTimeZone / 60;
-    var minutes = clientTimeZone - (hours * 60);
+    let hours = clientTimeZone / 60;
+    let minutes = clientTimeZone - (hours * 60);
 
     if (hours < 10) {
         hours = "0" + hours;
@@ -149,7 +149,7 @@ function GetTimeZoneOffsetString(clientTimeZone) {
         minutes = "0" + minutes;
     }
 
-    var offsetString = hours + ":" + minutes;
+    let offsetString = hours + ":" + minutes;
     isPositive ? (offsetString = "+" + offsetString) : (offsetString = "-" + offsetString);
 
     // Convert time zone from minutes to milliseconds.

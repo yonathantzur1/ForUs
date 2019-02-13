@@ -1,6 +1,6 @@
 module.exports = {
     GetIpFromRequest(request) {
-        var ip = request.ip;
+        let ip = request.ip;
 
         return CutIpAddressStringPrefix(ip);
     },
@@ -10,7 +10,7 @@ module.exports = {
     },
 
     GetIpFromSocket(socket) {
-        var ip = socket.handshake.address;
+        let ip = socket.handshake.address;
 
         return CutIpAddressStringPrefix(ip);
     },
@@ -22,7 +22,7 @@ module.exports = {
 
 function CutIpAddressStringPrefix(ip) {
     if (ip) {
-        var realIpStringPartStartIndex = ip.lastIndexOf(":") + 1;
+        let realIpStringPartStartIndex = ip.lastIndexOf(":") + 1;
         return ip.substring(realIpStringPartStartIndex);
     }
     else {

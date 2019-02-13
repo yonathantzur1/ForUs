@@ -2,7 +2,7 @@ const config = require('../config');
 const encryption = require('./security/encryption');
 const DAL = require('./DAL');
 
-var chatsCollectionName = config.db.collections.chats;
+let chatsCollectionName = config.db.collections.chats;
 
 // ---------------- How to use ----------------
 // Don't forget to run the function and after it finished,

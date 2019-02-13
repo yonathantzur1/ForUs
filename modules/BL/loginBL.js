@@ -6,12 +6,12 @@ const sha512 = require('js-sha512');
 const collectionName = config.db.collections.users;
 const permissionsCollectionName = config.db.collections.permissions;
 
-var self = module.exports = {
+let self = module.exports = {
 
     GetUserById(id) {
         return new Promise((resolve, reject) => {
-            var userFilter = { $match: { "_id": DAL.GetObjectId(id) } };
-            var joinFilter = {
+            let userFilter = { $match: { "_id": DAL.GetObjectId(id) } };
+            let joinFilter = {
                 $lookup:
                 {
                     from: permissionsCollectionName,
@@ -22,13 +22,13 @@ var self = module.exports = {
             }
 
             // Remove unnecessary fields. 
-            var userFileds = { $project: { "permissions._id": 0, "permissions.members": 0 } };
+            let userFileds = { $project: { "permissions._id": 0, "permissions.members": 0 } };
 
-            var aggregateArray = [userFilter, joinFilter, userFileds];
+            let aggregateArray = [userFilter, joinFilter, userFileds];
 
             DAL.Aggregate(collectionName, aggregateArray).then((result) => {
                 if (result.length > 0) {
-                    var user = result[0];
+                    let user = result[0];
 
                     user.permissions = user.permissions.map(permission => {
                         return permission.type;
@@ -61,7 +61,7 @@ var self = module.exports = {
     // Return user object on login if the user was found else false.
     GetUser(user) {
         return new Promise((resolve, reject) => {
-            var filter = { "email": user.email };
+            let filter = { "email": user.email };
 
             DAL.Find(collectionName, filter).then((result) => {
                 // In case of error or more then one user, return null.
@@ -70,14 +70,14 @@ var self = module.exports = {
                 }
                 // In case the user was found.
                 else if (result.length == 1) {
-                    var userObj = result[0];
+                    let userObj = result[0];
 
                     // In case the password and salt hashing are the password hash in the db
                     if (sha512(user.password + userObj.salt) == userObj.password) {
                         // In case the user is blocked.
                         if (self.IsUserBlocked(userObj)) {
                             if (userObj.block.unblockDate) {
-                                var unblockDate = userObj.block.unblockDate;
+                                let unblockDate = userObj.block.unblockDate;
                                 unblockDate = unblockDate.getDate() + '/' + (unblockDate.getMonth() + 1) + '/' + unblockDate.getFullYear();
                                 userObj.block.unblockDate = unblockDate;
                             }
@@ -109,8 +109,8 @@ var self = module.exports = {
 
     UpdateLastLogin: (userId) => {
         return new Promise((resolve, reject) => {
-            var findObj = { "_id": DAL.GetObjectId(userId) };
-            var lastLoginTimeObj = { $set: { "lastLoginTime": new Date() } };
+            let findObj = { "_id": DAL.GetObjectId(userId) };
+            let lastLoginTimeObj = { $set: { "lastLoginTime": new Date() } };
 
             DAL.UpdateOne(collectionName, findObj, lastLoginTimeObj).then(resolve).catch(reject);
         });
@@ -136,11 +136,11 @@ var self = module.exports = {
     AddUser(newUser) {
         return new Promise((resolve, reject) => {
             if (ValidateUserObject(newUser)) {
-                var salt = generator.GenerateCode(config.security.password.saltSize);
+                let salt = generator.GenerateCode(config.security.password.saltSize);
                 newUser.password = sha512(newUser.password + salt);
 
                 // Creat the new user object.
-                var newUserObj = {
+                let newUserObj = {
                     "uid": generator.GenerateId(),
                     "firstName": newUser.firstName,
                     "lastName": newUser.lastName,

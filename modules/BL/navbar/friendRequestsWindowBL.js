@@ -6,9 +6,8 @@ const collectionName = config.db.collections.users;
 module.exports = {
     RemoveRequestConfirmAlert(data) {
         return new Promise((resolve, reject) => {
-            var userObjId = DAL.GetObjectId(data.userId);
-            var confirmedFriendsIds = data.confirmedFriendsIds;
-            var confirmedRequestsUnsetJson = {};
+            let userObjId = DAL.GetObjectId(data.userId);
+            let confirmedFriendsIds = data.confirmedFriendsIds;            
 
             DAL.UpdateOne(collectionName,
                 { "_id": userObjId },

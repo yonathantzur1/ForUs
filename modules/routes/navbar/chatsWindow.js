@@ -1,6 +1,6 @@
 const chatsWindowBL = require('../../BL/navbar/chatsWindowBL');
 
-var prefix = "/api/chatsWindow";
+let prefix = "/api/chatsWindow";
 
 module.exports = function (app) {    
     // Get all not empty chats order by last message time.

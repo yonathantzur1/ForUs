@@ -7,8 +7,8 @@ const password = config.security.encrypt.secret;
 module.exports = {
     encrypt(text, key) {
         try {
-            var cipher = crypto.createCipher(algorithm, key || password);
-            var crypted = cipher.update(text, 'utf8', 'hex');
+            let cipher = crypto.createCipher(algorithm, key || password);
+            let crypted = cipher.update(text, 'utf8', 'hex');
             crypted += cipher.final('hex');
 
             return crypted;
@@ -21,8 +21,8 @@ module.exports = {
 
     decrypt(text, key) {
         try {
-            var decipher = crypto.createDecipher(algorithm, key || password);
-            var dec = decipher.update(text, 'hex', 'utf8');
+            let decipher = crypto.createDecipher(algorithm, key || password);
+            let dec = decipher.update(text, 'hex', 'utf8');
             dec += decipher.final('utf8');
 
             return dec;

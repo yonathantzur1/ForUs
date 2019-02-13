@@ -11,8 +11,8 @@ const dbName = config.db.name;
 const maxConnectionAttemptsNumber = 5;
 
 // Connection variables
-var retryCounter = 0;
-var db;
+let retryCounter = 0;
+let db;
 
 function GetDB(callback) {
     // In case there is no connected db.
@@ -57,7 +57,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
-                    var collection = db.collection(collectionName);
+                    let collection = db.collection(collectionName);
 
                     collection.findOne(filter, (err, docs) => {
                         if (err == null) {
@@ -80,7 +80,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
-                    var collection = db.collection(collectionName);
+                    let collection = db.collection(collectionName);
 
                     collection.findOne(filter, { projection }, (err, docs) => {
                         if (err == null) {
@@ -103,7 +103,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
-                    var collection = db.collection(collectionName);
+                    let collection = db.collection(collectionName);
 
                     sortObj = sortObj ? sortObj : {};
 
@@ -128,7 +128,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
-                    var collection = db.collection(collectionName);
+                    let collection = db.collection(collectionName);
 
                     sortObj = sortObj ? sortObj : {};
 
@@ -153,7 +153,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
-                    var collection = db.collection(collectionName);
+                    let collection = db.collection(collectionName);
 
                     collection.aggregate(aggregateArray).toArray((err, docs) => {
                         if (err == null) {
@@ -176,7 +176,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
-                    var collection = db.collection(collectionName);
+                    let collection = db.collection(collectionName);
 
                     collection.insertOne(doc, (err, result) => {
                         if (err == null) {
@@ -199,9 +199,9 @@ module.exports = {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
-                    var collection = db.collection(collectionName);
+                    let collection = db.collection(collectionName);
 
-                    var updateConfig = {
+                    let updateConfig = {
                         returnOriginal: false,
                         upsert: isInsertIfNotExists
                     }
@@ -232,15 +232,15 @@ module.exports = {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
-                    var collection = db.collection(collectionName);
+                    let collection = db.collection(collectionName);
 
-                    var updateConfig = {
+                    let updateConfig = {
                         "upsert": false
                     }
 
                     collection.updateMany(findObj, updateObj, updateConfig, (err, result) => {
                         if (err == null) {
-                            var updatedDocumentsAmount = result.result.nModified;
+                            let updatedDocumentsAmount = result.result.nModified;
 
                             // In case any document was updated.
                             if (updatedDocumentsAmount != 0) {
@@ -267,7 +267,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
-                    var collection = db.collection(collectionName);
+                    let collection = db.collection(collectionName);
 
                     collection.deleteMany(filter, (err, result) => {
                         if (err == null) {
@@ -295,7 +295,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
-                    var collection = db.collection(collectionName);
+                    let collection = db.collection(collectionName);
 
                     collection.deleteOne(filter, (err, result) => {
                         if (err == null) {
@@ -323,7 +323,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
-                    var collection = db.collection(collectionName);
+                    let collection = db.collection(collectionName);
 
                     collection.save(object, (err, result) => {
                         if (err == null) {
@@ -346,7 +346,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             GetDB((err, db) => {
                 if (err == null) {
-                    var collection = db.collection(collectionName);
+                    let collection = db.collection(collectionName);
                     collection.find(filter).count().then(resolve).catch(reject);
                 }
                 else {

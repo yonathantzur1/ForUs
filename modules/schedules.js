@@ -18,14 +18,14 @@ module.exports = (connectedUsers) => {
 function RemoveEmptyChats(connectedUsers) {
     chatBL.GetAllEmptyChats().then((chats) => {
         if (chats) {
-            var chatsToRemove = [];
+            let chatsToRemove = [];
 
             // Searching for empty chats with offline members.
             chats.forEach(chat => {
-                var isAllChatMembersOffline = true;
+                let isAllChatMembersOffline = true;
 
                 // Check if all members of the chat are offline.
-                for (var i = 0; i < chat.membersIds.length; i++) {
+                for (let i = 0; i < chat.membersIds.length; i++) {
                     // In case the user is connect to the site.
                     if (connectedUsers[chat.membersIds[i]] != null) {
                         isAllChatMembersOffline = false;
@@ -47,11 +47,11 @@ function RemoveEmptyChats(connectedUsers) {
 
 // Remove block property from user document if the block was ended.
 function ClearEndedBlocksFromUsers() {
-    var removeBlockFind = {
+    let removeBlockFind = {
         "block.unblockDate": { $exists: true },
         "block.unblockDate": { $lte: new Date() }
     };
-    var removeBlockQuery = { $unset: { "block": 1 } };
+    let removeBlockQuery = { $unset: { "block": 1 } };
 
     DAL.Update(usersCollectionName, removeBlockFind, removeBlockQuery).catch(logger.error);
 }

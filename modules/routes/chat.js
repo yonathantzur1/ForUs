@@ -1,6 +1,6 @@
 const chatBL = require('../BL/chatBL');
 
-var prefix = "/api/chat";
+let prefix = "/api/chat";
 
 module.exports = (app) => {    
     // Return the first chat page messages.

@@ -2,18 +2,18 @@ const config = require('../../config');
 const ExpressBrute = require('express-brute');
 const store = new ExpressBrute.MemoryStore();
 
-var failReturnObj = null;
-var failReturnObjPath = null;
+let failReturnObj = null;
+let failReturnObjPath = null;
 
-var failCallback = (req, res, next, nextValidRequestDate) => {
+let failCallback = (req, res, next, nextValidRequestDate) => {
     // Calculate lock time in minutes.
-    var minutesLockTime =
+    let minutesLockTime =
         Math.ceil((nextValidRequestDate.getTime() - (new Date()).getTime()) / (1000 * 60));
 
     res.send(putValueInJsonByStringPath(failReturnObj, failReturnObjPath, minutesLockTime));
 };
 
-var handleStoreError = (error) => {
+let handleStoreError = (error) => {
     log.error(error);
 
     throw {

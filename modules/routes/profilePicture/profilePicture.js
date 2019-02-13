@@ -1,12 +1,10 @@
 const profilePictureBL = require('../../BL/profilePicture/profilePictureBL');
 
-var prefix = "/api/profilePicture";
+let prefix = "/api/profilePicture";
 
-module.exports = function (app) {    
+module.exports = function (app) {
     // Get user profile image.
     app.get(prefix + '/getUserProfileImage', function (req, res) {
-        var userId;
-
         profileId = req.user.profile;
 
         profilePictureBL.GetUserProfileImage(profileId).then((result) => {

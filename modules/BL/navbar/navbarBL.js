@@ -10,13 +10,13 @@ const profilesCollectionName = config.db.collections.profiles;
 const searchResultsLimit = 4;
 const chatMailNotificationDelayTime = 1; // hours
 
-var self = module.exports = {
+let self = module.exports = {
 
     GetFriends(friendsIds) {
         return new Promise((resolve, reject) => {
-            var friendsObjectIds = ConvertIdsToObjectIds(friendsIds);
-            var friendsFilter = { $match: { "_id": { $in: friendsObjectIds } } };
-            var joinFilter = {
+            let friendsObjectIds = ConvertIdsToObjectIds(friendsIds);
+            let friendsFilter = { $match: { "_id": { $in: friendsObjectIds } } };
+            let joinFilter = {
                 $lookup:
                 {
                     from: profilesCollectionName,
@@ -25,13 +25,13 @@ var self = module.exports = {
                     as: 'profileImage'
                 }
             };
-            var unwindObject = {
+            let unwindObject = {
                 $unwind: {
                     path: "$profileImage",
                     preserveNullAndEmptyArrays: true
                 }
             };
-            var concatFields = {
+            let concatFields = {
                 $project: {
                     "firstName": 1,
                     "lastName": 1,
@@ -40,10 +40,10 @@ var self = module.exports = {
                     fullNameReversed: { $concat: ["$lastName", " ", "$firstName"] }
                 }
             }
-            var sort = { $sort: { "fullName": 1, "fullNameReversed": 1 } };
-            var friendsFileds = { $project: { "firstName": 1, "lastName": 1, "profileImage.image": 1 } };
+            let sort = { $sort: { "fullName": 1, "fullNameReversed": 1 } };
+            let friendsFileds = { $project: { "firstName": 1, "lastName": 1, "profileImage.image": 1 } };
 
-            var aggregateArray = [
+            let aggregateArray = [
                 friendsFilter,
                 joinFilter,
                 unwindObject,
@@ -73,7 +73,7 @@ var self = module.exports = {
                 return resolve([]);
             }
 
-            var projectFields = {
+            let projectFields = {
                 $project: {
                     "_id": 1,
                     "profile": 1,
@@ -87,7 +87,7 @@ var self = module.exports = {
                 }
             }
 
-            var usersFilter = {
+            let usersFilter = {
                 $match: {
                     $and: [
                         {
@@ -109,7 +109,7 @@ var self = module.exports = {
                 }
             };
 
-            var userResultFields = {
+            let userResultFields = {
                 $project: {
                     "_id": 1,
                     "profile": 1,
@@ -118,10 +118,10 @@ var self = module.exports = {
                 }
             }
 
-            var sortObj = { $sort: { "fullName": 1, "fullNameReversed": 1 } };
-            var limitObj = { $limit: searchResultsLimit };
+            let sortObj = { $sort: { "fullName": 1, "fullNameReversed": 1 } };
+            let limitObj = { $limit: searchResultsLimit };
 
-            var aggregateArray = [projectFields, usersFilter, userResultFields, sortObj, limitObj];
+            let aggregateArray = [projectFields, usersFilter, userResultFields, sortObj, limitObj];
 
             DAL.Aggregate(usersCollectionName, aggregateArray).then((results) => {
                 if (results) {
@@ -134,8 +134,8 @@ var self = module.exports = {
 
                     // Second sort for results by the search input string.
                     results = results.sort((a, b) => {
-                        var aIndex = a.fullName.indexOf(searchInput);
-                        var bIndex = b.fullName.indexOf(searchInput);
+                        let aIndex = a.fullName.indexOf(searchInput);
+                        let bIndex = b.fullName.indexOf(searchInput);
 
                         if (aIndex < bIndex) {
                             return -1;
@@ -165,7 +165,7 @@ var self = module.exports = {
                         resolve(null);
                     }
                     else if (profiles.length > 0) {
-                        var profilesDictionary = {};
+                        let profilesDictionary = {};
 
                         profiles.forEach((profile) => {
                             profilesDictionary[profile._id] = profile.image;
@@ -190,7 +190,7 @@ var self = module.exports = {
     },
 
     AddMessageNotification(userId, friendId, msgId, senderName) {
-        var friendIdObject = {
+        let friendIdObject = {
             "_id": DAL.GetObjectId(friendId)
         }
 
@@ -203,7 +203,7 @@ var self = module.exports = {
 
         DAL.FindOneSpecific(usersCollectionName, friendIdObject, friendSelectFields).then((friendObj) => {
             if (friendObj) {
-                var messagesNotifications = friendObj.messagesNotifications;
+                let messagesNotifications = friendObj.messagesNotifications;
 
                 // Send email in case no notification from the friend
                 // exists or first notification is old.
@@ -214,7 +214,7 @@ var self = module.exports = {
                     mailer.MessageNotificationAlert(friendObj.email, friendObj.firstName, senderName);
                 }
 
-                var friendMessagesNotifications = messagesNotifications ? messagesNotifications[userId] : null;
+                let friendMessagesNotifications = messagesNotifications ? messagesNotifications[userId] : null;
 
                 if (friendMessagesNotifications) {
                     friendMessagesNotifications.unreadMessagesNumber++;
@@ -237,7 +237,7 @@ var self = module.exports = {
     },
 
     UpdateMessagesNotifications(userId, messagesNotifications) {
-        var userIdObject = {
+        let userIdObject = {
             "_id": DAL.GetObjectId(userId)
         }
 
@@ -246,7 +246,7 @@ var self = module.exports = {
     },
 
     RemoveMessagesNotifications(userId, messagesNotifications) {
-        var userIdObject = {
+        let userIdObject = {
             "_id": DAL.GetObjectId(userId)
         }
 
@@ -269,11 +269,11 @@ var self = module.exports = {
                 resolve(null);
             }
             else {
-                var userIdObject = {
+                let userIdObject = {
                     "_id": DAL.GetObjectId(user._id)
                 }
 
-                var friendIdObject = {
+                let friendIdObject = {
                     "_id": DAL.GetObjectId(friendId)
                 }
 
@@ -295,11 +295,11 @@ var self = module.exports = {
 
     RemoveFriendRequest(userId, friendId) {
         return new Promise((resolve, reject) => {
-            var userIdObject = {
+            let userIdObject = {
                 "_id": DAL.GetObjectId(userId)
             }
 
-            var friendIdObject = {
+            let friendIdObject = {
                 "_id": DAL.GetObjectId(friendId)
             }
 
@@ -322,11 +322,11 @@ var self = module.exports = {
     // Remove the friend request from DB after the request confirmed.
     RemoveFriendRequestAfterConfirm(userId, friendId) {
         return new Promise((resolve, reject) => {
-            var userIdObject = {
+            let userIdObject = {
                 "_id": DAL.GetObjectId(userId)
             }
 
-            var friendIdObject = {
+            let friendIdObject = {
                 "_id": DAL.GetObjectId(friendId)
             }
 
@@ -353,11 +353,11 @@ var self = module.exports = {
     // Remove the friend request from DB if the request was not confirmed.
     IgnoreFriendRequest(userId, friendId) {
         return new Promise((resolve, reject) => {
-            var userIdObject = {
+            let userIdObject = {
                 "_id": DAL.GetObjectId(userId)
             }
 
-            var friendIdObject = {
+            let friendIdObject = {
                 "_id": DAL.GetObjectId(friendId)
             }
 
@@ -383,11 +383,11 @@ var self = module.exports = {
                 resolve(null);
             }
             else {
-                var userIdObject = {
+                let userIdObject = {
                     "_id": DAL.GetObjectId(user._id)
                 }
 
-                var friendIdObject = {
+                let friendIdObject = {
                     "_id": DAL.GetObjectId(friendId)
                 }
 
@@ -396,7 +396,7 @@ var self = module.exports = {
                     if (updatedUser) {
                         // Getting a new token from the user object with the friend.
                         user.friends.push(friendId);
-                        var newToken = tokenHandler.GetTokenFromUserObject(user);
+                        let newToken = tokenHandler.GetTokenFromUserObject(user);
 
                         // Add the user to the friend as a friend.
                         DAL.UpdateOne(usersCollectionName, friendIdObject, { $push: { "friends": user._id } }).then((updatedFriend) => {
@@ -404,7 +404,7 @@ var self = module.exports = {
                                 // Remove the friend request that came from the friend.
                                 self.RemoveFriendRequestAfterConfirm(friendId, user._id).then((result) => {
                                     if (result) {
-                                        var clientFriendObject = {
+                                        let clientFriendObject = {
                                             "_id": updatedFriend._id.toString(),
                                             "email": updatedFriend.email,
                                             "firstName": updatedFriend.firstName,
@@ -412,7 +412,7 @@ var self = module.exports = {
                                             "profileImage": null
                                         }
 
-                                        var finalResult = {
+                                        let finalResult = {
                                             "token": newToken,
                                             "friend": clientFriendObject
                                         }
@@ -451,7 +451,7 @@ var self = module.exports = {
 };
 
 function ConvertIdsToObjectIds(array) {
-    for (var i = 0; i < array.length; i++) {
+    for (let i = 0; i < array.length; i++) {
         array[i] = DAL.GetObjectId(array[i]);
     }
 

@@ -4,7 +4,7 @@ const encryption = require('../security/encryption');
 
 module.exports = {
     GetTokenFromUserObject(user) {
-        var tokenUserObject = {
+        let tokenUserObject = {
             "_id": user._id,
             "uid": user.uid,
             "firstName": user.firstName,
@@ -16,8 +16,8 @@ module.exports = {
             "permissions": user.permissions
         }
 
-        var tokenObject = { "user": tokenUserObject };
-        var token = encryption.encrypt(jwt.sign(tokenObject,
+        let tokenObject = { "user": tokenUserObject };
+        let token = encryption.encrypt(jwt.sign(tokenObject,
             config.security.jwt.secret,
             config.security.jwt.options));
 
@@ -34,12 +34,12 @@ module.exports = {
     },
 
     DecodeTokenFromRequest(request) {
-        var token = this.GetTokenFromRequest(request);
+        let token = this.GetTokenFromRequest(request);
         return this.DecodeToken(token);
     },
 
     DecodeTokenFromSocket(socket) {
-        var token = this.GetTokenFromSocket(socket);
+        let token = this.GetTokenFromSocket(socket);
         return this.DecodeToken(token);
     },
 
@@ -48,7 +48,7 @@ module.exports = {
             token,
             { maxAge: config.security.token.maxAge, httpOnly: true });
 
-        var token = this.DecodeToken(token);
+        token = this.DecodeToken(token);
 
         if (token.user && !isDisableUidCookieUpdate) {
             res.cookie(config.security.token.uidCookieName,
@@ -92,11 +92,11 @@ function GetCookieByName(cname, cookie) {
         return "";
     }
 
-    var name = cname + "=";
-    var ca = cookie.split(';');
+    let name = cname + "=";
+    let ca = cookie.split(';');
 
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
 
         while (c.charAt(0) == ' ') {
             c = c.substring(1);

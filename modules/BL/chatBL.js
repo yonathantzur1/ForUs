@@ -6,27 +6,27 @@ const logger = require('../logger');
 const collectionName = config.db.collections.chats;
 const messagesInPage = 40;
 
-var self = module.exports = {
+let self = module.exports = {
     GetChat(membersIds, user) {
         return new Promise((resolve, reject) => {
             if (self.ValidateUserGetChat(membersIds, user.friends, user._id)) {
-                var chatQueryFilter = {
+                let chatQueryFilter = {
                     $match: {
                         "membersIds": { $all: membersIds }
                     }
                 }
 
-                var sliceObj = {
+                let sliceObj = {
                     $project: {
                         messages: { $slice: ["$messages", -1 * messagesInPage] },
                         totalMessagesNum: { $size: "$messages" }
                     }
                 }
 
-                var aggregate = [chatQueryFilter, sliceObj];
+                let aggregate = [chatQueryFilter, sliceObj];
 
                 DAL.Aggregate(collectionName, aggregate).then((result) => {
-                    var chat;
+                    let chat;
 
                     // In case the chat is not exists.
                     if (result.length == 0) {
@@ -50,26 +50,26 @@ var self = module.exports = {
     GetChatPage(membersIds, user, currMessagesNum, totalMessagesNum) {
         return new Promise((resolve, reject) => {
             if (self.ValidateUserGetChat(membersIds, user.friends, user._id)) {
-                var chatQueryFilter = {
+                let chatQueryFilter = {
                     $match: {
                         "membersIds": { $all: membersIds }
                     }
                 }
 
-                var messagesInPage = messagesInPage;
-                var page = (currMessagesNum / messagesInPage) + 1;
-                var selectNextNumber = Math.min(messagesInPage, (totalMessagesNum - currMessagesNum));
+                let messagesInPage = messagesInPage;
+                let page = (currMessagesNum / messagesInPage) + 1;
+                let selectNextNumber = Math.min(messagesInPage, (totalMessagesNum - currMessagesNum));
 
-                var sliceObj = {
+                let sliceObj = {
                     $project: {
                         messages: { $slice: ["$messages", (-1 * messagesInPage * page), selectNextNumber] }
                     }
                 }
 
-                var aggregate = [chatQueryFilter, sliceObj];
+                let aggregate = [chatQueryFilter, sliceObj];
 
                 DAL.Aggregate(collectionName, aggregate).then((result) => {
-                    var chat;
+                    let chat;
 
                     if (result.length != 0) {
                         chat = result[0];
@@ -86,11 +86,11 @@ var self = module.exports = {
     },
 
     CreateChat(membersIds) {
-        var chatQueryFilter = {
+        let chatQueryFilter = {
             "membersIds": membersIds
         }
 
-        var chatObj = {
+        let chatObj = {
             $set: {
                 "membersIds": membersIds,
                 "messages": []
@@ -105,8 +105,8 @@ var self = module.exports = {
             // Encrypt message text.
             msgData.text = encryption.encrypt(msgData.text);
 
-            var chatFilter = { "membersIds": { $all: [msgData.from, msgData.to] } };
-            var chatUpdateQuery = {
+            let chatFilter = { "membersIds": { $all: [msgData.from, msgData.to] } };
+            let chatUpdateQuery = {
                 $push: { "messages": msgData },
                 $set: { "lastMessage": { "text": (msgData.isImage ? "" : msgData.text), "time": msgData.time, "isImage": (msgData.isImage ? true : false) } }
             }
@@ -119,7 +119,7 @@ var self = module.exports = {
 
     GetAllEmptyChats() {
         return new Promise((resolve, reject) => {
-            var chatFields = { "membersIds": 1 };
+            let chatFields = { "membersIds": 1 };
 
             DAL.FindSpecific(collectionName, { "messages": { $size: 0 } }, chatFields)
                 .then(resolve).catch(reject);
@@ -141,7 +141,7 @@ var self = module.exports = {
     },
 
     ValidateUserGetChat(membersIds, userFriends, userId) {
-        for (var i = 0; i < membersIds.length; i++) {
+        for (let i = 0; i < membersIds.length; i++) {
             if (userFriends.indexOf(membersIds[i]) == -1 && membersIds[i] != userId) {
                 return false;
             }

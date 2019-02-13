@@ -6,7 +6,7 @@ const bruteForceProtector = require('../../security/bruteForceProtector');
 const config = require('../../../config');
 const mailer = require('../../mailer');
 
-var prefix = "/api/userPasswordWindow";
+let prefix = "/api/userPasswordWindow";
 
 module.exports = function (app) {
     app.put(prefix + '/updateUserPassword',
@@ -44,11 +44,11 @@ module.exports = function (app) {
 
     // Change password.
     app.get(prefix + '/changePasswordByMail', function (req, res) {
-        var email = req.user.email;
+        let email = req.user.email;
 
         forgotPasswordBL.SetUserResetCode(email).then(result => {
             if (result) {
-                var resetAddress =
+                let resetAddress =
                     config.address.site + "/forgot/" + result.resetCode.token;
                 mailer.ChangePasswordMail(email,
                     result.firstName,

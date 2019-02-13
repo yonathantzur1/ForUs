@@ -2,7 +2,7 @@ const userPrivacyWindowBL = require('../../BL/userPage/userPrivacyWindowBL');
 const validate = require('../../security/validate');
 const events = require('../../events');
 
-var prefix = "/api/userPrivacyWindow";
+let prefix = "/api/userPrivacyWindow";
 
 module.exports = function (app) {
     // Get user privacy status (is user private  - true/false).

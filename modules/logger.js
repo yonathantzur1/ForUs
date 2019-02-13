@@ -4,7 +4,7 @@ const path = require('path');
 const config = require('../config');
 
 module.exports = (rootDir) => {
-    var logsDir = path.join(rootDir, "\\", config.logs.directoryName);
+    let logsDir = path.join(rootDir, "\\", config.logs.directoryName);
 
     const logger = createLogger({
         format: combine(

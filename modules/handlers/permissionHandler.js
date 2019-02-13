@@ -1,6 +1,6 @@
 const enums = require('../enums');
 
-var self = module.exports = {
+let self = module.exports = {
     IsUserHasMasterPermission(permissionsArray) {
         return IsUserHasPermission(permissionsArray, enums.PERMISSION.MASTER);
     },

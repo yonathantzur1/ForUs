@@ -3,9 +3,9 @@ const regexp = require('../../app/regex/regexpEnums');
 
 module.exports = function (req, res, next) {
     try {
-        var fullRequestPath = req.originalUrl;
-        var reqMethod = req.method;
-        var data;
+        let fullRequestPath = req.originalUrl;
+        let reqMethod = req.method;
+        let data;
 
         if (reqMethod == "POST" || reqMethod == "PUT") {
             data = req.body;
@@ -14,19 +14,19 @@ module.exports = function (req, res, next) {
             data = req.query;
 
             // Searching for ? of query parameters.
-            var startParametersIndex = fullRequestPath.indexOf('?');
+            let startParametersIndex = fullRequestPath.indexOf('?');
 
             if (startParametersIndex != -1) {
                 fullRequestPath = fullRequestPath.substring(0, startParametersIndex);
             }
         }
 
-        var schemaPath = fullRequestPath.split('/');
+        let schemaPath = fullRequestPath.split('/');
         schemaPath[0] = reqMethod;
 
-        var schema = validateSchemaObj[reqMethod];
+        let schema = validateSchemaObj[reqMethod];
 
-        for (var i = 1; i < schemaPath.length; i++) {
+        for (let i = 1; i < schemaPath.length; i++) {
             schema = schema[schemaPath[i]];
 
             if (schema == null) {
@@ -34,7 +34,7 @@ module.exports = function (req, res, next) {
             }
         }
 
-        var result = joi.validate(data, schema);
+        let result = joi.validate(data, schema);
 
         if (!result) {
             throw ("Validate result is " + result);
@@ -54,9 +54,9 @@ module.exports = function (req, res, next) {
 
 function BuildSchemaPathString(schemaPath) {
     if (schemaPath.length > 0) {
-        var schema = schemaPath[0];
+        let schema = schemaPath[0];
 
-        for (var i = 1; i < schemaPath.length; i++) {
+        for (let i = 1; i < schemaPath.length; i++) {
             schema += "->" + schemaPath[i]
         }
 
@@ -67,7 +67,7 @@ function BuildSchemaPathString(schemaPath) {
     }
 }
 
-var validateSchemaObj = {}
+let validateSchemaObj = {}
 
 //#region get
 

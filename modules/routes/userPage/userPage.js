@@ -2,13 +2,13 @@ const userPageBL = require('../../BL/userPage/userPageBL');
 const managementBL = require('../../BL/managementPanel/managementBL');
 const events = require('../../events');
 
-var prefix = "/api/userPage";
+let prefix = "/api/userPage";
 
 module.exports = function (app) {
     // Get user details by id.
     app.get(prefix + '/getUserDetails', function (req, res) {
-        var userId = req.query.id;
-        var currUserId = req.user._id;
+        let userId = req.query.id;
+        let currUserId = req.user._id;
 
         userPageBL.GetUserDetails(userId, currUserId).then(result => {
             res.send(result);
@@ -19,8 +19,8 @@ module.exports = function (app) {
 
     // Remove friend.
     app.delete(prefix + '/removeFriends', function (req, res) {
-        var currUserId = req.user._id;
-        var friendId = req.query.friendId;
+        let currUserId = req.user._id;
+        let friendId = req.query.friendId;
 
         userPageBL.RemoveFriends(currUserId, friendId).then(result => {
             res.send(result);

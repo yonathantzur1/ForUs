@@ -12,14 +12,14 @@ const saltSize = config.security.password.saltSize;
 module.exports = {
     UpdateUserPassword(oldPassword, newPassword, userId) {
         return new Promise((resolve, reject) => {
-            var userObjId = DAL.GetObjectId(userId);
+            let userObjId = DAL.GetObjectId(userId);
 
             loginBL.IsPasswordMatchToUser(userObjId, oldPassword).then(result => {
                 // In case the password math to the user.
                 if (result) {
-                    var salt = generator.GenerateCode(saltSize);
-                    var findObj = { "_id": userObjId };
-                    var updateObj = {
+                    let salt = generator.GenerateCode(saltSize);
+                    let findObj = { "_id": userObjId };
+                    let updateObj = {
                         $set: {
                             "uid": generator.GenerateId(),
                             "salt": salt,

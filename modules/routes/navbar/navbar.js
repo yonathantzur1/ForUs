@@ -1,7 +1,7 @@
 const navbarBL = require('../../BL/navbar/navbarBL');
 const tokenHandler = require("../../handlers/tokenHandler");
 
-var prefix = "/api/navbar";
+let prefix = "/api/navbar";
 
 module.exports = function (app) {
 

@@ -7,13 +7,13 @@ const logger = require('../logger');
 module.exports = function (io, socket, socketsDictionary, connectedUsers) {
 
     socket.on('SendMessage', function (msgData) {
-        var originalMsgData = Object.assign({}, msgData);
+        let originalMsgData = Object.assign({}, msgData);
 
         // Delete spaces from the start and the end of the message text.
         msgData.time = new Date();
         msgData.id = generator.GenerateId();
         msgData.text = (msgData.isImage) ? msgData.text : msgData.text.trim();
-        var token = tokenHandler.DecodeTokenFromSocket(socket);
+        let token = tokenHandler.DecodeTokenFromSocket(socket);
 
         // In case the message is to the user friend.
         if (token && ValidateMessage(msgData, token.user)) {
@@ -22,8 +22,8 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
                 io.to(msgData.to).emit('GetMessage', msgData);
             }
             else {
-                var senderObj = connectedUsers[msgData.from];
-                var senderName = senderObj ? (senderObj.firstName + " " + senderObj.lastName) : null;
+                let senderObj = connectedUsers[msgData.from];
+                let senderName = senderObj ? (senderObj.firstName + " " + senderObj.lastName) : null;
                 navbarBL.AddMessageNotification(msgData.from, msgData.to, msgData.id, senderName);
             }
 
@@ -37,11 +37,11 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
     });
 
     socket.on('ServerGetOnlineFriends', function () {
-        var token = tokenHandler.DecodeTokenFromSocket(socket);
+        let token = tokenHandler.DecodeTokenFromSocket(socket);
 
         if (token) {
-            var user = token.user;
-            var onlineFriendsIds = [];
+            let user = token.user;
+            let onlineFriendsIds = [];
 
             user.friends.forEach(friendId => {
                 if (connectedUsers[friendId]) {
@@ -54,7 +54,7 @@ module.exports = function (io, socket, socketsDictionary, connectedUsers) {
     });
 
     socket.on('ServerFriendTyping', function (friendId) {
-        var token = tokenHandler.DecodeTokenFromSocket(socket);
+        let token = tokenHandler.DecodeTokenFromSocket(socket);
 
         if (token) {
             io.to(friendId).emit('ClientFriendTyping', token.user._id);

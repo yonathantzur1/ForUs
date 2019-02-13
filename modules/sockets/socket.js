@@ -6,8 +6,8 @@ const config = require('../../config');
 const enums = require('../enums');
 const jobs = require('../jobs');
 
-var socketsDictionary = {};
-var connectedUsers = {};
+let socketsDictionary = {};
+let connectedUsers = {};
 
 module.exports = function (io) {
     io.on('connection', function (socket) {
@@ -17,14 +17,14 @@ module.exports = function (io) {
         require('./serverFriendRequests.js')(io, socket, socketsDictionary, connectedUsers);
 
         socket.on('login', function () {
-            var token = tokenHandler.DecodeTokenFromSocket(socket);
+            let token = tokenHandler.DecodeTokenFromSocket(socket);
 
             if (token) {
-                var user = token.user;
+                let user = token.user;
 
                 // In case the user is already login.
                 if (connectedUsers[user._id]) {
-                    var loginUserObj = connectedUsers[user._id];
+                    let loginUserObj = connectedUsers[user._id];
                     user.socketIds = loginUserObj.socketIds;
                     user.socketIds.push(socket.id);
                 }
@@ -37,9 +37,9 @@ module.exports = function (io) {
                 connectedUsers[user._id] = user;
                 connectedUsers[user._id].lastKeepAlive = new Date();
 
-                var connectionUserFriends = user.friends;
+                let connectionUserFriends = user.friends;
 
-                var statusObj = {
+                let statusObj = {
                     "friendId": user._id,
                     "isOnline": true
                 }
@@ -58,7 +58,7 @@ module.exports = function (io) {
         });
 
         socket.on('LogoutUserSessionServer', function (userId, msg) {
-            var token = tokenHandler.DecodeTokenFromSocket(socket);
+            let token = tokenHandler.DecodeTokenFromSocket(socket);
 
             // Logout the given user in case the sender is admin, or in case the logout is self.
             if (token &&
@@ -69,7 +69,7 @@ module.exports = function (io) {
         });
 
         socket.on('ServerRemoveFriendUser', function (userId, userName, friendsIds) {
-            var token = tokenHandler.DecodeTokenFromSocket(socket);
+            let token = tokenHandler.DecodeTokenFromSocket(socket);
 
             if (token &&
                 token.user &&
@@ -95,18 +95,18 @@ module.exports = function (io) {
 }
 
 function LogoutUser(io, socket) {
-    var disconnectUserId = socketsDictionary[socket.id];
-    var disconnectUser = connectedUsers[disconnectUserId];
+    let disconnectUserId = socketsDictionary[socket.id];
+    let disconnectUser = connectedUsers[disconnectUserId];
 
     if (disconnectUser) {
         // In case the user was connected only once.
         if (disconnectUser.socketIds.length == 1) {
-            var disconnectUserFriends = disconnectUser.friends;
+            let disconnectUserFriends = disconnectUser.friends;
 
             delete socketsDictionary[socket.id];
             delete connectedUsers[disconnectUserId];
 
-            var statusObj = {
+            let statusObj = {
                 "friendId": disconnectUserId,
                 "isOnline": false
             }
@@ -123,14 +123,14 @@ function LogoutUser(io, socket) {
 }
 
 function CleanDisconnectUsers() {
-    var disconnectUsersIds = [];
+    let disconnectUsersIds = [];
 
     // Running on all the connected users.
     Object.keys(connectedUsers).forEach(userId => {
         // Calculate seconds diffrence from the last user keep alive.
         lastKeepAliveSecondsDelay = (new Date() - connectedUsers[userId].lastKeepAlive) / 1000;
 
-        var x = socketsDictionary;
+        let x = socketsDictionary;
         // In case the diffrence is big, disconnect the user.
         if (lastKeepAliveSecondsDelay > config.socket.maxLastKeepAliveDelay) {
             disconnectUsersIds.push(userId);
@@ -139,7 +139,7 @@ function CleanDisconnectUsers() {
 
     // Remove the disconnected user and his sockets from dictionaries.
     disconnectUsersIds.forEach(userId => {
-        var socketIds = connectedUsers[userId].socketIds;
+        let socketIds = connectedUsers[userId].socketIds;
         delete connectedUsers[userId];
 
         socketIds.forEach(socketId => {

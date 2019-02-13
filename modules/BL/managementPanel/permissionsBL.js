@@ -6,7 +6,7 @@ const collectionName = config.db.collections.permissions;
 module.exports = {
     GetAllPermissions() {
         return new Promise((resolve, reject) => {
-            var queryFields = { "type": 1, "name": 1 };
+            let queryFields = { "type": 1, "name": 1 };
 
             DAL.FindSpecific(collectionName, {}, queryFields).then(resolve).catch(reject);
         });
@@ -14,8 +14,8 @@ module.exports = {
 
     GetUserPermissions(userId) {
         return new Promise((resolve, reject) => {
-            var query = { "members": DAL.GetObjectId(userId) };
-            var queryFields = { "type": 1 };
+            let query = { "members": DAL.GetObjectId(userId) };
+            let queryFields = { "type": 1 };
 
             DAL.FindSpecific(collectionName, query, queryFields).then((permissions) => {
                 if (permissions) {
@@ -31,10 +31,10 @@ module.exports = {
 
     UpdatePermissions(userId, permissions) {
         return new Promise((resolve, reject) => {
-            var userObjId = DAL.GetObjectId(userId);
+            let userObjId = DAL.GetObjectId(userId);
 
             DAL.Update(collectionName, {}, { $pull: { "members": userObjId } }).then((result) => {
-                var updateFindQuery = { $or: [] };
+                let updateFindQuery = { $or: [] };
 
                 permissions.forEach(permission => {
                     if (permission.isChecked) {

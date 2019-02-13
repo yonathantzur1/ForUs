@@ -9,7 +9,7 @@ const usersCollectionName = config.db.collections.users;
 module.exports = {
     GetAllReports() {
         return new Promise((resolve, reject) => {
-            var joinReason = {
+            let joinReason = {
                 $lookup:
                 {
                     from: reportReasonsCollectionName,
@@ -19,13 +19,13 @@ module.exports = {
                 }
             };
 
-            var unwindReason = {
+            let unwindReason = {
                 $unwind: {
                     path: "$reason"
                 }
             };
 
-            var joinReportingUser = {
+            let joinReportingUser = {
                 $lookup:
                 {
                     from: usersCollectionName,
@@ -35,14 +35,14 @@ module.exports = {
                 }
             };
 
-            var unwindReportingUser = {
+            let unwindReportingUser = {
                 $unwind: {
                     path: "$reportingUser",
                     preserveNullAndEmptyArrays: true
                 }
             };
 
-            var joinReportedUser = {
+            let joinReportedUser = {
                 $lookup:
                 {
                     from: usersCollectionName,
@@ -52,16 +52,16 @@ module.exports = {
                 }
             };
 
-            var unwindReportedUser = {
+            let unwindReportedUser = {
                 $unwind: {
                     path: "$reportedUser",
                     preserveNullAndEmptyArrays: true
                 }
             };
 
-            var sort = { $sort: { "openDate": -1 } };
+            let sort = { $sort: { "openDate": -1 } };
 
-            var aggregateArray = [
+            let aggregateArray = [
                 joinReason,
                 unwindReason,
                 joinReportingUser,
@@ -76,8 +76,8 @@ module.exports = {
                     delete report.reasonId;
                     report.reason = report.reason.name;
 
-                    var reportingUser = null;
-                    var reportedUser = null;
+                    let reportingUser = null;
+                    let reportedUser = null;
 
                     // Prepare reporting user object to client.
                     report.reportingUser && (reportingUser = {

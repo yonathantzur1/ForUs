@@ -7,8 +7,12 @@ const compression = require('compression');
 const io = require('socket.io')(http);
 const tokenHandler = require('./modules/handlers/tokenHandler');
 const logger = require('./modules/logger')(__dirname);
-var secure = require('ssl-express-www');
+const secure = require('ssl-express-www');
 const config = require('./config');
+
+process.on('uncaughtException', function (err) {
+    logger.error(err)
+});
 
 // app define settings.
 config.server.isForceHttps && app.use(secure);
@@ -33,8 +37,8 @@ function RedirectToLogin(req, res) {
 }
 
 app.use('/api', (req, res, next) => {
-    var token = tokenHandler.DecodeTokenFromRequest(req);
-    var cookieUid = tokenHandler.GetUidFromRequest(req);
+    let token = tokenHandler.DecodeTokenFromRequest(req);
+    let cookieUid = tokenHandler.GetUidFromRequest(req);
 
     // In case the user login and authorized.
     if (token && token.user.uid == cookieUid) {
@@ -57,7 +61,7 @@ app.use('/api', (req, res, next) => {
 });
 
 app.get('/login', (req, res, next) => {
-    var token = tokenHandler.DecodeTokenFromRequest(req);
+    let token = tokenHandler.DecodeTokenFromRequest(req);
 
     if (!token) {
         tokenHandler.DeleteAuthCookies(res);
@@ -73,7 +77,7 @@ http.listen(config.server.port, () => {
 });
 
 // Import socket.io module
-var connectedUsers = require('./modules/sockets/socket')(io);
+let connectedUsers = require('./modules/sockets/socket')(io);
 
 // Routes requires
 require('./modules/routes/auth')(app, connectedUsers);

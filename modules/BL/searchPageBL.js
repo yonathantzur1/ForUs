@@ -14,7 +14,7 @@ module.exports = {
 
             searchInput = searchInput.replace(/\\/g, '');
 
-            var projectFields = {
+            let projectFields = {
                 $project: {
                     "_id": 1,
                     "profile": 1,
@@ -26,7 +26,7 @@ module.exports = {
                 }
             }
 
-            var usersFilter = {
+            let usersFilter = {
                 $match: {
                     $and: [
                         {
@@ -47,7 +47,7 @@ module.exports = {
                 }
             };
 
-            var joinFilter = {
+            let joinFilter = {
                 $lookup:
                 {
                     from: profilesCollectionName,
@@ -56,16 +56,16 @@ module.exports = {
                     as: 'profileImage'
                 }
             };
-            var unwindObject = {
+            let unwindObject = {
                 $unwind: {
                     path: "$profileImage",
                     preserveNullAndEmptyArrays: true
                 }
             };
-            var sort = { $sort: { "fullName": 1, "fullNameReversed": 1 } };
-            var usersFinalFieldsWithProfile = { $project: { "fullName": 1, "profileImage.image": 1 } };
+            let sort = { $sort: { "fullName": 1, "fullNameReversed": 1 } };
+            let usersFinalFieldsWithProfile = { $project: { "fullName": 1, "profileImage.image": 1 } };
 
-            var joinAggregateArray = [
+            let joinAggregateArray = [
                 projectFields,
                 usersFilter,
                 joinFilter,
@@ -78,8 +78,8 @@ module.exports = {
                 if (users) {
                     // Second sort for results by the search input string.
                     users = users.sort((a, b) => {
-                        var aIndex = a.fullName.indexOf(searchInput);
-                        var bIndex = b.fullName.indexOf(searchInput);
+                        let aIndex = a.fullName.indexOf(searchInput);
+                        let bIndex = b.fullName.indexOf(searchInput);
 
                         if (aIndex < bIndex) {
                             return -1;
@@ -106,8 +106,8 @@ module.exports = {
 
     GetUserFriendRequests(userId) {
         return new Promise((resolve, reject) => {
-            var query = { "_id": DAL.GetObjectId(userId) };
-            var fields = { "_id": 0, "friendRequests.get": 1, "friendRequests.send": 1 };
+            let query = { "_id": DAL.GetObjectId(userId) };
+            let fields = { "_id": 0, "friendRequests.get": 1, "friendRequests.send": 1 };
 
             DAL.FindOneSpecific(usersCollectionName, query, fields).then(resolve).catch(reject);
         });

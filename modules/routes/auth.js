@@ -2,7 +2,7 @@ const loginBL = require('../BL/loginBL');
 const tokenHandler = require('../handlers/tokenHandler');
 const permissionHandler = require('../handlers/permissionHandler');
 
-var prefix = "/api/auth";
+let prefix = "/api/auth";
 
 module.exports = (app, connectedUsers) => {    
     // Checking if the session of the user is open.
@@ -12,7 +12,7 @@ module.exports = (app, connectedUsers) => {
         }
         else {
             loginBL.GetUserById(req.user._id).then((user) => {
-                var cookieUid = tokenHandler.GetUidFromRequest(req);
+                let cookieUid = tokenHandler.GetUidFromRequest(req);
 
                 // Double check uid (after main server token validae middleware)
                 // from the original DB user object.
@@ -36,10 +36,10 @@ module.exports = (app, connectedUsers) => {
 
     // Getting the current login user.
     app.get(prefix + '/getCurrUser', (req, res) => {
-        var user = req.user;
+        let user = req.user;
 
         // Return user with only specific details.
-        var userClientObject = {
+        let userClientObject = {
             "_id": user._id,
             "uid": user.uid,
             "firstName": user.firstName,
@@ -54,7 +54,7 @@ module.exports = (app, connectedUsers) => {
     app.get(prefix + '/setCurrUserToken', (req, res) => {
         loginBL.GetUserById(req.user._id).then((user) => {
             if (user) {
-                var token = tokenHandler.GetTokenFromUserObject(user);
+                let token = tokenHandler.GetTokenFromUserObject(user);
                 tokenHandler.SetTokenOnCookie(token, res);
                 res.send(true);
             }
@@ -67,7 +67,7 @@ module.exports = (app, connectedUsers) => {
     });
 
     app.get(prefix + '/isUserSocketConnect', (req, res) => {
-        var socketUser = connectedUsers[req.user._id];
+        let socketUser = connectedUsers[req.user._id];
 
         if (socketUser) {
             socketUser.lastKeepAlive = new Date();

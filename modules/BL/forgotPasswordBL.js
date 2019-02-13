@@ -12,10 +12,10 @@ module.exports = {
     // Add reset password code to the DB and return the user.
     SetUserResetCode(email) {
         return new Promise((resolve, reject) => {
-            var code = generator.GenerateCode(config.security.password.resetCode.numOfDigits, true);
-            var resetPasswordToken = sha512(email + code);
+            let code = generator.GenerateCode(config.security.password.resetCode.numOfDigits, true);
+            let resetPasswordToken = sha512(email + code);
 
-            var resetCode = {
+            let resetCode = {
                 $set: {
                     "resetCode":
                     {
@@ -35,8 +35,8 @@ module.exports = {
     // Reset user password by code.
     ResetPassword(forgotUser) {
         return new Promise((resolve, reject) => {
-            var emailObj = { "email": forgotUser.email };
-            var errorsObj = {
+            let emailObj = { "email": forgotUser.email };
+            let errorsObj = {
                 emailNotFound: false,
                 codeNotFound: false,
                 codeNotValid: false,
@@ -77,10 +77,10 @@ module.exports = {
                 // In case the code is wrong.
                 else if (result[0].resetCode.code != forgotUser.code) {
                     errorsObj.codeNotValid = true;
-                    var resetCodeObj = result[0].resetCode;
+                    let resetCodeObj = result[0].resetCode;
                     resetCodeObj.tryNum++;
 
-                    var updateCodeObj = { $set: { "resetCode": resetCodeObj } };
+                    let updateCodeObj = { $set: { "resetCode": resetCodeObj } };
 
                     // Update num of tries to the code.
                     DAL.UpdateOne(collectionName, emailObj, updateCodeObj).then((updateResult) => {
@@ -89,7 +89,7 @@ module.exports = {
                 }
                 // In case the reset code is valid, change the user password.
                 else {
-                    var updateUser = result[0];
+                    let updateUser = result[0];
                     updateUser.uid = generator.GenerateId();
                     updateUser.salt = generator.GenerateCode(saltSize);
                     updateUser.password = sha512(forgotUser.newPassword + updateUser.salt);
@@ -108,8 +108,8 @@ module.exports = {
 
     ValidateResetPasswordToken(token) {
         return new Promise((resolve, reject) => {
-            var query = GetUserByTokenFilterQuery(token);
-            var fields = { "_id": 0, "firstName": 1, "lastName": 1 };
+            let query = GetUserByTokenFilterQuery(token);
+            let fields = { "_id": 0, "firstName": 1, "lastName": 1 };
 
             DAL.FindOneSpecific(collectionName, query, fields).then(resolve).catch(reject);
         });
@@ -118,13 +118,13 @@ module.exports = {
     // Reset user password by token.
     ResetPasswordByToken(data) {
         return new Promise((resolve, reject) => {
-            var token = data.token;
-            var newPassword = data.newPassword;
-            var salt = generator.GenerateCode(saltSize);
+            let token = data.token;
+            let newPassword = data.newPassword;
+            let salt = generator.GenerateCode(saltSize);
 
-            var findObj = GetUserByTokenFilterQuery(token);
+            let findObj = GetUserByTokenFilterQuery(token);
 
-            var updateObj = {
+            let updateObj = {
                 $set: {
                     "uid": generator.GenerateId(),
                     "salt": salt,
@@ -142,12 +142,12 @@ module.exports = {
 
 // Return mongo query object to find user by reset password token string.
 function GetUserByTokenFilterQuery(token) {
-    var currDate = new Date();
-    var resetDateObjectRuleForQuery = {
+    let currDate = new Date();
+    let resetDateObjectRuleForQuery = {
         $gte: currDate.addHours(resetCodeNumOfHoursValid * -1)
     }
 
-    var query = {
+    let query = {
         "resetCode.token": token,
         "resetCode.isUsed": false,
         "resetCode.tryNum": { $lt: resetCodeFreeRetries },

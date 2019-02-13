@@ -7,11 +7,11 @@ const loginBL = require('../loginBL');
 
 const collectionName = config.db.collections.users;
 
-var self = module.exports = {
+let self = module.exports = {
     UpdateUserInfo(updateFields) {
         return new Promise((resolve, reject) => {
-            var userObjId = DAL.GetObjectId(updateFields._id);
-            var userPassword = updateFields.password;
+            let userObjId = DAL.GetObjectId(updateFields._id);
+            let userPassword = updateFields.password;
             delete updateFields._id;
             delete updateFields.password;
 

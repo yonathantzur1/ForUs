@@ -1,4 +1,4 @@
-var jobs = {};
+let jobs = {};
 
 module.exports = {
     RegisterJob(name, func, intervalTime) {
@@ -12,7 +12,7 @@ module.exports = {
     },
 
     CancelJob(name) {
-        var jobId = jobs[name];
+        let jobId = jobs[name];
 
         if (jobId != null) {
             clearInterval(jobId);

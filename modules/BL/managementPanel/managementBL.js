@@ -25,7 +25,7 @@ module.exports = {
                 }
             }
 
-            var usersFilter = {
+            let usersFilter = {
                 $match: {
                     $or: [
                         { _id: searchInput },
@@ -36,7 +36,7 @@ module.exports = {
                 }
             };
 
-            var joinFilter = {
+            let joinFilter = {
                 $lookup: {
                     from: profilesCollectionName,
                     localField: 'profile',
@@ -45,7 +45,7 @@ module.exports = {
                 }
             }
 
-            var aggregateArray = [
+            let aggregateArray = [
                 {
                     $project: {
                         fullName: { $concat: ["$firstName", " ", "$lastName"] },
@@ -90,8 +90,8 @@ module.exports = {
             DAL.Aggregate(usersCollectionName, aggregateArray).then((users) => {
                 // Second sort for results by the search input string.
                 users = users.sort((a, b) => {
-                    var aIndex = a.fullName.indexOf(searchInput);
-                    var bIndex = b.fullName.indexOf(searchInput);
+                    let aIndex = a.fullName.indexOf(searchInput);
+                    let bIndex = b.fullName.indexOf(searchInput);
 
                     if (aIndex < bIndex) {
                         return -1;
@@ -121,11 +121,11 @@ module.exports = {
                 return DAL.GetObjectId(id);
             });
 
-            var usersFilter = {
+            let usersFilter = {
                 $match: { "_id": { $in: friendsIds } }
             };
 
-            var joinFilter = {
+            let joinFilter = {
                 $lookup: {
                     from: profilesCollectionName,
                     localField: 'profile',
@@ -134,7 +134,7 @@ module.exports = {
                 }
             }
 
-            var aggregateArray = [
+            let aggregateArray = [
                 usersFilter,
                 joinFilter,
                 {
@@ -163,7 +163,7 @@ module.exports = {
 
     UpdateUser(updateFields) {
         return new Promise((resolve, reject) => {
-            var userId = DAL.GetObjectId(updateFields._id);
+            let userId = DAL.GetObjectId(updateFields._id);
             delete updateFields._id;
 
             // Generate password hash and salt.
@@ -185,8 +185,8 @@ module.exports = {
 
     BlockUser(blockObj) {
         return new Promise((resolve, reject) => {
-            var userId = DAL.GetObjectId(blockObj._id);
-            var unblockDate = null;
+            let userId = DAL.GetObjectId(blockObj._id);
+            let unblockDate = null;
 
             if (!blockObj.blockAmount.forever) {
                 // Calculate unblock date
@@ -197,7 +197,7 @@ module.exports = {
                 unblockDate.setHours(0, 0, 0, 0);
             }
 
-            var block = {
+            let block = {
                 reason: blockObj.blockReason,
                 unblockDate
             }
