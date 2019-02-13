@@ -67,8 +67,8 @@
     position: absolute;
     font-size: 14px;
     font-weight: bold;
-    margin-right: 10px;
-    top: 14px;
+    margin-right: 12px;
+    top: 12px;
     cursor: pointer;
     user-select: none;
 }
