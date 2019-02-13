@@ -43,14 +43,15 @@ app.use('/api', (req, res, next) => {
     }
     // In case the user is logout.
     else {
-        if (req.originalUrl == '/api/auth/isUserOnSession') {
-            res.send(false);
-        }
-        else if (req.originalUrl == '/api/auth/isUserSocketConnect') {
-            res.send("-1");
-        }
-        else {
-            RedirectToLogin(req, res);
+        switch (req.originalUrl) {
+            case '/api/auth/isUserOnSession':
+                res.send(false);
+                break;
+            case '/api/auth/isUserSocketConnect':
+                res.send("-1");
+                break;
+            default:
+                RedirectToLogin(req, res);
         }
     }
 });
