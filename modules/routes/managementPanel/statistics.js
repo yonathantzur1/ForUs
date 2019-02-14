@@ -1,5 +1,6 @@
 const statisticsBL = require('../../BL/managementPanel/statisticsBL');
 const permissionHandler = require('../../handlers/permissionHandler');
+const logger = require('../../../logger');
 
 let prefix = "/api/statistics";
 
@@ -30,6 +31,7 @@ module.exports = function (app) {
                 req.body.email).then(result => {
                     res.send(result);
                 }).catch(err => {
+                    logger.error(err);
                     res.status(500).end();
                 });
         });
@@ -44,6 +46,7 @@ module.exports = function (app) {
                 // Return -1 in case the user is not found (result is null).
                 res.send(result || "-1");
             }).catch(err => {
+                logger.error(err);
                 res.status(500).end();
             });
         });

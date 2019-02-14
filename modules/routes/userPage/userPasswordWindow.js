@@ -5,6 +5,7 @@ const validate = require('../../security/validate');
 const bruteForceProtector = require('../../security/bruteForceProtector');
 const config = require('../../../config');
 const mailer = require('../../mailer');
+const logger = require('../../../logger');
 
 let prefix = "/api/userPasswordWindow";
 
@@ -38,6 +39,7 @@ module.exports = function (app) {
                     logsBL.ResetPasswordRequest(req.user.email, req);
                 })
                 .catch(err => {
+                    logger.error(err);
                     res.status(500).end();
                 });
         });
@@ -63,6 +65,7 @@ module.exports = function (app) {
                 res.send(null);
             }
         }).catch(err => {
+            logger.error(err);
             res.status(500).end();
         });
     });

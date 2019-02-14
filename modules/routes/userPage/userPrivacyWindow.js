@@ -1,6 +1,7 @@
 const userPrivacyWindowBL = require('../../BL/userPage/userPrivacyWindowBL');
 const validate = require('../../security/validate');
 const events = require('../../events');
+const logger = require('../../../logger');
 
 let prefix = "/api/userPrivacyWindow";
 
@@ -10,6 +11,7 @@ module.exports = function (app) {
         userPrivacyWindowBL.GetUserPrivacyStatus(req.user._id).then(result => {
             res.send(result);
         }).catch(err => {
+            logger.error(err);
             res.status(500).end();
         });
     });
@@ -24,6 +26,7 @@ module.exports = function (app) {
 
                 res.send(result);
             }).catch(err => {
+                logger.error(err);
                 res.status(500).end();
             });
         });

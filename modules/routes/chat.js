@@ -1,4 +1,5 @@
 const chatBL = require('../BL/chatBL');
+const logger = require('../../logger');
 
 let prefix = "/api/chat";
 
@@ -8,6 +9,7 @@ module.exports = (app) => {
         chatBL.GetChat(req.body.membersIds, req.user).then((chat) => {
             res.send(chat);
         }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         })
     });
@@ -20,6 +22,7 @@ module.exports = (app) => {
             req.body.totalMessagesNum).then((chat) => {
                 res.send(chat);
             }).catch((err) => {
+                logger.error(err);
                 res.status(500).end();
             })
     });

@@ -1,5 +1,6 @@
 const config = require('../config');
 const mongodb = require('mongodb');
+const logger = require('../logger');
 const MongoClient = mongodb.MongoClient;
 const ObjectId = mongodb.ObjectId;
 

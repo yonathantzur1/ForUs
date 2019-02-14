@@ -1,7 +1,7 @@
 const DAL = require('../DAL.js');
 const config = require('../../config');
 const encryption = require('../security/encryption');
-const logger = require('../logger');
+const logger = require('../../logger');
 
 const collectionName = config.db.collections.chats;
 const messagesInPage = 40;

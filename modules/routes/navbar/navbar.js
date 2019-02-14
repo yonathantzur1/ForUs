@@ -1,5 +1,6 @@
 const navbarBL = require('../../BL/navbar/navbarBL');
 const tokenHandler = require("../../handlers/tokenHandler");
+const logger = require('../../../logger');
 
 let prefix = "/api/navbar";
 
@@ -9,6 +10,7 @@ module.exports = function (app) {
         navbarBL.GetFriends(req.body).then((friends) => {
             res.send(friends);
         }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         });
     });
@@ -18,6 +20,7 @@ module.exports = function (app) {
         navbarBL.GetMainSearchResults(req.body.searchInput, req.user._id).then((results) => {
             res.send(results);
         }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         });
     });
@@ -27,6 +30,7 @@ module.exports = function (app) {
         navbarBL.GetMainSearchResultsWithImages(req.body).then((profiles) => {
             res.send(profiles);
         }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         });
     });
@@ -35,6 +39,7 @@ module.exports = function (app) {
         navbarBL.GetUserMessagesNotifications(req.user._id).then((messagesNotifications) => {
             res.send(messagesNotifications);
         }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         });
     });
@@ -53,6 +58,7 @@ module.exports = function (app) {
         navbarBL.GetUserFriendRequests(req.user._id).then((friendRequests) => {
             res.send(friendRequests);
         }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         });
     });
@@ -61,6 +67,7 @@ module.exports = function (app) {
         navbarBL.AddFriendRequest(req.user, req.body.friendId).then((result) => {
             res.send(result);
         }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         });
     });
@@ -69,8 +76,7 @@ module.exports = function (app) {
         navbarBL.RemoveFriendRequest(req.user._id, req.body.friendId).then((result) => {
             res.send(result);
         }).catch((err) => {
-            res.status(500).end();
-        }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         });
     });
@@ -79,6 +85,7 @@ module.exports = function (app) {
         navbarBL.IgnoreFriendRequest(req.user._id, req.body.friendId).then((result) => {
             res.send(result);
         }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         });
     });
@@ -90,6 +97,7 @@ module.exports = function (app) {
                 res.send(result.friend);
             }
         }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         });
     });

@@ -1,6 +1,5 @@
 const userPageBL = require('../../BL/userPage/userPageBL');
-const managementBL = require('../../BL/managementPanel/managementBL');
-const events = require('../../events');
+const logger = require('../../../logger');
 
 let prefix = "/api/userPage";
 
@@ -13,6 +12,7 @@ module.exports = function (app) {
         userPageBL.GetUserDetails(userId, currUserId).then(result => {
             res.send(result);
         }).catch(err => {
+            logger.error(err);
             res.status(500).end();
         });
     });
@@ -25,6 +25,7 @@ module.exports = function (app) {
         userPageBL.RemoveFriends(currUserId, friendId).then(result => {
             res.send(result);
         }).catch(err => {
+            logger.error(err);
             res.status(500).end();
         });
     });
@@ -33,6 +34,7 @@ module.exports = function (app) {
         userPageBL.DeleteUserValidation(req.user._id).then(result => {
             res.send(result);
         }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         });
     });

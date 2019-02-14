@@ -1,5 +1,6 @@
 const profileBL = require('../../BL/profilePicture/profilePictureEditBL');
 const tokenHandler = require("../../handlers/tokenHandler");
+const logger = require('../../../logger');
 
 let prefix = "/api/profile";
 
@@ -21,6 +22,7 @@ module.exports = function (app) {
                 res.send(result);
             }
         }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         });
     });
@@ -41,6 +43,7 @@ module.exports = function (app) {
                 res.send(result);
             }
         }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         });
     });

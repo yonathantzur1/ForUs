@@ -1,5 +1,6 @@
 const managementBL = require('../../BL/managementPanel/managementBL');
 const permissionHandler = require('../../handlers/permissionHandler');
+const logger = require('../../../logger');
 
 let prefix = "/api/management";
 
@@ -23,6 +24,7 @@ module.exports = function (app) {
             managementBL.GetUserByName(req.body.searchInput).then((result) => {
                 res.send(result);
             }).catch((err) => {
+                logger.error(err);
                 res.status(500).end();
             });
         });
@@ -31,6 +33,7 @@ module.exports = function (app) {
         managementBL.GetUserFriends(req.body.friendsIds).then((result) => {
             res.send(result);
         }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         });
     });
@@ -39,6 +42,7 @@ module.exports = function (app) {
         managementBL.UpdateUser(req.body.updateFields).then((result) => {
             res.send(result);
         }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         });
     });
@@ -47,6 +51,7 @@ module.exports = function (app) {
         managementBL.BlockUser(req.body.blockObj).then((result) => {
             res.send(result);
         }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         });
     });
@@ -55,6 +60,7 @@ module.exports = function (app) {
         managementBL.UnblockUser(req.body.userId).then((result) => {
             res.send(result);
         }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         });
     });
@@ -63,6 +69,7 @@ module.exports = function (app) {
         managementBL.RemoveFriends(req.query.userId, req.query.friendId).then((result) => {
             res.send(result);
         }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         });
     });
@@ -73,6 +80,7 @@ module.exports = function (app) {
             managementBL.DeleteUser(req.query.userId).then((result) => {
                 res.send(result);
             }).catch((err) => {
+                logger.error(err);
                 res.status(500).end();
             });
         }

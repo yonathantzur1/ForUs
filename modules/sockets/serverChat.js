@@ -2,7 +2,7 @@ const chatBL = require('../BL/chatBL');
 const navbarBL = require('../BL/navbar/navbarBL');
 const generator = require('../generator');
 const tokenHandler = require('../handlers/tokenHandler');
-const logger = require('../logger');
+const logger = require('../../logger');
 
 module.exports = function (io, socket, socketsDictionary, connectedUsers) {
 

@@ -2,7 +2,7 @@ const loginBL = require('../BL/loginBL');
 const profilePictureBL = require('../BL/profilePicture/profilePictureBL');
 const tokenHandler = require('../handlers/tokenHandler');
 const mailer = require('../mailer');
-const logger = require('../logger');
+const logger = require('../../logger');
 
 module.exports = function (io, socket, socketsDictionary, connectedUsers) {
     socket.on('ServerUpdateFriendRequestsStatus', function (friendId) {

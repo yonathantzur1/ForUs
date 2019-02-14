@@ -1,5 +1,6 @@
 const permissionsBL = require('../../BL/managementPanel/permissionsBL');
 const permissionHandler = require('../../handlers/permissionHandler');
+const logger = require('../../../logger');
 
 let prefix = "/api/permissions";
 
@@ -18,6 +19,7 @@ module.exports = function (app) {
         permissionsBL.GetAllPermissions().then((result) => {
             res.send(result);
         }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         });
     });
@@ -26,6 +28,7 @@ module.exports = function (app) {
         permissionsBL.GetUserPermissions(req.query.userId).then((result) => {
             res.send(result);
         }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         });
     });
@@ -34,6 +37,7 @@ module.exports = function (app) {
         permissionsBL.UpdatePermissions(req.body.userId, req.body.permissions).then((result) => {
             res.send(result);
         }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         });
     });

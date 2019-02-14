@@ -1,6 +1,6 @@
 const schedule = require('node-schedule');
 const config = require('../config');
-const logger = require('./logger');
+const logger = require('../logger');
 const chatBL = require('./BL/chatBL');
 const DAL = require('./DAL');
 

@@ -6,6 +6,7 @@ const tokenHandler = require('../handlers/tokenHandler');
 const validate = require('../security/validate');
 const bruteForceProtector = require('../security/bruteForceProtector');
 const config = require('../../config');
+const logger = require('../../logger');
 
 let prefix = "/login";
 
@@ -67,6 +68,7 @@ module.exports = (app) => {
                     }
                 }
             }).catch((err) => {
+                logger.error(err);
                 res.status(500).end();
             });
         });
@@ -79,6 +81,7 @@ module.exports = (app) => {
             loginBL.UpdateLastLogin(token.user._id).then(() => {
                 res.end();
             }).catch((err) => {
+                logger.error(err);
                 res.status(500).end();
             });
         }
@@ -131,6 +134,7 @@ module.exports = (app) => {
                             res.send({ result });
                         }
                     }).catch((err) => {
+                        logger.error(err);
                         res.status(500).end();
                     });
                 }
@@ -166,6 +170,7 @@ module.exports = (app) => {
                     res.send({ result });
                 }
             }).catch(err => {
+                logger.error(err);
                 res.status(500).end();
             });
         });
@@ -188,6 +193,7 @@ module.exports = (app) => {
                     res.send({ result });
                 }
             }).catch(err => {
+                logger.error(err);
                 res.status(500).end();
             });
         });

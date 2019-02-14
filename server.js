@@ -6,7 +6,7 @@ const path = require('path');
 const compression = require('compression');
 const io = require('socket.io')(http);
 const tokenHandler = require('./modules/handlers/tokenHandler');
-const logger = require('./modules/logger')(__dirname);
+const logger = require('./logger');
 const secure = require('ssl-express-www');
 const config = require('./config');
 

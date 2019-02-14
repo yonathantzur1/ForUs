@@ -1,6 +1,7 @@
 const userEditWindowBL = require('../../BL/userPage/userEditWindowBL');
 const validate = require('../../security/validate');
 const bruteForceProtector = require('../../security/bruteForceProtector');
+const logger = require('../../../logger');
 
 let prefix = "/api/userEditWindow";
 
@@ -41,6 +42,7 @@ module.exports = function (app) {
                 }
 
             }).catch(err => {
+                logger.error(err);
                 res.status(500).end();
             });
         });

@@ -1,5 +1,6 @@
 const userReportWindowBL = require('../../BL/userPage/userReportWindowBL');
 const validate = require('../../security/validate');
+const logger = require('../../../logger');
 
 let prefix = "/api/userReportWindow";
 
@@ -9,6 +10,7 @@ module.exports = function (app) {
         userReportWindowBL.GetAllReportReasons().then(result => {
             res.send(result);
         }).catch(err => {
+            logger.error(err);
             res.status(500).end();
         });
     });
@@ -19,6 +21,7 @@ module.exports = function (app) {
             userReportWindowBL.ReportUser(req.user._id, req.user.friends, req.body).then(result => {
                 res.send(result);
             }).catch(err => {
+                logger.error(err);
                 res.status(500).end();
             });
         });

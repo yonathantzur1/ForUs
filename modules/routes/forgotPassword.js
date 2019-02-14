@@ -1,6 +1,7 @@
 const forgotPasswordBL = require('../BL/forgotPasswordBL');
 const tokenHandler = require('../handlers/tokenHandler');
 const validate = require('../security/validate');
+const logger = require('../../logger');
 
 let prefix = "/forgotPassword";
 
@@ -13,6 +14,7 @@ module.exports = (app) => {
             forgotPasswordBL.ValidateResetPasswordToken(req.query.token).then(result => {
                 res.send(result ? { name: (result.firstName + " " + result.lastName) } : false);
             }).catch(err => {
+                logger.error(err);
                 res.status(500).end();
             });
         });
@@ -31,6 +33,7 @@ module.exports = (app) => {
                     res.send(result);
                 }
             }).catch(err => {
+                logger.error(err);
                 res.status(500).end();
             });
         });

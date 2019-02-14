@@ -1,4 +1,5 @@
 const chatsWindowBL = require('../../BL/navbar/chatsWindowBL');
+const logger = require('../../../logger');
 
 let prefix = "/api/chatsWindow";
 
@@ -8,6 +9,7 @@ module.exports = function (app) {
         chatsWindowBL.GetAllChats(req.user._id).then((chats) => {
             res.send(chats);
         }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         });
     });

@@ -1,6 +1,7 @@
 const loginBL = require('../BL/loginBL');
 const tokenHandler = require('../handlers/tokenHandler');
 const permissionHandler = require('../handlers/permissionHandler');
+const logger = require('../../logger');
 
 let prefix = "/api/auth";
 
@@ -24,6 +25,7 @@ module.exports = (app, connectedUsers) => {
                     res.send(false);
                 }
             }).catch((err) => {
+                logger.error(err);
                 res.status(500).end();
             });
         }
@@ -62,6 +64,7 @@ module.exports = (app, connectedUsers) => {
                 res.send(false);
             }
         }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         });
     });

@@ -1,5 +1,6 @@
 const usersReportsBL = require('../../BL/managementPanel/usersReportsBL');
 const permissionHandler = require('../../handlers/permissionHandler');
+const logger = require('../../../logger');
 
 let prefix = "/api/usersReports";
 
@@ -18,6 +19,7 @@ module.exports = function (app) {
         usersReportsBL.GetAllReports().then((result) => {
             res.send(result);
         }).catch((err) => {
+            logger.error(err);
             res.status(500).end();
         });
     });
