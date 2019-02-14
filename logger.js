@@ -6,16 +6,18 @@ const config = require('./config');
 let logsDir = path.join(__dirname, "\\", config.logs.directoryName);
 
 const logger = createLogger({
+    level: 'info',
     format: combine(
         timestamp(),
         json()
     ),
     transports: [
-        new transports.File({ filename: path.join(logsDir, "\\", config.logs.fileName) })
+        new transports.File({ filename: path.join(logsDir, "\\", 'error.log'), level: 'error' }),
+        new transports.File({ filename: 'combined.log' })
     ]
 });
 
-// Print log to console in case the env is not prod.
+// Print log to console in case the environment is not prod.
 if (!config.server.isProd) {
     logger.add(new transports.Console({
         format: json()
