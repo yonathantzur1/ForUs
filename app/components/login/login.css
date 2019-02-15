@@ -69,7 +69,7 @@
     padding-top: 15px;
     border-radius: 3px;
     position: relative;
-    border: 1px solid #b4b4b4;
+    border: 0.5px solid #969696;
 }
 
 #login .user-input {

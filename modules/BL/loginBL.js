@@ -21,10 +21,7 @@ let self = module.exports = {
                 }
             }
 
-            // Remove unnecessary fields. 
-            let userFileds = { $project: { "permissions._id": 0, "permissions.members": 0 } };
-
-            let aggregateArray = [userFilter, joinFilter, userFileds];
+            let aggregateArray = [userFilter, joinFilter];
 
             DAL.Aggregate(collectionName, aggregateArray).then((result) => {
                 if (result.length > 0) {
