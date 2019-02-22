@@ -20,7 +20,7 @@ class EditUser {
     selector: 'userEditWindow',
     templateUrl: './userEditWindow.html',
     providers: [UserEditWindowService],
-    styleUrls: ['./userEditWindow.css']
+    styleUrls: ['./userEditWindow.css', '../../userWindow.css']
 })
 
 export class UserEditWindowComponent implements OnInit {

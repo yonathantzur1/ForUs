@@ -182,7 +182,7 @@ var UserEditWindowComponent = /** @class */ (function () {
             selector: 'userEditWindow',
             templateUrl: './userEditWindow.html',
             providers: [userEditWindow_service_1.UserEditWindowService],
-            styleUrls: ['./userEditWindow.css']
+            styleUrls: ['./userEditWindow.css', '../../userWindow.css']
         }),
         __metadata("design:paramtypes", [userEditWindow_service_1.UserEditWindowService,
             alert_service_1.AlertService,

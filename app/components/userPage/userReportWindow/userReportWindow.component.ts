@@ -15,7 +15,7 @@ class ReportReason {
     selector: 'userReportWindow',
     templateUrl: './userReportWindow.html',
     providers: [UserReportWindowService],
-    styleUrls: ['./userReportWindow.css']
+    styleUrls: ['./userReportWindow.css', '../../userWindow.css']
 })
 
 export class UserReportWindowComponent implements OnInit {

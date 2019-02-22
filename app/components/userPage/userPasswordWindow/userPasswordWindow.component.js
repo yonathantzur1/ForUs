@@ -131,7 +131,7 @@ var UserPasswordWindowComponent = /** @class */ (function () {
             selector: 'userPasswordWindow',
             templateUrl: './userPasswordWindow.html',
             providers: [userPasswordWindow_service_1.UserPasswordWindowService],
-            styleUrls: ['./userPasswordWindow.css']
+            styleUrls: ['./userPasswordWindow.css', '../../userWindow.css']
         }),
         __metadata("design:paramtypes", [global_service_1.GlobalService,
             event_service_1.EventService,

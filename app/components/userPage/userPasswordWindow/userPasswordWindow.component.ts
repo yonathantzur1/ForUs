@@ -22,7 +22,7 @@ export class Password {
     selector: 'userPasswordWindow',
     templateUrl: './userPasswordWindow.html',
     providers: [UserPasswordWindowService],
-    styleUrls: ['./userPasswordWindow.css']
+    styleUrls: ['./userPasswordWindow.css', '../../userWindow.css']
 })
 
 export class UserPasswordWindowComponent {

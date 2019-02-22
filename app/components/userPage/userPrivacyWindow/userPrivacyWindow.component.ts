@@ -12,7 +12,7 @@ declare var $: any;
     selector: 'userPrivacyWindow',
     templateUrl: './userPrivacyWindow.html',
     providers: [UserPrivacyWindowService],
-    styleUrls: ['./userPrivacyWindow.css']
+    styleUrls: ['./userPrivacyWindow.css', '../../userWindow.css']
 })
 
 export class UserPrivacyWindowComponent implements OnInit {

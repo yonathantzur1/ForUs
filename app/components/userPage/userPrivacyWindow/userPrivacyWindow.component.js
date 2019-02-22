@@ -87,7 +87,7 @@ var UserPrivacyWindowComponent = /** @class */ (function () {
             selector: 'userPrivacyWindow',
             templateUrl: './userPrivacyWindow.html',
             providers: [userPrivacyWindow_service_1.UserPrivacyWindowService],
-            styleUrls: ['./userPrivacyWindow.css']
+            styleUrls: ['./userPrivacyWindow.css', '../../userWindow.css']
         }),
         __metadata("design:paramtypes", [userPrivacyWindow_service_1.UserPrivacyWindowService,
             alert_service_1.AlertService,
