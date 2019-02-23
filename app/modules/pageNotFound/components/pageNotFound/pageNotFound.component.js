@@ -28,9 +28,6 @@ var PageNotFoundComponent = /** @class */ (function () {
     PageNotFoundComponent.prototype.MainRoute = function () {
         this.router.navigateByUrl('/');
     };
-    PageNotFoundComponent.prototype.BackRoute = function () {
-        window.history.back();
-    };
     PageNotFoundComponent = __decorate([
         core_1.Component({
             selector: 'pageNotFound',

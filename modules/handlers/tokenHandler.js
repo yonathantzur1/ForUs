@@ -10,7 +10,6 @@ module.exports = {
             "firstName": user.firstName,
             "lastName": user.lastName,
             "email": user.email,
-            "creationDate": user.creationDate,
             "profile": user.profile,
             "friends": user.friends,
             "permissions": user.permissions

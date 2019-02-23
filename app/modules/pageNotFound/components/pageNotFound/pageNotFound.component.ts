@@ -26,8 +26,4 @@ export class PageNotFoundComponent implements OnInit {
   MainRoute() {
     this.router.navigateByUrl('/');
   }
-
-  BackRoute() {
-    window.history.back();
-  }
 }

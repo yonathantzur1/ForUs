@@ -9,8 +9,16 @@
     position: relative;
 }
 
+#login .modal .form-group {    
+    padding-bottom: 0 !important;
+}
+
 #login .no-padding {
     padding: 0 !important;
+}
+
+#login .modal-body {
+    padding-top: 0 !important;
 }
 
 #login .login-sector {
@@ -118,11 +126,7 @@
     font-size: 35px;
     position: absolute;
     top: 18px;
-    padding-right: 10px;    
-}
-
-#login .modal-content {
-    border-radius: 20px;
+    padding-right: 10px;
 }
 
 #login .microtext {
