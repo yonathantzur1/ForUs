@@ -69,7 +69,7 @@ module.exports = (app) => {
                 }
             }).catch((err) => {
                 logger.error(err);
-                res.status(500).end();
+                res.sendStatus(500);
             });
         });
 
@@ -82,7 +82,7 @@ module.exports = (app) => {
                 res.end();
             }).catch((err) => {
                 logger.error(err);
-                res.status(500).end();
+                res.sendStatus(500);
             });
         }
         else {
@@ -135,7 +135,7 @@ module.exports = (app) => {
                         }
                     }).catch((err) => {
                         logger.error(err);
-                        res.status(500).end();
+                        res.sendStatus(500);
                     });
                 }
             });
@@ -171,7 +171,7 @@ module.exports = (app) => {
                 }
             }).catch(err => {
                 logger.error(err);
-                res.status(500).end();
+                res.sendStatus(500);
             });
         });
 
@@ -194,7 +194,7 @@ module.exports = (app) => {
                 }
             }).catch(err => {
                 logger.error(err);
-                res.status(500).end();
+                res.sendStatus(500);
             });
         });
 

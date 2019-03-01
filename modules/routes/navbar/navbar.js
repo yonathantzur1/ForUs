@@ -11,7 +11,7 @@ module.exports = function (app) {
             res.send(friends);
         }).catch((err) => {
             logger.error(err);
-            res.status(500).end();
+            res.sendStatus(500);
         });
     });
 
@@ -21,7 +21,7 @@ module.exports = function (app) {
             res.send(results);
         }).catch((err) => {
             logger.error(err);
-            res.status(500).end();
+            res.sendStatus(500);
         });
     });
 
@@ -31,7 +31,7 @@ module.exports = function (app) {
             res.send(profiles);
         }).catch((err) => {
             logger.error(err);
-            res.status(500).end();
+            res.sendStatus(500);
         });
     });
 
@@ -40,7 +40,7 @@ module.exports = function (app) {
             res.send(messagesNotifications);
         }).catch((err) => {
             logger.error(err);
-            res.status(500).end();
+            res.sendStatus(500);
         });
     });
 
@@ -59,7 +59,7 @@ module.exports = function (app) {
             res.send(friendRequests);
         }).catch((err) => {
             logger.error(err);
-            res.status(500).end();
+            res.sendStatus(500);
         });
     });
 
@@ -68,7 +68,7 @@ module.exports = function (app) {
             res.send(result);
         }).catch((err) => {
             logger.error(err);
-            res.status(500).end();
+            res.sendStatus(500);
         });
     });
 
@@ -77,7 +77,7 @@ module.exports = function (app) {
             res.send(result);
         }).catch((err) => {
             logger.error(err);
-            res.status(500).end();
+            res.sendStatus(500);
         });
     });
 
@@ -86,7 +86,7 @@ module.exports = function (app) {
             res.send(result);
         }).catch((err) => {
             logger.error(err);
-            res.status(500).end();
+            res.sendStatus(500);
         });
     });
 
@@ -98,7 +98,7 @@ module.exports = function (app) {
             }
         }).catch((err) => {
             logger.error(err);
-            res.status(500).end();
+            res.sendStatus(500);
         });
     });
 };

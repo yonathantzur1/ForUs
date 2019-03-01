@@ -43,7 +43,7 @@ module.exports = function (app) {
 
             }).catch(err => {
                 logger.error(err);
-                res.status(500).end();
+                res.sendStatus(500);
             });
         });
 }
