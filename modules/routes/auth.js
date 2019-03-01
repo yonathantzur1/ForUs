@@ -5,7 +5,7 @@ const logger = require('../../logger');
 
 let prefix = "/api/auth";
 
-module.exports = (app, connectedUsers) => {    
+module.exports = (app, connectedUsers) => {
     // Checking if the session of the user is open.
     app.get(prefix + '/isUserOnSession', (req, res) => {
         if (!req.user) {
@@ -21,7 +21,7 @@ module.exports = (app, connectedUsers) => {
                     tokenHandler.SetTokenOnCookie(tokenHandler.GetTokenFromUserObject(user), res, true);
                     res.send(true);
                 }
-                else {                    
+                else {
                     res.send(false);
                 }
             }).catch((err) => {
@@ -78,6 +78,6 @@ module.exports = (app, connectedUsers) => {
         }
         else {
             res.send(false);
-        }        
+        }
     });
 };
