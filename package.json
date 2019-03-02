@@ -11,14 +11,14 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@angular/common": "^7.2.6",
-    "@angular/compiler": "^7.2.6",
-    "@angular/core": "^7.2.6",
-    "@angular/forms": "^7.2.6",
-    "@angular/http": "^7.2.6",
-    "@angular/platform-browser": "^7.2.6",
-    "@angular/platform-browser-dynamic": "^7.2.6",
-    "@angular/router": "^7.2.6",
+    "@angular/common": "^7.2.7",
+    "@angular/compiler": "^7.2.7",
+    "@angular/core": "^7.2.7",
+    "@angular/forms": "^7.2.7",
+    "@angular/http": "^7.2.7",
+    "@angular/platform-browser": "^7.2.7",
+    "@angular/platform-browser-dynamic": "^7.2.7",
+    "@angular/router": "^7.2.7",
     "@fortawesome/fontawesome-free": "^5.7.2",
     "blueimp-load-image": "^2.20.1",
     "body-parser": "^1.18.3",
@@ -48,7 +48,6 @@
     "zone.js": "^0.8.29"
   },
   "devDependencies": {
-    "@types/node": "^11.9.4",
     "concurrently": "^4.1.0",
     "nodemon": "^1.18.10",
     "typescript": "~3.3.3"
