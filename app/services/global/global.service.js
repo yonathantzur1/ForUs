@@ -53,7 +53,6 @@ var GlobalService = /** @class */ (function (_super) {
         _this.defaultProfileImage = empty_profile_1.EmptyProfile;
         _this.uidCookieName = "uid";
         _this.isTouchDevice = (('ontouchstart' in window || navigator.maxTouchPoints) ? true : false);
-        _this.isSmallScreenDevice = ($(window).width() < 576);
         // Global variables and functions
         var globalObject = _this.globalObject = {
             days: ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"],
@@ -96,6 +95,9 @@ var GlobalService = /** @class */ (function (_super) {
         };
         return _this;
     }
+    GlobalService.prototype.IsSmallScreenDevice = function () {
+        return ($(window).width() < 576);
+    };
     GlobalService.prototype.Initialize = function () {
         if (!this.socket) {
             this.socket = io();

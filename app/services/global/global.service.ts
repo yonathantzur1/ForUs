@@ -24,9 +24,7 @@ export class GlobalService extends LoginService {
     public defaultProfileImage: string;
     public uidCookieName: string;
     public isTouchDevice: boolean;
-    public isSmallScreenDevice: boolean;
     public globalObject: any;
-
 
     constructor(public http: HttpClient,
         private cookieService: CookieService) {
@@ -53,7 +51,6 @@ export class GlobalService extends LoginService {
         this.defaultProfileImage = EmptyProfile;
         this.uidCookieName = "uid";
         this.isTouchDevice = (('ontouchstart' in window || navigator.maxTouchPoints) ? true : false);
-        this.isSmallScreenDevice = ($(window).width() < 576);
 
         // Global variables and functions
         var globalObject = this.globalObject = {
@@ -99,6 +96,10 @@ export class GlobalService extends LoginService {
                 return dateDetailsString;
             }
         }
+    }
+
+    IsSmallScreenDevice() {
+        return ($(window).width() < 576);
     }
 
     Initialize() {

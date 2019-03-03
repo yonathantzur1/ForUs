@@ -56,7 +56,7 @@
       <div class="col-md-8 col-9 navbar-right-container">
         <span class="head-container" (click)="NavigateMain()">
           <img src="../logo/icon.png" class="head-icon">
-          <span *ngIf="!globalService.isSmallScreenDevice" class="head-title">ForUs</span>
+          <span *ngIf="!globalService.IsSmallScreenDevice()" class="head-title">ForUs</span>
         </span>
         <span class="search-sector col-md-6">
           <input type="text" [id]="searchInputId" class="search-input" placeholder="חיפוש" [(ngModel)]="searchInput"
