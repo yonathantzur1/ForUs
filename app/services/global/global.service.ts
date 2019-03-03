@@ -24,6 +24,7 @@ export class GlobalService extends LoginService {
     public defaultProfileImage: string;
     public uidCookieName: string;
     public isTouchDevice: boolean;
+    public isSmallScreenDevice: boolean;
     public globalObject: any;
 
 
@@ -52,6 +53,7 @@ export class GlobalService extends LoginService {
         this.defaultProfileImage = EmptyProfile;
         this.uidCookieName = "uid";
         this.isTouchDevice = (('ontouchstart' in window || navigator.maxTouchPoints) ? true : false);
+        this.isSmallScreenDevice = ($(window).width() < 576);
 
         // Global variables and functions
         var globalObject = this.globalObject = {
@@ -126,14 +128,14 @@ export class GlobalService extends LoginService {
     // Emit socket event before initialize the socket object.
     CallSocketFunction(funcName: string, params?: Array<any>) {
         if (!this.socket) {
-            eval("io().emit('" + funcName + "'," + this.GetParamsArrayAsString(params) + ");");
+            eval("io().emit('" + funcName + "'," + this.ConvertArrayToString(params) + ");");
         }
         else {
-            eval("this.socket.emit('" + funcName + "'," + this.GetParamsArrayAsString(params) + ");");
+            eval("this.socket.emit('" + funcName + "'," + this.ConvertArrayToString(params) + ");");
         }
     }
 
-    GetParamsArrayAsString(params: Array<any>): string {
+    ConvertArrayToString(params: Array<any>): string {
         var paramsString = "";
 
         if (!params || params.length == 0) {
@@ -160,7 +162,7 @@ export class GlobalService extends LoginService {
 
     ResetGlobalVariables() {
         this.socket && this.socket.destroy();
-        this.socket = null;        
+        this.socket = null;
         this.userProfileImage = null;
         this.userPermissions = [];
     }

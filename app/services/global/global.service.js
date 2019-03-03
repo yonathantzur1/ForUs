@@ -53,6 +53,7 @@ var GlobalService = /** @class */ (function (_super) {
         _this.defaultProfileImage = empty_profile_1.EmptyProfile;
         _this.uidCookieName = "uid";
         _this.isTouchDevice = (('ontouchstart' in window || navigator.maxTouchPoints) ? true : false);
+        _this.isSmallScreenDevice = ($(window).width() < 576);
         // Global variables and functions
         var globalObject = _this.globalObject = {
             days: ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"],
@@ -117,13 +118,13 @@ var GlobalService = /** @class */ (function (_super) {
     // Emit socket event before initialize the socket object.
     GlobalService.prototype.CallSocketFunction = function (funcName, params) {
         if (!this.socket) {
-            eval("io().emit('" + funcName + "'," + this.GetParamsArrayAsString(params) + ");");
+            eval("io().emit('" + funcName + "'," + this.ConvertArrayToString(params) + ");");
         }
         else {
-            eval("this.socket.emit('" + funcName + "'," + this.GetParamsArrayAsString(params) + ");");
+            eval("this.socket.emit('" + funcName + "'," + this.ConvertArrayToString(params) + ");");
         }
     };
-    GlobalService.prototype.GetParamsArrayAsString = function (params) {
+    GlobalService.prototype.ConvertArrayToString = function (params) {
         var paramsString = "";
         if (!params || params.length == 0) {
             return null;

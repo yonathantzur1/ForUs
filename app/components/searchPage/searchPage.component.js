@@ -164,9 +164,7 @@ var SearchPageComponent = /** @class */ (function () {
         this.router.navigateByUrl('/profile/' + userId);
     };
     SearchPageComponent.prototype.UserClickTouch = function (userId) {
-        if (this.globalService.isTouchDevice) {
-            this.router.navigateByUrl('/profile/' + userId);
-        }
+        this.globalService.isTouchDevice && this.UserClick(userId);
     };
     SearchPageComponent.prototype.IsFriendRequestAction = function (user) {
         if ((!user.isFriend && this.GetCurrentUserId() != user._id) ||

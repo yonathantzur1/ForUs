@@ -16,11 +16,11 @@
 }
 
 #navbar .navbar-right-container {
-    right:0;
     position: relative;
     padding-right: 0;
     padding-left: 0;
     display: flex;
+    align-items: center;
 }
 
 #navbar .navbar-left-container {
@@ -69,12 +69,26 @@
     display: inline-block;
 }
 
-#navbar .head-icon {
-    position: relative;
-    width: 42px;
-    height: 42px;
-    z-index: 1;
+#navbar .head-container {
     cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#navbar .head-icon {    
+    width: 40px;
+    height: 40px;
+    margin-bottom: 2px;
+}
+
+#navbar .head-title {
+    font-family: Mona Shark;
+    color: #dff3ff;
+    font-size: 32px;    
+    margin-left: 10px;
+    margin-right: 2px;
+    margin-top: 2px; 
 }
 
 #navbar .search-sector {
@@ -89,8 +103,7 @@
     border-radius: 3px;
     border: 0;
     position: relative;
-    font-size: 14px;
-    height: 24px;
+    font-size: 14px;    
     width: 100%;
     padding-left: 25px;    
     outline: none !important;
@@ -98,11 +111,10 @@
 }
 
 #navbar .search-icon {
-    font-size: 22px;
-    top: 1px;
+    font-size: 22px;    
     position: absolute;
     color: #7b7878;
-    left: 20px;
+    left: 18px;
 }
 
 #navbar .search-icon-active {
@@ -116,7 +128,7 @@
     left: 0;
     position: absolute;
     top: 0;
-    color: rgba(255,255,255,.84);
+    color: whitesmoke;
     height: 100%;
     display: flex;
 }
