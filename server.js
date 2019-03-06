@@ -9,7 +9,6 @@ const tokenHandler = require('./modules/handlers/tokenHandler');
 const logger = require('./logger');
 const secure = require('ssl-express-www');
 const config = require('./config');
-const enums = require('./modules/enums');
 
 const requestDataSizeLimit = '10mb'
 

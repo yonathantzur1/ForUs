@@ -79,7 +79,6 @@
 #navbar .head-icon {    
     width: 40px;
     height: 40px;
-    margin-bottom: 2px;
 }
 
 #navbar .head-title {
@@ -88,7 +87,7 @@
     font-size: 32px;    
     margin-left: 10px;
     margin-right: 2px;
-    margin-top: 2px; 
+    margin-top: 3px; 
 }
 
 #navbar .search-sector {

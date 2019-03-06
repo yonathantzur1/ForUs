@@ -96,6 +96,10 @@
     cursor: pointer;
 }
 
+#searchPage .user-details-container:hover {    
+    background-color: #eceaea;
+}
+
 #searchPage .users-loading-container {
     text-align: center;
     margin-top: 20px;
