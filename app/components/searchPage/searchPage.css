@@ -56,10 +56,6 @@
     max-height: 100%;
 }
 
-#searchPage .user-name:hover {
-    text-decoration: underline;
-}
-
 #searchPage .friend-request-action-sector {
     height: 100%;
     display: flex;

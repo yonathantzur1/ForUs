@@ -78,7 +78,7 @@ export class ForgotPasswordComponent implements OnInit {
                         title: "איפוס סיסמא",
                         text: "הסיסמא הוחלפה בהצלחה!",
                         showCancelButton: false,
-                        type: ALERT_TYPE.SUCCESS,
+                        type: ALERT_TYPE.INFO,
                         confirmFunc: function () {
                             self.router.navigateByUrl('/login');
                         }

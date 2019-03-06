@@ -232,7 +232,7 @@ var LoginComponent = /** @class */ (function () {
                     _this.alertService.Alert({
                         title: "משתמש לא קיים במערכת",
                         text: "האם ברצונך להרשם?",
-                        type: "info",
+                        type: alert_service_1.ALERT_TYPE.INFO,
                         confirmBtnText: "כן",
                         cancelBtnText: "לא",
                         confirmFunc: function () {
@@ -254,7 +254,7 @@ var LoginComponent = /** @class */ (function () {
                             title: "משתמש חסום",
                             text: "<b>סיבה: </b>" + result.block.reason + "\n" +
                                 "<b>עד תאריך: </b>" + (result.block.unblockDate ? result.block.unblockDate : "בלתי מוגבל"),
-                            type: "warning",
+                            type: alert_service_1.ALERT_TYPE.WARNING,
                             showCancelButton: false
                         });
                     }
@@ -363,7 +363,7 @@ var LoginComponent = /** @class */ (function () {
                             title: "איפוס סיסמא",
                             text: "הסיסמא הוחלפה בהצלחה!",
                             showCancelButton: false,
-                            type: "success",
+                            type: alert_service_1.ALERT_TYPE.INFO,
                             confirmFunc: function () {
                                 self.router.navigateByUrl('');
                             }

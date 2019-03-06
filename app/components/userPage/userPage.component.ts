@@ -238,7 +238,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                                         result && self.alertService.Alert({
                                             title: "מחיקת משתמש",
                                             text: "לאישור המחיקה, יש להיכנס לקישור שנשלח לכתובת האימייל שלך.",
-                                            type: ALERT_TYPE.SUCCESS,
+                                            type: ALERT_TYPE.INFO,
                                             showCancelButton: false
                                         });
                                     });

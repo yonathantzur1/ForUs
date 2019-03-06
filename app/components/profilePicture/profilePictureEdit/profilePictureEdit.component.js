@@ -225,7 +225,7 @@ var ProfilePictureEditComponent = /** @class */ (function () {
                             title: "התמונה הוחלפה בהצלחה",
                             image: imgBase64,
                             showCancelButton: false,
-                            type: "info",
+                            type: alert_service_1.ALERT_TYPE.INFO,
                             confirmBtnText: "אישור",
                             confirmFunc: function () {
                                 self.CloseWindow();
@@ -245,7 +245,7 @@ var ProfilePictureEditComponent = /** @class */ (function () {
         this.alertService.Alert({
             title: "למחוק את התמונה?",
             image: this.userImage,
-            type: "warning",
+            type: alert_service_1.ALERT_TYPE.WARNING,
             preConfirm: function () {
                 return self.profilePictureEditService.DeleteImage();
             },

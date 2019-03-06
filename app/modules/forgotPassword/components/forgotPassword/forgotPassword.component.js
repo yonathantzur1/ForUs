@@ -69,7 +69,7 @@ var ForgotPasswordComponent = /** @class */ (function () {
                     title: "איפוס סיסמא",
                     text: "הסיסמא הוחלפה בהצלחה!",
                     showCancelButton: false,
-                    type: alert_service_1.ALERT_TYPE.SUCCESS,
+                    type: alert_service_1.ALERT_TYPE.INFO,
                     confirmFunc: function () {
                         self.router.navigateByUrl('/login');
                     }

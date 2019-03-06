@@ -108,7 +108,7 @@ export class UserPasswordWindowComponent {
                 this.alertService.Alert({
                     title: "שינוי סיסמא",
                     text: "יש להיכנס לקישור שנשלח לכתובת האימייל שלך.",
-                    type: ALERT_TYPE.SUCCESS,
+                    type: ALERT_TYPE.INFO,
                     showCancelButton: false
                 });
             }

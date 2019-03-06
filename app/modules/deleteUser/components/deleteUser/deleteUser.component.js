@@ -64,7 +64,7 @@ var DeleteUserComponent = /** @class */ (function () {
                     title: "מחיקת משתמש",
                     text: "מחיקת המשתמש שלך בוצעה בהצלחה",
                     showCancelButton: false,
-                    type: alert_service_1.ALERT_TYPE.SUCCESS
+                    type: alert_service_1.ALERT_TYPE.INFO
                 });
                 _this.BackToLogin();
             }

@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 
 import { GlobalService } from '../../../services/global/global.service';
 import { EventService } from '../../../services/event/event.service';
-import { AlertService } from '../../../services/alert/alert.service';
+import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { ProfilePictureEditService } from '../../../services/profilePicture/profilePictureEdit/profilePictureEdit.service';
 
@@ -249,7 +249,7 @@ export class ProfilePictureEditComponent implements OnInit {
                             title: "התמונה הוחלפה בהצלחה",
                             image: imgBase64,
                             showCancelButton: false,
-                            type: "info",
+                            type: ALERT_TYPE.INFO,
                             confirmBtnText: "אישור",
                             confirmFunc: function () {
                                 self.CloseWindow();
@@ -271,7 +271,7 @@ export class ProfilePictureEditComponent implements OnInit {
         this.alertService.Alert({
             title: "למחוק את התמונה?",
             image: this.userImage,
-            type: "warning",
+            type: ALERT_TYPE.WARNING,
             preConfirm: function () {
                 return self.profilePictureEditService.DeleteImage();
             },

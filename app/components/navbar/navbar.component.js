@@ -221,7 +221,7 @@ var NavbarComponent = /** @class */ (function () {
                 title: "התנתקות מהמערכת",
                 text: msg,
                 showCancelButton: false,
-                type: "warning",
+                type: alert_service_1.ALERT_TYPE.INFO,
                 finalFunc: function () {
                     self.NavigateToLogin();
                 }
@@ -311,7 +311,7 @@ var NavbarComponent = /** @class */ (function () {
                 title: "מחיקת משתמש מהאתר",
                 text: "החשבון של " + "<b>" + userName + "</b>" + " נמחק מהאתר לצמיתות.",
                 showCancelButton: false,
-                type: "info"
+                type: alert_service_1.ALERT_TYPE.INFO
             });
         });
         self.globalService.SocketOn('ClientRemoveFriend', function (friendId) {

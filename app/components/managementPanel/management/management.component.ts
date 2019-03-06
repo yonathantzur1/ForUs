@@ -5,7 +5,7 @@ import { DropMenuData } from '../../navbar/navbar.component';
 import { ManagementService } from '../../../services/managementPanel/management/management.service';
 import { GlobalService } from '../../../services/global/global.service';
 import { EventService } from '../../../services/event/event.service';
-import { AlertService } from '../../../services/alert/alert.service';
+import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 
 declare var $: any;
@@ -404,7 +404,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
             text: "האם לבטל את החסימה?" + "\n\n" +
                 "<b>סיבה - </b>" + user.block.reason + "\n" +
                 "<b>עד תאריך - </b>" + (user.block.unblockDate ? self.ConvertDateFormat(user.block.unblockDate) : "בלתי מוגבל"),
-            type: "info",
+            type: ALERT_TYPE.INFO,
             confirmFunc: function () {
                 self.managementService.UnblockUser(user._id).then((result: any) => {
                     if (result) {
@@ -458,7 +458,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
             title: "הסרת חברות",
             text: "האם למחוק את החברות בין " + "<b>" + user.firstName + " " + user.lastName + "</b>\n" +
                 "לבין " + "<b>" + friend.fullName + "</b>?",
-            type: "warning",
+            type: ALERT_TYPE.WARNING,
             confirmFunc: function () {
                 self.managementService.RemoveFriends(user._id, friend._id).then((result: any) => {
                     if (result) {
@@ -494,7 +494,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
         self.alertService.Alert({
             title: "מחיקת משתמש",
             text: "האם למחוק את המשתמש של <b>" + user.firstName + " " + user.lastName + "</b>?",
-            type: "warning",
+            type: ALERT_TYPE.WARNING,
             confirmFunc: function () {
                 self.managementService.DeleteUser(user._id).then((result: any) => {
                     if (result) {

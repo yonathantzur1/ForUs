@@ -1,7 +1,7 @@
 export enum ALERT_TYPE {
-    SUCCESS = "success",
-    DANGER = "danger",
-    WARNING = "warning"
+    INFO,
+    DANGER,
+    WARNING
 }
 
 export class AlertService {

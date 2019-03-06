@@ -99,7 +99,7 @@ var UserPasswordWindowComponent = /** @class */ (function () {
                 _this.alertService.Alert({
                     title: "שינוי סיסמא",
                     text: "יש להיכנס לקישור שנשלח לכתובת האימייל שלך.",
-                    type: alert_service_1.ALERT_TYPE.SUCCESS,
+                    type: alert_service_1.ALERT_TYPE.INFO,
                     showCancelButton: false
                 });
             }

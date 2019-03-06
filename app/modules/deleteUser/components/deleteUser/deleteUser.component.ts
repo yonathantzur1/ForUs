@@ -71,7 +71,7 @@ export class DeleteUserComponent implements OnInit {
                     title: "מחיקת משתמש",
                     text: "מחיקת המשתמש שלך בוצעה בהצלחה",
                     showCancelButton: false,
-                    type: ALERT_TYPE.SUCCESS
+                    type: ALERT_TYPE.INFO
                 });
                 
                 this.BackToLogin();

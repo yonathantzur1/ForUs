@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
 import { EventService } from '../../services/event/event.service';
-import { AlertService } from '../../services/alert/alert.service';
+import { AlertService, ALERT_TYPE } from '../../services/alert/alert.service';
 import { SnackbarService } from '../../services/snackbar/snackbar.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { NavbarService } from '../../services/navbar/navbar.service';
@@ -295,7 +295,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 title: "התנתקות מהמערכת",
                 text: msg,
                 showCancelButton: false,
-                type: "warning",
+                type: ALERT_TYPE.INFO,
                 finalFunc: () => {
                     self.NavigateToLogin();
                 }
@@ -404,7 +404,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 title: "מחיקת משתמש מהאתר",
                 text: "החשבון של " + "<b>" + userName + "</b>" + " נמחק מהאתר לצמיתות.",
                 showCancelButton: false,
-                type: "info"
+                type: ALERT_TYPE.INFO
             });
         });
 

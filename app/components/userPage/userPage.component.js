@@ -226,7 +226,7 @@ var UserPageComponent = /** @class */ (function () {
                                         result && self.alertService.Alert({
                                             title: "מחיקת משתמש",
                                             text: "לאישור המחיקה, יש להיכנס לקישור שנשלח לכתובת האימייל שלך.",
-                                            type: alert_service_1.ALERT_TYPE.SUCCESS,
+                                            type: alert_service_1.ALERT_TYPE.INFO,
                                             showCancelButton: false
                                         });
                                     });

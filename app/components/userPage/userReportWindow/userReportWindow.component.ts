@@ -140,7 +140,7 @@ export class UserReportWindowComponent implements OnInit {
                     this.alertService.Alert({
                         title: "דיווח משתמש",
                         text: successMsg,
-                        type: ALERT_TYPE.SUCCESS,
+                        type: ALERT_TYPE.INFO,
                         showCancelButton: false
                     });
                 }

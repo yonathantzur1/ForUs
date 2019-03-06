@@ -330,7 +330,7 @@ var ManagementComponent = /** @class */ (function () {
             text: "האם לבטל את החסימה?" + "\n\n" +
                 "<b>סיבה - </b>" + user.block.reason + "\n" +
                 "<b>עד תאריך - </b>" + (user.block.unblockDate ? self.ConvertDateFormat(user.block.unblockDate) : "בלתי מוגבל"),
-            type: "info",
+            type: alert_service_1.ALERT_TYPE.INFO,
             confirmFunc: function () {
                 self.managementService.UnblockUser(user._id).then(function (result) {
                     if (result) {
@@ -377,7 +377,7 @@ var ManagementComponent = /** @class */ (function () {
             title: "הסרת חברות",
             text: "האם למחוק את החברות בין " + "<b>" + user.firstName + " " + user.lastName + "</b>\n" +
                 "לבין " + "<b>" + friend.fullName + "</b>?",
-            type: "warning",
+            type: alert_service_1.ALERT_TYPE.WARNING,
             confirmFunc: function () {
                 self.managementService.RemoveFriends(user._id, friend._id).then(function (result) {
                     if (result) {
@@ -408,7 +408,7 @@ var ManagementComponent = /** @class */ (function () {
         self.alertService.Alert({
             title: "מחיקת משתמש",
             text: "האם למחוק את המשתמש של <b>" + user.firstName + " " + user.lastName + "</b>?",
-            type: "warning",
+            type: alert_service_1.ALERT_TYPE.WARNING,
             confirmFunc: function () {
                 self.managementService.DeleteUser(user._id).then(function (result) {
                     if (result) {

@@ -125,7 +125,7 @@ var UserReportWindowComponent = /** @class */ (function () {
                     _this.alertService.Alert({
                         title: "דיווח משתמש",
                         text: successMsg,
-                        type: alert_service_1.ALERT_TYPE.SUCCESS,
+                        type: alert_service_1.ALERT_TYPE.INFO,
                         showCancelButton: false
                     });
                 }
