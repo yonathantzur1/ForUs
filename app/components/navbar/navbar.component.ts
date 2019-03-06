@@ -7,6 +7,7 @@ import { AlertService } from '../../services/alert/alert.service';
 import { SnackbarService } from '../../services/snackbar/snackbar.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { NavbarService } from '../../services/navbar/navbar.service';
+import { SOCKET_STATE } from '../../enums/enums';
 
 class Friend {
     _id: string;
@@ -255,16 +256,19 @@ export class NavbarComponent implements OnInit, OnDestroy {
         ];
 
         self.checkSocketConnectInterval = setInterval(() => {
-            self.authService.IsUserSocketConnect().then(result => {
-                // In case the user is login with no connected socket.
-                if (result == false) {
-                    self.globalService.RefreshSocket();
-                    self.globalService.socket.emit("ServerGetOnlineFriends");
-                }
-                // In case the user is logout.
-                else if (result == "-1") {
-                    self.globalService.Logout();
-                    self.router.navigateByUrl("/login");
+            self.authService.IsUserSocketConnect().then((result: any) => {
+                switch (result.state) {
+                    case SOCKET_STATE.ACTIVE:
+                        break;
+                    // In case the user is login with no connected socket.
+                    case SOCKET_STATE.CLOSE:
+                        self.globalService.RefreshSocket();
+                        break;
+                    // In case the user is logout.
+                    case SOCKET_STATE.LOGOUT:
+                        self.globalService.Logout();
+                        self.NavigateToLogin();
+                        break;
                 }
             });
         }, self.checkSocketConnectDelay * 1000);
@@ -292,11 +296,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 text: msg,
                 showCancelButton: false,
                 type: "warning",
-                confirmFunc: function () {
-                    self.router.navigateByUrl('/login');
-                },
-                closeFunc: function () {
-                    self.router.navigateByUrl('/login');
+                finalFunc: () => {
+                    self.NavigateToLogin();
                 }
             });
         });
@@ -1148,5 +1149,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.HideSearchResults();
         this.CloseChatWindow();
         this.router.navigateByUrl("/search/" + name.trim());
+    }
+
+    NavigateToLogin() {
+        this.router.navigateByUrl("/login");
     }
 }

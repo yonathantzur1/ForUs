@@ -14,6 +14,7 @@ export class AlertService {
     public preConfirm: Function;
     public confirmFunc: Function;
     public closeFunc: Function;
+    public finalFunc: Function;
     public confirmBtnText: string;
     public closeBtnText: string;
     public image: string;
@@ -28,28 +29,21 @@ export class AlertService {
         this.showCancelButton = true;
         this.confirmBtnText = "אישור";
         this.closeBtnText = "ביטול";
-        this.title = null;
-        this.text = null;
-        this.type = null;
-        this.preConfirm = null;
-        this.confirmFunc = null;
-        this.closeFunc = null;
-        this.image = null;
     }
 
     Alert(alertObject: any) {
         if (alertObject) {
             (alertObject.showCancelButton != null) && (this.showCancelButton = alertObject.showCancelButton);
-            alertObject.title && (this.title = alertObject.title);
-            alertObject.text && (this.text = alertObject.text);
-            alertObject.preConfirm && (this.preConfirm = alertObject.preConfirm);
-            alertObject.confirmFunc && (this.confirmFunc = alertObject.confirmFunc);
-            alertObject.closeFunc && (this.closeFunc = alertObject.closeFunc);
-            alertObject.confirmBtnText && (this.confirmBtnText = alertObject.confirmBtnText);
-            alertObject.closeBtnText && (this.closeBtnText = alertObject.closeBtnText);
-            alertObject.type && (this.type = alertObject.type);
-            alertObject.image && (this.image = alertObject.image);
-
+            this.title = alertObject.title;;
+            this.text = alertObject.text;
+            this.preConfirm = alertObject.preConfirm;
+            this.confirmFunc = alertObject.confirmFunc;
+            this.closeFunc = alertObject.closeFunc;
+            this.finalFunc = alertObject.finalFunc;
+            (alertObject.confirmBtnText != null) && (this.confirmBtnText = alertObject.confirmBtnText);
+            (alertObject.closeBtnText != null) && (this.closeBtnText = alertObject.closeBtnText);
+            this.type = alertObject.type;
+            this.image = alertObject.image;
             this.isShow = true;
         }
     }
@@ -65,12 +59,17 @@ export class AlertService {
         }
         else {
             this.confirmFunc && this.confirmFunc();
-            this.Initialize();
+            this.ActivateAlertClose();
         }
     }
 
     Close() {
         this.closeFunc && this.closeFunc();
+        this.ActivateAlertClose();
+    }
+
+    ActivateAlertClose() {
+        this.finalFunc && this.finalFunc();
         this.Initialize();
     }
 }

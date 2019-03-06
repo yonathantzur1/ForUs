@@ -163,9 +163,6 @@ var SearchPageComponent = /** @class */ (function () {
     SearchPageComponent.prototype.UserClick = function (userId) {
         this.router.navigateByUrl('/profile/' + userId);
     };
-    SearchPageComponent.prototype.UserClickTouch = function (userId) {
-        this.globalService.isTouchDevice && this.UserClick(userId);
-    };
     SearchPageComponent.prototype.IsFriendRequestAction = function (user) {
         if ((!user.isFriend && this.GetCurrentUserId() != user._id) ||
             user.isGetFriendRequest ||

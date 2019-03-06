@@ -9,6 +9,9 @@ const tokenHandler = require('./modules/handlers/tokenHandler');
 const logger = require('./logger');
 const secure = require('ssl-express-www');
 const config = require('./config');
+const enums = require('./modules/enums');
+
+const requestDataSizeLimit = '10mb'
 
 process.on('uncaughtException', function (err) {
     logger.error(err)
@@ -17,53 +20,33 @@ process.on('uncaughtException', function (err) {
 // app define settings.
 config.server.isForceHttps && app.use(secure);
 app.set('trust proxy', 1);
-app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.json({ limit: requestDataSizeLimit }));
 app.use(bodyParser.urlencoded({
-    limit: '10mb',
+    limit: requestDataSizeLimit,
     extended: true
 }));
 app.use(express.static('./'));
 app.use(express.static('public'));
 app.use(compression());
 
-function RedirectToLogin(req, res) {
-    if (req.method == "GET") {
-        tokenHandler.DeleteAuthCookies(res);
-        res.redirect('/login');
-    }
-    else {
-        res.status(401).end();
-    }
+// Implement exclude functions for routes in middlewares.
+Exclude = (paths, middleware) => {
+    return (req, res, next) => {
+        if (paths.indexOf(req.path) != -1) {
+            return next();
+        }
+        else {
+            return middleware(req, res, next);
+        }
+    };
 }
 
-app.use('/api', (req, res, next) => {
-    let token = tokenHandler.DecodeTokenFromRequest(req);
-    let cookieUid = tokenHandler.GetUidFromRequest(req);
-
-    // In case the user login and authorized.
-    if (token && token.user.uid == cookieUid) {
-        req.user = token.user;
-        next();
-    }
-    // In case the user is logout.
-    else {
-        switch (req.originalUrl) {
-            case '/api/auth/isUserOnSession':
-                res.send(false);
-                break;
-            case '/api/auth/isUserSocketConnect':
-                res.send("-1");
-                break;
-            default:
-                RedirectToLogin(req, res);
-        }
-    }
-});
+app.use('/api', Exclude(['/auth/isUserOnSession', '/auth/isUserSocketConnect'], (req, res, next) => {
+    tokenHandler.ValidateUserAuthCookies(req) && next();
+}));
 
 app.get('/login', (req, res, next) => {
-    let token = tokenHandler.DecodeTokenFromRequest(req);
-
-    if (!token) {
+    if (!tokenHandler.ValidateUserAuthCookies(req)) {
         tokenHandler.DeleteAuthCookies(res);
         next();
     }

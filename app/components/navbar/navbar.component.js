@@ -17,6 +17,7 @@ var alert_service_1 = require("../../services/alert/alert.service");
 var snackbar_service_1 = require("../../services/snackbar/snackbar.service");
 var auth_service_1 = require("../../services/auth/auth.service");
 var navbar_service_1 = require("../../services/navbar/navbar.service");
+var enums_1 = require("../../enums/enums");
 var Friend = /** @class */ (function () {
     function Friend() {
     }
@@ -187,15 +188,18 @@ var NavbarComponent = /** @class */ (function () {
         ];
         self.checkSocketConnectInterval = setInterval(function () {
             self.authService.IsUserSocketConnect().then(function (result) {
-                // In case the user is login with no connected socket.
-                if (result == false) {
-                    self.globalService.RefreshSocket();
-                    self.globalService.socket.emit("ServerGetOnlineFriends");
-                }
-                // In case the user is logout.
-                else if (result == "-1") {
-                    self.globalService.Logout();
-                    self.router.navigateByUrl("/login");
+                switch (result.state) {
+                    case enums_1.SOCKET_STATE.ACTIVE:
+                        break;
+                    // In case the user is login with no connected socket.
+                    case enums_1.SOCKET_STATE.CLOSE:
+                        self.globalService.RefreshSocket();
+                        break;
+                    // In case the user is logout.
+                    case enums_1.SOCKET_STATE.LOGOUT:
+                        self.globalService.Logout();
+                        self.NavigateToLogin();
+                        break;
                 }
             });
         }, self.checkSocketConnectDelay * 1000);
@@ -218,11 +222,8 @@ var NavbarComponent = /** @class */ (function () {
                 text: msg,
                 showCancelButton: false,
                 type: "warning",
-                confirmFunc: function () {
-                    self.router.navigateByUrl('/login');
-                },
-                closeFunc: function () {
-                    self.router.navigateByUrl('/login');
+                finalFunc: function () {
+                    self.NavigateToLogin();
                 }
             });
         });
@@ -930,6 +931,9 @@ var NavbarComponent = /** @class */ (function () {
         this.HideSearchResults();
         this.CloseChatWindow();
         this.router.navigateByUrl("/search/" + name.trim());
+    };
+    NavbarComponent.prototype.NavigateToLogin = function () {
+        this.router.navigateByUrl("/login");
     };
     __decorate([
         core_1.Input(),

@@ -2,13 +2,14 @@ const loginBL = require('../BL/loginBL');
 const tokenHandler = require('../handlers/tokenHandler');
 const permissionHandler = require('../handlers/permissionHandler');
 const logger = require('../../logger');
+const enums = require('../enums');
 
 let prefix = "/api/auth";
 
 module.exports = (app, connectedUsers) => {
     // Checking if the session of the user is open.
     app.get(prefix + '/isUserOnSession', (req, res) => {
-        if (!req.user) {
+        if (!tokenHandler.ValidateUserAuthCookies(req)) {
             res.send(false);
         }
         else {
@@ -70,14 +71,24 @@ module.exports = (app, connectedUsers) => {
     });
 
     app.get(prefix + '/isUserSocketConnect', (req, res) => {
-        let socketUser = connectedUsers[req.user._id];
+        let state;
 
-        if (socketUser) {
-            socketUser.lastKeepAlive = new Date();
-            res.send(true);
+        // In case the user is logout.
+        if (!tokenHandler.ValidateUserAuthCookies(req)) {
+            state = enums.SOCKET_STATE.LOGOUT;
         }
         else {
-            res.send(false);
+            let socketUser = connectedUsers[req.user._id];
+
+            if (socketUser) {
+                socketUser.lastKeepAlive = new Date();
+                state = enums.SOCKET_STATE.ACTIVE;
+            }
+            else {
+                enums.SOCKET_STATE.CLOSE;
+            }
         }
+
+        res.send({ state });
     });
 };

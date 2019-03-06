@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../../config');
 const encryption = require('../security/encryption');
 
-module.exports = {
+let self = module.exports = {
     GetTokenFromUserObject(user) {
         let tokenUserObject = {
             "_id": user._id,
@@ -42,14 +42,14 @@ module.exports = {
         return this.DecodeToken(token);
     },
 
-    SetTokenOnCookie(token, res, isDisableUidCookieUpdate) {
+    SetTokenOnCookie(token, res, isPreventUidCookie) {
         res.cookie(config.security.token.cookieName,
             token,
             { maxAge: config.security.token.maxAge, httpOnly: true });
 
         token = this.DecodeToken(token);
 
-        if (token.user && !isDisableUidCookieUpdate) {
+        if (token.user && !isPreventUidCookie) {
             res.cookie(config.security.token.uidCookieName,
                 token.user.uid,
                 { maxAge: config.security.token.maxAge, httpOnly: false });
@@ -83,6 +83,20 @@ module.exports = {
 
     GetUidFromRequest(request) {
         return GetCookieByName(config.security.token.uidCookieName, request.headers.cookie);
+    },
+
+    ValidateUserAuthCookies(request) {
+        let token = self.DecodeTokenFromRequest(request);
+        let cookieUid = self.GetUidFromRequest(request);
+
+        // Return if the user is login and authorized.
+        if (token && token.user.uid == cookieUid) {
+            request.user = token.user;
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
 

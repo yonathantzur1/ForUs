@@ -20,6 +20,12 @@ export enum USER_UPDATE_INFO_ERROR {
     WRONG_PASSWORD = "wrong_password"
 }
 
+export enum SOCKET_STATE {
+    ACTIVE = "active",
+    CLOSE= "close",
+    LOGOUT= "logout"
+}
+
 export enum USER_REPORT_STATUS {
     ACTIVE,
     TAKEN,

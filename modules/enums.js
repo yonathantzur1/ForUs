@@ -23,5 +23,11 @@ module.exports = {
     USER_UPDATE_INFO_ERROR: {
         EMAIL_EXISTS: "email_exists",
         WRONG_PASSWORD: "wrong_password"
+    },
+
+    SOCKET_STATE: {
+        ACTIVE: "active",
+        CLOSE: "close",
+        LOGOUT: "logout"
     }
 }

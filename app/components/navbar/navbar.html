@@ -53,7 +53,7 @@
       </div>
     </div>
     <div class="container-fluid navbar" [ngClass]="{'navbar-under' : isNavbarUnder}">
-      <div class="col-md-8 col-9 navbar-right-container">
+      <div class="col-8 navbar-right-container">
         <span class="head-container" (click)="NavigateMain()">
           <img src="../logo/icon.png" class="head-icon">
           <span *ngIf="!globalService.IsSmallScreenDevice()" class="head-title">ForUs</span>
@@ -107,7 +107,7 @@
           </div>
         </span>
       </div>
-      <div class="col-md-4 col-3 navbar-left-container">
+      <div class="col-4 navbar-left-container">
         <div *ngIf="user" class="manage-sector">
           <i (click)="ShowHideDropMenu()" class="fas fa-caret-down menu-icon"></i>
           <span (click)="ShowHideDropMenu()" class="name">

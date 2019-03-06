@@ -45,7 +45,6 @@
     border-radius: 50%;
     border: 0.5px solid #c6c6c6;
     user-select: none;
-    cursor: pointer;
 }
 
 #searchPage .user-name {
@@ -54,7 +53,6 @@
     white-space: pre-wrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    cursor: pointer;
     max-height: 100%;
 }
 
@@ -95,6 +93,7 @@
     padding: 10px;
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 #searchPage .users-loading-container {

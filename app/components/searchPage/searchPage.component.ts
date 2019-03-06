@@ -196,10 +196,6 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl('/profile/' + userId);
     }
 
-    UserClickTouch(userId: string) {
-        this.globalService.isTouchDevice && this.UserClick(userId);
-    }
-
     IsFriendRequestAction(user: any) {
         if ((!user.isFriend && this.GetCurrentUserId() != user._id) ||
             user.isGetFriendRequest ||
