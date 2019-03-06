@@ -121,7 +121,7 @@ input {
     z-index: 9998;
 }
 
-.main-loader-align {
+.main-loader-container {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -154,7 +154,7 @@ input {
         font-size: 12px;
     }
 
-    .main-loader-align {
+    .main-loader-container {
         margin-left: -45px;
     }
 }

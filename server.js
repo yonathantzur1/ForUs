@@ -40,15 +40,12 @@ Exclude = (paths, middleware) => {
     };
 }
 
+// Validate user token on each api request.
 app.use('/api', Exclude(['/auth/isUserOnSession', '/auth/isUserSocketConnect'], (req, res, next) => {
     tokenHandler.ValidateUserAuthCookies(req) && next();
 }));
 
-http.listen(config.server.port, () => {
-    console.log("Server is up!");
-});
-
-// Import socket.io module
+// Import socket.io module and return the connected users object.
 let connectedUsers = require('./modules/sockets/socket')(io);
 
 // Routes requires
@@ -81,4 +78,8 @@ require('./modules/scripts')();
 // Redirect angular requests back to client side.
 app.get('**', (req, res) => {
     res.sendFile(path.join(__dirname + '/index.html'));
+});
+
+http.listen(config.server.port, () => {
+    console.log("Server is up!");
 });
