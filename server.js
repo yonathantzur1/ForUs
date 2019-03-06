@@ -45,16 +45,6 @@ app.use('/api', Exclude(['/auth/isUserOnSession', '/auth/isUserSocketConnect'], 
     tokenHandler.ValidateUserAuthCookies(req) && next();
 }));
 
-app.get('/login', (req, res, next) => {
-    if (!tokenHandler.ValidateUserAuthCookies(req)) {
-        tokenHandler.DeleteAuthCookies(res);
-        next();
-    }
-    else {
-        res.redirect('/');
-    }
-});
-
 http.listen(config.server.port, () => {
     console.log("Server is up!");
 });
