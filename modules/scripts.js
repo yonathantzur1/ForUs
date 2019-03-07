@@ -20,8 +20,6 @@ function ChangeEncryptionKeyString(newKeyString) {
         console.log("Query " + chats.length + " chats");
 
         chats.forEach((chat, index) => {
-            chat.lastMessage.text = encryption.encrypt(encryption.decrypt(chat.lastMessage.text), newKeyString);
-
             chat.messages.forEach(message => {
                 message.text = encryption.encrypt(encryption.decrypt(message.text), newKeyString);
             });

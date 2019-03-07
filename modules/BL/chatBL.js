@@ -107,8 +107,7 @@ let self = module.exports = {
 
             let chatFilter = { "membersIds": { $all: [msgData.from, msgData.to] } };
             let chatUpdateQuery = {
-                $push: { "messages": msgData },
-                $set: { "lastMessage": { "text": (msgData.isImage ? "" : msgData.text), "time": msgData.time, "isImage": (msgData.isImage ? true : false) } }
+                $push: { "messages": msgData }
             }
 
             DAL.UpdateOne(collectionName, chatFilter, chatUpdateQuery).then((result) => {
