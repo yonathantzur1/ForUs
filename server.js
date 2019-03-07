@@ -45,7 +45,7 @@ app.use('/api', Exclude(['/auth/isUserOnSession', '/auth/isUserSocketConnect'], 
     tokenHandler.ValidateUserAuthCookies(req) && next();
 }));
 
-// Import socket.io module and return the connected users object.
+// Import socket.io module and get the connected users object.
 let connectedUsers = require('./modules/sockets/socket')(io);
 
 // Routes requires
@@ -72,7 +72,7 @@ require('./modules/routes/userPage/userPrivacyWindow')(app);
 require('./modules/routes/searchPage')(app);
 
 // Import server jobs and scripts.
-require('./modules/schedules')(connectedUsers);
+require('./modules/schedules')();
 require('./modules/scripts')();
 
 // Redirect angular requests back to client side.
