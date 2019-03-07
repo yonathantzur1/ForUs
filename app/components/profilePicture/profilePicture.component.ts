@@ -22,7 +22,6 @@ export class ProfilePictureComponent implements OnDestroy {
         var self = this;
 
         //#region events
-
         eventService.Register("newUploadedImage", (img: string) => {
             globalService.userProfileImage = img;
             self.isUserHasImage = true;
@@ -40,7 +39,6 @@ export class ProfilePictureComponent implements OnDestroy {
         eventService.Register("openProfileEditWindow", () => {
             self.OpenEditWindow();
         }, self.eventsIds);
-
         //#endregion
     }
 

@@ -70,7 +70,6 @@ function BuildSchemaPathString(schemaPath) {
 let validateSchemaObj = {}
 
 //#region get
-
 validateSchemaObj["GET"] = {
     "forgotPassword": {
         "validateResetPasswordToken": {
@@ -83,11 +82,9 @@ validateSchemaObj["GET"] = {
         }
     }
 }
-
 //#endregion
 
 //#region post
-
 validateSchemaObj["POST"] = {
     "login": {
         "userLogin": {
@@ -111,7 +108,6 @@ validateSchemaObj["POST"] = {
         }
     }
 }
-
 //#endregion
 
 //#region put
@@ -162,12 +158,10 @@ validateSchemaObj["PUT"] = {
         }
     }
 }
-
 //#endregion
 
 //#region delete
 validateSchemaObj["DELETE"] = {
 
 }
-
 //#endregion

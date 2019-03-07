@@ -9,7 +9,6 @@ const tokenHandler = require('./modules/handlers/tokenHandler');
 const logger = require('./logger');
 const secure = require('ssl-express-www');
 const config = require('./config');
-
 const requestDataSizeLimit = '10mb'
 
 process.on('uncaughtException', function (err) {
@@ -28,7 +27,7 @@ app.use(express.static('./'));
 app.use(express.static('public'));
 app.use(compression());
 
-// Implement exclude functions for routes in middlewares.
+// Implement function for exclude routes in middlewares.
 Exclude = (paths, middleware) => {
     return (req, res, next) => {
         if (paths.indexOf(req.path) != -1) {
@@ -40,15 +39,15 @@ Exclude = (paths, middleware) => {
     };
 }
 
-// Validate user token on each api request.
+// Validate user token for each api request.
 app.use('/api', Exclude(['/auth/isUserOnSession', '/auth/isUserSocketConnect'], (req, res, next) => {
     tokenHandler.ValidateUserAuthCookies(req) && next();
 }));
 
-// Import socket.io module and get the connected users object.
+// Import socket module and get the connected users object.
 let connectedUsers = require('./modules/sockets/socket')(io);
 
-// Routes requires
+//#region routes
 require('./modules/routes/auth')(app, connectedUsers);
 require('./modules/routes/login')(app);
 require('./modules/routes/forgotPassword')(app);
@@ -70,6 +69,7 @@ require('./modules/routes/userPage/userReportWindow')(app);
 require('./modules/routes/userPage/userPasswordWindow')(app);
 require('./modules/routes/userPage/userPrivacyWindow')(app);
 require('./modules/routes/searchPage')(app);
+//#endregion
 
 // Import server jobs and scripts.
 require('./modules/schedules')();

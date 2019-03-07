@@ -130,7 +130,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
         var self = this;
 
         //#region events
-
         eventService.Register("showProfileEditWindow", (isShow: boolean) => {
             isShow && this.ClosePopups();
             self.isOpenProfileEditWindow = isShow;
@@ -169,7 +168,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }, self.eventsIds);
 
         //#region friend requests functions
-
         eventService.Register("addFriendRequest", (friendId: string) => {
             self.AddFriendRequest(friendId);
         }, self.eventsIds);
@@ -185,9 +183,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         eventService.Register("ignoreFriendRequest", (friendId: string) => {
             self.IgnoreFriendRequest(friendId);
         }, self.eventsIds);
-
         //#endregion
-
         //#endregion
 
         self.toolbarItems = [

@@ -29,7 +29,6 @@ export class PermissionsCardComponent implements OnDestroy {
         var self = this;
 
         //#region events
-
         eventService.Register("openPermissionsCard", (user: any) => {
             self.user = user;
 
@@ -51,7 +50,6 @@ export class PermissionsCardComponent implements OnDestroy {
 
             $("#permissions-modal").modal('show');
         }, self.eventsIds);
-
         //#endregion
 
         self.isLoading = true;

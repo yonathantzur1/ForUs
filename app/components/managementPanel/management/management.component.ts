@@ -47,11 +47,9 @@ export class ManagementComponent implements OnInit, OnDestroy {
         var self = this;
 
         //#region events
-
         eventService.Register("closeDropMenu", () => {
             self.CloseAllUsersMenu();
         }, self.eventsIds);
-
         //#endregion
 
         self.dropMenuDataList = [

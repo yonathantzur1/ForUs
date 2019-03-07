@@ -38,7 +38,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
         var self = this;
 
         //#region events
-
         eventService.Register("newUploadedImage", (img: string) => {
             self.user.profileImage = self.user.profileImage || null;
             self.user.profileImage = img;
@@ -71,7 +70,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
         eventService.Register("ignoreFriendRequest", (userId: string) => {
             (userId == this.user._id) && self.UnsetUserFriendStatus("isSendFriendRequest");
         }, self.eventsIds);
-
         //#endregion
 
         self.tabs = [
