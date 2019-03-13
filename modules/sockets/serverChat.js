@@ -1,5 +1,5 @@
 const chatBL = require('../BL/chatBL');
-const navbarBL = require('../BL/navbar/navbarBL');
+const navbarBL = require('../BL/navbarBL');
 const generator = require('../generator');
 const tokenHandler = require('../handlers/tokenHandler');
 const logger = require('../../logger');

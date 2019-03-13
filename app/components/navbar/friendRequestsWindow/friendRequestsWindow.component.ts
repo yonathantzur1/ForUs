@@ -2,7 +2,6 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/cor
 
 import { GlobalService } from '../../../services/global/global.service';
 import { EventService } from '../../../services/event/event.service';
-import { FriendRequestsWindowService } from '../../../services/navbar/friendRequestsWindow/friendRequestsWindow.service';
 import { NavbarService } from '../../../services/navbar/navbar.service';
 
 import { Router } from '@angular/router';
@@ -10,7 +9,7 @@ import { Router } from '@angular/router';
 @Component({
     selector: 'friendRequestsWindow',
     templateUrl: './friendRequestsWindow.html',
-    providers: [FriendRequestsWindowService],
+    providers: [NavbarService],
     styleUrls: ['./friendRequestsWindow.css']
 })
 
@@ -31,8 +30,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     isFriendRequestsLoaded: boolean = false;
 
     constructor(private router: Router,
-        private navbarService: NavbarService,
-        private friendRequestsWindowService: FriendRequestsWindowService,
+        private navbarService: NavbarService,        
         private globalService: GlobalService,
         private eventService: EventService) { }
 
@@ -81,7 +79,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
 
             if (this.confirmedReuests.length > 0) {
                 // Removing friend requests confirm alerts from DB.
-                this.friendRequestsWindowService.RemoveRequestConfirmAlert(this.confirmedReuests);
+                this.navbarService.RemoveFriendRequestConfirmAlert(this.confirmedReuests);
             }
         }
 

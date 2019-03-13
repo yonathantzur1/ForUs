@@ -1,42 +1,40 @@
+const router = require('express').Router();
 const userPageBL = require('../../BL/userPage/userPageBL');
 const logger = require('../../../logger');
 
-let prefix = "/api/userPage";
+// Get user details by id.
+router.get('/getUserDetails', function (req, res) {
+    let userId = req.query.id;
+    let currUserId = req.user._id;
 
-module.exports = function (app) {
-    // Get user details by id.
-    app.get(prefix + '/getUserDetails', function (req, res) {
-        let userId = req.query.id;
-        let currUserId = req.user._id;
-
-        userPageBL.GetUserDetails(userId, currUserId).then(result => {
-            res.send(result);
-        }).catch(err => {
-            logger.error(err);
-            res.sendStatus(500);
-        });
+    userPageBL.GetUserDetails(userId, currUserId).then(result => {
+        res.send(result);
+    }).catch(err => {
+        logger.error(err);
+        res.sendStatus(500);
     });
+});
 
-    // Remove friend.
-    app.delete(prefix + '/removeFriends', function (req, res) {
-        let currUserId = req.user._id;
-        let friendId = req.query.friendId;
+// Remove friend.
+router.delete('/removeFriends', function (req, res) {
+    let currUserId = req.user._id;
+    let friendId = req.query.friendId;
 
-        userPageBL.RemoveFriends(currUserId, friendId).then(result => {
-            res.send(result);
-        }).catch(err => {
-            logger.error(err);
-            res.sendStatus(500);
-        });
+    userPageBL.RemoveFriends(currUserId, friendId).then(result => {
+        res.send(result);
+    }).catch(err => {
+        logger.error(err);
+        res.sendStatus(500);
     });
+});
 
-    app.put(prefix + '/deleteUserValidation', function (req, res) {
-        userPageBL.DeleteUserValidation(req.user._id).then(result => {
-            res.send(result);
-        }).catch((err) => {
-            logger.error(err);
-            res.sendStatus(500);
-        });
+router.put('/deleteUserValidation', function (req, res) {
+    userPageBL.DeleteUserValidation(req.user._id).then(result => {
+        res.send(result);
+    }).catch((err) => {
+        logger.error(err);
+        res.sendStatus(500);
     });
+});
 
-};
+module.exports = router;

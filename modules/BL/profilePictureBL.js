@@ -1,10 +1,22 @@
-const DAL = require('../../DAL.js');
-const config = require('../../../config.js');
+const DAL = require('../DAL.js');
+const config = require('../../config.js');
 
 const collectionName = config.db.collections.profiles;
 const usersCollectionName = config.db.collections.users;
 
 module.exports = {
+    GetUserProfileImage(profileId) {
+        return new Promise((resolve, reject) => {
+            if (!profileId) {
+                resolve(null);
+            }
+            else {
+                let profileObjectId = DAL.GetObjectId(profileId);
+                DAL.FindOne(collectionName, { "_id": profileObjectId }).then(resolve).catch(reject);
+            }
+        });
+    },
+
     SaveImage(imageData) {
         return new Promise((resolve, reject) => {
             let userIdObject = DAL.GetObjectId(imageData.userId);

@@ -124,6 +124,17 @@ var NavbarService = /** @class */ (function (_super) {
             return null;
         });
     };
+    NavbarService.prototype.RemoveFriendRequestConfirmAlert = function (confirmedFriendsIds) {
+        var data = { confirmedFriendsIds: confirmedFriendsIds };
+        return _super.prototype.put.call(this, this.prefix + '/removeFriendRequestConfirmAlert', data)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     return NavbarService;
 }(basic_service_1.BasicService));
 exports.NavbarService = NavbarService;

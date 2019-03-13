@@ -2,6 +2,7 @@ const DAL = require('../DAL.js');
 const config = require('../../config');
 const encryption = require('../security/encryption');
 const logger = require('../../logger');
+const navbarBL = require('./navbarBL');
 
 const collectionName = config.db.collections.chats;
 const messagesInPage = 40;
@@ -154,5 +155,56 @@ let self = module.exports = {
         }
 
         return true;
+    },
+
+    GetAllPreviewChats(userId) {
+        return new Promise((resolve, reject) => {
+            let chatsFilter = {
+                $match: {
+                    "membersIds": userId,
+                    "messages": { $ne: [] }
+                }
+            }
+
+            let sortObj = { $sort: { "lastMessage.time": -1 } };
+
+            let aggregateArray = [
+                chatsFilter,
+                {
+                    $project:
+                    {
+                        lastMessage: { $arrayElemAt: ["$messages", -1] },
+                        membersIds: "$membersIds"
+                    }
+                },
+                sortObj
+            ]
+
+            DAL.Aggregate(collectionName, aggregateArray).then((chats) => {
+                let indexChatPositionByFriendId = {};
+                let chatsFriendsIds = [];
+
+                // Decode last message text for all chats.
+                chats.forEach((chat, index) => {
+                    chat.lastMessage.text = encryption.decrypt(chat.lastMessage.text);
+
+                    let friendId = chat.membersIds.find((id) => {
+                        return (id != userId);
+                    });
+
+                    indexChatPositionByFriendId[friendId] = index;
+                    chatsFriendsIds.push(friendId);
+                });
+
+                navbarBL.GetFriends(chatsFriendsIds).then(friends => {
+                    friends.forEach(friend => {
+                        chats[indexChatPositionByFriendId[friend._id.toString()]].friend = friend;
+                    });
+
+                    resolve(chats);
+                }).catch(reject);
+            }).catch(reject);
+
+        });
     }
 }

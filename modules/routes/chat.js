@@ -1,29 +1,38 @@
+const router = require('express').Router();
 const chatBL = require('../BL/chatBL');
 const logger = require('../../logger');
 
-let prefix = "/api/chat";
+// Return the first chat page messages.
+router.post('/getChat', (req, res) => {
+    chatBL.GetChat(req.body.membersIds, req.user).then((chat) => {
+        res.send(chat);
+    }).catch((err) => {
+        logger.error(err);
+        res.sendStatus(500);
+    })
+});
 
-module.exports = (app) => {    
-    // Return the first chat page messages.
-    app.post(prefix + '/getChat', (req, res) => {
-        chatBL.GetChat(req.body.membersIds, req.user).then((chat) => {
+// Return the requested chat page messages.
+router.post('/getChatPage', (req, res) => {
+    chatBL.GetChatPage(req.body.membersIds,
+        req.user,
+        req.body.currMessagesNum,
+        req.body.totalMessagesNum).then((chat) => {
             res.send(chat);
         }).catch((err) => {
             logger.error(err);
             res.sendStatus(500);
         })
-    });
+});
 
-    // Return the requested chat page messages.
-    app.post(prefix + '/getChatPage', (req, res) => {
-        chatBL.GetChatPage(req.body.membersIds,
-            req.user,
-            req.body.currMessagesNum,
-            req.body.totalMessagesNum).then((chat) => {
-                res.send(chat);
-            }).catch((err) => {
-                logger.error(err);
-                res.sendStatus(500);
-            })
+// Get all not empty chats order by last message time.
+router.get('/getAllPreviewChats', (req, res) => {
+    chatBL.GetAllPreviewChats(req.user._id).then((chats) => {
+        res.send(chats);
+    }).catch((err) => {
+        logger.error(err);
+        res.sendStatus(500);
     });
-};
+});
+
+module.exports = router;

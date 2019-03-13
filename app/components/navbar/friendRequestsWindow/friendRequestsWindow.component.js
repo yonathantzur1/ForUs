@@ -12,14 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var global_service_1 = require("../../../services/global/global.service");
 var event_service_1 = require("../../../services/event/event.service");
-var friendRequestsWindow_service_1 = require("../../../services/navbar/friendRequestsWindow/friendRequestsWindow.service");
 var navbar_service_1 = require("../../../services/navbar/navbar.service");
 var router_1 = require("@angular/router");
 var FriendRequestsWindowComponent = /** @class */ (function () {
-    function FriendRequestsWindowComponent(router, navbarService, friendRequestsWindowService, globalService, eventService) {
+    function FriendRequestsWindowComponent(router, navbarService, globalService, eventService) {
         this.router = router;
         this.navbarService = navbarService;
-        this.friendRequestsWindowService = friendRequestsWindowService;
         this.globalService = globalService;
         this.eventService = eventService;
         this.friendRequestsObjects = [];
@@ -65,7 +63,7 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
             this.isFirstOpenning = false;
             if (this.confirmedReuests.length > 0) {
                 // Removing friend requests confirm alerts from DB.
-                this.friendRequestsWindowService.RemoveRequestConfirmAlert(this.confirmedReuests);
+                this.navbarService.RemoveFriendRequestConfirmAlert(this.confirmedReuests);
             }
         }
         // On first closing.
@@ -171,12 +169,11 @@ var FriendRequestsWindowComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'friendRequestsWindow',
             templateUrl: './friendRequestsWindow.html',
-            providers: [friendRequestsWindow_service_1.FriendRequestsWindowService],
+            providers: [navbar_service_1.NavbarService],
             styleUrls: ['./friendRequestsWindow.css']
         }),
         __metadata("design:paramtypes", [router_1.Router,
             navbar_service_1.NavbarService,
-            friendRequestsWindow_service_1.FriendRequestsWindowService,
             global_service_1.GlobalService,
             event_service_1.EventService])
     ], FriendRequestsWindowComponent);

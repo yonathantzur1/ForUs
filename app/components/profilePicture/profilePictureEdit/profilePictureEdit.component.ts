@@ -4,14 +4,14 @@ import { GlobalService } from '../../../services/global/global.service';
 import { EventService } from '../../../services/event/event.service';
 import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
-import { ProfilePictureEditService } from '../../../services/profilePicture/profilePictureEdit/profilePictureEdit.service';
+import { ProfilePictureService } from '../../../services/profilePicture/profilePicture.service';
 
 declare var $: any;
 
 @Component({
     selector: 'profilePictureEdit',
     templateUrl: './profilePictureEdit.html',
-    providers: [ProfilePictureEditService],
+    providers: [ProfilePictureService],
     styleUrls: ['./profilePictureEdit.css']
 })
 
@@ -21,7 +21,7 @@ export class ProfilePictureEditComponent implements OnInit {
     userImage: string;
     isNewPhoto: boolean = true;
 
-    constructor(private profilePictureEditService: ProfilePictureEditService,
+    constructor(private profilePictureService: ProfilePictureService,
         private alertService: AlertService,
         private snackbarService: SnackbarService,
         private globalService: GlobalService,
@@ -230,7 +230,7 @@ export class ProfilePictureEditComponent implements OnInit {
 
             this.GetCroppedBase64Image().then((img: any) => {
                 var imgBase64 = img[0].currentSrc;
-                self.profilePictureEditService.SaveImage(imgBase64).then((result: any) => {
+                self.profilePictureService.SaveImage(imgBase64).then((result: any) => {
                     self.isLoading = false;
 
                     // In case of error or the user was not fount.
@@ -273,7 +273,7 @@ export class ProfilePictureEditComponent implements OnInit {
             image: this.userImage,
             type: ALERT_TYPE.WARNING,
             preConfirm: function () {
-                return self.profilePictureEditService.DeleteImage();
+                return self.profilePictureService.DeleteImage();
             },
             confirmFunc: function () {
                 self.eventService.Emit("deleteProfileImage", true);

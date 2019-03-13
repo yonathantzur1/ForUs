@@ -29,4 +29,15 @@ export class ChatService extends BasicService {
                 return null;
             });
     }
+
+    GetAllPreviewChats() {
+        return super.get(this.prefix + '/getAllPreviewChats')
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((e: any) => {
+                return null;
+            });
+    }
 }

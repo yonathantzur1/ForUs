@@ -10,11 +10,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var chatsWindow_service_1 = require("../../../services/navbar/chatsWindow/chatsWindow.service");
+var chat_service_1 = require("../../../services/chat/chat.service");
 var global_service_1 = require("../../../services/global/global.service");
 var ChatsWindowComponent = /** @class */ (function () {
-    function ChatsWindowComponent(chatsWindowService, globalService) {
-        this.chatsWindowService = chatsWindowService;
+    function ChatsWindowComponent(chatService, globalService) {
+        this.chatService = chatService;
         this.globalService = globalService;
         this.chats = [];
     }
@@ -64,7 +64,7 @@ var ChatsWindowComponent = /** @class */ (function () {
     };
     ChatsWindowComponent.prototype.LoadChatsObjects = function () {
         this.isLoading = true;
-        this.chatsWindowService.GetAllChats().then((function (chats) {
+        this.chatService.GetAllPreviewChats().then((function (chats) {
             this.isLoading = false;
             this.chats = chats;
         }).bind(this));
@@ -166,10 +166,10 @@ var ChatsWindowComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'chatsWindow',
             templateUrl: './chatsWindow.html',
-            providers: [chatsWindow_service_1.ChatsWindowService],
+            providers: [chat_service_1.ChatService],
             styleUrls: ['./chatsWindow.css']
         }),
-        __metadata("design:paramtypes", [chatsWindow_service_1.ChatsWindowService,
+        __metadata("design:paramtypes", [chat_service_1.ChatService,
             global_service_1.GlobalService])
     ], ChatsWindowComponent);
     return ChatsWindowComponent;

@@ -14,10 +14,10 @@ var global_service_1 = require("../../../services/global/global.service");
 var event_service_1 = require("../../../services/event/event.service");
 var alert_service_1 = require("../../../services/alert/alert.service");
 var snackbar_service_1 = require("../../../services/snackbar/snackbar.service");
-var profilePictureEdit_service_1 = require("../../../services/profilePicture/profilePictureEdit/profilePictureEdit.service");
+var profilePicture_service_1 = require("../../../services/profilePicture/profilePicture.service");
 var ProfilePictureEditComponent = /** @class */ (function () {
-    function ProfilePictureEditComponent(profilePictureEditService, alertService, snackbarService, globalService, eventService) {
-        this.profilePictureEditService = profilePictureEditService;
+    function ProfilePictureEditComponent(profilePictureService, alertService, snackbarService, globalService, eventService) {
+        this.profilePictureService = profilePictureService;
         this.alertService = alertService;
         this.snackbarService = snackbarService;
         this.globalService = globalService;
@@ -209,7 +209,7 @@ var ProfilePictureEditComponent = /** @class */ (function () {
             var self = this;
             this.GetCroppedBase64Image().then(function (img) {
                 var imgBase64 = img[0].currentSrc;
-                self.profilePictureEditService.SaveImage(imgBase64).then(function (result) {
+                self.profilePictureService.SaveImage(imgBase64).then(function (result) {
                     self.isLoading = false;
                     // In case of error or the user was not fount.
                     if (!result) {
@@ -247,7 +247,7 @@ var ProfilePictureEditComponent = /** @class */ (function () {
             image: this.userImage,
             type: alert_service_1.ALERT_TYPE.WARNING,
             preConfirm: function () {
-                return self.profilePictureEditService.DeleteImage();
+                return self.profilePictureService.DeleteImage();
             },
             confirmFunc: function () {
                 self.eventService.Emit("deleteProfileImage", true);
@@ -326,10 +326,10 @@ var ProfilePictureEditComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'profilePictureEdit',
             templateUrl: './profilePictureEdit.html',
-            providers: [profilePictureEdit_service_1.ProfilePictureEditService],
+            providers: [profilePicture_service_1.ProfilePictureService],
             styleUrls: ['./profilePictureEdit.css']
         }),
-        __metadata("design:paramtypes", [profilePictureEdit_service_1.ProfilePictureEditService,
+        __metadata("design:paramtypes", [profilePicture_service_1.ProfilePictureService,
             alert_service_1.AlertService,
             snackbar_service_1.SnackbarService,
             global_service_1.GlobalService,

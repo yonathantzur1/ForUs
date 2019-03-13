@@ -69,7 +69,7 @@ var DeleteUserComponent = /** @class */ (function () {
                 _this.BackToLogin();
             }
             else if (result == false) {
-                _this.microtextService.ShowMicrotext("password-micro", "סיסמא שגוייה");
+                _this.microtextService.ShowMicrotext("password-micro", "הסיסמא שהוזנה שגוייה");
             }
             else {
                 _this.alertService.Alert({

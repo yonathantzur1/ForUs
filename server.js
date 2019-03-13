@@ -6,6 +6,7 @@ const path = require('path');
 const compression = require('compression');
 const io = require('socket.io')(http);
 const tokenHandler = require('./modules/handlers/tokenHandler');
+const permissionHandler = require('./modules/handlers/permissionHandler');
 const logger = require('./logger');
 const secure = require('ssl-express-www');
 const config = require('./config');
@@ -27,8 +28,9 @@ app.use(express.static('./'));
 app.use(express.static('public'));
 app.use(compression());
 
-// Implement function for exclude routes in middlewares.
-Exclude = (paths, middleware) => {
+//#region Middlewares
+// Exclude routes for middlewares.
+function Exclude(paths, middleware) {
     return (req, res, next) => {
         if (paths.indexOf(req.path) != -1) {
             return next();
@@ -39,6 +41,19 @@ Exclude = (paths, middleware) => {
     };
 }
 
+// Validation root permissions.
+function CheckRootPermission(req, res, next) {
+    permissionHandler.IsUserHasRootPermission(req.user.permissions) ?
+        next() : res.status(401).end();
+}
+
+// Validation master permissions.
+function CheckMasterPermission(req, res, next) {
+    permissionHandler.IsUserHasMasterPermission(req.user.permissions) ?
+        next() : res.status(401).end();
+}
+//#endregion
+
 // Validate user token for each api request.
 app.use('/api', Exclude(['/auth/isUserOnSession', '/auth/isUserSocketConnect'], (req, res, next) => {
     tokenHandler.ValidateUserAuthCookies(req) && next();
@@ -48,27 +63,36 @@ app.use('/api', Exclude(['/auth/isUserOnSession', '/auth/isUserSocketConnect'], 
 let connectedUsers = require('./modules/sockets/socket')(io);
 
 //#region routes
-require('./modules/routes/auth')(app, connectedUsers);
-require('./modules/routes/login')(app);
-require('./modules/routes/forgotPassword')(app);
-require('./modules/routes/deleteUser')(app);
-require('./modules/routes/home')(app);
-require('./modules/routes/profilePicture/profilePictureEdit')(app);
-require('./modules/routes/profilePicture/profilePicture')(app);
-require('./modules/routes/navbar/navbar')(app);
-require('./modules/routes/chat')(app);
-require('./modules/routes/navbar/chatsWindow')(app);
-require('./modules/routes/navbar/friendRequestsWindow')(app);
-require('./modules/routes/managementPanel/management')(app);
-require('./modules/routes/managementPanel/statistics')(app);
-require('./modules/routes/managementPanel/usersReports')(app);
-require('./modules/routes/managementPanel/permissions')(app);
-require('./modules/routes/userPage/userPage')(app);
-require('./modules/routes/userPage/userEditWindow')(app);
-require('./modules/routes/userPage/userReportWindow')(app);
-require('./modules/routes/userPage/userPasswordWindow')(app);
-require('./modules/routes/userPage/userPrivacyWindow')(app);
-require('./modules/routes/searchPage')(app);
+app.use("/login", require('./modules/routes/login'));
+app.use("/forgotPassword", require('./modules/routes/forgotPassword'));
+app.use("/deleteUser", require('./modules/routes/deleteUser'));
+app.use("/api/navbar", require('./modules/routes/navbar'));
+app.use("/api/home", require('./modules/routes/home'));
+app.use("/api/chat", require('./modules/routes/chat'));
+app.use("/api/profilePicture", require('./modules/routes/profilePicture'));
+app.use("/api/userPage", require('./modules/routes/userPage/userPage'));
+app.use("/api/userEditWindow", require('./modules/routes/userPage/userEditWindow'));
+app.use("/api/userReportWindow", require('./modules/routes/userPage/userReportWindow'));
+app.use("/api/userPasswordWindow", require('./modules/routes/userPage/userPasswordWindow'));
+app.use("/api/userPrivacyWindow", require('./modules/routes/userPage/userPrivacyWindow'));
+app.use("/api/searchPage", require('./modules/routes/searchPage'));
+
+app.use("/api/management", CheckRootPermission,
+    require('./modules/routes/managementPanel/management'));
+
+app.use("/api/statistics", CheckRootPermission,
+    require('./modules/routes/managementPanel/statistics'));
+
+app.use("/api/usersReports", CheckRootPermission,
+    require('./modules/routes/managementPanel/usersReports'));
+
+app.use("/api/permissions", CheckMasterPermission,
+    require('./modules/routes/managementPanel/permissions'));
+
+app.use("/api/auth", (req, res, next) => {
+    req.connectedUsers = connectedUsers;
+    next();
+}, require('./modules/routes/auth'));
 //#endregion
 
 // Import server jobs and scripts.

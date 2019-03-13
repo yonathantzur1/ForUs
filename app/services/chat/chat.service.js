@@ -43,6 +43,16 @@ var ChatService = /** @class */ (function (_super) {
             return null;
         });
     };
+    ChatService.prototype.GetAllPreviewChats = function () {
+        return _super.prototype.get.call(this, this.prefix + '/getAllPreviewChats')
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     return ChatService;
 }(basic_service_1.BasicService));
 exports.ChatService = ChatService;

@@ -124,4 +124,17 @@ export class NavbarService extends BasicService {
                 return null;
             });
     }
+
+    RemoveFriendRequestConfirmAlert(confirmedFriendsIds: Array<string>) {
+        var data = { confirmedFriendsIds };
+
+        return super.put(this.prefix + '/removeFriendRequestConfirmAlert', data)
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((e: any) => {
+                return null;
+            });
+    }
 }

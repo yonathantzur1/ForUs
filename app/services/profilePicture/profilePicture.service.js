@@ -31,6 +31,29 @@ var ProfilePictureService = /** @class */ (function (_super) {
             return null;
         });
     };
+    ProfilePictureService.prototype.SaveImage = function (imgBase64) {
+        var image = {
+            "imgBase64": imgBase64
+        };
+        return _super.prototype.post.call(this, this.prefix + '/saveImage', image)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
+    ProfilePictureService.prototype.DeleteImage = function () {
+        return _super.prototype.delete.call(this, this.prefix + '/deleteImage')
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     return ProfilePictureService;
 }(basic_service_1.BasicService));
 exports.ProfilePictureService = ProfilePictureService;

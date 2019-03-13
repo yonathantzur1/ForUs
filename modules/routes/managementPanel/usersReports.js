@@ -1,26 +1,14 @@
+const router = require('express').Router();
 const usersReportsBL = require('../../BL/managementPanel/usersReportsBL');
-const permissionHandler = require('../../handlers/permissionHandler');
 const logger = require('../../../logger');
 
-let prefix = "/api/usersReports";
-
-module.exports = function (app) {
-    // Root permissions check for all usersReports routes
-    app.use(prefix, function (req, res, next) {
-        if (permissionHandler.IsUserHasRootPermission(req.user.permissions)) {
-            next();
-        }
-        else {
-            res.status(401).end();
-        }
+router.get('/getAllReports', function (req, res) {
+    usersReportsBL.GetAllReports().then((result) => {
+        res.send(result);
+    }).catch((err) => {
+        logger.error(err);
+        res.sendStatus(500);
     });
+});
 
-    app.get(prefix + '/getAllReports', function (req, res) {
-        usersReportsBL.GetAllReports().then((result) => {
-            res.send(result);
-        }).catch((err) => {
-            logger.error(err);
-            res.sendStatus(500);
-        });
-    });
-}
+module.exports = router;

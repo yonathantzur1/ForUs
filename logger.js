@@ -28,14 +28,11 @@ module.exports = {
     error: (err) => {
         let errMsg;
 
-        if (typeof err == "object" && err.message) {
-            errMsg = err.message;
-        }
-        else if (typeof err == "string") {
-            errMsg = err;
+        if (typeof err == "object") {
+            errMsg = err.message || JSON.stringify(err);
         }
         else {
-            errMsg = JSON.stringify(err);
+            errMsg = err.toString();
         }
 
         logger.error(errMsg);

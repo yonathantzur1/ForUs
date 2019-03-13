@@ -1,8 +1,8 @@
-const DAL = require('../../DAL');
-const tokenHandler = require('../../handlers/tokenHandler');
-const mailer = require('../../mailer');
-const config = require('../../../config');
-const logger = require('../../../logger');
+const DAL = require('../DAL');
+const tokenHandler = require('../handlers/tokenHandler');
+const mailer = require('../mailer');
+const config = require('../../config');
+const logger = require('../../logger');
 
 const usersCollectionName = config.db.collections.users;
 const profilesCollectionName = config.db.collections.profiles;
@@ -446,6 +446,21 @@ let self = module.exports = {
                     }
                 }).catch(reject);
             }
+        });
+    },
+
+    RemoveFriendRequestConfirmAlert(data) {
+        return new Promise((resolve, reject) => {
+            let userObjId = DAL.GetObjectId(data.userId);
+            let confirmedFriendsIds = data.confirmedFriendsIds;
+
+            DAL.UpdateOne(usersCollectionName,
+                { "_id": userObjId },
+                { $pull: { "friendRequests.accept": { $in: confirmedFriendsIds } } }).then((result) => {
+                    // Change result to true in case the update succeeded.
+                    result && (result = true);
+                    resolve(result)
+                }).catch(reject);
         });
     }
 };

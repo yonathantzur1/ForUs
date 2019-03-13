@@ -1,12 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { ChatsWindowService } from '../../../services/navbar/chatsWindow/chatsWindow.service';
+import { ChatService } from '../../../services/chat/chat.service';
 import { GlobalService } from '../../../services/global/global.service';
 
 @Component({
     selector: 'chatsWindow',
     templateUrl: './chatsWindow.html',
-    providers: [ChatsWindowService],
+    providers: [ChatService],
     styleUrls: ['./chatsWindow.css']
 })
 
@@ -17,7 +17,7 @@ export class ChatsWindowComponent implements OnInit {
     isLoading: boolean;
     chats: any = [];
 
-    constructor(private chatsWindowService: ChatsWindowService,
+    constructor(private chatService: ChatService,
         private globalService: GlobalService) { }
 
     ngOnInit() {
@@ -81,7 +81,7 @@ export class ChatsWindowComponent implements OnInit {
     LoadChatsObjects() {
         this.isLoading = true;
 
-        this.chatsWindowService.GetAllChats().then((function (chats: any) {
+        this.chatService.GetAllPreviewChats().then((function (chats: any) {
             this.isLoading = false;
             this.chats = chats;
         }).bind(this));

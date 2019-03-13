@@ -77,7 +77,7 @@ export class DeleteUserComponent implements OnInit {
                 this.BackToLogin();
             }
             else if (result == false) {
-                this.microtextService.ShowMicrotext("password-micro", "סיסמא שגוייה");
+                this.microtextService.ShowMicrotext("password-micro", "הסיסמא שהוזנה שגוייה");
             }
             else {
                 this.alertService.Alert({
