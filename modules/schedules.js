@@ -8,7 +8,7 @@ const usersCollectionName = config.db.collections.users;
 
 module.exports = () => {
     // Task for every night at 00:00
-    schedule.scheduleJob('0 0 * * *', function () {
+    schedule.scheduleJob('0 0 * * *', () => {
 
     });
 }

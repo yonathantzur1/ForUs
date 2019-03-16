@@ -10,9 +10,9 @@ const permissionHandler = require('./modules/handlers/permissionHandler');
 const logger = require('./logger');
 const secure = require('ssl-express-www');
 const config = require('./config');
-const requestDataSizeLimit = '10mb'
+const requestDataSizeLimit = '10mb';
 
-process.on('uncaughtException', function (err) {
+process.on('uncaughtException', (err) => {
     logger.error(err)
 });
 
