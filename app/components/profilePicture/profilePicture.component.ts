@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 
 import { GlobalService } from '../../services/global/global.service';
 import { EventService } from '../../services/event/event.service';
@@ -10,33 +10,34 @@ import { EventService } from '../../services/event/event.service';
     styleUrls: ['./profilePicture.css']
 })
 
-export class ProfilePictureComponent implements OnDestroy {
+export class ProfilePictureComponent implements OnInit, OnDestroy {
     @Input() isEditEnable: string;
     isUserHasImage: boolean;
 
     eventsIds: Array<string> = [];
 
     constructor(private globalService: GlobalService,
-        private eventService: EventService) {
+        private eventService: EventService) { }
 
+    ngOnInit() {
         var self = this;
 
         //#region events
-        eventService.Register("newUploadedImage", (img: string) => {
-            globalService.userProfileImage = img;
+        self.eventService.Register("newUploadedImage", (img: string) => {
+            self.globalService.userProfileImage = img;
             self.isUserHasImage = true;
         }, self.eventsIds);
 
-        eventService.Register("deleteProfileImage", () => {
-            globalService.userProfileImage = null;
+        self.eventService.Register("deleteProfileImage", () => {
+            self.globalService.userProfileImage = null;
             self.isUserHasImage = false;
         }, self.eventsIds);
 
-        eventService.Register("userProfileImageLoaded", () => {
+        self.eventService.Register("userProfileImageLoaded", () => {
             self.isUserHasImage = self.globalService.userProfileImage ? true : false;
         }, self.eventsIds);
 
-        eventService.Register("openProfileEditWindow", () => {
+        self.eventService.Register("openProfileEditWindow", () => {
             self.OpenEditWindow();
         }, self.eventsIds);
         //#endregion

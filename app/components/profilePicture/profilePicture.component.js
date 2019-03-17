@@ -17,24 +17,26 @@ var ProfilePictureComponent = /** @class */ (function () {
         this.globalService = globalService;
         this.eventService = eventService;
         this.eventsIds = [];
+    }
+    ProfilePictureComponent.prototype.ngOnInit = function () {
         var self = this;
         //#region events
-        eventService.Register("newUploadedImage", function (img) {
-            globalService.userProfileImage = img;
+        self.eventService.Register("newUploadedImage", function (img) {
+            self.globalService.userProfileImage = img;
             self.isUserHasImage = true;
         }, self.eventsIds);
-        eventService.Register("deleteProfileImage", function () {
-            globalService.userProfileImage = null;
+        self.eventService.Register("deleteProfileImage", function () {
+            self.globalService.userProfileImage = null;
             self.isUserHasImage = false;
         }, self.eventsIds);
-        eventService.Register("userProfileImageLoaded", function () {
+        self.eventService.Register("userProfileImageLoaded", function () {
             self.isUserHasImage = self.globalService.userProfileImage ? true : false;
         }, self.eventsIds);
-        eventService.Register("openProfileEditWindow", function () {
+        self.eventService.Register("openProfileEditWindow", function () {
             self.OpenEditWindow();
         }, self.eventsIds);
         //#endregion
-    }
+    };
     ProfilePictureComponent.prototype.ngOnDestroy = function () {
         this.eventService.UnsubscribeEvents(this.eventsIds);
     };

@@ -117,7 +117,6 @@
     #profile .edit-image-preview {
         height: 70px;
         width: 70px;
-        border: 0.5px solid rgba(128, 127, 127, 0.7);
         border-radius: 5px;
         margin-top: 3px;
     }
@@ -197,7 +196,6 @@
     #profile .edit-image-preview {
         height: 70px;
         width: 70px;
-        border: 0.5px solid rgba(128, 127, 127, 0.7);
         border-radius: 5px;
         margin-top: 3px;
     }
@@ -285,7 +283,6 @@
     #profile .edit-image-preview {
         height: 100px;
         width: 100px;
-        border: 0.5px solid rgba(128, 127, 127, 0.7);
         border-radius: 5px;
         margin-top: 5px;
     }

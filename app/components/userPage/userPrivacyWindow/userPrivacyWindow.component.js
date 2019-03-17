@@ -58,7 +58,6 @@ var UserPrivacyWindowComponent = /** @class */ (function () {
             this.userPrivacyWindowService.SetUserPrivacy(this.isUserPrivate).then(function (result) {
                 if (result) {
                     _this.CloseWindow();
-                    _this.snackbarService.Snackbar("משתמש פרטי " + (_this.isUserPrivate ? "פעיל" : "כבוי"));
                 }
                 else {
                     _this.alertService.Alert({
