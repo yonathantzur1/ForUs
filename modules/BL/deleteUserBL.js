@@ -7,7 +7,7 @@ const chatsCollectionName = config.db.collections.chats;
 const profilesCollectionName = config.db.collections.profiles;
 const permissionsCollectionName = config.db.collections.permissions;
 
-const tokenNumOfHoursValid = config.security.deleteUser.tokenNumOfHoursValid;
+const tokenTTL = config.security.deleteUser.tokenTTL;
 
 module.exports = {
 
@@ -16,7 +16,7 @@ module.exports = {
             let query = {
                 "deleteUser.token": token,
                 "deleteUser.date": {
-                    $gte: new Date().addHours(tokenNumOfHoursValid * -1)
+                    $gte: new Date().addHours(tokenTTL * -1)
                 }
             }
 
@@ -50,7 +50,7 @@ module.exports = {
     },
 
     DeleteUserFromDB(userId) {
-        return new Promise((resolve, reject) => {            
+        return new Promise((resolve, reject) => {
             let userObjectId = DAL.GetObjectId(userId);
             let notificationsUnsetJson = {};
             notificationsUnsetJson["messagesNotifications." + userId] = 1;

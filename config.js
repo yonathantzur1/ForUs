@@ -5,18 +5,18 @@ module.exports = {
     server: {
         port: serverPort,
         isProd: isServerProd,
-        isForceHttps: true // For not localhost environment
+        isForceHttps: true // For non-localhost environment
     },
     address: {
-        site: isServerProd ? "https://forus.herokuapp.com" : "http://localhost:" + serverPort
+        site: isServerProd ? "https://forus.herokuapp.com" : ("http://localhost:" + serverPort)
     },
     mailer: {
-        mail: "forus@mailer.com",
-        apiKeyCode: process.env.MAIL_KEY_CODE        
+        mail: "forus@group.com",
+        apiKeyCode: process.env.MAIL_KEY_CODE
     },
     db: {
         name: "forus",
-        connectionString: process.env.DEV_CONNECTION_STRING || process.env.FORUS_CONNECTION_STRING,        
+        connectionString: process.env.DEV_CONNECTION_STRING || process.env.FORUS_CONNECTION_STRING,
         collections: {
             users: "Users",
             profiles: "Profiles",
@@ -33,7 +33,7 @@ module.exports = {
     security: {
         jwt: {
             secret: process.env.JWT_SECRET,
-            options: { expiresIn: '90d' }
+            options: { expiresIn: '90d' } // 90 days
         },
         encrypt: {
             secret: process.env.ENCRYPT_SECRET,
@@ -46,8 +46,8 @@ module.exports = {
         },
         expressBrute: {
             freeRetries: 8,
-            minWait: 60000, // (1 * 60 * 1000) - 1 minutes 
-            maxWait: 600000 // (10 * 60 * 1000) - 10 minutes 
+            minWait: 60000, // (1 * 60 * 1000) - 1 minute
+            maxWait: 600000 // (10 * 60 * 1000) - 10 minutes
         },
         password: {
             saltSize: 8,
@@ -58,7 +58,7 @@ module.exports = {
             }
         },
         deleteUser: {
-            tokenNumOfHoursValid: 1
+            tokenTTL: 1 // hours
         }
     },
     socket: {
