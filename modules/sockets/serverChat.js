@@ -4,7 +4,7 @@ const generator = require('../generator');
 const tokenHandler = require('../handlers/tokenHandler');
 const logger = require('../../logger');
 
-module.exports = function (io, socket, socketsDictionary, connectedUsers) {
+module.exports = function (io, socket, connectedUsers) {
 
     socket.on('SendMessage', function (msgData) {
         let originalMsgData = Object.assign({}, msgData);

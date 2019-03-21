@@ -13,7 +13,7 @@ module.exports = function (io) {
     io.on('connection', function (socket) {
 
         // Import socket events.
-        require('./serverChat.js')(io, socket, socketsDictionary, connectedUsers);
+        require('./serverChat.js')(io, socket, connectedUsers);
         require('./serverFriendRequests.js')(io, socket, socketsDictionary, connectedUsers);
 
         socket.on('login', function () {
