@@ -107,14 +107,19 @@ let self = module.exports = {
             msgData.text = encryption.encrypt(msgData.text);
 
             let chatFilter = { "membersIds": { $all: [msgData.from, msgData.to] } };
+
+            // Build message object to save on DB.
+            let message = {
+                id: msgData.id,
+                from: msgData.from,
+                time: msgData.time,
+                text: msgData.text
+            };
+            msgData.isImage && (message.isImage = true);
+
             let chatUpdateQuery = {
                 $push: {
-                    "messages": {
-                        id: msgData.id,
-                        from: msgData.from,
-                        time: msgData.time,
-                        text: msgData.text,
-                    }
+                    "messages": message
                 }
             }
 
