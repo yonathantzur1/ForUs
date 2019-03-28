@@ -18,7 +18,7 @@ module.exports = {
 
     SetUserPrivacy: (userId, isPrivate) => {
         return new Promise((resolve, reject) => {
-            let userFilter = { _id: DAL.GetObjectId(userId) };            
+            let userFilter = { _id: DAL.GetObjectId(userId) };
             let userPrivateSet = { $set: { isPrivate } };
 
             DAL.UpdateOne(collectionName, userFilter, userPrivateSet).then(result => {

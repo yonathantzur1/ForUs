@@ -37,7 +37,7 @@ module.exports = {
             };
 
             DAL.FindOne(usersCollectionName, findObj).then(user => {
-                // In case the user were not found by token.
+                // In case the user was not found by token.
                 if (!user) {
                     reject();
                 }
@@ -55,53 +55,40 @@ module.exports = {
             let notificationsUnsetJson = {};
             notificationsUnsetJson["messagesNotifications." + userId] = 1;
 
-            let deletedUserFriends;
-
-            // Getting deleted user friends.
-            DAL.FindOneSpecific(usersCollectionName,
+            let findUserFriendsAndFriendRequests = DAL.FindOneSpecific(usersCollectionName,
                 { "_id": userObjectId },
-                { "friends": 1, "friendRequests.send": 1 }).then((result) => {
-                    if (result) {
-                        deletedUserFriends = result.friends.concat(result.friendRequests.send);
+                { "friends": 1, "friendRequests.send": 1 });
+            let removeUserPermissions = DAL.Update(permissionsCollectionName, {},
+                { $pull: { "members": userObjectId } });
+            let removeUserChats = DAL.Delete(chatsCollectionName, { "membersIds": userId });
+            let removeUserFriendsRelations = DAL.Update(usersCollectionName, {},
+                {
+                    $pull: {
+                        "friends": userId,
+                        "friendRequests.get": userId,
+                        "friendRequests.send": userId,
+                        "friendRequests.accept": userId
+                    },
+                    $unset: notificationsUnsetJson
+                });
+            let removeUserProfileImages = DAL.Delete(profilesCollectionName, { "userId": userObjectId });
+            let removeUser = DAL.DeleteOne(usersCollectionName, { "_id": userObjectId });
 
-                        // Remove all permissions of the user.
-                        DAL.Update(permissionsCollectionName,
-                            {}, // All permissions
-                            { $pull: { "members": userObjectId } }).then((result) => {
-                                // Remove all chats of the user.
-                                DAL.Delete(chatsCollectionName,
-                                    { "membersIds": userId }).then((result) => {
-                                        // Remove user from all users friends list and message notifications.
-                                        DAL.Update(usersCollectionName,
-                                            {}, // All users
-                                            {
-                                                $pull: {
-                                                    "friends": userId,
-                                                    "friendRequests.get": userId,
-                                                    "friendRequests.send": userId,
-                                                    "friendRequests.accept": userId
-                                                },
-                                                $unset: notificationsUnsetJson
-                                            }).then((result) => {
-                                                // Remove all user profiles images.
-                                                DAL.Delete(profilesCollectionName,
-                                                    { "userId": userObjectId }).then((result) => {
-                                                        // Remove the user object.
-                                                        DAL.DeleteOne(usersCollectionName,
-                                                            { "_id": userObjectId }).then((result) => {
-                                                                // Return user friends ids in case the delete succeeded.
-                                                                result && (result = deletedUserFriends);
-                                                                resolve(result);
-                                                            }).catch(reject);
-                                                    }).catch(reject);
-                                            }).catch(reject);
-                                    }).catch(reject);
-                            }).catch(reject);
-                    }
-                    else {
-                        resolve(result);
-                    }
-                }).catch(reject);
+            let deleteUserActions = [
+                findUserFriendsAndFriendRequests,
+                removeUserPermissions,
+                removeUserChats,
+                removeUserFriendsRelations,
+                removeUserProfileImages,
+                removeUser
+            ];
+
+            Promise.all(deleteUserActions).then(results => {
+                let userFriendsRelations = results[0];
+                let deletedUserFriends = userFriendsRelations.friends
+                    .concat(userFriendsRelations.friendRequests.send);
+                resolve(deletedUserFriends);
+            }).catch(reject);
         });
     }
 }

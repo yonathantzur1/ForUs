@@ -108,7 +108,7 @@ router.post('/register',
         next();
     },
     (req, res) => {
-        let email = { "email": req.body.email };
+        let email = req.body.email;
 
         // Check if the email is exists in the DB.
         loginBL.CheckIfUserExists(email).then((result) => {
@@ -118,18 +118,18 @@ router.post('/register',
             }
             else {
                 // Add user to DB.
-                loginBL.AddUser(req.body).then((result) => {
+                loginBL.AddUser(req.body).then((user) => {
                     // In case all register progress was succeeded.
-                    if (result) {
+                    if (user) {
                         // Sending a welcome mail to the new user.
-                        mailer.RegisterMail(req.body.email, req.body.firstName);
-                        let token = tokenHandler.GetTokenFromUserObject(result);
+                        mailer.RegisterMail(email, req.body.firstName);
+                        let token = tokenHandler.GetTokenFromUserObject(user);
                         tokenHandler.SetTokenOnCookie(token, res);
                         res.send({ "result": true });
                         logsBL.Register(email, req);
                     }
                     else {
-                        res.send({ result });
+                        res.send({ result: user });
                     }
                 }).catch((err) => {
                     logger.error(err);

@@ -40,7 +40,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             GetDB().then(db => {
                 let collection = db.collection(collectionName);
-                collection.findOne(filter).then(resolve).catch(reject);
+                collection.findOne(filter).then(resolve);
             }).catch(reject);
         });
     },
@@ -50,7 +50,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             GetDB().then(db => {
                 let collection = db.collection(collectionName);
-                collection.findOne(filter, { projection }).then(resolve).catch(reject);
+                collection.findOne(filter, { projection }).then(resolve);
             }).catch(reject);
         });
     },
@@ -61,7 +61,7 @@ module.exports = {
             GetDB().then(db => {
                 let collection = db.collection(collectionName);
                 sortObj = sortObj ? sortObj : {};
-                collection.find(filter).sort(sortObj).toArray().then(resolve).catch(reject);
+                collection.find(filter).sort(sortObj).toArray().then(resolve);
             }).catch(reject);
         });
     },
@@ -72,7 +72,7 @@ module.exports = {
             GetDB().then(db => {
                 let collection = db.collection(collectionName);
                 sortObj = sortObj ? sortObj : {};
-                collection.find(filter, { projection }).sort(sortObj).toArray().then(resolve).catch(reject);
+                collection.find(filter, { projection }).sort(sortObj).toArray().then(resolve);
             }).catch(reject);
         });
     },
@@ -82,7 +82,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             GetDB().then(db => {
                 let collection = db.collection(collectionName);
-                collection.aggregate(aggregateArray).toArray().then(resolve).catch(reject);
+                collection.aggregate(aggregateArray).toArray().then(resolve);
             }).catch(reject);
         });
     },
@@ -94,7 +94,7 @@ module.exports = {
                 let collection = db.collection(collectionName);
                 collection.insertOne(doc).then(result => {
                     resolve(result.insertedId);
-                }).catch(reject);
+                });
             }).catch(reject);
         });
     },
@@ -111,7 +111,7 @@ module.exports = {
 
                 collection.findOneAndUpdate(findObj, updateObj, updateConfig).then(updateResult => {
                     resolve(updateResult.value || false);
-                }).catch(reject);
+                });
             }).catch(reject);
         });
     },
@@ -128,7 +128,7 @@ module.exports = {
                 collection.updateMany(findObj, updateObj, updateConfig).then(updateResult => {
                     let modifiedAmount = updateResult.result.nModified;
                     resolve(modifiedAmount > 0 ? modifiedAmount : false);
-                }).catch(reject);
+                });
             }).catch(reject);
         });
     },
@@ -141,7 +141,7 @@ module.exports = {
                 collection.deleteMany(filter).then(deleteResult => {
                     let deletedAmount = deleteResult.deletedCount;
                     resolve(deletedAmount > 0 ? deletedAmount : false);
-                }).catch(reject);
+                });
             }).catch(reject);
         });
     },
@@ -153,7 +153,7 @@ module.exports = {
                 let collection = db.collection(collectionName);
                 collection.deleteOne(filter).then(deleteResult => {
                     resolve(deleteResult.result.n != 0);
-                }).catch(reject);
+                });
             }).catch(reject);
         });
     },
@@ -165,7 +165,7 @@ module.exports = {
                 let collection = db.collection(collectionName);
                 collection.save(object).then(result => {
                     resolve(result.n);
-                }).catch(reject);
+                });
             }).catch(reject);
         });
     },
@@ -175,7 +175,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             GetDB().then(db => {
                 let collection = db.collection(collectionName);
-                collection.find(filter).count().then(resolve).catch(reject);
+                collection.find(filter).count().then(resolve);
             }).catch(reject);
         });
     }

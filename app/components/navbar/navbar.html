@@ -88,9 +88,11 @@
               <div *ngIf="IsShowAddFriendRequestBtn(result._id) ||
                 IsShowRemoveFriendRequestBtn(result._id) ||
                 IsIncomeFriendRequest(result._id)" class="result-friend-request-btns-container">
-                <i *ngIf="IsShowAddFriendRequestBtn(result._id)" (click)="AddFriendRequest(result._id)"
+                <i *ngIf="IsShowAddFriendRequestBtn(result._id)"
+                  (click)="eventService.Emit('addFriendRequest', result._id)"
                   class="fas fa-user-plus friend-request-btn" title="בקשת חברות"></i>
-                <i *ngIf="IsShowRemoveFriendRequestBtn(result._id)" (click)="RemoveFriendRequest(result._id)"
+                <i *ngIf="IsShowRemoveFriendRequestBtn(result._id)"
+                  (click)="eventService.Emit('removeFriendRequest', result._id)"
                   class="fas fa-user-times friend-request-btn remove-request" title="ביטול בקשת חברות"></i>
                 <!-- Income friend request alert -->
                 <i class="fas fa-ellipsis-h friend-request-btn" (click)="OpenUserProfile(result)"

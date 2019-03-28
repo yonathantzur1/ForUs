@@ -85,7 +85,7 @@ module.exports = {
                     // Update num of tries to the code.
                     DAL.UpdateOne(collectionName, emailObj, updateCodeObj).then((updateResult) => {
                         updateResult ? resolve(errorsObj) : resolve(updateResult);
-                    }).catch(reject);
+                    });
                 }
                 // In case the reset code is valid, change the user password.
                 else {

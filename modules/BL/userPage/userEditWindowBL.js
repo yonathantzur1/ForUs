@@ -27,7 +27,7 @@ let self = module.exports = {
                             else {
                                 self.UpdateUserOnDB(resolve, reject, userObjId, updateFields);
                             }
-                        }).catch(reject);
+                        });
                     }
                     else {
                         self.UpdateUserOnDB(resolve, reject, userObjId, updateFields);

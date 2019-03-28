@@ -68,9 +68,13 @@ export class UserPageComponent implements OnInit, OnDestroy {
         }, self.eventsIds);
 
         eventService.Register("ignoreFriendRequest", (userId: string) => {
-            (userId == this.user._id) && self.UnsetUserFriendStatus("isSendFriendRequest");
+            (userId == self.user._id) && self.UnsetUserFriendStatus("isSendFriendRequest");
         }, self.eventsIds);
         //#endregion
+
+        self.globalService.SocketOn('DeleteFriendRequest', function (friendId: string) {
+            (friendId == self.user._id) && self.UnsetUserFriendStatus("isSendFriendRequest");
+        });
 
         self.tabs = [
             {
@@ -240,22 +244,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
                                             showCancelButton: false
                                         });
                                     });
-
-                                    // self.userPageService.DeleteUser().then(result => {
-                                    //     if (result) {
-                                    //         self.globalService.socket.emit("LogoutUserSessionServer",
-                                    //             null,
-                                    //             "המשתמש נמחק בהצלחה, החשבון נסגר.");
-                                    //     }
-                                    //     else {
-                                    //         self.alertService.Alert({
-                                    //             title: "מחיקת משתמש",
-                                    //             text: "שגיאה בתהליך מחיקת המשתמש",
-                                    //             type: ALERT_TYPE.WARNING,
-                                    //             showCancelButton: false
-                                    //         });
-                                    //     }
-                                    // });
                                 }
                             });
                         }

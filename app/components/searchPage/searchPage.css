@@ -39,6 +39,10 @@
     background-color: whitesmoke;
 }
 
+#searchPage .user-tab:hover {
+    background-color: #efefef;
+}
+
 #searchPage .user-image {
     width: 70px;
     height: 70px;
@@ -90,10 +94,6 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-}
-
-#searchPage .user-details-container:hover {    
-    background-color: #efefef;
 }
 
 #searchPage .users-loading-container {

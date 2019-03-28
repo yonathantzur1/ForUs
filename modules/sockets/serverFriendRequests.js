@@ -4,7 +4,7 @@ const tokenHandler = require('../handlers/tokenHandler');
 const mailer = require('../mailer');
 const logger = require('../../logger');
 
-module.exports = function (io, socket, socketsDictionary, connectedUsers) {
+module.exports = (io, socket, connectedUsers) => {
     socket.on('ServerUpdateFriendRequestsStatus', function (friendId) {
         let token = tokenHandler.DecodeTokenFromSocket(socket);
 

@@ -45,7 +45,7 @@ module.exports = {
                 if (updateFindQuery.$or.length > 0) {
                     DAL.Update(collectionName, updateFindQuery, { $push: { "members": userObjId } }).then((result) => {
                         resolve(true);
-                    }).catch(reject);
+                    });
                 }
                 else {
                     resolve(true);

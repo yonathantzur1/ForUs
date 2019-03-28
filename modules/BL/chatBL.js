@@ -207,7 +207,7 @@ let self = module.exports = {
                     });
 
                     resolve(chats);
-                }).catch(reject);
+                });
             }).catch(reject);
 
         });

@@ -31,8 +31,7 @@ module.exports = {
                 }
 
                 DAL.Insert(UsersReportsCollectionName, reportObj).then(result => {
-                    result && (result = true);
-                    resolve(result);
+                    resolve(result ? true : false);
                 }).catch(reject);
             }
         });

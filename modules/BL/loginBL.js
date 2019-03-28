@@ -116,15 +116,8 @@ let self = module.exports = {
     // Check if user is exists on DB.
     CheckIfUserExists(email) {
         return new Promise((resolve, reject) => {
-            DAL.Find(collectionName, email).then((result) => {
-                // In case user was not found.
-                if (result.length == 0) {
-                    resolve(false);
-                }
-                // In case the user was found.
-                else {
-                    resolve(true);
-                }
+            DAL.FindOne(collectionName, { email }).then((result) => {
+                resolve(result ? true : false)
             }).catch(reject);
         });
     },
@@ -132,41 +125,36 @@ let self = module.exports = {
     // Add user to the DB.
     AddUser(newUser) {
         return new Promise((resolve, reject) => {
-            if (ValidateUserObject(newUser)) {
-                let salt = generator.GenerateCode(config.security.password.saltSize);
-                newUser.password = sha512(newUser.password + salt);
+            let salt = generator.GenerateCode(config.security.password.saltSize);
+            newUser.password = sha512(newUser.password + salt);
 
-                // Creat the new user object.
-                let newUserObj = {
-                    "uid": generator.GenerateId(),
-                    "firstName": newUser.firstName,
-                    "lastName": newUser.lastName,
-                    "email": newUser.email,
-                    "password": newUser.password,
-                    "salt": salt,
-                    "creationDate": new Date(),
-                    "isPrivate": false,
-                    "friends": [],
-                    "friendRequests": {
-                        "get": [],
-                        "send": [],
-                        "accept": []
-                    }
-                };
+            // Creat the new user object.
+            let newUserObj = {
+                "uid": generator.GenerateId(),
+                "firstName": newUser.firstName,
+                "lastName": newUser.lastName,
+                "email": newUser.email,
+                "password": newUser.password,
+                "salt": salt,
+                "creationDate": new Date(),
+                "isPrivate": false,
+                "friends": [],
+                "friendRequests": {
+                    "get": [],
+                    "send": [],
+                    "accept": []
+                }
+            };
 
-                DAL.Insert(collectionName, newUserObj).then((result) => {
-                    if (result) {
-                        newUserObj._id = result;
-                        resolve(newUserObj);
-                    }
-                    else {
-                        resolve(result);
-                    }
-                }).catch(reject);
-            }
-            else {
-                resolve(null);
-            }
+            DAL.Insert(collectionName, newUserObj).then((result) => {
+                if (result) {
+                    newUserObj._id = result;
+                    resolve(newUserObj);
+                }
+                else {
+                    resolve(result);
+                }
+            }).catch(reject);
         });
     }
 
@@ -176,13 +164,4 @@ Date.prototype.addHours = function (h) {
     this.setTime(this.getTime() + (h * 60 * 60 * 1000));
 
     return this;
-}
-
-function ValidateUserObject(userObj) {
-    return (typeof userObj.firstName == "string" &&
-        typeof userObj.lastName == "string" &&
-        typeof userObj.email == "string" &&
-        typeof userObj.password == "string" &&
-        userObj.firstName.length <= 10 &&
-        userObj.lastName.length <= 10);
 }

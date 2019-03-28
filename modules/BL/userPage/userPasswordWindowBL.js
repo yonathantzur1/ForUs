@@ -29,7 +29,7 @@ module.exports = {
 
                     DAL.UpdateOne(usersCollectionName, findObj, updateObj).then(result => {
                         resolve(true);
-                    }).catch(reject);
+                    });
                 }
                 else {
                     resolve(enums.USER_UPDATE_INFO_ERROR.WRONG_PASSWORD);

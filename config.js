@@ -5,7 +5,7 @@ module.exports = {
     server: {
         port: serverPort,
         isProd: isServerProd,
-        isForceHttps: true // For non-localhost environment
+        isForceHttps: true // (On production environment)
     },
     address: {
         site: isServerProd ? "https://forus.herokuapp.com" : ("http://localhost:" + serverPort)

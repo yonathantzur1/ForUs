@@ -19,7 +19,6 @@ var userPage_service_1 = require("../../services/userPage/userPage.service");
 var snackbar_service_1 = require("../../services/snackbar/snackbar.service");
 var UserPageComponent = /** @class */ (function () {
     function UserPageComponent(router, route, userPageService, alertService, snackbarService, globalService, eventService, cookieService) {
-        var _this = this;
         this.router = router;
         this.route = route;
         this.userPageService = userPageService;
@@ -60,9 +59,12 @@ var UserPageComponent = /** @class */ (function () {
             self.eventService.Emit("setNavbarTop", true);
         }, self.eventsIds);
         eventService.Register("ignoreFriendRequest", function (userId) {
-            (userId == _this.user._id) && self.UnsetUserFriendStatus("isSendFriendRequest");
+            (userId == self.user._id) && self.UnsetUserFriendStatus("isSendFriendRequest");
         }, self.eventsIds);
         //#endregion
+        self.globalService.SocketOn('DeleteFriendRequest', function (friendId) {
+            (friendId == self.user._id) && self.UnsetUserFriendStatus("isSendFriendRequest");
+        });
         self.tabs = [
             {
                 id: "edit",
@@ -230,21 +232,6 @@ var UserPageComponent = /** @class */ (function () {
                                             showCancelButton: false
                                         });
                                     });
-                                    // self.userPageService.DeleteUser().then(result => {
-                                    //     if (result) {
-                                    //         self.globalService.socket.emit("LogoutUserSessionServer",
-                                    //             null,
-                                    //             "המשתמש נמחק בהצלחה, החשבון נסגר.");
-                                    //     }
-                                    //     else {
-                                    //         self.alertService.Alert({
-                                    //             title: "מחיקת משתמש",
-                                    //             text: "שגיאה בתהליך מחיקת המשתמש",
-                                    //             type: ALERT_TYPE.WARNING,
-                                    //             showCancelButton: false
-                                    //         });
-                                    //     }
-                                    // });
                                 }
                             });
                         }

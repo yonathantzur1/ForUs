@@ -11,7 +11,7 @@ const usersCollectionName = config.db.collections.users;
 const chatsCollectionName = config.db.collections.chats;
 const profilesCollectionName = config.db.collections.profiles;
 
-let self = module.exports = {
+module.exports = {
     GetUserDetails(userId, currUserId) {
         return new Promise((resolve, reject) => {
             let isUserSelfPage = (userId == currUserId);
@@ -65,36 +65,29 @@ let self = module.exports = {
 
             let aggregateArray = [userFilter, joinFilter, unwindObject, userFileds];
 
-            // Find only users with profile picture.
-            DAL.Aggregate(usersCollectionName, aggregateArray).then(result => {
-                // In case the user found, extract it from the array.
-                if (result && result.length == 1) {
-                    let user = result[0];
+            // Build user details async queries.
+            let getUserDetails = DAL.Aggregate(usersCollectionName, aggregateArray);
+            let userDetailsActions = [getUserDetails];
+            !isUserSelfPage && (userDetailsActions.push(permissionsBL.GetUserPermissions(currUserId)));
 
-                    // In case the user has profile image.
-                    if (user.profileImage) {
-                        user.profileImage = user.profileImage.image;
-                    }
+            Promise.all(userDetailsActions).then(results => {
+                let userResult = results[0];
 
-                    self.SetUsersRelation(user, currUserId);
-
-                    // In case the user is not on his self page.
-                    if (!isUserSelfPage) {
-                        permissionsBL.GetUserPermissions(currUserId).then(userPermissions => {
-                            if (permissionHandler.IsUserHasRootPermission(userPermissions)) {
-                                user.isManagerView = true;
-                            }
-
-                            resolve(user);
-                        }).catch(reject);
-                    }
-                    else {
-                        resolve(user);
-                    }
-                }
-                // In case the user doesn't exist. 
-                else {
+                // In case the user doesn't exist.
+                if (!userResult || userResult.length == 0) {
                     resolve(null);
+                }
+                else {
+                    let user = userResult[0];
+                    user.profileImage && (user.profileImage = user.profileImage.image);
+                    this.SetUsersRelation(user, currUserId);
+
+                    if (!isUserSelfPage) {
+                        let userPermissions = results[1];
+                        user.isManagerView = permissionHandler.IsUserHasRootPermission(userPermissions);
+                    }
+
+                    resolve(user);
                 }
             }).catch(reject);
         });
@@ -120,29 +113,30 @@ let self = module.exports = {
             notificationsUnsetJson["messagesNotifications." + userId] = 1;
             notificationsUnsetJson["messagesNotifications." + friendId] = 1;
 
-            DAL.Delete(chatsCollectionName,
-                { "membersIds": { $all: [userId, friendId] } }).then((result) => {
-                    DAL.Update(usersCollectionName,
-                        {
-                            $or: [
-                                { "_id": DAL.GetObjectId(userId) },
-                                { "_id": DAL.GetObjectId(friendId) }
-                            ]
-                        },
-                        {
-                            $pull: {
-                                "friends": { $in: [userId, friendId] },
-                                "friendRequests.get": { $in: [userId, friendId] },
-                                "friendRequests.send": { $in: [userId, friendId] },
-                                "friendRequests.accept": { $in: [userId, friendId] }
-                            },
-                            $unset: notificationsUnsetJson
-                        }).then((result) => {
-                            // Change result to true in case the update succeeded.
-                            result && (result = true);
-                            resolve(result);
-                        }).catch(reject);
-                }).catch(reject);
+
+            let removeFriedsChat = DAL.Delete(chatsCollectionName,
+                { "membersIds": { $all: [userId, friendId] } });
+
+            let removeFriendsRelation = DAL.Update(usersCollectionName,
+                {
+                    $or: [
+                        { "_id": DAL.GetObjectId(userId) },
+                        { "_id": DAL.GetObjectId(friendId) }
+                    ]
+                },
+                {
+                    $pull: {
+                        "friends": { $in: [userId, friendId] },
+                        "friendRequests.get": { $in: [userId, friendId] },
+                        "friendRequests.send": { $in: [userId, friendId] },
+                        "friendRequests.accept": { $in: [userId, friendId] }
+                    },
+                    $unset: notificationsUnsetJson
+                });
+
+            Promise.all([removeFriedsChat, removeFriendsRelation]).then(results => {
+                resolve(true);
+            }).catch(reject);
         });
     },
 
@@ -157,17 +151,13 @@ let self = module.exports = {
                 $set: { deleteUser }
             }
 
-            DAL.UpdateOne(usersCollectionName, { "_id": DAL.GetObjectId(userId) }, updateObj).
-                then(result => {
-                    if (result) {                        
-                        let deleteUserLink = config.address.site +
-                            "/delete/" + deleteUser.token;
+            DAL.UpdateOne(usersCollectionName, { "_id": DAL.GetObjectId(userId) }, updateObj)
+                .then(user => {
+                    let deleteUserLink = config.address.site +
+                        "/delete/" + deleteUser.token;
 
-                        mailer.ValidateDeleteUser(result.email, result.firstName, deleteUserLink);
-                        result = true;
-                    }
-
-                    resolve(result);
+                    mailer.ValidateDeleteUser(user.email, user.firstName, deleteUserLink);
+                    resolve(true);
                 }).catch(reject);
         });
     }

@@ -10,8 +10,7 @@ const profilesCollectionName = config.db.collections.profiles;
 const searchResultsLimit = 4;
 const chatMailNotificationDelayTime = 1; // hours
 
-let self = module.exports = {
-
+module.exports = {
     GetFriends(friendsIds) {
         return new Promise((resolve, reject) => {
             let friendsObjectIds = ConvertIdsToObjectIds(friendsIds);
@@ -190,9 +189,7 @@ let self = module.exports = {
     },
 
     AddMessageNotification(userId, friendId, msgId, senderName) {
-        let friendIdObject = {
-            "_id": DAL.GetObjectId(friendId)
-        }
+        let friendIdObject = { "_id": DAL.GetObjectId(friendId) }
 
         // Specific fields for friend query.
         friendSelectFields = {
@@ -269,25 +266,18 @@ let self = module.exports = {
                 resolve(null);
             }
             else {
-                let userIdObject = {
-                    "_id": DAL.GetObjectId(user._id)
-                }
+                let userIdObject = { "_id": DAL.GetObjectId(user._id) }
+                let friendIdObject = { "_id": DAL.GetObjectId(friendId) }
 
-                let friendIdObject = {
-                    "_id": DAL.GetObjectId(friendId)
-                }
+                let addRequestToUser = DAL.UpdateOne(usersCollectionName,
+                    userIdObject,
+                    { $push: { "friendRequests.send": friendId } });
+                let addRequestToFriend = DAL.UpdateOne(usersCollectionName,
+                    friendIdObject,
+                    { $push: { "friendRequests.get": user._id } });
 
-                // Add the request to the user.
-                DAL.UpdateOne(usersCollectionName, userIdObject, { $push: { "friendRequests.send": friendId } }).then((result) => {
-                    if (result) {
-                        // Add the request to the friend.
-                        DAL.UpdateOne(usersCollectionName, friendIdObject, { $push: { "friendRequests.get": user._id } }).then((result) => {
-                            result ? resolve(true) : resolve(null);
-                        }).catch(reject);
-                    }
-                    else {
-                        resolve(null);
-                    }
+                Promise.all([addRequestToUser, addRequestToFriend]).then(results => {
+                    resolve(true);
                 }).catch(reject);
             }
         });
@@ -295,157 +285,127 @@ let self = module.exports = {
 
     RemoveFriendRequest(userId, friendId) {
         return new Promise((resolve, reject) => {
-            let userIdObject = {
-                "_id": DAL.GetObjectId(userId)
-            }
+            let userIdObject = { "_id": DAL.GetObjectId(userId) }
+            let friendIdObject = { "_id": DAL.GetObjectId(friendId) }
 
-            let friendIdObject = {
-                "_id": DAL.GetObjectId(friendId)
-            }
+            let removeRequestFromUser = DAL.UpdateOne(usersCollectionName,
+                userIdObject,
+                { $pull: { "friendRequests.send": friendId } });
+            let removeRequestFromFriend = DAL.UpdateOne(usersCollectionName,
+                friendIdObject,
+                { $pull: { "friendRequests.get": userId } });
 
-            // Remove the request from the user.
-            DAL.UpdateOne(usersCollectionName, userIdObject,
-                { $pull: { "friendRequests.send": friendId } }).then((result) => {
-                    if (result) {
-                        // Remove the request from the friend.
-                        DAL.UpdateOne(usersCollectionName, friendIdObject, { $pull: { "friendRequests.get": userId } }).then((result) => {
-                            result ? resolve(true) : resolve(null);
-                        }).catch(reject);
-                    }
-                    else {
-                        resolve(null);
-                    }
-                }).catch(reject);
+            Promise.all([removeRequestFromUser, removeRequestFromFriend]).then(results => {
+                resolve(true);
+            }).catch(reject);
         });
     },
 
     // Remove the friend request from DB after the request confirmed.
     RemoveFriendRequestAfterConfirm(userId, friendId) {
         return new Promise((resolve, reject) => {
-            let userIdObject = {
-                "_id": DAL.GetObjectId(userId)
-            }
+            let userIdObject = { "_id": DAL.GetObjectId(userId) }
+            let friendIdObject = { "_id": DAL.GetObjectId(friendId) }
 
-            let friendIdObject = {
-                "_id": DAL.GetObjectId(friendId)
-            }
-
-            // Remove the request from the user.
-            DAL.UpdateOne(usersCollectionName, userIdObject,
+            let removeRequestFromUser = DAL.UpdateOne(usersCollectionName,
+                userIdObject,
                 {
                     $pull: { "friendRequests.send": friendId },
                     $push: { "friendRequests.accept": friendId }
-                }).then((result) => {
-                    if (result) {
-                        // Remove the request from the friend.
-                        DAL.UpdateOne(usersCollectionName, friendIdObject,
-                            { $pull: { "friendRequests.get": userId } }).then((result) => {
-                                result ? resolve(true) : resolve(null);
-                            }).catch(reject);
-                    }
-                    else {
-                        resolve(null);
-                    }
-                }).catch(reject);
+                });
+
+            let removeRequestFromFriend = DAL.UpdateOne(usersCollectionName,
+                friendIdObject,
+                { $pull: { "friendRequests.get": userId } });
+
+            Promise.all([removeRequestFromUser, removeRequestFromFriend]).then(results => {
+                resolve(true);
+            }).catch(reject);
         });
     },
 
     // Remove the friend request from DB if the request was not confirmed.
     IgnoreFriendRequest(userId, friendId) {
         return new Promise((resolve, reject) => {
-            let userIdObject = {
-                "_id": DAL.GetObjectId(userId)
-            }
+            let userIdObject = { "_id": DAL.GetObjectId(userId) }
+            let friendIdObject = { "_id": DAL.GetObjectId(friendId) }
 
-            let friendIdObject = {
-                "_id": DAL.GetObjectId(friendId)
-            }
+            let removeRequestFromUser = DAL.UpdateOne(usersCollectionName,
+                userIdObject,
+                { $pull: { "friendRequests.get": friendId } });
 
-            // Remove the request from the user.
-            DAL.UpdateOne(usersCollectionName, userIdObject, { $pull: { "friendRequests.get": friendId } }).then((result) => {
-                if (result) {
-                    // Remove the request from the friend.
-                    DAL.UpdateOne(usersCollectionName, friendIdObject, { $pull: { "friendRequests.send": userId } }).then((result) => {
-                        result ? resolve(true) : resolve(null);
-                    }).catch(reject);
-                }
-                else {
-                    resolve(null);
-                }
+            let removeRequestFromFriend = DAL.UpdateOne(usersCollectionName,
+                friendIdObject,
+                { $pull: { "friendRequests.send": userId } });
+
+            Promise.all([removeRequestFromUser, removeRequestFromFriend]).then(results => {
+                resolve(true);
             }).catch(reject);
         });
     },
 
     AddFriend(user, friendId) {
         return new Promise((resolve, reject) => {
-            // Validation check in order to check if the user and the friend are not already friends.
+            // Check if the user and the friend are not already friends.
             if (user.friends.indexOf(friendId) != -1) {
                 resolve(null);
+                return;
             }
-            else {
-                let userIdObject = {
-                    "_id": DAL.GetObjectId(user._id)
+
+            let userIdObject = { "_id": DAL.GetObjectId(user._id) }
+            let friendIdObject = { "_id": DAL.GetObjectId(friendId) }
+
+
+            let addUserFriendRelation = DAL.UpdateOne(usersCollectionName,
+                userIdObject,
+                { $push: { "friends": friendId } });
+
+            let addFriendUserRelation = DAL.UpdateOne(usersCollectionName,
+                friendIdObject,
+                { $push: { "friends": user._id } });
+
+            let removeRequestObject = this.RemoveFriendRequestAfterConfirm(friendId, user._id);
+
+            let addFriendActions = [
+                addFriendUserRelation,
+                addUserFriendRelation,
+                removeRequestObject
+            ]
+
+            Promise.all(addFriendActions).then(results => {
+                let updatedFriend = results[0];
+
+                // Getting a new token from the user object with the friend.
+                user.friends.push(friendId);
+                let newToken = tokenHandler.GetTokenFromUserObject(user);
+
+                let clientFriendObject = {
+                    "_id": updatedFriend._id.toString(),
+                    "email": updatedFriend.email,
+                    "firstName": updatedFriend.firstName,
+                    "lastName": updatedFriend.lastName,
+                    "profileImage": null
                 }
 
-                let friendIdObject = {
-                    "_id": DAL.GetObjectId(friendId)
+                let finalResult = {
+                    "token": newToken,
+                    "friend": clientFriendObject
                 }
 
-                // Add the friend to the user as a friend.
-                DAL.UpdateOne(usersCollectionName, userIdObject, { $push: { "friends": friendId } }).then((updatedUser) => {
-                    if (updatedUser) {
-                        // Getting a new token from the user object with the friend.
-                        user.friends.push(friendId);
-                        let newToken = tokenHandler.GetTokenFromUserObject(user);
-
-                        // Add the user to the friend as a friend.
-                        DAL.UpdateOne(usersCollectionName, friendIdObject, { $push: { "friends": user._id } }).then((updatedFriend) => {
-                            if (updatedFriend) {
-                                // Remove the friend request that came from the friend.
-                                self.RemoveFriendRequestAfterConfirm(friendId, user._id).then((result) => {
-                                    if (result) {
-                                        let clientFriendObject = {
-                                            "_id": updatedFriend._id.toString(),
-                                            "email": updatedFriend.email,
-                                            "firstName": updatedFriend.firstName,
-                                            "lastName": updatedFriend.lastName,
-                                            "profileImage": null
-                                        }
-
-                                        let finalResult = {
-                                            "token": newToken,
-                                            "friend": clientFriendObject
-                                        }
-
-                                        // In case the friend has profile image.
-                                        if (updatedFriend.profile) {
-                                            // Getting the friend profile image.
-                                            DAL.FindOneSpecific(profilesCollectionName,
-                                                { "_id": updatedFriend.profile },
-                                                { "image": 1 }).then((result) => {
-                                                    finalResult.friend.profileImage = result.image;
-                                                    resolve(finalResult);
-                                                }).catch(reject);
-                                        }
-                                        else {
-                                            resolve(finalResult);
-                                        }
-                                    }
-                                    else {
-                                        resolve(null);
-                                    }
-                                }).catch(reject);
-                            }
-                            else {
-                                resolve(null);
-                            }
-                        }).catch(reject);
-                    }
-                    else {
-                        resolve(null);
-                    }
-                }).catch(reject);
-            }
+                // In case the friend has profile image.
+                if (updatedFriend.profile) {
+                    // Getting the friend profile image.
+                    DAL.FindOneSpecific(profilesCollectionName,
+                        { "_id": updatedFriend.profile },
+                        { "image": 1 }).then((result) => {
+                            finalResult.friend.profileImage = result.image;
+                            resolve(finalResult);
+                        });
+                }
+                else {
+                    resolve(result);
+                }
+            }).catch(reject);
         });
     },
 

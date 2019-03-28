@@ -299,7 +299,7 @@ var NavbarComponent = /** @class */ (function () {
             self.isHideNotificationsBudget = false;
             self.ShowFriendRequestNotification(friend.firstName + " " + friend.lastName, true);
             self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
-            self.globalService.socket.emit("removeFriendRequest", self.user._id, friend._id);
+            self.globalService.socket.emit("RemoveFriendRequest", self.user._id, friend._id);
             self.globalService.socket.emit("ServerGetOnlineFriends");
         });
         self.globalService.SocketOn('ClientFriendTyping', function (friendId) {
@@ -733,7 +733,6 @@ var NavbarComponent = /** @class */ (function () {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("RemoveFriendRequest", self.user._id, friendId);
-                self.eventService.Emit("removeFriendRequest", friendId);
                 self.snackbarService.Snackbar("בקשת החברות בוטלה");
             }
         });
@@ -748,7 +747,6 @@ var NavbarComponent = /** @class */ (function () {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
                 self.globalService.socket.emit("ServerIgnoreFriendRequest", self.user._id, friendId);
                 self.globalService.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
-                self.eventService.Emit("ignoreFriendRequest", friendId);
             }
             callback && callback(result);
         });
