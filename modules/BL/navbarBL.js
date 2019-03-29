@@ -403,7 +403,7 @@ module.exports = {
                         });
                 }
                 else {
-                    resolve(result);
+                    resolve(finalResult);
                 }
             }).catch(reject);
         });
