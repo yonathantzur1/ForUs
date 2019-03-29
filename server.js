@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const Ddos = require('ddos');
 const http = require('http').Server(app);
 const path = require('path');
 const compression = require('compression');
@@ -27,6 +28,10 @@ app.use(bodyParser.urlencoded({
 app.use(express.static('./'));
 app.use(express.static('public'));
 app.use(compression());
+
+// ddos attack settings
+const ddos = new Ddos({ burst: 10, limit: 15 });
+app.use(ddos.express);
 
 //#region Middlewares
 // Exclude routes for middlewares.

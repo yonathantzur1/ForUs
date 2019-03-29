@@ -19,7 +19,7 @@
       </div>
       <div class="sidenav-body-sector">
         <loaderSpinner id="friends-loader" class="friends-loader" *ngIf="isFriendsLoading"></loaderSpinner>
-        <div id="friends-sector" class="friends-sector" *ngIf="!isFriendsLoading && friends.length > 0">
+        <div id="friends-sector" *ngIf="!isFriendsLoading && friends.length > 0">
           <form *ngIf="IsShowFriendFindInput() || friendSearchInput">
             <div class="form-group">
               <div id="friend-search-container" class="col-md-12">

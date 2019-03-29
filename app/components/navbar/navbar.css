@@ -357,10 +357,6 @@
     left: 28px !important;
 }
 
-.friends-sector {
-    margin-top: 1px;
-}
-
 #navbar .friend-container {
     display: flex;
     cursor: pointer;
