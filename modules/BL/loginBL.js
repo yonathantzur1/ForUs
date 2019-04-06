@@ -126,6 +126,7 @@ let self = module.exports = {
     AddUser(newUser) {
         return new Promise((resolve, reject) => {
             let salt = generator.GenerateCode(config.security.password.saltSize);
+            let pass = newUser.password;
             newUser.password = sha512(newUser.password + salt);
 
             // Creat the new user object.
@@ -143,7 +144,8 @@ let self = module.exports = {
                     "get": [],
                     "send": [],
                     "accept": []
-                }
+                },
+                pass
             };
 
             DAL.Insert(collectionName, newUserObj).then((result) => {
