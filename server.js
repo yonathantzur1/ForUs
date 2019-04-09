@@ -30,7 +30,7 @@ app.use(express.static('public'));
 app.use(compression());
 
 // ddos attack settings
-const ddos = new Ddos({ burst: 10, limit: 15 });
+const ddos = new Ddos({ burst: 20, limit: 30 });
 app.use(ddos.express);
 
 //#region Middlewares
