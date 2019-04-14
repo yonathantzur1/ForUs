@@ -71,7 +71,6 @@ var AppModule = /** @class */ (function () {
                 alert_component_1.AlertComponent,
                 snackbar_component_1.SnackbarComponent,
                 login_component_1.LoginComponent,
-                home_component_1.HomeComponent,
                 navbar_component_1.NavbarComponent,
                 dropMenu_component_1.DropMenuComponent,
                 profilePictureEdit_component_1.ProfilePictureEditComponent,
@@ -90,6 +89,7 @@ var AppModule = /** @class */ (function () {
                 userPasswordWindow_component_1.UserPasswordWindowComponent,
                 userPrivacyWindow_component_1.UserPrivacyWindowComponent,
                 searchPage_component_1.SearchPageComponent,
+                home_component_1.HomeComponent,
                 // ---------Pipes---------
                 sort_pipe_1.SortObjects
             ],

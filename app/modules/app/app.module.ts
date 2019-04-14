@@ -64,8 +64,7 @@ import { Routing } from '../../routes/app/app.routing'
     LoaderDotsComponent,
     AlertComponent,
     SnackbarComponent,
-    LoginComponent,
-    HomeComponent,
+    LoginComponent,  
     NavbarComponent,
     DropMenuComponent,
     ProfilePictureEditComponent,
@@ -84,6 +83,7 @@ import { Routing } from '../../routes/app/app.routing'
     UserPasswordWindowComponent,
     UserPrivacyWindowComponent,
     SearchPageComponent,
+    HomeComponent,
     // ---------Pipes---------
     SortObjects
   ],
