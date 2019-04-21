@@ -12,7 +12,7 @@ module.exports = {
     },
     mailer: {
         mail: "forus@group.com",
-        apiKeyCode: process.env.MAIL_KEY_CODE
+        apiKeyCode: process.env.FORUS_MAIL_KEY_CODE
     },
     db: {
         name: "forus",
@@ -32,11 +32,11 @@ module.exports = {
     },
     security: {
         jwt: {
-            secret: process.env.JWT_SECRET,
+            secret: process.env.FORUS_JWT_SECRET,
             options: { expiresIn: '90d' } // 90 days
         },
         encrypt: {
-            secret: process.env.ENCRYPT_SECRET,
+            secret: process.env.FORUS_ENCRYPT_SECRET,
             algorithm: "aes192"
         },
         token: {
