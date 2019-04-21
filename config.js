@@ -44,10 +44,9 @@ module.exports = {
             uidCookieName: "uid",
             maxAge: 7776000000 // (90 * 24 * 60 * 60 * 1000) - 90 days
         },
-        expressBrute: {
-            freeRetries: 8,
-            minWait: 60000, // (1 * 60 * 1000) - 1 minute
-            maxWait: 600000 // (10 * 60 * 1000) - 10 minutes
+        limitter: {
+            freeRetries: 10,
+            waitTime: 120000, // (2 * 60 * 1000) - 2 minutes
         },
         password: {
             saltSize: 8,

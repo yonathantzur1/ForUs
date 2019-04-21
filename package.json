@@ -30,7 +30,7 @@
     "cropper": "^4.0.0",
     "ddos": "^0.2.1",
     "express": "^4.16.4",
-    "express-brute": "^1.0.1",
+    "express-rate-limit": "^3.4.1",
     "hover.css": "^2.3.2",
     "joi": "^14.3.1",
     "jquery": "^3.4.0",

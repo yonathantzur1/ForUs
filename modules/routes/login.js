@@ -5,7 +5,7 @@ const logsBL = require('../BL/logsBL');
 const mailer = require('../mailer');
 const tokenHandler = require('../handlers/tokenHandler');
 const validate = require('../security/validate');
-const bruteForceProtector = require('../security/bruteForceProtector');
+const limitter = require('../security/limitter');
 const config = require('../../config');
 const logger = require('../../logger');
 
@@ -16,16 +16,12 @@ router.post('/userLogin',
         req.body.email = req.body.email.toLowerCase();
         next();
     },
+    // Define limitter key.
     (req, res, next) => {
-        bruteForceProtector.setFailReturnObj({ "result": { "lock": null } }, "result.lock");
+        req.limitterKey = req.body.email + req.url;
         next();
     },
-    bruteForceProtector.globalBruteforce.prevent,
-    bruteForceProtector.userBruteforce.getMiddleware({
-        key: (req, res, next) => {
-            next(req.body.email + "/login");
-        }
-    }),
+    limitter,
     (req, res) => {
         // Input: { email, password }
         // Output: result ->
@@ -38,22 +34,16 @@ router.post('/userLogin',
             if (result) {
                 // In case the email is not exists on DB.
                 if (result == "-1") {
-                    req.brute.reset(() => {
-                        res.send({ result });
-                    });
+                    res.send({ result });
                 }
                 // In case the user is blocked.
                 else if (result.block) {
-                    req.brute.reset(() => {
-                        res.send({ result: { "block": result.block } });
-                    });
+                    res.send({ "result": { "block": result.block } });
                 }
                 // In case user email and password are valid.
                 else {
-                    req.brute.reset(() => {
-                        tokenHandler.SetTokenOnCookie(tokenHandler.GetTokenFromUserObject(result), res);
-                        res.send({ "result": true });
-                    });
+                    tokenHandler.SetTokenOnCookie(tokenHandler.GetTokenFromUserObject(result), res);
+                    res.send({ "result": true });
                 }
             }
             // In case of error.

@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const userEditWindowBL = require('../../BL/userPage/userEditWindowBL');
 const validate = require('../../security/validate');
-const bruteForceProtector = require('../../security/bruteForceProtector');
+const limitter = require('../../security/limitter');
 const logger = require('../../../logger');
 
 router.put('/updateUserInfo',
@@ -14,30 +14,18 @@ router.put('/updateUserInfo',
 
         next();
     },
+    // Define limitter key.
     (req, res, next) => {
-        bruteForceProtector.setFailReturnObj({ "result": { "lock": null } }, "result.lock");
+        req.limitterKey = req.user.email + req.url;
         next();
     },
-    bruteForceProtector.globalBruteforce.prevent,
-    bruteForceProtector.userBruteforce.getMiddleware({
-        key: (req, res, next) => {
-            next(req.user.email + "/userEditWindow");
-        }
-    }),
+    limitter,
     (req, res) => {
         let updateFields = req.body.updateFields;
         updateFields._id = req.user._id;
 
         userEditWindowBL.UpdateUserInfo(updateFields).then(result => {
-            if (result == true) {
-                req.brute.reset(() => {
-                    res.send({ result });
-                });
-            }
-            else {
-                res.send({ result });
-            }
-
+            res.send({ result });
         }).catch(err => {
             logger.error(err);
             res.sendStatus(500);

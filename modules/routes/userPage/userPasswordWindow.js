@@ -3,40 +3,28 @@ const userPasswordWindowBL = require('../../BL/userPage/userPasswordWindowBL');
 const forgotPasswordBL = require('../../BL/forgotPasswordBL');
 const logsBL = require('../../BL/logsBL');
 const validate = require('../../security/validate');
-const bruteForceProtector = require('../../security/bruteForceProtector');
+const limitter = require('../../security/limitter');
 const config = require('../../../config');
 const mailer = require('../../mailer');
 const logger = require('../../../logger');
 
 router.put('/updateUserPassword',
     validate,
+    // Define limitter key.
     (req, res, next) => {
-        bruteForceProtector.setFailReturnObj({ "result": { "lock": null } }, "result.lock");
+        req.limitterKey = req.user.email + req.url;
         next();
     },
-    bruteForceProtector.globalBruteforce.prevent,
-    bruteForceProtector.userBruteforce.getMiddleware({
-        key: (req, res, next) => {
-            next(req.user.email + "/userPasswordWindow");
-        }
-    }),
+    limitter,
     (req, res) => {
         userPasswordWindowBL.
             UpdateUserPassword(req.body.oldPassword, req.body.newPassword, req.user._id)
             .then(result => {
-                if (result == true) {
-                    req.brute.reset(() => {
-                        res.send({ result });
-                    });
-                }
-                else {
-                    res.send({ result });
-                }
+                res.send({ result });
 
                 // Log - in case of reset password request.
                 logsBL.ResetPasswordRequest(req.user.email, req);
-            })
-            .catch(err => {
+            }).catch(err => {
                 logger.error(err);
                 res.sendStatus(500);
             });
