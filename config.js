@@ -42,11 +42,25 @@ module.exports = {
         token: {
             cookieName: "tk",
             uidCookieName: "uid",
-            maxAge: 7776000000 // (90 * 24 * 60 * 60 * 1000) - 90 days
+            maxAge: 90 * 24 * 60 * 60 * 1000 // 90 days
         },
         limitter: {
             freeRetries: 10,
-            waitTime: 120000, // (2 * 60 * 1000) - 2 minutes
+            waitTime: 2 * 60 * 1000, // 2 minutes
+        },
+        speedLimitter: {
+            windowMs: 15 * 60 * 1000, // 15 minutes
+            delayAfter: 100, // allow 100 requests per 15 minutes, then...
+            delayMs: 500 // begin adding 500ms of delay per request above 100:
+            // request # 101 is delayed by  500ms
+            // request # 102 is delayed by 1000ms
+            // request # 103 is delayed by 1500ms
+            // etc.
+        },
+        ddos: {
+            burst: 40, // Number of allowable burst requests before the client starts being penalized.
+            limit: 60 // Number of maximum counts allowed.
+            // If the count exceeds the limit, then the request is denied.
         },
         password: {
             saltSize: 8,

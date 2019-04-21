@@ -1,16 +1,17 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const Ddos = require('ddos');
 const http = require('http').Server(app);
+const secure = require('ssl-express-www');
 const path = require('path');
 const compression = require('compression');
 const io = require('socket.io')(http);
 const tokenHandler = require('./modules/handlers/tokenHandler');
 const permissionHandler = require('./modules/handlers/permissionHandler');
-const logger = require('./logger');
-const secure = require('ssl-express-www');
 const config = require('./config');
+const logger = require('./logger');
+const speedLimiter = require('./modules/security/speedLimiter');
+const ddos = require('./modules/security/ddos');
 const requestDataSizeLimit = '10mb';
 
 process.on('uncaughtException', (err) => {
@@ -28,10 +29,8 @@ app.use(bodyParser.urlencoded({
 app.use(express.static('./'));
 app.use(express.static('public'));
 app.use(compression());
-
-// ddos attack settings
-const ddos = new Ddos({ burst: 20, limit: 30 });
-app.use(ddos.express);
+app.use(speedLimiter);
+app.use(ddos);
 
 //#region Middlewares
 // Exclude routes for middlewares.
