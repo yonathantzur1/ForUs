@@ -19,7 +19,7 @@ process.on('uncaughtException', (err) => {
 
 // app define settings.
 config.server.isForceHttps && app.use(secure);
-app.set('trust proxy', 1);
+app.enable('trust proxy');
 app.use(bodyParser.json({ limit: requestDataSizeLimit }));
 app.use(bodyParser.urlencoded({
     limit: requestDataSizeLimit,
