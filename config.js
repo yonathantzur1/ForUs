@@ -49,12 +49,12 @@ module.exports = {
             waitTime: 2 * 60 * 1000, // 2 minutes
         },
         speedLimitter: {
-            windowMs: 15 * 60 * 1000, // 15 minutes
-            delayAfter: 100, // allow 100 requests per 15 minutes, then...
-            delayMs: 500 // begin adding 500ms of delay per request above 100:
-            // request # 101 is delayed by  500ms
-            // request # 102 is delayed by 1000ms
-            // request # 103 is delayed by 1500ms
+            windowMs: 0.5 * 60 * 1000, // 30 seconds.
+            delayAfter: 200, // allow 200 requests per 30 seconds, then...
+            delayMs: 500 // begin adding 500ms of delay per request above 200:
+            // request # 201 is delayed by  500ms
+            // request # 202 is delayed by 1000ms
+            // request # 203 is delayed by 1500ms
             // etc.
         },
         ddos: {
