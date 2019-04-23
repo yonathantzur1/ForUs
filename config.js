@@ -48,18 +48,9 @@ module.exports = {
             freeRetries: 10,
             waitTime: 2 * 60 * 1000, // 2 minutes
         },
-        speedLimitter: {
-            windowMs: 0.5 * 60 * 1000, // 30 seconds.
-            delayAfter: 200, // allow 200 requests per 30 seconds, then...
-            delayMs: 500 // begin adding 500ms of delay per request above 200:
-            // request # 201 is delayed by  500ms
-            // request # 202 is delayed by 1000ms
-            // request # 203 is delayed by 1500ms
-            // etc.
-        },
         ddos: {
-            burst: 40, // Number of allowable burst requests before the client starts being penalized.
-            limit: 60 // Number of maximum counts allowed.
+            burst: 20, // Number of allowable burst requests before the client starts being penalized.
+            limit: 30 // Number of maximum counts allowed.
             // If the count exceeds the limit, then the request is denied.
         },
         password: {

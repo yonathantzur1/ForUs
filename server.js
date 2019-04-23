@@ -10,7 +10,6 @@ const tokenHandler = require('./modules/handlers/tokenHandler');
 const permissionHandler = require('./modules/handlers/permissionHandler');
 const config = require('./config');
 const logger = require('./logger');
-const speedLimiter = require('./modules/security/speedLimiter');
 const ddos = require('./modules/security/ddos');
 const requestDataSizeLimit = '10mb';
 
@@ -29,7 +28,6 @@ app.use(bodyParser.urlencoded({
 app.use(express.static('./'));
 app.use(express.static('public'));
 app.use(compression());
-app.use(speedLimiter);
 app.use(ddos);
 
 //#region Middlewares
