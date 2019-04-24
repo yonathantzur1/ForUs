@@ -1,5 +1,5 @@
 const joi = require('joi');
-const regexp = require('../../app/regex/regexpEnums');
+const regexp = require('../enums').REGEXP;
 
 module.exports = function (req, res, next) {
     try {
@@ -73,73 +73,73 @@ let validateSchemaObj = {}
 validateSchemaObj["GET"] = {
     "forgotPassword": {
         "validateResetPasswordToken": {
-            token: joi.string().regex(new RegExp(regexp.PasswordRegexp.hash, "i"))
+            token: joi.string().regex(new RegExp(regexp.PASSWORD.HASH, "i"))
         }
     },
     "deleteUser": {
         "validateDeleteUserToken": {
-            token: joi.string().regex(new RegExp(regexp.PasswordRegexp.hash, "i"))
+            token: joi.string().regex(new RegExp(regexp.PASSWORD.HASH, "i"))
         }
     }
 }
 //#endregion
 
 //#region post
-validateSchemaObj["POST"] = {
-    "login": {
-        "userLogin": {
-            email: joi.string().email(),
-            password: joi.string().required()
-        },
-        "register": {
-            firstName: joi.string().max(10).regex(new RegExp(regexp.UserRegexp.name, "i")),
-            lastName: joi.string().max(10).regex(new RegExp(regexp.UserRegexp.name, "i")),
-            email: joi.string().email(),
-            password: joi.string().required()
-        }
-    },
+validateSchemaObj["POST"] = {    
     "api": {
+        "login": {
+            "userLogin": {
+                email: joi.string().email(),
+                password: joi.string().required()
+            },
+            "register": {
+                firstName: joi.string().max(10).regex(new RegExp(regexp.USER.NAME, "i")),
+                lastName: joi.string().max(10).regex(new RegExp(regexp.USER.NAME, "i")),
+                email: joi.string().email(),
+                password: joi.string().required()
+            }
+        },
         "userReportWindow": {
             "reportUser": {
                 reportedUserId: joi.string().required(),
                 reasonId: joi.string().required(),
                 reasonDetails: joi.string().max(600).required()
             }
-        }
+        }        
     }
 }
 //#endregion
 
 //#region put
 validateSchemaObj["PUT"] = {
-    "login": {
-        "forgotPasswordRequest": {
-            email: joi.string().email()
-        },
-        "resetPassword": {
-            email: joi.string().email(),
-            code: joi.string().required(),
-            newPassword: joi.string().required()
-        },
-    },
-    "forgotPassword": {
-        "resetPasswordByToken": {
-            token: joi.string().regex(new RegExp(regexp.PasswordRegexp.hash, "i")),
-            newPassword: joi.string().required()
-        }
-    },
-    "deleteUser": {
-        "deleteAccount": {
-            token: joi.string().regex(new RegExp(regexp.PasswordRegexp.hash, "i")),
-            password: joi.string().required()
-        }
-    },
     "api": {
+        "login": {
+            "forgotPasswordRequest": {
+                email: joi.string().email()
+            },
+            "resetPassword": {
+                email: joi.string().email(),
+                code: joi.string().required(),
+                newPassword: joi.string().required()
+            },
+        },
+        "forgotPassword": {
+            "resetPasswordByToken": {
+                token: joi.string().regex(new RegExp(regexp.PASSWORD.HASH, "i")),
+                newPassword: joi.string().required()
+            }
+        },
+        "deleteUser": {
+            "deleteAccount": {
+                token: joi.string().regex(new RegExp(regexp.PASSWORD.HASH, "i")),
+                password: joi.string().required()
+            }
+        },
         "userEditWindow": {
             "updateUserInfo": {
                 updateFields: joi.object().keys({
-                    firstName: joi.string().regex(new RegExp(regexp.UserRegexp.name, "i")).optional(),
-                    lastName: joi.string().regex(new RegExp(regexp.UserRegexp.name, "i")).optional(),
+                    firstName: joi.string().regex(new RegExp(regexp.USER.NAME, "i")).optional(),
+                    lastName: joi.string().regex(new RegExp(regexp.USER.NAME, "i")).optional(),
                     email: joi.string().email().optional(),
                     password: joi.string().required()
                 })

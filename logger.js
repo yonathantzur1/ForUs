@@ -3,7 +3,7 @@ const { combine, timestamp, json } = format;
 const path = require('path');
 const config = require('./config');
 
-let logsDir = path.join(__dirname, "\\", config.logs.directoryName);
+let logsDir = path.join(__dirname, config.logs.directoryName);
 
 const logger = createLogger({
     level: 'info',
@@ -12,8 +12,7 @@ const logger = createLogger({
         json()
     ),
     transports: [
-        new transports.File({ filename: path.join(logsDir, "\\", 'error.log'), level: 'error' }),
-        new transports.File({ filename: path.join(logsDir, "\\", 'combined.log') })
+        new transports.File({ filename: path.join(logsDir, 'forus.log') })
     ]
 });
 

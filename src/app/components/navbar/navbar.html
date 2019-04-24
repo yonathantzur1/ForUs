@@ -1,0 +1,159 @@
+<div class="sidenav-overlay"
+  [ngClass]="{'overlay-background' : isSidenavOpen, 'sidenav-overlay-top' : (isChatsWindowOpen || isFriendRequestsWindowOpen)}"
+  *ngIf="isSidenavOpen || isDropMenuOpen || isShowSearchResults" (click)="OverlayClicked()"></div>
+<div id="navbar">
+  <div id="navbar-container">
+    <div id="sidenav" class="sidenav" [ngClass]="{'sidenav-shadow' : isSidenavOpen}">
+      <div class="sidenav-head-sector">
+        <div class="sidenav-header">
+          <profilePicture class="profile-picture" [isEditEnable]="true"></profilePicture>
+          <div class="user-name" [title]="user.firstName + ' ' + user.lastName">{{user.firstName + " " +
+            user.lastName}}</div>
+          <div class="toolbar-menu">
+            <span class="toolbar-item" *ngFor="let item of toolbarItems">
+              <i [title]="item.title" (click)="item.onClick()" class="{{item.icon}}">{{item.innerIconText}}</i>
+              <span class="badget-icon" (click)="item.onClick()" *ngIf="item.isShowToolbarItemBadget()"></span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="sidenav-body-sector">
+        <loaderSpinner id="friends-loader" class="friends-loader" *ngIf="isFriendsLoading"></loaderSpinner>
+        <div id="friends-sector" *ngIf="!isFriendsLoading && friends.length > 0">
+          <form *ngIf="IsShowFriendFindInput() || friendSearchInput">
+            <div class="form-group">
+              <div id="friend-search-container" class="col-md-12">
+                <i (click)="friendSearchInput=''" class="material-icons clear-friend-search">close</i>
+                <input [(ngModel)]="friendSearchInput" style="padding-left:20px;" id="friend-search"
+                  name="friend-search" class="form-control" type="text" placeholder="חיפוש חברים" autocomplete="off"
+                  autocorrect="off" autocapitalize="off" spellcheck="false">
+              </div>
+            </div>
+          </form>
+          <div (click)="OpenChat(friend)" class="friend-container"
+            *ngFor="let friend of (GetSidebarFriends(friendSearchInput))">
+            <div class="friend-image-container">
+              <div *ngIf="friend.isTyping" title="{{friend.firstName}} מקליד/ה" class="typing-icon">...</div>
+              <div *ngIf="friend.isOnline" class="online-icon"></div>
+              <img class="friend-profile" [src]="friend.profileImage || globalService.defaultProfileImage">
+            </div>
+            <span [ngClass]="{'bold-friend-name' : GetFriendUnreadMessagesNumberText(friend._id)}"
+              class="friend-name-container" title="{{friend.firstName + ' ' + friend.lastName}}">
+              <span>{{friend.firstName + " " + friend.lastName}}</span>
+              <span> {{GetFriendUnreadMessagesNumberText(friend._id)}}</span>
+            </span>
+          </div>
+        </div>
+        <div style="position:relative;" *ngIf="!isFriendsLoading && friends.length == 0 && isSidenavOpen">
+          <div class="new-friends-title">חברים חדשים</div>
+          <div class="no-friends-container">
+            <i (click)="SearchNewFriends()" class="material-icons no-friends-icon">people</i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid navbar" [ngClass]="{'navbar-under' : isNavbarUnder}">
+      <div class="col-8 navbar-right-container">
+        <span class="head-container" (click)="NavigateMain()">
+          <img src="../assets/logo/icon.png" class="head-icon">
+          <span *ngIf="!globalService.IsSmallScreenDevice()" class="head-title">ForUs</span>
+        </span>
+        <span class="search-sector col-md-6">
+          <input type="text" [id]="searchInputId" class="search-input" placeholder="חיפוש" [(ngModel)]="searchInput"
+            (keyup)="SearchKeyUp($event)" (ngModelChange)="SearchChange(searchInput)"
+            (focus)="ClickSearchInput(searchInput)" (click)="ClickSearchInput(searchInput)" autocomplete="off"
+            autocorrect="off" autocapitalize="off" spellcheck="false">
+          <div class="new-friends-label-container" *ngIf="isNewFriendsLabel && !isSidenavOpen && !isShowSearchResults">
+            <i class="fas fa-caret-up menu-top-arrow new-friends-label-top-arrow"></i>
+            <div class="new-friends-label">חיפוש חברים חדשים</div>
+          </div>
+          <i class="material-icons search-icon"
+            [ngClass]="{'search-icon-active':isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0}">search</i>
+          <!-- Search results container -->
+          <div class="search-results-container"
+            *ngIf="isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0">
+            <!-- Search result -->
+            <div class="search-result" [ngClass]="{'selected-search-result' : (index + 2 == markedResult)}"
+              (mousemove)="markedResult=index + 2;" (mouseleave)="markedResult=null;"
+              *ngFor="let result of GetFilteredSearchResults(searchInput); let index = index" [title]="result.fullName">
+              <div class="result-details-container" (click)="OpenUserProfile(result)">
+                <img *ngIf="result.profile && result.profile != -1" [src]="result.profile" class="search-result-image">
+                <img *ngIf="!result.profile" [src]="globalService.defaultProfileImage" class="search-result-image">
+                <span *ngIf="result.profile == -1" class="search-result-image-loading">
+                  <loaderDots css='{"font-size": "6px", "text-align": "center", "margin-top": "calc(50% - 3px)"}'>
+                  </loaderDots>
+                </span>
+                <span class="search-result-name">{{result.fullName}}</span>
+              </div>
+              <div *ngIf="IsShowAddFriendRequestBtn(result._id) ||
+                IsShowRemoveFriendRequestBtn(result._id) ||
+                IsIncomeFriendRequest(result._id)" class="result-friend-request-btns-container">
+                <i *ngIf="IsShowAddFriendRequestBtn(result._id)"
+                  (click)="eventService.Emit('addFriendRequest', result._id)"
+                  class="fas fa-user-plus friend-request-btn" title="בקשת חברות"></i>
+                <i *ngIf="IsShowRemoveFriendRequestBtn(result._id)"
+                  (click)="eventService.Emit('removeFriendRequest', result._id)"
+                  class="fas fa-user-times friend-request-btn remove-request" title="ביטול בקשת חברות"></i>
+                <!-- Income friend request alert -->
+                <i class="fas fa-ellipsis-h friend-request-btn" (click)="OpenUserProfile(result)"
+                  *ngIf="IsIncomeFriendRequest(result._id)" title="בקשת חברות ממתינה"></i>
+              </div>
+            </div>
+            <!-- See more results btn -->
+            <div (mousemove)="markedResult=0;" (mouseleave)="markedResult=null;"
+              [ngClass]="{'selected-search-result' : (markedResult == 0)}" class="see-more-results-btn"
+              (click)="OpenSearchPage(searchInput)">
+              <i class="material-icons more-result-icon">search</i>
+              <span class="see-more-results-btn-text">תוצאות נוספות...</span>
+            </div>
+          </div>
+        </span>
+      </div>
+      <div class="col-4 navbar-left-container">
+        <div *ngIf="user" class="manage-sector">
+          <i (click)="ShowHideDropMenu()" class="fas fa-caret-down menu-icon"></i>
+          <span (click)="ShowHideDropMenu()" class="name">
+            <span class="top-navbar-user-image">
+              <profilePicture [isEditEnable]="false"></profilePicture>
+            </span> {{user.firstName}}
+          </span>
+          <span *ngIf="isDropMenuOpen">
+            <i class="fas fa-caret-up menu-top-arrow"></i>
+            <dropMenu class="drop-menu-position col-md-2 col-4" [options]="dropMenuDataList"></dropMenu>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span (click)="MessageNotificationClicked()" id="notification" class="notification"
+    *ngIf="isShowMessageNotification && !isShowFriendRequestNotification">
+    <span class="notification-name">{{messageNotificationName}}</span>:
+    <span *ngIf="!isMessageNotificationImage" class="notification-text">{{messageNotificationText}}</span>
+    <span *ngIf="isMessageNotificationImage" class="notification-text">שלח/ה לך תמונה</span>
+  </span>
+  <span id="notification" class="notification"
+    *ngIf="(isShowFriendRequestNotification || isShowFriendConfirmNotification) && !isShowMessageNotification">
+    <span class="notification-name">{{friendRequestNotificationName}} </span>
+    <span *ngIf="isShowFriendRequestNotification" class="notification-text">שלח/ה לך בקשת חברות</span>
+    <span *ngIf="isShowFriendConfirmNotification" class="notification-text">אישר/ה את בקשת החברות</span>
+  </span>
+
+  <div id="open-sidenav-btn" class="open-sidenav-btn" [ngStyle]="{'right': isSidenavOpen ? sidenavWidth : 0}"
+    [ngClass]="{'open-sidenav' : isSidenavOpen, 'top-sidenav-btn' : chatData.isOpen}" (click)="ShowHideSidenav()">
+    <div class="notifications-budget"
+      *ngIf="!isHideNotificationsBudget && GetNotificationsNumber() > 0 && !isSidenavOpen">
+      <span class="notifications-number">{{GetNotificationsNumber()}}</span>
+    </div>
+    <i class="open-sidenav-icon fas {{isSidenavOpen ? 'fa-chevron-right': 'fa-chevron-left'}}"></i>
+  </div>
+</div>
+
+<profilePictureEdit *ngIf="isOpenProfileEditWindow"></profilePictureEdit>
+<chatsWindow [hidden]="!isChatsWindowOpen" [OpenChat]="OpenChat.bind(this)"
+  [messagesNotifications]="GetToolbarItem('messages').content"></chatsWindow>
+<friendRequestsWindow [hidden]="!isFriendRequestsWindowOpen" [isFriendRequestsWindowOpen]="isFriendRequestsWindowOpen"
+  [AddFriend]="AddFriend.bind(this)" [IgnoreFriendRequest]="IgnoreFriendRequest.bind(this)"
+  [friendRequests]="GetToolbarItem('friendRequests').content.get"
+  [confirmedReuests]="GetToolbarItem('friendRequests').content.accept"></friendRequestsWindow>
+<chat *ngIf="chatData.isOpen" [chatData]="chatData" [GetFriendById]="GetFriendById.bind(this)"
+  [OpenChat]="OpenChat.bind(this)"></chat>

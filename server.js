@@ -10,7 +10,6 @@ const tokenHandler = require('./modules/handlers/tokenHandler');
 const permissionHandler = require('./modules/handlers/permissionHandler');
 const config = require('./config');
 const logger = require('./logger');
-const ddos = require('./modules/security/ddos');
 const requestDataSizeLimit = '10mb';
 
 process.on('uncaughtException', (err) => {
@@ -28,18 +27,33 @@ app.use(bodyParser.urlencoded({
 app.use(express.static('./'));
 app.use(express.static('public'));
 app.use(compression());
-app.use(ddos);
 
 //#region Middlewares
 // Exclude routes for middlewares.
 function Exclude(paths, middleware) {
     return (req, res, next) => {
-        if (paths.indexOf(req.path) != -1) {
-            return next();
+        for (let i = 0; i < paths.length; i++) {
+            let path = paths[i];
+            let reqUrl = req.path;
+            let generalPathPosition = path.indexOf("/*");
+            let isExcludeMath;
+
+            //  In case the path is general and ends with /*
+            if (generalPathPosition != -1) {
+                path = path.substring(0, generalPathPosition);
+                isExcludeMath = (reqUrl.indexOf(path) == 0);
+            }
+            else {
+                isExcludeMath = (path == reqUrl);
+            }
+
+            // In case the exclude path is match to req path.
+            if (isExcludeMath) {
+                return next();
+            }
         }
-        else {
-            return middleware(req, res, next);
-        }
+
+        return middleware(req, res, next);
     };
 }
 
@@ -57,7 +71,13 @@ function CheckMasterPermission(req, res, next) {
 //#endregion
 
 // Validate user token for each api request.
-app.use('/api', Exclude(['/auth/isUserOnSession', '/auth/isUserSocketConnect'], (req, res, next) => {
+app.use('/api', Exclude([
+    '/login/*',
+    '/forgotPassword/*',
+    '/deleteUser/*',
+    '/auth/isUserOnSession',
+    '/auth/isUserSocketConnect'
+], (req, res, next) => {
     tokenHandler.ValidateUserAuthCookies(req) && next();
 }));
 
@@ -65,9 +85,9 @@ app.use('/api', Exclude(['/auth/isUserOnSession', '/auth/isUserSocketConnect'], 
 let connectedUsers = require('./modules/sockets/socket')(io);
 
 //#region routes
-app.use("/login", require('./modules/routes/login'));
-app.use("/forgotPassword", require('./modules/routes/forgotPassword'));
-app.use("/deleteUser", require('./modules/routes/deleteUser'));
+app.use("/api/login", require('./modules/routes/login'));
+app.use("/api/forgotPassword", require('./modules/routes/forgotPassword'));
+app.use("/api/deleteUser", require('./modules/routes/deleteUser'));
 app.use("/api/navbar", require('./modules/routes/navbar'));
 app.use("/api/home", require('./modules/routes/home'));
 app.use("/api/chat", require('./modules/routes/chat'));
@@ -78,18 +98,10 @@ app.use("/api/userReportWindow", require('./modules/routes/userPage/userReportWi
 app.use("/api/userPasswordWindow", require('./modules/routes/userPage/userPasswordWindow'));
 app.use("/api/userPrivacyWindow", require('./modules/routes/userPage/userPrivacyWindow'));
 app.use("/api/searchPage", require('./modules/routes/searchPage'));
-
-app.use("/api/management", CheckRootPermission,
-    require('./modules/routes/managementPanel/management'));
-
-app.use("/api/statistics", CheckRootPermission,
-    require('./modules/routes/managementPanel/statistics'));
-
-app.use("/api/usersReports", CheckRootPermission,
-    require('./modules/routes/managementPanel/usersReports'));
-
-app.use("/api/permissions", CheckMasterPermission,
-    require('./modules/routes/managementPanel/permissions'));
+app.use("/api/management", CheckRootPermission, require('./modules/routes/managementPanel/management'));
+app.use("/api/statistics", CheckRootPermission, require('./modules/routes/managementPanel/statistics'));
+app.use("/api/usersReports", CheckRootPermission, require('./modules/routes/managementPanel/usersReports'));
+app.use("/api/permissions", CheckMasterPermission, require('./modules/routes/managementPanel/permissions'));
 
 app.use("/api/auth", (req, res, next) => {
     req.connectedUsers = connectedUsers;
@@ -101,9 +113,31 @@ app.use("/api/auth", (req, res, next) => {
 require('./modules/schedules')();
 require('./modules/scripts')();
 
+// Allowed extensions list.
+const allowedExt = [
+    '.js',
+    '.ico',
+    '.css',
+    '.png',
+    '.jpg',
+    '.woff2',
+    '.woff',
+    '.ttf',
+    '.svg',
+];
+
 // Redirect angular requests back to client side.
-app.get('**', (req, res) => {
-    res.sendFile(path.join(__dirname + '/index.html'));
+app.get('/*', (req, res) => {
+    let filePath;
+
+    if (allowedExt.filter(ext => req.url.indexOf(ext) > 0).length > 0) {
+        filePath = path.resolve('dist/' + req.url);
+    }
+    else {
+        filePath = path.resolve('dist/index.html');
+    }
+
+    res.sendFile(filePath);
 });
 
 http.listen(config.server.port, () => {

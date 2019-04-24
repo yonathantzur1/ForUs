@@ -28,7 +28,7 @@ module.exports = {
         }
     },
     logs: {
-        directoryName: "logs"
+        directoryName: "/logs"
     },
     security: {
         jwt: {

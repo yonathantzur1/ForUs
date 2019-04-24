@@ -1,0 +1,26 @@
+<div id="deleteUser">
+    <div class="container">
+        <div class="card-head-container">
+            <i *ngIf="isDeleteTokenValid == false" title="חזרה" class="material-icons back-icon hvr-grow" (click)="BackToLogin()">arrow_right_alt</i>
+            <img src="../assets/logo/icon.png" class="card-head-icon">
+            <label class="head-label">ForUs</label>
+            <div class="card-label" *ngIf="isDeleteTokenValid">מחיקת משתמש - {{userName}}</div>
+        </div>
+        <div class="warning-sector" *ngIf="isDeleteTokenValid == false">
+            <i class="fas fa-exclamation-triangle warning-icon"></i>
+            <div class="warning-message">הקישור למחיקת המשתמש אינו תקף</div>
+        </div>
+        <div *ngIf="isDeleteTokenValid">
+            <div class="password-sector">
+                <i class="material-icons password-icon">lock_outline</i>
+                <input [(ngModel)]="password" id="password" class="form-control password-input" (keyup)="CheckForEnter($event)"
+                    type="password" placeholder="סיסמת החשבון" (keydown)="HideMicrotext('password-micro')">
+                <label id="password-micro" class="microtext"></label>
+            </div>
+            <div class="btn-sector">
+                <a class="btn btn-default" (click)="BackToLogin()">ביטול</a>
+                <a class="btn btn-primary" (click)="DeleteUser()">מחיקת משתמש</a>
+            </div>
+        </div>
+    </div>
+</div>
