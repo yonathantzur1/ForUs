@@ -23,6 +23,7 @@
             ],
             "styles": [
               "src/app/fonts/fonts.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "node_modules/hover.css/css/hover-min.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/bootstrap/dist/css/bootstrap-reboot.min.css",
@@ -31,7 +32,6 @@
               "node_modules/cropper/dist/cropper.min.css"
             ],
             "scripts": [
-              "node_modules/@fortawesome/fontawesome-free/js/all.min.js",
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/popper.js/dist/umd/popper.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
