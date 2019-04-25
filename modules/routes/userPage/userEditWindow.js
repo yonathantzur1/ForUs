@@ -1,11 +1,11 @@
 const router = require('express').Router();
 const userEditWindowBL = require('../../BL/userPage/userEditWindowBL');
-const validate = require('../../security/validate');
+const validation = require('../../security/validation');
 const limitter = require('../../security/limitter');
 const logger = require('../../../logger');
 
 router.put('/updateUserInfo',
-    validate,
+    validation,
     (req, res, next) => {
         // In case one of the updated fields is email.
         if (req.body.updateFields.email) {

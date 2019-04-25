@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { AlertService, ALERT_TYPE } from '../../../../services/alert/alert.service';
 import { MicrotextService, InputFieldValidation } from '../../../../services/microtext/microtext.service';
-import { GlobalService } from '../../../../services/global/global.service';
 
 import { DeleteUserService } from '../../services/deleteUser/deleteUser.service';
 

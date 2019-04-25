@@ -71,21 +71,23 @@ let validateSchemaObj = {}
 
 //#region get
 validateSchemaObj["GET"] = {
-    "forgotPassword": {
-        "validateResetPasswordToken": {
-            token: joi.string().regex(new RegExp(regexp.PASSWORD.HASH, "i"))
-        }
-    },
-    "deleteUser": {
-        "validateDeleteUserToken": {
-            token: joi.string().regex(new RegExp(regexp.PASSWORD.HASH, "i"))
+    "api": {
+        "forgotPassword": {
+            "validateResetPasswordToken": {
+                token: joi.string().regex(new RegExp(regexp.PASSWORD.HASH, "i"))
+            }
+        },
+        "deleteUser": {
+            "validateDeleteUserToken": {
+                token: joi.string().regex(new RegExp(regexp.PASSWORD.HASH, "i"))
+            }
         }
     }
 }
 //#endregion
 
 //#region post
-validateSchemaObj["POST"] = {    
+validateSchemaObj["POST"] = {
     "api": {
         "login": {
             "userLogin": {
@@ -105,7 +107,7 @@ validateSchemaObj["POST"] = {
                 reasonId: joi.string().required(),
                 reasonDetails: joi.string().max(600).required()
             }
-        }        
+        }
     }
 }
 //#endregion

@@ -1,12 +1,12 @@
 const router = require('express').Router();
 const forgotPasswordBL = require('../BL/forgotPasswordBL');
 const tokenHandler = require('../handlers/tokenHandler');
-const validate = require('../security/validate');
+const validation = require('../security/validation');
 const logger = require('../../logger');
 
 // Validating the reset password request unique token.
 router.get('/validateResetPasswordToken',
-    validate,
+    validation,
     (req, res) => {
         tokenHandler.DeleteAuthCookies(res);
         forgotPasswordBL.ValidateResetPasswordToken(req.query.token).then(result => {
@@ -19,7 +19,7 @@ router.get('/validateResetPasswordToken',
 
 // Changing user password in DB by token.
 router.put('/resetPasswordByToken',
-    validate,
+    validation,
     (req, res) => {
         forgotPasswordBL.ResetPasswordByToken(req.body).then(result => {
             if (result) {

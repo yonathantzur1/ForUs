@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const userReportWindowBL = require('../../BL/userPage/userReportWindowBL');
-const validate = require('../../security/validate');
+const validation = require('../../security/validation');
 const logger = require('../../../logger');
 
 // Get all report reasons from DB.
@@ -14,7 +14,7 @@ router.get('/getAllReportReasons', (req, res) => {
 });
 
 router.post('/reportUser',
-    validate,
+    validation,
     (req, res) => {
         userReportWindowBL.ReportUser(req.user._id, req.user.friends, req.body).then(result => {
             res.send(result);

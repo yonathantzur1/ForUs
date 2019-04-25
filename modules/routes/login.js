@@ -4,14 +4,14 @@ const forgotPasswordBL = require('../BL/forgotPasswordBL');
 const logsBL = require('../BL/logsBL');
 const mailer = require('../mailer');
 const tokenHandler = require('../handlers/tokenHandler');
-const validate = require('../security/validate');
+const validation = require('../security/validation');
 const limitter = require('../security/limitter');
 const config = require('../../config');
 const logger = require('../../logger');
 
 // Validate the user details and login the user.
 router.post('/userLogin',
-    validate,
+    validation,
     (req, res, next) => {
         req.body.email = req.body.email.toLowerCase();
         next();
@@ -92,7 +92,7 @@ router.get('/getUserPermissions', (req, res) => {
 
 // Add new user to the DB and make sure the email is not already exists.
 router.post('/register',
-    validate,
+    validation,
     (req, res, next) => {
         req.body.email = req.body.email.toLowerCase();
         next();
@@ -131,7 +131,7 @@ router.post('/register',
 
 // Sending to the user an email with code to reset his password.
 router.put('/forgotPasswordRequest',
-    validate,
+    validation,
     (req, res, next) => {
         req.body.email = req.body.email.toLowerCase();
         next();
@@ -165,7 +165,7 @@ router.put('/forgotPasswordRequest',
 
 // Changing user password in DB by code.
 router.put('/resetPassword',
-    validate,
+    validation,
     (req, res, next) => {
         req.body.email = req.body.email.toLowerCase();
         next();

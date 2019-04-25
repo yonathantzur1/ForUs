@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const userPrivacyWindowBL = require('../../BL/userPage/userPrivacyWindowBL');
-const validate = require('../../security/validate');
+const validation = require('../../security/validation');
 const events = require('../../events');
 const logger = require('../../../logger');
 
@@ -15,7 +15,7 @@ router.get('/getUserPrivacyStatus', (req, res) => {
 });
 
 router.put('/setUserPrivacy',
-    validate,
+    validation,
     (req, res) => {
         userPrivacyWindowBL.SetUserPrivacy(req.user._id, req.body.isPrivate).then(result => {
             if (req.body.isPrivate && result) {

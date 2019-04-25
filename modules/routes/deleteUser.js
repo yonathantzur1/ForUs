@@ -1,13 +1,13 @@
 const router = require('express').Router();
 const deleteUserBL = require('../BL/deleteUserBL');
 const tokenHandler = require('../handlers/tokenHandler');
-const validate = require('../security/validate');
+const validation = require('../security/validation');
 const events = require('../events');
 const logger = require('../../logger');
 
 // Validating the delete user request unique token.
 router.get('/validateDeleteUserToken',
-    validate,
+    validation,
     (req, res) => {
         tokenHandler.DeleteAuthCookies(res);
         deleteUserBL.ValidateDeleteUserToken(req.query.token).then(result => {
@@ -20,7 +20,7 @@ router.get('/validateDeleteUserToken',
 
 // Remove user account by token and password.
 router.put('/deleteAccount',
-    validate,
+    validation,
     (req, res) => {
         deleteUserBL.IsAllowToDeleteAccount(req.body).then(user => {
             // In case the password is wrong.
