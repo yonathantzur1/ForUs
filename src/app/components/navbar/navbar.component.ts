@@ -426,7 +426,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     IsShowFriendFindInput() {
-        return $(".sidenav-body-sector").hasScrollBar();
+        setTimeout(() => {
+            return $(".sidenav-body-sector").hasScrollBar();
+        }, 0);
     }
 
     AddMessageToToolbarMessages(msgData: any) {
