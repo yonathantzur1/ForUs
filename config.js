@@ -1,5 +1,6 @@
 const isServerProd = (process.env.IS_PROD == 'true');
 const serverPort = process.env.PORT || 8000;
+const clientPort = 4200;
 
 module.exports = {
     server: {
@@ -8,7 +9,7 @@ module.exports = {
         isForceHttps: true // (On production environment)
     },
     address: {
-        site: isServerProd ? "https://forus.herokuapp.com" : ("http://localhost:" + serverPort)
+        site: isServerProd ? "https://forus.herokuapp.com" : ("http://localhost:" + clientPort)
     },
     mailer: {
         mail: "forus@group.com",
@@ -47,11 +48,6 @@ module.exports = {
         limitter: {
             freeRetries: 10,
             waitTime: 2 * 60 * 1000, // 2 minutes
-        },
-        ddos: {
-            burst: 20, // Number of allowable burst requests before the client starts being penalized.
-            limit: 30 // Number of maximum counts allowed.
-            // If the count exceeds the limit, then the request is denied.
         },
         password: {
             saltSize: 8,

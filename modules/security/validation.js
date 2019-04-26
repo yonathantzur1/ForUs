@@ -1,4 +1,4 @@
-const joi = require('joi');
+const joi = require('@hapi/joi');
 const regexp = require('../enums').REGEXP;
 
 module.exports = function (req, res, next) {

@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "~7.2.14",
     "@angular/router": "~7.2.14",
     "@fortawesome/fontawesome-free": "^5.8.1",
+    "@hapi/joi": "^15.0.0",
     "blueimp-load-image": "^2.21.0",
     "body-parser": "^1.18.3",
     "bootstrap": "^4.3.1",
@@ -33,7 +34,6 @@
     "express": "^4.16.4",
     "express-rate-limit": "^3.4.1",
     "hover.css": "^2.3.2",
-    "joi": "^14.3.1",
     "jquery": "^3.4.0",
     "js-sha512": "^0.8.0",
     "jsonwebtoken": "^8.5.1",
@@ -51,7 +51,7 @@
     "zone.js": "~0.9.0"
   },
   "devDependencies": {
-    "codelyzer": "~5.0.0",
+    "codelyzer": "~5.0.1",
     "concurrently": "^4.1.0",
     "nodemon": "^1.18.11",
     "tslint": "~5.16.0"
