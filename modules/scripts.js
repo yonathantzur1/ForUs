@@ -8,7 +8,7 @@ let chatsCollectionName = config.db.collections.chats;
 // Don't forget to run the function and after it finished,
 // **delete** it's call.
 module.exports = function () {
-    
+
 }
 
 // ---------------- How to use ----------------
@@ -18,17 +18,24 @@ module.exports = function () {
 function ChangeEncryptionKeyString(newKeyString) {
     DAL.Find(chatsCollectionName, {}).then(chats => {
         console.log("Query " + chats.length + " chats");
+        let updates = [];
 
         chats.forEach((chat, index) => {
-            chat.messages.forEach(message => {
+            let messages = chat.messages;
+            messages.forEach(message => {
                 message.text = encryption.encrypt(encryption.decrypt(message.text), newKeyString);
             });
 
-            DAL.Save(chatsCollectionName, chat).then(res => {
-                console.log("Success update chat number " + index + " - id: " + chat._id.toString());
-            }).catch(err => {
-                console.error("Error update chat number " + index + " - id: " + chat._id.toString());
-            });
+            let chatFindQuery = { "_id": chat._id };
+            let updateObj = { $set: { messages } };
+
+            updates.push(DAL.UpdateOne(chatsCollectionName, chatFindQuery, updateObj));
+        });
+
+        Promise.all(updates).then(results => {
+            console.log("Changing encryption key string done!")
+        }).catch(err => {
+            console.error("Error during changing encryption key string: " + err);
         });
     });
 }
