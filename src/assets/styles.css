@@ -183,16 +183,6 @@ input {
     color: var(--main-text-color) !important;
 }
 
-.main-container {
-    width: calc(100% - 40px);
-    /* Height is minus 50px because of the top navbar */
-    height: calc(100% - 50px);
-    margin: auto;
-    padding: 10px;
-    position: relative;
-    top: 50px;
-}
-
 .mini-loader {
     background-color: transparent;
     width: 42px;

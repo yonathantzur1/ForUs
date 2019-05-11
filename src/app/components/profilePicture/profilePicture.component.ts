@@ -11,8 +11,7 @@ import { EventService } from '../../services/event/event.service';
 })
 
 export class ProfilePictureComponent implements OnInit, OnDestroy {
-    @Input() isEditEnable: string;
-    isUserHasImage: boolean;
+    @Input() isEditEnable: string;    
 
     eventsIds: Array<string> = [];
 
@@ -25,16 +24,10 @@ export class ProfilePictureComponent implements OnInit, OnDestroy {
         //#region events
         self.eventService.Register("newUploadedImage", (img: string) => {
             self.globalService.userProfileImage = img;
-            self.isUserHasImage = true;
         }, self.eventsIds);
 
         self.eventService.Register("deleteProfileImage", () => {
             self.globalService.userProfileImage = null;
-            self.isUserHasImage = false;
-        }, self.eventsIds);
-
-        self.eventService.Register("userProfileImageLoaded", () => {
-            self.isUserHasImage = self.globalService.userProfileImage ? true : false;
         }, self.eventsIds);
 
         self.eventService.Register("openProfileEditWindow", () => {
@@ -48,7 +41,7 @@ export class ProfilePictureComponent implements OnInit, OnDestroy {
     }
 
     OpenEditWindow() {
-        if (this.isEditEnable && this.isUserHasImage != null) {
+        if (this.isEditEnable) {
             this.eventService.Emit("showProfileEditWindow", true);
         }
     }

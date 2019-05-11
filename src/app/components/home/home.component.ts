@@ -27,17 +27,20 @@ export class HomeComponent implements OnInit {
         private eventService: EventService) { }
 
     ngOnInit() {
-        this.authService.GetCurrUser().then((result: any) => {
-            this.currUser = result;
-            this.globalService.userId = result._id;
-        });
+        Promise.all([
+            this.authService.GetCurrUser(),
+            this.profilePictureService.GetUserProfileImage()
+        ]).then(results => {
+            // Assign user object.
+            this.currUser = results[0];
+            this.globalService.userId = this.currUser._id;
 
-        this.profilePictureService.GetUserProfileImage().then((result: any) => {
-            if (result) {
-                this.globalService.userProfileImage = result.image;
+            // Assign user profile image.
+            let userProfileImage = results[1];
+
+            if (userProfileImage) {
+                this.globalService.userProfileImage = userProfileImage.image;
             }
-
-            this.eventService.Emit("userProfileImageLoaded", true);
         });
     }
 }
