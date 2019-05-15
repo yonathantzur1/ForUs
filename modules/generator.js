@@ -1,6 +1,6 @@
 module.exports = {
     GenerateCode(numOfChars, isOnlyNumbers) {
-        let code = "";
+        let code = '';
         let possible = isOnlyNumbers ? "0123456789" : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
         for (let i = 0; i < numOfChars; i++) {

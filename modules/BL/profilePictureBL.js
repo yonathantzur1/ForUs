@@ -43,7 +43,7 @@ module.exports = {
     DeleteImage(userId, profileId) {
         return new Promise((resolve, reject) => {
             let usersFilter = { "_id": DAL.GetObjectId(userId) };
-            let userObjectFieldDeleteQuery = { $unset: { profile: "" } };
+            let userObjectFieldDeleteQuery = { $unset: { "profile": 1 } };
             let profileFilter = { "_id": DAL.GetObjectId(profileId) };
 
             let removeProfileImageFromUserObject =

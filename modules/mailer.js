@@ -76,7 +76,7 @@ module.exports = {
 
     MessageNotificationAlert(email, name, senderName) {
         let text = GetTimeBlessing() + name + ", " + "<br>" + "ממתינה עבורך הודעה חדשה<name>." + "<br>" + config.address.site;
-        text = senderName ? text.replace("<name>", " מ" + senderName) : text.replace("<name>", "");
+        text = senderName ? text.replace("<name>", " מ" + senderName) : text.replace("<name>", '');
 
         this.SendMail(email,
             "הודעה חדשה",
@@ -105,7 +105,7 @@ module.exports = {
         }
         else {
             dateString = "לתקופה בלתי מוגבלת";
-            date = "";
+            date = '';
         }
 
         this.SendMail(email,

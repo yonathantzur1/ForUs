@@ -63,7 +63,7 @@ function BuildSchemaPathString(schemaPath) {
         return schema;
     }
     else {
-        return "";
+        return '';
     }
 }
 

@@ -102,7 +102,7 @@ let self = module.exports = {
 
 function GetCookieByName(cname, cookie) {
     if (!cookie) {
-        return "";
+        return '';
     }
 
     let name = cname + "=";
@@ -120,5 +120,5 @@ function GetCookieByName(cname, cookie) {
         }
     }
 
-    return "";
+    return '';
 }
