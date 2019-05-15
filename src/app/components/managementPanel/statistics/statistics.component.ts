@@ -7,8 +7,8 @@ import { MicrotextService, InputFieldValidation } from '../../../services/microt
 import { STATISTICS_RANGE, LOG_TYPE } from '../../../enums/enums';
 import { UserRegexp } from '../../../regex/regexpEnums';
 
-declare var $: any;
-declare var Chart: any;
+declare let $: any;
+declare let Chart: any;
 
 @Component({
     selector: 'statistics',
@@ -42,7 +42,7 @@ export class StatisticsComponent {
     emailValidationFuncs: Array<InputFieldValidation> = [
         {
             isFieldValid(email: string, userRegexp: any) {
-                var emailPattern = userRegexp.email;
+                let emailPattern = userRegexp.email;
                 return (emailPattern.test(email));
             },
             errMsg: "כתובת אימייל לא תקינה",
@@ -91,9 +91,9 @@ export class StatisticsComponent {
                 onConfirm: function (self: any, options: Array<any>) {
                     self.CloseModal(this.id);
 
-                    var option;
+                    let option;
 
-                    for (var i = 0; i < options.length; i++) {
+                    for (let i = 0; i < options.length; i++) {
                         if (options[i].isSelected) {
                             option = options[i];
                             break;
@@ -133,9 +133,9 @@ export class StatisticsComponent {
                 },
                 onConfirm: function (self: any, options: Array<any>) {
                     self.CloseModal(this.id);
-                    var option;
+                    let option;
 
-                    for (var i = 0; i < options.length; i++) {
+                    for (let i = 0; i < options.length; i++) {
                         if (options[i].isSelected) {
                             option = options[i];
                             break;
@@ -212,7 +212,7 @@ export class StatisticsComponent {
 
     LoadChart(type: LOG_TYPE, range: STATISTICS_RANGE, chartName: string, datesRange?: Object) {
         this.datesRange = datesRange || this.CalculateDatesRangeByRangeType(range);
-        var clientTimeZone = new Date().getTimezoneOffset();
+        let clientTimeZone = new Date().getTimezoneOffset();
         this.isLoadingChart = true;
 
         this.statisticsService.GetChartData(type,
@@ -233,7 +233,7 @@ export class StatisticsComponent {
         this.chartTitle = name;
         this.datesRangeString = getDateString(datesRange["endDate"]) + " - " + getDateString(datesRange["startDate"]);
 
-        var labels;
+        let labels;
 
         switch (range) {
             case STATISTICS_RANGE.YEARLY: {
@@ -249,7 +249,7 @@ export class StatisticsComponent {
             }
         }
 
-        var ctx = "statistics-chart";
+        let ctx = "statistics-chart";
         this.chart = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -345,15 +345,15 @@ export class StatisticsComponent {
         // Reset date ranges page for the calculate of the current date by range.
         this.datesRangeMovementIndex = 0;
 
-        var currDate = new Date();
-        var result: any = {
+        let currDate = new Date();
+        let result: any = {
             "startDate": null,
             "endDate": null
         }
 
         switch (range) {
             case STATISTICS_RANGE.YEARLY: {
-                var currentYear = currDate.getFullYear();
+                let currentYear = currDate.getFullYear();
                 result["startDate"] = new Date(currentYear, 0, 1);
                 result["endDate"] = new Date(currentYear, 11, 31);
                 return result;
@@ -372,8 +372,8 @@ export class StatisticsComponent {
     GetNextDatesRangePeriod() {
         if (this.datesRangeMovementIndex != 0) {
             this.datesRangeMovementIndex++;
-            var startDate: Date = this.datesRange["startDate"];
-            var endDate: Date = this.datesRange["endDate"];
+            let startDate: Date = this.datesRange["startDate"];
+            let endDate: Date = this.datesRange["endDate"];
 
             switch (this.chartsValues["statisticsRange"]) {
                 case STATISTICS_RANGE.WEEKLY: {
@@ -399,8 +399,8 @@ export class StatisticsComponent {
 
     GetPreviousDatesRangePeriod() {
         this.datesRangeMovementIndex--;
-        var startDate = this.datesRange["startDate"];
-        var endDate = this.datesRange["endDate"];
+        let startDate = this.datesRange["startDate"];
+        let endDate = this.datesRange["endDate"];
 
         switch (this.chartsValues["statisticsRange"]) {
             case STATISTICS_RANGE.WEEKLY: {
@@ -461,9 +461,9 @@ function getEndOfWeek(date: Date) {
 }
 
 function getDateString(date: Date) {
-    var day: any = date.getDate();
-    var month: any = date.getMonth() + 1;
-    var year: any = date.getFullYear();
+    let day: any = date.getDate();
+    let month: any = date.getMonth() + 1;
+    let year: any = date.getFullYear();
 
     if (day < 10) {
         day = "0" + day;

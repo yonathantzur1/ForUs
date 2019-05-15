@@ -16,7 +16,7 @@ export class ProfilePictureService extends BasicService {
     }
 
     SaveImage(imgBase64: string) {
-        var image = {
+        let image = {
             "imgBase64": imgBase64
         };
 

@@ -2,7 +2,8 @@
     <div id="userReportWindow">
         <div class="overlay"></div>
         <div class="container">
-            <i class="material-icons icon top-icon back-icon" *ngIf="isShowTextReasonWindow" (click)="BackToReasonsWindow()">arrow_forward</i>
+            <i class="material-icons icon top-icon back-icon" *ngIf="isShowTextReasonWindow"
+                (click)="BackToReasonsWindow()">arrow_forward</i>
             <i class="material-icons icon top-icon close-icon" (click)="CloseWindow()">close</i>
             <div class="title">
                 דיווח - {{user.firstName + " " + user.lastName}}
@@ -18,9 +19,10 @@
                 <div class="row form-group" class="reason-row">
                     <span class="col-12">
                         <label>תיאור המקרה:</label>
-                        <textarea [(ngModel)]="reportText" [maxlength]="maxReportTextLength" (keyup)="HideEmptyFieldAlert()"
-                            id="reason-text" name="reasonText" type="text"></textarea>
-                        <span [ngClass]="{'max-details-text-length': reportText.length == maxReportTextLength}" class="char-counter">
+                        <textarea [(ngModel)]="reportText" [maxlength]="maxReportTextLength"
+                            (keyup)="HideEmptyFieldAlert()" id="reason-text" name="reasonText" type="text"></textarea>
+                        <span [ngClass]="{'max-details-text-length': reportText.length == maxReportTextLength}"
+                            class="char-counter">
                             תווים {{reportText.length}}/{{maxReportTextLength}}
                         </span>
                     </span>
@@ -30,7 +32,8 @@
                 לבחור את סיבת הדיווח</p>
             <p *ngIf="isShowTextReasonWindow && isShowEmptyFieldAlert" class="select-reason-info">*יש להזין את תיאור
                 המקרה</p>
-            <i (click)="ShowTextReasonWindow()" *ngIf="!isShowTextReasonWindow" class="material-icons icon bottom-icon next-icon"
+            <i (click)="ShowTextReasonWindow()" *ngIf="!isShowTextReasonWindow"
+                class="material-icons icon bottom-icon next-icon"
                 [ngClass]="{'disabled-icon': IsDisableReportBtn()}">arrow_back</i>
             <a class="btn btn-primary save-btn" *ngIf="isShowTextReasonWindow" (click)="ReportUser()">דיווח</a>
         </div>

@@ -35,7 +35,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
         private eventService: EventService) { }
 
     ngOnInit() {
-        var self = this;
+        let self = this;
 
         self.globalService.SocketOn('ClientUpdateFriendRequestsStatus', function (friendId: string) {
             self.RemoveFriendRequestById(friendId);
@@ -126,7 +126,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     }
 
     GetFriendRequestsNumberText() {
-        var friendRequestsNumber = this.friendRequests.length;
+        let friendRequestsNumber = this.friendRequests.length;
 
         if (friendRequestsNumber == 0) {
             return "אין בקשות חברות חדשות";
@@ -142,7 +142,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     FriendAccept(requestId: string) {
         this.isFriendRequestsLoading = true;
         this.RemoveFriendRequestById(requestId);
-        var self = this;
+        let self = this;
 
         self.AddFriend(requestId, function (res: any) {
             self.isFriendRequestsLoading = false;
@@ -152,7 +152,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     FriendIgnore(requestId: string) {
         this.isFriendRequestsLoading = true;
         this.RemoveFriendRequestById(requestId);
-        var self = this;
+        let self = this;
 
         self.IgnoreFriendRequest(requestId, function (res: any) {
             self.isFriendRequestsLoading = false;

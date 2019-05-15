@@ -9,13 +9,15 @@
             <span *ngIf="chatData.friend.isTyping" class="friend-typing-title">
                 מקליד/ה...
             </span>
-            <i *ngFor="let iconObj of topIcons" [title]="iconObj.title" (click)="iconObj.onClick()" class="top-icon {{iconObj.class}}"
+            <i *ngFor="let iconObj of topIcons" [title]="iconObj.title" (click)="iconObj.onClick()"
+                class="top-icon {{iconObj.class}}"
                 [ngClass]="{'selected-top-icon' : iconObj.isSelected}">{{iconObj.innerIconText}}</i>
             <i (click)="CloseChat()" class="material-icons exit-chat">close</i>
         </div>
-        <div *ngIf="isShowMessageNotification" (click)="ClickChatNotification()" [ngClass]="{'show-notification' : isShowMessageNotification}"
-            class="notification-sector">
-            <img class="notification-img" [src]="messageNotificationFriendObj.profileImage || globalService.defaultProfileImage">
+        <div *ngIf="isShowMessageNotification" (click)="ClickChatNotification()"
+            [ngClass]="{'show-notification' : isShowMessageNotification}" class="notification-sector">
+            <img class="notification-img"
+                [src]="messageNotificationFriendObj.profileImage || globalService.defaultProfileImage">
             <div class="notification-text">
                 <span class="notification-name">{{messageNotificationFriendObj.firstName + " " +
                     messageNotificationFriendObj.lastName}}:</span>
@@ -28,7 +30,8 @@
 
         <!-- START CANVAS SECTOR -->
         <div [hidden]="!GetTopIconById('canvas').isSelected" class="canvas-body-container">
-            <input (change)="ChangeImage()" style="display:none;" type="file" id="chatImage" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
+            <input (change)="ChangeImage()" style="display:none;" type="file" id="chatImage" name="file"
+                accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
             <div id="canvas-body-sector" class="canvas-body-sector">
                 <span *ngIf="isMessagesLoading" class="chat-loading-container">
                     <loaderDots css='{"padding-top": "10px"}'></loaderDots>
@@ -39,7 +42,8 @@
                 <table class="canvas-top-bar-tabel">
                     <tr>
                         <td *ngFor="let iconObj of canvasTopIcons">
-                            <i [title]="iconObj.title" (click)="iconObj.onClick()" class="material-icons canvas-top-bar-icon">{{iconObj.icon}}</i>
+                            <i [title]="iconObj.title" (click)="iconObj.onClick()"
+                                class="material-icons canvas-top-bar-icon">{{iconObj.icon}}</i>
                         </td>
                     </tr>
                 </table>
@@ -50,9 +54,10 @@
                         "keyboard_arrow_down"}}</i>
                 </div>
                 <div class="color-btns-sector">
-                    <div *ngFor="let colorBtn of colorBtns; let i = index" (click)="ChangeCanvasColor(i)" [ngStyle]="{'backgroundColor': colorBtn}"
-                        class="color-btn">
-                        <span *ngIf="canvasSelectedColorIndex == i" class="selected-color-line" [ngStyle]="{'backgroundColor': colorBtn}"></span>
+                    <div *ngFor="let colorBtn of colorBtns; let i = index" (click)="ChangeCanvasColor(i)"
+                        [ngStyle]="{'backgroundColor': colorBtn}" class="color-btn">
+                        <span *ngIf="canvasSelectedColorIndex == i" class="selected-color-line"
+                            [ngStyle]="{'backgroundColor': colorBtn}"></span>
                     </div>
                 </div>
                 <div class="send-canvas-sector">
@@ -79,7 +84,8 @@
                     <div *ngIf="IsShowUnreadLine(message.from, message.id, i)" class="bubble-message-line-sector">
                         <div class="bubble-message-line">
                             <span class="bubble-message-text-container">
-                                <span class="bubble-message-text">{{GetUnreadMessagesNumberText(unreadMessagesNumber)}}</span>
+                                <span
+                                    class="bubble-message-text">{{GetUnreadMessagesNumberText(unreadMessagesNumber)}}</span>
                             </span>
                         </div>
                     </div>
@@ -89,13 +95,16 @@
                         </span>
                     </div>
                     <span>
-                        <div class="message-container" [ngClass]="{'message-container-with-top-space' : (!IsShowDateBubble(i) && (i-1 > 0) && message.from != messages[i-1].from), 'message-container-with-bottom-space': i == (messages.length -1)}">
-                            <div id="message-time-container" class="message-time-container" [ngClass]="{'user-message-time' : message.from == chatData.user._id, 'friend-message-time': message.from == chatData.friend._id}">
+                        <div class="message-container"
+                            [ngClass]="{'message-container-with-top-space' : (!IsShowDateBubble(i) && (i-1 > 0) && message.from != messages[i-1].from), 'message-container-with-bottom-space': i == (messages.length -1)}">
+                            <div id="message-time-container" class="message-time-container"
+                                [ngClass]="{'user-message-time' : message.from == chatData.user._id, 'friend-message-time': message.from == chatData.friend._id}">
                                 <span class="message-time">
                                     {{GetTimeString(message.time)}}
                                 </span>
                             </div>
-                            <span [id]="message.id" *ngIf="!message.isImage" class="message" [ngClass]="{'user-message' : message.from == chatData.user._id, 'friend-message': message.from == chatData.friend._id}">
+                            <span [id]="message.id" *ngIf="!message.isImage" class="message"
+                                [ngClass]="{'user-message' : message.from == chatData.user._id, 'friend-message': message.from == chatData.friend._id}">
                                 <div class="message-text">
                                     {{message.text}}
                                 </div>
@@ -108,10 +117,11 @@
             </div>
             <div class="chat-write-sector">
                 <div class="msg-input-sector">
-                    <input [(ngModel)]="msghInput" (keyup)="MsgInputKeyup($event)" maxlength="600" id="msg-input" class="msg-input"
-                        type="text" autocapitalize="off" autocomplete="off">
+                    <input [(ngModel)]="msghInput" (keyup)="MsgInputKeyup($event)" maxlength="600" id="msg-input"
+                        class="msg-input" type="text" autocapitalize="off" autocomplete="off">
                 </div>
-                <div (click)="SendMessage()" [ngClass]="{'send-msg-btn-sector-disabled' : isMessagesLoading}" class="send-msg-btn-sector">
+                <div (click)="SendMessage()" [ngClass]="{'send-msg-btn-sector-disabled' : isMessagesLoading}"
+                    class="send-msg-btn-sector">
                     <i class="fas fa-caret-left fa-lg send-msg-btn"></i>
                 </div>
             </div>

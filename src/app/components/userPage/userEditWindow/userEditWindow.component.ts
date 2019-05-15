@@ -32,7 +32,7 @@ export class UserEditWindowComponent implements OnInit {
     editValidationFuncs: Array<InputFieldValidation> = [
         {
             isFieldValid(editUser: EditUser, userRegexp: any) {
-                var namePattern = userRegexp.name;
+                let namePattern = userRegexp.name;
                 return (namePattern.test(editUser.firstName));
             },
             errMsg: "יש להזין שם תקין בעברית",
@@ -41,7 +41,7 @@ export class UserEditWindowComponent implements OnInit {
         },
         {
             isFieldValid(editUser: EditUser, userRegexp: any) {
-                var namePattern = userRegexp.name;
+                let namePattern = userRegexp.name;
                 return (namePattern.test(editUser.lastName));
             },
             errMsg: "יש להזין שם תקין בעברית",
@@ -50,7 +50,7 @@ export class UserEditWindowComponent implements OnInit {
         },
         {
             isFieldValid(editUser: EditUser, userRegexp: any) {
-                var emailPattern = userRegexp.email;
+                let emailPattern = userRegexp.email;
                 return (emailPattern.test(editUser.email));
             },
             errMsg: "כתובת אימייל לא תקינה",
@@ -134,7 +134,7 @@ export class UserEditWindowComponent implements OnInit {
 
     SaveChanges() {
         if (this.microtextService.Validation(this.passwordValidationFuncs, this.editUser)) {
-            var updatedFields = {};
+            let updatedFields = {};
 
             updatedFields["password"] = this.editUser.password;
             delete this.editUser.password;
@@ -155,7 +155,7 @@ export class UserEditWindowComponent implements OnInit {
 
             this.userEditWindowService.UpdateUserInfo(updatedFields).then(data => {
                 if (data) {
-                    var result = data.result;
+                    let result = data.result;
 
                     if (result.lock) {
                         this.microtextService.ShowMicrotext("edit-user-password-micro",

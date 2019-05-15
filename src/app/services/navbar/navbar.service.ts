@@ -16,7 +16,7 @@ export class NavbarService extends BasicService {
     }
 
     GetMainSearchResults(searchInput: string) {
-        var details = { searchInput };
+        let details = { searchInput };
 
         return super.post(this.prefix + '/getMainSearchResults', details)
             .toPromise()
@@ -51,13 +51,13 @@ export class NavbarService extends BasicService {
     }
 
     UpdateMessagesNotifications(messagesNotifications: any) {
-        var details = { messagesNotifications };
+        let details = { messagesNotifications };
 
         super.post(this.prefix + '/updateMessagesNotifications', details).toPromise();
     }
 
     RemoveMessagesNotifications(messagesNotifications: any) {
-        var details = { messagesNotifications };
+        let details = { messagesNotifications };
 
         super.post(this.prefix + '/removeMessagesNotifications', details).toPromise();
     }
@@ -74,7 +74,7 @@ export class NavbarService extends BasicService {
     }
 
     AddFriendRequest(friendId: string) {
-        var details = { friendId };
+        let details = { friendId };
 
         return super.post(this.prefix + '/addFriendRequest', details)
             .toPromise()
@@ -87,7 +87,7 @@ export class NavbarService extends BasicService {
     }
 
     RemoveFriendRequest(friendId: string) {
-        var details = { friendId };
+        let details = { friendId };
 
         return super.post(this.prefix + '/removeFriendRequest', details)
             .toPromise()
@@ -100,7 +100,7 @@ export class NavbarService extends BasicService {
     }
 
     IgnoreFriendRequest(friendId: string) {
-        var details = { friendId };
+        let details = { friendId };
 
         return super.post(this.prefix + '/ignoreFriendRequest', details)
             .toPromise()
@@ -113,7 +113,7 @@ export class NavbarService extends BasicService {
     }
 
     AddFriend(friendId: string) {
-        var details = { friendId };
+        let details = { friendId };
 
         return super.post(this.prefix + '/addFriend', details)
             .toPromise()
@@ -126,7 +126,7 @@ export class NavbarService extends BasicService {
     }
 
     RemoveFriendRequestConfirmAlert(confirmedFriendsIds: Array<string>) {
-        var data = { confirmedFriendsIds };
+        let data = { confirmedFriendsIds };
 
         return super.put(this.prefix + '/removeFriendRequestConfirmAlert', data)
             .toPromise()

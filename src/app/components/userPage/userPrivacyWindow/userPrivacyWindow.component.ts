@@ -6,7 +6,7 @@ import { EventService } from '../../../services/event/event.service';
 import { UserPrivacyWindowService } from '../../../services/userPage/userPrivacyWindow/userPrivacyWindow.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 
-declare var $: any;
+declare let $: any;
 
 @Component({
     selector: 'userPrivacyWindow',
@@ -51,7 +51,7 @@ export class UserPrivacyWindowComponent implements OnInit {
     }
 
     ChangePrivacyStatus() {
-        var self = this;
+        let self = this;
 
         setTimeout(function () {
             self.isUserPrivate = !self.isUserPrivate;

@@ -19,7 +19,7 @@ export class ProfilePictureComponent implements OnInit, OnDestroy {
         private eventService: EventService) { }
 
     ngOnInit() {
-        var self = this;
+        let self = this;
 
         //#region events
         self.eventService.Register("newUploadedImage", (img: string) => {

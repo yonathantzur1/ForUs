@@ -30,7 +30,7 @@ class ToolbarItem {
     onClick: Function;
 }
 
-declare var $: any;
+declare let $: any;
 
 export class DropMenuData {
     link: string;
@@ -127,7 +127,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         public snackbarService: SnackbarService,
         private navbarService: NavbarService) {
 
-        var self = this;
+        let self = this;
 
         //#region events
         eventService.Register("showProfileEditWindow", (isShow: boolean) => {
@@ -194,7 +194,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 title: "הודעות",
                 content: {},
                 getNotificationsNumber: function () {
-                    var counter = 0;
+                    let counter = 0;
 
                     Object.keys(this.content).forEach(id => {
                         counter += this.content[id].unreadMessagesNumber;
@@ -235,7 +235,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.globalService.socket.emit('login');
 
-        var self = this;
+        let self = this;
 
         self.dropMenuDataList = [
             new DropMenuData("/panel", "ניהול", null, () => {
@@ -344,19 +344,19 @@ export class NavbarComponent implements OnInit, OnDestroy {
         });
 
         self.globalService.SocketOn('GetFriendRequest', function (friendId: string, friendFullName: string) {
-            var friendRequests: any = self.GetToolbarItem("friendRequests").content;
+            let friendRequests: any = self.GetToolbarItem("friendRequests").content;
             friendRequests.get.push(friendId);
             self.ShowFriendRequestNotification(friendFullName, false);
             self.isHideNotificationsBudget = false;
         });
 
         self.globalService.SocketOn('DeleteFriendRequest', function (friendId: string) {
-            var friendRequests: any = self.GetToolbarItem("friendRequests").content;
+            let friendRequests: any = self.GetToolbarItem("friendRequests").content;
             friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
         });
 
         self.globalService.SocketOn('ClientIgnoreFriendRequest', function (friendId: string) {
-            var friendRequests: any = self.GetToolbarItem("friendRequests").content;
+            let friendRequests: any = self.GetToolbarItem("friendRequests").content;
             friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
         });
 
@@ -372,7 +372,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 }
             });
 
-            var friendRequests: any = self.GetToolbarItem("friendRequests").content;
+            let friendRequests: any = self.GetToolbarItem("friendRequests").content;
 
             // Remove friend id from send array and push it to the friends array.
             friendRequests.send.splice(friendRequests.send.indexOf(friend._id), 1);
@@ -406,9 +406,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
         self.globalService.SocketOn('ClientRemoveFriend', function (friendId: string) {
             self.authService.SetCurrUserToken().then((result: any) => {
-                if (result) {
-                    self.globalService.RefreshSocket();
-                }
+                result && self.globalService.RefreshSocket();
             });
 
             self.RemoveFriend(friendId);
@@ -430,8 +428,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     AddMessageToToolbarMessages(msgData: any) {
-        var notificationsMessages = this.GetToolbarItem("messages").content;
-        var friendMessages = notificationsMessages[msgData.from];
+        let notificationsMessages = this.GetToolbarItem("messages").content;
+        let friendMessages = notificationsMessages[msgData.from];
 
         if (friendMessages) {
             friendMessages.unreadMessagesNumber++;
@@ -447,7 +445,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     RemoveFriendMessagesFromToolbarMessages(friendId: string) {
-        var notificationsMessages = this.GetToolbarItem("messages").content;
+        let notificationsMessages = this.GetToolbarItem("messages").content;
 
         if (notificationsMessages[friendId]) {
             delete (notificationsMessages[friendId]);
@@ -457,7 +455,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     // Return item object from toolbar items array by its id.
     GetToolbarItem(id: string): any {
-        for (var i = 0; i < this.toolbarItems.length; i++) {
+        for (let i = 0; i < this.toolbarItems.length; i++) {
             if (this.toolbarItems[i].id == id) {
                 return this.toolbarItems[i];
             }
@@ -472,7 +470,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.messageNotificationFriendId = friendId;
             this.isShowMessageNotification = true;
 
-            var self = this;
+            let self = this;
             self.messageNotificationInterval = setInterval(() => {
                 self.HideMessageNotification();
             }, self.notificationDelay);
@@ -486,7 +484,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     GetFriendNameById(id: string): string {
-        for (var i = 0; i < this.friends.length; i++) {
+        for (let i = 0; i < this.friends.length; i++) {
             if (this.friends[i]._id == id) {
                 return (this.friends[i].firstName + " " + this.friends[i].lastName);
             }
@@ -496,7 +494,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     GetFriendById(id: string): Friend {
-        for (var i = 0; i < this.friends.length; i++) {
+        for (let i = 0; i < this.friends.length; i++) {
             if (this.friends[i]._id == id) {
                 return this.friends[i];
             }
@@ -616,12 +614,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.isNewFriendsLabel = false;
         this.inputInterval && clearTimeout(this.inputInterval);
 
-        var self = this;
+        let self = this;
 
         // In case the input is not empty.
         if (input && (input = input.trim())) {
             // Recover search results from cache if exists.
-            var cachedUsers = this.GetSearchUsersFromCache(input);
+            let cachedUsers = this.GetSearchUsersFromCache(input);
 
             // In case cached users result found for this query input.
             if (cachedUsers) {
@@ -668,7 +666,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     RemoveUserFromNavbarSearchCache(userId: string) {
         Object.keys(this.searchCache).forEach((searchInput: string) => {
             this.searchCache[searchInput] = this.searchCache[searchInput].filter((user: any) => {
-                var isRemoveUser = (user._id == userId);
+                let isRemoveUser = (user._id == userId);
 
                 if (isRemoveUser && user.originalProfile) {
                     delete this.profilesCache[user.originalProfile];
@@ -727,7 +725,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     InsertResultsImagesToCache(profiles: any) {
-        var self = this;
+        let self = this;
 
         Object.keys(profiles).forEach((profileId: string) => {
             self.profilesCache[profileId] = profiles[profileId];
@@ -735,7 +733,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     GetResultImagesFromCache(results: any) {
-        var self = this;
+        let self = this;
 
         results.forEach((result: any) => {
             if (result.originalProfile && (self.profilesCache[result.originalProfile] != null)) {
@@ -745,7 +743,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     InsertSearchUsersToCache(searchInput: string, results: Array<any>) {
-        var resultsClone: Array<any> = [];
+        let resultsClone: Array<any> = [];
 
         results.forEach((result: any) => {
             resultsClone.push(Object.assign({}, result));
@@ -797,8 +795,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 return 1;
             }
             else {
-                var aName = a.firstName + " " + a.lastName;
-                var bName = b.firstName + " " + b.lastName;
+                let aName = a.firstName + " " + a.lastName;
+                let bName = b.firstName + " " + b.lastName;
 
                 if (aName > bName) {
                     return 1;
@@ -811,7 +809,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     GetFriendUnreadMessagesNumberText(friendId: string) {
-        var friendNotificationsMessages = this.GetToolbarItem("messages").content[friendId];
+        let friendNotificationsMessages = this.GetToolbarItem("messages").content[friendId];
 
         if (friendNotificationsMessages) {
             return "- (" + friendNotificationsMessages.unreadMessagesNumber + ")"
@@ -826,7 +824,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.HideSidenav();
 
         if (!this.chatData.isOpen || !this.chatData.friend || this.chatData.friend._id != friend._id) {
-            var messagesNotifications = Object.assign({}, this.GetToolbarItem("messages").content);
+            let messagesNotifications = Object.assign({}, this.GetToolbarItem("messages").content);
 
             // Empty unread messages notifications from the currend friend.
             this.RemoveFriendMessagesFromToolbarMessages(friend._id);
@@ -875,10 +873,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     AddFriendRequest(friendId: string) {
-        var friendRequests: any = this.GetToolbarItem("friendRequests").content;
+        let friendRequests: any = this.GetToolbarItem("friendRequests").content;
         friendRequests.send.push(friendId);
 
-        var self = this;
+        let self = this;
         self.navbarService.AddFriendRequest(friendId).then((result: any) => {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
@@ -890,10 +888,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     RemoveFriendRequest(friendId: string, isHideMessageText?: boolean) {
-        var friendRequests: any = this.GetToolbarItem("friendRequests").content;
+        let friendRequests: any = this.GetToolbarItem("friendRequests").content;
         friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
 
-        var self = this;
+        let self = this;
         self.navbarService.RemoveFriendRequest(friendId).then((result: any) => {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
@@ -905,10 +903,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     IgnoreFriendRequest(friendId: string, callback?: Function) {
         // Remove the friend request from all friend requests object.
-        var friendRequests: any = this.GetToolbarItem("friendRequests").content;
+        let friendRequests: any = this.GetToolbarItem("friendRequests").content;
         friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
 
-        var self = this;
+        let self = this;
         self.navbarService.IgnoreFriendRequest(friendId).then((result: any) => {
             if (result) {
                 self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
@@ -930,7 +928,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.isShowFriendRequestNotification = true
         }
 
-        var self = this;
+        let self = this;
         self.friendRequestNotificationInterval = setInterval(() => {
             self.isShowFriendRequestNotification = false;
             self.isShowFriendConfirmNotification = false;
@@ -940,7 +938,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     IsShowAddFriendRequestBtn(friendId: string) {
-        var friendRequests: any = this.GetToolbarItem("friendRequests").content;
+        let friendRequests: any = this.GetToolbarItem("friendRequests").content;
 
         return (friendId != this.user._id &&
             this.user.friends.indexOf(friendId) == -1 &&
@@ -949,7 +947,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     IsShowRemoveFriendRequestBtn(friendId: string) {
-        var friendRequests: any = this.GetToolbarItem("friendRequests").content;
+        let friendRequests: any = this.GetToolbarItem("friendRequests").content;
 
         if (friendRequests.send.indexOf(friendId) != -1) {
             return true;
@@ -960,7 +958,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     IsIncomeFriendRequest(friendId: string) {
-        var friendRequests: any = this.GetToolbarItem("friendRequests").content;
+        let friendRequests: any = this.GetToolbarItem("friendRequests").content;
 
         if (friendRequests.get.indexOf(friendId) != -1) {
             return true;
@@ -971,7 +969,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     AddFriendObjectToUser(friend: any) {
-        var userFriends = this.user.friends;
+        let userFriends = this.user.friends;
 
         if (userFriends.indexOf(friend._id) == -1) {
             // Add the friend id to the user's friends array.
@@ -987,14 +985,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.isFriendsLoading = true;
 
         // Remove the friend request from all friend requests object.
-        var friendRequests: any = this.GetToolbarItem("friendRequests").content;
+        let friendRequests: any = this.GetToolbarItem("friendRequests").content;
         friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
 
         // Add the friend id to the user's friends array.
-        var userFriends = this.user.friends;
+        let userFriends = this.user.friends;
         userFriends.push(friendId);
 
-        var self = this;
+        let self = this;
 
         self.navbarService.AddFriend(friendId).then(function (friend: any) {
             self.isFriendsLoading = false;
@@ -1018,7 +1016,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     MakeFriendTyping(friendId: string) {
-        var friendObj: Friend = this.friends.find((friend: Friend) => {
+        let friendObj: Friend = this.friends.find((friend: Friend) => {
             return (friend._id == friendId);
         });
 
@@ -1026,7 +1024,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             friendObj.typingTimer && clearTimeout(friendObj.typingTimer);
             friendObj.isTyping = true;
 
-            var self = this;
+            let self = this;
 
             friendObj.typingTimer = setTimeout(() => {
                 friendObj.isTyping = false;
@@ -1039,7 +1037,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         $("#" + this.searchInputId).focus();
         clearTimeout(this.showNewFriendsLabelTimeout);
         clearTimeout(this.hideNewFriendsLabelTimeout);
-        var self = this;
+        let self = this;
 
         self.showNewFriendsLabelTimeout = setTimeout(() => {
             self.isNewFriendsLabel = true;
@@ -1061,7 +1059,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     GetNotificationsNumber() {
-        var notificationsAmount = 0;
+        let notificationsAmount = 0;
 
         this.toolbarItems.forEach((item: ToolbarItem) => {
             notificationsAmount += item.getNotificationsNumber();
@@ -1078,9 +1076,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
     RemoveFriend(friendId: string) {
         // ---------- Remove friend notifications on friend requests window ----------
 
-        var friendRequestGetIndex = this.GetToolbarItem('friendRequests').content.get.indexOf(friendId);
-        var friendRequestSendIndex = this.GetToolbarItem('friendRequests').content.send.indexOf(friendId);
-        var friendRequestAcceptIndex = this.GetToolbarItem('friendRequests').content.accept.indexOf(friendId);
+        let friendRequestGetIndex = this.GetToolbarItem('friendRequests').content.get.indexOf(friendId);
+        let friendRequestSendIndex = this.GetToolbarItem('friendRequests').content.send.indexOf(friendId);
+        let friendRequestAcceptIndex = this.GetToolbarItem('friendRequests').content.accept.indexOf(friendId);
 
         if (friendRequestGetIndex != -1) {
             this.GetToolbarItem('friendRequests').content.get.splice(friendRequestGetIndex, 1);
@@ -1105,7 +1103,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         delete this.GetToolbarItem('messages').content[friendId];
 
         // Removing friend from user friends ids list.
-        for (var i = 0; i < this.user.friends.length; i++) {
+        for (let i = 0; i < this.user.friends.length; i++) {
             if (this.user.friends[i] == friendId) {
                 this.user.friends.splice(i, 1);
                 break;
@@ -1113,7 +1111,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
 
         // Removing friend from user friends objects list.
-        for (var i = 0; i < this.friends.length; i++) {
+        for (let i = 0; i < this.friends.length; i++) {
             if (this.friends[i]._id == friendId) {
                 this.friends.splice(i, 1);
                 break;
@@ -1122,10 +1120,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     GetResultsIds(results: Array<any>) {
-        var profilesIds: Array<string> = [];
+        let profilesIds: Array<string> = [];
 
         results.forEach((result: any) => {
-            var id: string = result.originalProfile;
+            let id: string = result.originalProfile;
             id && profilesIds.push(id);
         });
 

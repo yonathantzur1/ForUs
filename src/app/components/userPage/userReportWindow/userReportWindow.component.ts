@@ -78,7 +78,7 @@ export class UserReportWindowComponent implements OnInit {
             return true;
         }
         else {
-            for (var i = 0; i < this.reportReasons.length; i++) {
+            for (let i = 0; i < this.reportReasons.length; i++) {
                 if (this.reportReasons[i].isClicked) {
                     return false;
                 }
@@ -103,7 +103,7 @@ export class UserReportWindowComponent implements OnInit {
     }
 
     GetSelectedReasonId() {
-        for (var i = 0; i < this.reportReasons.length; i++) {
+        for (let i = 0; i < this.reportReasons.length; i++) {
             if (this.reportReasons[i].isClicked) {
                 return this.reportReasons[i]._id;
             }
@@ -131,11 +131,11 @@ export class UserReportWindowComponent implements OnInit {
             this.isShowEmptyFieldAlert = true;
         }
         else {
-            var selectedReasonId = this.GetSelectedReasonId();
+            let selectedReasonId = this.GetSelectedReasonId();
             this.userReportWindowService.ReportUser(this.user._id, selectedReasonId, this.reportText).then(result => {
                 if (result) {
                     this.CloseWindow();
-                    var successMsg = "הדיווח שהזנת נשמר בהצלחה, ויבדק על ידי צוות האתר." + "\n" +
+                    let successMsg = "הדיווח שהזנת נשמר בהצלחה, ויבדק על ידי צוות האתר." + "\n" +
                         "תודה שעזרת לשמור על סביבה בטוחה יותר!";
                     this.alertService.Alert({
                         title: "דיווח משתמש",

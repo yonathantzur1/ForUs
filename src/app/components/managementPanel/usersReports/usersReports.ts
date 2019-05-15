@@ -67,18 +67,18 @@ export class UsersReportsComponent implements OnInit {
     }
 
     GetInfoDateString(date: string) {
-        var dateObj = new Date(date);
+        let dateObj = new Date(date);
 
-        var dateString = (dateObj.getDate()) + "/" + (dateObj.getMonth() + 1) + "/" + dateObj.getFullYear();
+        let dateString = (dateObj.getDate()) + "/" + (dateObj.getMonth() + 1) + "/" + dateObj.getFullYear();
 
-        var HH = dateObj.getHours().toString();
-        var mm = dateObj.getMinutes().toString();
+        let HH = dateObj.getHours().toString();
+        let mm = dateObj.getMinutes().toString();
 
         if (mm.length == 1) {
             mm = "0" + mm;
         }
 
-        var timeString = (HH + ":" + mm);
+        let timeString = (HH + ":" + mm);
 
         return (timeString + " - " + dateString);
     }

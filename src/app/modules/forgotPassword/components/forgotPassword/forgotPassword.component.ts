@@ -68,7 +68,7 @@ export class ForgotPasswordComponent implements OnInit {
 
         this.forgotPasswordService.ResetPasswordByToken(this.resetPasswordToken, this.newPassword)
             .then((result: boolean) => {
-                var self = this;
+                let self = this;
 
                 if (result) {
                     self.globalService.CallSocketFunction('LogoutUserSessionServer',

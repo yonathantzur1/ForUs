@@ -5,7 +5,7 @@ import { GlobalService } from '../../../../services/global/global.service';
 import { EventService } from '../../../../services/event/event.service';
 import { SnackbarService } from '../../../../services/snackbar/snackbar.service';
 
-declare var $: any;
+declare let $: any;
 
 @Component({
     selector: 'permissionsCard',
@@ -26,7 +26,7 @@ export class PermissionsCardComponent implements OnDestroy {
         private eventService: EventService,
         public snackbarService: SnackbarService,
         private permissionsCardService: PermissionsCardService) {
-        var self = this;
+        let self = this;
 
         //#region events
         eventService.Register("openPermissionsCard", (user: any) => {
@@ -68,7 +68,7 @@ export class PermissionsCardComponent implements OnDestroy {
     }
 
     CheckPermission(permission: any) {
-        var currentState = permission.isChecked;
+        let currentState = permission.isChecked;
 
         this.permissions.forEach((perm: any) => {
             perm.isChecked = false;

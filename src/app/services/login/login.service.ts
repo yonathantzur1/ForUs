@@ -34,7 +34,7 @@ export class LoginService extends BasicService {
     }
 
     Register(newUser: NewUser) {
-        var details = {
+        let details = {
             "firstName": newUser.firstName,
             "lastName": newUser.lastName,
             "email": newUser.email,
@@ -52,7 +52,7 @@ export class LoginService extends BasicService {
     }
 
     ForgotPasswordRequest(email: string) {
-        var details = { "email": email };
+        let details = { "email": email };
 
         return super.put(this.prefix + '/forgotPasswordRequest', details)
             .toPromise()
@@ -65,7 +65,7 @@ export class LoginService extends BasicService {
     }
 
     ResetPassword(forgotUser: ForgotUser) {
-        var details = {
+        let details = {
             "email": forgotUser.email,
             "code": forgotUser.code,
             "newPassword": forgotUser.newPassword

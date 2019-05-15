@@ -6,7 +6,7 @@ import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service'
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { ProfilePictureService } from '../../../services/profilePicture/profilePicture.service';
 
-declare var $: any;
+declare let $: any;
 
 @Component({
     selector: 'profilePictureEdit',
@@ -31,18 +31,7 @@ export class ProfilePictureEditComponent implements OnInit {
         this.userImage = this.globalService.userProfileImage;
         this.ActiveWindow();
 
-        $("#profile-modal").bind('touchstart', function preventZoom(e: any) {
-            var t2 = e.timeStamp
-                , t1 = $(this).data('lastTouch') || t2
-                , dt = t2 - t1
-                , fingers = e.touches.length;
-            $(this).data('lastTouch', t2);
-            if (!dt || dt > 400 || fingers > 1) return; // not double-tap
-
-            e.preventDefault(); // double tap - prevent the zoom
-            // also synthesize click events we just swallowed up
-            $(this).trigger('click').trigger('click');
-        });
+        $("#profile-modal").bind('touchstart', this.PreventZoom);
     }
 
     options = {
@@ -100,8 +89,8 @@ export class ProfilePictureEditComponent implements OnInit {
             icon: "fas fa-arrows-alt-h",
             title: "היפוך אופקי",
             onClick: function () {
-                var imageData: any = $('#main-img').cropper("getData");
-                var isImageFullRotate = (imageData.rotate % 180 == 0);
+                let imageData: any = $('#main-img').cropper("getData");
+                let isImageFullRotate = (imageData.rotate % 180 == 0);
 
                 // In case the btn is pressed.
                 if (this.isPressed) {
@@ -199,7 +188,7 @@ export class ProfilePictureEditComponent implements OnInit {
     }
 
     ChangeImage() {
-        var isSuccess = this.UploadPhoto(this.options);
+        let isSuccess = this.UploadPhoto(this.options);
 
         if (isSuccess == true) {
             this.ResetAllImageBtnsMode();
@@ -226,10 +215,10 @@ export class ProfilePictureEditComponent implements OnInit {
         // In case the user is not in the select part.
         if (!this.isNewPhoto) {
             this.isLoading = true;
-            var self = this;
+            let self = this;
 
             this.GetCroppedBase64Image().then((img: any) => {
-                var imgBase64 = img[0].currentSrc;
+                let imgBase64 = img[0].currentSrc;
                 self.profilePictureService.SaveImage(imgBase64).then((result: any) => {
                     self.isLoading = false;
 
@@ -266,7 +255,7 @@ export class ProfilePictureEditComponent implements OnInit {
         $("#profile-modal").removeClass("fade");
         $("#profile-modal").modal("hide");
 
-        var self = this;
+        let self = this;
 
         this.alertService.Alert({
             title: "למחוק את התמונה?",
@@ -287,14 +276,14 @@ export class ProfilePictureEditComponent implements OnInit {
     }
 
     UploadPhoto(options: any) {
-        var URL = window.URL;
-        var $image = $('#main-img');
-        var $inputImage = $('#inputImage');
-        var uploadedImageURL;
+        let URL = window.URL;
+        let $image = $('#main-img');
+        let $inputImage = $('#inputImage');
+        let uploadedImageURL;
 
         if (URL) {
-            var files = $inputImage[0].files;
-            var file;
+            let files = $inputImage[0].files;
+            let file;
 
             if (!$image.data('cropper')) {
                 return null;
@@ -334,11 +323,11 @@ export class ProfilePictureEditComponent implements OnInit {
     }
 
     ResizeBase64Img(base64: any, width: any, height: any) {
-        var canvas = document.createElement("canvas");
+        let canvas = document.createElement("canvas");
         canvas.width = width;
         canvas.height = height;
-        var context = canvas.getContext("2d");
-        var deferred = $.Deferred();
+        let context = canvas.getContext("2d");
+        let deferred = $.Deferred();
 
         $("<img/>").attr("src", base64).on('load', function () {
             context.scale(width / this.width, height / this.height);
@@ -347,6 +336,22 @@ export class ProfilePictureEditComponent implements OnInit {
         });
 
         return deferred.promise();
+    }
+
+    PreventZoom(e: any) {
+        let t2 = e.timeStamp
+        let t1 = $(this).data('lastTouch') || t2
+        let dt = t2 - t1
+        let fingers = e.touches.length;
+        $(this).data('lastTouch', t2);
+
+        if (!dt || dt > 400 || fingers > 1) {
+            return; // not double-tap
+        }
+
+        e.preventDefault(); // double tap - prevent the zoom
+        // also synthesize click events we just swallowed up
+        $(this).trigger('click').trigger('click');
     }
 
     @HostListener('document:keyup', ['$event'])

@@ -8,9 +8,9 @@ import { EmptyProfile } from '../../pictures/empty-profile';
 
 import { PERMISSION } from '../../enums/enums';
 
-declare var io: any;
-declare var $: any;
-declare var jQuery: any;
+declare let io: any;
+declare let $: any;
+declare let jQuery: any;
 
 @Injectable()
 export class GlobalService extends LoginService {
@@ -32,7 +32,7 @@ export class GlobalService extends LoginService {
 
         // Close modal when click back on browser.
         $(window).on('popstate', function () {
-            var modalObj = $(".modal");
+            let modalObj = $(".modal");
             if (modalObj.length > 0) {
                 modalObj.modal("hide");
             }
@@ -53,18 +53,18 @@ export class GlobalService extends LoginService {
         this.isTouchDevice = (('ontouchstart' in window || navigator.maxTouchPoints) ? true : false);
 
         // Global variables and functions
-        var globalObject = this.globalObject = {
+        let globalObject = this.globalObject = {
             days: ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"],
             months: ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני", "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"],
             shortMonths: ["ינו'", "פבר'", "מרץ", "אפר'", "מאי", "יונ'", "יול'", "אוג'", "ספט'", "אוק'", "נוב'", "דצמ'"],
             GetDateDetailsString: (localDate: Date, currDate: Date, isShortMonths?: boolean) => {
                 currDate.setHours(23, 59, 59, 999);
 
-                var timeDiff = Math.abs(currDate.getTime() - localDate.getTime());
-                var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-                var datesDaysDiff = Math.abs(currDate.getDay() - localDate.getDay());
+                let timeDiff = Math.abs(currDate.getTime() - localDate.getTime());
+                let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                let datesDaysDiff = Math.abs(currDate.getDay() - localDate.getDay());
 
-                var dateDetailsString = "";
+                let dateDetailsString = "";
 
                 if (diffDays <= 7) {
                     if (diffDays <= 2) {
@@ -85,7 +85,7 @@ export class GlobalService extends LoginService {
                 else {
                     // In case of the same year or different years but for the first half of year.
                     if (localDate.getFullYear() == currDate.getFullYear() || diffDays < (365 / 2)) {
-                        var monthString = isShortMonths ? globalObject.shortMonths[localDate.getMonth()] : globalObject.months[localDate.getMonth()];
+                        let monthString = isShortMonths ? globalObject.shortMonths[localDate.getMonth()] : globalObject.months[localDate.getMonth()];
                         dateDetailsString = (localDate.getDate()) + " ב" + monthString;
                     }
                     else {
@@ -107,7 +107,7 @@ export class GlobalService extends LoginService {
             this.socket = io();
             super.UpdateLastLogin();
 
-            var self = this;
+            let self = this;
             super.GetUserPermissions().then((result) => {
                 result && (self.userPermissions = result);
             });
@@ -137,7 +137,7 @@ export class GlobalService extends LoginService {
     }
 
     ConvertArrayToString(params: Array<any>): string {
-        var paramsString = "";
+        let paramsString = "";
 
         if (!params || params.length == 0) {
             return null;

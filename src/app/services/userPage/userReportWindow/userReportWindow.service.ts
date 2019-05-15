@@ -16,7 +16,7 @@ export class UserReportWindowService extends BasicService {
     }
 
     ReportUser(reportedUserId: string, reasonId: string, reasonDetails: string) {
-        var data = { reportedUserId, reasonId, reasonDetails };
+        let data = { reportedUserId, reasonId, reasonDetails };
 
         return super.post(this.prefix + '/reportUser', data)
             .toPromise()

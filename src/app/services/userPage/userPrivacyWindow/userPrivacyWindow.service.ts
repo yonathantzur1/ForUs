@@ -16,7 +16,7 @@ export class UserPrivacyWindowService extends BasicService {
     }
 
     SetUserPrivacy(isPrivate: boolean) {
-        var details = { isPrivate };
+        let details = { isPrivate };
 
         return super.put(this.prefix + '/setUserPrivacy', details)
             .toPromise()

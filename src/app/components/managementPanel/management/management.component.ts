@@ -8,7 +8,7 @@ import { EventService } from '../../../services/event/event.service';
 import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 
-declare var $: any;
+declare let $: any;
 
 @Component({
     selector: 'management',
@@ -40,7 +40,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
         public alertService: AlertService,
         public snackbarService: SnackbarService) {
 
-        var self = this;
+        let self = this;
 
         //#region events
         eventService.Register("closeDropMenu", () => {
@@ -50,7 +50,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
         self.dropMenuDataList = [
             new DropMenuData(null, "עריכה", () => {
-                var user = self.GetUserWithOpenMenu();
+                let user = self.GetUserWithOpenMenu();
                 user.editObj = {}
                 user.editObj.firstName = user.firstName;
                 user.editObj.lastName = user.lastName;
@@ -59,7 +59,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                 user.isEditScreenOpen = true;
             }),
             new DropMenuData(null, "חסימה", () => {
-                var user = self.GetUserWithOpenMenu();
+                let user = self.GetUserWithOpenMenu();
 
                 user.blockAmount = {
                     days: 0,
@@ -70,7 +70,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
                 user.isBlockScreenOpen = true;
             }, () => {
-                var user = self.GetUserWithOpenMenu();
+                let user = self.GetUserWithOpenMenu();
 
                 // Show only if the user is not already blocked.
                 if (!user) {
@@ -81,10 +81,10 @@ export class ManagementComponent implements OnInit, OnDestroy {
                 }
             }),
             new DropMenuData(null, "ביטול חסימה", () => {
-                var user = self.GetUserWithOpenMenu();
+                let user = self.GetUserWithOpenMenu();
                 self.UnblockUser(user);
             }, () => {
-                var user = self.GetUserWithOpenMenu();
+                let user = self.GetUserWithOpenMenu();
 
                 // Show only if the user is not already blocked.
                 if (!user) {
@@ -100,7 +100,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                 return (self.globalService.IsUserHasMasterPermission());
             }),
             new DropMenuData(null, "מחיקת משתמש", () => {
-                var user = self.GetUserWithOpenMenu();
+                let user = self.GetUserWithOpenMenu();
                 self.DeleteUser(user);
             }, () => {
                 return (self.globalService.IsUserHasMasterPermission());
@@ -185,18 +185,18 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     GetInfoDateString(date: string) {
-        var dateObj = new Date(date);
+        let dateObj = new Date(date);
 
-        var dateString = (dateObj.getDate()) + "/" + (dateObj.getMonth() + 1) + "/" + dateObj.getFullYear();
+        let dateString = (dateObj.getDate()) + "/" + (dateObj.getMonth() + 1) + "/" + dateObj.getFullYear();
 
-        var HH = dateObj.getHours().toString();
-        var mm = dateObj.getMinutes().toString();
+        let HH = dateObj.getHours().toString();
+        let mm = dateObj.getMinutes().toString();
 
         if (mm.length == 1) {
             mm = "0" + mm;
         }
 
-        var timeString = (HH + ":" + mm);
+        let timeString = (HH + ":" + mm);
 
         return (dateString + " - " + timeString);
     }
@@ -208,7 +208,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
             user.isFriendsScreenOpen = true;
 
             if (!user.isFriendsObjectsLoaded) {
-                var noneCachedFriendsIds = this.GetNoneCachedFriendsIds(user.friends);
+                let noneCachedFriendsIds = this.GetNoneCachedFriendsIds(user.friends);
 
                 if (noneCachedFriendsIds.length > 0) {
                     this.managementService.GetUserFriends(noneCachedFriendsIds).then((friends: any) => {
@@ -227,7 +227,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     GetNoneCachedFriendsIds(friendsIds: Array<string>): Array<string> {
-        var self = this;
+        let self = this;
 
         return friendsIds.filter(id => {
             return (self.friendsCache[id] == null);
@@ -235,9 +235,9 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     GetFriendsObjectsFromIds(friendsIds: Array<string>, friendSearchInput: string) {
-        var self = this;
+        let self = this;
 
-        var friends = friendsIds.map(id => {
+        let friends = friendsIds.map(id => {
             return self.friendsCache[id];
         });
 
@@ -254,7 +254,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     IsDisableSaveEdit(user: any) {
-        var editObj = user.editObj;
+        let editObj = user.editObj;
 
         if (!editObj.firstName || !editObj.lastName || !editObj.email) {
             return true;
@@ -268,7 +268,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     IsDisableSaveBlocking(user: any) {
-        var blockAmount = user.blockAmount;
+        let blockAmount = user.blockAmount;
 
         return (!user.blockReason ||
             (blockAmount.forever == false &&
@@ -278,7 +278,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     OpenUserMenu(user: any) {
-        var isOpen = !user.isMenuOpen;
+        let isOpen = !user.isMenuOpen;
         this.CloseAllUsersMenu();
         user.isMenuOpen = isOpen;
     }
@@ -289,8 +289,8 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
     SaveChanges(user: any) {
         if (user.isEditScreenOpen && !this.IsDisableSaveEdit(user)) {
-            var editObj = user.editObj;
-            var updatedFields = { "_id": user._id };
+            let editObj = user.editObj;
+            let updatedFields = { "_id": user._id };
 
             if (editObj.firstName.trim() != user.firstName) {
                 updatedFields["firstName"] = editObj.firstName.trim();
@@ -336,7 +336,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
             });
         }
         else if (user.isBlockScreenOpen && !this.IsDisableSaveBlocking(user)) {
-            var blockObj = {
+            let blockObj = {
                 "_id": user._id,
                 "blockReason": user.blockReason,
                 "blockAmount": user.blockAmount
@@ -352,7 +352,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                     this.ReturnMainCard(user);
                     this.snackbarService.Snackbar("חסימת המשתמש בוצעה בהצלחה");
 
-                    var blockUserMsg = "חשבון זה נחסם" + "\n\n" +
+                    let blockUserMsg = "חשבון זה נחסם" + "\n\n" +
                         "<b>סיבה: </b>" + user.block.reason + "\n" +
                         "<b>עד תאריך: </b>" +
                         (user.block.unblockDate ? this.ConvertDateFormat(user.block.unblockDate) : "בלתי מוגבל");
@@ -370,7 +370,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
     UnblockUser(user: any) {
         this.CloseAllUsersMenu();
-        var self = this;
+        let self = this;
 
         self.alertService.Alert({
             title: "ביטול חסימה - " + user.firstName + " " + user.lastName,
@@ -403,7 +403,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     GetUserWithOpenMenu() {
-        for (var i = 0; i < this.users.length; i++) {
+        for (let i = 0; i < this.users.length; i++) {
             if (this.users[i].isMenuOpen) {
                 this.users[i].index = i;
                 return this.users[i];
@@ -425,7 +425,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     RemoveFriends(user: any, friend: any) {
-        var self = this;
+        let self = this;
 
         self.alertService.Alert({
             title: "הסרת חברות",
@@ -435,9 +435,9 @@ export class ManagementComponent implements OnInit, OnDestroy {
             confirmFunc: function () {
                 self.managementService.RemoveFriends(user._id, friend._id).then((result: any) => {
                     if (result) {
-                        var index = null;
+                        let index = null;
 
-                        for (var i = 0; i < user.friends.length; i++) {
+                        for (let i = 0; i < user.friends.length; i++) {
                             if (user.friends[i] == friend._id) {
                                 index = i;
                                 break;
@@ -449,7 +449,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                             self.snackbarService.Snackbar("מחיקת החברות בוצעה בהצלחה");
                         }
 
-                        var logoutMsg = "נותקת מהאתר, יש להתחבר מחדש.";
+                        let logoutMsg = "נותקת מהאתר, יש להתחבר מחדש.";
                         self.globalService.socket.emit("LogoutUserSessionServer", user._id, logoutMsg);
                         self.globalService.socket.emit("LogoutUserSessionServer", friend._id, logoutMsg);
                     }
@@ -462,7 +462,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     DeleteUser(user: any) {
-        var self = this;
+        let self = this;
 
         self.alertService.Alert({
             title: "מחיקת משתמש",
@@ -474,7 +474,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                         self.snackbarService.Snackbar("מחיקת המשתמש בוצעה בהצלחה");
 
                         // Logout the user from the system.
-                        var logoutMsg = "חשבונך נמחק מהמערכת לצמיתות. \nלפרטים נוספים, פנה להנהלת האתר.";
+                        let logoutMsg = "חשבונך נמחק מהמערכת לצמיתות. \nלפרטים נוספים, פנה להנהלת האתר.";
                         self.globalService.socket.emit("LogoutUserSessionServer", user._id, logoutMsg);
 
                         // Remove user from users search list.
@@ -495,13 +495,13 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
     @HostListener('document:click', ['$event'])
     ComponentClick(event: any) {
-        var userWithOpenMenu = this.GetUserWithOpenMenu();
-        var isMenuClick;
+        let userWithOpenMenu = this.GetUserWithOpenMenu();
+        let isMenuClick;
 
         if (userWithOpenMenu) {
             isMenuClick = false;
 
-            for (var i = 0; i < event.path.length; i++) {
+            for (let i = 0; i < event.path.length; i++) {
                 if (event.path[i].id == this.userSettingsIconId) {
                     isMenuClick = true;
                     break;

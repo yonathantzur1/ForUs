@@ -26,7 +26,7 @@ export class PermissionsCardService extends BasicService {
     }
 
     UpdatePermissions(userId: string, permissions: Array<any>) {
-        var data = { userId, permissions }
+        let data = { userId, permissions }
         return super.put(this.prefix + '/updatePermissions', data)
             .toPromise()
             .then((result: any) => {

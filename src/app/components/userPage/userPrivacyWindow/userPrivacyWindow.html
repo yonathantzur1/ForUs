@@ -7,12 +7,14 @@
                 הגדרות פרטיות
             </div>
             <div class="info-text">
-                ההגדרה משתמש פרטי, מהווה התאמה של ההגדרות שלך כדי לוודא שהתוכן שמופרסם על ידך, משותף עם חברייך בלבד.<br><br>
+                ההגדרה משתמש פרטי, מהווה התאמה של ההגדרות שלך כדי לוודא שהתוכן שמופרסם על ידך, משותף עם חברייך
+                בלבד.<br><br>
                 לאחר הפעלת הגדרה זו, רק חברייך יוכלו לחפש אותך, להיכנס לדף הפרופיל האישי שלך ולצפות במידע המופרסם
                 על ידך.
             </div>
             <div class="sector-line"></div>
-            <loaderDots *ngIf="isLoading" css='{"font-size": "12px", "position": "absolute", "bottom": "5px"}'></loaderDots>
+            <loaderDots *ngIf="isLoading" css='{"font-size": "12px", "position": "absolute", "bottom": "5px"}'>
+            </loaderDots>
             <div class="switch-container" *ngIf="!isLoading">
                 <span class="switch-text">משתמש פרטי</span>
                 <label class="switch">
@@ -21,7 +23,8 @@
                 </label>
                 <span class="switch-status-text">- {{isUserPrivate ? "פעיל" : "כבוי"}}</span>
             </div>
-            <i class="material-icons icon bottom-icon next-icon" [ngClass]="{'disabled-icon': isLoading}" (click)="SavePrivacyStatus()">arrow_back</i>
+            <i class="material-icons icon bottom-icon next-icon" [ngClass]="{'disabled-icon': isLoading}"
+                (click)="SavePrivacyStatus()">arrow_back</i>
         </div>
     </div>
 </div>

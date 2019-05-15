@@ -10,7 +10,7 @@ import { LoginService } from '../../services/login/login.service';
 
 import { UserRegexp } from '../../regex/regexpEnums'
 
-declare var $: any;
+declare let $: any;
 
 export class User {
   email: string = "";
@@ -72,7 +72,7 @@ export class LoginComponent {
     },
     {
       isFieldValid(user: User, userRegexp: any) {
-        var emailPattern = userRegexp.email;
+        let emailPattern = userRegexp.email;
         return (emailPattern.test(user.email));
       },
       errMsg: "כתובת אימייל לא תקינה",
@@ -101,7 +101,7 @@ export class LoginComponent {
     },
     {
       isFieldValid(newUser: NewUser, userRegexp: any) {
-        var namePattern = userRegexp.name;
+        let namePattern = userRegexp.name;
         return (namePattern.test(newUser.firstName));
       },
       errMsg: "יש להזין שם תקין בעברית",
@@ -118,7 +118,7 @@ export class LoginComponent {
     },
     {
       isFieldValid(newUser: NewUser, userRegexp: any) {
-        var namePattern = userRegexp.name;
+        let namePattern = userRegexp.name;
         return (namePattern.test(newUser.lastName));
       },
       errMsg: "יש להזין שם תקין בעברית",
@@ -135,7 +135,7 @@ export class LoginComponent {
     },
     {
       isFieldValid(newUser: NewUser, userRegexp: any) {
-        var emailPattern = userRegexp.email;
+        let emailPattern = userRegexp.email;
 
         return (emailPattern.test(newUser.email));
       },
@@ -165,7 +165,7 @@ export class LoginComponent {
     },
     {
       isFieldValid(forgotUser: ForgotUser, userRegexp: any) {
-        var emailPattern = userRegexp.email;
+        let emailPattern = userRegexp.email;
 
         return (emailPattern.test(forgotUser.email));
       },
@@ -208,7 +208,7 @@ export class LoginComponent {
     public snackbarService: SnackbarService,
     private microtextService: MicrotextService,
     public globalService: GlobalService,
-    private loginService: LoginService    ) { }
+    private loginService: LoginService) { }
 
   // Running on the array of validation functions and make sure all valid.
   // Getting validation array and object to valid.
@@ -223,10 +223,10 @@ export class LoginComponent {
     // In case the login fields are valid.
     if (this.Validation(this.loginValidationFuncs, this.user, UserRegexp)) {
       this.isLoading = true;
-      var self = this;
+      let self = this;
 
       this.loginService.Login(this.user).then((data: any) => {
-        var result = data ? data.result : null;
+        let result = data ? data.result : null;
         this.isLoading = false;
 
         // In case of server error.
@@ -247,7 +247,7 @@ export class LoginComponent {
             cancelBtnText: "לא",
             confirmFunc: function () {
               $("#register-modal").modal("show");
-              var userEmail = self.user.email;
+              let userEmail = self.user.email;
               self.OpenModal();
               self.newUser.email = userEmail;
             }
@@ -290,7 +290,7 @@ export class LoginComponent {
       this.isLoading = true;
 
       this.loginService.Register(this.newUser).then((data: any) => {
-        var result = data ? data.result : null;
+        let result = data ? data.result : null;
         this.isLoading = false;
 
         // In case of server error.
@@ -321,7 +321,7 @@ export class LoginComponent {
       // In case the user is in the first stage of reset password.
       if (this.forgotUser.showResetCodeField == false) {
         this.loginService.ForgotPasswordRequest(this.forgotUser.email).then((data: any) => {
-          var result = data ? data.result : null;
+          let result = data ? data.result : null;
           this.isLoading = false;
 
           // In case of server error.
@@ -344,7 +344,7 @@ export class LoginComponent {
       // In case the user is in the second stage of reset password.
       else {
         this.loginService.ResetPassword(this.forgotUser).then((data: any) => {
-          var result = data ? data.result : null;
+          let result = data ? data.result : null;
           this.isLoading = false;
 
           // In case of server error.
@@ -375,7 +375,7 @@ export class LoginComponent {
           else {
             $("#forgot-modal").modal('hide');
 
-            var self = this;
+            let self = this;
 
             self.globalService.CallSocketFunction('LogoutUserSessionServer',
               [null, "תוקף הסיסמא פג, יש להתחבר מחדש"]);
@@ -403,7 +403,7 @@ export class LoginComponent {
   }
 
   // Open modal and clear all.
-  OpenModal() {    
+  OpenModal() {
     this.newUser = new NewUser();
     this.forgotUser = new ForgotUser();
     $(".microtext").html("");
@@ -444,7 +444,7 @@ export class LoginComponent {
   // Check if object is in array.
   IsInArray(array: any[], value: any): boolean {
     // Running on all the array.
-    for (var i = 0; i < array.length; i++) {
+    for (let i = 0; i < array.length; i++) {
       // In case the value is in the array.
       if (array[i] === value) {
         return true;

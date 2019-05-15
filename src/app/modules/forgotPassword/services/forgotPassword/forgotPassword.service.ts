@@ -15,7 +15,7 @@ export class ForgotPasswordService extends BasicService {
     }
 
     ResetPasswordByToken(token: string, newPassword: string) {
-        var details = {
+        let details = {
             token,
             newPassword
         };

@@ -5,12 +5,12 @@ export class InputFieldValidation {
     inputId: string;
 }
 
-declare var $: any;
+declare let $: any;
 
 export class MicrotextService {
 
     Validation(validations: Array<InputFieldValidation>, obj: any, regexp?: any): boolean {
-        var regexpPatterns = {};
+        let regexpPatterns = {};
         // Convert strings to regex patterns in case regex was sent.
         if (regexp) {
             Object.keys(regexp).forEach((key: string) => {
@@ -18,11 +18,11 @@ export class MicrotextService {
             });
         }
 
-        var isValid = true;
-        var checkedFieldsIds: Array<any> = [];
+        let isValid = true;
+        let checkedFieldsIds: Array<any> = [];
 
         // Running on all validation functions.
-        for (var i = 0; i < validations.length; i++) {
+        for (let i = 0; i < validations.length; i++) {
             // In case the field was not invalid before.
             if (!this.IsInArray(checkedFieldsIds, validations[i].fieldId)) {
                 // In case the field is not valid.
@@ -56,7 +56,7 @@ export class MicrotextService {
     // Check if object is in array.
     IsInArray(array: any[], value: any): boolean {
         // Running on all the array.
-        for (var i = 0; i < array.length; i++) {
+        for (let i = 0; i < array.length; i++) {
             // In case the value is in the array.
             if (array[i] === value) {
                 return true;

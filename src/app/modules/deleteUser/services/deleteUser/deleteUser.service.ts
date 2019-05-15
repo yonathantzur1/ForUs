@@ -15,7 +15,7 @@ export class DeleteUserService extends BasicService {
     }
 
     DeleteAccount(token: string, password: string) {
-        var details = {
+        let details = {
             token,
             password
         };

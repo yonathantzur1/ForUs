@@ -11,7 +11,7 @@ export class StatisticsService extends BasicService {
         datesRange: Object,
         clientTimeZone: number,
         email: string) {
-        var data = {
+        let data = {
             logType,
             range,
             datesRange,

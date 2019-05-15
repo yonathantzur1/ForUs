@@ -33,7 +33,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         public globalService: GlobalService,
         private eventService: EventService,
         private searchPageService: SearchPageService) {
-        var self = this;
+        let self = this;
 
         //#region events
         eventService.Register("ignoreFriendRequest", (userId: string) => {
@@ -51,7 +51,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        var errorJson = {
+        let errorJson = {
             title: "שגיאה",
             text: "אופס... שגיאה בטעינת הדף",
             showCancelButton: false,
@@ -74,7 +74,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
                             this.isLoading = false;
                             if (users) {
                                 users.forEach((user: any) => {
-                                    var userId = user._id;
+                                    let userId = user._id;
 
                                     // In case the result user and the current user are friends.
                                     if (friendsStatus.friends.indexOf(userId) != -1) {
@@ -111,7 +111,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
             }
         });
 
-        var self = this;
+        let self = this;
 
         self.globalService.SocketOn('ClientAddFriend', function (friend: any) {
             self.SetUserFriendStatus(friend._id, "isFriend");
@@ -139,7 +139,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 
         // In case the user set private user.
         self.globalService.SocketOn('UserSetToPrivate', function (userId: string) {
-            var user = self.GetUserById(userId);
+            let user = self.GetUserById(userId);
 
             if (userId != self.GetCurrentUserId() && !user.isFriend) {
                 self.RemoveUserFromUsers(userId);
@@ -158,8 +158,8 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     }
 
     GetUserById(userId: string): any {
-        for (var i = 0; i < this.users.length; i++) {
-            var user = this.users[i];
+        for (let i = 0; i < this.users.length; i++) {
+            let user = this.users[i];
 
             if (user._id == userId) {
                 return user;
@@ -174,7 +174,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     }
 
     SetUserFriendStatus(userId: string, statusName: string) {
-        var user = this.GetUserById(userId);
+        let user = this.GetUserById(userId);
 
         if (user) {
             this.ResetUserFriendStatus(user);
@@ -183,7 +183,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     }
 
     UnsetUserFriendStatus(userId: string, statusName: string) {
-        var user = this.GetUserById(userId);
+        let user = this.GetUserById(userId);
 
         if (user) {
             user[statusName] = false;

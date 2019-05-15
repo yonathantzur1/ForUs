@@ -5,7 +5,7 @@ export class ChatService extends BasicService {
     prefix = "/api/chat";
 
     GetChat(idsArray: Array<string>) {
-        var details = { "membersIds": idsArray };
+        let details = { "membersIds": idsArray };
 
         return super.post(this.prefix + '/getChat', details)
             .toPromise()
@@ -18,7 +18,7 @@ export class ChatService extends BasicService {
     }
 
     GetChatPage(idsArray: Array<string>, currMessagesNum: number, totalMessagesNum: number) {
-        var details = { "membersIds": idsArray, currMessagesNum, totalMessagesNum };
+        let details = { "membersIds": idsArray, currMessagesNum, totalMessagesNum };
 
         return super.post(this.prefix + '/getChatPage', details)
             .toPromise()

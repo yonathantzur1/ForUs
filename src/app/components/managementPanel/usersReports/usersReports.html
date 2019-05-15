@@ -4,7 +4,8 @@
         <i class="fas fa-flag-checkered title-icon"></i>
     </div>
     <div class="reports-container">
-        <loaderDots *ngIf="isLoading" css='{"text-align": "center", "width": "100%", "position": "absolute", "top": "20px"}'></loaderDots>
+        <loaderDots *ngIf="isLoading"
+            css='{"text-align": "center", "width": "100%", "position": "absolute", "top": "20px"}'></loaderDots>
         <div class="not-found-reports-sector" *ngIf="!isLoading && (!reports || reports.length == 0)">
             <i class="far fa-times-circle" style="font-size:70px;"></i>
             <div style="font-size:40px;">
@@ -13,8 +14,10 @@
         </div>
         <div class="report-card" *ngFor="let report of reports">
             <div [ngSwitch]="report.status">
-                <div *ngSwitchCase="userReportStatus.ACTIVE" title="פעיל" class="report-status report-status-green"></div>
-                <div *ngSwitchCase="userReportStatus.TAKEN" title="בטיפול" class="report-status report-status-yellow"></div>
+                <div *ngSwitchCase="userReportStatus.ACTIVE" title="פעיל" class="report-status report-status-green">
+                </div>
+                <div *ngSwitchCase="userReportStatus.TAKEN" title="בטיפול" class="report-status report-status-yellow">
+                </div>
                 <div *ngSwitchCase="userReportStatus.CLOSE" title="סגור" class="report-status report-status-red"></div>
             </div>
             <div class="report-group">
@@ -32,7 +35,8 @@
             </div>
             <div class="report-group users-details-container">
                 <span class="line"></span>
-                <span (click)="MoveToUserPage(report.reportingUser)" [ngClass]="{'user-name-btn' : report.reportingUser}">
+                <span (click)="MoveToUserPage(report.reportingUser)"
+                    [ngClass]="{'user-name-btn' : report.reportingUser}">
                     {{report.reportingUser ? report.reportingUser.fullName : "(משתמש מחוק)"}}
                 </span>
                 <i class="fas fa-arrow-left names-arrow-icon"></i>

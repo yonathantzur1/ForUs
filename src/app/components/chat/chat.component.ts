@@ -20,9 +20,9 @@ export class CanvasTopIcon {
     onClick: Function;
 }
 
-declare var $: any;
-declare var window: any;
-declare var loadImage: any;
+declare let $: any;
+declare let window: any;
+declare let loadImage: any;
 
 @Component({
     selector: 'chat',
@@ -85,7 +85,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         public globalService: GlobalService,
         private eventService: EventService) {
 
-        var self = this;
+        let self = this;
 
         //#region events
         eventService.Register("setChatData", (chatData: any) => {
@@ -142,7 +142,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                     self.undoArray.pop();
 
                     if (self.undoArray.length > 0) {
-                        var image = new Image;
+                        let image = new Image;
                         image.src = self.undoArray[self.undoArray.length - 1];
 
                         image.onload = function () {
@@ -181,7 +181,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     ngOnInit() {
-        var self = this;
+        let self = this;
 
         self.globalService.SocketOn('GetMessage', function (msgData: any) {
             if (msgData.from == self.chatData.friend._id) {
@@ -233,8 +233,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 e.preventDefault();
                 e.stopPropagation()
                 self.mousePos = self.GetTouchPos(self.canvas, e);
-                var touch = e.touches[0];
-                var mouseEvent = new MouseEvent("mousedown", {
+                let touch = e.touches[0];
+                let mouseEvent = new MouseEvent("mousedown", {
                     clientX: touch.clientX,
                     clientY: touch.clientY
                 });
@@ -243,14 +243,14 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             "touchend": function (e: any) {
                 e.preventDefault();
                 e.stopPropagation()
-                var mouseEvent = new MouseEvent("mouseup", {});
+                let mouseEvent = new MouseEvent("mouseup", {});
                 self.canvas.dispatchEvent(mouseEvent);
             },
             "touchmove": function (e: any) {
                 e.preventDefault();
                 e.stopPropagation()
-                var touch = e.touches[0];
-                var mouseEvent = new MouseEvent("mousemove", {
+                let touch = e.touches[0];
+                let mouseEvent = new MouseEvent("mousemove", {
                     clientX: touch.clientX,
                     clientY: touch.clientY
                 });
@@ -262,14 +262,14 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             self.canvas.addEventListener(key, self.canvasEvents[key], false);
         });
 
-        $("#canvas-top-bar-sector").bind('touchstart', preventZoom);
-        $("#canvas-bar-sector").bind('touchstart', preventZoom);
+        $("#canvas-top-bar-sector").bind('touchstart', self.PreventZoom);
+        $("#canvas-bar-sector").bind('touchstart', self.PreventZoom);
 
         self.CanvasResizeFunc = function () {
-            var image = new Image;
+            let image = new Image;
             image.src = self.canvas.toDataURL();
 
-            var canvasContainer = document.getElementById("canvas-body-sector");
+            let canvasContainer = document.getElementById("canvas-body-sector");
             self.canvas.width = canvasContainer.offsetWidth;
             self.canvas.height = canvasContainer.offsetHeight;
 
@@ -303,7 +303,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     ngOnDestroy() {
-        var self = this;
+        let self = this;
 
         self.eventService.UnsubscribeEvents(self.eventsIds);
 
@@ -311,8 +311,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             self.canvas.removeEventListener(key, self.canvasEvents[key], false);
         });
 
-        $("#canvas-top-bar-sector").unbind('touchstart', preventZoom);
-        $("#canvas-bar-sector").unbind('touchstart', preventZoom);
+        $("#canvas-top-bar-sector").unbind('touchstart', self.PreventZoom);
+        $("#canvas-bar-sector").unbind('touchstart', self.PreventZoom);
 
         window.removeEventListener("resize", self.CanvasResizeFunc);
 
@@ -351,7 +351,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.messages = chat.messages;
                 this.totalMessagesNum = chat.totalMessagesNum;
 
-                var chatBodySectorElement = $("#chat-body-sector");
+                let chatBodySectorElement = $("#chat-body-sector");
 
                 if (chatBodySectorElement && chatBodySectorElement.length > 0) {
                     chatBodySectorElement[0].removeEventListener("scroll", this.ChatScrollTopFunc.bind(this));
@@ -378,7 +378,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             this.msghInput = this.msghInput.trim();
 
             if (this.msghInput) {
-                var msgData = {
+                let msgData = {
                     "from": this.chatData.user._id,
                     "to": this.chatData.friend._id,
                     "text": this.msghInput,
@@ -414,10 +414,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     GetTimeString(date: Date) {
-        var localDate = new Date(date);
+        let localDate = new Date(date);
 
-        var HH = localDate.getHours().toString();
-        var mm = localDate.getMinutes().toString();
+        let HH = localDate.getHours().toString();
+        let mm = localDate.getMinutes().toString();
 
         if (mm.length == 1) {
             mm = "0" + mm;
@@ -427,7 +427,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     IsShowUnreadLine(msgFromId: string, msgId: string, msgIndex: number) {
-        var friendMessagesNotifications = this.chatData.messagesNotifications[msgFromId];
+        let friendMessagesNotifications = this.chatData.messagesNotifications[msgFromId];
 
         if (this.isAllowShowUnreadLine &&
             friendMessagesNotifications &&
@@ -453,8 +453,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     IsShowDateBubble(index: number) {
         if (index > 0) {
-            var currMessageDate = new Date(this.messages[index].time);
-            var beforeMessageDate = new Date(this.messages[index - 1].time);
+            let currMessageDate = new Date(this.messages[index].time);
+            let beforeMessageDate = new Date(this.messages[index - 1].time);
 
             if (currMessageDate.getDate() != beforeMessageDate.getDate() ||
                 currMessageDate.getMonth() != beforeMessageDate.getMonth() ||
@@ -476,7 +476,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     GetTopIconById(id: string): TopIcon {
-        for (var i = 0; i < this.topIcons.length; i++) {
+        for (let i = 0; i < this.topIcons.length; i++) {
             if (this.topIcons[i].id == id) {
                 return this.topIcons[i];
             }
@@ -496,7 +496,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     InitializeCanvas() {
         this.canvas = document.getElementById("sig-canvas");
         this.canvasTopBar = document.getElementById("canvas-top-bar-sector");
-        var canvasContainer = document.getElementById("canvas-body-sector");
+        let canvasContainer = document.getElementById("canvas-body-sector");
         this.canvas.width = canvasContainer.offsetWidth;
         this.canvas.height = canvasContainer.offsetHeight;
         this.ctx = this.canvas.getContext("2d");
@@ -514,7 +514,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     // Get the position of the mouse relative to the canvas
     GetMousePos(canvasDom: any, mouseEvent: any) {
-        var rect = canvasDom.getBoundingClientRect();
+        let rect = canvasDom.getBoundingClientRect();
         return {
             x: mouseEvent.clientX - rect.left,
             y: mouseEvent.clientY - rect.top
@@ -523,7 +523,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     RenderCanvas() {
         if (this.drawing) {
-            var offset = $("#sig-canvas").offset();
+            let offset = $("#sig-canvas").offset();
             this.ctx.moveTo(this.lastPos.x - offset.left, this.lastPos.y);
             this.ctx.lineTo(this.mousePos.x - offset.left, this.mousePos.y);
             this.ctx.stroke();
@@ -534,7 +534,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     // Get the position of a touch relative to the canvas
     GetTouchPos(canvasDom: any, touchEvent: any) {
-        var rect = canvasDom.getBoundingClientRect();
+        let rect = canvasDom.getBoundingClientRect();
         return {
             x: touchEvent.touches[0].clientX - rect.left,
             y: touchEvent.touches[0].clientY - rect.top
@@ -548,11 +548,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     SendCanvas() {
         if (!this.isMessagesLoading && !this.isCanvasEmpty) {
-            var imageBase64 = this.canvas.toDataURL();
+            let imageBase64 = this.canvas.toDataURL();
             this.InitializeCanvas();
             this.SelectTopIcon(this.GetTopIconById("chat"));
 
-            var msgData = {
+            let msgData = {
                 "from": this.chatData.user._id,
                 "to": this.chatData.friend._id,
                 "text": imageBase64,
@@ -585,13 +585,13 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     UploadImage() {
-        var self = this;
-        var URL = window.URL;
-        var $chatImage: any = $('#chatImage');
+        let self = this;
+        let URL = window.URL;
+        let $chatImage: any = $('#chatImage');
 
         if (URL) {
-            var files = $chatImage[0].files;
-            var file;
+            let files = $chatImage[0].files;
+            let file;
 
             if (files && files.length) {
                 file = files[0];
@@ -629,7 +629,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     ChangeImage() {
-        var isSuccess = this.UploadImage();
+        let isSuccess = this.UploadImage();
 
         if (isSuccess == false) {
             this.snackbarService.Snackbar("הקובץ שנבחר אינו תמונה");
@@ -649,7 +649,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.messageNotificationText = msgData.isImage ? null : msgData.text;
         this.isShowMessageNotification = true;
 
-        var self = this;
+        let self = this;
 
         self.messageNotificationInterval = setInterval(function () {
             self.isShowMessageNotification = false;
@@ -708,17 +708,20 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     MoveToFriendPage(friendObj: any) {
         this.eventService.Emit("openUserProfile", friendObj);
     }
-}
 
-function preventZoom(e: any) {
-    var t2 = e.timeStamp
-        , t1 = $(this).data('lastTouch') || t2
-        , dt = t2 - t1
-        , fingers = e.touches.length;
-    $(this).data('lastTouch', t2);
-    if (!dt || dt > 400 || fingers > 1) return; // not double-tap
+    PreventZoom(e: any) {
+        let t2 = e.timeStamp
+        let t1 = $(this).data('lastTouch') || t2
+        let dt = t2 - t1
+        let fingers = e.touches.length;
+        $(this).data('lastTouch', t2);
 
-    e.preventDefault(); // double tap - prevent the zoom
-    // also synthesize click events we just swallowed up
-    $(this).trigger('click').trigger('click');
+        if (!dt || dt > 400 || fingers > 1) {
+            return; // not double-tap
+        }
+
+        e.preventDefault(); // double tap - prevent the zoom
+        // also synthesize click events we just swallowed up
+        $(this).trigger('click').trigger('click');
+    }
 }

@@ -35,7 +35,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
         public globalService: GlobalService,
         private eventService: EventService,
         private cookieService: CookieService) {
-        var self = this;
+        let self = this;
 
         //#region events
         eventService.Register("newUploadedImage", (img: string) => {
@@ -287,7 +287,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
             });
         });
 
-        var self = this;
+        let self = this;
 
         self.globalService.SocketOn('ClientAddFriend', function (friend: any) {
             if (friend._id == self.user._id) {

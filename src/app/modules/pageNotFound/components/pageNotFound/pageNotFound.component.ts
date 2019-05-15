@@ -18,7 +18,7 @@ export class PageNotFoundComponent implements OnInit {
 
   GetRandomMonsterPath() {
     // Rundom monster number.
-    var imageNumber = Math.floor(Math.random() * this.numOfMonsters) + 1;
+    let imageNumber = Math.floor(Math.random() * this.numOfMonsters) + 1;
 
     return ("monster" + imageNumber + ".png");
   }

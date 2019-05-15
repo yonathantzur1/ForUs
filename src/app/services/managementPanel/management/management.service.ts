@@ -4,7 +4,7 @@ export class ManagementService extends BasicService {
     prefix = "/api/management";
 
     GetUserByName(searchInput: string) {
-        var details = { searchInput };
+        let details = { searchInput };
 
         return super.post(this.prefix + '/getUserByName', details)
             .toPromise()
@@ -17,7 +17,7 @@ export class ManagementService extends BasicService {
     }
 
     GetUserFriends(friendsIds: Array<string>) {
-        var details = { friendsIds };
+        let details = { friendsIds };
 
         return super.post(this.prefix + '/getUserFriends', details)
             .toPromise()
@@ -30,7 +30,7 @@ export class ManagementService extends BasicService {
     }
 
     EditUser(updateFields: any) {
-        var details = { updateFields };
+        let details = { updateFields };
 
         return super.put(this.prefix + '/editUser', details)
             .toPromise()
@@ -43,7 +43,7 @@ export class ManagementService extends BasicService {
     }
 
     BlockUser(blockObj: any) {
-        var details = { blockObj };
+        let details = { blockObj };
 
         return super.put(this.prefix + '/blockUser', details)
             .toPromise()
@@ -56,7 +56,7 @@ export class ManagementService extends BasicService {
     }
 
     UnblockUser(userId: string) {
-        var details = { userId };
+        let details = { userId };
 
         return super.put(this.prefix + '/unblockUser', details)
             .toPromise()
@@ -69,7 +69,7 @@ export class ManagementService extends BasicService {
     }
 
     RemoveFriends(userId: string, friendId: string) {
-        var details = { userId, friendId };
+        let details = { userId, friendId };
 
         return super.delete(this.prefix + '/removeFriends?userId=' + userId + "&friendId=" + friendId)
             .toPromise()

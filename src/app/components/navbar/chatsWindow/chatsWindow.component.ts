@@ -23,13 +23,13 @@ export class ChatsWindowComponent implements OnInit {
     ngOnInit() {
         this.LoadChatsObjects();
 
-        var self = this;
+        let self = this;
 
         self.globalService.SocketOn('ClientUpdateSendMessage', function (msgData: any) {
-            var isChatUpdated = false;
+            let isChatUpdated = false;
 
-            for (var i = 0; i < self.chats.length; i++) {
-                var chat = self.chats[i];
+            for (let i = 0; i < self.chats.length; i++) {
+                let chat = self.chats[i];
 
                 if (chat.friendId == msgData.to) {
                     chat.lastMessage.text = msgData.isImage ? "" : msgData.text;
@@ -47,10 +47,10 @@ export class ChatsWindowComponent implements OnInit {
         });
 
         self.globalService.SocketOn('ClientUpdateGetMessage', function (msgData: any) {
-            var isChatUpdated = false;
+            let isChatUpdated = false;
 
-            for (var i = 0; i < self.chats.length; i++) {
-                var chat = self.chats[i];
+            for (let i = 0; i < self.chats.length; i++) {
+                let chat = self.chats[i];
 
                 if (chat.friendId == msgData.from) {
                     chat.lastMessage.text = msgData.isImage ? "" : msgData.text;
@@ -88,7 +88,7 @@ export class ChatsWindowComponent implements OnInit {
     }
 
     GetUnreadMessagesNumber() {
-        var counter = 0;
+        let counter = 0;
 
         Object.keys(this.messagesNotifications).forEach((id: any) => {
             counter += this.messagesNotifications[id].unreadMessagesNumber;
@@ -102,7 +102,7 @@ export class ChatsWindowComponent implements OnInit {
             return "אין הודעות חדשות";
         }
         else {
-            var unreadMessagesNumber = this.GetUnreadMessagesNumber();
+            let unreadMessagesNumber = this.GetUnreadMessagesNumber();
 
             if (unreadMessagesNumber == 0) {
                 return "שיחות אחרונות";
@@ -117,21 +117,21 @@ export class ChatsWindowComponent implements OnInit {
     }
 
     CalculateChatTimeString(chat: any) {
-        var localDate = new Date(chat.lastMessage.time);
-        var currDate = new Date();
+        let localDate = new Date(chat.lastMessage.time);
+        let currDate = new Date();
         currDate.setHours(23, 59, 59, 999);
 
-        var HH = localDate.getHours().toString();
-        var mm = localDate.getMinutes().toString();
+        let HH = localDate.getHours().toString();
+        let mm = localDate.getMinutes().toString();
 
         if (mm.length == 1) {
             mm = "0" + mm;
         }
 
-        var dateTimeString = "";
+        let dateTimeString = "";
 
-        var timeDiff = Math.abs(currDate.getTime() - localDate.getTime());
-        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        let timeDiff = Math.abs(currDate.getTime() - localDate.getTime());
+        let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
         if (diffDays <= 7) {
             dateTimeString = HH + ":" + mm;
@@ -163,8 +163,8 @@ export class ChatsWindowComponent implements OnInit {
 
     SortByDate(chats: any) {
         chats = chats.sort((a: any, b: any) => {
-            var firstDate = new Date(a.lastMessage.time);
-            var secondDate = new Date(b.lastMessage.time);
+            let firstDate = new Date(a.lastMessage.time);
+            let secondDate = new Date(b.lastMessage.time);
 
             if (firstDate > secondDate) {
                 return -1;
@@ -181,7 +181,7 @@ export class ChatsWindowComponent implements OnInit {
     }
 
     RemoveFriendChat(friendId: string) {
-        for (var i = 0; i < this.chats.length; i++) {
+        for (let i = 0; i < this.chats.length; i++) {
             if (this.chats[i].friend._id == friendId) {
                 this.chats.splice(i, 1);
                 break;

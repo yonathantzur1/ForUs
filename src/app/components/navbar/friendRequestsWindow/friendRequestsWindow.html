@@ -5,19 +5,26 @@
             <span>{{GetFriendRequestsNumberText()}}</span>
         </div>
         <div class="body-container">
-            <loaderSpinner *ngIf="isFriendRequestsLoading" id="friend-requests-loader" class="friend-requests-loader"></loaderSpinner>
+            <loaderSpinner *ngIf="isFriendRequestsLoading" id="friend-requests-loader" class="friend-requests-loader">
+            </loaderSpinner>
             <div *ngIf="!isFriendRequestsLoading">
-                <div class="friend-request-container" (click)="OpenUserPage(request._id)" *ngFor="let request of friendConfirmObjects">
+                <div class="friend-request-container" (click)="OpenUserPage(request._id)"
+                    *ngFor="let request of friendConfirmObjects">
                     <img class="friend-request-image" [src]="request.profileImage || globalService.defaultProfileImage">
                     <span class="friend-accept-text">
                         {{request.firstName + " " + request.lastName + " "}} אישר/ה את בקשת החברות
                     </span>
                 </div>
-                <div class="friend-request-container" (click)="OpenUserPage(request._id)" *ngFor="let request of friendRequestsObjects">
+                <div class="friend-request-container" (click)="OpenUserPage(request._id)"
+                    *ngFor="let request of friendRequestsObjects">
                     <img class="friend-request-image" [src]="request.profileImage || globalService.defaultProfileImage">
                     <span class="friend-name">{{request.firstName + " " + request.lastName}}</span>
-                    <i (click)="FriendAccept(request._id)" class="material-icons friend-request-response-btn friend-request-confirm-btn" title="אישור">check</i>
-                    <i (click)="FriendIgnore(request._id)" class="material-icons friend-request-response-btn friend-request-decline-btn" title="ביטול">close</i>
+                    <i (click)="FriendAccept(request._id)"
+                        class="material-icons friend-request-response-btn friend-request-confirm-btn"
+                        title="אישור">check</i>
+                    <i (click)="FriendIgnore(request._id)"
+                        class="material-icons friend-request-response-btn friend-request-decline-btn"
+                        title="ביטול">close</i>
                 </div>
             </div>
         </div>

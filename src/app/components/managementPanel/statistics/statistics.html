@@ -1,7 +1,9 @@
 <div id="statistics">
     <div class="control-menu">
         <div *ngIf="isLoadingChart" class="control-menu-overly">
-            <loaderDots css='{"text-align": "center", "width": "100%", "font-size": "16px", "position": "absolute", "top": "16px"}'></loaderDots>
+            <loaderDots
+                css='{"text-align": "center", "width": "100%", "font-size": "16px", "position": "absolute", "top": "16px"}'>
+            </loaderDots>
         </div>
         <span *ngFor="let menu of menus" class="tab-container" [title]="menu.title" (click)="menu.onClick(this)">
             <span class="tab">
@@ -11,7 +13,8 @@
     </div>
     <div class="chart-container">
         <div *ngIf="chart" class="chart-dates-container">
-            <i (click)="GetNextDatesRangePeriod()" [ngClass]="{'disable-btn': datesRangeMovementIndex == 0}" class="fas fa-arrow-circle-right change-date-range-icon"></i>
+            <i (click)="GetNextDatesRangePeriod()" [ngClass]="{'disable-btn': datesRangeMovementIndex == 0}"
+                class="fas fa-arrow-circle-right change-date-range-icon"></i>
             <div class="dates-range-string-title">{{datesRangeString}}</div>
             <i (click)="GetPreviousDatesRangePeriod()" class="fas fa-arrow-circle-left change-date-range-icon"></i>
             <div class="chart-top-details-container">
@@ -32,8 +35,8 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" (click)="CloseModal(menu.id);(menu.onCancel && menu.onCancel(this))"
-                        aria-label="Close">
+                    <button type="button" class="close"
+                        (click)="CloseModal(menu.id);(menu.onCancel && menu.onCancel(this))" aria-label="Close">
                         <i class="material-icons">close</i>
                     </button>
                     <h4>
@@ -54,19 +57,24 @@
                     </div>
                     <!-- In case of user search -->
                     <div *ngIf="menu.type=='user-search'">
-                        <loaderDots *ngIf="menu.isLoaderActive" css='{"text-align": "center", "font-size": "10px", "position": "absolute", "bottom": "-44px"}'></loaderDots>
+                        <loaderDots *ngIf="menu.isLoaderActive"
+                            css='{"text-align": "center", "font-size": "10px", "position": "absolute", "bottom": "-44px"}'>
+                        </loaderDots>
                         <div class="form-group" style="padding:0;margin:0;">
-                            <input [(ngModel)]="userEmailInput" (keyup)="isUserEmailFound=null" (keyup.enter)="menu.onConfirm(this, menu.options)"
-                                id="user-search" name="user-search" (keydown)="HideMicrotext('email-micro')" class="form-control"
-                                type="email" placeholder="אימייל" autocorrect="off" autocapitalize="off" spellcheck="false">
+                            <input [(ngModel)]="userEmailInput" (keyup)="isUserEmailFound=null"
+                                (keyup.enter)="menu.onConfirm(this, menu.options)" id="user-search" name="user-search"
+                                (keydown)="HideMicrotext('email-micro')" class="form-control" type="email"
+                                placeholder="אימייל" autocorrect="off" autocapitalize="off" spellcheck="false">
                             <span *ngIf="isUserEmailFound == false" class="microtext">כתובת אימייל לא נמצאה</span>
                             <span id="email-micro" class="microtext"></span>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a (click)="CloseModal(menu.id);(menu.onCancel && menu.onCancel(this))" class="btn btn-default cancel-modal-btn">ביטול</a>
-                    <a (click)="menu.onConfirm(this, menu.options)" [ngClass]="{'accept-btn-disabled': menu.isDisableConfirm && menu.isDisableConfirm(this)}"
+                    <a (click)="CloseModal(menu.id);(menu.onCancel && menu.onCancel(this))"
+                        class="btn btn-default cancel-modal-btn">ביטול</a>
+                    <a (click)="menu.onConfirm(this, menu.options)"
+                        [ngClass]="{'accept-btn-disabled': menu.isDisableConfirm && menu.isDisableConfirm(this)}"
                         class="btn btn-primary save-charts-menu-btn">אישור</a>
                 </div>
             </div>

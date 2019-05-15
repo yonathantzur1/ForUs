@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-declare var $: any;
+declare let $: any;
 
-var loaderDotsComponentInstances = 0;
+// Assign global counter variable.
+let loaderDotsComponentInstances = 0;
 
 @Component({
   selector: 'loaderDots',

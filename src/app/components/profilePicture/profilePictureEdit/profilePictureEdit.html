@@ -45,8 +45,9 @@
                                         </div>
                                     </div>
                                     <div class="image-tool-bar">
-                                        <div *ngFor="let btn of imageBtns" [title]="btn.title" (click)="btn.onClick(this)"
-                                            class="img-btn" [ngClass]="{'img-btn-pressed': btn.isPressed}">
+                                        <div *ngFor="let btn of imageBtns" [title]="btn.title"
+                                            (click)="btn.onClick(this)" class="img-btn"
+                                            [ngClass]="{'img-btn-pressed': btn.isPressed}">
                                             <i class="{{btn.icon}}"></i>
                                         </div>
                                     </div>
@@ -56,10 +57,12 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <i *ngIf="userImage && isNewPhoto" title="מחיקת תמונת הפרופיל" (click)="DeleteImage()" class="far fa-trash-alt delete-profile-btn"></i>
+                    <i *ngIf="userImage && isNewPhoto" title="מחיקת תמונת הפרופיל" (click)="DeleteImage()"
+                        class="far fa-trash-alt delete-profile-btn"></i>
                     <div class="modal-footer-buttons">
                         <a (click)="CloseWindow()" class="btn btn-default cancel-change-btn">סגור</a>
-                        <a (click)="SaveImage()" id="register-btn" class="btn btn-primary change-img-btn" [ngClass]="{'change-img-btn-disabled': isNewPhoto}">אישור</a>
+                        <a (click)="SaveImage()" id="register-btn" class="btn btn-primary change-img-btn"
+                            [ngClass]="{'change-img-btn-disabled': isNewPhoto}">אישור</a>
                     </div>
                 </div>
             </div>
