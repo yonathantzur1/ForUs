@@ -104,8 +104,8 @@
 
 #userPage .options-drop-menu {
     position: absolute;
-    right: -1px;
-    width: calc(100% + 1px);
+    left: -1px;
+    width: calc(100% + 2px);
     top: 50px;
     user-select: none;
     background-color: whitesmoke;
