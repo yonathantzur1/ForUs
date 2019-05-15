@@ -252,7 +252,7 @@
 }
 
 #management .user-friend-container {
-    width: 110px; /* If changing this property, change userFriendContainerWidth property */
+    width: 110px;
     height: 85px;
     display: inline-block;
     margin: 5px;

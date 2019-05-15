@@ -23,13 +23,9 @@ export class ManagementComponent implements OnInit, OnDestroy {
     searchInput: string;
     users: Array<any> = [];
     friendsCache: Object = {};
-    friendsElementsPadding: number = 0;
     dropMenuDataList: Array<DropMenuData>;
     isShowNotFoundUsersMessage: boolean;
     userSettingsIconId: string = "user-settings-icon";
-
-    // Css properties
-    userFriendContainerWidth: number = 110;
 
     // Animation properties    
     openCardAnimationTime: number = 200;
@@ -259,23 +255,20 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
     // Calculate align friends elements to center of screen.
     CalculateFriendsElementsPadding() {
-        // width: user-friend-container width + margin (left and right): 5 + 5
-        var friendElementSpace = this.userFriendContainerWidth + 5 + 5;
-        var containerWidth = $("#friends-container")[0].clientWidth;
-        var maxElementsOnRow = friendElementSpace;
+        setTimeout(() => {
+            let containerWidth = $("#friends-container").innerWidth();
+            let cardWidth = $("#user-friend-container").innerWidth();
 
-        var counter = 0;
+            if (!containerWidth || !cardWidth) {
+                return "0px";
+            }
 
-        while (maxElementsOnRow < containerWidth) {
-            counter++;
-            maxElementsOnRow += friendElementSpace;
-        }
+            let cardsInLine = Math.floor(containerWidth / cardWidth)
+            let cardsMargin = 10 * cardsInLine;
+            let finalPadding = containerWidth - (cardsInLine * cardWidth) - cardsMargin;
 
-        var freeWidthSpace = containerWidth - (counter * friendElementSpace);
-
-        this.friendsElementsPadding = (freeWidthSpace / 2);
-
-        return this.friendsElementsPadding;
+            return (finalPadding / 2) + "px";
+        }, 0);
     }
 
     IsDisableSaveEdit(user: any) {
