@@ -31,7 +31,7 @@
     resize: none;
     border: 1px solid #7882b6;
     width: 100%;
-    height: calc(100% - 130px);
+    height: calc(100% - 25px);
     outline: none;
     background-color: transparent;
     padding: 8px;
@@ -60,4 +60,13 @@
     position: absolute;
     right: calc(50% - 35px);
     top: calc(50% - 35px);
+}
+
+#userReportWindow .reason-form {
+    height: calc(100% - 120px);
+}
+
+#userReportWindow .reason-row {
+    height: 100%;
+    position: relative;
 }

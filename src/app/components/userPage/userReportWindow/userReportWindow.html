@@ -14,8 +14,8 @@
                     {{reason.name}}
                 </div>
             </div>
-            <form [hidden]="!isShowTextReasonWindow">
-                <div class="row form-group">
+            <form [hidden]="!isShowTextReasonWindow" class="reason-form">
+                <div class="row form-group" class="reason-row">
                     <span class="col-12">
                         <label>תיאור המקרה:</label>
                         <textarea [(ngModel)]="reportText" [maxlength]="maxReportTextLength" (keyup)="HideEmptyFieldAlert()"
