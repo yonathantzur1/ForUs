@@ -1,10 +1,11 @@
 <div id="management">
     <div class="users-container">
         <div class="form-group">
-            <input id="users-search-input" [(ngModel)]="searchInput" (keyup)="SearhUserInputKeyup($event)" class="form-control search-input"
-                placeholder="חיפוש משתמשים" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"
-                type="text">
-            <div class="search-user-btn" (click)="SearchUser()" [ngClass]="{'search-user-btn-disabled': searchInput == '', 'search-user-btn-active': searchInput && searchInput.length > 0}">
+            <input id="users-search-input" [(ngModel)]="searchInput" (keyup)="SearhUserInputKeyup($event)"
+                class="form-control search-input" placeholder="חיפוש משתמשים" autocapitalize="off" autocomplete="off"
+                autocorrect="off" spellcheck="false" type="text">
+            <div class="search-user-btn" (click)="SearchUser()"
+                [ngClass]="{'search-user-btn-disabled': searchInput == '', 'search-user-btn-active': searchInput && searchInput.length > 0}">
                 <i class="material-icons search-user-btn-icon">search</i>
             </div>
         </div>
@@ -18,24 +19,30 @@
         <div *ngIf="!isLoadingUsers">
             <div class="card-container" *ngFor="let user of users">
                 <div class="user-card">
-                    <i class="material-icons block-icon" (click)="UnblockUser(user)" title="הסרת חסימה" *ngIf="IsUserBlocked(user) && !user.isFriendsScreenOpen && !user.isEditScreenOpen">block</i>
+                    <i class="material-icons block-icon" (click)="UnblockUser(user)" title="הסרת חסימה"
+                        *ngIf="IsUserBlocked(user) && !user.isFriendsScreenOpen && !user.isEditScreenOpen">block</i>
                     <div class="user-name-container">
                         <span class="user-name">{{user.firstName + " " + user.lastName}}</span>
-                        <img class="user-profile-image" [src]="user.profileImage ? user.profileImage.image : globalService.defaultProfileImage">
-                        <i [id]="userSettingsIconId" *ngIf="user.isOpen && !user.isOpenCardAnimationActive && !user.isFriendsScreenOpen && !user.isEditScreenOpen && !user.isBlockScreenOpen"
+                        <img class="user-profile-image"
+                            [src]="user.profileImage ? user.profileImage.image : globalService.defaultProfileImage">
+                        <i [id]="userSettingsIconId"
+                            *ngIf="user.isOpen && !user.isOpenCardAnimationActive && !user.isFriendsScreenOpen && !user.isEditScreenOpen && !user.isBlockScreenOpen"
                             (click)="OpenUserMenu(user)" class="material-icons user-left-icon">settings</i>
                         <dropMenu id="user-options" *ngIf="user.isMenuOpen" class="drop-menu-position col-md-3 col-5"
                             [options]="dropMenuDataList"></dropMenu>
                         <i *ngIf="user.isEditScreenOpen || user.isBlockScreenOpen" class="material-icons user-left-icon"
                             [ngClass]="{'save-edit-btn-disabled': (user.isEditScreenOpen && IsDisableSaveEdit(user)) || (user.isBlockScreenOpen && IsDisableSaveBlocking(user))}"
                             (click)="SaveChanges(user)">save</i>
-                        <i *ngIf="user.isFriendsScreenOpen || user.isEditScreenOpen || user.isBlockScreenOpen" (click)="ReturnMainCard(user)"
-                            class="material-icons user-card-back-icon">arrow_forward</i>
+                        <i *ngIf="user.isFriendsScreenOpen || user.isEditScreenOpen || user.isBlockScreenOpen"
+                            (click)="ReturnMainCard(user)" class="material-icons user-card-back-icon">arrow_forward</i>
                     </div>
                 </div>
-                <div class="user-info-container" [ngClass]="{'user-info-container-open': user.isOpen && isPreventFirstOpenCardAnimation, 'user-info-container-open-animation': user.isOpen && !isPreventFirstOpenCardAnimation, 'user-info-container-close': (user.isOpen == false)}">
-                    <div id="user-info" class="user-info-card-open" *ngIf="user.isOpen && !user.isOpenCardAnimationActive">
-                        <table id="info-table" class="info-table" *ngIf="!user.isFriendsScreenOpen && !user.isEditScreenOpen && !user.isBlockScreenOpen">
+                <div class="user-info-container"
+                    [ngClass]="{'user-info-container-open': user.isOpen && isPreventFirstOpenCardAnimation, 'user-info-container-open-animation': user.isOpen && !isPreventFirstOpenCardAnimation, 'user-info-container-close': (user.isOpen == false)}">
+                    <div id="user-info" class="user-info-card-open"
+                        *ngIf="user.isOpen && !user.isOpenCardAnimationActive">
+                        <table id="info-table" class="info-table"
+                            *ngIf="!user.isFriendsScreenOpen && !user.isEditScreenOpen && !user.isBlockScreenOpen">
                             <tr>
                                 <td>
                                     <div class="info-title">תאריך רישום:</div>
@@ -69,17 +76,21 @@
                             </div>
                             <div *ngIf="user.isFriendsObjectsLoaded">
                                 <div class="form-group friend-search-form-group">
-                                    <input [(ngModel)]="user.friendSearchInput" class="form-control search-input friend-search-input"
-                                        placeholder="חיפוש חברים" autocapitalize="off" autocomplete="off" autocorrect="off"
-                                        spellcheck="false" maxlength="25" type="text">
+                                    <input [(ngModel)]="user.friendSearchInput"
+                                        class="form-control search-input friend-search-input" placeholder="חיפוש חברים"
+                                        autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"
+                                        maxlength="25" type="text">
                                     <div class="search-friend-btn">
                                         <i class="material-icons search-friend-btn-icon">search</i>
                                     </div>
                                 </div>
-                                <div id="friends-container" class="friends-container" [ngStyle]="{'padding-right': CalculateFriendsElementsPadding()}">
-                                    <div class="user-friend-container" *ngFor="let friend of (GetFriendsObjectsFromIds(user.friends, user.friendSearchInput) | sortObjects: 'fullName')">
-                                        <i class="material-icons remove-friend-icon" (click)="RemoveFriends(user, friend)">close</i>
-                                        <img class="friend-profile-image" [src]="friend.profileImage || globalService.defaultProfileImage">
+                                <div id="friends-container" class="friends-container">
+                                    <div id="user-friend-container" class="user-friend-container"
+                                        *ngFor="let friend of (GetFriendsObjectsFromIds(user.friends, user.friendSearchInput) | sortObjects: 'fullName')">
+                                        <i class="material-icons remove-friend-icon"
+                                            (click)="RemoveFriends(user, friend)">close</i>
+                                        <img class="friend-profile-image"
+                                            [src]="friend.profileImage || globalService.defaultProfileImage">
                                         <div class="friend-name" [title]="friend.fullName">{{friend.fullName}}</div>
                                     </div>
                                 </div>
@@ -115,17 +126,17 @@
                                     <td>
                                         <div class="info-title">אימייל</div>
                                         <div class="form-group">
-                                            <input [(ngModel)]="user.editObj.email" class="form-control edit-input english-input"
-                                                autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"
-                                                type="email">
+                                            <input [(ngModel)]="user.editObj.email"
+                                                class="form-control edit-input english-input" autocapitalize="off"
+                                                autocomplete="off" autocorrect="off" spellcheck="false" type="email">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="info-title">סיסמא</div>
                                         <div class="form-group">
-                                            <input [(ngModel)]="user.editObj.password" class="form-control edit-input english-input"
-                                                autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"
-                                                type="password">
+                                            <input [(ngModel)]="user.editObj.password"
+                                                class="form-control edit-input english-input" autocapitalize="off"
+                                                autocomplete="off" autocorrect="off" spellcheck="false" type="password">
                                         </div>
                                     </td>
                                 </tr>
@@ -138,33 +149,38 @@
                                 <div class="form-group block-reason-container">
                                     <label for="text-area" class="control-label block-label">תיאור סיבת החסימה:</label>
                                     <div class="block-reason-text">
-                                        <input type="text" [(ngModel)]="user.blockReason" name="block-reason" class="form-control"
-                                            id="text-area">
+                                        <input type="text" [(ngModel)]="user.blockReason" name="block-reason"
+                                            class="form-control" id="text-area">
                                         <span class="help-block">* הסיבה המתוארת תוצג למשתמש</span>
                                     </div>
                                 </div>
                                 <div class="form-group block-amount-container" *ngIf="!user.blockAmount.forever">
                                     <div class="amount-secotr">
                                         <label for="block-days" class="control-label block-label">מספר ימים:</label>
-                                        <input name="block-days" [(ngModel)]="user.blockAmount.days" name="block-amount-days"
-                                            class="form-control block-amount-input" type="number" min="0">
+                                        <input name="block-days" [(ngModel)]="user.blockAmount.days"
+                                            name="block-amount-days" class="form-control block-amount-input"
+                                            type="number" min="0">
                                     </div>
 
                                     <div class="amount-secotr">
                                         <label for="block-weeks" class="control-label block-label">מספר שבועות:</label>
-                                        <input name="block-weeks" [(ngModel)]="user.blockAmount.weeks" name="block-amount-weeks"
-                                            class="form-control block-amount-input" type="number" min="0">
+                                        <input name="block-weeks" [(ngModel)]="user.blockAmount.weeks"
+                                            name="block-amount-weeks" class="form-control block-amount-input"
+                                            type="number" min="0">
                                     </div>
 
                                     <div class="amount-secotr">
                                         <label for="block-months" class="control-label block-label">מספר חודשים:</label>
-                                        <input name="block-months" [(ngModel)]="user.blockAmount.months" name="block-amount-months"
-                                            class="form-control block-amount-input" type="number" min="0">
+                                        <input name="block-months" [(ngModel)]="user.blockAmount.months"
+                                            name="block-amount-months" class="form-control block-amount-input"
+                                            type="number" min="0">
                                     </div>
                                 </div>
                                 <div class="block-forever-sector">
-                                    <i class="far fa-square" (click)="user.blockAmount.forever = true;" [hidden]="user.blockAmount.forever"></i>
-                                    <i class="far fa-check-square" (click)="user.blockAmount.forever = false;" [hidden]="!user.blockAmount.forever"></i>
+                                    <i class="far fa-square" (click)="user.blockAmount.forever = true;"
+                                        [hidden]="user.blockAmount.forever"></i>
+                                    <i class="far fa-check-square" (click)="user.blockAmount.forever = false;"
+                                        [hidden]="!user.blockAmount.forever"></i>
                                     <label>לצמיתות</label>
                                 </div>
                             </form>

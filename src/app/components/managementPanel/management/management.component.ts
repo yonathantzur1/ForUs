@@ -253,24 +253,6 @@ export class ManagementComponent implements OnInit, OnDestroy {
         }
     }
 
-    // Calculate align friends elements to center of screen.
-    CalculateFriendsElementsPadding() {
-        setTimeout(() => {
-            let containerWidth = $("#friends-container").innerWidth();
-            let cardWidth = $("#user-friend-container").innerWidth();
-
-            if (!containerWidth || !cardWidth) {
-                return "0px";
-            }
-
-            let cardsInLine = Math.floor(containerWidth / cardWidth)
-            let cardsMargin = 10 * cardsInLine;
-            let finalPadding = containerWidth - (cardsInLine * cardWidth) - cardsMargin;
-
-            return (finalPadding / 2) + "px";
-        }, 0);
-    }
-
     IsDisableSaveEdit(user: any) {
         var editObj = user.editObj;
 
