@@ -21,7 +21,7 @@ export class CookieService {
             }
         }
 
-        return "";
+        return '';
     }
 
     DeleteCookieByName(name: string) {

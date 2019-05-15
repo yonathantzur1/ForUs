@@ -21,7 +21,7 @@ class ReportReason {
 export class UserReportWindowComponent implements OnInit {
     @Input() user: any;
     reportReasons: Array<ReportReason>;
-    reportText: string = "";
+    reportText: string = '';
     maxReportTextLength: number = 600;
     isShowTextReasonWindow: boolean = false;
     isShowEmptyFieldAlert: boolean = false;

@@ -12,7 +12,7 @@ let loaderDotsComponentInstances = 0;
 
 export class LoaderDotsComponent implements OnInit {
   @Input() css: any;
-  idIndex: string = "";
+  idIndex: string = '';
   isShow: boolean = false;
 
   ngOnInit() {

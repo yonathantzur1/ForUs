@@ -13,15 +13,15 @@ import { UserRegexp } from '../../regex/regexpEnums'
 declare let $: any;
 
 export class User {
-  email: string = "";
-  password: string = "";
+  email: string = '';
+  password: string = '';
 }
 
 export class NewUser {
-  firstName: string = "";
-  lastName: string = "";
-  email: string = "";
-  password: string = "";
+  firstName: string = '';
+  lastName: string = '';
+  email: string = '';
+  password: string = '';
 }
 
 enum FORGOT_BTN_TEXT {
@@ -38,9 +38,9 @@ export class ForgotUser {
   forgotBtnText: string;
 
   constructor() {
-    this.email = "";
-    this.code = "";
-    this.newPassword = "";
+    this.email = '';
+    this.code = '';
+    this.newPassword = '';
     this.showResetCodeField = false;
     this.hasResetCode = false;
     this.forgotBtnText = FORGOT_BTN_TEXT.SEARCH;
@@ -399,14 +399,14 @@ export class LoginComponent {
     this.forgotUser.hasResetCode = true;
     this.forgotUser.showResetCodeField = true;
     this.forgotUser.forgotBtnText = FORGOT_BTN_TEXT.RESET_PASSWORD;
-    $(".microtext").html("");
+    $(".microtext").html('');
   }
 
   // Open modal and clear all.
   OpenModal() {
     this.newUser = new NewUser();
     this.forgotUser = new ForgotUser();
-    $(".microtext").html("");
+    $(".microtext").html('');
   }
 
   // Key up in login.

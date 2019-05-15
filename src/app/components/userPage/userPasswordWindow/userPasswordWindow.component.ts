@@ -13,8 +13,8 @@ export class Password {
     newPassword: string;
 
     constructor() {
-        this.oldPassword = "";
-        this.newPassword = "";
+        this.oldPassword = '';
+        this.newPassword = '';
     }
 }
 

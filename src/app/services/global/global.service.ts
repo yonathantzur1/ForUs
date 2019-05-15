@@ -64,7 +64,7 @@ export class GlobalService extends LoginService {
                 let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
                 let datesDaysDiff = Math.abs(currDate.getDay() - localDate.getDay());
 
-                let dateDetailsString = "";
+                let dateDetailsString = '';
 
                 if (diffDays <= 7) {
                     if (diffDays <= 2) {
@@ -137,7 +137,7 @@ export class GlobalService extends LoginService {
     }
 
     ConvertArrayToString(params: Array<any>): string {
-        let paramsString = "";
+        let paramsString = '';
 
         if (!params || params.length == 0) {
             return null;

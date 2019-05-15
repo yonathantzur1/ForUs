@@ -80,7 +80,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
             {
                 id: "edit",
                 icon: "fas fa-user-edit",
-                innerIconText: "",
+                innerIconText: '',
                 title: "עדכון פרטים",
                 isShow: function () {
                     return self.IsUserPageSelf();
@@ -92,7 +92,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
             {
                 id: "friendOptions",
                 icon: "fas fa-user-check",
-                innerIconText: "",
+                innerIconText: '',
                 title: "אפשרויות חברות",
                 isShow: function () {
                     return self.user.isFriend;
@@ -137,7 +137,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
             {
                 id: "addFriendRequest",
                 icon: "fas fa-user-plus",
-                innerIconText: "",
+                innerIconText: '',
                 title: "בקשת חברות",
                 isShow: function () {
                     return (!self.user.isFriend &&
@@ -153,7 +153,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
             {
                 id: "friendRequestOptions",
                 icon: "fas fa-user-friends",
-                innerIconText: "",
+                innerIconText: '',
                 title: "בקשת חברות",
                 isShow: function () {
                     return self.user.isSendFriendRequest;
@@ -178,7 +178,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
             {
                 id: "removeFriendRequest",
                 icon: "fas fa-user-times",
-                innerIconText: "",
+                innerIconText: '',
                 title: "ביטול בקשת חברות",
                 isShow: function () {
                     return self.user.isGetFriendRequest;
@@ -191,7 +191,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
             {
                 id: "openChat",
                 icon: "far fa-edit",
-                innerIconText: "",
+                innerIconText: '',
                 title: "צ'אט",
                 isShow: function () {
                     return self.user.isFriend;
@@ -203,7 +203,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
             {
                 id: "menu",
                 icon: "fas fa-bars",
-                innerIconText: "",
+                innerIconText: '',
                 title: "עוד",
                 onClick: function () {
 
@@ -253,7 +253,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
             {
                 id: "manage",
                 icon: "fas fa-cog",
-                innerIconText: "",
+                innerIconText: '',
                 title: "ניהול משתמש",
                 isShow: function () {
                     return self.user.isManagerView;

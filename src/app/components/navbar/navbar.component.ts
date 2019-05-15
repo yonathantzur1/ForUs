@@ -190,7 +190,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             {
                 id: "messages",
                 icon: "far fa-comment-dots",
-                innerIconText: "",
+                innerIconText: '',
                 title: "הודעות",
                 content: {},
                 getNotificationsNumber: function () {
@@ -212,7 +212,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             {
                 id: "friendRequests",
                 icon: "fas fa-user-friends fa-sm",
-                innerIconText: "",
+                innerIconText: '',
                 title: "בקשות חברות",
                 content: {
                     get: [],
@@ -815,7 +815,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             return "- (" + friendNotificationsMessages.unreadMessagesNumber + ")"
         }
         else {
-            return "";
+            return '';
         }
     }
 
@@ -1033,7 +1033,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     SearchNewFriends() {
-        this.searchInput = "";
+        this.searchInput = '';
         $("#" + this.searchInputId).focus();
         clearTimeout(this.showNewFriendsLabelTimeout);
         clearTimeout(this.hideNewFriendsLabelTimeout);
@@ -1054,7 +1054,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     NavigateMain() {
         this.ClosePopups();
         this.CloseChatWindow();
-        this.searchInput = "";
+        this.searchInput = '';
         this.router.navigateByUrl('');
     }
 

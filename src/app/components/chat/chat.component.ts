@@ -339,7 +339,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
 
         this.messages = [];
-        this.msghInput = "";
+        this.msghInput = '';
         this.isAllowScrollDown = true;
         this.isAllowShowUnreadLine = true;
         this.chatBodyScrollHeight = 0;
@@ -385,7 +385,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                     "time": new Date()
                 };
 
-                this.msghInput = "";
+                this.msghInput = '';
                 this.isAllowScrollDown = true;
                 this.isAllowShowUnreadLine = false;
                 this.messages.push(msgData);

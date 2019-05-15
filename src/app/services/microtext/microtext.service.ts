@@ -43,7 +43,7 @@ export class MicrotextService {
                 }
                 else {
                     // Clear the microtext of the field.
-                    $("#" + validations[i].fieldId).html("");
+                    $("#" + validations[i].fieldId).html('');
                 }
             }
         }
@@ -73,7 +73,7 @@ export class MicrotextService {
 
     // Hide microtext in a specific field.
     HideMicrotext(fieldId: string) {
-        $("#" + fieldId).html("");
+        $("#" + fieldId).html('');
     }
 
 }

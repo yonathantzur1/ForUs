@@ -32,7 +32,7 @@ export class ChatsWindowComponent implements OnInit {
                 let chat = self.chats[i];
 
                 if (chat.friendId == msgData.to) {
-                    chat.lastMessage.text = msgData.isImage ? "" : msgData.text;
+                    chat.lastMessage.text = msgData.isImage ? '' : msgData.text;
                     chat.lastMessage.time = (new Date()).toISOString();
                     chat.lastMessage.isImage = msgData.isImage ? true : false;
                     isChatUpdated = true;
@@ -53,7 +53,7 @@ export class ChatsWindowComponent implements OnInit {
                 let chat = self.chats[i];
 
                 if (chat.friendId == msgData.from) {
-                    chat.lastMessage.text = msgData.isImage ? "" : msgData.text;
+                    chat.lastMessage.text = msgData.isImage ? '' : msgData.text;
                     chat.lastMessage.time = (new Date()).toISOString();
                     chat.lastMessage.isImage = msgData.isImage ? true : false;
                     isChatUpdated = true;
@@ -128,7 +128,7 @@ export class ChatsWindowComponent implements OnInit {
             mm = "0" + mm;
         }
 
-        let dateTimeString = "";
+        let dateTimeString = '';
 
         let timeDiff = Math.abs(currDate.getTime() - localDate.getTime());
         let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));

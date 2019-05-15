@@ -104,7 +104,7 @@ export class UserEditWindowComponent implements OnInit {
 
     BackToDetailsWindow() {
         this.isShowPasswordValidationWindow = false;
-        this.editUser.password = "";
+        this.editUser.password = '';
     }
 
     CloseWindow() {
