@@ -261,6 +261,7 @@ export class ProfilePictureEditComponent implements OnInit {
             title: "למחוק את התמונה?",
             image: this.userImage,
             type: ALERT_TYPE.WARNING,
+            disableEscapeExit: true,
             preConfirm: function () {
                 return self.profilePictureService.DeleteImage();
             },

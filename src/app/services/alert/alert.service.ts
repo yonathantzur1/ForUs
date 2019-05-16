@@ -18,6 +18,7 @@ export class AlertService {
     public confirmBtnText: string;
     public closeBtnText: string;
     public image: string;
+    public disableEscapeExit: boolean;
 
     constructor() {
         this.Initialize();
@@ -44,6 +45,7 @@ export class AlertService {
             (alertObject.closeBtnText != null) && (this.closeBtnText = alertObject.closeBtnText);
             this.type = alertObject.type;
             this.image = alertObject.image;
+            this.disableEscapeExit = alertObject.disableEscapeExit;
             this.isShow = true;
         }
     }
