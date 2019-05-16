@@ -55,10 +55,8 @@ export class DropMenuData {
 
 export class NavbarComponent implements OnInit, OnDestroy {
     @Input() user: any;
-    searchInput: string;
     friends: Array<Friend> = [];
     isFriendsLoading: boolean = false;
-    isNewFriendsLabel: boolean = false;
     showNewFriendsLabelTimeout: any;
     hideNewFriendsLabelTimeout: any;
     chatData: any = { "isOpen": false };
@@ -90,10 +88,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     isSidenavOpen: boolean = false;
     isHideNotificationsBudget: boolean = false;
     isDropMenuOpen: boolean;
-    searchResults: Array<any> = [];
-    markedResult: number = null;
-    isShowSearchResults: boolean = false;
-    inputInterval: any;
     checkSocketConnectInterval: any;
     checkOnlineFriendsInterval: any;
 
@@ -102,7 +96,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     // START CONFIG VARIABLES //
 
-    searchInputChangeDelay: number = 220; // milliseconds
     notificationDelay: number = 3800; // milliseconds
     checkSocketConnectDelay: number = 4; // seconds
     checkOnlineFriendsDelay: number = 5; // seconds
@@ -155,16 +148,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
             self.OpenNewWindow();
         }, self.eventsIds);
 
-        eventService.Register("changeSearchInput", (input: string) => {
-            self.searchInput = input;
-        }, self.eventsIds);
-
         eventService.Register("openChat", (friend: any) => {
             self.OpenChat(friend);
-        }, self.eventsIds);
-
-        eventService.Register("openUserProfile", (user: any) => {
-            self.OpenUserProfile(user);
         }, self.eventsIds);
 
         //#region friend requests functions
@@ -253,18 +238,20 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
         self.checkSocketConnectInterval = setInterval(() => {
             self.authService.IsUserSocketConnect().then((result: any) => {
-                switch (result.state) {
-                    case SOCKET_STATE.ACTIVE:
-                        break;
-                    // In case the user is login with no connected socket.
-                    case SOCKET_STATE.CLOSE:
-                        self.globalService.RefreshSocket();
-                        break;
-                    // In case the user is logout.
-                    case SOCKET_STATE.LOGOUT:
-                        self.globalService.Logout();
-                        self.NavigateToLogin();
-                        break;
+                if (result) {
+                    switch (result.state) {
+                        case SOCKET_STATE.ACTIVE:
+                            break;
+                        // In case the user is login with no connected socket.
+                        case SOCKET_STATE.CLOSE:
+                            self.globalService.RefreshSocket();
+                            break;
+                        // In case the user is logout.
+                        case SOCKET_STATE.LOGOUT:
+                            self.globalService.Logout();
+                            self.NavigateToLogin();
+                            break;
+                    }
                 }
             });
         }, self.checkSocketConnectDelay * 1000);
@@ -411,10 +398,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
             self.RemoveFriend(friendId);
         });
-
-        self.globalService.SocketOn('UserSetToPrivate', function (userId: string) {
-            self.RemoveUserFromNavbarSearchCache(userId);
-        });
     }
 
     ngOnDestroy() {
@@ -528,7 +511,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     ShowHideSidenav() {
-        this.isNewFriendsLabel = false;
+        this.SetNewFriendsLabelVisability(false);
 
         if (this.isSidenavOpen) {
             this.HideSidenav();
@@ -567,30 +550,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.isDropMenuOpen = false;
     }
 
-    ShowSearchResults() {
-        this.isShowSearchResults = true;
-
-        if (this.isShowSearchResults) {
-            this.HideSidenav();
-            this.HideDropMenu();
-        }
-    }
-
     HideSearchResults() {
-        this.isShowSearchResults = false;
+        this.eventService.Emit("hideSearchResults");
     }
 
-    ClickSearchInput(input: string) {
-        if (input) {
-            this.isShowSearchResults = true;
-            this.SearchChange(this.searchInput);
-        }
-        else {
-            this.isShowSearchResults = false;
-        }
-
-        this.HideSidenav();
-        this.HideDropMenu();
+    ChangeSearchInput(str: string) {
+        this.eventService.Emit("changeSearchInput", str);
     }
 
     ClosePopups() {
@@ -606,169 +571,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
         else {
             this.ClosePopups();
-        }
-    }
-
-    SearchChange(input: string) {
-        this.markedResult = null;
-        this.isNewFriendsLabel = false;
-        this.inputInterval && clearTimeout(this.inputInterval);
-
-        let self = this;
-
-        // In case the input is not empty.
-        if (input && (input = input.trim())) {
-            // Recover search results from cache if exists.
-            let cachedUsers = this.GetSearchUsersFromCache(input);
-
-            // In case cached users result found for this query input.
-            if (cachedUsers) {
-                this.GetResultImagesFromCache(cachedUsers);
-                this.searchResults = cachedUsers;
-                this.ShowSearchResults();
-            }
-
-            // Clear cached users (with full profiles) from memory.
-            cachedUsers = null;
-
-            self.inputInterval = setTimeout(() => {
-                self.navbarService.GetMainSearchResults(input).then((results: Array<any>) => {
-                    if (results &&
-                        results.length > 0 &&
-                        $("#" + self.searchInputId).is(":focus") &&
-                        input == self.searchInput.trim()) {
-                        self.InsertSearchUsersToCache(input, results);
-                        self.GetResultImagesFromCache(results);
-                        self.searchResults = results;
-                        self.ShowSearchResults();
-
-                        self.navbarService.GetMainSearchResultsWithImages(self.GetResultsIds(results)).then((profiles: any) => {
-                            if (profiles && Object.keys(profiles).length > 0 && input == self.searchInput.trim()) {
-                                self.searchResults.forEach((result: any) => {
-                                    if (result.originalProfile) {
-                                        result.profile = profiles[result.originalProfile];
-                                    }
-                                });
-
-                                self.InsertResultsImagesToCache(profiles);
-                            }
-                        });
-                    }
-                });
-            }, self.searchInputChangeDelay);
-        }
-        else {
-            self.HideSearchResults();
-            self.searchResults = [];
-        }
-    }
-
-    RemoveUserFromNavbarSearchCache(userId: string) {
-        Object.keys(this.searchCache).forEach((searchInput: string) => {
-            this.searchCache[searchInput] = this.searchCache[searchInput].filter((user: any) => {
-                let isRemoveUser = (user._id == userId);
-
-                if (isRemoveUser && user.originalProfile) {
-                    delete this.profilesCache[user.originalProfile];
-                }
-
-                return (!isRemoveUser);
-            });
-        });
-    }
-
-    SearchKeyUp(event: any) {
-        if (this.searchResults.length > 0 && this.isShowSearchResults) {
-            if (event.key == "ArrowDown") {
-                if (this.markedResult != null) {
-                    this.markedResult = (this.markedResult + 1) % (this.searchResults.length + 2);
-                }
-                else {
-                    this.markedResult = 2;
-                }
-            }
-            else if (event.key == "ArrowUp") {
-                if (this.markedResult != null) {
-                    if (this.markedResult == 0) {
-                        this.markedResult = this.searchResults.length + 1;
-                    }
-                    else {
-                        this.markedResult -= 1;
-                    }
-                }
-                else {
-                    this.markedResult = 0;
-                }
-            }
-            else if (event.key == "Enter" || event.key == "NumpadEnter") {
-                if (this.markedResult != null) {
-                    if (this.markedResult == 0 || this.markedResult == 1) {
-                        this.OpenSearchPage(this.searchInput);
-                    }
-                    else {
-                        this.OpenUserProfile(this.searchResults[this.markedResult - 2]);
-                    }
-                }
-                else {
-                    this.OpenSearchPage(this.searchInput);
-                }
-            }
-            else if (event.key == "Escape") {
-                this.isShowSearchResults = false;
-            }
-        }
-        else if (this.searchResults.length == 0 &&
-            this.searchInput &&
-            (event.key == "Enter" || event.key == "NumpadEnter")) {
-            this.OpenSearchPage(this.searchInput);
-        }
-    }
-
-    InsertResultsImagesToCache(profiles: any) {
-        let self = this;
-
-        Object.keys(profiles).forEach((profileId: string) => {
-            self.profilesCache[profileId] = profiles[profileId];
-        });
-    }
-
-    GetResultImagesFromCache(results: any) {
-        let self = this;
-
-        results.forEach((result: any) => {
-            if (result.originalProfile && (self.profilesCache[result.originalProfile] != null)) {
-                result.profile = self.profilesCache[result.originalProfile];
-            }
-        });
-    }
-
-    InsertSearchUsersToCache(searchInput: string, results: Array<any>) {
-        let resultsClone: Array<any> = [];
-
-        results.forEach((result: any) => {
-            resultsClone.push(Object.assign({}, result));
-        });
-
-        this.searchCache[searchInput] = resultsClone;
-    }
-
-    GetSearchUsersFromCache(searchInput: string) {
-        return this.searchCache[searchInput];
-    }
-
-    GetFilteredSearchResults(searchInput: string): Array<any> {
-        if (!searchInput) {
-            return this.searchResults;
-        }
-        else {
-            searchInput = searchInput.trim();
-            searchInput = searchInput.replace(/\\/g, '');
-            this.searchResults = this.searchResults.filter(function (result: any) {
-                return ((result.fullName.indexOf(searchInput) == 0) ||
-                    (result.fullNameReversed.indexOf(searchInput) == 0));
-            });
-
-            return this.searchResults;
         }
     }
 
@@ -937,37 +739,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }, this.notificationDelay);
     }
 
-    IsShowAddFriendRequestBtn(friendId: string) {
-        let friendRequests: any = this.GetToolbarItem("friendRequests").content;
-
-        return (friendId != this.user._id &&
-            this.user.friends.indexOf(friendId) == -1 &&
-            friendRequests.send.indexOf(friendId) == -1 &&
-            friendRequests.get.indexOf(friendId) == -1);
-    }
-
-    IsShowRemoveFriendRequestBtn(friendId: string) {
-        let friendRequests: any = this.GetToolbarItem("friendRequests").content;
-
-        if (friendRequests.send.indexOf(friendId) != -1) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    IsIncomeFriendRequest(friendId: string) {
-        let friendRequests: any = this.GetToolbarItem("friendRequests").content;
-
-        if (friendRequests.get.indexOf(friendId) != -1) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
     AddFriendObjectToUser(friend: any) {
         let userFriends = this.user.friends;
 
@@ -1033,18 +804,22 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     SearchNewFriends() {
-        this.searchInput = '';
+        this.ChangeSearchInput('');
         $("#" + this.searchInputId).focus();
         clearTimeout(this.showNewFriendsLabelTimeout);
         clearTimeout(this.hideNewFriendsLabelTimeout);
         let self = this;
 
         self.showNewFriendsLabelTimeout = setTimeout(() => {
-            self.isNewFriendsLabel = true;
+            self.SetNewFriendsLabelVisability(true);
             self.hideNewFriendsLabelTimeout = setTimeout(() => {
-                self.isNewFriendsLabel = false;
+                self.SetNewFriendsLabelVisability(false);
             }, self.newFriendsLabelDelay);
         }, 200);
+    }
+
+    SetNewFriendsLabelVisability(isVisible: boolean) {
+        this.eventService.Emit("setNewFriendsLabelVisability", isVisible);
     }
 
     CloseChatWindow() {
@@ -1054,7 +829,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     NavigateMain() {
         this.ClosePopups();
         this.CloseChatWindow();
-        this.searchInput = '';
+        this.ChangeSearchInput('');
         this.router.navigateByUrl('');
     }
 
@@ -1128,19 +903,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
         });
 
         return profilesIds;
-    }
-
-    OpenUserProfile(user: any) {
-        this.HideSearchResults();
-        this.searchInput = user.fullName;
-        this.router.navigateByUrl("/profile/" + user._id);
-    }
-
-    OpenSearchPage(name: string) {
-        $("#" + this.searchInputId).blur();
-        this.HideSearchResults();
-        this.CloseChatWindow();
-        this.router.navigateByUrl("/search/" + name.trim());
     }
 
     NavigateToLogin() {

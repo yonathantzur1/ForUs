@@ -1,0 +1,52 @@
+<div id="mainSearch">
+    <div class="main-search-overlay" *ngIf="isShowSearchResults" (click)="OverlayClicked()"></div>
+    <input type="text" [id]="searchInputId" class="search-input" placeholder="חיפוש" [(ngModel)]="searchInput"
+        (keyup)="SearchKeyUp($event)" (ngModelChange)="SearchChange(searchInput)"
+        (focus)="ClickSearchInput(searchInput)" (click)="ClickSearchInput(searchInput)" autocomplete="off"
+        autocorrect="off" autocapitalize="off" spellcheck="false">
+    <div class="new-friends-label-container"
+        *ngIf="isShowNewFriendsLabel && !parent.isSidenavOpen && !isShowSearchResults">
+        <i class="fas fa-caret-up new-friends-label-top-arrow"></i>
+        <div class="new-friends-label">חיפוש חברים חדשים</div>
+    </div>
+    <i class="material-icons search-icon"
+        [ngClass]="{'search-icon-active':isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0}">search</i>
+    <!-- Search results container -->
+    <div class="search-results-container"
+        *ngIf="isShowSearchResults && GetFilteredSearchResults(searchInput).length > 0">
+        <!-- Search result -->
+        <div class="search-result" [ngClass]="{'selected-search-result' : (index + 2 == markedResult)}"
+            (mousemove)="markedResult=index + 2;" (mouseleave)="markedResult=null;"
+            *ngFor="let result of GetFilteredSearchResults(searchInput); let index = index" [title]="result.fullName">
+            <div class="result-details-container" (click)="OpenUserProfile(result)">
+                <img *ngIf="result.profile && result.profile != -1" [src]="result.profile" class="search-result-image">
+                <img *ngIf="!result.profile" [src]="globalService.defaultProfileImage" class="search-result-image">
+                <span *ngIf="result.profile == -1" class="search-result-image-loading">
+                    <loaderDots css='{"font-size": "6px", "text-align": "center", "margin-top": "calc(50% - 3px)"}'>
+                    </loaderDots>
+                </span>
+                <span class="search-result-name">{{result.fullName}}</span>
+            </div>
+            <div *ngIf="IsShowAddFriendRequestBtn(result._id) ||
+    IsShowRemoveFriendRequestBtn(result._id) ||
+    IsIncomeFriendRequest(result._id)" class="result-friend-request-btns-container">
+                <i *ngIf="IsShowAddFriendRequestBtn(result._id)"
+                    (click)="eventService.Emit('addFriendRequest', result._id)"
+                    class="fas fa-user-plus friend-request-btn" title="בקשת חברות"></i>
+                <i *ngIf="IsShowRemoveFriendRequestBtn(result._id)"
+                    (click)="eventService.Emit('removeFriendRequest', result._id)"
+                    class="fas fa-user-times friend-request-btn remove-request" title="ביטול בקשת חברות"></i>
+                <!-- Income friend request alert -->
+                <i class="fas fa-ellipsis-h friend-request-btn" (click)="OpenUserProfile(result)"
+                    *ngIf="IsIncomeFriendRequest(result._id)" title="בקשת חברות ממתינה"></i>
+            </div>
+        </div>
+        <!-- See more results btn -->
+        <div (mousemove)="markedResult=0;" (mouseleave)="markedResult=null;"
+            [ngClass]="{'selected-search-result' : (markedResult == 0)}" class="see-more-results-btn"
+            (click)="OpenSearchPage(searchInput)">
+            <i class="material-icons more-result-icon">search</i>
+            <span class="see-more-results-btn-text">תוצאות נוספות...</span>
+        </div>
+    </div>
+</div>

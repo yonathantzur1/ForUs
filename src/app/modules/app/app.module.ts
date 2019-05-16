@@ -15,6 +15,7 @@ import { SnackbarComponent } from '../../components/snackbar/snackbar.component'
 import { LoginComponent } from '../../components/login/login.component';
 import { HomeComponent } from '../../components/home/home.component';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
+import { MainSearchComponent } from '../../components/navbar/mainSearch/mainSearch.component';
 import { DropMenuComponent } from '../../components/dropMenu/dropMenu.component';
 import { ProfilePictureEditComponent } from '../../components/profilePicture/profilePictureEdit/profilePictureEdit.component';
 import { ProfilePictureComponent } from '../../components/profilePicture/profilePicture.component';
@@ -66,6 +67,7 @@ import { Routing } from '../../routes/app/app.routing'
     SnackbarComponent,
     LoginComponent,  
     NavbarComponent,
+    MainSearchComponent,
     DropMenuComponent,
     ProfilePictureEditComponent,
     ProfilePictureComponent,
