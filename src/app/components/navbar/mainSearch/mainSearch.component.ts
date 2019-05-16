@@ -36,7 +36,7 @@ export class MainSearchComponent {
         public globalService: GlobalService,
         public eventService: EventService,
         private navbarService: NavbarService,
-        @Host() private parent: NavbarComponent) {
+        @Host() public parent: NavbarComponent) {
         this.eventService.Register("hideSearchResults", () => {
             this.isShowSearchResults = false;
         });
