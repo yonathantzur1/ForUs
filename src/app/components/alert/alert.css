@@ -1,4 +1,4 @@
-#alert .background-container {
+.background-container {
     position: fixed;
     display: flex;
     background-color: rgba(0, 0, 0, 0.2);
@@ -9,7 +9,7 @@
     z-index: 9999;
 }
 
-#alert .box-container {
+.box-container {
     position: relative;
     background-color: #ededed;    
     width: calc(100% - 15px);
@@ -22,7 +22,7 @@
     padding-right: 20px;
 }
 
-#alert .title {
+.title {
     width: 100%;
     height: 60px;
     display: flex;
@@ -33,14 +33,14 @@
     border-top-right-radius: 8px;    
 }
 
-#alert .body {    
+.body {    
     width: 100%;
     min-height: 70px;    
     font-size: 18px;
     display: flex;    
 }
 
-#alert .alert-text {
+.alert-text {
     overflow-y: auto;
     width: 100%;
     max-height: calc(100% - 230px);
@@ -48,23 +48,23 @@
     word-break: break-word;
 }
 
-#alert .alert-img-container {
+.alert-img-container {
     width: 100%;    
     display: flex;
 }
 
-#alert .alert-img {
+.alert-img {
     width: 120px;
     height: 120px;
     margin: auto;
     border-radius: 10px;
 }
 
-#alert .alert-loader {
+.alert-loader {
     position: relative;
 }
 
-#alert .btns-sector {    
+.btns-sector {    
     width: 100%;
     height: 60px;
     display: flex;
@@ -74,7 +74,7 @@
     user-select: none;
 }
 
-#alert .alert-btn {
+.alert-btn {
     width: 65px;
     height: 40px;
     margin-right: 10px;
@@ -88,26 +88,26 @@
     cursor: pointer;
 }
 
-#alert .confirm-btn {
+.confirm-btn {
     background-color: #3085d6;
 }
 
-#alert .confirm-btn:hover {
+.confirm-btn:hover {
     background-color: #2c79c3;
 }
 
-#alert .danger-btn {
+.danger-btn {
     background-color: #f44336 !important;
 }
 
-#alert .danger-btn:hover {
+.danger-btn:hover {
     background-color: #df3f33 !important;
 }
 
-#alert .close-btn {
+.close-btn {
     background-color: #b4b4b4;
 }
 
-#alert .close-btn:hover {
+.close-btn:hover {
     background-color: #a4a4a4;
 }

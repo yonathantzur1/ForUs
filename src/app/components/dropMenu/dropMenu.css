@@ -1,4 +1,4 @@
-#dropMenu .drop-menu {
+.drop-menu {
     background-color: #fefff4;
     padding: 0;
     width: 100%;
@@ -7,24 +7,24 @@
     padding-bottom: 5px;
 }
 
-#dropMenu .menu-option {
+.menu-option {
     text-decoration: none;
     list-style-type: none;
     cursor: pointer;
 }
 
-#dropMenu .option-link {
+.option-link {
     text-decoration: none;
 }
 
-#dropMenu .option-sector {
+.option-sector {
     display: block;
     padding: 5px;    
     font-size: 14px;    
     color: var(--main-text-color);
 }
 
-#dropMenu .option-sector:hover {
+.option-sector:hover {
     background-color: #61a7db;
     color: white;
     border-radius: 2px;

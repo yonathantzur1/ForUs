@@ -1,20 +1,20 @@
-#managementPanel {
+.panel-container {
     height: 100%;
     display: flex;
 }
 
-#managementPanel .panel-table {
+.panel-table {
     width: 100%;
     max-width: 700px;
     margin: auto;
     height: 305px;
 }
 
-#managementPanel td {
+td {
     width: 50%;
 }
 
-#managementPanel .panel-btn {
+.panel-btn {
     width: 85%;
     max-width: 240px;
     height: 130px;
@@ -27,27 +27,27 @@
     background-color: whitesmoke;
 }
 
-#managementPanel .panel-btn:hover {
+.panel-btn:hover {
     background-color: #e8e8e8;
 }
 
-#managementPanel .panel-btn-data {
+.panel-btn-data {
     text-align: center;
     width: 100%;
     font-size: 18px;
 }
 
-#managementPanel .btn-icon {
+.btn-icon {
     margin-top: 5px;
 }
 
 /* Css design for small screens. */
 @media (max-height: 360px) {
-    #managementPanel .panel-table {
+    .panel-table {
         height: 250px;
     }
 
-    #managementPanel .panel-btn {
+    .panel-btn {
         height: 110px;
     }
 }

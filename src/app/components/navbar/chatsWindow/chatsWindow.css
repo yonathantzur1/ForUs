@@ -1,11 +1,11 @@
 /* Css design for small screens. */
 @media (max-width: 750px) {
-    #chatsWindow .chat-last-text {
+    .chat-last-text {
         font-size: 14px !important;
     }
 }
 
-#chatsWindow .chatsWindow-container {
+.chatsWindow-container {
     position: fixed;
     top: 126px;
     right: 35px;
@@ -18,7 +18,7 @@
     z-index: 1000;
 }
 
-#chatsWindow .window-top-arrow {
+.window-top-arrow {
     top: 111px;
     right: 198px;
     z-index: 1002;
@@ -27,7 +27,7 @@
     position: fixed;
 }
 
-#chatsWindow .top-line {
+.top-line {
     height: 20px;
     width: 100%;
     border-bottom: 1px solid #d2d2d2;
@@ -42,13 +42,13 @@
     padding-right: 10px;
 }
 
-#chatsWindow .body-container {
+.body-container {
     height: calc(100% - 20px) !important;
     width: 100%;
     overflow-y: auto;
 }
 
-#chatsWindow .chat-container {
+.chat-container {
     width: 100%;
     height: 49px;
     border-bottom: 1px solid #d2d2d2;
@@ -60,18 +60,18 @@
     position: relative;
 }
 
-#chatsWindow .chat-container:hover {
+.chat-container:hover {
     background-color: #f7f7f7;
 }
 
-#chatsWindow .chat-last-text {
+.chat-last-text {
     font-size: 13px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
 }
 
-#chatsWindow .chat-last-time {
+.chat-last-time {
     font-size: 11px;
     align-self: center;
     margin-top: 1px;
@@ -80,7 +80,7 @@
     text-align: center;
 }
 
-#chatsWindow .chat-image {
+.chat-image {
     width: 34px;
     height: 34px;
     border-radius: 50%;
@@ -89,7 +89,7 @@
     border: 0.5px solid #c6c6c6;
 }
 
-#chatsWindow .chat-name {
+.chat-name {
     font-size: 14px;
     font-weight: bold;
     text-overflow: ellipsis;
@@ -97,11 +97,11 @@
     overflow: hidden;
 }
 
-#chatsWindow .details-container {
+.details-container {
     width: calc(100% - 100px);    
 }
 
-#chatsWindow .notification-sign {
+.notification-sign {
     height: 10px;
     width: 10px;
     border-radius: 50%;
@@ -112,11 +112,11 @@
     border: 0.5px solid #f7f7f7;
 }
 
-#chatsWindow .img-sign {    
+.img-sign {    
     color: #403c52;
 }
 
-#chatsWindow .chats-loader {
+.chats-loader {
     position: absolute;
     top: 50%;
     right: 50%;

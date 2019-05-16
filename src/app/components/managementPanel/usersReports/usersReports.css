@@ -1,14 +1,14 @@
-#usersReports .reports-title {
+.reports-title {
     text-align: center;
     margin-bottom: 10px;
     user-select: none;
 }
 
-#usersReports .title-icon {
+.title-icon {
     margin-right: 5px;
 }
 
-#usersReports .reports-container {
+.reports-container {
     width: 100%;
     max-width: 700px;
     position: relative;
@@ -16,7 +16,7 @@
     border-radius: 10px;
 }
 
-#usersReports .report-card {
+.report-card {
     width: calc(100% - 10px);
     height: 210px;
     border: 0.5px solid var(--main-text-color);
@@ -27,16 +27,16 @@
     position: relative;
 }
 
-#usersReports .report-group {
+.report-group {
     margin: 8px;
 }
 
-#usersReports .report-label {
+.report-label {
     text-decoration: underline;
     font-weight: bold;
 }
 
-#usersReports .report-field {
+.report-field {
     overflow: hidden;
     width: 100%;
     white-space: nowrap;
@@ -44,17 +44,17 @@
     display: inline-block;
 }
 
-#usersReports .report-top-field {
+.report-top-field {
     width: calc(100% - 25px) !important;
 }
 
-#usersReports .users-details-container {
+.users-details-container {
     position: absolute;
     bottom: 0;
     line-height: 30px;
 }
 
-#usersReports .report-status {
+.report-status {
     width: 12px;
     height: 12px;
     border-radius: 50%;        
@@ -63,37 +63,37 @@
     left: 12px;
 }
 
-#usersReports .line {
+.line {
     display: block;
     height: 1px;
     background-image: linear-gradient(to right, #828282, black, #828282);
 }
 
-#usersReports .user-name-btn {
+.user-name-btn {
     cursor: pointer;    
 }
 
-#usersReports .user-name-btn:hover {
+.user-name-btn:hover {
     text-decoration: underline;
 }
 
-#usersReports .names-arrow-icon {
+.names-arrow-icon {
     margin: 0 5px 0 5px;
 }
 
-#usersReports .report-status-green {
+.report-status-green {
     background-color: rgb(76, 175, 80);
 }
 
-#usersReports .report-status-yellow {
+.report-status-yellow {
     background-color: rgb(255, 193, 7);
 }
 
-#usersReports .report-status-red {
+.report-status-red {
     background: rgb(244, 67, 54);
 }
 
-#usersReports .not-found-reports-sector {
+.not-found-reports-sector {
     text-align: center;
     margin-top: 20px;
 }

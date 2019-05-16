@@ -1,13 +1,13 @@
-#permissionsCard .close {
+.close {
     position: absolute;
     left: 0;
 }
 
-#permissionsCard .modal-header, #permissionsCard .modal-body, #permissionsCard .modal-footer {
+.modal-header, .modal-body, .modal-footer {
     user-select: none;    
 }
 
-#permissionsCard .title {
+.title {
     font-size: 18px;
     width: calc(100% - 18px);
     display: inline-block;
@@ -16,41 +16,41 @@
     white-space: nowrap;
 }
 
-#permissionsCard .modal-title-icon {
+.modal-title-icon {
     font-size: 26px;
     position: absolute;
     top: 22px;
     padding-right: 5px;    
 }
 
-#permissionsCard .modal-footer-buttons {
+.modal-footer-buttons {
     float: left;
 }
 
-#permissionsCard .save-permissions-btn {
+.save-permissions-btn {
     padding: 0;
     left: 0;
 }
 
-#permissionsCard .cancel-permissions-btn {
+.cancel-permissions-btn {
     padding: 0;
     left: 10px;
 }
 
-#permissionsCard .permissions-container {    
+.permissions-container {    
     font-size: 16px;    
 }
 
-#permissionsCard .permission-sector {
+.permission-sector {
     cursor: pointer;
     margin-bottom: 10px;
     display: inline-block;
 }
 
-#permissionsCard .permission-name {
+.permission-name {
     margin-right: 5px;    
 }
 
-#permissionsCard .permission-check-icon {
+.permission-check-icon {
     font-size: 18px;    
 }

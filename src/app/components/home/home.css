@@ -1,4 +1,4 @@
-#home .main-container {
+.main-container {
     width: calc(100% - 40px);
     /* Height is minus 50px because of the top navbar */
     height: calc(100% - 50px);

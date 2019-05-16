@@ -1,4 +1,4 @@
-#mainSearch .main-search-overlay {
+.main-search-overlay {
     position: fixed;
     top: 50px;
     right: 0;
@@ -7,7 +7,7 @@
     z-index: 998;    
 }
 
-#mainSearch .search-input {    
+.search-input {    
     padding-right: 5px;    
     border-radius: 3px;
     border: 0;
@@ -20,11 +20,11 @@
     overflow: hidden !important;
 }
 
-#mainSearch .new-friends-label-container {
+.new-friends-label-container {
     position: absolute;
 }
 
-#mainSearch .new-friends-label-top-arrow {
+.new-friends-label-top-arrow {
     color: #b2b2b2 !important;
     top: -3px;
     width: 100%;    
@@ -34,7 +34,7 @@
     z-index: 1;
 }
 
-#mainSearch .new-friends-label {
+.new-friends-label {
     background-color: rgba(0, 0, 0, 0.25);
     color: white;
     width: 150px;
@@ -46,7 +46,7 @@
     border-top: 0.5px solid #bdb7b7;
 }
 
-#mainSearch .search-icon {
+.search-icon {
     font-size: 22px;    
     position: absolute;
     color: #7b7878;
@@ -54,11 +54,11 @@
     top: 1px;
 }
 
-#mainSearch .search-icon-active {
+.search-icon-active {
     color: #6088ff !important;
 }
 
-#mainSearch .search-results-container {
+.search-results-container {
     position: absolute;
     width: calc(100% - 20px);
     background-color: #f7f7f7;
@@ -66,7 +66,7 @@
     z-index: 1000;
 }
 
-#mainSearch .search-result-image {
+.search-result-image {
     width: 45px;
     height: 45px;
     border-radius: 5px;
@@ -74,7 +74,7 @@
     align-self: center;
 }
 
-#mainSearch .search-result-image-loading {
+.search-result-image-loading {
     width: 45px;
     height: 45px;
     border-radius: 5px;
@@ -87,7 +87,7 @@
     text-align: center;
 }
 
-#mainSearch .search-result-name {
+.search-result-name {
     width: calc(100% - 60px);
     display: inline-block;
     text-overflow: ellipsis;
@@ -97,7 +97,7 @@
     font-size: 14px;    
 }
 
-#mainSearch .result-details-container {
+.result-details-container {
     width: 100%;
     position: relative;
     display: flex;
@@ -105,7 +105,7 @@
     overflow: hidden;
 }
 
-#mainSearch .result-friend-request-btns-container {
+.result-friend-request-btns-container {
     width: 50px;
     display: flex;
     position: relative;
@@ -113,7 +113,7 @@
     text-align: center;
 }
 
-#mainSearch .search-result {
+.search-result {
     height: 55px;
     padding: 5px;
     color: #1d4695;
@@ -123,25 +123,25 @@
     display: flex;
 }
 
-#mainSearch .selected-search-result {
+.selected-search-result {
     background-color: #6887c2 !important;
     color: #f7f7f7 !important;
 }
 
-#mainSearch .friend-request-btn {
+.friend-request-btn {
     align-self: center;
     font-size: 20px;
     width: 100%;
 }
 
-#mainSearch .remove-request {
+.remove-request {
     padding-left: 3px;
     padding-right: 3px;
     padding-top: 2px;
     left: 28px !important;
 }
 
-#mainSearch .see-more-results-btn {
+.see-more-results-btn {
     width: 100%;
     height: 30px;
     border-top: 0.5px solid #1b5484;    
@@ -151,68 +151,68 @@
     cursor: pointer;
 }
 
-#mainSearch .see-more-results-btn-text {
+.see-more-results-btn-text {
     font-size: 12px;    
     margin-right: 3px;    
 }
 
-#mainSearch .more-result-icon {
+.more-result-icon {
     font-size: 16px;
     margin-right: 5px;
     margin-bottom: 2px;
 }
 
 @media (max-width: 450px) {
-    #mainSearch .search-result {
+    .search-result {
         height: 45px;
     }
 
-    #mainSearch .search-result-image {
+    .search-result-image {
         width: 35px;
         height: 35px;
     }
 
-    #mainSearch .search-result-name {
+    .search-result-name {
         width: calc(100% - 45px);
         font-size: 12px;
     }
 
-    #mainSearch .search-result-image-loading {
+    .search-result-image-loading {
         width: 35px;
         height: 35px;        
     }
 }
 
 @media (max-width: 450px) and (min-width: 351px) {
-    #mainSearch .result-friend-request-btns-container {
+    .result-friend-request-btns-container {
         width: 30px;
     }
 
-    #mainSearch .friend-request-btn {
+    .friend-request-btn {
         font-size: 16px;
     }
 }
 
 @media (max-width: 350px) {
-    #mainSearch .search-result-name {
+    .search-result-name {
         font-size: 10px;
     }
     
-    #mainSearch .search-result-image {
+    .search-result-image {
         width: 32px;
         height: 32px;
     }
 
-    #mainSearch .search-result-image-loading {
+    .search-result-image-loading {
         width: 32px;
         height: 32px;
     }
 
-    #mainSearch .result-friend-request-btns-container {
+    .result-friend-request-btns-container {
         width: 24px;
     }
 
-    #mainSearch .friend-request-btn {
+    .friend-request-btn {
         font-size: 14px;
     }
 }

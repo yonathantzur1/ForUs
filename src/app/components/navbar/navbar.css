@@ -1,4 +1,4 @@
-#navbar .sidenav-overlay {
+.sidenav-overlay {
     position: fixed;
     top: 0;
     right: 0;
@@ -7,15 +7,15 @@
     z-index: 998;
 }
 
-#navbar .sidenav-overlay-top {
+.sidenav-overlay-top {
     z-index: 1000 !important;
 }
 
-#navbar .overlay-background {
+.overlay-background {
     background-color: rgba(0, 0, 0, 0.14);
 }
 
-#navbar .navbar-right-container {
+.navbar-right-container {
     position: relative;
     padding-right: 0;
     padding-left: 0;
@@ -23,12 +23,12 @@
     align-items: center;
 }
 
-#navbar .navbar-left-container {
+.navbar-left-container {
     height: 100%;
     left: 0;
 }
 
-#navbar .navbar {
+.navbar {
     width: 100%;
     height: 50px;
     background-color: #0375d8;
@@ -42,13 +42,13 @@
     box-shadow: none;
 }
 
-#navbar .sidenav-body-sector {
+.sidenav-body-sector {
     height: calc(100% - 130px);
     overflow-y: auto;
     overflow-x: hidden;
 }
 
-#navbar .name {
+.name {
     font-size: 15px;    
     display: inline-block;
     max-width: 78%;
@@ -62,26 +62,26 @@
     align-self: center;
 }
 
-#navbar .top-navbar-user-image {
+.top-navbar-user-image {
     width: 30px;
     height: 30px;
     margin-left: 3px;
     display: inline-block;
 }
 
-#navbar .head-container {
+.head-container {
     cursor: pointer;
     position: relative;
     display: flex;
     align-items: center;
 }
 
-#navbar .head-icon {    
+.head-icon {    
     width: 40px;
     height: 40px;
 }
 
-#navbar .head-title {
+.head-title {
     font-family: Mona Shark;
     color: #dff3ff;
     font-size: 32px;    
@@ -90,14 +90,14 @@
     margin-top: 3px; 
 }
 
-#navbar .search-sector {
+.search-sector {
     position: relative;
     z-index: 1;
     padding-right: 5px;
     align-self: center;
 }
 
-#navbar .manage-sector {    
+.manage-sector {    
     white-space: nowrap;
     max-width: 100%;
     width: 100%;
@@ -109,7 +109,7 @@
     display: flex;
 }
 
-#navbar .menu-icon {
+.menu-icon {
     font-size: 22px;
     left: 0;
     cursor: pointer;
@@ -117,11 +117,11 @@
     position: absolute;
 }
 
-#navbar .menu-icon:hover {
+.menu-icon:hover {
     color: var(--main-background-color);
 }
 
-#navbar .menu-top-arrow {
+.menu-top-arrow {
     position: absolute;
     color: #fefff4;
     left: -1px;
@@ -130,7 +130,7 @@
     z-index: 1;
 }
 
-#navbar .drop-menu-position {
+.drop-menu-position {
     position: fixed;
     left: 5px;
     top: 50px;
@@ -138,7 +138,7 @@
 }
 
 /* The side navigation menu */
-#navbar .sidenav {
+.sidenav {
     height: 100%;
     width: 0;
     position: fixed;
@@ -153,11 +153,11 @@
     overflow-y: hidden;
 }
 
-#navbar .sidenav-shadow {
+.sidenav-shadow {
     box-shadow: -5px 0px 15px 0px grey
 }
 
-#navbar .friend-name-container {
+.friend-name-container {
     padding: 12px 8px 10px 0px;
     font-size: 14px;
     color: #dbdeff;
@@ -168,11 +168,11 @@
     width: calc(100% - 55px);    
 }
 
-#navbar .bold-friend-name {
+.bold-friend-name {
     font-weight: bold;
 }
 
-#navbar .sidenav-head-sector {
+.sidenav-head-sector {
     background-color: #115c94;
     width: 100%;
     height: 75px;
@@ -180,7 +180,7 @@
     padding-top: 0;
 }
 
-#navbar .sidenav-header {
+.sidenav-header {
     font-size: 26px;
     cursor: default;
     color: #f1f1f1;
@@ -193,14 +193,14 @@
     align-items: center;
 }
 
-#navbar .profile-picture {
+.profile-picture {
     width: 55px;
     height: 55px;
     cursor: pointer;
     position: absolute;
 }
 
-#navbar .user-name {
+.user-name {
     font-size: 18px;
     width: 150px;
     white-space: nowrap;
@@ -211,7 +211,7 @@
     right: 75px;    
 }
 
-#navbar .toolbar-menu {
+.toolbar-menu {
     position: absolute;
     top: 45px;
     right: 70px;
@@ -223,13 +223,13 @@
     overflow: hidden;
 }
 
-#navbar .toolbar-item {
+.toolbar-item {
     margin: 4px;
     cursor: pointer;
     font-size: 20px;
 }
 
-#navbar .badget-icon {
+.badget-icon {
     width: 10px;
     height: 10px;
     background-color: red;
@@ -240,16 +240,16 @@
     border: 1px solid #eee;
 }
 
-#navbar .friend-container {
+.friend-container {
     display: flex;
     cursor: pointer;
 }
 
-#navbar .friend-container:hover {
+.friend-container:hover {
     background-color: rgba(46, 66, 80, 0.34);
 }
 
-#navbar .friend-profile {
+.friend-profile {
     width: 35px;
     height: 35px;
     border-radius: 50%;
@@ -257,12 +257,12 @@
     background-color: rgba(255, 255, 255, 0.82);
 }
 
-#navbar .form-group {
+.form-group {
     margin: 0 !important;
     padding-bottom: 0 !important;
 }
 
-#navbar .clear-friend-search {
+.clear-friend-search {
     position: absolute;
     left: 15px;
     font-size: 18px;
@@ -271,36 +271,36 @@
     cursor: pointer;
 }
 
-#navbar #friend-search {    
+#friend-search {    
     background-image: linear-gradient(0deg,#D2D2D2 2px,rgba(0,150,136,0) 0),linear-gradient(0deg,#D2D2D2 1px,transparent 0) !important;
     color: #efeded !important;
 }
 
-#navbar #friend-search-container ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+#friend-search-container ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: #DBD8D8 !important;
     font-size: 12px;
     padding: 5px 0 !important;
 }
 
-#navbar #friend-search-container :-ms-input-placeholder { /* Internet Explorer 10-11 */
+#friend-search-container :-ms-input-placeholder { /* Internet Explorer 10-11 */
     color: #DBD8D8 !important;
     font-size: 12px;
     padding: 5px 0 !important;
 }
 
-#navbar #friend-search-container ::-ms-input-placeholder { /* Microsoft Edge */
+#friend-search-container ::-ms-input-placeholder { /* Microsoft Edge */
     color: #DBD8D8 !important;
     font-size: 12px;
     padding: 5px 0 !important;
 }
 
-#navbar .friends-loader {
+.friends-loader {
     position: absolute;
     top: 150px;
     right: 80px;
 }
 
-#navbar .no-friends-container {
+.no-friends-container {
     width: 100%;
     height: 100%;
     display: flex;
@@ -308,7 +308,7 @@
     overflow-x: hidden;
 }
 
-#navbar .no-friends-icon {
+.no-friends-icon {
     margin: auto;
     font-size: 50px;
     color: #e7e7e7;
@@ -320,13 +320,13 @@
     cursor: pointer;
 }
 
-#navbar .friend-image-container {
+.friend-image-container {
     position: relative;
     display: flex;
     margin-right: 8px;
 }
 
-#navbar .online-icon {
+.online-icon {
     width: 10px;
     height: 10px;
     border: 1px solid white;
@@ -337,7 +337,7 @@
     top: 28px;
 }
 
-#navbar .typing-icon {
+.typing-icon {
     width: 16px;
     height: 14px;
     border: 0.5px solid grey;
@@ -353,7 +353,7 @@
     line-height: 0.2;
 }
 
-#navbar .notification {
+.notification {
     max-width: 270px;
     height: 30px;
     background-color: rgba(62, 62, 62, 0.80);
@@ -382,16 +382,16 @@
     to {opacity: 1;}
 }
 
-#navbar .notification-name {
+.notification-name {
     font-weight: bold;
     font-size: 14px;
 }
 
-#navbar .notification-text {
+.notification-text {
     font-size: 14px;
 }
 
-#navbar .new-friends-title {
+.new-friends-title {
     position: absolute;
     top: 50%;
     margin-top: -70px;
@@ -401,7 +401,7 @@
     color: #f7f7f7;
 }
 
-#navbar .open-sidenav-btn {
+.open-sidenav-btn {
     width: 25px;
     height: 35px;
     position: fixed;
@@ -417,11 +417,11 @@
     transition: var(--navbar-animation-delay);
 }
 
-#navbar .open-sidenav-btn:hover {
+.open-sidenav-btn:hover {
     background-color: #0079e3;
 }
 
-#navbar .open-sidenav-icon {
+.open-sidenav-icon {
     color: white;
     font-weight: bold;
     align-self: center;
@@ -430,15 +430,15 @@
     font-size: 16px;
 }
 
-#navbar .top-sidenav-btn {    
+.top-sidenav-btn {    
     z-index: 999 !important;
 }
 
-#navbar .open-sidenav {    
+.open-sidenav {    
     z-index: 999;
 }
 
-#navbar .notifications-budget {
+.notifications-budget {
     background-color: red;
     border-radius: 10px;
     padding-right: 5px;
@@ -453,16 +453,16 @@
     display: flex;    
 }
 
-#navbar .notifications-number {
+.notifications-number {
     align-self: center;
     width: 100%;
     text-align: center;
 }
 
-#navbar .navbar-under {
+.navbar-under {
     z-index: -1 !important;
 }
 
-#navbar ::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     background-color: #e3e3e3 !important;
 }

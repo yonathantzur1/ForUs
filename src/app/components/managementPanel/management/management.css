@@ -1,20 +1,20 @@
-#management ::-webkit-input-placeholder
+::-webkit-input-placeholder
 {
     color: #afafaf;
     font-size: 16px;
 }
 
-#management .form-group {
+.form-group {
     margin-top: 10px !important;
     display: flex;
 }
 
-#management .friend-search-form-group {
+.friend-search-form-group {
     margin-top: 0px !important;
     margin-bottom: 15px;
 }
 
-#management .users-container {
+.users-container {
     width: 600px;
     max-width: 100%;
     height: 100%;
@@ -23,7 +23,7 @@
     user-select: none;    
 }
 
-#management .search-input {
+.search-input {
     font-size: 16px;
     width: calc(100% - 60px);
     margin-right: 10px;
@@ -31,15 +31,15 @@
     display: inline-block;
 }
 
-#management .friend-search-input {
+.friend-search-input {
     width: 100% !important;    
 }
 
-#management .friend-search-input::-ms-clear {
+.friend-search-input::-ms-clear {
     display: none;
 }
 
-#management .search-friend-btn {
+.search-friend-btn {
     margin-right: -30px;
     height: 35px;
     width: 35px;
@@ -49,7 +49,7 @@
     align-items: center;
 }
 
-#management .search-user-btn {
+.search-user-btn {
     margin-right: 15px;
     box-shadow: 0px 0px 5px 1px #c2c2c2;
     height: 35px;
@@ -67,7 +67,7 @@
     to {background-color: #4799ff;}
 }
 
-#management .search-user-btn-active {
+.search-user-btn-active {
     animation-name: activesearch;
     animation-duration: 0.3s;
     background-color: #4799ff;
@@ -79,32 +79,32 @@
     to {background-color: #9d9d9d;}
 }
 
-#management .search-user-btn-disabled {
+.search-user-btn-disabled {
     animation-name: disablesearch;
     animation-duration: 0.3s;
     background-color: #9d9d9d;
     cursor: default;
 }
 
-#management .search-user-btn-icon {
+.search-user-btn-icon {
     color: #f3f3f3;
     width: 100%;
     text-align: center;
     align-self: center;
 }
 
-#management .search-friend-btn-icon {
+.search-friend-btn-icon {
     color: #777;
     margin-top: 5px;
 }
 
-#management .card-container {
+.card-container {
     box-shadow: 1px 1px 6px 1px #c9c9c9;
     background-color: white;
     margin-bottom: 10px;
 }
 
-#management .user-card {
+.user-card {
     width: 100%;
     height: 100px;
     margin: auto; 
@@ -113,18 +113,18 @@
     position: relative;
 }
 
-#management .user-loading-container {
+.user-loading-container {
     text-align: center;
 }
 
-#management .user-name-container {
+.user-name-container {
     width: 100%;
     align-self: center;
     display: flex;
     justify-content: center;
 }
 
-#management .user-name {
+.user-name {
     font-size: 22px;    
     font-weight: bold;
     align-self: center;    
@@ -132,14 +132,14 @@
     user-select: text;
 }
 
-#management .user-profile-image {
+.user-profile-image {
     width: 60px;
     height: 60px;
     border-radius: 50%;
     margin-right: 10px;
 }
 
-#management .user-info-container {    
+.user-info-container {    
     position: relative;
     width: 100%;
     padding-left: 15px;
@@ -151,13 +151,13 @@
     to {height: 270px;}
 }
 
-#management .user-info-container-open-animation {
+.user-info-container-open-animation {
     animation-name: opencard;
     animation-duration: 0.4s;
     height: 285px;
 }
 
-#management .user-info-container-open {
+.user-info-container-open {
     height: 270px;
 }
 
@@ -166,12 +166,12 @@
     to {height: 0px;}
 }
 
-#management .user-info-container-close {
+.user-info-container-close {
     animation-name: closecard;
     animation-duration: 0.4s;
 }
 
-#management .user-info-btn {
+.user-info-btn {
     position: absolute;
     bottom: 0;
     right: 0;
@@ -185,66 +185,66 @@
     to {opacity: 1;}
 }
 
-#management .user-info-card-open {
+.user-info-card-open {
     animation-name: showinfo;
     animation-duration: 0.2s;
 }
 
-#management .info-table {
+.info-table {
     width: 100%;
     height: calc(100% - 24px);    
     font-size: 16px
 }
 
-#management #info-table td {
+#info-table td {
     text-align: center;    
     width: 50%;
     height: 50%;
 }
 
-#management .info-title {
+.info-title {
     margin-bottom: 5px;    
 }
 
-#management .info-data {
+.info-data {
     width: 100%;
     display: inline-block;    
     -webkit-user-select: text;
     user-select: text;
 }
 
-#management .friends-info-sector {
+.friends-info-sector {
     margin-bottom: 8px;
 }
 
-#management .friends-info-icon {
+.friends-info-icon {
     font-size: 30px;    
 }
 
-#management .clickable {
+.clickable {
     cursor: pointer;
 }
 
-#management .user-left-icon {
+.user-left-icon {
     left: 12px;
     top: 15px;
     position: absolute;
     cursor: pointer;    
 }
 
-#management .save-edit-btn-disabled {
+.save-edit-btn-disabled {
     color: #bdbdbd;
     cursor: default;
 }
 
-#management .user-card-back-icon {
+.user-card-back-icon {
     right: 12px;
     top: 15px;
     position: absolute;
     cursor: pointer;    
 }
 
-#management .friends-container {
+.friends-container {
     overflow-y: auto;
     height: calc(100% - 80px);    
     width: 100%;
@@ -252,7 +252,7 @@
     right: 0;
 }
 
-#management .user-friend-container {
+.user-friend-container {
     width: 110px;
     height: 85px;
     display: inline-block;
@@ -261,33 +261,33 @@
     position: relative;
 }
 
-#management .friend-profile-image {
+.friend-profile-image {
     width: 50px;
     height: 50px;
     border-radius: 50%;
 }
 
-#management .friend-name {
+.friend-name {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
-#management .edit-input {
+.edit-input {
     width: 65%;
     margin: auto;
 }
 
-#management .edit-input::-ms-clear {
+.edit-input::-ms-clear {
     display: none;
 }
 
-#management .english-input {
+.english-input {
     text-align: left;
     direction: ltr;
 }
 
-#management .drop-menu-position {
+.drop-menu-position {
     position: absolute;
     left: 10px;
     top: 45px;
@@ -295,34 +295,34 @@
     z-index: 2;
 }
 
-#management .block-reason-container {    
+.block-reason-container {    
     padding: 15px;    
     font-size: 12px;
 }
 
-#management .block-label {
+.block-label {
     font-size: 12px;
     align-self: center;
 }
 
-#management .block-reason-text {
+.block-reason-text {
     width: 100%;
 }
 
-#management .block-amount-container {
+.block-amount-container {
     padding: 15px;    
 }
 
-#management .block-amount-container .amount-secotr {
+.block-amount-container .amount-secotr {
     margin-left: auto;
     margin-right: auto; 
 }
 
-#management .block-amount-input {
+.block-amount-input {
     width: 45px;
 }
 
-#management .block-forever-sector {
+.block-forever-sector {
     padding: 15px;
     position: absolute;
     width: 100%;
@@ -331,26 +331,26 @@
     bottom: 40px;
 }
 
-#management .block-forever-sector label {
+.block-forever-sector label {
     margin-right: 3px;
     font-size: 16px;
 }
 
-#management .block-forever-sector i {
+.block-forever-sector i {
     font-size: 16px;
 }
 
-#management .block-icon {
+.block-icon {
     position: absolute;
     cursor: pointer;
 }
 
-#management .not-found-users-sector {
+.not-found-users-sector {
     text-align: center;
     margin-top: 20px;
 }
 
-#management .remove-friend-icon {
+.remove-friend-icon {
     position: absolute;
     margin-right: -3px;
     top: 0px;
@@ -364,28 +364,28 @@
 
 /* Css design for small screens. */
 @media (max-width: 600px) {
-    #management .info-table {
+    .info-table {
         font-size: 14px;
     }
 
-    #management .email-address {
+    .email-address {
         font-size: 12px;
     }
 
-    #management .friends-number {
+    .friends-number {
         font-size: 12px;
     }
 
-    #management .friends-info-sector {
+    .friends-info-sector {
         margin-bottom: 12px;
     }
 
-    #management .edit-input {
+    .edit-input {
         width: 80%;        
         font-size: 12px;
     }
 
-    #management .block-amount-input {
+    .block-amount-input {
         font-size: 12px;
     }
 }

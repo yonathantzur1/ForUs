@@ -1,4 +1,4 @@
-#statistics .chart-container {
+.chart-container {
     position: relative;
     height: calc(100vh - 190px);
     width: calc(100vw - 50px);
@@ -7,7 +7,7 @@
     margin-top: 20px;
 }
 
-#statistics .control-menu {
+.control-menu {
     width: 100%;
     height: 50px;
     position: relative;
@@ -17,14 +17,14 @@
     z-index: 2;
 }
 
-#statistics .tab-container {
+.tab-container {
     display: inline-flex;
     width: 100%;
     border: 0.5px solid #9e9e9e;
     position: relative;
 }
 
-#statistics .tab {
+.tab {
     display: inline-flex;
     width: 100%;    
     margin-left: auto;
@@ -33,55 +33,55 @@
     user-select: none;
 }
 
-#statistics .tab-icon {
+.tab-icon {
     margin: auto;
     font-size: 20px;
 }
 
-#statistics .close {
+.close {
     position: absolute;
     left: 10px;
     top: 28px;
 }
 
-#statistics .modal-header, #statistics .modal-body, #statistics .modal-footer {
+.modal-header, .modal-body, .modal-footer {
     user-select: none;    
 }
 
-#statistics .modal-title-icon {
+.modal-title-icon {
     font-size: 20px;    
     top: 26px;
     padding-right: 10px;    
 }
 
-#statistics .save-charts-menu-btn {
+.save-charts-menu-btn {
     padding: 0;
     left: 0;
 }
 
-#statistics .cancel-modal-btn {
+.cancel-modal-btn {
     padding: 0;    
     left: 20px;
 }
 
-#statistics .menu-option {
+.menu-option {
     margin-bottom: 10px;
 }
 
-#statistics .menu-option div {    
+.menu-option div {    
     display: inline-block;
     cursor: pointer;
 }
 
-#statistics .menu-option i {    
+.menu-option i {    
     font-size: 16px;
 }
 
-#statistics .menu-option span {
+.menu-option span {
     margin-right: 3px;
 }
 
-#statistics .no-chart-container {
+.no-chart-container {
     width: 100%;
     text-align: center;
     margin-top: 95px;
@@ -90,15 +90,15 @@
     user-select: none;
 }
 
-#statistics .no-chart-container i {
+.no-chart-container i {
     margin-right: 10px;
 }
 
-#statistics .chart-dates-container {    
+.chart-dates-container {    
     text-align: center;
 }
 
-#statistics .dates-range-string-title {
+.dates-range-string-title {
     position: relative;
     user-select: none;
     display: inline-block;
@@ -108,13 +108,13 @@
     top: -3px;
 }
 
-#statistics .change-date-range-icon {
+.change-date-range-icon {
     font-size: 24px;
     cursor: pointer;
     line-height: 0;  
 }
 
-#statistics .control-menu-overly {
+.control-menu-overly {
     background-color: var(--main-background-color);
     width: 100%;
     height: 100%;
@@ -122,40 +122,40 @@
     z-index: 1;
 }
 
-#statistics .microtext {
+.microtext {
     font-size: 11px;
     color: var(--microtext-color);
     line-height: 15px;
     position: absolute;
 }
 
-#statistics .disable-btn {
+.disable-btn {
     color: darkgrey;
     cursor: default;
 }
 
-#statistics .chart-top-details-container {
+.chart-top-details-container {
     user-select: none;
 }
 
-#statistics .chart-title-container {
+.chart-title-container {
     margin-top: 5px;
     font-size: 18px;
     display: inline-block;
 }
 
-#statistics .user-data-container {
+.user-data-container {
     cursor: pointer;
 }
 
-#statistics .user-image {
+.user-image {
     width: 25px;
     height: 25px;
     border-radius: 50%;
     border: 0.5px solid #c1c1c1;
 }
 
-#statistics .accept-btn-disabled {
+.accept-btn-disabled {
     color: darkgrey !important;
     cursor: not-allowed;
 }

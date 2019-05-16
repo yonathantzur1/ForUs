@@ -1,32 +1,32 @@
-#login form {
+form {
     width: 100%;
     margin-bottom: 0;
 }
 
-#login .form-group {
+.form-group {
     padding-bottom: 10px;
     margin: 28px 0 0 0;
     position: relative;
 }
 
-#login .modal .form-group {    
+.modal .form-group {    
     padding-bottom: 5px !important;
 }
 
-#login .no-padding {
+.no-padding {
     padding: 0 !important;
 }
 
-#login .modal-body {
+.modal-body {
     padding-top: 0 !important;
 }
 
-#login .login-sector {
+.login-sector {
     user-select: none;
     cursor: default;
 }
 
-#login .login-loader {
+.login-loader {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -36,20 +36,20 @@
     border-radius: 8%;
 }
 
-#login .login-head-container {
+.login-head-container {
     position: relative;
     text-align: center;
     user-select: none;
     margin-top: 15px;
 }
 
-#login .login-head-icon {
+.login-head-icon {
     height: 70px;
     width: 70px;
     margin-top: -5px;
 }
 
-#login .login-label {
+.login-label {
     font-family: Mona Shark;
     color: #da7b00;
     font-size: 65px;
@@ -57,7 +57,7 @@
     position: relative;
 }
 
-#login .login-btn {
+.login-btn {
     border-style: solid;
     border-width: 1px;
     background-color: #007bff;
@@ -65,12 +65,12 @@
     border-radius: 4px;
 }
 
-#login .login-btn:hover, .login-btn:focus {
+.login-btn:hover, .login-btn:focus {
     background-color: #007bff !important;
     border-color: #7882b6 !important;
 }
 
-#login .login-container {
+.login-container {
     margin: auto;
     margin-top: 25px;
     padding: 25px;
@@ -80,56 +80,56 @@
     box-shadow: 0px 0px 5px 0px #828282;
 }
 
-#login .user-input {
+.user-input {
     margin-bottom: 2%;
 }
 
-#login .options {
+.options {
     column-count: 2;
     column-gap: 0;
     column-rule: 1px solid var(--main-text-color);
     margin-top: 5px;
 }
 
-#login .option-btn {
+.option-btn {
     cursor: pointer;
     font-size: 14px;
     line-height: 1;   
 }
 
-#login .close {
+.close {
     position: absolute;
     left: 10px;
 }
 
-#login .modal-title-label {
+.modal-title-label {
     font-size: 20px;
     cursor: default;
     margin-right: 10%;   
     text-align: left; 
 }
 
-#login .modal-footer-buttons {
+.modal-footer-buttons {
     width: 100%;
     height: 25px;
     text-align: left;
 }
 
-#login .login-icon {
+.login-icon {
     font-size: 48px;
     position: absolute;
     top: 15px;
     padding-right: 15px;
 }
 
-#login .modal-title-icon {
+.modal-title-icon {
     font-size: 35px;
     position: absolute;
     top: 18px;
     padding-right: 10px;
 }
 
-#login .microtext {
+.microtext {
     font-size: 11px;
     position: absolute;
     color: var(--microtext-color) !important;
@@ -137,18 +137,18 @@
     right: 15px;
 }
 
-#login .microtext-align {
+.microtext-align {
     right: 0px;
 }
 
-#login .forgot-link {
+.forgot-link {
     text-decoration: none;
     margin-left: -5px;
     cursor: pointer;
     font-size: 12px;
 }
 
-#login .forgot-inner-link {
+.forgot-inner-link {
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
@@ -157,27 +157,27 @@
     right: 38px;
 }
 
-#login .has-reset-code-link {    
+.has-reset-code-link {    
     right: 30px;
 }
 
-#login .submit-email-forgot {
+.submit-email-forgot {
     padding: 0;
     left: 15px;
 }
 
-#login .cancel-forgot {
+.cancel-forgot {
     padding: 0;    
     left: 30px;
 }
 
-#login .forgot-email-label {
+.forgot-email-label {
     color: #003469;
     font-size: 14px;    
     display: block;    
 }
 
-#login .forgot-email-text {
+.forgot-email-text {
     cursor: default;
     display: inline-block;
     white-space: nowrap;
@@ -189,12 +189,12 @@
     width: 100%;
 }
 
-#login .register-btn {
+.register-btn {
     padding: 0;
     left: 15px;
 }
 
-#login .cancel-register-btn {
+.cancel-register-btn {
     padding: 0;    
     left: 30px;
 }

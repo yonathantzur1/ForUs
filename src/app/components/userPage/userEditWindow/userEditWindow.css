@@ -1,4 +1,4 @@
-#userEditWindow .row {    
+.row {    
     margin: 17px;
     height: calc(50% - 50px);
     display: flex;
@@ -10,7 +10,7 @@
     direction: ltr;    
 }
 
-#userEditWindow .validate-user-info {
+.validate-user-info {
     font-size: 12px;
     padding-right: 15px;
     position: absolute;

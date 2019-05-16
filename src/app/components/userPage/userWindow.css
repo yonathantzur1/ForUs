@@ -1,4 +1,4 @@
-#userWindow .overlay {
+.overlay {
     position: fixed;
     top: 0;
     right: 0;
@@ -9,7 +9,7 @@
     background-color: rgba(0, 0, 0, 0.30);
 }
 
-#userWindow .container {
+.container {
     position: fixed;
     width: 400;
     height: 300px;
@@ -27,7 +27,7 @@
     min-height: 250px;
 }
 
-#userWindow .title {
+.title {
     font-size: 20px;
     text-align: center;
     padding: 10px;
@@ -38,27 +38,27 @@
     width: calc(100% - 25px);
 }
 
-#userWindow .icon {
+.icon {
     font-size: 24px;
     cursor: pointer;    
     user-select: none;
 }
 
-#userWindow .top-icon {
+.top-icon {
     position: absolute;
     top: 15px;
 }
 
-#userWindow .close-icon {
+.close-icon {
     left: 15px;
     color: #7d7d7d;
 }
 
-#userWindow .close-icon:hover {
+.close-icon:hover {
     color: #696969;
 }
 
-#userWindow label {
+label {
     margin: 0;
     margin-bottom: 3px;
     line-height: 0;
@@ -66,12 +66,12 @@
     user-select: none;
 }
 
-#userWindow .bottom-icon {
+.bottom-icon {
     position: absolute;
     bottom: 14px;    
 }
 
-#userWindow .next-icon {
+.next-icon {
     left: 15px;
     width: 25px;
     height: 25px;
@@ -83,19 +83,19 @@
     align-items: center;
 }
 
-#userWindow .next-icon:hover {
+.next-icon:hover {
     background-color: #89a6ff;
     color: white;
 }
 
-#userWindow .disabled-icon {
+.disabled-icon {
     color: #bdbdbd !important;
     border-color: #bdbdbd;
     background-color: transparent !important;
     cursor: default;
 }
 
-#userWindow .save-btn {
+.save-btn {
     position: absolute;
     left: 20px;
     bottom: 10px;
@@ -103,11 +103,11 @@
     padding: 6px 15px 6px 15px;
 }
 
-#userWindow .back-icon {
+.back-icon {
     right: 15px;
 }
 
-#userWindow .microtext {
+.microtext {
     color: var(--microtext-color);
     font-size: 12px;
     position: absolute;

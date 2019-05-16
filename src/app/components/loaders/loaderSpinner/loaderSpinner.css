@@ -1,10 +1,10 @@
-#loaderSpinner .loader {
+.loader {
     width: 100%;
     padding: 10px;
     border-radius: 8%;
 }
 
-#loaderSpinner .loader-spinner {
+.loader-spinner {
     border: 5px solid #d0d0d0;    
     -webkit-animation: spin 1s linear infinite;
     animation: spin 1s linear infinite;

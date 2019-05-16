@@ -1,4 +1,4 @@
-#friendRequestsWindow .friendRequestsWindow-container {
+.friendRequestsWindow-container {
     position: fixed;
     top: 126px;
     right: 10px;
@@ -11,7 +11,7 @@
     z-index: 1000;
 }
 
-#friendRequestsWindow .window-top-arrow {
+.window-top-arrow {
     top: 111px;
     right: 168px;
     z-index: 1002;
@@ -20,7 +20,7 @@
     position: fixed;
 }
 
-#friendRequestsWindow .top-line {
+.top-line {
     height: 20px;
     width: 100%;
     border-bottom: 1px solid #d2d2d2;
@@ -35,13 +35,13 @@
     padding-right: 10px;
 }
 
-#friendRequestsWindow .body-container {
+.body-container {
     height: calc(100% - 20px) !important;
     width: 100%;
     overflow-y: auto;    
 }
 
-#friendRequestsWindow .friend-request-container {
+.friend-request-container {
     width: 100%;
     height: 40px;
     border-bottom: 1px solid #d2d2d2;
@@ -53,11 +53,11 @@
     position: relative;
 }
 
-#friendRequestsWindow .friend-request-container:hover {
+.friend-request-container:hover {
     background-color: #f7f7f7;
 }
 
-#friendRequestsWindow .friend-request-image {
+.friend-request-image {
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -66,14 +66,14 @@
     border: 0.5px solid rgba(128, 127, 127, 0.7);
 }
 
-#friendRequestsWindow .friend-name {
+.friend-name {
     width: calc(100% - 100px);
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
 }
 
-#friendRequestsWindow .friend-accept-text {
+.friend-accept-text {
     width: calc(100% - 50px);
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -81,26 +81,26 @@
     font-size: 14px;
 }
 
-#friendRequestsWindow .friend-request-response-btn {
+.friend-request-response-btn {
     border: 1px solid var(--main-text-color);
     border-radius: 5px;
     font-size: 20px;
 }
 
-#friendRequestsWindow .friend-request-response-btn:hover {
+.friend-request-response-btn:hover {
     background-color: #e1e4ff;
 }
 
-#friendRequestsWindow .friend-request-confirm-btn {
+.friend-request-confirm-btn {
     margin-right: 10px
 }
 
-#friendRequestsWindow .friend-request-decline-btn {
+.friend-request-decline-btn {
     margin-right: 8px;
     margin-left: 12px;
 }
 
-#friendRequestsWindow .friend-requests-loader {
+.friend-requests-loader {
     position: absolute;
     top: 50%;
     right: 50%;

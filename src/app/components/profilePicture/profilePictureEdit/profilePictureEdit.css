@@ -1,11 +1,11 @@
-#profile .close {
+.close {
     position: absolute;
     left: 10px;
     cursor: pointer;
     user-select: none;
 }
 
-#profile .modal-title-label {
+.modal-title-label {
     font-size: 20px;    
     cursor: default;
     margin-right: 10%;
@@ -13,57 +13,57 @@
     text-align: left;
 }
 
-#profile .modal-title-icon {
+.modal-title-icon {
     font-size: 22px;
     position: absolute;
     top: 25px;
     padding-right: 10px;
 }
 
-#profile .main-img-container {
+.main-img-container {
     float: left;
     overflow: hidden;
 }
 
-#profile .main-img-container,
-#profile .preview-img-container {
+.main-img-container,
+.preview-img-container {
   background-color: #f7f7f7;
   text-align: center;
 }
 
-#profile .main-img-container > img {
+.main-img-container > img {
   max-width: 100%;
 }
 
 @media (max-width: 370px) {
-    #profile .fa {
+    .fa {
         font-size: 16px; 
     }
 
-    #profile .align-mini {
+    .align-mini {
         margin-top: 0 !important;
     }
 
-    #profile .edit-left-side {
+    .edit-left-side {
         width: 100% !important;
     }
 
-    #profile .edit-right-side {        
+    .edit-right-side {        
         display: inline;
     }
 
-    #profile .new-image-text {
+    .new-image-text {
         font-size: 20px !important; 
     }
 
-    #profile .main-img-container {
+    .main-img-container {
         width: 250px;
         height: 150px;
         margin: auto;
         float: none;
     }
 
-    #profile .preview-img-container {
+    .preview-img-container {
         width: 80px;
         height: 80px;
         overflow: hidden;
@@ -73,12 +73,12 @@
         margin-top: 20px;
     }
 
-    #profile .right-container {
+    .right-container {
         width: calc(100% - 144px);
         float: left;
     }
 
-    #profile .img-btn {
+    .img-btn {
         border: 1px solid var(--main-text-color);
         width: 28px;
         height: 28px;        
@@ -92,12 +92,12 @@
         align-items: center;
     }
 
-    #profile .image-tool-bar {
+    .image-tool-bar {
         width: 144px;
         float: right;        
     }
 
-    #profile .upload-image-container {
+    .upload-image-container {
         display: block;        
         padding: 10px;        
         height: 120px;
@@ -105,16 +105,16 @@
         margin: auto;        
     }
 
-    #profile .edit-image-preview-sector {
+    .edit-image-preview-sector {
         margin-bottom: 6%;
     }
 
-    #profile .new-image-icon {
+    .new-image-icon {
         font-size: 70px;
         color: #403c52;
     }
 
-    #profile .edit-image-preview {
+    .edit-image-preview {
         height: 70px;
         width: 70px;
         border-radius: 5px;
@@ -123,14 +123,14 @@
 }
 
 @media (min-width: 371px) and (max-width: 699px) {
-    #profile .main-img-container {
+    .main-img-container {
         width: 200px;
         height: 150px;
         position: relative;
         left: -15px;
     }
 
-    #profile .preview-img-container {
+    .preview-img-container {
         width: 60px;
         height: 60px;
         overflow: hidden;
@@ -140,22 +140,22 @@
         left: 25px;
     }
 
-    #profile .edit-right-side {
+    .edit-right-side {
         display: inline-block;
         position: absolute;
         right: 0;
     }
     
-    #profile .edit-left-side {
+    .edit-left-side {
         display: inline-block;
     }
 
-    #profile .right-container {
+    .right-container {
         width: 100%;
         height: 68px;
     }
 
-    #profile .img-btn {
+    .img-btn {
         border: 1px solid var(--main-text-color);
         width: 27px;
         height: 27px;
@@ -170,13 +170,13 @@
         align-items: center;
     }
 
-    #profile .image-tool-bar {
+    .image-tool-bar {
         width: 111px;
         position: absolute;        
         left: 0;
     }
 
-    #profile .upload-image-container {        
+    .upload-image-container {        
         display: inline-block;        
         padding: 10px;              
         width: 120px;
@@ -184,16 +184,16 @@
         vertical-align: middle;        
     }
 
-    #profile .edit-image-preview-sector {
+    .edit-image-preview-sector {
         margin-right: 5%;
     }
 
-    #profile .new-image-icon {
+    .new-image-icon {
         font-size: 70px;
         color: #403c52;
     }
 
-    #profile .edit-image-preview {
+    .edit-image-preview {
         height: 70px;
         width: 70px;
         border-radius: 5px;
@@ -202,14 +202,14 @@
 }
 
 @media (min-width: 700px) {
-    #profile .main-img-container {
+    .main-img-container {
         width: 100%;
         height: 250px;
         position: relative;
         left: -15px;
     }
 
-    #profile .preview-img-container {
+    .preview-img-container {
         width: 120px;
         height: 120px;
         overflow: hidden;
@@ -218,23 +218,23 @@
         margin: auto;
     }
 
-    #profile .edit-right-side {
+    .edit-right-side {
         display: inline-block;
         position: absolute;
         right: 20px;
         height: 300px;
     }
     
-    #profile .edit-left-side {
+    .edit-left-side {
         display: inline-block;
     }
 
-    #profile .right-container {
+    .right-container {
         width: 100%;
         height: 195px;
     }
 
-    #profile .img-btn {
+    .img-btn {
         border: 1px solid var(--main-text-color);
         width: 30px;
         height: 30px;
@@ -251,17 +251,17 @@
         align-items: center;
     }
 
-    #profile .img-btn:hover {
+    .img-btn:hover {
         background-color: #f7f7f7;
     }
 
-    #profile .image-tool-bar {
+    .image-tool-bar {
         width: 100%;
         display: inline-block;
         position: relative;        
     }
 
-    #profile .upload-image-container {        
+    .upload-image-container {        
         display: inline-block;        
         padding: 20px;
         padding-right: 32px;
@@ -271,16 +271,16 @@
         height: 165px;        
     }
 
-    #profile .edit-image-preview-sector {
+    .edit-image-preview-sector {
         margin: 10px;
     }
 
-    #profile .new-image-icon {
+    .new-image-icon {
         font-size: 85px;
         color: #403c52;
     }
 
-    #profile .edit-image-preview {
+    .edit-image-preview {
         height: 100px;
         width: 100px;
         border-radius: 5px;
@@ -288,72 +288,72 @@
     }
 }
 
-#profile .main-img {
+.main-img {
     max-width: 100%;
 }
 
-#profile .preview-img {
+.preview-img {
     max-width: 100%;
 }
 
-#profile .image-sector {
+.image-sector {
     direction: ltr !important;
     user-select: none;
     text-align: left;
 }
 
-#profile .modal-footer-buttons {
+.modal-footer-buttons {
     float: left;
     user-select: none;
 }
 
-#profile .change-img-btn {
+.change-img-btn {
     padding: 0;
     left: 15px;
 }
 
-#profile .change-img-btn-disabled {
+.change-img-btn-disabled {
     color: darkgrey !important;
     cursor: not-allowed;    
 }
 
-#profile .cancel-change-btn {
+.cancel-change-btn {
     padding: 0;    
     left: 35px;
 }
 
-#profile .upload-image-sector {
+.upload-image-sector {
     direction: ltr !important;
     user-select: none;
     text-align: center;
 }
 
-#profile .new-image-text {
+.new-image-text {
     font-size: 16px;
 }
 
-#profile .img-loader {
+.img-loader {
     position: absolute;
     right: 5px;
     top: 5px;
 }
 
-#profile .img-btn-pressed {
+.img-btn-pressed {
     background-color: #b1d0e6 !important;
 }
 
-#profile .img-btn-pressed:hover {
+.img-btn-pressed:hover {
     background-color: #b1d0e6 !important;
 }
 
-#profile .upload-image-container {
+.upload-image-container {
     border-radius: 2px;
     box-shadow: 1px 1px 6px 0px #a0a0a0;
     cursor: pointer;
 }
 
 @media (max-width: 500px) {
-    #profile .delete-profile-btn {
+    .delete-profile-btn {
         padding-left: 5px !important;
         padding-right: 6px !important;
         padding-top: 6px !important;
@@ -362,7 +362,7 @@
     }
 }
 
-#profile .delete-profile-btn {
+.delete-profile-btn {
     position: absolute;
     right: 10px;
     margin: 0;
@@ -375,6 +375,6 @@
     cursor: pointer;    
 }
 
-#profile .delete-profile-btn:hover {
+.delete-profile-btn:hover {
     background-color: #f3f3f3;
 }

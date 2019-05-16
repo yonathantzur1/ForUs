@@ -1,40 +1,42 @@
 <div id="managementPanel">
-    <table class="panel-table">
-        <tr>
-            <td>
-                <div class="panel-btn" (click)="Route('/management')">
-                    <div class="panel-btn-data">
-                        <div>ניהול משתמשים</div>
-                        <i class="fas fa-users btn-icon"></i>
+    <div class="panel-container">
+        <table class="panel-table">
+            <tr>
+                <td>
+                    <div class="panel-btn" (click)="Route('/management')">
+                        <div class="panel-btn-data">
+                            <div>ניהול משתמשים</div>
+                            <i class="fas fa-users btn-icon"></i>
+                        </div>
                     </div>
-                </div>
-            </td>
-            <td>
-                <div class="panel-btn" (click)="Route('/statistics')">
-                    <div class="panel-btn-data">
-                        <div>סטטיסטיקות</div>
-                        <i class="far fa-chart-bar btn-icon"></i>
+                </td>
+                <td>
+                    <div class="panel-btn" (click)="Route('/statistics')">
+                        <div class="panel-btn-data">
+                            <div>סטטיסטיקות</div>
+                            <i class="far fa-chart-bar btn-icon"></i>
+                        </div>
                     </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="panel-btn" (click)="Route('/reports')">
-                    <div class="panel-btn-data">
-                        <div>דיווחים</div>
-                        <i class="fas fa-flag-checkered btn-icon"></i>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="panel-btn" (click)="Route('/reports')">
+                        <div class="panel-btn-data">
+                            <div>דיווחים</div>
+                            <i class="fas fa-flag-checkered btn-icon"></i>
+                        </div>
                     </div>
-                </div>
-            </td>
-            <td>
-                <div class="panel-btn">
-                    <div class="panel-btn-data">
-                        <div>באגים</div>
-                        <i class="fas fa-bug btn-icon"></i>
+                </td>
+                <td>
+                    <div class="panel-btn">
+                        <div class="panel-btn-data">
+                            <div>באגים</div>
+                            <i class="fas fa-bug btn-icon"></i>
+                        </div>
                     </div>
-                </div>
-            </td>
-        </tr>
-    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
