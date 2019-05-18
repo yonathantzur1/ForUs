@@ -35,7 +35,7 @@ a, a:hover, a:focus {
     line-height: unset !important;
 }
 
-.btn:not(.btn-raised).btn-primary, .input-group-btn .btn:not(.btn-raised).btn-primary {
+.btn-primary, .btn-primary:hover, .btn-primary:focus {
     color: #7882b6 !important;
 }
 
@@ -47,10 +47,6 @@ a, a:hover, a:focus {
 .btn:hover {
     background-color: transparent !important;
     border-color: #7882b6 !important;
-}
-
-.form-group.is-focused label, .form-group.is-focused label.control-label {
-    color: #7882b6 !important;
 }
 
 /* END OVERRIDE BOOTSTRAP MATERIAL CSS */

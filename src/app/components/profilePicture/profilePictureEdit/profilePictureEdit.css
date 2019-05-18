@@ -314,7 +314,7 @@
 
 .change-img-btn-disabled {
     color: darkgrey !important;
-    cursor: not-allowed;    
+    cursor: not-allowed !important;    
 }
 
 .cancel-change-btn {
