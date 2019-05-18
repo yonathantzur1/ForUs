@@ -13,7 +13,7 @@ import { DropMenuData } from '../navbar/navbar.component';
 
 export class DropMenuComponent {
     constructor(private router: Router, private eventService: EventService) { }
-    
+
     @Input() options: DropMenuData[];
 
     ActiveAction(action: Function, link: string) {
