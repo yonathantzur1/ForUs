@@ -10,6 +10,7 @@ import { SortObjects } from '../../pipes/sort/sort.pipe';
 import { AppComponent } from '../../components/app/app.component';
 import { LoaderSpinnerComponent } from '../../components/loaders/loaderSpinner/loaderSpinner.component';
 import { LoaderDotsComponent } from '../../components/loaders/loaderDots/loaderDots.component';
+import { LoaderRingsComponent } from '../../components/loaders/loaderRings/loaderRings.component';
 import { AlertComponent } from '../../components/alert/alert.component';
 import { SnackbarComponent } from '../../components/snackbar/snackbar.component';
 import { LoginComponent } from '../../components/login/login.component';
@@ -63,6 +64,7 @@ import { Routing } from '../../routes/app/app.routing'
     AppComponent,
     LoaderSpinnerComponent,
     LoaderDotsComponent,
+    LoaderRingsComponent,
     AlertComponent,
     SnackbarComponent,
     LoginComponent,  

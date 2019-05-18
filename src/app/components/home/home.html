@@ -3,4 +3,5 @@
         <navbar [user]="currUser" *ngIf="currUser"></navbar>
         <router-outlet></router-outlet>
     </div>
+    <loaderRings *ngIf="!currUser"></loaderRings>
 </div>

@@ -4,7 +4,8 @@
         <div class="head-container">
             <span (click)="OpenProfileEditWindow()" class="user-image-container">
                 <i *ngIf="IsUserPageSelf()" class="fas fa-camera change-image-icon"></i>
-                <img class="user-image" [ngClass]="{'clickable' : IsUserPageSelf()}" [src]="user.profileImage || globalService.defaultProfileImage">
+                <img class="user-image" [ngClass]="{'clickable' : IsUserPageSelf()}"
+                    [src]="user.profileImage || globalService.defaultProfileImage">
             </span>
             <div class="user-name">
                 {{user.firstName + " " + user.lastName}}
@@ -14,11 +15,13 @@
             <!-- Tabs for user page -->
             <div class="tab-line">
                 <span class="tab-container" *ngFor="let tab of GetTabs()">
-                    <span [title]="tab.title" class="tab" (click)="ChangeTabOptionsMenuState(tab);tab.onClick && tab.onClick()">
+                    <span [title]="tab.title" class="tab"
+                        (click)="ChangeTabOptionsMenuState(tab);tab.onClick && tab.onClick()">
                         <i class="tab-icon {{tab.icon}}">{{tab.innerIconText}}</i>
                     </span>
                     <div *ngIf="tab.isOptionsMenuOpen" class="options-drop-menu">
-                        <div class="option-container" *ngFor="let option of tab.options" (click)="CloseTabOptions(tab);option.action && option.action()">
+                        <div class="option-container" *ngFor="let option of tab.options"
+                            (click)="CloseTabOptions(tab);option.action && option.action()">
                             <span>{{option.text}}</span>
                         </div>
                     </div>
@@ -31,9 +34,5 @@
         </div>
     </div>
     <!-- Loading user page animation -->
-    <div *ngIf="!user" class="rings">
-        <div class="ring__ringlet"></div>
-        <div class="ring__ringlet"></div>
-        <div class="ring__ringlet"></div>
-    </div>
+    <loaderRings *ngIf="!user"></loaderRings>
 </div>
