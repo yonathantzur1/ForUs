@@ -157,8 +157,13 @@ function GetTimeBlessing() {
 
 function ReplaceStyleCss(html, css) {
     Object.keys(css).forEach(className => {
-        html = html.replace("{{" + className + "}}", css[className]);
+        html = html.replaceAll("{{" + className + "}}", css[className]);
     });
 
     return html;
 }
+
+String.prototype.replaceAll = function (search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
