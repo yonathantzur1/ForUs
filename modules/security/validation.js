@@ -1,5 +1,6 @@
 const joi = require('@hapi/joi');
 const regexp = require('../enums').REGEXP;
+const logger = require('../../logger');
 
 module.exports = function (req, res, next) {
     try {
@@ -47,8 +48,8 @@ module.exports = function (req, res, next) {
         }
     }
     catch (err) {
-        console.error(err);
-        res.status(400).end();
+        logger.error(err);
+        res.sendStatus(400);
     }
 }
 

@@ -60,13 +60,13 @@ function Exclude(paths, middleware) {
 // Validation root permissions.
 function CheckRootPermission(req, res, next) {
     permissionHandler.IsUserHasRootPermission(req.user.permissions) ?
-        next() : res.status(401).end();
+        next() : res.sendStatus(401);
 }
 
 // Validation master permissions.
 function CheckMasterPermission(req, res, next) {
     permissionHandler.IsUserHasMasterPermission(req.user.permissions) ?
-        next() : res.status(401).end();
+        next() : res.sendStatus(401);
 }
 //#endregion
 

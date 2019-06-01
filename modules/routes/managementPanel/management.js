@@ -73,7 +73,7 @@ router.delete('/deleteUser', function (req, res) {
         });
     }
     else {
-        res.status(401).end();
+        res.sendStatus(401);
     }
 });
 

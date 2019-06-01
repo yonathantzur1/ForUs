@@ -74,7 +74,7 @@ router.post('/updateLastLogin', (req, res) => {
         });
     }
     else {
-        res.status(401).end();
+        res.sendStatus(401);
     }
 });
 
@@ -86,7 +86,7 @@ router.get('/getUserPermissions', (req, res) => {
         res.send(token.user.permissions);
     }
     else {
-        res.status(401).end();
+        res.sendStatus(401);
     }
 });
 
