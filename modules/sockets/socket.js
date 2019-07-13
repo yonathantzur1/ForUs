@@ -12,9 +12,9 @@ let connectedUsers = {};
 module.exports = (io) => {
     io.on('connection', function (socket) {
 
-        // Import socket events.
-        require('./serverChat.js')(io, socket, connectedUsers);
-        require('./serverFriendRequests.js')(io, socket, connectedUsers);
+        // Import socket modules.
+        require('./chat.js')(io, socket, connectedUsers);
+        require('./friends.js')(io, socket, connectedUsers);
 
         socket.on('login', function () {
             let token = tokenHandler.DecodeTokenFromSocket(socket);

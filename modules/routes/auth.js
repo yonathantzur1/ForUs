@@ -83,7 +83,7 @@ router.get('/isUserSocketConnect', (req, res) => {
             state = enums.SOCKET_STATE.ACTIVE;
         }
         else {
-            enums.SOCKET_STATE.CLOSE;
+            state = enums.SOCKET_STATE.CLOSE;
         }
     }
 
