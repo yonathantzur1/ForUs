@@ -22,7 +22,6 @@ export class GlobalService extends LoginService {
     public userPermissions: Array<string>;
     public defaultProfileImage: string;
     public uidCookieName: string;
-    public isTouchDevice: boolean;
     public globalObject: any;
 
     constructor(public http: HttpClient,
@@ -49,7 +48,6 @@ export class GlobalService extends LoginService {
         this.socketOnDictionary = {};
         this.defaultProfileImage = EmptyProfile;
         this.uidCookieName = "uid";
-        this.isTouchDevice = (('ontouchstart' in window || navigator.maxTouchPoints) ? true : false);
 
         // Global variables and functions
         let globalObject = this.globalObject = {
