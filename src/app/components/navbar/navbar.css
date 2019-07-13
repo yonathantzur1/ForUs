@@ -338,19 +338,11 @@
 }
 
 .typing-icon {
-    width: 16px;
-    height: 14px;
-    border: 0.5px solid grey;
-    border-radius: 50%;
-    background-color: #ffffff;
+    color: white;
+    left: -12px;
+    top: 2px;
     position: absolute;
-    right: 25px;
-    top: 5px;
-    font-weight: bold;
-    font-size: 18px;
-    text-align: center;
-    font-family: initial;
-    line-height: 0.2;
+    font-size: 14px;
 }
 
 .notification {
