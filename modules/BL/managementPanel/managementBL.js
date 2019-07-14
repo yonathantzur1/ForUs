@@ -235,7 +235,7 @@ module.exports = {
         });
     },
 
-    DeleteUser(userId) {
-        return deleteUserBL.DeleteUserFromDB(userId);
+    DeleteUser(userId, userFirstName, userLastName) {
+        return deleteUserBL.DeleteUserFromDB(userId, userFirstName, userLastName);
     }
 };

@@ -318,7 +318,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             }
         });
 
-        self.globalService.SocketOn('GetFriendConnectionStatus', function (statusObj: any) {
+        self.globalService.SocketOn('UpdateFriendConnectionStatus', function (statusObj: any) {
             self.friends.forEach(friend => {
                 if (friend._id == statusObj.friendId) {
                     friend.isOnline = statusObj.isOnline;

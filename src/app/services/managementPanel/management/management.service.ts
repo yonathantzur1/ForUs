@@ -81,8 +81,10 @@ export class ManagementService extends BasicService {
             });
     }
 
-    DeleteUser(userId: string) {
-        return super.delete(this.prefix + '/deleteUser?userId=' + userId)
+    DeleteUser(userId: string, userFirstName: string, userLastName: string) {
+        return super.delete(this.prefix + '/deleteUser?userId=' + userId +
+            "&userFirstName=" + userFirstName +
+            "&userLastName=" + userLastName)
             .toPromise()
             .then((result: any) => {
                 return result;

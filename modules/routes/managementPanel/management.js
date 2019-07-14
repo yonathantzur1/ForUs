@@ -65,12 +65,14 @@ router.delete('/removeFriends', function (req, res) {
 router.delete('/deleteUser', function (req, res) {
     // Checking master permission.
     if (permissionHandler.IsUserHasMasterPermission(req.user.permissions)) {
-        managementBL.DeleteUser(req.query.userId).then((result) => {
-            res.send(result);
-        }).catch((err) => {
-            logger.error(err);
-            res.sendStatus(500);
-        });
+        managementBL.DeleteUser(req.query.userId,
+            req.query.userFirstName,
+            req.query.userLastName).then((result) => {
+                res.send(result);
+            }).catch((err) => {
+                logger.error(err);
+                res.sendStatus(500);
+            });
     }
     else {
         res.sendStatus(401);

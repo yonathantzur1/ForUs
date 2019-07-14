@@ -44,6 +44,9 @@ router.post('/userLogin',
                 else {
                     tokenHandler.SetTokenOnCookie(tokenHandler.GetTokenFromUserObject(result), res);
                     res.send({ "result": true });
+
+                    // Log - in case the login is valid.
+                    logsBL.Login(req.body.email, req);
                 }
             }
             // In case of error.

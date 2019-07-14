@@ -1,4 +1,3 @@
-const logsBL = require('../BL/logsBL')
 const tokenHandler = require('../handlers/tokenHandler');
 const permissionHandler = require('../handlers/permissionHandler');
 const events = require('../events');
@@ -6,7 +5,6 @@ const config = require('../../config');
 const enums = require('../enums');
 const jobs = require('../jobs');
 
-let socketsDictionary = {};
 let connectedUsers = {};
 
 module.exports = (io) => {
@@ -21,40 +19,61 @@ module.exports = (io) => {
 
             if (token) {
                 let user = token.user;
+                let userId = user._id;
+                let connectUser = connectedUsers[userId];
 
                 // In case the user is already login.
-                if (connectedUsers[user._id]) {
-                    let loginUserObj = connectedUsers[user._id];
-                    user.socketIds = loginUserObj.socketIds;
-                    user.socketIds.push(socket.id);
+                if (connectUser) {
+                    connectUser.lastKeepAlive = new Date();
+                    connectUser.connections++;
                 }
                 else {
-                    user.socketIds = [socket.id];
+                    user.lastKeepAlive = new Date();
+                    user.connections = 1;
+                    connectedUsers[userId] = user;
+
+                    let conStatus = {
+                        "friendId": userId,
+                        "isOnline": true
+                    }
+
+                    user.friends.forEach(friendId => {
+                        io.to(friendId).emit('UpdateFriendConnectionStatus', conStatus);
+                    });
                 }
 
-                socket.join(user._id);
-                socketsDictionary[socket.id] = user._id;
-                connectedUsers[user._id] = user;
-                connectedUsers[user._id].lastKeepAlive = new Date();
-
-                let connectionUserFriends = user.friends;
-
-                let statusObj = {
-                    "friendId": user._id,
-                    "isOnline": true
-                }
-
-                connectionUserFriends.forEach(friendId => {
-                    io.to(friendId).emit('GetFriendConnectionStatus', statusObj);
-                });
-
-                // Log - in case the email and password are valid but the user is blocked.
-                logsBL.Login(user.email, socket);
+                // Join socket to socket room.
+                socket.join(userId);
             }
         });
 
         socket.on('disconnect', function () {
-            LogoutUser(io, socket);
+            let token = tokenHandler.DecodeTokenFromSocket(socket);
+
+            if (token) {
+                let userId = token.user._id;
+                let user = connectedUsers[userId];
+
+                if (user) {
+                    // In case the user was connected only once.
+                    if (user.connections == 1) {
+                        let userFriendsIds = user.friends;
+                        let statusObj = {
+                            "friendId": userId,
+                            "isOnline": false
+                        }
+
+                        userFriendsIds.forEach(friendId => {
+                            io.to(friendId).emit('UpdateFriendConnectionStatus', statusObj);
+                        });
+
+                        delete connectedUsers[userId];
+                    }
+                    else {
+                        user.connections--;
+                    }
+                }
+            }
         });
 
         socket.on('LogoutUserSessionServer', function (userId, msg) {
@@ -62,64 +81,17 @@ module.exports = (io) => {
 
             // Logout the given user in case the sender is admin, or in case the logout is self.
             if (token &&
-                token.user &&
                 (permissionHandler.IsUserHasRootPermission(token.user.permissions) || userId == null)) {
                 io.to(userId || token.user._id).emit('LogoutUserSessionClient', msg);
             }
         });
-
-        socket.on('ServerRemoveFriendUser', function (userId, userName, friendsIds) {
-            let token = tokenHandler.DecodeTokenFromSocket(socket);
-
-            if (token &&
-                token.user &&
-                permissionHandler.IsUserHasRootPermission(token.user.permissions)) {
-                RemoveFriendUser(userId, userName, friendsIds)
-            }
-        });
     });
-
-    function RemoveFriendUser(userId, userName, friendsIds) {
-        friendsIds.forEach(friendId => {
-            io.to(friendId).emit('ClientRemoveFriendUser', userId, userName);
-        });
-    }
-
-    events.on('socket.RemoveFriendUser', RemoveFriendUser);
 
     events.on('socket.UserSetToPrivate', (userId) => {
         io.emit('UserSetToPrivate', userId);
     });
 
     return connectedUsers;
-}
-
-function LogoutUser(io, socket) {
-    let disconnectUserId = socketsDictionary[socket.id];
-    let disconnectUser = connectedUsers[disconnectUserId];
-
-    if (disconnectUser) {
-        // In case the user was connected only once.
-        if (disconnectUser.socketIds.length == 1) {
-            let disconnectUserFriends = disconnectUser.friends;
-
-            delete socketsDictionary[socket.id];
-            delete connectedUsers[disconnectUserId];
-
-            let statusObj = {
-                "friendId": disconnectUserId,
-                "isOnline": false
-            }
-
-            disconnectUserFriends.forEach(friendId => {
-                io.to(friendId).emit('GetFriendConnectionStatus', statusObj);
-            });
-        }
-        else {
-            delete socketsDictionary[socket.id];
-            disconnectUser.socketIds.splice(disconnectUser.socketIds.indexOf(socket.id), 1);
-        }
-    }
 }
 
 function CleanDisconnectUsers() {
@@ -138,14 +110,8 @@ function CleanDisconnectUsers() {
 
     // Remove the disconnected user and his sockets from dictionaries.
     disconnectUsersIds.forEach(userId => {
-        let socketIds = connectedUsers[userId].socketIds;
         delete connectedUsers[userId];
-
-        socketIds.forEach(socketId => {
-            delete socketsDictionary[socketId];
-        });
     });
-
 }
 
 jobs.RegisterJob(enums.SYSTEM_JOBS_NAMES.CLEAN_DISCONNECT_USERS,

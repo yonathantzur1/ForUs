@@ -33,13 +33,8 @@ router.put('/deleteAccount',
             user._id = user._id.toString();
 
             // Remove the user from DB.
-            deleteUserBL.DeleteUserFromDB(user._id).then((userFriendsIds) => {
-                events.emit('socket.RemoveFriendUser',
-                    user._id,
-                    user.firstName + " " + user.lastName,
-                    userFriendsIds);
-
-                res.send(true);
+            deleteUserBL.DeleteUserFromDB(user._id, user.firstName, user.lastName).then((result) => {
+                res.send(result);
             }).catch((err) => {
                 logger.error(err);
                 res.sendStatus(500);

@@ -2,6 +2,7 @@ const loginBL = require('../BL/loginBL');
 const profilePictureBL = require('../BL/profilePictureBL');
 const tokenHandler = require('../handlers/tokenHandler');
 const mailer = require('../mailer');
+const events = require('../events');
 const logger = require('../../logger');
 
 module.exports = (io, socket, connectedUsers) => {
@@ -102,4 +103,12 @@ module.exports = (io, socket, connectedUsers) => {
             io.to(friendId).emit('ClientRemoveFriend', currUserId);
         }
     });
+
+    events.on('socket.RemoveFriendUser', RemoveFriendUser);
+
+    function RemoveFriendUser(userId, userName, friendsIds) {
+        friendsIds.forEach(friendId => {
+            io.to(friendId).emit('ClientRemoveFriendUser', userId, userName);
+        });
+    }
 }

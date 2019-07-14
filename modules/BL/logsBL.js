@@ -16,12 +16,12 @@ module.exports = {
         );
     },
 
-    Login(email, socket) {
+    Login(email, req) {
         return this.InsertStandardLog(
             enums.LOG_TYPE.LOGIN,
             email,
-            requestHandler.GetIpFromSocket(socket),
-            requestHandler.GetUserAgentFromSocket(socket)
+            requestHandler.GetIpFromRequest(req),
+            requestHandler.GetUserAgentFromRequest(req)
         );
     },
 

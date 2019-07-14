@@ -469,7 +469,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
             text: "האם למחוק את המשתמש של <b>" + user.firstName + " " + user.lastName + "</b>?",
             type: ALERT_TYPE.WARNING,
             confirmFunc: function () {
-                self.managementService.DeleteUser(user._id).then((result: any) => {
+                self.managementService.DeleteUser(user._id, user.firstName, user.lastName).then((result: any) => {
                     if (result) {
                         self.snackbarService.Snackbar("מחיקת המשתמש בוצעה בהצלחה");
 
@@ -479,11 +479,6 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
                         // Remove user from users search list.
                         self.users.splice(user.index, 1);
-
-                        // Remove all instances of the user from his friends.
-                        self.globalService.socket.emit("ServerRemoveFriendUser", user._id,
-                            user.firstName + " " + user.lastName,
-                            result);
                     }
                     else {
                         self.snackbarService.Snackbar("שגיאה במחיקת המשתמש");

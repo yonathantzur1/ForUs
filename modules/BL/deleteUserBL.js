@@ -1,5 +1,6 @@
 const DAL = require('../DAL');
 const config = require('../../config');
+const events = require('../events');
 const sha512 = require('js-sha512');
 
 const usersCollectionName = config.db.collections.users;
@@ -49,7 +50,7 @@ module.exports = {
         });
     },
 
-    DeleteUserFromDB(userId) {
+    DeleteUserFromDB(userId, userFirstName, userLastName) {
         return new Promise((resolve, reject) => {
             let userObjectId = DAL.GetObjectId(userId);
             let notificationsUnsetJson = {};
@@ -84,10 +85,21 @@ module.exports = {
             ];
 
             Promise.all(deleteUserActions).then(results => {
+                resolve(true);
+
+                // Get user friends ids array.
                 let userFriendsRelations = results[0];
                 let deletedUserFriends = userFriendsRelations.friends
                     .concat(userFriendsRelations.friendRequests.send);
-                resolve(deletedUserFriends);
+
+                // In case the user has friends.
+                if (deletedUserFriends.length > 0) {
+                    // Send message to all user's friends.
+                    events.emit('socket.RemoveFriendUser',
+                    userId,
+                    userFirstName + " " + userLastName,
+                    deletedUserFriends);
+                }
             }).catch(reject);
         });
     }
