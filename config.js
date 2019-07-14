@@ -60,9 +60,5 @@ module.exports = {
         deleteUser: {
             tokenTTL: 1 // hours
         }
-    },
-    socket: {
-        cleanDisconnectUsersIntervalTime: 6, // seconds
-        maxLastKeepAliveDelay: 5 // seconds
     }
 };

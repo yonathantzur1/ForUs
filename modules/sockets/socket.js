@@ -1,7 +1,6 @@
 const tokenHandler = require('../handlers/tokenHandler');
 const permissionHandler = require('../handlers/permissionHandler');
 const events = require('../events');
-const config = require('../../config');
 const enums = require('../enums');
 const jobs = require('../jobs');
 
@@ -94,16 +93,22 @@ module.exports = (io) => {
     return connectedUsers;
 }
 
-function CleanDisconnectUsers() {
+let maxLastKeepAliveDelay = 5; // seconds
+
+jobs.RegisterJob(enums.SYSTEM_JOBS_NAMES.CLEAN_DISCONNECT_USERS,
+    CleanOfflineUsers,
+    (maxLastKeepAliveDelay + 1) * 1000);
+
+function CleanOfflineUsers() {
     let disconnectUsersIds = [];
 
     // Running on all the connected users.
     Object.keys(connectedUsers).forEach(userId => {
         // Calculate seconds diffrence from the last user keep alive.
-        lastKeepAliveSecondsDelay = (new Date() - connectedUsers[userId].lastKeepAlive) / 1000;
+        lastKeepAliveDelay = (new Date() - connectedUsers[userId].lastKeepAlive) / 1000;
 
         // In case the diffrence is big, disconnect the user.
-        if (lastKeepAliveSecondsDelay > config.socket.maxLastKeepAliveDelay) {
+        if (lastKeepAliveDelay > maxLastKeepAliveDelay) {
             disconnectUsersIds.push(userId);
         }
     });
@@ -113,7 +118,3 @@ function CleanDisconnectUsers() {
         delete connectedUsers[userId];
     });
 }
-
-jobs.RegisterJob(enums.SYSTEM_JOBS_NAMES.CLEAN_DISCONNECT_USERS,
-    CleanDisconnectUsers,
-    config.socket.cleanDisconnectUsersIntervalTime * 1000);
