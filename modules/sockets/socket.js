@@ -105,7 +105,7 @@ function CleanOfflineUsers() {
     // Running on all the connected users.
     Object.keys(connectedUsers).forEach(userId => {
         // Calculate seconds diffrence from the last user keep alive.
-        lastKeepAliveDelay = (new Date() - connectedUsers[userId].lastKeepAlive) / 1000;
+        let lastKeepAliveDelay = (new Date() - connectedUsers[userId].lastKeepAlive) / 1000;
 
         // In case the diffrence is big, disconnect the user.
         if (lastKeepAliveDelay > maxLastKeepAliveDelay) {
