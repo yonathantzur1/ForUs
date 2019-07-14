@@ -130,7 +130,6 @@ function CleanDisconnectUsers() {
         // Calculate seconds diffrence from the last user keep alive.
         lastKeepAliveSecondsDelay = (new Date() - connectedUsers[userId].lastKeepAlive) / 1000;
 
-        let x = socketsDictionary;
         // In case the diffrence is big, disconnect the user.
         if (lastKeepAliveSecondsDelay > config.socket.maxLastKeepAliveDelay) {
             disconnectUsersIds.push(userId);

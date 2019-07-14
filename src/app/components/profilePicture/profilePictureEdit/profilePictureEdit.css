@@ -313,7 +313,8 @@
 }
 
 .change-img-btn-disabled {
-    color: darkgrey !important;    
+    color: darkgrey !important;
+    cursor: default;
 }
 
 .cancel-change-btn {
