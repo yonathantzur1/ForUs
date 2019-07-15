@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { GlobalService } from '../../services/global/global.service';
-import { AlertService, ALERT_TYPE } from '../../services/alert/alert.service';
-import { SnackbarService } from '../../services/snackbar/snackbar.service';
-import { MicrotextService, InputFieldValidation } from '../../services/microtext/microtext.service';
+import { GlobalService } from '../../../services/global/global.service';
+import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
+import { SnackbarService } from '../../../services/snackbar/snackbar.service';
+import { MicrotextService, InputFieldValidation } from '../../../services/microtext/microtext.service';
 
-import { LoginService } from '../../services/login/login.service';
+import { LoginService } from '../../../services/welcome/login/login.service';
 
-import { UserRegexp } from '../../regex/regexpEnums'
+import { UserRegexp } from '../../../regex/regexpEnums'
 
 declare let $: any;
 
@@ -51,7 +51,7 @@ export class ForgotUser {
     selector: 'login',
     templateUrl: './login.html',
     providers: [LoginService],
-    styleUrls: ['./login.css']
+    styleUrls: ['./login.css', '../welcome.css']
 })
 
 export class LoginComponent {

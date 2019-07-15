@@ -1,0 +1,13 @@
+.card-container {
+    padding-bottom: 15px !important;
+}
+
+.register-btn {
+    padding: 0;
+    left: 15px;
+}
+
+.cancel-register-btn {
+    padding: 0;    
+    left: 30px;
+}

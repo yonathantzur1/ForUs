@@ -1,0 +1,70 @@
+.welcome-head-container {
+    position: relative;
+    text-align: center;
+    user-select: none;
+    margin-top: 15px;
+}
+
+.welcome-head-icon {
+    height: 70px;
+    width: 70px;
+    margin-top: -5px;
+}
+
+.welcome-label {
+    font-family: Mona Shark;
+    color: #da7b00;
+    font-size: 65px;
+    top: 20px;
+    position: relative;
+}
+
+form {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.form-group {
+    padding-bottom: 10px;
+    margin: 28px 0 0 0;
+    position: relative;
+}
+
+.user-input {
+    margin-bottom: 5px;
+}
+
+.card-container {
+    margin: auto;
+    margin-top: 25px;
+    padding: 25px;
+    padding-top: 15px;
+    border-radius: 3px;
+    position: relative;
+    box-shadow: 0px 0px 5px 0px #828282;
+}
+
+.head-container {    
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 15px;
+    color: #5e5e5f;
+}
+
+.footer {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.title-text {
+    font-size: 22px;    
+}
+
+.title-icon {
+    font-size: 26px;
+    margin-right: 3px;    
+}

@@ -1,10 +1,6 @@
 <div id="login" class="container">
 	<div class="login-sector">
-		<div class="login-head-container">
-			<img src="../assets/logo/icon.png" class="login-head-icon">
-			<label class="login-label">ForUs</label>
-		</div>
-		<div (keyup)="LoginKeyUp($event)" align="center" class="row login-container col-md-4 col-11">
+		<div (keyup)="LoginKeyUp($event)" align="center" class="row card-container col-md-4 col-11">
 			<loaderSpinner class="login-loader" *ngIf="isLoading"></loaderSpinner>
 			<div class="disable-screen" *ngIf="isLoading"></div>
 			<form>
@@ -39,16 +35,16 @@
 			</form>
 		</div>
 		<!-- Register modal -->
-		<div (keyup)="RegisterKeyUp($event)" class="modal fade" data-backdrop="static" id="register-modal" tabindex="-1"
+		<!-- <div (keyup)="RegisterKeyUp($event)" class="modal fade" data-backdrop="static" id="register-modal" tabindex="-1"
 			role="dialog" aria-labelledby="registerLabel">
 			<div class="modal-dialog modal-sm" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<button type="button" class="close-icon" data-dismiss="modal" aria-label="Close">
 							<i class="material-icons">close</i>
 						</button>
 						<h4 class="modal-title modal-title-label" id="registerLabel">הרשמה
-							<i class="material-icons modal-title-icon">perm_identity</i>
+							<i class="material-icons title-icon">perm_identity</i>
 						</h4>
 					</div>
 					<div class="modal-body">
@@ -105,15 +101,15 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 
 		<!-- Reset password modal -->
-		<div (keyup)="ForgotKeyUp($event)" class="modal fade" data-backdrop="static" id="forgot-modal" tabindex="-1"
+		<!-- <div (keyup)="ForgotKeyUp($event)" class="modal fade" data-backdrop="static" id="forgot-modal" tabindex="-1"
 			role="dialog" aria-labelledby="forgotLabel">
 			<div class="modal-dialog modal-sm" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<button type="button" class="close-icon" data-dismiss="modal" aria-label="Close">
 							<i class="material-icons">close</i>
 						</button>
 						<h4 class="modal-title modal-title-label" id="forgotLabel">איפוס סיסמא
@@ -176,6 +172,6 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </div>

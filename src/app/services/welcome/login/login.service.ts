@@ -1,8 +1,6 @@
-import { BasicService } from '../basic/basic.service';
+import { BasicService } from '../../basic/basic.service';
 
-import { User } from '../../components/login/login.component';
-import { NewUser } from '../../components/login/login.component';
-import { ForgotUser } from '../../components/login/login.component';
+import { User, NewUser, ForgotUser } from '../../../components/welcome/login/login.component';
 
 export class LoginService extends BasicService {
     prefix = "/api/login";

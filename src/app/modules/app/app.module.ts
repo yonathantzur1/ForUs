@@ -13,7 +13,9 @@ import { LoaderDotsComponent } from '../../components/loaders/loaderDots/loaderD
 import { LoaderRingsComponent } from '../../components/loaders/loaderRings/loaderRings.component';
 import { AlertComponent } from '../../components/alert/alert.component';
 import { SnackbarComponent } from '../../components/snackbar/snackbar.component';
-import { LoginComponent } from '../../components/login/login.component';
+import { WelcomeComponent } from '../../components/welcome/welcome.component';
+import { LoginComponent } from '../../components/welcome/login/login.component';
+import { RegisterComponent } from '../../components/welcome/register/register.component';
 import { HomeComponent } from '../../components/home/home.component';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { MainSearchComponent } from '../../components/navbar/mainSearch/mainSearch.component';
@@ -57,7 +59,7 @@ import { Routing } from '../../routes/app/app.routing'
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    Routing    
+    Routing
   ],
   declarations: [
     // ---------Components---------
@@ -67,7 +69,9 @@ import { Routing } from '../../routes/app/app.routing'
     LoaderRingsComponent,
     AlertComponent,
     SnackbarComponent,
-    LoginComponent,  
+    WelcomeComponent,
+    LoginComponent,
+    RegisterComponent,
     NavbarComponent,
     MainSearchComponent,
     DropMenuComponent,
