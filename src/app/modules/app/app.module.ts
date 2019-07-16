@@ -36,6 +36,9 @@ import { UserReportWindowComponent } from '../../components/userPage/userReportW
 import { UserPasswordWindowComponent } from '../../components/userPage/userPasswordWindow/userPasswordWindow.component';
 import { UserPrivacyWindowComponent } from '../../components/userPage/userPrivacyWindow/userPrivacyWindow.component';
 import { SearchPageComponent } from '../../components/searchPage/searchPage.component';
+import { PageNotFoundComponent } from '../../components/pageNotFound/pageNotFound.component';
+import { ForgotPasswordComponent } from '../../components/forgotPassword/forgotPassword.component';
+import { DeleteUserComponent } from '../../components/deleteUser/deleteUser.component';
 
 // Guards
 import { AuthGuard } from '../../guards/auth/auth.guard';
@@ -52,7 +55,7 @@ import { SnackbarService } from '../../services/snackbar/snackbar.service';
 import { MicrotextService } from '../../services/microtext/microtext.service';
 
 // Routing
-import { Routing } from '../../routes/app/app.routing'
+import { Routing } from '../../routes/app.routing'
 
 @NgModule({
   imports: [
@@ -92,6 +95,9 @@ import { Routing } from '../../routes/app/app.routing'
     UserPrivacyWindowComponent,
     SearchPageComponent,
     HomeComponent,
+    PageNotFoundComponent,
+    ForgotPasswordComponent,
+    DeleteUserComponent,
     // ---------Pipes---------
     SortObjects
   ],

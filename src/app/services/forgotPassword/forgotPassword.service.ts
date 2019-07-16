@@ -1,4 +1,4 @@
-import { BasicService } from '../../../../services/basic/basic.service';
+import { BasicService } from '../basic/basic.service';
 
 export class ForgotPasswordService extends BasicService {
     prefix = "/api/forgotPassword";

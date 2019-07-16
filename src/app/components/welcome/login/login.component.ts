@@ -2,24 +2,18 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../../services/global/global.service';
+import { EventService } from '../../../services/event/event.service';
 import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { MicrotextService, InputFieldValidation } from '../../../services/microtext/microtext.service';
 
 import { LoginService } from '../../../services/welcome/login/login.service';
 
-import { UserRegexp } from '../../../regex/regexpEnums'
+import { UserRegexp } from '../../../regex/regexpEnums';
 
 declare let $: any;
 
 export class User {
-    email: string = '';
-    password: string = '';
-}
-
-export class NewUser {
-    firstName: string = '';
-    lastName: string = '';
     email: string = '';
     password: string = '';
 }
@@ -56,7 +50,6 @@ export class ForgotUser {
 
 export class LoginComponent {
     user: User = new User();
-    newUser: NewUser = new NewUser();
     forgotUser: ForgotUser = new ForgotUser();
     isLoading: boolean = false;
 
@@ -86,70 +79,6 @@ export class LoginComponent {
             errMsg: "יש להזין סיסמא",
             fieldId: "login-password-micro",
             inputId: "login-password"
-        }
-    ];
-
-    // Register validation functions array.
-    registerValidationFuncs: Array<InputFieldValidation> = [
-        {
-            isFieldValid(newUser: NewUser) {
-                return (newUser.firstName ? true : false);
-            },
-            errMsg: "יש להזין שם פרטי",
-            fieldId: "register-firstName-micro",
-            inputId: "register-firstName"
-        },
-        {
-            isFieldValid(newUser: NewUser, userRegexp: any) {
-                let namePattern = userRegexp.name;
-                return (namePattern.test(newUser.firstName));
-            },
-            errMsg: "יש להזין שם תקין בעברית",
-            fieldId: "register-firstName-micro",
-            inputId: "register-firstName"
-        },
-        {
-            isFieldValid(newUser: NewUser) {
-                return (newUser.lastName ? true : false);
-            },
-            errMsg: "יש להזין שם משפחה",
-            fieldId: "register-lastName-micro",
-            inputId: "register-lastName"
-        },
-        {
-            isFieldValid(newUser: NewUser, userRegexp: any) {
-                let namePattern = userRegexp.name;
-                return (namePattern.test(newUser.lastName));
-            },
-            errMsg: "יש להזין שם תקין בעברית",
-            fieldId: "register-lastName-micro",
-            inputId: "register-lastName"
-        },
-        {
-            isFieldValid(newUser: NewUser) {
-                return (newUser.email ? true : false);
-            },
-            errMsg: "יש להזין כתובת אימייל",
-            fieldId: "register-email-micro",
-            inputId: "register-email"
-        },
-        {
-            isFieldValid(newUser: NewUser, userRegexp: any) {
-                let emailPattern = userRegexp.email;
-
-                return (emailPattern.test(newUser.email));
-            },
-            errMsg: "כתובת אימייל לא תקינה",
-            fieldId: "register-email-micro",
-            inputId: "register-email"
-        },
-        {
-            isFieldValid(newUser: NewUser) {
-                return (newUser.password ? true : false);
-            },
-            errMsg: "יש להזין סיסמא",
-            fieldId: "register-password-micro",
-            inputId: "register-password"
         }
     ];
 
@@ -208,20 +137,15 @@ export class LoginComponent {
         public snackbarService: SnackbarService,
         private microtextService: MicrotextService,
         public globalService: GlobalService,
+        public eventService: EventService,
         private loginService: LoginService) { }
-
-    // Running on the array of validation functions and make sure all valid.
-    // Getting validation array and object to valid.
-    Validation(validations: Array<InputFieldValidation>, obj: any, regex?: any) {
-        return this.microtextService.Validation(validations, obj, regex);
-    }
 
     // Login user and redirect him to main page.
     Login() {
         this.user.email = this.user.email.trim();
 
         // In case the login fields are valid.
-        if (this.Validation(this.loginValidationFuncs, this.user, UserRegexp)) {
+        if (this.microtextService.Validation(this.loginValidationFuncs, this.user, UserRegexp)) {
             this.isLoading = true;
             let self = this;
 
@@ -246,10 +170,8 @@ export class LoginComponent {
                         confirmBtnText: "כן",
                         cancelBtnText: "לא",
                         confirmFunc: function () {
-                            $("#register-modal").modal("show");
-                            let userEmail = self.user.email;
-                            self.OpenModal();
-                            self.newUser.email = userEmail;
+                            self.eventService.Emit("setRegisterEmail", self.user.email);
+                            self.router.navigateByUrl('/register');
                         }
                     });
                 }
@@ -279,43 +201,12 @@ export class LoginComponent {
         }
     }
 
-    // Regiter the new user to the DB.
-    Register() {
-        this.newUser.firstName = this.newUser.firstName.trim();
-        this.newUser.lastName = this.newUser.lastName.trim();
-        this.newUser.email = this.newUser.email.trim();
-
-        // In case the register modal fields are valid.
-        if (this.Validation(this.registerValidationFuncs, this.newUser, UserRegexp)) {
-            this.isLoading = true;
-
-            this.loginService.Register(this.newUser).then((data: any) => {
-                let result = data ? data.result : null;
-                this.isLoading = false;
-
-                // In case of server error.
-                if (result == null) {
-                    this.snackbarService.Snackbar("אירעה שגיאה בחיבור לשרת");
-                }
-                // In case the email is already exists.
-                else if (result == false) {
-                    // Show microtext of the email field. 
-                    $("#register-email-micro").html("אימייל זה נמצא בשימוש");
-                }
-                else {
-                    $("#register-modal").modal('hide');
-                    this.router.navigateByUrl('');
-                }
-            });
-        }
-    }
-
     // Send mail with reset code to the user.
     ResetPassword() {
         this.forgotUser.email = this.forgotUser.email.trim();
 
         // In case the forgot modal fields are valid.
-        if (this.Validation(this.forgotValidationFuncs, this.forgotUser, UserRegexp)) {
+        if (this.microtextService.Validation(this.forgotValidationFuncs, this.forgotUser, UserRegexp)) {
             this.isLoading = true;
 
             // In case the user is in the first stage of reset password.
@@ -402,28 +293,12 @@ export class LoginComponent {
         $(".microtext").html('');
     }
 
-    // Open modal and clear all.
-    OpenModal() {
-        this.newUser = new NewUser();
-        this.forgotUser = new ForgotUser();
-        $(".microtext").html('');
-    }
-
     // Key up in login.
     LoginKeyUp(event: any) {
         // In case the key is enter.
         if (event.key == "Enter" || event.key == "NumpadEnter") {
             $(".user-input").blur();
             this.Login();
-        }
-    }
-
-    // Key up in register modal.
-    RegisterKeyUp(event: any) {
-        // In case the key is enter.
-        if (event.key == "Enter" || event.key == "NumpadEnter") {
-            $(".user-input").blur();
-            this.Register();
         }
     }
 

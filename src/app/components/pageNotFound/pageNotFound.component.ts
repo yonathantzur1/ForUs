@@ -3,20 +3,21 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'pageNotFound',
-  templateUrl: './pageNotFound.html'
+  templateUrl: './pageNotFound.html',
+  styleUrls: ['./pageNotFound.css']
 })
 
 export class PageNotFoundComponent implements OnInit {
   numOfMonsters: number = 9;
-  monsterImagePath: string = null;
+  monsterImage: string;
 
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.monsterImagePath = "./app/pictures/monsters/" + this.GetRandomMonsterPath();
+    this.monsterImage = this.GetRandomMonsterImage();
   }
 
-  GetRandomMonsterPath() {
+  GetRandomMonsterImage() {
     // Rundom monster number.
     let imageNumber = Math.floor(Math.random() * this.numOfMonsters) + 1;
 

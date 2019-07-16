@@ -51,7 +51,7 @@ form {
 .option-btn {
     cursor: pointer;
     font-size: 14px;
-    line-height: 1;   
+    display: block; 
 }
 
 .modal-title-label {
