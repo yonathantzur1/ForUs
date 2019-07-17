@@ -94,7 +94,9 @@ validateSchemaObj["POST"] = {
             "userLogin": {
                 email: joi.string().email(),
                 password: joi.string().required()
-            },
+            }
+        },
+        "register": {
             "register": {
                 firstName: joi.string().max(10).regex(new RegExp(regexp.USER.NAME, "i")),
                 lastName: joi.string().max(10).regex(new RegExp(regexp.USER.NAME, "i")),

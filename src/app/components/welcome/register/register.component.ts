@@ -134,9 +134,14 @@ export class RegisterComponent {
         }
     }
 
+    // Hide microtext in a specific field.
+    HideMicrotext(microtextId: string) {
+        this.microtextService.HideMicrotext(microtextId);
+    }
+
     // Key up in register modal.
     RegisterEnter() {
         $(".user-input").blur();
-            this.Register();
+        this.Register();
     }
 }

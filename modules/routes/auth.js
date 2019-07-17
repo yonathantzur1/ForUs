@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const loginBL = require('../BL/loginBL');
+const loginBL = require('../BL/welcome/loginBL');
 const tokenHandler = require('../handlers/tokenHandler');
 const permissionHandler = require('../handlers/permissionHandler');
 const logger = require('../../logger');

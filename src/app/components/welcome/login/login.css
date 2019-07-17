@@ -74,14 +74,6 @@ form {
     padding-right: 15px;
 }
 
-.microtext {
-    font-size: 11px;
-    position: absolute;
-    color: var(--microtext-color) !important;
-    line-height: 10px;    
-    right: 15px;
-}
-
 .microtext-align {
     right: 0px;
 }

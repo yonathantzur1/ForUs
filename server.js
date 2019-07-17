@@ -73,19 +73,26 @@ function CheckMasterPermission(req, res, next) {
 // Validate user token for each api request.
 app.use('/api', Exclude([
     '/login/*',
+    '/register/*',
     '/forgotPassword/*',
     '/deleteUser/*',
     '/auth/isUserOnSession',
     '/auth/isUserSocketConnect'
 ], (req, res, next) => {
-    tokenHandler.ValidateUserAuthCookies(req) && next();
+    if (tokenHandler.ValidateUserAuthCookies(req)) {
+        next();
+    }
+    else {
+        res.sendStatus(401);
+    }
 }));
 
 // Import socket module and get the connected users object.
 let connectedUsers = require('./modules/sockets/socket')(io);
 
 //#region routes
-app.use("/api/login", require('./modules/routes/login'));
+app.use("/api/login", require('./modules/routes/welcome/login'));
+app.use("/api/register", require('./modules/routes/welcome/register'));
 app.use("/api/forgotPassword", require('./modules/routes/forgotPassword'));
 app.use("/api/deleteUser", require('./modules/routes/deleteUser'));
 app.use("/api/navbar", require('./modules/routes/navbar'));
