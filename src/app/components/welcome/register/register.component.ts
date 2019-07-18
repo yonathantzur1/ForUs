@@ -7,7 +7,7 @@ import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service'
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { MicrotextService, InputFieldValidation } from '../../../services/microtext/microtext.service';
 
-import { RegisterService } from '../../../services/welcome/register/register.service';
+import { RegisterService } from '../../../services/welcome/register.service';
 
 import { UserRegexp } from '../../../regex/regexpEnums';
 
@@ -138,8 +138,7 @@ export class RegisterComponent {
     HideMicrotext(microtextId: string) {
         this.microtextService.HideMicrotext(microtextId);
     }
-
-    // Key up in register modal.
+    
     RegisterEnter() {
         $(".user-input").blur();
         this.Register();

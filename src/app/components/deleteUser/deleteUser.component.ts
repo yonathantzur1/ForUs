@@ -89,13 +89,6 @@ export class DeleteUserComponent implements OnInit {
         });
     }
 
-    CheckForEnter(event: any) {
-        // In case the key is enter.
-        if (event.key == "Enter" || event.key == "NumpadEnter") {
-            this.DeleteUser();
-        }
-    }
-
     // Hide microtext in a specific field.
     HideMicrotext(microtextId: string) {
         this.microtextService.HideMicrotext(microtextId);

@@ -5,7 +5,7 @@ const sha512 = require('js-sha512');
 
 const collectionName = config.db.collections.users;
 const saltSize = config.security.password.saltSize;
-const resetCodeNumOfHoursValid = config.security.password.resetCode.numOfHoursValid;
+const resetCodeTTL = config.security.password.resetCode.codeTTL;
 const resetCodeFreeRetries = config.security.password.resetCode.freeRetries;
 
 module.exports = {
@@ -70,7 +70,7 @@ module.exports = {
                     resolve(errorsObj);
                 }
                 // In case the code is expired.
-                else if (new Date(result[0].resetCode.date).addHours(resetCodeNumOfHoursValid).getTime() < (new Date()).getTime()) {
+                else if (new Date(result[0].resetCode.date).addHours(resetCodeTTL).getTime() < (new Date()).getTime()) {
                     errorsObj.codeIsExpired = true;
                     resolve(errorsObj);
                 }
@@ -144,7 +144,7 @@ module.exports = {
 function GetUserByTokenFilterQuery(token) {
     let currDate = new Date();
     let resetDateObjectRuleForQuery = {
-        $gte: currDate.addHours(resetCodeNumOfHoursValid * -1)
+        $gte: currDate.addHours(resetCodeTTL * -1)
     }
 
     let query = {

@@ -5,12 +5,12 @@ import { AlertService, ALERT_TYPE } from '../../services/alert/alert.service';
 import { MicrotextService, InputFieldValidation } from '../../services/microtext/microtext.service';
 import { GlobalService } from '../../services/global/global.service';
 
-import { ForgotPasswordService } from '../../services/forgotPassword/forgotPassword.service';
+import { ForgotService } from '../../services/welcome/forgot.service';
 
 @Component({
     selector: 'forgotPassword',
     templateUrl: './forgotPassword.html',
-    providers: [ForgotPasswordService],
+    providers: [ForgotService],
     styleUrls: ['./forgotPassword.css']
 })
 
@@ -37,7 +37,7 @@ export class ForgotPasswordComponent implements OnInit {
         public alertService: AlertService,
         private microtextService: MicrotextService,
         public globalService: GlobalService,
-        private forgotPasswordService: ForgotPasswordService) { }
+        private forgotPasswordService: ForgotService) { }
 
     ngOnInit() {
         // In case of route params changes.
@@ -93,13 +93,6 @@ export class ForgotPasswordComponent implements OnInit {
                     });
                 }
             });
-    }
-
-    CheckForEnter(event: any) {
-        // In case the key is enter.
-        if (event.key == "Enter" || event.key == "NumpadEnter") {
-            this.ResetPassword();
-        }
     }
 
     // Hide microtext in a specific field.

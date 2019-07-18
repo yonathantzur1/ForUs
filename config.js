@@ -53,12 +53,12 @@ module.exports = {
             saltSize: 8,
             resetCode: {
                 numOfDigits: 6,
-                numOfHoursValid: 24,
+                codeTTL: 24, // hours
                 freeRetries: 5
             }
         },
         deleteUser: {
-            tokenTTL: 1 // hours
+            tokenTTL: 1 // hour
         }
     }
 };

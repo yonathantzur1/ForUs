@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, HostListener } from '@angular/core';
 
-import { UserReportWindowService } from '../../../services/userPage/userReportWindow/userReportWindow.service';
+import { UserReportWindowService } from '../../../services/userPage/userReportWindow.service';
 import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
 import { GlobalService } from '../../../services/global/global.service';
 import { EventService } from '../../../services/event/event.service';

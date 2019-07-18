@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { CookieService } from '../cookie/cookie.service';
-import { LoginService } from '../welcome/login/login.service';
+import { LoginService } from '../welcome/login.service';
 import { EmptyProfile } from '../../pictures/empty-profile';
 
 import { PERMISSION } from '../../enums/enums';

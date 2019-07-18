@@ -1,0 +1,47 @@
+.forgot-link {
+    text-decoration: none;
+    margin-left: -5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.forgot-inner-link {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: absolute;
+    right: 38px;
+}
+
+.has-reset-code-link {    
+    right: 30px;
+}
+
+.submit-email-forgot {
+    padding: 0;
+    left: 15px;
+}
+
+.cancel-forgot {
+    padding: 0;    
+    left: 30px;
+}
+
+.forgot-email-label {
+    color: #003469;
+    font-size: 14px;    
+    display: block;    
+}
+
+.forgot-email-text {
+    cursor: default;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: absolute;
+    text-align: left;
+    left: 0;
+    width: 100%;
+}

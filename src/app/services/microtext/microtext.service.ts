@@ -24,10 +24,10 @@ export class MicrotextService {
         // Running on all validation functions.
         for (let i = 0; i < validations.length; i++) {
             // In case the field was not invalid before.
-            if (!this.IsInArray(checkedFieldsIds, validations[i].fieldId)) {
+            if (!checkedFieldsIds.includes(validations[i].fieldId)) {
                 // In case the field is not valid.
                 if (!validations[i].isFieldValid(obj, regexpPatterns)) {
-                    // In case the field is the first invalid field.
+                    // Focus field in case it is the first invalid field.
                     if (isValid) {
                         $("#" + validations[i].inputId).focus();
                     }
@@ -53,19 +53,6 @@ export class MicrotextService {
         return isValid;
     }
 
-    // Check if object is in array.
-    IsInArray(array: any[], value: any): boolean {
-        // Running on all the array.
-        for (let i = 0; i < array.length; i++) {
-            // In case the value is in the array.
-            if (array[i] === value) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     // Hide microtext in a specific field.
     ShowMicrotext(fieldId: string, text: string) {
         $("#" + fieldId).html(text);
@@ -73,7 +60,7 @@ export class MicrotextService {
 
     // Hide microtext in a specific field.
     HideMicrotext(fieldId: string) {
-        $("#" + fieldId).html('');
+        this.ShowMicrotext(fieldId, '');
     }
 
 }

@@ -1,6 +1,6 @@
-import { BasicService } from '../../basic/basic.service';
+import { BasicService } from '../basic/basic.service';
 
-import { NewUser } from '../../../components/welcome/register/register.component';
+import { NewUser } from '../../components/welcome/register/register.component';
 
 export class RegisterService extends BasicService {
 

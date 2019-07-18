@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { WelcomeComponent } from '../components/welcome/welcome.component';
 import { LoginComponent } from '../components/welcome/login/login.component';
 import { RegisterComponent } from '../components/welcome/register/register.component';
+import { ForgotComponent } from '../components/welcome/forgot/forgot.component';
 import { HomeComponent } from '../components/home/home.component';
 import { ManagementPanelComponent } from '../components/managementPanel/managementPanel.component';
 import { ManagementComponent } from '../components/managementPanel/management/management.component';
@@ -40,7 +41,8 @@ const routes: Routes = [
     canActivate: [LoginGuard],
     children: [
       { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent }
+      { path: 'register', component: RegisterComponent },
+      { path: 'forgot', component: ForgotComponent }
     ]
   },
   {
@@ -50,7 +52,7 @@ const routes: Routes = [
       { path: 'page-not-found', component: PageNotFoundComponent }
     ]
   },
-  { path: 'forgot/:passToken', component: PageNotFoundComponent },
+  { path: 'forgot/:passToken', component: ForgotPasswordComponent },
   { path: 'delete/:passToken', component: DeleteUserComponent },
   { path: '**', redirectTo: 'page-not-found' }
 ];

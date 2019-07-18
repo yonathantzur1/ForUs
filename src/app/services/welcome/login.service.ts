@@ -1,6 +1,6 @@
-import { BasicService } from '../../basic/basic.service';
+import { BasicService } from '../basic/basic.service';
 
-import { User, ForgotUser } from '../../../components/welcome/login/login.component';
+import { User } from '../../components/welcome/login/login.component';
 
 export class LoginService extends BasicService {
     prefix = "/api/login";
@@ -22,36 +22,6 @@ export class LoginService extends BasicService {
 
     GetUserPermissions() {
         return super.get(this.prefix + '/getUserPermissions')
-            .toPromise()
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
-    }
-
-    ForgotPasswordRequest(email: string) {
-        let details = { "email": email };
-
-        return super.put(this.prefix + '/forgotPasswordRequest', details)
-            .toPromise()
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
-    }
-
-    ResetPassword(forgotUser: ForgotUser) {
-        let details = {
-            "email": forgotUser.email,
-            "code": forgotUser.code,
-            "newPassword": forgotUser.newPassword
-        };
-
-        return super.put(this.prefix + '/resetPassword', details)
             .toPromise()
             .then((result: any) => {
                 return result;

@@ -1,6 +1,6 @@
-import { BasicService } from '../../basic/basic.service';
+import { BasicService } from '../basic/basic.service';
 
-import { STATISTICS_RANGE, LOG_TYPE } from '../../../enums/enums';
+import { STATISTICS_RANGE, LOG_TYPE } from '../../enums/enums';
 
 export class StatisticsService extends BasicService {
 

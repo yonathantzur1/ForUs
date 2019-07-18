@@ -16,6 +16,7 @@ import { SnackbarComponent } from '../../components/snackbar/snackbar.component'
 import { WelcomeComponent } from '../../components/welcome/welcome.component';
 import { LoginComponent } from '../../components/welcome/login/login.component';
 import { RegisterComponent } from '../../components/welcome/register/register.component';
+import { ForgotComponent } from '../../components/welcome/forgot/forgot.component';
 import { HomeComponent } from '../../components/home/home.component';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { MainSearchComponent } from '../../components/navbar/mainSearch/mainSearch.component';
@@ -75,6 +76,7 @@ import { Routing } from '../../routes/app.routing'
     WelcomeComponent,
     LoginComponent,
     RegisterComponent,
+    ForgotComponent,
     NavbarComponent,
     MainSearchComponent,
     DropMenuComponent,

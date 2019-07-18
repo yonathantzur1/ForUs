@@ -1,6 +1,6 @@
-import { BasicService } from '../../basic/basic.service';
+import { BasicService } from '../basic/basic.service';
 
-import { Password } from '../../../components/userPage/userPasswordWindow/userPasswordWindow.component';
+import { Password } from '../../components/userPage/userPasswordWindow/userPasswordWindow.component';
 
 export class UserPasswordWindowService extends BasicService {
 

@@ -1,7 +1,7 @@
 <div id="login" class="container">
 	<div class="login-sector">
-		<div (keyup)="LoginKeyUp($event)" align="center" class="row card-container col-md-4 col-11">
-			<loaderSpinner class="login-loader" *ngIf="isLoading"></loaderSpinner>
+		<div (keyup.enter)="LoginEnter()" align="center" class="row card-container col-md-4 col-11">
+			<loaderSpinner class="loader" *ngIf="isLoading"></loaderSpinner>
 			<div class="disable-screen" *ngIf="isLoading"></div>
 			<form>
 				<div class="form-group">
@@ -32,75 +32,6 @@
 				</div>
 			</form>
 		</div>
-		<!-- Register modal -->
-		<!-- <div (keyup)="RegisterKeyUp($event)" class="modal fade" data-backdrop="static" id="register-modal" tabindex="-1"
-			role="dialog" aria-labelledby="registerLabel">
-			<div class="modal-dialog modal-sm" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close-icon" data-dismiss="modal" aria-label="Close">
-							<i class="material-icons">close</i>
-						</button>
-						<h4 class="modal-title modal-title-label" id="registerLabel">הרשמה
-							<i class="material-icons title-icon">perm_identity</i>
-						</h4>
-					</div>
-					<div class="modal-body">
-						<form>
-							<table style="width:100%;">
-								<tr>
-									<td>
-										<div class="form-group">
-											<div class="col">
-												<input [(ngModel)]="newUser.firstName" id="register-firstName"
-													class="form-control user-input" type="text" name="firstName"
-													(keydown)="HideMicrotext($event.srcElement.id + '-micro')"
-													maxlength="10" placeholder="שם פרטי">
-												<label id="register-firstName-micro" class="microtext"></label>
-											</div>
-										</div>
-									</td>
-									<td>
-										<div class="form-group">
-											<div class="col">
-												<input [(ngModel)]="newUser.lastName" id="register-lastName"
-													class="form-control user-input" type="text" name="lastName"
-													(keydown)="HideMicrotext($event.srcElement.id + '-micro')"
-													maxlength="10" placeholder="שם משפחה">
-												<label id="register-lastName-micro" class="microtext"></label>
-											</div>
-										</div>
-									</td>
-								</tr>
-							</table>
-							<div class="form-group">
-								<div class="col-12">
-									<input [(ngModel)]="newUser.email" id="register-email"
-										class="form-control user-input" type="email" name="email"
-										(keydown)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="אימייל">
-									<label id="register-email-micro" class="microtext"></label>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-12">
-									<input [(ngModel)]="newUser.password" id="register-password"
-										class="form-control user-input" type="password" name="password"
-										(keydown)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="סיסמא">
-									<label id="register-password-micro" class="microtext"></label>
-								</div>
-							</div>
-						</form>
-					</div>
-					<div class="modal-footer">
-						<div class="modal-footer-buttons">
-							<a class="btn btn-default cancel-register-btn" data-dismiss="modal">ביטול</a>
-							<a id="register-btn" class="btn btn-primary register-btn" (click)="Register()">הרשמה</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div> -->
-
 		<!-- Reset password modal -->
 		<!-- <div (keyup)="ForgotKeyUp($event)" class="modal fade" data-backdrop="static" id="forgot-modal" tabindex="-1"
 			role="dialog" aria-labelledby="forgotLabel">

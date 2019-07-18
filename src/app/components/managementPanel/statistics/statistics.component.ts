@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { StatisticsService } from '../../../services/managementPanel/statistics/statistics.service';
+import { StatisticsService } from '../../../services/managementPanel/statistics.service';
 import { GlobalService } from '../../../services/global/global.service';
 import { MicrotextService, InputFieldValidation } from '../../../services/microtext/microtext.service';
 

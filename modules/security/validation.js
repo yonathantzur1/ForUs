@@ -118,7 +118,7 @@ validateSchemaObj["POST"] = {
 //#region put
 validateSchemaObj["PUT"] = {
     "api": {
-        "login": {
+        "forgotPassword": {
             "forgotPasswordRequest": {
                 email: joi.string().email()
             },
@@ -127,8 +127,6 @@ validateSchemaObj["PUT"] = {
                 code: joi.string().required(),
                 newPassword: joi.string().required()
             },
-        },
-        "forgotPassword": {
             "resetPasswordByToken": {
                 token: joi.string().regex(new RegExp(regexp.PASSWORD.HASH, "i")),
                 newPassword: joi.string().required()

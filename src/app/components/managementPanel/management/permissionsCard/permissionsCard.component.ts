@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 
-import { PermissionsCardService } from '../../../../services/managementPanel/management/permissionsCard/permissionsCard.service';
+import { PermissionsCardService } from '../../../../services/managementPanel/management/permissionsCard.service';
 import { GlobalService } from '../../../../services/global/global.service';
 import { EventService } from '../../../../services/event/event.service';
 import { SnackbarService } from '../../../../services/snackbar/snackbar.service';

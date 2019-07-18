@@ -93,7 +93,7 @@ let connectedUsers = require('./modules/sockets/socket')(io);
 //#region routes
 app.use("/api/login", require('./modules/routes/welcome/login'));
 app.use("/api/register", require('./modules/routes/welcome/register'));
-app.use("/api/forgotPassword", require('./modules/routes/forgotPassword'));
+app.use("/api/forgotPassword", require('./modules/routes/welcome/forgotPassword'));
 app.use("/api/deleteUser", require('./modules/routes/deleteUser'));
 app.use("/api/navbar", require('./modules/routes/navbar'));
 app.use("/api/home", require('./modules/routes/home'));

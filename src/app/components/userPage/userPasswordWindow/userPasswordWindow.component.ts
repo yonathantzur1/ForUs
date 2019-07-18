@@ -1,6 +1,6 @@
 import { Component, Input, HostListener } from '@angular/core';
 
-import { UserPasswordWindowService } from '../../../services/userPage/userPasswordWindow/userPasswordWindow.service';
+import { UserPasswordWindowService } from '../../../services/userPage/userPasswordWindow.service';
 import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
 import { GlobalService } from '../../../services/global/global.service';
 import { EventService } from '../../../services/event/event.service';
