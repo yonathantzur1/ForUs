@@ -51,6 +51,7 @@ form {
     align-items: center;
     padding: 0 15px;
     color: #5e5e5f;
+    user-select: none;
 }
 
 .footer {
@@ -73,7 +74,7 @@ form {
     font-size: 11px;
     position: absolute;
     color: var(--microtext-color) !important;
-    line-height: 10px;    
+    line-height: 5px;
     right: 15px;
 }
 

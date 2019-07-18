@@ -1,3 +1,7 @@
+.card-container {
+    padding-bottom: 15px !important;
+}
+
 .forgot-link {
     text-decoration: none;
     margin-left: -5px;
@@ -11,27 +15,26 @@
     overflow: hidden;
     text-overflow: ellipsis;
     position: absolute;
-    right: 38px;
-}
-
-.has-reset-code-link {    
-    right: 30px;
+    right: 40px;
 }
 
 .submit-email-forgot {
     padding: 0;
+    margin: 0;
     left: 15px;
 }
 
 .cancel-forgot {
-    padding: 0;    
+    padding: 0;
+    margin: 0;
     left: 30px;
 }
 
 .forgot-email-label {
     color: #003469;
-    font-size: 14px;    
-    display: block;    
+    font-size: 14px;
+    display: block;
+    text-align: right;
 }
 
 .forgot-email-text {

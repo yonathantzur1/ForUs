@@ -1,7 +1,7 @@
 <div (keyup.enter)="ForgotEnter()" align="center" class="row card-container col-md-4 col-11">
     <loaderSpinner class="loader" *ngIf="isLoading"></loaderSpinner>
     <div class="head-container">
-        <span class="title-text">חשבון חדש</span>
+        <span class="title-text">איפוס סיסמא</span>
         <i class="material-icons title-icon">lock_outline</i>
     </div>
     <form>
@@ -40,12 +40,10 @@
         </div>
     </form>
     <div class="footer">
-        <div *ngIf="!forgotUser.showResetCodeField && !forgotUser.hasResetCode"
-            class="forgot-link-sector has-reset-code-link">
-            <a *ngIf="forgotUser.email.length > 0" (click)="hasResetCode()" class="forgot-link forgot-inner-link">יש לי
-                כבר
-                קוד איפוס</a>
-        </div>
+        <a *ngIf="!forgotUser.showResetCodeField && !forgotUser.hasResetCode && forgotUser.email.length > 0"
+            (click)="hasResetCode()" class="forgot-link forgot-inner-link">
+            יש לי כבר קוד איפוס
+        </a>
         <a class="btn btn-default cancel-forgot" [routerLink]="'/login'">ביטול</a>
         <a class="btn btn-primary submit-email-forgot" (click)="ResetPassword()">{{forgotUser.forgotBtnText}}</a>
     </div>
