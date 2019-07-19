@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 
 import { GlobalService } from '../../../services/global/global.service';
 import { EventService } from '../../../services/event/event.service';
-import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { MicrotextService, InputFieldValidation } from '../../../services/microtext/microtext.service';
 
@@ -44,20 +43,18 @@ export class ForgotUser {
 })
 
 export class ForgotComponent {
+    validationFuncs: Array<InputFieldValidation>;
+
     forgotUser: ForgotUser = new ForgotUser();
     isLoading: boolean = false;
 
-    // Forgot password validation functions array.
-    forgotValidationFuncs: Array<InputFieldValidation>;
-
     constructor(private router: Router,
-        public alertService: AlertService,
         public snackbarService: SnackbarService,
         private microtextService: MicrotextService,
         public globalService: GlobalService,
         public eventService: EventService,
         private forgotService: ForgotService) {
-        this.forgotValidationFuncs = [
+        this.validationFuncs = [
             {
                 isFieldValid(forgotUser: ForgotUser) {
                     return (forgotUser.email ? true : false);
@@ -112,7 +109,7 @@ export class ForgotComponent {
         this.forgotUser.email = this.forgotUser.email.trim();
 
         // In case the forgot modal fields are valid.
-        if (this.microtextService.Validation(this.forgotValidationFuncs, this.forgotUser, UserRegexp)) {
+        if (this.microtextService.Validation(this.validationFuncs, this.forgotUser, UserRegexp)) {
             this.isLoading = true;
 
             // In case the user is in the first stage of reset password.
@@ -177,15 +174,8 @@ export class ForgotComponent {
                         self.globalService.CallSocketFunction('LogoutUserSessionServer',
                             [null, "תוקף הסיסמא פג, יש להתחבר מחדש"]);
 
-                        self.alertService.Alert({
-                            title: "איפוס סיסמא",
-                            text: "הסיסמא הוחלפה בהצלחה!",
-                            showCancelButton: false,
-                            type: ALERT_TYPE.INFO,
-                            confirmFunc: function () {
-                                self.router.navigateByUrl('');
-                            }
-                        });
+                        this.snackbarService.Snackbar("הסיסמא הוחלפה בהצלחה");
+                        self.router.navigateByUrl('');
                     }
                 });
             }

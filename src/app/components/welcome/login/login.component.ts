@@ -28,35 +28,7 @@ export class User {
 export class LoginComponent {
     user: User = new User();
     isLoading: boolean = false;
-
-    // Validation functions array.
-    loginValidationFuncs: Array<InputFieldValidation> = [
-        {
-            isFieldValid(user: User) {
-                return (user.email ? true : false);
-            },
-            errMsg: "יש להזין כתובת אימייל",
-            fieldId: "login-email-micro",
-            inputId: "login-email"
-        },
-        {
-            isFieldValid(user: User, userRegexp: any) {
-                let emailPattern = userRegexp.email;
-                return (emailPattern.test(user.email));
-            },
-            errMsg: "כתובת אימייל לא תקינה",
-            fieldId: "login-email-micro",
-            inputId: "login-email"
-        },
-        {
-            isFieldValid(user: User) {
-                return (user.password ? true : false);
-            },
-            errMsg: "יש להזין סיסמא",
-            fieldId: "login-password-micro",
-            inputId: "login-password"
-        }
-    ];
+    validationFuncs: Array<InputFieldValidation>;
 
     constructor(private router: Router,
         public alertService: AlertService,
@@ -64,14 +36,42 @@ export class LoginComponent {
         private microtextService: MicrotextService,
         public globalService: GlobalService,
         public eventService: EventService,
-        private loginService: LoginService) { }
+        private loginService: LoginService) {
+        this.validationFuncs = [
+            {
+                isFieldValid(user: User) {
+                    return (user.email ? true : false);
+                },
+                errMsg: "יש להזין כתובת אימייל",
+                fieldId: "login-email-micro",
+                inputId: "login-email"
+            },
+            {
+                isFieldValid(user: User, userRegexp: any) {
+                    let emailPattern = userRegexp.email;
+                    return (emailPattern.test(user.email));
+                },
+                errMsg: "כתובת אימייל לא תקינה",
+                fieldId: "login-email-micro",
+                inputId: "login-email"
+            },
+            {
+                isFieldValid(user: User) {
+                    return (user.password ? true : false);
+                },
+                errMsg: "יש להזין סיסמא",
+                fieldId: "login-password-micro",
+                inputId: "login-password"
+            }
+        ];
+    }
 
     // Login user and redirect him to main page.
     Login() {
         this.user.email = this.user.email.trim();
 
         // In case the login fields are valid.
-        if (this.microtextService.Validation(this.loginValidationFuncs, this.user, UserRegexp)) {
+        if (this.microtextService.Validation(this.validationFuncs, this.user, UserRegexp)) {
             this.isLoading = true;
             let self = this;
 
@@ -126,7 +126,7 @@ export class LoginComponent {
             });
         }
     }
-    
+
     LoginEnter() {
         $(".user-input").blur();
         this.Login();

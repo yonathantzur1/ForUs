@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { AlertService, ALERT_TYPE } from '../../services/alert/alert.service';
+import { SnackbarService } from '../../services/snackbar/snackbar.service';
 import { MicrotextService, InputFieldValidation } from '../../services/microtext/microtext.service';
 import { GlobalService } from '../../services/global/global.service';
 
@@ -15,29 +15,30 @@ import { ForgotService } from '../../services/welcome/forgot.service';
 })
 
 export class ForgotPasswordComponent implements OnInit {
+    validationFuncs: Array<InputFieldValidation>;
+
     resetPasswordToken: string;
     newPassword: string;
     isResetTokenValid: boolean;
     userName: string;
 
-    // Validation functions array.
-    newPasswordValidations: Array<InputFieldValidation> = [
-        {
-            isFieldValid(newPassword: string) {
-                return (newPassword ? true : false);
-            },
-            errMsg: "יש להזין סיסמא חדשה",
-            fieldId: "new-password-micro",
-            inputId: "new-password"
-        }
-    ];
-
     constructor(private router: Router,
         private route: ActivatedRoute,
-        public alertService: AlertService,
+        public snackbarService: SnackbarService,
         private microtextService: MicrotextService,
         public globalService: GlobalService,
-        private forgotPasswordService: ForgotService) { }
+        private forgotPasswordService: ForgotService) {
+        this.validationFuncs = [
+            {
+                isFieldValid(newPassword: string) {
+                    return (newPassword ? true : false);
+                },
+                errMsg: "יש להזין סיסמא חדשה",
+                fieldId: "new-password-micro",
+                inputId: "new-password"
+            }
+        ];
+    }
 
     ngOnInit() {
         // In case of route params changes.
@@ -62,7 +63,7 @@ export class ForgotPasswordComponent implements OnInit {
     }
 
     ResetPassword() {
-        if (!this.microtextService.Validation(this.newPasswordValidations, this.newPassword)) {
+        if (!this.microtextService.Validation(this.validationFuncs, this.newPassword)) {
             return;
         }
 
@@ -74,23 +75,11 @@ export class ForgotPasswordComponent implements OnInit {
                     self.globalService.CallSocketFunction('LogoutUserSessionServer',
                         [null, "תוקף הסיסמא פג, יש להתחבר מחדש"]);
 
-                    self.alertService.Alert({
-                        title: "איפוס סיסמא",
-                        text: "הסיסמא הוחלפה בהצלחה!",
-                        showCancelButton: false,
-                        type: ALERT_TYPE.INFO,
-                        confirmFunc: function () {
-                            self.router.navigateByUrl('/login');
-                        }
-                    });
+                    this.snackbarService.Snackbar("הסיסמא הוחלפה בהצלחה");
+                    self.router.navigateByUrl('/login');
                 }
                 else {
-                    self.alertService.Alert({
-                        title: "איפוס סיסמא",
-                        text: "אופס... שגיאה באיפוס הסיסמא",
-                        showCancelButton: false,
-                        type: ALERT_TYPE.DANGER
-                    });
+                    this.snackbarService.Snackbar("אירעה שגיאה בחיבור לשרת");
                 }
             });
     }

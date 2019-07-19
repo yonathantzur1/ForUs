@@ -24,57 +24,59 @@ class EditUser {
 })
 
 export class UserEditWindowComponent implements OnInit {
+    editValidationFuncs: Array<InputFieldValidation>;
+    passwordValidationFuncs: Array<InputFieldValidation>;
+
     @Input() user: any;
     editUser: EditUser = {};
     isShowPasswordValidationWindow: boolean = false;
-
-    // Validation functions array.
-    editValidationFuncs: Array<InputFieldValidation> = [
-        {
-            isFieldValid(editUser: EditUser, userRegexp: any) {
-                let namePattern = userRegexp.name;
-                return (namePattern.test(editUser.firstName));
-            },
-            errMsg: "יש להזין שם תקין בעברית",
-            fieldId: "edit-user-first-name-micro",
-            inputId: "edit-first-name"
-        },
-        {
-            isFieldValid(editUser: EditUser, userRegexp: any) {
-                let namePattern = userRegexp.name;
-                return (namePattern.test(editUser.lastName));
-            },
-            errMsg: "יש להזין שם תקין בעברית",
-            fieldId: "edit-user-last-name-micro",
-            inputId: "edit-last-name"
-        },
-        {
-            isFieldValid(editUser: EditUser, userRegexp: any) {
-                let emailPattern = userRegexp.email;
-                return (emailPattern.test(editUser.email));
-            },
-            errMsg: "כתובת אימייל לא תקינה",
-            fieldId: "edit-user-email-micro",
-            inputId: "edit-email"
-        }
-    ]
-
-    passwordValidationFuncs: Array<InputFieldValidation> = [
-        {
-            isFieldValid(editUser: EditUser) {
-                return (editUser.password ? true : false);
-            },
-            errMsg: "יש להזין את סיסמת החשבון",
-            fieldId: "edit-user-password-micro",
-            inputId: "edit-password"
-        },
-    ]
 
     constructor(private userEditWindowService: UserEditWindowService,
         public alertService: AlertService,
         public globalService: GlobalService,
         private eventService: EventService,
-        private microtextService: MicrotextService) { }
+        private microtextService: MicrotextService) {
+        this.editValidationFuncs = [
+            {
+                isFieldValid(editUser: EditUser, userRegexp: any) {
+                    let namePattern = userRegexp.name;
+                    return (namePattern.test(editUser.firstName));
+                },
+                errMsg: "יש להזין שם תקין בעברית",
+                fieldId: "edit-user-first-name-micro",
+                inputId: "edit-first-name"
+            },
+            {
+                isFieldValid(editUser: EditUser, userRegexp: any) {
+                    let namePattern = userRegexp.name;
+                    return (namePattern.test(editUser.lastName));
+                },
+                errMsg: "יש להזין שם תקין בעברית",
+                fieldId: "edit-user-last-name-micro",
+                inputId: "edit-last-name"
+            },
+            {
+                isFieldValid(editUser: EditUser, userRegexp: any) {
+                    let emailPattern = userRegexp.email;
+                    return (emailPattern.test(editUser.email));
+                },
+                errMsg: "כתובת אימייל לא תקינה",
+                fieldId: "edit-user-email-micro",
+                inputId: "edit-email"
+            }
+        ];
+
+        this.passwordValidationFuncs = [
+            {
+                isFieldValid(editUser: EditUser) {
+                    return (editUser.password ? true : false);
+                },
+                errMsg: "יש להזין את סיסמת החשבון",
+                fieldId: "edit-user-password-micro",
+                inputId: "edit-password"
+            },
+        ];
+    }
 
     ngOnInit() {
         this.editUser.firstName = this.user.firstName;

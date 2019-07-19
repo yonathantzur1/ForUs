@@ -14,28 +14,29 @@ import { DeleteUserService } from '../../services/deleteUser/deleteUser.service'
 })
 
 export class DeleteUserComponent implements OnInit {
+    validationFuncs: Array<InputFieldValidation>;
+
     deleteUserToken: string;
     userName: string;
     password: string;
     isDeleteTokenValid: boolean;
 
-    // Validation functions array.
-    passwordValidations: Array<InputFieldValidation> = [
-        {
-            isFieldValid(password: string) {
-                return (password ? true : false);
-            },
-            errMsg: "יש להזין סיסמא",
-            fieldId: "password-micro",
-            inputId: "password"
-        }
-    ];
-
     constructor(private router: Router,
         private route: ActivatedRoute,
         public alertService: AlertService,
         private microtextService: MicrotextService,
-        private deleteUserService: DeleteUserService) { }
+        private deleteUserService: DeleteUserService) {
+        this.validationFuncs = [
+            {
+                isFieldValid(password: string) {
+                    return (password ? true : false);
+                },
+                errMsg: "יש להזין סיסמא",
+                fieldId: "password-micro",
+                inputId: "password"
+            }
+        ];
+    }
 
     ngOnInit() {
         // In case of route params changes.
@@ -60,7 +61,7 @@ export class DeleteUserComponent implements OnInit {
     }
 
     DeleteUser() {
-        if (!this.microtextService.Validation(this.passwordValidations, this.password)) {
+        if (!this.microtextService.Validation(this.validationFuncs, this.password)) {
             return;
         }
 
@@ -72,7 +73,7 @@ export class DeleteUserComponent implements OnInit {
                     showCancelButton: false,
                     type: ALERT_TYPE.INFO
                 });
-                
+
                 this.BackToLogin();
             }
             else if (result == false) {

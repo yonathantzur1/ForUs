@@ -38,17 +38,10 @@ const routes: Routes = [
   {
     path: '',
     component: WelcomeComponent,
-    canActivate: [LoginGuard],
     children: [
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
-      { path: 'forgot', component: ForgotComponent }
-    ]
-  },
-  {
-    path: '',
-    component: WelcomeComponent,
-    children: [
+      { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
+      { path: 'register', component: RegisterComponent, canActivate: [LoginGuard] },
+      { path: 'forgot', component: ForgotComponent, canActivate: [LoginGuard] },
       { path: 'page-not-found', component: PageNotFoundComponent }
     ]
   },

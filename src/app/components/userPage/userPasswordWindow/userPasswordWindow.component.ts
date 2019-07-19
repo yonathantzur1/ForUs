@@ -26,34 +26,35 @@ export class Password {
 })
 
 export class UserPasswordWindowComponent {
+    validationFuncs: Array<InputFieldValidation>;
+    
     @Input() userId: string;
-    password: Password = new Password();
-
-    // Validation functions array.
-    validationFuncs: Array<InputFieldValidation> = [
-        {
-            isFieldValid(password: Password) {
-                return password.oldPassword ? true : false;
-            },
-            errMsg: "יש להזין סיסמא נוכחית",
-            fieldId: "old-password-micro",
-            inputId: "oldPassword"
-        },
-        {
-            isFieldValid(password: Password) {
-                return password.newPassword ? true : false;
-            },
-            errMsg: "יש להזין סיסמא חדשה",
-            fieldId: "new-password-micro",
-            inputId: "newPassword"
-        }
-    ]
+    password: Password = new Password();    
 
     constructor(public globalService: GlobalService,
         private eventService: EventService,
         public alertService: AlertService,
         private microtextService: MicrotextService,
-        private userPasswordWindowService: UserPasswordWindowService) { }
+        private userPasswordWindowService: UserPasswordWindowService) {
+        this.validationFuncs = [
+            {
+                isFieldValid(password: Password) {
+                    return password.oldPassword ? true : false;
+                },
+                errMsg: "יש להזין סיסמא נוכחית",
+                fieldId: "old-password-micro",
+                inputId: "oldPassword"
+            },
+            {
+                isFieldValid(password: Password) {
+                    return password.newPassword ? true : false;
+                },
+                errMsg: "יש להזין סיסמא חדשה",
+                fieldId: "new-password-micro",
+                inputId: "newPassword"
+            }
+        ]
+    }
 
     CloseWindow() {
         this.eventService.Emit("closeUserPasswordWindow");
@@ -80,7 +81,7 @@ export class UserPasswordWindowComponent {
             this.userPasswordWindowService.UpdateUserPassword(this.password).then(data => {
                 if (data) {
                     let result = data.result;
-                    
+
                     if (result.lock) {
                         this.microtextService.ShowMicrotext("old-password-micro",
                             "העדכון ננעל למשך " + result.lock + " דקות");

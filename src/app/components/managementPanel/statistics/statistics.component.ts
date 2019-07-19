@@ -18,6 +18,8 @@ declare let Chart: any;
 })
 
 export class StatisticsComponent {
+    emailValidationFuncs: Array<InputFieldValidation>;
+    
     menus: Array<any>;
     chart: any;
     chartTitle: string;
@@ -39,21 +41,21 @@ export class StatisticsComponent {
         chartName: "התחברויות"
     };
 
-    emailValidationFuncs: Array<InputFieldValidation> = [
-        {
-            isFieldValid(email: string, userRegexp: any) {
-                let emailPattern = userRegexp.email;
-                return (emailPattern.test(email));
-            },
-            errMsg: "כתובת אימייל לא תקינה",
-            fieldId: "email-micro",
-            inputId: "user-search"
-        }
-    ]
-
     constructor(public globalService: GlobalService,
         private statisticsService: StatisticsService,
         private microtextService: MicrotextService) {
+        this.emailValidationFuncs = [
+            {
+                isFieldValid(email: string, userRegexp: any) {
+                    let emailPattern = userRegexp.email;
+                    return (emailPattern.test(email));
+                },
+                errMsg: "כתובת אימייל לא תקינה",
+                fieldId: "email-micro",
+                inputId: "user-search"
+            }
+        ];
+
         this.menus = [
             {
                 id: "charts",

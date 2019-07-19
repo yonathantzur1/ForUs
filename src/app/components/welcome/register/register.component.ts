@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 
 import { GlobalService } from '../../../services/global/global.service';
 import { EventService } from '../../../services/event/event.service';
-import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 import { MicrotextService, InputFieldValidation } from '../../../services/microtext/microtext.service';
 
@@ -30,17 +29,14 @@ export class NewUser {
 export class RegisterComponent {
     newUser: NewUser = new NewUser();
     isLoading: boolean = false;
-
-    // Register validation functions array.
-    registerValidationFuncs: Array<InputFieldValidation>;
+    validationFuncs: Array<InputFieldValidation>;
 
     constructor(private router: Router,
-        public alertService: AlertService,
         public snackbarService: SnackbarService,
         private microtextService: MicrotextService,
         public globalService: GlobalService,
         public registerService: RegisterService) {
-        this.registerValidationFuncs = [
+        this.validationFuncs = [
             {
                 isFieldValid(newUser: NewUser) {
                     return (newUser.firstName ? true : false);
@@ -111,7 +107,7 @@ export class RegisterComponent {
         this.newUser.email = this.newUser.email.trim();
 
         // In case the register modal fields are valid.
-        if (this.microtextService.Validation(this.registerValidationFuncs, this.newUser, UserRegexp)) {
+        if (this.microtextService.Validation(this.validationFuncs, this.newUser, UserRegexp)) {
             this.isLoading = true;
 
             this.registerService.Register(this.newUser).then((data: any) => {
@@ -138,7 +134,7 @@ export class RegisterComponent {
     HideMicrotext(microtextId: string) {
         this.microtextService.HideMicrotext(microtextId);
     }
-    
+
     RegisterEnter() {
         $(".user-input").blur();
         this.Register();
