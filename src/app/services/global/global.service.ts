@@ -53,7 +53,7 @@ export class GlobalService extends LoginService {
         let globalObject = this.globalObject = {
             days: ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"],
             months: ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני", "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"],
-            shortMonths: ["ינו'", "פבר'", "מרץ", "אפר'", "מאי", "יונ'", "יול'", "אוג'", "ספט'", "אוק'", "נוב'", "דצמ'"],
+            shortMonths: ["ינו'", "פבר'", "מרץ", "אפר'", "מאי", "יוני", "יול'", "אוג'", "ספט'", "אוק'", "נוב'", "דצמ'"],
             GetDateDetailsString: (localDate: Date, currDate: Date, isShortMonths?: boolean) => {
                 currDate.setHours(23, 59, 59, 999);
 
