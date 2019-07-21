@@ -61,23 +61,6 @@ router.post('/userLogin',
         });
     });
 
-// Update user last login time in DB.
-router.post('/updateLastLogin', (req, res) => {
-    let token = tokenHandler.DecodeTokenFromRequest(req);
-
-    if (token) {
-        loginBL.UpdateLastLogin(token.user._id).then(() => {
-            res.end();
-        }).catch((err) => {
-            logger.error(err);
-            res.sendStatus(500);
-        });
-    }
-    else {
-        res.sendStatus(401);
-    }
-});
-
 // Get user permissions from token.
 router.get('/getUserPermissions', (req, res) => {
     let token = tokenHandler.DecodeTokenFromRequest(req);

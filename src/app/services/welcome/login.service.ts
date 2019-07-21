@@ -16,10 +16,6 @@ export class LoginService extends BasicService {
             });
     }
 
-    UpdateLastLogin() {
-        super.post(this.prefix + '/updateLastLogin').toPromise();
-    }
-
     GetUserPermissions() {
         return super.get(this.prefix + '/getUserPermissions')
             .toPromise()

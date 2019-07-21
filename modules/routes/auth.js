@@ -48,7 +48,8 @@ router.get('/getCurrUser', (req, res) => {
         "friends": user.friends
     }
 
-    res.send(userClientObject);
+    loginBL.UpdateLastLogin(user._id);
+    res.send(userClientObject);    
 });
 
 // Set the current login user token.

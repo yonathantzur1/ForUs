@@ -102,11 +102,9 @@ export class GlobalService extends LoginService {
     Initialize() {
         if (!this.socket) {
             this.socket = io();
-            super.UpdateLastLogin();
 
-            let self = this;
             super.GetUserPermissions().then((result) => {
-                result && (self.userPermissions = result);
+                this.userPermissions = result || [];
             });
         }
     }
