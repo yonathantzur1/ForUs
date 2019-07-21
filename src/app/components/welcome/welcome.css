@@ -81,3 +81,13 @@ form {
 .microtext-align {
     right: 0px;
 }
+
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -35px;
+    margin-left: -35px;
+    z-index: 999;    
+    border-radius: 50%;
+}

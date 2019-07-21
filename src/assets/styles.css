@@ -167,7 +167,7 @@ input {
     background-color: transparent;
     width: 42px;
     height: 42px;
-    border-radius: 8%;
+    border-radius: 50%;
 }
 
 .mini-loader-spinner {
