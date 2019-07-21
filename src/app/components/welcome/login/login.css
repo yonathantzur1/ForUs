@@ -13,11 +13,6 @@ form {
     padding: 0 !important;
 }
 
-.login-sector {
-    user-select: none;
-    cursor: default;
-}
-
 .login-btn {
     border-style: solid;
     border-width: 1px;
