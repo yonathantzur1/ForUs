@@ -31,6 +31,8 @@ form {
     column-gap: 0;
     column-rule: 1px solid var(--main-text-color);
     margin-top: 5px;
+    user-select: none;
+    cursor: pointer;
 }
 
 .option-btn {
