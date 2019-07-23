@@ -7,12 +7,12 @@
         </div>
         <form>
             <div class="form-group">
-                <div *ngIf="!forgotUser.showResetCodeField || forgotUser.hasResetCode" class="col-12">
+                <div *ngIf="!forgotUser.showResetCodeField || forgotUser.hasResetCode" class="col-12 no-padding">
                     <input [(ngModel)]="forgotUser.email" id="forgot-email" class="form-control user-input" type="email"
                         name="email" (keydown)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="אימייל">
                     <label id="forgot-email-micro" class="microtext"></label>
                 </div>
-                <div *ngIf="forgotUser.showResetCodeField && !forgotUser.hasResetCode" class="col-12">
+                <div *ngIf="forgotUser.showResetCodeField && !forgotUser.hasResetCode" class="col-12 no-padding">
                     <label class="forgot-email-label">אימייל:</label>
                     <div [title]="forgotUser.email" class="forgot-email-text">
                         {{forgotUser.email}}
@@ -22,7 +22,7 @@
             <div *ngIf="forgotUser.showResetCodeField">
                 <hr *ngIf="!forgotUser.hasResetCode">
                 <div class="form-group">
-                    <div class="col-12">
+                    <div class="col-12 no-padding">
                         <input [(ngModel)]="forgotUser.code" id="forgot-code" class="form-control user-input"
                             type="text" name="code" (keydown)="HideMicrotext($event.srcElement.id + '-micro')"
                             placeholder="קוד איפוס" maxlength="8" autocomplete="off" autocorrect="off"
@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-12">
+                    <div class="col-12 no-padding">
                         <input [(ngModel)]="forgotUser.newPassword" id="forgot-newPassword"
                             class="form-control user-input" type="password" name="newPassword"
                             (keydown)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="סיסמא חדשה"

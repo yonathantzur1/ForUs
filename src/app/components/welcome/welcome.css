@@ -30,6 +30,10 @@ form {
     position: relative;
 }
 
+.no-padding {
+    padding: 0 !important;
+}
+
 .user-input {
     margin-bottom: 5px;
 }

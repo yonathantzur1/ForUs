@@ -9,10 +9,6 @@ form {
     position: relative;
 }
 
-.no-padding {
-    padding: 0 !important;
-}
-
 .login-btn {
     border-style: solid;
     border-width: 1px;

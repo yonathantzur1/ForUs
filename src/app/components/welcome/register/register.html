@@ -10,7 +10,7 @@
                 <tr>
                     <td>
                         <div class="form-group">
-                            <div class="col">
+                            <div class="col" style="padding-right: 0;">
                                 <input [(ngModel)]="newUser.firstName" id="register-firstName"
                                     class="form-control user-input" type="text" name="firstName"
                                     (keydown)="HideMicrotext($event.srcElement.id + '-micro')" maxlength="10"
@@ -21,7 +21,7 @@
                     </td>
                     <td>
                         <div class="form-group">
-                            <div class="col">
+                            <div class="col" style="padding-left: 0;">
                                 <input [(ngModel)]="newUser.lastName" id="register-lastName"
                                     class="form-control user-input" type="text" name="lastName"
                                     (keydown)="HideMicrotext($event.srcElement.id + '-micro')" maxlength="10"
@@ -33,14 +33,14 @@
                 </tr>
             </table>
             <div class="form-group">
-                <div class="col-12">
+                <div class="col-12 no-padding">
                     <input [(ngModel)]="newUser.email" id="register-email" class="form-control user-input" type="email"
                         name="email" (keydown)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="אימייל">
                     <label id="register-email-micro" class="microtext"></label>
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-12">
+                <div class="col-12 no-padding">
                     <input [(ngModel)]="newUser.password" id="register-password" class="form-control user-input"
                         type="password" name="password" (keydown)="HideMicrotext($event.srcElement.id + '-micro')"
                         placeholder="סיסמא">
