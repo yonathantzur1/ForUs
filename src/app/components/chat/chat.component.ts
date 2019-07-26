@@ -390,7 +390,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.isAllowShowUnreadLine = false;
                 this.messages.push(msgData);
                 $("#msg-input").focus();
-                this.globalService.socket.emit("SendMessage", msgData);
+                this.globalService.SocketEmit("SendMessage", msgData);
             }
         }
     }
@@ -405,7 +405,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             this.CloseChat();
         }
         else {
-            this.globalService.socket.emit("ServerFriendTyping", this.chatData.friend._id);
+            this.globalService.SocketEmit("ServerFriendTyping", this.chatData.friend._id);
         }
     }
 
@@ -562,7 +562,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
             this.isAllowScrollDown = true;
             this.messages.push(msgData);
-            this.globalService.socket.emit("SendMessage", msgData);
+            this.globalService.SocketEmit("SendMessage", msgData);
         }
     }
 

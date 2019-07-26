@@ -104,8 +104,8 @@
 
 .options-drop-menu {
     position: absolute;
-    left: -1px;
-    width: calc(100% + 2px);
+    left: 0px;
+    width: calc(100% + 1px);
     top: 50px;
     user-select: none;
     background-color: whitesmoke;

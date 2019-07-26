@@ -318,7 +318,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                 if (result) {
                     if (updatedFields["password"]) {
                         delete updatedFields["password"];
-                        this.globalService.socket.emit("LogoutUserSessionServer",
+                        this.globalService.SocketEmit("LogoutUserSessionServer",
                             user._id,
                             "נותקת מהאתר, יש להתחבר מחדש");
                     }
@@ -357,7 +357,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                         "<b>עד תאריך: </b>" +
                         (user.block.unblockDate ? this.ConvertDateFormat(user.block.unblockDate) : "בלתי מוגבל");
 
-                    this.globalService.socket.emit("LogoutUserSessionServer",
+                    this.globalService.SocketEmit("LogoutUserSessionServer",
                         user._id,
                         blockUserMsg);
                 }
@@ -450,8 +450,8 @@ export class ManagementComponent implements OnInit, OnDestroy {
                         }
 
                         let logoutMsg = "נותקת מהאתר, יש להתחבר מחדש.";
-                        self.globalService.socket.emit("LogoutUserSessionServer", user._id, logoutMsg);
-                        self.globalService.socket.emit("LogoutUserSessionServer", friend._id, logoutMsg);
+                        self.globalService.SocketEmit("LogoutUserSessionServer", user._id, logoutMsg);
+                        self.globalService.SocketEmit("LogoutUserSessionServer", friend._id, logoutMsg);
                     }
                     else {
                         self.snackbarService.Snackbar("שגיאה במחיקת החברות");
@@ -475,7 +475,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
                         // Logout the user from the system.
                         let logoutMsg = "חשבונך נמחק מהמערכת לצמיתות. \nלפרטים נוספים, פנה להנהלת האתר.";
-                        self.globalService.socket.emit("LogoutUserSessionServer", user._id, logoutMsg);
+                        self.globalService.SocketEmit("LogoutUserSessionServer", user._id, logoutMsg);
 
                         // Remove user from users search list.
                         self.users.splice(user.index, 1);

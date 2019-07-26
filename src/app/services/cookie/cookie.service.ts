@@ -1,4 +1,6 @@
 export class CookieService {
+    uidCookieName: string = "uid";
+
     SetCookie(name: string, value: any, exHours: number) {
         let d = new Date();
         d.setTime(d.getTime() + (exHours * 60 * 60 * 1000));

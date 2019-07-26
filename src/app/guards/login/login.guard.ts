@@ -1,7 +1,7 @@
 import { Observable, Subject } from "rxjs";
 
 import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Router, CanActivate } from '@angular/router';
 
 import { AuthService } from '../../services/auth/auth.service';
 import { CookieService } from '../../services/cookie/cookie.service';
@@ -14,9 +14,10 @@ export class LoginGuard implements CanActivate {
         private cookieService: CookieService,
         public globalService: GlobalService) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    canActivate() {
         return Observable.create((observer: Subject<boolean>) => {
-            if (!this.cookieService.GetCookie(this.globalService.uidCookieName)) {
+            // In case the uid cookie is not exists.
+            if (!this.cookieService.GetCookie(this.cookieService.uidCookieName)) {
                 observer.next(true);
             }
             else {

@@ -27,9 +27,9 @@ export class Password {
 
 export class UserPasswordWindowComponent {
     validationFuncs: Array<InputFieldValidation>;
-    
+
     @Input() userId: string;
-    password: Password = new Password();    
+    password: Password = new Password();
 
     constructor(public globalService: GlobalService,
         private eventService: EventService,
@@ -91,7 +91,9 @@ export class UserPasswordWindowComponent {
                     }
                     else {
                         this.CloseWindow();
-                        this.globalService.socket.emit("LogoutUserSessionServer", this.userId, "הסיסמא התעדכנה בהצלחה!\nיש להיכנס מחדש.");
+                        this.globalService.SocketEmit("LogoutUserSessionServer",
+                             this.userId,
+                             "הסיסמא התעדכנה בהצלחה!\nיש להיכנס מחדש.");
                     }
                 }
                 else {

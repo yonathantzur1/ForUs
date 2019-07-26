@@ -218,7 +218,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.globalService.socket.emit('login');
+        this.globalService.SocketEmit('login');
 
         let self = this;
 
@@ -257,7 +257,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }, self.checkSocketConnectDelay * 1000);
 
         self.checkOnlineFriendsInterval = setInterval(() => {
-            self.globalService.socket.emit("ServerGetOnlineFriends");
+            self.globalService.SocketEmit("ServerGetOnlineFriends");
         }, self.checkOnlineFriendsDelay * 1000);
 
         self.LoadFriendsData(self.user.friends);
@@ -355,7 +355,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             self.authService.SetCurrUserToken().then((result: any) => {
                 if (result) {
                     self.globalService.RefreshSocket();
-                    self.globalService.socket.emit("ServerGetOnlineFriends");
+                    self.globalService.SocketEmit("ServerGetOnlineFriends");
                 }
             });
 
@@ -371,9 +371,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
             self.isHideNotificationsBudget = false;
             self.ShowFriendRequestNotification(friend.firstName + " " + friend.lastName, true);
 
-            self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
-            self.globalService.socket.emit("RemoveFriendRequest", self.user._id, friend._id);
-            self.globalService.socket.emit("ServerGetOnlineFriends");
+            self.globalService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
+            self.globalService.SocketEmit("RemoveFriendRequest", self.user._id, friend._id);
+            self.globalService.SocketEmit("ServerGetOnlineFriends");
         });
 
         self.globalService.SocketOn('ClientFriendTyping', function (friendId: string) {
@@ -505,7 +505,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.navbarService.GetFriends(friendsIds).then((friendsResult: Array<Friend>) => {
                 this.friends = friendsResult;
                 this.isFriendsLoading = false;
-                this.globalService.socket && this.globalService.socket.emit("ServerGetOnlineFriends");
+                this.globalService.socket && this.globalService.SocketEmit("ServerGetOnlineFriends");
             });
         }
     }
@@ -681,8 +681,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
         let self = this;
         self.navbarService.AddFriendRequest(friendId).then((result: any) => {
             if (result) {
-                self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
-                self.globalService.socket.emit("SendFriendRequest", friendId);
+                self.globalService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
+                self.globalService.SocketEmit("SendFriendRequest", friendId);
                 self.eventService.Emit("sendFriendRequest", friendId);
                 self.snackbarService.Snackbar("נשלחה בקשת חברות");
             }
@@ -696,8 +696,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
         let self = this;
         self.navbarService.RemoveFriendRequest(friendId).then((result: any) => {
             if (result) {
-                self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
-                self.globalService.socket.emit("RemoveFriendRequest", self.user._id, friendId);
+                self.globalService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
+                self.globalService.SocketEmit("RemoveFriendRequest", self.user._id, friendId);
                 self.snackbarService.Snackbar("בקשת החברות בוטלה");
             }
         });
@@ -711,9 +711,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
         let self = this;
         self.navbarService.IgnoreFriendRequest(friendId).then((result: any) => {
             if (result) {
-                self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
-                self.globalService.socket.emit("ServerIgnoreFriendRequest", self.user._id, friendId);
-                self.globalService.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
+                self.globalService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
+                self.globalService.SocketEmit("ServerIgnoreFriendRequest", self.user._id, friendId);
+                self.globalService.SocketEmit("ServerUpdateFriendRequestsStatus", friendId);
             }
 
             callback && callback(result);
@@ -749,7 +749,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
         // Add the friend client object to the friends array.
         this.friends.push(friend);
-        this.globalService.socket.emit("ServerGetOnlineFriends");
+        this.globalService.SocketEmit("ServerGetOnlineFriends");
     }
 
     AddFriend(friendId: string, callback?: Function) {
@@ -770,16 +770,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
             if (friend) {
                 self.globalService.RefreshSocket();
-                self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
-                self.globalService.socket.emit("ServerAddFriend", friend);
-                self.globalService.socket.emit("ServerFriendAddedUpdate", friend._id);
-                self.globalService.socket.emit("ServerUpdateFriendRequestsStatus", friendId);
+                self.globalService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
+                self.globalService.SocketEmit("ServerAddFriend", friend);
+                self.globalService.SocketEmit("ServerFriendAddedUpdate", friend._id);
+                self.globalService.SocketEmit("ServerUpdateFriendRequestsStatus", friendId);
             }
             else {
                 //  Recover the actions in case the server is fail to add the friend. 
                 friendRequests.get.push(friendId);
                 userFriends.splice(userFriends.indexOf(friendId), 1);
-                self.globalService.socket.emit("ServerUpdateFriendRequests", friendRequests);
+                self.globalService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
             }
 
             callback && callback(friend);

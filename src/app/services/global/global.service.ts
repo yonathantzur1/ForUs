@@ -16,12 +16,10 @@ export class GlobalService extends LoginService {
 
     // Use this property for property binding    
     public socket: any;
-    public socketOnDictionary: any;
     public userId: string;
     public userProfileImage: string;
     public userPermissions: Array<string>;
     public defaultProfileImage: string;
-    public uidCookieName: string;
     public globalObject: any;
 
     constructor(public http: HttpClient,
@@ -45,9 +43,7 @@ export class GlobalService extends LoginService {
 
         // Initialize variables        
         this.userPermissions = [];
-        this.socketOnDictionary = {};
         this.defaultProfileImage = EmptyProfile;
-        this.uidCookieName = "uid";
 
         // Global variables and functions
         let globalObject = this.globalObject = {
@@ -121,17 +117,24 @@ export class GlobalService extends LoginService {
         return (this.IsUserHasAdminPermission() || this.IsUserHasMasterPermission());
     }
 
-    // Emit socket event before initialize the socket object.
-    CallSocketFunction(funcName: string, params?: Array<any>) {
-        if (!this.socket) {
-            eval("io().emit('" + funcName + "'," + this.ConvertArrayToString(params) + ");");
-        }
-        else {
-            eval("this.socket.emit('" + funcName + "'," + this.ConvertArrayToString(params) + ");");
+    ResetGlobalVariables() {
+        this.socket && this.socket.destroy();
+        this.socket = null;
+        this.userProfileImage = null;
+        this.userPermissions = [];
+    }
+
+    // This function should be called in order to refresh
+    // the client cookies (token) that the socket object contains.
+    RefreshSocket() {
+        if (this.socket) {
+            this.socket.disconnect();
+            this.socket.connect();
+            this.socket.emit('login');
         }
     }
 
-    ConvertArrayToString(params: Array<any>): string {
+    ConvertArrayToString(params: any[]): string {
         let paramsString = '';
 
         if (!params || params.length == 0) {
@@ -156,30 +159,18 @@ export class GlobalService extends LoginService {
         }
     }
 
-    ResetGlobalVariables() {
-        this.socket && this.socket.destroy();
-        this.socket = null;
-        this.userProfileImage = null;
-        this.userPermissions = [];
-    }
-
-    // This function should be called in order to refresh
-    // the client cookies (token) that the socket object contains.
-    RefreshSocket() {
-        if (this.socket) {
-            this.socket.disconnect();
-            this.socket.connect();
-            this.socket.emit('login');
-        }
+    // Emit socket event before initialize the socket object.
+    SocketEmit(funcName: string, ...params: any[]) {
+        let socketObjStr = this.socket ? "this.socket" : "io()";
+        eval(socketObjStr + ".emit('" + funcName + "'," + this.ConvertArrayToString(params) + ");");
     }
 
     SocketOn(name: string, func: Function) {
-        this.socketOnDictionary[name] = func;
         this.socket.on(name, func);
     }
 
     Logout() {
-        this.cookieService.DeleteCookieByName(this.uidCookieName);
+        this.cookieService.DeleteCookieByName(this.cookieService.uidCookieName);
         this.DeleteTokenFromCookie();
         this.ResetGlobalVariables();
     }

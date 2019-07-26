@@ -174,7 +174,9 @@ export class UserEditWindowComponent implements OnInit {
                     }
                     else {
                         this.CloseWindow();
-                        this.globalService.socket.emit("LogoutUserSessionServer", this.user._id, "הפרטים התעדכנו בהצלחה!\nיש להיכנס מחדש.");
+                        this.globalService.SocketEmit("LogoutUserSessionServer",
+                            this.user._id,
+                            "הפרטים התעדכנו בהצלחה!\nיש להיכנס מחדש.");
                     }
                 }
                 else {

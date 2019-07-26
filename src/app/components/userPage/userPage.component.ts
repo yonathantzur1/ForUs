@@ -33,8 +33,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
         public alertService: AlertService,
         public snackbarService: SnackbarService,
         public globalService: GlobalService,
-        private eventService: EventService,
-        private cookieService: CookieService) {
+        private eventService: EventService) {
         let self = this;
 
         //#region events
@@ -108,7 +107,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                                 confirmFunc: function () {
                                     self.userPageService.RemoveFriends(self.user._id).then(result => {
                                         if (result) {
-                                            self.globalService.socket.emit("ServerRemoveFriend", self.user._id);
+                                            self.globalService.SocketEmit("ServerRemoveFriend", self.user._id);
                                             self.UnsetUserFriendStatus("isFriend");
                                             self.snackbarService.Snackbar("הסרת החברות עם " + self.user.fullName + " בוצעה בהצלחה");
                                             self.globalService.RefreshSocket();
@@ -397,8 +396,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
     // Return true if the user page belongs to the current user.
     IsUserPageSelf() {
-        return (this.user &&
-            this.user.uid == this.cookieService.GetCookie(this.globalService.uidCookieName));
+        return (this.user && this.user._id == this.globalService.userId);
     }
 
     OpenProfileEditWindow() {

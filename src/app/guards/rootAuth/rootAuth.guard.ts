@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Router, CanActivate } from '@angular/router';
 
 import { AuthService } from '../../services/auth/auth.service';
 
@@ -7,7 +7,7 @@ import { AuthService } from '../../services/auth/auth.service';
 export class RootAuthGuard implements CanActivate {
     constructor(private router: Router, private authService: AuthService) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    canActivate() {
         return this.authService.IsUserRoot().then((result) => {
             if (result) {
                 return true;
