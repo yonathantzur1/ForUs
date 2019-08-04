@@ -146,7 +146,7 @@ export class GlobalService extends LoginService {
                     paramsString += JSON.stringify(param);
                 }
                 else if (typeof (param) == "string") {
-                    paramsString += '"' + param + '"';
+                    paramsString += "'" + param + "'";
                 }
                 else {
                     paramsString += param.toString();
