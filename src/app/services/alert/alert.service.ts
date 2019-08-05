@@ -20,6 +20,8 @@ export class AlertService {
     public image: string;
     public disableEscapeExit: boolean;
 
+    private newLine: string = "{{enter}}";
+
     constructor() {
         this.Initialize();
     }
@@ -32,20 +34,20 @@ export class AlertService {
         this.closeBtnText = "ביטול";
     }
 
-    Alert(alertObject: any) {
-        if (alertObject) {
-            (alertObject.showCancelButton != null) && (this.showCancelButton = alertObject.showCancelButton);
-            this.title = alertObject.title;;
-            this.text = alertObject.text;
-            this.preConfirm = alertObject.preConfirm;
-            this.confirmFunc = alertObject.confirmFunc;
-            this.closeFunc = alertObject.closeFunc;
-            this.finalFunc = alertObject.finalFunc;
-            (alertObject.confirmBtnText != null) && (this.confirmBtnText = alertObject.confirmBtnText);
-            (alertObject.closeBtnText != null) && (this.closeBtnText = alertObject.closeBtnText);
-            this.type = alertObject.type;
-            this.image = alertObject.image;
-            this.disableEscapeExit = alertObject.disableEscapeExit;
+    Alert(alt: any) {
+        if (alt) {
+            this.title = alt.title;
+            (alt.text != null) && (this.text = alt.text.replace(new RegExp(this.newLine, 'g'), "\n"));
+            (alt.showCancelButton != null) && (this.showCancelButton = alt.showCancelButton);
+            (alt.confirmBtnText != null) && (this.confirmBtnText = alt.confirmBtnText);
+            (alt.closeBtnText != null) && (this.closeBtnText = alt.closeBtnText);
+            this.preConfirm = alt.preConfirm;
+            this.confirmFunc = alt.confirmFunc;
+            this.closeFunc = alt.closeFunc;
+            this.finalFunc = alt.finalFunc;
+            this.type = alt.type;
+            this.image = alt.image;
+            this.disableEscapeExit = alt.disableEscapeExit;
             this.isShow = true;
         }
     }

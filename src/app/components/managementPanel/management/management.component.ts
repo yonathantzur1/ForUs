@@ -352,8 +352,10 @@ export class ManagementComponent implements OnInit, OnDestroy {
                     this.ReturnMainCard(user);
                     this.snackbarService.Snackbar("חסימת המשתמש בוצעה בהצלחה");
 
-                    let blockUserMsg = "חשבון זה נחסם" + "\n\n" +
-                        "<b>סיבה: </b>" + user.block.reason + "\n" +
+                    let blockUserMsg = "חשבון זה נחסם" +
+                        "{{enter}}" + "{{enter}}" +
+                        "<b>סיבה: </b>" + user.block.reason +
+                        "{{enter}}" +
                         "<b>עד תאריך: </b>" +
                         (user.block.unblockDate ? this.ConvertDateFormat(user.block.unblockDate) : "בלתי מוגבל");
 
@@ -474,7 +476,9 @@ export class ManagementComponent implements OnInit, OnDestroy {
                         self.snackbarService.Snackbar("מחיקת המשתמש בוצעה בהצלחה");
 
                         // Logout the user from the system.
-                        let logoutMsg = "חשבונך נמחק מהמערכת לצמיתות. \nלפרטים נוספים, פנה להנהלת האתר.";
+                        let logoutMsg = "חשבונך נמחק מהמערכת לצמיתות." +
+                            "{{enter}}" +
+                            "לפרטים נוספים, פנה להנהלת האתר.";
                         self.globalService.SocketEmit("LogoutUserSessionServer", user._id, logoutMsg);
 
                         // Remove user from users search list.

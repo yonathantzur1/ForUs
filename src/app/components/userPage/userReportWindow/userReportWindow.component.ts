@@ -28,7 +28,7 @@ export class UserReportWindowComponent implements OnInit {
     isLoading: boolean;
 
     constructor(private userReportWindowService: UserReportWindowService,
-        public alertService: AlertService,    
+        public alertService: AlertService,
         private eventService: EventService) { }
 
     ngOnInit() {
@@ -135,8 +135,8 @@ export class UserReportWindowComponent implements OnInit {
             this.userReportWindowService.ReportUser(this.user._id, selectedReasonId, this.reportText).then(result => {
                 if (result) {
                     this.CloseWindow();
-                    let successMsg = "הדיווח שהזנת נשמר בהצלחה, ויבדק על ידי צוות האתר." + "\n" +
-                        "תודה שעזרת לשמור על סביבה בטוחה יותר!";
+                    let successMsg = "הדיווח שהזנת נשמר בהצלחה, ויבדק על ידי צוות האתר." +
+                        "\n" + "תודה שעזרת לשמור על סביבה בטוחה יותר!";
                     this.alertService.Alert({
                         title: "דיווח משתמש",
                         text: successMsg,
