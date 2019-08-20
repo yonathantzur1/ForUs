@@ -6,7 +6,6 @@ const requestHandler = require('../handlers/requestHandler');
 let collectionName = config.db.collections.logs;
 
 module.exports = {
-
     ResetPasswordRequest(email, req) {
         return this.InsertStandardLog(
             enums.LOG_TYPE.RESET_PASSWORD_REQUEST,

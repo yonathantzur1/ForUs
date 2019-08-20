@@ -16,12 +16,13 @@ function GetDB() {
             resolve(db);
         }
         else {
-            MongoClient.connect(connectionString, { useNewUrlParser: true }).then(client => {
-                resolve(db = client.db(dbName));
-            }).catch(err => {
-                logger.error(err);
-                reject(err);
-            });
+            MongoClient.connect(connectionString,
+                { useNewUrlParser: true, useUnifiedTopology: true }).then(client => {
+                    resolve(db = client.db(dbName));
+                }).catch(err => {
+                    logger.error(err);
+                    reject(err);
+                });
         }
     });
 }

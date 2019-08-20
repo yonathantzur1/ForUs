@@ -3,6 +3,7 @@ const loginBL = require('../BL/welcome/loginBL');
 const tokenHandler = require('../handlers/tokenHandler');
 const permissionHandler = require('../handlers/permissionHandler');
 const logger = require('../../logger');
+const logsBL = require('../BL/logsBL');
 const enums = require('../enums');
 
 // Checking if the session of the user is open.
@@ -48,8 +49,9 @@ router.get('/getCurrUser', (req, res) => {
         "friends": user.friends
     }
 
+    logsBL.Login(user.email, req);
     loginBL.UpdateLastLogin(user._id);
-    res.send(userClientObject);    
+    res.send(userClientObject);
 });
 
 // Set the current login user token.
