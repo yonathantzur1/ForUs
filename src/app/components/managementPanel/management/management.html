@@ -62,10 +62,10 @@
                                     <div class="friends-info-sector">
                                         <div class="info-title">
                                             <i (click)="OpenFriendsScreen(user)" class="fas fa-users friends-info-icon"
-                                                [ngClass]="{'clickable': user.friendsNumber > 0}"></i>
+                                                [ngClass]="{'clickable': user.friendsAmount > 0}"></i>
                                         </div>
-                                        <div class="info-data friends-number">{{(user.friendsNumber == 1) ? 'חבר 1' :
-                                            (user.friendsNumber + ' חברים')}}</div>
+                                        <div class="info-data friends-number">{{(user.friendsAmount == 1) ? 'חבר 1' :
+                                            (user.friendsAmount + ' חברים')}}</div>
                                     </div>
                                 </td>
                             </tr>

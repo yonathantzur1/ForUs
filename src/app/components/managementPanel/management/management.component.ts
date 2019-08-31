@@ -203,7 +203,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
     OpenFriendsScreen(user: any) {
         // In case the user has friends.
-        if (user.friendsNumber > 0) {
+        if (user.friendsAmount > 0) {
             user.isMenuOpen = false;
             user.isFriendsScreenOpen = true;
 

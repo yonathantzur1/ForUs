@@ -38,10 +38,10 @@ module.exports = {
 
     ForgotPasswordMail(email, name, code, resetAddress) {
         let css = {
-            resetCodeStyle: '"padding:8px;background-color:#f2f2f2;border:1px solid #ccc;display:inline-block;margin-top:3px;"',
-            linkStyle: '"padding:7px 16px 11px 16px;border:solid 1px #344c80;background:#547da0;border-radius:2px;color:white;text-decoration:none;"',
-            lineSpaceStyle: '"margin-top:15px;"',
-            btnSpaceStyle: '"margin-top:10px;"'
+            resetCodeStyle: "padding:8px;background-color:#f2f2f2;border:1px solid #ccc;display:inline-block;margin-top:3px;",
+            linkStyle: "padding:7px 16px;border:solid 1px #344c80;background:#547da0;border-radius:2px;color:white;text-decoration:none;",
+            lineSpaceStyle: "margin-top:15px;",
+            btnSpaceStyle: "margin-top:10px;"
         }
 
         this.SendMail(email,
@@ -57,8 +57,8 @@ module.exports = {
 
     ChangePasswordMail(email, name, resetAddress) {
         let css = {
-            linkStyle: '"padding:7px 16px;border:solid 1px #344c80;background:#547da0;border-radius:2px;color:white;text-decoration:none;"',
-            btnSpaceStyle: '"margin-top:10px;"'
+            linkStyle: "padding:7px 16px;border:solid 1px #344c80;background:#547da0;border-radius:2px;color:white;text-decoration:none;",
+            btnSpaceStyle: "margin-top:10px;"
         }
 
         this.SendMail(email,
@@ -120,8 +120,8 @@ module.exports = {
 
     ValidateDeleteUser(email, name, deleteUserLink) {
         let css = {
-            linkStyle: '"padding:7px 16px;border:solid 1px #344c80;background:#f44336;border-radius:2px;color:white;text-decoration:none;"',
-            btnSpaceStyle: '"margin-top:10px;"'
+            linkStyle: "padding:7px 16px;border:solid 1px #f10000;background:#f44336;border-radius:2px;color:white;text-decoration:none;",
+            btnSpaceStyle: "margin-top:10px;"
         }
 
         this.SendMail(email,
@@ -164,7 +164,7 @@ function GetTimeBlessing(name) {
 
 function ReplaceStyleCss(html, css) {
     Object.keys(css).forEach(className => {
-        html = html.replace(new RegExp("{{" + className + "}}", 'g'), "style=" + css[className]);
+        html = html.replace(new RegExp("{{" + className + "}}", 'g'), 'style="' + css[className] + '"');
     });
 
     return html;

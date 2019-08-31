@@ -50,7 +50,7 @@ module.exports = {
                     $project: {
                         fullName: { $concat: ["$firstName", " ", "$lastName"] },
                         fullNameReversed: { $concat: ["$lastName", " ", "$firstName"] },
-                        friendsNumber: { $size: "$friends" },
+                        friendsAmount: { $size: "$friends" },
                         "firstName": 1,
                         "lastName": 1,
                         "email": 1,
@@ -73,7 +73,7 @@ module.exports = {
                         "email": 1,
                         "creationDate": 1,
                         "lastLoginTime": 1,
-                        "friendsNumber": 1,
+                        "friendsAmount": 1,
                         "friends": 1,
                         "block": 1,
 
