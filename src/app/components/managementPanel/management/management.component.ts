@@ -357,7 +357,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                         "<b>סיבה: </b>" + user.block.reason +
                         "{{enter}}" +
                         "<b>עד תאריך: </b>" +
-                        (user.block.unblockDate ? this.ConvertDateFormat(user.block.unblockDate) : "בלתי מוגבל");
+                        (user.block.unblockDate ? this.FormatDate(user.block.unblockDate) : "בלתי מוגבל");
 
                     this.globalService.SocketEmit("LogoutUserSessionServer",
                         user._id,
@@ -378,7 +378,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
             title: "ביטול חסימה - " + user.firstName + " " + user.lastName,
             text: "האם לבטל את החסימה?" + "\n\n" +
                 "<b>סיבה - </b>" + user.block.reason + "\n" +
-                "<b>עד תאריך - </b>" + (user.block.unblockDate ? self.ConvertDateFormat(user.block.unblockDate) : "בלתי מוגבל"),
+                "<b>עד תאריך - </b>" + (user.block.unblockDate ? self.FormatDate(user.block.unblockDate) : "בלתי מוגבל"),
             type: ALERT_TYPE.INFO,
             confirmFunc: function () {
                 self.managementService.UnblockUser(user._id).then((result: any) => {
@@ -421,7 +421,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
         });
     }
 
-    ConvertDateFormat(date: Date) {
+    FormatDate(date: Date) {
         date = new Date(date);
         return (date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
     }

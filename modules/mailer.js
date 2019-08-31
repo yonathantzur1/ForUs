@@ -24,20 +24,16 @@ module.exports = {
         };
 
         // Send email with defined transport object
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                logger.error(error);
-            }
-            else {
-                console.log('Message sent: ' + info.response);
-            }
+        transporter.sendMail(mailOptions, (error) => {
+            error && logger.error(error);
         });
     },
 
     RegisterMail(email, name) {
         this.SendMail(email,
             "ForUs",
-            GetTimeBlessing() + name + ", אנחנו שמחים לברך אותך על הצטרפותך לאתר ForUs!");
+            GetTimeBlessing(name) +
+            "אנחנו שמחים לברך אותך על הצטרפותך לאתר ForUs!");
     },
 
     ForgotPasswordMail(email, name, code, resetAddress) {
@@ -50,32 +46,34 @@ module.exports = {
 
         this.SendMail(email,
             "איפוס סיסמא",
-            "<div>" + GetTimeBlessing() + name + ", " +
-            "<br>" + "הקוד שהונפק עבורך לאיפוס הסיסמא הוא:</div><div style={{resetCodeStyle}}>" +
+            "<div>" + GetTimeBlessing(name) +
+            "הקוד שהונפק עבורך לאיפוס הסיסמא הוא:</div><div {{resetCodeStyle}}>" +
             code + "</div><br>" +
-            "<div style={{lineSpaceStyle}}>או לחילופין, לחיצה על הכפתור:</div>" +
-            "<div style={{btnSpaceStyle}}><a href='" + resetAddress +
-            "' style={{linkStyle}}>שינוי סיסמא</a></div>",
+            "<div {{lineSpaceStyle}}>או לחילופין, לחיצה על הכפתור:</div>" +
+            "<div {{btnSpaceStyle}}><a href='" + resetAddress +
+            "' {{linkStyle}}>שינוי סיסמא</a></div>",
             css);
     },
 
     ChangePasswordMail(email, name, resetAddress) {
         let css = {
-            linkStyle: '"padding:7px 16px 11px 16px;border:solid 1px #344c80;background:#547da0;border-radius:2px;color:white;text-decoration:none;"',
+            linkStyle: '"padding:7px 16px;border:solid 1px #344c80;background:#547da0;border-radius:2px;color:white;text-decoration:none;"',
             btnSpaceStyle: '"margin-top:10px;"'
         }
 
         this.SendMail(email,
             "שינוי סיסמא",
-            "<div>" + GetTimeBlessing() + name + ", <br>" +
+            "<div>" + GetTimeBlessing(name) +
             "לשינוי הסיסמא - יש ללחוץ על הפתור:</div>" +
-            "<div style={{btnSpaceStyle}}><a href='" +
-            resetAddress + "' style={{linkStyle}}>שינוי סיסמא</a></div>",
+            "<div {{btnSpaceStyle}}><a href='" +
+            resetAddress + "' {{linkStyle}}>שינוי סיסמא</a></div>",
             css);
     },
 
     MessageNotificationAlert(email, name, senderName) {
-        let text = GetTimeBlessing() + name + ", " + "<br>" + "ממתינה עבורך הודעה חדשה<name>." + "<br>" + config.address.site;
+        let text = GetTimeBlessing(name) +
+            "ממתינה עבורך הודעה חדשה<name>." + "<br>" +
+            config.address.site;
         text = senderName ? text.replace("<name>", " מ" + senderName) : text.replace("<name>", '');
 
         this.SendMail(email,
@@ -87,13 +85,17 @@ module.exports = {
         let friendProfilePageUrl = config.address.site + "/profile/" + friendId;
         this.SendMail(email,
             "בקשת חברות",
-            GetTimeBlessing() + name + "," + "<br>" + "בקשת חברות חדשה הגיעה מ" + friendName + ".<br>" + friendProfilePageUrl);
+            GetTimeBlessing(name) +
+            "בקשת חברות חדשה הגיעה מ" + friendName + ".<br>" +
+            friendProfilePageUrl);
     },
 
     FriendRequestConfirm(email, name, friendName) {
         this.SendMail(email,
             "אישור בקשת חברות",
-            GetTimeBlessing() + friendName + "," + "<br>" + "החברות עם " + name + " אושרה.<br>" + config.address.site);
+            GetTimeBlessing(friendName) +
+            "החברות עם " + name + " אושרה.<br>" +
+            config.address.site);
     },
 
     BlockMessage(email, name, reason, date) {
@@ -101,7 +103,7 @@ module.exports = {
 
         if (date) {
             dateString = "עד לתאריך: ";
-            date = ConvertDateFormat(date);
+            date = FormatDate(date);
         }
         else {
             dateString = "לתקופה בלתי מוגבלת";
@@ -110,60 +112,60 @@ module.exports = {
 
         this.SendMail(email,
             "חסימת משתמש",
-            GetTimeBlessing() + name + ", " + "<br>" + "חשבונך באתר נחסם לשימוש.<br><br>" +
-            "סיבת החסימה: " + reason + "<br>" + dateString + "<b>" + date + "</b>");
+            GetTimeBlessing(name) +
+            "חשבונך באתר נחסם לשימוש.<br><br>" +
+            "סיבת החסימה: " + reason + "<br>" +
+            dateString + "<b>" + date + "</b>");
     },
 
     ValidateDeleteUser(email, name, deleteUserLink) {
         let css = {
-            linkStyle: '"padding:7px 16px 11px 16px;border:solid 1px #344c80;background:#f44336;border-radius:2px;color:white;text-decoration:none;"',
+            linkStyle: '"padding:7px 16px;border:solid 1px #344c80;background:#f44336;border-radius:2px;color:white;text-decoration:none;"',
             btnSpaceStyle: '"margin-top:10px;"'
         }
 
         this.SendMail(email,
             "אישור מחיקת חשבון",
-            "<div>" + GetTimeBlessing() + name + ", <br>" +
+            "<div>" + GetTimeBlessing(name) +
             "למחיקת החשבון לצמיתות - יש ללחוץ על הפתור:</div>" +
-            "<div style={{btnSpaceStyle}}><a href='" +
-            deleteUserLink + "' style={{linkStyle}}>מחיקת משתמש</a></div>",
+            "<div {{btnSpaceStyle}}><a href='" +
+            deleteUserLink + "' {{linkStyle}}>מחיקת משתמש</a></div>",
             css);
     },
 };
 
-function ConvertDateFormat(date) {
+function FormatDate(date) {
     date = new Date(date);
     return (date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
 }
 
-function GetTimeBlessing() {
+function GetTimeBlessing(name) {
     let hour = new Date().getHours();
+    let blessingStr;
 
     if (hour >= 5 && hour < 12) {
-        return "בוקר טוב ";
+        blessingStr = "בוקר טוב";
     }
-    else if (hour >= 12 && hour < 14) {
-        return "צהריים טובים ";
+    else if (hour >= 12 && hour < 15) {
+        blessingStr = "צהריים טובים";
     }
-    else if (hour >= 14 && hour < 17) {
-        return "אחר הצהריים טובים ";
+    else if (hour >= 15 && hour < 17) {
+        blessingStr = "אחר הצהריים טובים";
     }
     else if (hour >= 17 && hour < 21) {
-        return "ערב טוב ";
+        blessingStr = "ערב טוב";
     }
     else {
-        return "לילה טוב ";
+        blessingStr = "לילה טוב";
     }
+
+    return blessingStr + " " + name + ",<br>";
 }
 
 function ReplaceStyleCss(html, css) {
     Object.keys(css).forEach(className => {
-        html = html.replaceAll("{{" + className + "}}", css[className]);
+        html = html.replace(new RegExp("{{" + className + "}}", 'g'), "style=" + css[className]);
     });
 
     return html;
 }
-
-String.prototype.replaceAll = function (search, replacement) {
-    var target = this;
-    return target.replace(new RegExp(search, 'g'), replacement);
-};
