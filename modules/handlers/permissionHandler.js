@@ -2,11 +2,11 @@ const enums = require('../enums');
 
 let self = module.exports = {
     IsUserHasMasterPermission(permissionsArray) {
-        return IsUserHasPermission(permissionsArray, enums.PERMISSION.MASTER);
+        return CheckPermission(permissionsArray, enums.PERMISSION.MASTER);
     },
 
     IsUserHasAdminPermission(permissionsArray) {
-        return IsUserHasPermission(permissionsArray, enums.PERMISSION.ADMIN);
+        return CheckPermission(permissionsArray, enums.PERMISSION.ADMIN);
     },
 
     IsUserHasRootPermission(permissionsArray) {
@@ -15,7 +15,7 @@ let self = module.exports = {
     }
 }
 
-function IsUserHasPermission(permissionsArray, permissionType) {
+function CheckPermission(permissionsArray, permissionType) {
     if (!permissionsArray || permissionsArray.length == 0) {
         return false;
     }

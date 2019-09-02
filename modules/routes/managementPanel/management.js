@@ -27,7 +27,7 @@ router.post('/getUserFriends', function (req, res) {
 });
 
 router.put('/editUser', function (req, res) {
-    managementBL.UpdateUser(req.body.updateFields).then((result) => {
+    managementBL.UpdateUser(req.user._id, req.body.updateFields).then((result) => {
         res.send(result);
     }).catch((err) => {
         logger.error(err);
@@ -36,7 +36,7 @@ router.put('/editUser', function (req, res) {
 });
 
 router.put('/blockUser', function (req, res) {
-    managementBL.BlockUser(req.body.blockObj).then((result) => {
+    managementBL.BlockUser(req.user._id, req.body.blockObj).then((result) => {
         res.send(result);
     }).catch((err) => {
         logger.error(err);

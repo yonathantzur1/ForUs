@@ -362,6 +362,11 @@
     cursor: pointer;  
 }
 
+.remove-friend-icon-disabled {
+    cursor: default;
+    background-color: #bfbfbf;
+}
+
 /* Css design for small screens. */
 @media (max-width: 600px) {
     .info-table {

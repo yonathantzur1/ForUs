@@ -25,9 +25,8 @@
                         <span class="user-name">{{user.firstName + " " + user.lastName}}</span>
                         <img class="user-profile-image"
                             [src]="user.profileImage ? user.profileImage.image : globalService.defaultProfileImage">
-                        <i [id]="userSettingsIconId"
-                            *ngIf="user.isOpen && !user.isOpenCardAnimationActive && !user.isFriendsScreenOpen && !user.isEditScreenOpen && !user.isBlockScreenOpen"
-                            (click)="OpenUserMenu(user)" class="material-icons user-left-icon">settings</i>
+                        <i [id]="userSettingsIconId" *ngIf="IsShowUserSettingsBtn(user)" (click)="OpenUserMenu(user)"
+                            class="material-icons user-left-icon">settings</i>
                         <dropMenu id="user-options" *ngIf="user.isMenuOpen" class="drop-menu-position col-md-3 col-5"
                             [options]="dropMenuDataList"></dropMenu>
                         <i *ngIf="user.isEditScreenOpen || user.isBlockScreenOpen" class="material-icons user-left-icon"
@@ -88,6 +87,8 @@
                                     <div id="user-friend-container" class="user-friend-container"
                                         *ngFor="let friend of (GetFriendsObjectsFromIds(user.friends, user.friendSearchInput) | sortObjects: 'fullName')">
                                         <i class="material-icons remove-friend-icon"
+                                            [ngClass]="{'remove-friend-icon-disabled': IsDisableRemoveFriendBtn(friend)}"
+                                            *ngIf="IsShowRemoveFriendBtn(user)"
                                             (click)="RemoveFriends(user, friend)">close</i>
                                         <img class="friend-profile-image"
                                             [src]="friend.profileImage || globalService.defaultProfileImage">

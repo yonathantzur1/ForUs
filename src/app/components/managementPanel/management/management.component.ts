@@ -8,7 +8,7 @@ import { EventService } from '../../../services/event/event.service';
 import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
 import { SnackbarService } from '../../../services/snackbar/snackbar.service';
 
-declare let $: any;
+import { PERMISSION } from '../../../enums/enums'
 
 @Component({
     selector: 'management',
@@ -77,7 +77,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                     return true;
                 }
                 else {
-                    return (self.IsUserBlocked(user) == false);
+                    return self.IsUserBlocked(user) == false;
                 }
             }),
             new DropMenuData(null, "ביטול חסימה", () => {
@@ -119,6 +119,26 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.eventService.UnsubscribeEvents(this.eventsIds);
+    }
+
+    IsShowUserSettingsBtn(user) {
+        return user.permissions.indexOf(PERMISSION.MASTER) == -1 &&
+            this.globalService.userId != user._id &&
+            user.isOpen &&
+            !user.isOpenCardAnimationActive &&
+            !user.isFriendsScreenOpen &&
+            !user.isEditScreenOpen &&
+            !user.isBlockScreenOpen;
+    }
+
+    IsShowRemoveFriendBtn(user) {
+        return user._id == this.globalService.userId ||
+            user.permissions.indexOf(PERMISSION.MASTER) == -1;
+    }
+
+    IsDisableRemoveFriendBtn(friend) {
+        return friend._id != this.globalService.userId &&
+            friend.permissions.indexOf(PERMISSION.MASTER) != -1;
     }
 
     SearchUser(userId?: string) {
@@ -427,6 +447,10 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     RemoveFriends(user: any, friend: any) {
+        if (this.IsDisableRemoveFriendBtn(friend)) {
+            return;
+        }
+
         let self = this;
 
         self.alertService.Alert({
