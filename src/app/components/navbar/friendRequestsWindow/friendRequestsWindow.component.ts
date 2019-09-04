@@ -163,6 +163,8 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
         this.friendRequestsObjects = this.friendRequestsObjects.filter((friendRequest: any) => {
             return (friendRequest._id != friendId);
         });
+
+        this.eventService.Emit("RemoveUserFromNavbarSearchCache", friendId)
     }
 
     RemoveFriendConfirmById(friendId: string) {

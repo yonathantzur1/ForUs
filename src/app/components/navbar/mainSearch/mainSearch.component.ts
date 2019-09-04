@@ -45,9 +45,13 @@ export class MainSearchComponent {
             this.searchInput = input;
         }, this.eventsIds);
 
+        this.eventService.Register('RemoveUserFromNavbarSearchCache', (userId: string) => {
+            this.RemoveUserFromNavbarSearchCache(userId);
+        });
+
         let self = this;
 
-        self.globalService.SocketOn('UserSetToPrivate', function (userId: string) {
+        self.globalService.SocketOn('UserSetToPrivate', (userId: string) => {
             self.RemoveUserFromNavbarSearchCache(userId);
         });
 

@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
 import { EventService } from '../../services/event/event.service';
-import { CookieService } from '../../services/cookie/cookie.service';
 import { AlertService, ALERT_TYPE } from '../../services/alert/alert.service';
 import { UserPageService } from '../../services/userPage/userPage.service';
 import { SnackbarService } from '../../services/snackbar/snackbar.service';
@@ -327,7 +326,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
         // In case the user set private user.
         self.globalService.SocketOn('UserSetToPrivate', function (userId: string) {
-            if (!self.IsUserPageSelf() && !self.user.isFriend) {
+            if (!self.IsUserPageSelf() &&
+                !self.user.isFriend &&
+                !self.user.isSendFriendRequest) {
                 self.router.navigateByUrl("/");
             }
         });

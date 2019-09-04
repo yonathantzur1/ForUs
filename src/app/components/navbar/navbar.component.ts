@@ -340,6 +340,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         self.globalService.SocketOn('DeleteFriendRequest', function (friendId: string) {
             let friendRequests: any = self.GetToolbarItem("friendRequests").content;
             friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
+            self.eventService.Emit("RemoveUserFromNavbarSearchCache", friendId);
         });
 
         self.globalService.SocketOn('ClientIgnoreFriendRequest', function (friendId: string) {
