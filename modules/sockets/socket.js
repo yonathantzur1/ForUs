@@ -86,6 +86,12 @@ module.exports = (io) => {
         });
     });
 
+    events.on('socket.RemoveFriendUser', (userId, userName, friendsIds) => {
+        friendsIds.forEach(friendId => {
+            io.to(friendId).emit('ClientRemoveFriendUser', userId, userName);
+        });
+    });
+
     events.on('socket.UserSetToPrivate', (userId) => {
         io.emit('UserSetToPrivate', userId);
     });

@@ -9,26 +9,21 @@ const connectionString = config.db.connectionString;
 const dbName = config.db.name;
 let db;
 
-function GetDB() {
-    return new Promise((resolve, reject) => {
-        // In case db connection exists and open.
-        if (db && db.serverConfig && db.serverConfig.isConnected()) {
-            resolve(db);
-        }
-        else {
-            MongoClient.connect(connectionString,
-                { useNewUrlParser: true, useUnifiedTopology: true }).then(client => {
-                    resolve(db = client.db(dbName));
-                }).catch(err => {
-                    logger.error(err);
-                    reject(err);
-                });
-        }
-    });
-}
+(GetDB = async () => {
+    // In case db connection exists and open.
+    if (db && db.serverConfig && db.serverConfig.isConnected()) {
+        return db;
+    }
+    else {
+        let client = await MongoClient.connect(connectionString,
+            { useNewUrlParser: true, useUnifiedTopology: true }).catch(err => {
+                logger.error(err);
+                return Promise.reject(err);
+            });
 
-// Initialize DB connection.
-GetDB();
+        return (db = client.db(dbName));
+    }
+})().catch(() => { logger.error("Error initialize first DB connection") });
 
 module.exports = {
     // Convert string id to mongoDB object id.
@@ -36,38 +31,25 @@ module.exports = {
         return new ObjectId(id);
     },
 
-    // Getting documents from collection by filter.
-    FindOne(collectionName, filter) {
-        return new Promise((resolve, reject) => {
-            GetDB().then(db => {
-                let collection = db.collection(collectionName);
-                collection.findOne(filter).then(resolve);
-            }).catch(reject);
-        });
+    // Get one document from collection by filter.
+    async FindOne(collectionName, filter) {
+        let collection = (await GetDB()).collection(collectionName);
+        return collection.findOne(filter);
     },
 
-    // Getting documents from collection by filter.
-    FindOneSpecific(collectionName, filter, projection) {
-        return new Promise((resolve, reject) => {
-            GetDB().then(db => {
-                let collection = db.collection(collectionName);
-                collection.findOne(filter, { projection }).then(resolve);
-            }).catch(reject);
-        });
+    // Get document specific fields from collection by filter.
+    async FindOneSpecific(collectionName, filter, projection) {
+        let collection = (await GetDB()).collection(collectionName);
+        return collection.findOne(filter, { projection });
     },
 
-    // Getting documents from collection by filter.
-    Find(collectionName, filter, sortObj) {
-        return new Promise((resolve, reject) => {
-            GetDB().then(db => {
-                let collection = db.collection(collectionName);
-                sortObj = sortObj ? sortObj : {};
-                collection.find(filter).sort(sortObj).toArray().then(resolve);
-            }).catch(reject);
-        });
+    // Get documents from collection by filter.
+    async Find(collectionName, filter, sortObj) {
+        let collection = (await GetDB()).collection(collectionName);
+        return collection.find(filter).sort(sortObj || {}).toArray();
     },
 
-    // Getting documents from collection by filter.
+    // Get documents specific fields from collection by filter.
     FindSpecific(collectionName, filter, projection, sortObj) {
         return new Promise((resolve, reject) => {
             GetDB().then(db => {
@@ -78,7 +60,7 @@ module.exports = {
         });
     },
 
-    // Getting documents from collection by filter.
+    // Aggregate documents.
     Aggregate(collectionName, aggregateArray) {
         return new Promise((resolve, reject) => {
             GetDB().then(db => {
@@ -147,7 +129,7 @@ module.exports = {
         });
     },
 
-    // Delete documents by filter.
+    // Delete one document by filter.
     DeleteOne(collectionName, filter) {
         return new Promise((resolve, reject) => {
             GetDB().then(db => {

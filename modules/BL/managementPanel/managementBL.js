@@ -269,13 +269,16 @@ module.exports = {
         });
     },
 
-    async RemoveFriends(userId, friendId) {
-        if (await IsUserMaster(DAL.GetObjectId(userId)) ||
-            await IsUserMaster(DAL.GetObjectId(friendId))) {
+    async RemoveFriends(currUserId, cardUserId, friendId) {
+        let isCurrUserMaster = await IsUserMaster(DAL.GetObjectId(currUserId));
+
+        if (!isCurrUserMaster &&
+            (await IsUserMaster(DAL.GetObjectId(cardUserId)) ||
+                await IsUserMaster(DAL.GetObjectId(friendId)))) {
             return Promise.reject();
         }
 
-        return userPageBL.RemoveFriends(userId, friendId);
+        return userPageBL.RemoveFriends(cardUserId, friendId);
     },
 
     DeleteUser(userId, userFirstName, userLastName) {

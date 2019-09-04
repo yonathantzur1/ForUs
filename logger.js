@@ -3,7 +3,7 @@ const { combine, timestamp, json } = format;
 const path = require('path');
 const config = require('./config');
 
-let logsDir = path.join(__dirname, config.logs.directoryName);
+const logsDir = path.join(__dirname, config.logs.directoryName);
 
 const logger = createLogger({
     level: 'info',
@@ -39,22 +39,40 @@ if (!config.server.isProd) {
 }
 
 module.exports = {
+    info: (err) => {
+        logError(logger.info, err);
+    },
+
     error: (err) => {
-        if (err) {
-            let errMsg;
+        logError(logger.error, err);
+    },
 
-            if (typeof err == "object") {
-                errMsg = err.message || JSON.stringify(err);
-            }
-            else {
-                errMsg = err.toString();
-            }
+    warn: (err) => {
+        logError(logger.warn, err);
+    },
 
-            logger.error(errMsg);
-        }
+    danger: (err) => {
+        logError(logger.danger, err);
     },
 
     secure: (msg) => {
-        secure.warn(msg);
+        logError(secure.warn, msg);
     }
+}
+
+function logError(logFunction, err) {
+    err && logFunction(createErrorMsg(err));
+}
+
+function createErrorMsg(err) {
+    let msg;
+
+    if (typeof err == "object") {
+        msg = err.message || JSON.stringify(err);
+    }
+    else {
+        msg = err.toString();
+    }
+
+    return msg;
 }

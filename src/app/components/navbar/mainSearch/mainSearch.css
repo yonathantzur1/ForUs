@@ -64,6 +64,7 @@
     background-color: #f7f7f7;
     border: 1px solid #1b5484;
     z-index: 1000;
+    top: 24px;
 }
 
 .search-result-image {

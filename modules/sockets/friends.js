@@ -103,12 +103,4 @@ module.exports = (io, socket, connectedUsers) => {
             io.to(friendId).emit('ClientRemoveFriend', currUserId);
         }
     });
-
-    events.on('socket.RemoveFriendUser', RemoveFriendUser);
-
-    function RemoveFriendUser(userId, userName, friendsIds) {
-        friendsIds.forEach(friendId => {
-            io.to(friendId).emit('ClientRemoveFriendUser', userId, userName);
-        });
-    }
 }

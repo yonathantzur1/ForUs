@@ -54,21 +54,14 @@ let self = module.exports = {
         });
     },
 
-    // Return user object on login if the user was found else false.
     GetUser(user) {
         return new Promise((resolve, reject) => {
             let filter = { "email": user.email };
 
-            DAL.Find(collectionName, filter).then((result) => {
-                // In case of error or more then one user, return null.
-                if (result.length > 1) {
-                    resolve(null);
-                }
+            DAL.FindOne(collectionName, filter).then((userObj) => {
                 // In case the user was found.
-                else if (result.length == 1) {
-                    let userObj = result[0];
-
-                    // In case the password and salt hashing are the password hash in the db
+                if (userObj) {
+                    // In case the password and salt hashing are the password hash in the DB.
                     if (sha512(user.password + userObj.salt) == userObj.password) {
                         // In case the user is blocked.
                         if (self.IsUserBlocked(userObj)) {

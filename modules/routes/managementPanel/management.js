@@ -54,7 +54,7 @@ router.put('/unblockUser', function (req, res) {
 });
 
 router.delete('/removeFriends', function (req, res) {
-    managementBL.RemoveFriends(req.query.userId, req.query.friendId).then((result) => {
+    managementBL.RemoveFriends(req.user._id, req.query.userId, req.query.friendId).then((result) => {
         res.send(result);
     }).catch((err) => {
         logger.error(err);

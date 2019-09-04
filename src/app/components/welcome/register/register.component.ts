@@ -35,6 +35,7 @@ export class RegisterComponent {
         public snackbarService: SnackbarService,
         private microtextService: MicrotextService,
         public globalService: GlobalService,
+        public eventService: EventService,
         public registerService: RegisterService) {
         this.validationFuncs = [
             {
@@ -98,6 +99,10 @@ export class RegisterComponent {
                 inputId: "register-password"
             }
         ];
+
+        eventService.Register("setRegisterEmail", (email: string) => {
+            this.newUser.email = email;
+        });
     }
 
     // Regiter the new user to the DB.
