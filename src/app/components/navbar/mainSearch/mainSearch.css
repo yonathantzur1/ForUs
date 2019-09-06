@@ -165,22 +165,22 @@
 
 @media (max-width: 450px) {
     .search-result {
-        height: 45px;
+        height: 38px;
     }
 
     .search-result-image {
-        width: 35px;
-        height: 35px;
+        width: 28px;
+        height: 28px;
+    }
+
+    .search-result-image-loading {
+        width: 28px;
+        height: 28px;     
     }
 
     .search-result-name {
         width: calc(100% - 45px);
-        font-size: 12px;
-    }
-
-    .search-result-image-loading {
-        width: 35px;
-        height: 35px;        
+        font-size: 10px;
     }
 }
 
@@ -200,13 +200,13 @@
     }
     
     .search-result-image {
-        width: 32px;
-        height: 32px;
+        width: 28px;
+        height: 28px;
     }
 
     .search-result-image-loading {
-        width: 32px;
-        height: 32px;
+        width: 28px;
+        height: 28px;
     }
 
     .result-friend-request-btns-container {
