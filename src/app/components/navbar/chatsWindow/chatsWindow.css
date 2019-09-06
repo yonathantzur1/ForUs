@@ -7,7 +7,7 @@
 
 .chatsWindow-container {
     position: fixed;
-    top: 126px;
+    top: calc(var(--navbar-height) + 75px);
     right: 35px;
     width: 335px;
     max-width: calc(100% - 50px);
@@ -19,7 +19,7 @@
 }
 
 .window-top-arrow {
-    top: 111px;
+    top: calc(var(--navbar-height) + 61px);
     right: 198px;
     z-index: 1002;
     font-size: 24px;
