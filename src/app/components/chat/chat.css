@@ -493,7 +493,7 @@
         position: fixed;
         z-index: 997;
         right: 0;
-        top: 50px;
+        top: var(--navbar-height);
         border-bottom: 1px solid #cacaca;
     }
 

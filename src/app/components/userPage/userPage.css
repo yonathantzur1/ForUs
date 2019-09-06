@@ -21,7 +21,7 @@
     max-height: calc(100% - 90px);
     position: relative;
     z-index: 1;
-    max-width: 750px;
+    max-width: 450px;
     margin: auto;
 }
 
@@ -120,7 +120,8 @@
     align-items: center;
     border-top: none;
     cursor: pointer;        
-    font-size: 14px;    
+    font-size: 13px;
+    width: calc(100% - 1px);  
 }
 
 .option-container:hover {
