@@ -11,7 +11,7 @@ let db;
 
 (GetDB = async () => {
     // In case db connection exists and open.
-    if (db && db.serverConfig && db.serverConfig.isConnected()) {
+    if (db && db.serverConfig.isConnected()) {
         return db;
     }
     else {
@@ -23,7 +23,11 @@ let db;
 
         return (db = client.db(dbName));
     }
-})().catch(() => { logger.error("Error initialize first DB connection") });
+})().catch((err) => { logger.error(err) });
+
+async function GetCollection(collectionName) {
+    return (await GetDB()).collection(collectionName);
+};
 
 module.exports = {
     // Convert string id to mongoDB object id.
@@ -33,122 +37,90 @@ module.exports = {
 
     // Get one document from collection by filter.
     async FindOne(collectionName, filter) {
-        let collection = (await GetDB()).collection(collectionName);
+        let collection = await GetCollection(collectionName);
+
         return collection.findOne(filter);
     },
 
     // Get document specific fields from collection by filter.
     async FindOneSpecific(collectionName, filter, projection) {
-        let collection = (await GetDB()).collection(collectionName);
+        let collection = await GetCollection(collectionName);
+
         return collection.findOne(filter, { projection });
     },
 
     // Get documents from collection by filter.
     async Find(collectionName, filter, sortObj) {
-        let collection = (await GetDB()).collection(collectionName);
+        let collection = await GetCollection(collectionName);
+
         return collection.find(filter).sort(sortObj || {}).toArray();
     },
 
     // Get documents specific fields from collection by filter.
-    FindSpecific(collectionName, filter, projection, sortObj) {
-        return new Promise((resolve, reject) => {
-            GetDB().then(db => {
-                let collection = db.collection(collectionName);
-                sortObj = sortObj ? sortObj : {};
-                collection.find(filter, { projection }).sort(sortObj).toArray().then(resolve);
-            }).catch(reject);
-        });
+    async FindSpecific(collectionName, filter, projection, sortObj) {
+        let collection = await GetCollection(collectionName);
+
+        return collection.find(filter, { projection }).sort(sortObj || {}).toArray();
     },
 
     // Aggregate documents.
-    Aggregate(collectionName, aggregateArray) {
-        return new Promise((resolve, reject) => {
-            GetDB().then(db => {
-                let collection = db.collection(collectionName);
-                collection.aggregate(aggregateArray).toArray().then(resolve);
-            }).catch(reject);
-        });
+    async Aggregate(collectionName, aggregateArray) {
+        let collection = await GetCollection(collectionName);
+
+        return collection.aggregate(aggregateArray).toArray();
     },
 
     // Insert new document.
-    Insert(collectionName, doc) {
-        return new Promise((resolve, reject) => {
-            GetDB().then(db => {
-                let collection = db.collection(collectionName);
-                collection.insertOne(doc).then(result => {
-                    resolve(result.insertedId);
-                });
-            }).catch(reject);
-        });
+    async Insert(collectionName, doc) {
+        let collection = await GetCollection(collectionName);
+        let result = await collection.insertOne(doc);
+
+        return result.insertedId;
     },
 
     // Update one document.
-    UpdateOne(collectionName, findObj, updateObj, isInsertIfNotExists) {
-        return new Promise((resolve, reject) => {
-            GetDB().then(db => {
-                let collection = db.collection(collectionName);
-                let updateConfig = {
-                    returnOriginal: false,
-                    upsert: isInsertIfNotExists
-                }
-
-                collection.findOneAndUpdate(findObj, updateObj, updateConfig).then(updateResult => {
-                    resolve(updateResult.value || false);
-                });
-            }).catch(reject);
+    async UpdateOne(collectionName, findObj, updateObj, isInsertIfNotExists) {
+        let collection = await GetCollection(collectionName);
+        let updateResult = await collection.findOneAndUpdate(findObj, updateObj, {
+            returnOriginal: false,
+            upsert: isInsertIfNotExists
         });
+
+        return updateResult.value || false;
     },
 
     // Update documents.
-    Update(collectionName, findObj, updateObj) {
-        return new Promise((resolve, reject) => {
-            GetDB().then(db => {
-                let collection = db.collection(collectionName);
-                let updateConfig = {
-                    upsert: false
-                }
-
-                collection.updateMany(findObj, updateObj, updateConfig).then(updateResult => {
-                    let modifiedAmount = updateResult.result.nModified;
-                    resolve(modifiedAmount > 0 ? modifiedAmount : false);
-                });
-            }).catch(reject);
+    async Update(collectionName, findObj, updateObj, isInsertIfNotExists) {
+        let collection = await GetCollection(collectionName);
+        let updateResult = await collection.updateMany(findObj, updateObj, {
+            upsert: isInsertIfNotExists
         });
+        let modifiedAmount = updateResult.result.nModified;
+
+        return (modifiedAmount > 0 ? modifiedAmount : false);
     },
 
     // Delete documents by filter.
-    Delete(collectionName, filter) {
-        return new Promise((resolve, reject) => {
-            GetDB().then(db => {
-                let collection = db.collection(collectionName);
-                collection.deleteMany(filter).then(deleteResult => {
-                    let deletedAmount = deleteResult.deletedCount;
-                    resolve(deletedAmount > 0 ? deletedAmount : false);
-                });
-            }).catch(reject);
-        });
+    async Delete(collectionName, filter) {
+        let collection = await GetCollection(collectionName);
+        let deleteResult = await collection.deleteMany(filter);
+        let deletedAmount = deleteResult.deletedCount;
+
+        return (deletedAmount > 0 ? deletedAmount : false);
     },
 
     // Delete one document by filter.
-    DeleteOne(collectionName, filter) {
-        return new Promise((resolve, reject) => {
-            GetDB().then(db => {
-                let collection = db.collection(collectionName);
-                collection.deleteOne(filter).then(deleteResult => {
-                    resolve(deleteResult.result.n != 0);
-                });
-            }).catch(reject);
-        });
+    async DeleteOne(collectionName, filter) {
+        let collection = await GetCollection(collectionName);
+        let deleteResult = await collection.deleteOne(filter);
+
+        return (deleteResult.result.n != 0);
     },
 
     // Getting documents amount by filter.
-    Count(collectionName, filter) {
-        return new Promise((resolve, reject) => {
-            GetDB().then(db => {
-                let collection = db.collection(collectionName);
-                collection.find(filter).count().then(resolve);
-            }).catch(reject);
-        });
-    }
+    async Count(collectionName, filter) {
+        let collection = await GetCollection(collectionName);
 
+        return collection.find(filter).count();
+    }
 };
