@@ -65,7 +65,7 @@ module.exports = {
             let removeUserFriendsRelations = DAL.Update(usersCollectionName, {},
                 {
                     $pull: {
-                        "friends": userId,
+                        "friends": userObjectId,
                         "friendRequests.get": userId,
                         "friendRequests.send": userId,
                         "friendRequests.accept": userId

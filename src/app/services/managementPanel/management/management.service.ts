@@ -4,9 +4,9 @@ export class ManagementService extends BasicService {
     prefix = "/api/management";
 
     GetUserByName(searchInput: string) {
-        let details = { searchInput };
+        let data = { searchInput };
 
-        return super.post(this.prefix + '/getUserByName', details)
+        return super.post(this.prefix + '/getUserByName', data)
             .toPromise()
             .then((result: any) => {
                 return result;
@@ -17,9 +17,9 @@ export class ManagementService extends BasicService {
     }
 
     GetUserFriends(friendsIds: Array<string>) {
-        let details = { friendsIds };
+        let data = { friendsIds };
 
-        return super.post(this.prefix + '/getUserFriends', details)
+        return super.post(this.prefix + '/getUserFriends', data)
             .toPromise()
             .then((result: any) => {
                 return result;
@@ -30,9 +30,9 @@ export class ManagementService extends BasicService {
     }
 
     EditUser(updateFields: any) {
-        let details = { updateFields };
+        let data = { updateFields };
 
-        return super.put(this.prefix + '/editUser', details)
+        return super.put(this.prefix + '/editUser', data)
             .toPromise()
             .then((result: any) => {
                 return result;
@@ -43,9 +43,9 @@ export class ManagementService extends BasicService {
     }
 
     BlockUser(blockObj: any) {
-        let details = { blockObj };
+        let data = { blockObj };
 
-        return super.put(this.prefix + '/blockUser', details)
+        return super.put(this.prefix + '/blockUser', data)
             .toPromise()
             .then((result: any) => {
                 return result;
@@ -56,9 +56,9 @@ export class ManagementService extends BasicService {
     }
 
     UnblockUser(userId: string) {
-        let details = { userId };
+        let data = { userId };
 
-        return super.put(this.prefix + '/unblockUser', details)
+        return super.put(this.prefix + '/unblockUser', data)
             .toPromise()
             .then((result: any) => {
                 return result;
@@ -69,8 +69,6 @@ export class ManagementService extends BasicService {
     }
 
     RemoveFriends(userId: string, friendId: string) {
-        let details = { userId, friendId };
-
         return super.delete(this.prefix + '/removeFriends?userId=' + userId + "&friendId=" + friendId)
             .toPromise()
             .then((result: any) => {

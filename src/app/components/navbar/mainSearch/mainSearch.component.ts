@@ -39,7 +39,7 @@ export class MainSearchComponent {
         @Host() public parent: NavbarComponent) {
         this.eventService.Register("hideSearchResults", () => {
             this.isShowSearchResults = false;
-        });
+        }, this.eventsIds);
 
         this.eventService.Register("changeSearchInput", (input: string) => {
             this.searchInput = input;
@@ -47,7 +47,15 @@ export class MainSearchComponent {
 
         this.eventService.Register('RemoveUserFromNavbarSearchCache', (userId: string) => {
             this.RemoveUserFromNavbarSearchCache(userId);
-        });
+        }, this.eventsIds);
+
+        eventService.Register("openUserProfile", (user: any) => {
+            this.OpenUserProfile(user);
+        }, this.eventsIds);
+
+        eventService.Register("setNewFriendsLabelVisability", (isVisible: boolean) => {
+            this.isShowNewFriendsLabel = isVisible;
+        }, this.eventsIds);
 
         let self = this;
 
@@ -55,13 +63,9 @@ export class MainSearchComponent {
             self.RemoveUserFromNavbarSearchCache(userId);
         });
 
-        eventService.Register("openUserProfile", (user: any) => {
-            self.OpenUserProfile(user);
-        }, self.eventsIds);
-
-        eventService.Register("setNewFriendsLabelVisability", (isVisible: boolean) => {
-            self.isShowNewFriendsLabel = isVisible;
-        }, self.eventsIds);
+        self.globalService.SocketOn('ClientRemoveFriend', function (userId: string) {
+            self.RemoveUserFromNavbarSearchCache(userId);
+        });
     }
 
     SearchChange(input: string) {

@@ -746,10 +746,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
         if (userFriends.indexOf(friend._id) == -1) {
             // Add the friend id to the user's friends array.
             userFriends.push(friend._id);
+
+            // Add the friend client object to the friends array.
+            this.friends.push(friend);
         }
 
-        // Add the friend client object to the friends array.
-        this.friends.push(friend);
         this.globalService.SocketEmit("ServerGetOnlineFriends");
     }
 
@@ -760,13 +761,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
         let friendRequests: any = this.GetToolbarItem("friendRequests").content;
         friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
 
-        // Add the friend id to the user's friends array.
-        let userFriends = this.user.friends;
-        userFriends.push(friendId);
-
         let self = this;
 
-        self.navbarService.AddFriend(friendId).then(function (friend: any) {
+        self.navbarService.AddFriend(friendId).then((friend: any) => {
             self.isFriendsLoading = false;
 
             if (friend) {
@@ -775,11 +772,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 self.globalService.SocketEmit("ServerAddFriend", friend);
                 self.globalService.SocketEmit("ServerFriendAddedUpdate", friend._id);
                 self.globalService.SocketEmit("ServerUpdateFriendRequestsStatus", friendId);
+                self.AddFriendObjectToUser(friend);
             }
             else {
                 //  Recover the actions in case the server is fail to add the friend. 
                 friendRequests.get.push(friendId);
-                userFriends.splice(userFriends.indexOf(friendId), 1);
                 self.globalService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
             }
 

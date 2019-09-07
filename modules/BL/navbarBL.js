@@ -65,6 +65,7 @@ module.exports = {
 
     GetMainSearchResults(searchInput, userId) {
         return new Promise((resolve, reject) => {
+            let userObjectId = DAL.GetObjectId(userId);
             searchInput = searchInput.replace(/\\/g, '').trim();
 
             // In case the input is empty, return empty result array.
@@ -98,9 +99,9 @@ module.exports = {
                         {
                             $or: [
                                 { "isPrivate": false },
-                                { "_id": DAL.GetObjectId(userId) },
-                                { "friends": { $in: [userId] } },
-                                { "friendRequests.send": { $in: [userId] } }
+                                { "_id": userObjectId },
+                                { "friends": userObjectId },
+                                { "friendRequests.send": userId }
 
                             ]
                         }
@@ -304,18 +305,18 @@ module.exports = {
     // Remove the friend request from DB after the request confirmed.
     RemoveFriendRequestAfterConfirm(userId, friendId) {
         return new Promise((resolve, reject) => {
-            let userIdObject = { "_id": DAL.GetObjectId(userId) }
-            let friendIdObject = { "_id": DAL.GetObjectId(friendId) }
+            let userObjectId = { "_id": DAL.GetObjectId(userId) }
+            let friendObjectId = { "_id": DAL.GetObjectId(friendId) }
 
             let removeRequestFromUser = DAL.UpdateOne(usersCollectionName,
-                userIdObject,
+                userObjectId,
                 {
                     $pull: { "friendRequests.send": friendId },
                     $push: { "friendRequests.accept": friendId }
                 });
 
             let removeRequestFromFriend = DAL.UpdateOne(usersCollectionName,
-                friendIdObject,
+                friendObjectId,
                 { $pull: { "friendRequests.get": userId } });
 
             Promise.all([removeRequestFromUser, removeRequestFromFriend]).then(results => {
@@ -352,28 +353,34 @@ module.exports = {
                 return;
             }
 
-            let userIdObject = { "_id": DAL.GetObjectId(user._id) }
-            let friendIdObject = { "_id": DAL.GetObjectId(friendId) }
+            let userObjectId = DAL.GetObjectId(user._id);
+            let friendObjectId = DAL.GetObjectId(friendId);
 
 
             let addUserFriendRelation = DAL.UpdateOne(usersCollectionName,
-                userIdObject,
-                { $push: { "friends": friendId } });
+                { "_id": userObjectId },
+                { $push: { "friends": friendObjectId } });
 
             let addFriendUserRelation = DAL.UpdateOne(usersCollectionName,
-                friendIdObject,
-                { $push: { "friends": user._id } });
+                { "_id": friendObjectId },
+                { $push: { "friends": userObjectId } });
 
             let removeRequestObject = this.RemoveFriendRequestAfterConfirm(friendId, user._id);
 
-            let addFriendActions = [
+            let getFriendProfileImage = DAL.FindOneSpecific(profilesCollectionName,
+                { "userId": friendObjectId },
+                { "image": 1 })
+
+            let addFriendQueries = [
                 addFriendUserRelation,
                 addUserFriendRelation,
-                removeRequestObject
+                removeRequestObject,
+                getFriendProfileImage
             ]
 
-            Promise.all(addFriendActions).then(results => {
+            Promise.all(addFriendQueries).then(results => {
                 let updatedFriend = results[0];
+                let friendProfileImage = results[3];
 
                 // Getting a new token from the user object with the friend.
                 user.friends.push(friendId);
@@ -384,7 +391,7 @@ module.exports = {
                     "email": updatedFriend.email,
                     "firstName": updatedFriend.firstName,
                     "lastName": updatedFriend.lastName,
-                    "profileImage": null
+                    "profileImage": friendProfileImage ? friendProfileImage.image : null
                 }
 
                 let finalResult = {
@@ -392,19 +399,7 @@ module.exports = {
                     "friend": clientFriendObject
                 }
 
-                // In case the friend has profile image.
-                if (updatedFriend.profile) {
-                    // Getting the friend profile image.
-                    DAL.FindOneSpecific(profilesCollectionName,
-                        { "_id": updatedFriend.profile },
-                        { "image": 1 }).then((result) => {
-                            finalResult.friend.profileImage = result.image;
-                            resolve(finalResult);
-                        });
-                }
-                else {
-                    resolve(finalResult);
-                }
+                resolve(finalResult);
             }).catch(reject);
         });
     },

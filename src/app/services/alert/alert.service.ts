@@ -22,19 +22,18 @@ export class AlertService {
 
     private newLine: string = "{{enter}}";
 
-    constructor() {
-        this.Initialize();
-    }
-
     private Initialize() {
         this.isShow = false;
         this.isLoading = false;
         this.showCancelButton = true;
+        this.text = "";
         this.confirmBtnText = "אישור";
         this.closeBtnText = "ביטול";
     }
 
     Alert(alt: any) {
+        this.Initialize();
+
         if (alt) {
             this.title = alt.title;
             (alt.text != null) && (this.text = alt.text.replace(new RegExp(this.newLine, 'g'), "\n"));

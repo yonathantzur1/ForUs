@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 
 import { CookieService } from '../cookie/cookie.service';
 import { LoginService } from '../welcome/login.service';
-import { EmptyProfile } from '../../pictures/empty-profile';
 
 import { PERMISSION } from '../../enums/enums';
 
@@ -43,7 +42,7 @@ export class GlobalService extends LoginService {
 
         // Initialize variables        
         this.userPermissions = [];
-        this.defaultProfileImage = EmptyProfile;
+        this.defaultProfileImage = "assets/images/no_profile_img.jpg";
 
         // Global variables and functions
         let globalObject = this.globalObject = {

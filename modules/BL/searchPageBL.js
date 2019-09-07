@@ -12,6 +12,7 @@ module.exports = {
                 return reject();
             }
 
+            let userObjectId = DAL.GetObjectId(userId);
             searchInput = searchInput.replace(/\\/g, '');
 
             let projectFields = {
@@ -38,9 +39,9 @@ module.exports = {
                         {
                             $or: [
                                 { "isPrivate": false },
-                                { "_id": DAL.GetObjectId(userId) },
-                                { "friends": { $in: [userId] } },
-                                { "friendRequests.send": { $in: [userId] } }
+                                { "_id": userObjectId },
+                                { "friends": userObjectId },
+                                { "friendRequests.send": userId }
                             ]
                         }
                     ]

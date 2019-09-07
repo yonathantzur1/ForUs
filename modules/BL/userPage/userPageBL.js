@@ -25,8 +25,8 @@ module.exports = {
                             $or: [
                                 { "isPrivate": false },
                                 { "_id": currUserObjectId },
-                                { "friends": { $in: [currUserId] } },
-                                { "friendRequests.send": { $in: [currUserId] } }
+                                { "friends": currUserObjectId },
+                                { "friendRequests.send": currUserId }
                             ]
                         }
                     ]
@@ -95,7 +95,9 @@ module.exports = {
 
     SetUsersRelation(user, currUserId) {
         // Boolean value that indicates if the current user is friend of the user.
-        user.isFriend = (user.friends.indexOf(currUserId) != -1);
+        user.isFriend = (user.friends.some(friendObjId => {
+            return friendObjId.toString() == currUserId;
+        }));
 
         // Boolean value that indicates if the current user sent friend request to the user.
         user.isGetFriendRequest = (user.friendRequests.get.indexOf(currUserId) != -1);
@@ -113,20 +115,22 @@ module.exports = {
             notificationsUnsetJson["messagesNotifications." + userId] = 1;
             notificationsUnsetJson["messagesNotifications." + friendId] = 1;
 
-
             let removeFriedsChat = DAL.Delete(chatsCollectionName,
                 { "membersIds": { $all: [userId, friendId] } });
+
+            let userObjectId = DAL.GetObjectId(userId);
+            let friendObjectId = DAL.GetObjectId(friendId);
 
             let removeFriendsRelation = DAL.Update(usersCollectionName,
                 {
                     $or: [
-                        { "_id": DAL.GetObjectId(userId) },
-                        { "_id": DAL.GetObjectId(friendId) }
+                        { "_id": userObjectId },
+                        { "_id": friendObjectId }
                     ]
                 },
                 {
                     $pull: {
-                        "friends": { $in: [userId, friendId] },
+                        "friends": { $in: [userObjectId, friendObjectId] },
                         "friendRequests.get": { $in: [userId, friendId] },
                         "friendRequests.send": { $in: [userId, friendId] },
                         "friendRequests.accept": { $in: [userId, friendId] }
