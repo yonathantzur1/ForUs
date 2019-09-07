@@ -1,7 +1,7 @@
 const DAL = require('../../DAL');
 const config = require('../../../config');
 
-const collectionName = config.db.collections.users;
+const usersCollectionName = config.db.collections.users;
 
 module.exports = {
 
@@ -10,7 +10,7 @@ module.exports = {
             let userFilter = { _id: DAL.GetObjectId(userId) };
             let privateField = { isPrivate: 1 };
 
-            DAL.FindOneSpecific(collectionName, userFilter, privateField).then(result => {
+            DAL.FindOneSpecific(usersCollectionName, userFilter, privateField).then(result => {
                 resolve(result.isPrivate ? true : false);
             }).catch(reject);
         });
@@ -21,7 +21,7 @@ module.exports = {
             let userFilter = { _id: DAL.GetObjectId(userId) };
             let userPrivateSet = { $set: { isPrivate } };
 
-            DAL.UpdateOne(collectionName, userFilter, userPrivateSet).then(result => {
+            DAL.UpdateOne(usersCollectionName, userFilter, userPrivateSet).then(result => {
                 resolve(result ? true : false);
             }).catch(reject);
         });

@@ -4,7 +4,7 @@ const encryption = require('../security/encryption');
 const logger = require('../../logger');
 const navbarBL = require('./navbarBL');
 
-const collectionName = config.db.collections.chats;
+const chatsCollectionName = config.db.collections.chats;
 const messagesInPage = 40;
 
 let self = module.exports = {
@@ -26,7 +26,7 @@ let self = module.exports = {
 
                 let aggregate = [chatQueryFilter, sliceObj];
 
-                DAL.Aggregate(collectionName, aggregate).then((result) => {
+                DAL.Aggregate(chatsCollectionName, aggregate).then((result) => {
                     let chat;
 
                     // In case the chat is not exists.
@@ -69,7 +69,7 @@ let self = module.exports = {
 
                 let aggregate = [chatQueryFilter, sliceObj];
 
-                DAL.Aggregate(collectionName, aggregate).then((result) => {
+                DAL.Aggregate(chatsCollectionName, aggregate).then((result) => {
                     let chat;
 
                     if (result.length != 0) {
@@ -98,7 +98,7 @@ let self = module.exports = {
             }
         }
 
-        DAL.UpdateOne(collectionName, chatQueryFilter, chatObj, true).catch(logger.error);
+        DAL.UpdateOne(chatsCollectionName, chatQueryFilter, chatObj, true).catch(logger.error);
     },
 
     AddMessageToChat(msgData) {
@@ -123,7 +123,7 @@ let self = module.exports = {
                 }
             }
 
-            DAL.UpdateOne(collectionName, chatFilter, chatUpdateQuery).then((result) => {
+            DAL.UpdateOne(chatsCollectionName, chatFilter, chatUpdateQuery).then((result) => {
                 result ? resolve(true) : resolve(false);
             }).catch(reject);
         });
@@ -133,14 +133,14 @@ let self = module.exports = {
         return new Promise((resolve, reject) => {
             let chatFields = { "membersIds": 1 };
 
-            DAL.FindSpecific(collectionName, { "messages": { $size: 0 } }, chatFields)
+            DAL.FindSpecific(chatsCollectionName, { "messages": { $size: 0 } }, chatFields)
                 .then(resolve).catch(reject);
         });
     },
 
     RemoveChatsByIds(ids) {
         return new Promise((resolve, reject) => {
-            DAL.Delete(collectionName, { "_id": { $in: ids } }).then(resolve).catch(reject);
+            DAL.Delete(chatsCollectionName, { "_id": { $in: ids } }).then(resolve).catch(reject);
         });
     },
 
@@ -185,7 +185,7 @@ let self = module.exports = {
                 sortObj
             ]
 
-            DAL.Aggregate(collectionName, aggregateArray).then((chats) => {
+            DAL.Aggregate(chatsCollectionName, aggregateArray).then((chats) => {
                 let indexChatPositionByFriendId = {};
                 let chatsFriendsIds = [];
 

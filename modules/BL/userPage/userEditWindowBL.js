@@ -4,7 +4,7 @@ const enums = require('../../enums');
 
 const loginBL = require('../welcome/loginBL');
 
-const collectionName = config.db.collections.users;
+const usersCollectionName = config.db.collections.users;
 
 let self = module.exports = {
     UpdateUserInfo(updateFields) {
@@ -19,7 +19,7 @@ let self = module.exports = {
                 if (result) {
                     // In case email field was updated.
                     if (updateFields.email) {
-                        DAL.Count(collectionName, { "email": updateFields.email }).then(amount => {
+                        DAL.Count(usersCollectionName, { "email": updateFields.email }).then(amount => {
                             if (amount > 0) {
                                 resolve(enums.USER_UPDATE_INFO_ERROR.EMAIL_EXISTS);
                             }
@@ -40,7 +40,7 @@ let self = module.exports = {
     },    
 
     UpdateUserOnDB(resolve, reject, userObjId, updateFields) {
-        DAL.UpdateOne(collectionName,
+        DAL.UpdateOne(usersCollectionName,
             { "_id": userObjId },
             { $set: updateFields }).then((result) => {
                 // Change result to true in case the update succeeded.

@@ -3,7 +3,7 @@ const config = require('../../config');
 const generator = require('../generator');
 const sha512 = require('js-sha512');
 
-const collectionName = config.db.collections.users;
+const usersCollectionName = config.db.collections.users;
 const saltSize = config.security.password.saltSize;
 const resetCodeTTL = config.security.password.resetCode.codeTTL;
 const resetCodeFreeRetries = config.security.password.resetCode.freeRetries;
@@ -28,7 +28,7 @@ module.exports = {
                 }
             };
 
-            DAL.UpdateOne(collectionName, { email }, resetCode).then(resolve).catch(reject);
+            DAL.UpdateOne(usersCollectionName, { email }, resetCode).then(resolve).catch(reject);
         });
     },
 
@@ -45,7 +45,7 @@ module.exports = {
                 codeIsUsed: false
             };
 
-            DAL.Find(collectionName, emailObj).then((result) => {
+            DAL.Find(usersCollectionName, emailObj).then((result) => {
                 if (!result) {
                     resolve(null);
                 }
@@ -83,7 +83,7 @@ module.exports = {
                     let updateCodeObj = { $set: { "resetCode": resetCodeObj } };
 
                     // Update num of tries to the code.
-                    DAL.UpdateOne(collectionName, emailObj, updateCodeObj).then((updateResult) => {
+                    DAL.UpdateOne(usersCollectionName, emailObj, updateCodeObj).then((updateResult) => {
                         updateResult ? resolve(errorsObj) : resolve(updateResult);
                     });
                 }
@@ -98,7 +98,7 @@ module.exports = {
 
                     updateUserObj = { $set: updateUser };
 
-                    DAL.UpdateOne(collectionName, emailObj, updateUserObj).then((updateResult) => {
+                    DAL.UpdateOne(usersCollectionName, emailObj, updateUserObj).then((updateResult) => {
                         updateResult ? resolve({ "isChanged": true, "user": updateResult }) : resolve(updateResult);
                     });
                 }
@@ -111,7 +111,7 @@ module.exports = {
             let query = GetUserByTokenFilterQuery(token);
             let fields = { "_id": 0, "firstName": 1, "lastName": 1 };
 
-            DAL.FindOneSpecific(collectionName, query, fields).then(resolve).catch(reject);
+            DAL.FindOneSpecific(usersCollectionName, query, fields).then(resolve).catch(reject);
         });
     },
 
@@ -133,7 +133,7 @@ module.exports = {
                 }
             }
 
-            DAL.UpdateOne(collectionName, findObj, updateObj).then(result => {
+            DAL.UpdateOne(usersCollectionName, findObj, updateObj).then(result => {
                 resolve(result);
             }).catch(reject);
         });

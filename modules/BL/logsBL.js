@@ -3,7 +3,7 @@ const config = require('../../config');
 const enums = require('../enums');
 const requestHandler = require('../handlers/requestHandler');
 
-let collectionName = config.db.collections.logs;
+let logsCollectionName = config.db.collections.logs;
 
 module.exports = {
     ResetPasswordRequest(email, req) {
@@ -54,7 +54,7 @@ module.exports = {
                     "date": new Date()
                 };
 
-                DAL.Insert(collectionName, log).then(resolve).catch(reject);
+                DAL.Insert(logsCollectionName, log).then(resolve).catch(reject);
             }
             else {
                 resolve(false);

@@ -3,13 +3,13 @@ const config = require('../../../config');
 const generator = require('../../generator');
 const sha512 = require('js-sha512');
 
-const collectionName = config.db.collections.users;
+const usersCollectionName = config.db.collections.users;
 
 module.exports = {
     // Check if user is exists on DB.
     CheckIfUserExists(email) {
         return new Promise((resolve, reject) => {
-            DAL.FindOne(collectionName, { email }).then((result) => {
+            DAL.FindOne(usersCollectionName, { email }).then((result) => {
                 resolve(result ? true : false)
             }).catch(reject);
         });
@@ -39,7 +39,7 @@ module.exports = {
                 }
             };
 
-            DAL.Insert(collectionName, newUserObj).then((result) => {
+            DAL.Insert(usersCollectionName, newUserObj).then((result) => {
                 if (result) {
                     newUserObj._id = result;
                     resolve(newUserObj);
