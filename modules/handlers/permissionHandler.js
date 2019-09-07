@@ -16,10 +16,5 @@ let self = module.exports = {
 }
 
 function CheckPermission(permissionsArray, permissionType) {
-    if (!permissionsArray || permissionsArray.length == 0) {
-        return false;
-    }
-    else {
-        return (permissionsArray.indexOf(permissionType) != -1);
-    }
+    return (permissionsArray && permissionsArray.indexOf(permissionType) != -1);
 }

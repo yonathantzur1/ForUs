@@ -58,8 +58,8 @@
 }
 
 .friend-request-image {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     margin-right: 12px;
     margin-left: 5px;
@@ -71,6 +71,7 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    font-size: 14px;
 }
 
 .friend-accept-text {

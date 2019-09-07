@@ -16,7 +16,6 @@ module.exports = {
         catch (err) {
             return null;
         }
-
     },
 
     decrypt(text, key) {

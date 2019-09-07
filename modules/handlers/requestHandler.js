@@ -2,7 +2,7 @@ module.exports = {
     GetIpFromRequest(request) {
         let ip = request.ip;
 
-        return CutIpAddressStringPrefix(ip);
+        return GetIpFromRequestString(ip);
     },
 
     GetUserAgentFromRequest(request) {
@@ -12,7 +12,7 @@ module.exports = {
     GetIpFromSocket(socket) {
         let ip = socket.handshake.address;
 
-        return CutIpAddressStringPrefix(ip);
+        return GetIpFromRequestString(ip);
     },
 
     GetUserAgentFromSocket(socket) {
@@ -20,9 +20,10 @@ module.exports = {
     }
 }
 
-function CutIpAddressStringPrefix(ip) {
+function GetIpFromRequestString(ip) {
     if (ip) {
         let realIpStringPartStartIndex = ip.lastIndexOf(":") + 1;
+
         return ip.substring(realIpStringPartStartIndex);
     }
     else {

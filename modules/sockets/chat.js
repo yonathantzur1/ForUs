@@ -2,11 +2,10 @@ const chatBL = require('../BL/chatBL');
 const navbarBL = require('../BL/navbarBL');
 const generator = require('../generator');
 const tokenHandler = require('../handlers/tokenHandler');
-const logger = require('../../logger');
 
 module.exports = (io, socket, connectedUsers) => {
 
-    socket.on('SendMessage', function (msgData) {
+    socket.on('SendMessage', (msgData) => {
         let originalMsgData = Object.assign({}, msgData);
 
         // Delete spaces from the start and the end of the message text.
@@ -27,12 +26,10 @@ module.exports = (io, socket, connectedUsers) => {
                 navbarBL.AddMessageNotification(msgData.from, msgData.to, msgData.id, senderName);
             }
 
-            chatBL.AddMessageToChat(msgData).then((result) => {
-                if (result) {
-                    io.to(msgData.from).emit('ClientUpdateSendMessage', originalMsgData);
-                    io.to(msgData.to).emit('ClientUpdateGetMessage', originalMsgData);
-                }
-            }).catch(logger.error);
+            chatBL.AddMessageToChat(msgData);
+
+            io.to(msgData.from).emit('ClientUpdateSendMessage', originalMsgData);
+            io.to(msgData.to).emit('ClientUpdateGetMessage', originalMsgData);
         }
     });
 

@@ -37,7 +37,7 @@ module.exports = {
             EMAIL: "^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$"
         },
         PASSWORD: {
-            HASH: "^[a-z0-9]{128}$" // For reset password by link hash
+            HASH: "^[a-z0-9]{128}$"
         }
     }
 }

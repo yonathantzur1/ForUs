@@ -185,15 +185,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
         self.globalService.SocketOn('GetMessage', function (msgData: any) {
             if (msgData.from == self.chatData.friend._id) {
-                msgData.time = new Date();
-                self.isAllowScrollDown = true;
-                self.chatData.friend.isTyping = false;
-                self.messages.push(msgData);
-
-                // In case the chat is on canvas mode.
-                if (self.GetTopIconById("canvas").isSelected) {
-                    self.ShowChatNotification(msgData, true);
-                }
+                self.AddMessageToChat(msgData);
             }
             else {
                 self.ShowChatNotification(msgData, false);
@@ -366,6 +358,17 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             this.isMessagesLoading = false;
             $("#msg-input").focus();
         });
+    }
+
+    AddMessageToChat(msgData) {
+        this.isAllowScrollDown = true;
+        this.chatData.friend.isTyping = false;
+        this.messages.push(msgData);
+
+        // In case the chat is on canvas mode.
+        if (this.GetTopIconById("canvas").isSelected) {
+            this.ShowChatNotification(msgData, true);
+        }
     }
 
     CloseChat() {
