@@ -9,7 +9,7 @@ const permissionHandler = require('../../handlers/permissionHandler');
 
 const usersCollectionName = config.db.collections.users;
 const chatsCollectionName = config.db.collections.chats;
-const profilesCollectionName = config.db.collections.profiles;
+const profilePicturesCollectionName = config.db.collections.profilePictures;
 
 module.exports = {
     GetUserDetails(userId, currUserId) {
@@ -35,7 +35,7 @@ module.exports = {
             let joinFilter = {
                 $lookup:
                 {
-                    from: profilesCollectionName,
+                    from: profilePicturesCollectionName,
                     localField: 'profile',
                     foreignField: '_id',
                     as: 'profileImage'

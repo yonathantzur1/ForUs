@@ -5,7 +5,7 @@ const sha512 = require('js-sha512');
 
 const usersCollectionName = config.db.collections.users;
 const chatsCollectionName = config.db.collections.chats;
-const profilesCollectionName = config.db.collections.profiles;
+const profilePicturesCollectionName = config.db.collections.profilePictures;
 const permissionsCollectionName = config.db.collections.permissions;
 
 const tokenTTL = config.security.deleteUser.tokenTTL;
@@ -72,7 +72,7 @@ module.exports = {
                     },
                     $unset: notificationsUnsetJson
                 });
-            let removeUserProfileImages = DAL.Delete(profilesCollectionName, { "userId": userObjectId });
+            let removeUserProfileImages = DAL.Delete(profilePicturesCollectionName, { "userId": userObjectId });
             let removeUser = DAL.DeleteOne(usersCollectionName, { "_id": userObjectId });
 
             let deleteUserActions = [

@@ -20,7 +20,7 @@ module.exports = {
         connectionString: process.env.DEV_CONNECTION_STRING || process.env.FORUS_CONNECTION_STRING,
         collections: {
             users: "Users",
-            profiles: "Profiles",
+            profilePictures: "ProfilePictures",
             chats: "Chats",
             permissions: "Permissions",
             logs: "Logs",

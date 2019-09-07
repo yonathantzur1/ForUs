@@ -4,7 +4,7 @@ const enums = require('../../enums');
 
 const logsCollectionName = config.db.collections.logs;
 const usersCollectionName = config.db.collections.users;
-const profilesCollectionName = config.db.collections.profiles;
+const profilePicturesCollectionName = config.db.collections.profilePictures;
 
 module.exports = {
     GetLoginsData(logType, range, datesRange, clientTimeZone, email) {
@@ -89,7 +89,7 @@ module.exports = {
 
             let joinFilter = {
                 $lookup: {
-                    from: profilesCollectionName,
+                    from: profilePicturesCollectionName,
                     localField: 'profile',
                     foreignField: '_id',
                     as: 'profileImage'

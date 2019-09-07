@@ -5,7 +5,7 @@ const config = require('../../config');
 const logger = require('../../logger');
 
 const usersCollectionName = config.db.collections.users;
-const profilesCollectionName = config.db.collections.profiles;
+const profilePicturesCollectionName = config.db.collections.profilePictures;
 
 const searchResultsLimit = 4;
 const chatMailNotificationDelayTime = 1; // hours
@@ -18,7 +18,7 @@ module.exports = {
             let joinFilter = {
                 $lookup:
                 {
-                    from: profilesCollectionName,
+                    from: profilePicturesCollectionName,
                     localField: 'profile',
                     foreignField: '_id',
                     as: 'profileImage'
@@ -160,7 +160,7 @@ module.exports = {
                 resolve(profilesIds);
             }
             else {
-                DAL.Find(profilesCollectionName, { "_id": { $in: ConvertIdsToObjectIds(profilesIds) } }).then((profiles) => {
+                DAL.Find(profilePicturesCollectionName, { "_id": { $in: ConvertIdsToObjectIds(profilesIds) } }).then((profiles) => {
                     if (!profiles) {
                         resolve(null);
                     }
@@ -367,7 +367,7 @@ module.exports = {
 
             let removeRequestObject = this.RemoveFriendRequestAfterConfirm(friendId, user._id);
 
-            let getFriendProfileImage = DAL.FindOneSpecific(profilesCollectionName,
+            let getFriendProfileImage = DAL.FindOneSpecific(profilePicturesCollectionName,
                 { "userId": friendObjectId },
                 { "image": 1 })
 

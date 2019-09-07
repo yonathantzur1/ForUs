@@ -11,7 +11,7 @@ const deleteUserBL = require('../deleteUserBL');
 
 const usersCollectionName = config.db.collections.users;
 const permissionsCollectionName = config.db.collections.permissions;
-const profilesCollectionName = config.db.collections.profiles;
+const profilePicturesCollectionName = config.db.collections.profilePictures;
 
 module.exports = {
     GetUserByName(searchInput) {
@@ -41,7 +41,7 @@ module.exports = {
 
             let profileImageJoinFilter = {
                 $lookup: {
-                    from: profilesCollectionName,
+                    from: profilePicturesCollectionName,
                     localField: 'profile',
                     foreignField: '_id',
                     as: 'profileImage'
@@ -145,7 +145,7 @@ module.exports = {
 
             let profileImageJoinFilter = {
                 $lookup: {
-                    from: profilesCollectionName,
+                    from: profilePicturesCollectionName,
                     localField: 'profile',
                     foreignField: '_id',
                     as: 'profileImage'

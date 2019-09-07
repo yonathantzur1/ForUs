@@ -1,7 +1,7 @@
 const DAL = require('../DAL.js');
 const config = require('../../config.js');
 
-const collectionName = config.db.collections.profiles;
+const profilePicturesCollectionName = config.db.collections.profilePictures;
 const usersCollectionName = config.db.collections.users;
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
             }
             else {
                 let profileObjectId = DAL.GetObjectId(profileId);
-                DAL.FindOne(collectionName, { "_id": profileObjectId }).then(resolve).catch(reject);
+                DAL.FindOne(profilePicturesCollectionName, { "_id": profileObjectId }).then(resolve).catch(reject);
             }
         });
     },
@@ -27,8 +27,8 @@ module.exports = {
                 "updateDate": new Date()
             };
 
-            let deleteCurrentPicture = DAL.Delete(collectionName, { "userId": userIdObject });
-            let insertImage = DAL.Insert(collectionName, imageObj);
+            let deleteCurrentPicture = DAL.Delete(profilePicturesCollectionName, { "userId": userIdObject });
+            let insertImage = DAL.Insert(profilePicturesCollectionName, imageObj);
 
             Promise.all([deleteCurrentPicture, insertImage]).then(results => {
                 let imageId = results[1];
@@ -48,7 +48,7 @@ module.exports = {
 
             let removeProfileImageFromUserObject =
                 DAL.UpdateOne(usersCollectionName, usersFilter, userObjectFieldDeleteQuery);
-            let removeProfileImage = DAL.Delete(collectionName, profileFilter);
+            let removeProfileImage = DAL.Delete(profilePicturesCollectionName, profileFilter);
 
             Promise.all([removeProfileImageFromUserObject, removeProfileImage]).then(results => {
                 resolve(true);

@@ -2,7 +2,7 @@ const DAL = require('../DAL');
 const config = require('../../config');
 
 const usersCollectionName = config.db.collections.users;
-const profilesCollectionName = config.db.collections.profiles;
+const profilePicturesCollectionName = config.db.collections.profilePictures;
 
 module.exports = {
     GetSearchPageResults(searchInput, userId) {
@@ -51,7 +51,7 @@ module.exports = {
             let joinFilter = {
                 $lookup:
                 {
-                    from: profilesCollectionName,
+                    from: profilePicturesCollectionName,
                     localField: 'profile',
                     foreignField: '_id',
                     as: 'profileImage'
