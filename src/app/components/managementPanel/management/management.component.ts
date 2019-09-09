@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { DropMenuData } from '../../navbar/navbar.component';
 import { ManagementService } from '../../../services/managementPanel/management/management.service';
@@ -32,8 +32,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
     eventsIds: Array<string> = [];
 
-    constructor(private router: Router,
-        private route: ActivatedRoute,
+    constructor(private route: ActivatedRoute,
         public globalService: GlobalService,
         private eventService: EventService,
         private managementService: ManagementService,

@@ -56,14 +56,11 @@
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer">
+                <div class="footer-sector">
                     <i *ngIf="userImage && isNewPhoto" title="מחיקת תמונת הפרופיל" (click)="DeleteImage()"
                         class="far fa-trash-alt delete-profile-btn"></i>
-                    <div class="modal-footer-buttons">
-                        <a (click)="CloseWindow()" class="btn btn-default cancel-change-btn">סגירה</a>
-                        <a (click)="SaveImage()" id="register-btn" class="btn btn-primary change-img-btn"
-                            [ngClass]="{'change-img-btn-disabled': isNewPhoto}">אישור</a>
-                    </div>
+                    <button (click)="SaveImage()" id="register-btn" *ngIf="!isNewPhoto"
+                        class="btn btn-primary change-img-btn">אישור</button>
                 </div>
             </div>
         </div>

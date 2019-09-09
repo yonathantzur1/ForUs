@@ -24,12 +24,10 @@ a, a:hover, a:focus {
 }
 
 .btn:focus {
-    background-color: transparent !important;
-    border-color: #ccc !important;
+    box-shadow: 0 0 0 0.1rem rgba(125, 125, 125, 0.5) !important;
 }
 
 .btn:hover {
-    background-color: transparent !important;
     border-color: #7882b6 !important;
 }
 

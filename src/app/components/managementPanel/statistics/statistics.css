@@ -8,20 +8,29 @@
 }
 
 .control-menu {
-    width: 100%;
+    width: 230px;
     height: 50px;
     position: relative;
-    display: flex;    
+    display: flex;
     border-radius: 3px;
-    background-color: whitesmoke;
     z-index: 2;
+    margin: auto;
 }
 
 .tab-container {
     display: inline-flex;
-    width: 100%;
-    border: 0.5px solid #9e9e9e;
-    position: relative;
+    width: 55px;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 50%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    border: 0.5px solid #939393;
+}
+
+.tab-container:hover {
+    background-color: #ebf5ff;
 }
 
 .tab {

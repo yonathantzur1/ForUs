@@ -71,7 +71,7 @@
                         </table>
                         <div *ngIf="user.isFriendsScreenOpen">
                             <div *ngIf="!user.isFriendsObjectsLoaded" class="user-loading-container">
-                                <loaderDots></loaderDots>
+                                <loaderDots css='{"font-size": "14px", "padding-top": "10px"}'></loaderDots>
                             </div>
                             <div *ngIf="user.isFriendsObjectsLoaded">
                                 <div class="form-group friend-search-form-group">
