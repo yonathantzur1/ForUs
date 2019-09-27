@@ -25,25 +25,23 @@
 }
 
 .new-friends-label-top-arrow {
-    color: #b2b2b2 !important;
-    top: -3px;
+    color: #b2b2b2;
+    top: 18px;
     width: 100%;    
     position: absolute;    
-    left: -1px;
+    left: -3px;
     font-size: 24px;
     z-index: 1;
 }
 
 .new-friends-label {
-    background-color: rgba(0, 0, 0, 0.25);
+    background-color: #b2b2b2;
     color: white;
     width: 150px;
-    margin-top: 12px;
-    padding: 4px;
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;    
+    top: 33px;
+    padding: 4px; 
     text-align: center;
-    border-top: 0.5px solid #bdb7b7;
+    position: absolute;
 }
 
 .search-icon {

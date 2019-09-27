@@ -35,7 +35,7 @@ module.exports = function (req, res, next) {
             }
         }
 
-        let result = joi.validate(data, schema);
+        let result = joi.object(schema).validate(data);
 
         if (!result) {
             throw ("Validate result is " + result);
