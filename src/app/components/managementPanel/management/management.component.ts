@@ -338,8 +338,8 @@ export class ManagementComponent implements OnInit, OnDestroy {
                     if (updatedFields["password"]) {
                         delete updatedFields["password"];
                         this.globalService.SocketEmit("LogoutUserSessionServer",
-                            user._id,
-                            "נותקת מהאתר, יש להתחבר מחדש");
+                            "נותקת מהאתר, יש להתחבר מחדש",
+                            user._id);
                     }
 
                     Object.keys(updatedFields).forEach(field => {
@@ -379,8 +379,8 @@ export class ManagementComponent implements OnInit, OnDestroy {
                         (user.block.unblockDate ? this.FormatDate(user.block.unblockDate) : "בלתי מוגבל");
 
                     this.globalService.SocketEmit("LogoutUserSessionServer",
-                        user._id,
-                        blockUserMsg);
+                        blockUserMsg,
+                        user._id);
                 }
                 else {
                     this.snackbarService.Snackbar("שגיאה בחסימת המשתמש");

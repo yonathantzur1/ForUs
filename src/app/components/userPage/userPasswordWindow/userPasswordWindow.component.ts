@@ -91,9 +91,8 @@ export class UserPasswordWindowComponent {
                     }
                     else {
                         this.CloseWindow();
-                        this.globalService.SocketEmit("LogoutUserSessionServer",
-                             this.userId,
-                             "הסיסמא התעדכנה בהצלחה!\nיש להיכנס מחדש.");
+                        let updateMessage = "הסיסמא עודכנה בהצלחה!" + "{{enter}}" + "יש להיכנס מחדש.";
+                        this.globalService.SocketEmit("LogoutUserSessionServer", updateMessage);
                     }
                 }
                 else {

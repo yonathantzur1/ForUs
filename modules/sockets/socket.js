@@ -75,7 +75,7 @@ module.exports = (io) => {
             }
         });
 
-        socket.on('LogoutUserSessionServer', function (userId, msg) {
+        socket.on('LogoutUserSessionServer', function (msg, userId) {
             let token = tokenHandler.DecodeTokenFromSocket(socket);
 
             // Logout the given user in case the sender is admin, or in case the logout is self.
