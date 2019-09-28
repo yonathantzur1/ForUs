@@ -23,6 +23,10 @@ a, a:hover, a:focus {
     color: #7882b6 !important;
 }
 
+.btn {
+    padding: .3rem .7rem !important;
+}
+
 .btn:focus {
     box-shadow: 0 0 0 0.1rem rgba(125, 125, 125, 0.5) !important;
 }

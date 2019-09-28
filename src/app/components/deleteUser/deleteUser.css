@@ -81,10 +81,6 @@
     text-align: left;
 }
 
-#deleteUser .btn {
-    padding-right: 0;
-}
-
 #deleteUser .back-icon {
     position: absolute;
     right: 0;

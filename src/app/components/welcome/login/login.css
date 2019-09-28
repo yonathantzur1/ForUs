@@ -9,6 +9,10 @@ form {
     position: relative;
 }
 
+.card-container {
+    padding: 5px 25px 15px 25px;
+}
+
 .login-btn {
     border-style: solid;
     border-width: 1px;
