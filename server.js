@@ -7,12 +7,16 @@ const path = require('path');
 const compression = require('compression');
 const io = require('socket.io')(http);
 const tokenHandler = require('./modules/handlers/tokenHandler');
-const permissionHandler = require('./modules/handlers/permissionHandler');
+const permissionsMiddleware = require('./modules/middlewares/permissionsMiddleware');
 const config = require('./config');
 const logger = require('./logger');
-const requestDataSizeLimit = '10mb';
+const requestDataSizeLimit = '8mb';
 
 process.on('uncaughtException', (err) => {
+    logger.error(err)
+});
+
+process.on('unhandledRejection', (err) => {
     logger.error(err)
 });
 
@@ -57,19 +61,6 @@ function Exclude(paths, middleware) {
     };
 }
 
-// Validation root permissions.
-function CheckRootPermission(req, res, next) {
-    permissionHandler.IsUserHasRootPermission(req.user.permissions) ?
-        next() : res.sendStatus(401);
-}
-
-// Validation master permissions.
-function CheckMasterPermission(req, res, next) {
-    permissionHandler.IsUserHasMasterPermission(req.user.permissions) ?
-        next() : res.sendStatus(401);
-}
-//#endregion
-
 // Validate user token for each api request.
 app.use('/api', Exclude([
     '/login/*',
@@ -105,10 +96,10 @@ app.use("/api/userReportWindow", require('./modules/routes/userPage/userReportWi
 app.use("/api/userPasswordWindow", require('./modules/routes/userPage/userPasswordWindow'));
 app.use("/api/userPrivacyWindow", require('./modules/routes/userPage/userPrivacyWindow'));
 app.use("/api/searchPage", require('./modules/routes/searchPage'));
-app.use("/api/management", CheckRootPermission, require('./modules/routes/managementPanel/management'));
-app.use("/api/statistics", CheckRootPermission, require('./modules/routes/managementPanel/statistics'));
-app.use("/api/usersReports", CheckRootPermission, require('./modules/routes/managementPanel/usersReports'));
-app.use("/api/permissions", CheckMasterPermission, require('./modules/routes/managementPanel/permissions'));
+app.use("/api/management", permissionsMiddleware.Root, require('./modules/routes/managementPanel/management'));
+app.use("/api/statistics", permissionsMiddleware.Root, require('./modules/routes/managementPanel/statistics'));
+app.use("/api/usersReports", permissionsMiddleware.Root, require('./modules/routes/managementPanel/usersReports'));
+app.use("/api/permissions", permissionsMiddleware.Master, require('./modules/routes/managementPanel/permissions'));
 
 app.use("/api/auth", (req, res, next) => {
     req.connectedUsers = connectedUsers;

@@ -14,184 +14,176 @@ const permissionsCollectionName = config.db.collections.permissions;
 const profilePicturesCollectionName = config.db.collections.profilePictures;
 
 module.exports = {
-    GetUserByName(searchInput) {
-        return new Promise((resolve, reject) => {
-            try {
-                searchInput = DAL.GetObjectId(searchInput);
+    async GetUserByName(searchInput) {
+        // In case the input is empty, return empty result array.
+        if (!searchInput) {
+            return resolve([]);
+        }
+
+        try {
+            searchInput = DAL.GetObjectId(searchInput);
+        }
+        catch (e) {
+            searchInput = searchInput.replace(/\\/g, '').trim();
+        }
+
+        let usersFilter = {
+            $match: {
+                $or: [
+                    { _id: searchInput },
+                    { fullName: new RegExp("^" + searchInput, 'g') },
+                    { fullNameReversed: new RegExp("^" + searchInput, 'g') },
+                    { email: new RegExp("^" + searchInput, 'g') }
+                ]
             }
-            catch (e) {
-                searchInput = searchInput.replace(/\\/g, '').trim();
+        };
 
-                // In case the input is empty, return empty result array.
-                if (!searchInput) {
-                    return resolve([]);
-                }
+        let profileImageJoinFilter = {
+            $lookup: {
+                from: profilePicturesCollectionName,
+                localField: 'profile',
+                foreignField: '_id',
+                as: 'profileImage'
             }
+        }
 
-            let usersFilter = {
-                $match: {
-                    $or: [
-                        { _id: searchInput },
-                        { fullName: new RegExp("^" + searchInput, 'g') },
-                        { fullNameReversed: new RegExp("^" + searchInput, 'g') },
-                        { email: new RegExp("^" + searchInput, 'g') }
-                    ]
-                }
-            };
-
-            let profileImageJoinFilter = {
-                $lookup: {
-                    from: profilePicturesCollectionName,
-                    localField: 'profile',
-                    foreignField: '_id',
-                    as: 'profileImage'
-                }
+        let permissionsJoinFilter = {
+            $lookup:
+            {
+                from: permissionsCollectionName,
+                localField: '_id',
+                foreignField: 'members',
+                as: 'permissions'
             }
+        }
 
-            let permissionsJoinFilter = {
-                $lookup:
-                {
-                    from: permissionsCollectionName,
-                    localField: '_id',
-                    foreignField: 'members',
-                    as: 'permissions'
+        let aggregateArray = [
+            {
+                $project: {
+                    fullName: { $concat: ["$firstName", " ", "$lastName"] },
+                    fullNameReversed: { $concat: ["$lastName", " ", "$firstName"] },
+                    friendsAmount: { $size: "$friends" },
+                    "firstName": 1,
+                    "lastName": 1,
+                    "email": 1,
+                    "profile": 1,
+                    "creationDate": 1,
+                    "lastLoginTime": 1,
+                    "friends": 1,
+                    "block": 1
                 }
+            },
+            usersFilter,
+            profileImageJoinFilter,
+            permissionsJoinFilter,
+            {
+                $project: {
+                    // Should be here and on $project above because how aggregate works.
+                    "firstName": 1,
+                    "lastName": 1,
+                    "fullName": 1,
+                    "fullNameReversed": 1,
+                    "email": 1,
+                    "creationDate": 1,
+                    "lastLoginTime": 1,
+                    "friendsAmount": 1,
+                    "friends": 1,
+                    "block": 1,
+
+                    // Taking only specific fields from the document.
+                    "permissions.type": 1,
+                    "profileImage.image": 1,
+                    "profileImage.updateDate": 1
+                }
+            },
+            {
+                $sort: { "fullName": 1, "fullNameReversed": 1 }
             }
+        ];
 
-            let aggregateArray = [
-                {
-                    $project: {
-                        fullName: { $concat: ["$firstName", " ", "$lastName"] },
-                        fullNameReversed: { $concat: ["$lastName", " ", "$firstName"] },
-                        friendsAmount: { $size: "$friends" },
-                        "firstName": 1,
-                        "lastName": 1,
-                        "email": 1,
-                        "profile": 1,
-                        "creationDate": 1,
-                        "lastLoginTime": 1,
-                        "friends": 1,
-                        "block": 1
-                    }
-                },
-                usersFilter,
-                profileImageJoinFilter,
-                permissionsJoinFilter,
-                {
-                    $project: {
-                        // Should be here and on $project above because how aggregate works.
-                        "firstName": 1,
-                        "lastName": 1,
-                        "fullName": 1,
-                        "fullNameReversed": 1,
-                        "email": 1,
-                        "creationDate": 1,
-                        "lastLoginTime": 1,
-                        "friendsAmount": 1,
-                        "friends": 1,
-                        "block": 1,
+        let users = await DAL.Aggregate(usersCollectionName, aggregateArray);
 
-                        // Taking only specific fields from the document.
-                        "permissions.type": 1,
-                        "profileImage.image": 1,
-                        "profileImage.updateDate": 1
-                    }
-                },
-                {
-                    $sort: { "fullName": 1, "fullNameReversed": 1 }
-                }
-            ];
+        // Second sort for results by the search input string.
+        users = users.sort((a, b) => {
+            let aIndex = a.fullName.indexOf(searchInput);
+            let bIndex = b.fullName.indexOf(searchInput);
 
-            DAL.Aggregate(usersCollectionName, aggregateArray).then((users) => {
-                // Second sort for results by the search input string.
-                users = users.sort((a, b) => {
-                    let aIndex = a.fullName.indexOf(searchInput);
-                    let bIndex = b.fullName.indexOf(searchInput);
+            if (aIndex < bIndex) {
+                return -1;
+            }
+            else if (aIndex > bIndex) {
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        });
 
-                    if (aIndex < bIndex) {
-                        return -1;
-                    }
-                    else if (aIndex > bIndex) {
-                        return 1;
-                    }
-                    else {
-                        return 0;
-                    }
-                });
+        return users.map(user => {
+            user.profileImage = (user.profileImage.length != 0) ? user.profileImage[0] : null;
+            user.permissions = user.permissions.map(permission => {
+                return permission.type;
+            });
 
-                users = users.map(user => {
-                    user.profileImage = (user.profileImage.length != 0) ? user.profileImage[0] : null;
-                    user.permissions = user.permissions.map(permission => {
-                        return permission.type;
-                    });
-
-                    return user;
-                });
-
-                resolve(users);
-            }).catch(reject);
+            return user;
         });
     },
 
-    GetUserFriends(friendsIds) {
-        return new Promise((resolve, reject) => {
-            friendsIds = friendsIds.map((id) => {
-                return DAL.GetObjectId(id);
+    async GetUserFriends(friendsIds) {
+        friendsIds = friendsIds.map((id) => {
+            return DAL.GetObjectId(id);
+        });
+
+        let usersFilter = {
+            $match: { "_id": { $in: friendsIds } }
+        };
+
+        let profileImageJoinFilter = {
+            $lookup: {
+                from: profilePicturesCollectionName,
+                localField: 'profile',
+                foreignField: '_id',
+                as: 'profileImage'
+            }
+        }
+
+        let permissionsJoinFilter = {
+            $lookup:
+            {
+                from: permissionsCollectionName,
+                localField: '_id',
+                foreignField: 'members',
+                as: 'permissions'
+            }
+        }
+
+        let aggregateArray = [
+            usersFilter,
+            profileImageJoinFilter,
+            permissionsJoinFilter,
+            {
+                $project: {
+                    fullName: { $concat: ["$firstName", " ", "$lastName"] },
+                    fullNameReversed: { $concat: ["$lastName", " ", "$firstName"] },
+                    "profileImage.image": 1,
+                    "permissions.type": 1
+                }
+            },
+            {
+                $sort: { "fullName": 1, "fullNameReversed": 1 }
+            }
+        ];
+
+        let friends = await DAL.Aggregate(usersCollectionName, aggregateArray);
+
+        return friends.map(friend => {
+            friend.profileImage = (friend.profileImage.length != 0) ?
+                friend.profileImage[0].image : null;
+            friend.permissions = friend.permissions.map(permission => {
+                return permission.type;
             });
 
-            let usersFilter = {
-                $match: { "_id": { $in: friendsIds } }
-            };
-
-            let profileImageJoinFilter = {
-                $lookup: {
-                    from: profilePicturesCollectionName,
-                    localField: 'profile',
-                    foreignField: '_id',
-                    as: 'profileImage'
-                }
-            }
-
-            let permissionsJoinFilter = {
-                $lookup:
-                {
-                    from: permissionsCollectionName,
-                    localField: '_id',
-                    foreignField: 'members',
-                    as: 'permissions'
-                }
-            }
-
-            let aggregateArray = [
-                usersFilter,
-                profileImageJoinFilter,
-                permissionsJoinFilter,
-                {
-                    $project: {
-                        fullName: { $concat: ["$firstName", " ", "$lastName"] },
-                        fullNameReversed: { $concat: ["$lastName", " ", "$firstName"] },
-                        "profileImage.image": 1,
-                        "permissions.type": 1
-                    }
-                },
-                {
-                    $sort: { "fullName": 1, "fullNameReversed": 1 }
-                }
-            ];
-
-            DAL.Aggregate(usersCollectionName, aggregateArray).then((friends) => {
-                friends = friends.map(friend => {
-                    friend.profileImage = (friend.profileImage.length != 0) ?
-                        friend.profileImage[0].image : null;
-                    friend.permissions = friend.permissions.map(permission => {
-                        return permission.type;
-                    });
-
-                    return friend;
-                });
-
-                resolve(friends);
-            }).catch(reject);
+            return friend;
         });
     },
 
@@ -258,15 +250,12 @@ module.exports = {
         return result;
     },
 
-    UnblockUser(userId) {
-        return new Promise((resolve, reject) => {
-            DAL.UpdateOne(usersCollectionName,
-                { "_id": DAL.GetObjectId(userId) },
-                { $unset: { "block": 1 } }).then((result) => {
-                    result && (result = true);
-                    resolve(result);
-                }).catch(reject);
-        });
+    async UnblockUser(userId) {
+        let result = await DAL.UpdateOne(usersCollectionName,
+            { "_id": DAL.GetObjectId(userId) },
+            { $unset: { "block": 1 } });
+
+        return (result ? true : result);
     },
 
     async RemoveFriends(currUserId, cardUserId, friendId) {
