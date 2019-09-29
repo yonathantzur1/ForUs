@@ -7,7 +7,7 @@
 				<div class="col-12 no-padding">
 					<input [(ngModel)]="user.email" id="login-email" class="form-control user-input" type="email"
 						name="email" (keydown)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="אימייל">
-					<label id="login-email-micro" class="microtext microtext-align"></label>
+					<label id="login-email-micro" class="microtext"></label>
 				</div>
 			</div>
 			<div class="form-group">
@@ -15,7 +15,7 @@
 					<input [(ngModel)]="user.password" id="login-password" class="form-control user-input"
 						type="password" name="password" (keydown)="HideMicrotext($event.srcElement.id + '-micro')"
 						placeholder="סיסמא">
-					<label id="login-password-micro" class="microtext microtext-align"></label>
+					<label id="login-password-micro" class="microtext"></label>
 				</div>
 			</div>
 			<div class="form-group">

@@ -51,7 +51,6 @@ form {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding: 0 15px;
     color: #5e5e5f;
     user-select: none;
 }
@@ -77,11 +76,7 @@ form {
     position: absolute;
     color: var(--microtext-color) !important;
     line-height: 5px;
-    right: 15px;
-}
-
-.microtext-align {
-    right: 0px;
+    right: 0;
 }
 
 .loader {
