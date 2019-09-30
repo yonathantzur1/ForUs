@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
-import { EventService } from '../../services/global/event/event.service';
-import { AuthService } from '../../services/global/auth/auth.service';
-import { ProfilePictureService } from '../../services/profilePicture/profilePicture.service';
-import { HomeService } from '../../services/home/home.service';
+import { EventService } from '../../services/global/event.service';
+import { AuthService } from '../../services/global/auth.service';
+import { ProfilePictureService } from '../../services/profilePicture.service';
+import { HomeService } from '../../services/home.service';
 
 @Component({
     selector: 'home',

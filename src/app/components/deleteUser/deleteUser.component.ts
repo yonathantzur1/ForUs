@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { AlertService, ALERT_TYPE } from '../../services/global/alert/alert.service';
-import { MicrotextService, InputFieldValidation } from '../../services/global/microtext/microtext.service';
+import { AlertService, ALERT_TYPE } from '../../services/global/alert.service';
+import { MicrotextService, InputFieldValidation } from '../../services/global/microtext.service';
 
-import { DeleteUserService } from '../../services/deleteUser/deleteUser.service';
+import { DeleteUserService } from '../../services/deleteUser.service';
 
 @Component({
     selector: 'deleteUser',

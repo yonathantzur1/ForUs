@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../../services/global/global.service';
-import { EventService } from '../../../services/global/event/event.service';
-import { AlertService, ALERT_TYPE } from '../../../services/global/alert/alert.service';
-import { SnackbarService } from '../../../services/global/snackbar/snackbar.service';
-import { MicrotextService, InputFieldValidation } from '../../../services/global/microtext/microtext.service';
+import { EventService } from '../../../services/global/event.service';
+import { AlertService, ALERT_TYPE } from '../../../services/global/alert.service';
+import { SnackbarService } from '../../../services/global/snackbar.service';
+import { MicrotextService, InputFieldValidation } from '../../../services/global/microtext.service';
 
 import { LoginService } from '../../../services/welcome/login.service';
 

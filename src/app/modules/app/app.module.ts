@@ -47,13 +47,13 @@ import { RootAuthGuard } from '../../guards/rootAuth/rootAuth.guard';
 import { LoginGuard } from '../../guards/login/login.guard';
 
 // Global services
-import { AuthService } from '../../services/global/auth/auth.service';
+import { AuthService } from '../../services/global/auth.service';
 import { GlobalService } from '../../services/global/global.service';
-import { EventService } from '../../services/global/event/event.service';
-import { AlertService } from '../../services/global/alert/alert.service';
-import { CookieService } from '../../services/global/cookie/cookie.service';
-import { SnackbarService } from '../../services/global/snackbar/snackbar.service';
-import { MicrotextService } from '../../services/global/microtext/microtext.service';
+import { EventService } from '../../services/global/event.service';
+import { AlertService } from '../../services/global/alert.service';
+import { CookieService } from '../../services/global/cookie.service';
+import { SnackbarService } from '../../services/global/snackbar.service';
+import { MicrotextService } from '../../services/global/microtext.service';
 
 // Routing
 import { Routing } from '../../routes/app.routing'

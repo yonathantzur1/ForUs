@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { SnackbarService } from '../../services/global/snackbar/snackbar.service';
-import { MicrotextService, InputFieldValidation } from '../../services/global/microtext/microtext.service';
+import { SnackbarService } from '../../services/global/snackbar.service';
+import { MicrotextService, InputFieldValidation } from '../../services/global/microtext.service';
 import { GlobalService } from '../../services/global/global.service';
 
 import { ForgotService } from '../../services/welcome/forgot.service';

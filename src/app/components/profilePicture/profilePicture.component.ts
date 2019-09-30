@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 
 import { GlobalService } from '../../services/global/global.service';
-import { EventService } from '../../services/global/event/event.service';
+import { EventService } from '../../services/global/event.service';
 
 @Component({
     selector: 'profilePicture',

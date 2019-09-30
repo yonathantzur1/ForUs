@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
 
-import { AuthService } from '../../services/global/auth/auth.service';
+import { AuthService } from '../../services/global/auth.service';
 import { GlobalService } from '../../services/global/global.service';
 
 @Injectable()

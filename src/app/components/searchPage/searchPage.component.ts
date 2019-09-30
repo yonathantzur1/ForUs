@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { AlertService, ALERT_TYPE } from '../../services/global/alert/alert.service';
+import { AlertService, ALERT_TYPE } from '../../services/global/alert.service';
 import { GlobalService } from '../../services/global/global.service';
-import { EventService } from '../../services/global/event/event.service';
-import { SearchPageService } from '../../services/searchPage/searchPage.service';
+import { EventService } from '../../services/global/event.service';
+import { SearchPageService } from '../../services/searchPage.service';
 
 class FriendsStatus {
     friends: Array<string>;

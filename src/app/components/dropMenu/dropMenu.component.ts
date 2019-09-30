@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { EventService } from '../../services/global/event/event.service';
+import { EventService } from '../../services/global/event.service';
 import { DropMenuData } from '../navbar/navbar.component';
 
 @Component({

@@ -1,4 +1,4 @@
-import { BasicService } from '../../basic/basic.service';
+import { BasicService } from '../../basic.service';
 
 export class PermissionsCardService extends BasicService {
     prefix = "/api/permissions";

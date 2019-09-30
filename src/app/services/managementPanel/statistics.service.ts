@@ -1,4 +1,4 @@
-import { BasicService } from '../basic/basic.service';
+import { BasicService } from '../basic.service';
 
 import { STATISTICS_RANGE, LOG_TYPE } from '../../enums/enums';
 

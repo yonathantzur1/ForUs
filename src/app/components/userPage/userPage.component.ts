@@ -2,10 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
-import { EventService } from '../../services/global/event/event.service';
-import { AlertService, ALERT_TYPE } from '../../services/global/alert/alert.service';
+import { EventService } from '../../services/global/event.service';
+import { AlertService, ALERT_TYPE } from '../../services/global/alert.service';
 import { UserPageService } from '../../services/userPage/userPage.service';
-import { SnackbarService } from '../../services/global/snackbar/snackbar.service';
+import { SnackbarService } from '../../services/global/snackbar.service';
 
 @Component({
     selector: 'userPage',

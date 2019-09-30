@@ -1,10 +1,10 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 
 import { GlobalService } from '../../../services/global/global.service';
-import { EventService } from '../../../services/global/event/event.service';
-import { AlertService, ALERT_TYPE } from '../../../services/global/alert/alert.service';
-import { SnackbarService } from '../../../services/global/snackbar/snackbar.service';
-import { ProfilePictureService } from '../../../services/profilePicture/profilePicture.service';
+import { EventService } from '../../../services/global/event.service';
+import { AlertService, ALERT_TYPE } from '../../../services/global/alert.service';
+import { SnackbarService } from '../../../services/global/snackbar.service';
+import { ProfilePictureService } from '../../../services/profilePicture.service';
 
 declare let $: any;
 

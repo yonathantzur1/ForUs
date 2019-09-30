@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
-import { AlertService } from '../../services/global/alert/alert.service';
-import { SnackbarService } from '../../services/global/snackbar/snackbar.service';
+import { AlertService } from '../../services/global/alert.service';
+import { SnackbarService } from '../../services/global/snackbar.service';
 
 @Component({
     selector: 'app',

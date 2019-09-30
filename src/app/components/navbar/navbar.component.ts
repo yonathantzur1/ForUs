@@ -2,11 +2,11 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
-import { EventService } from '../../services/global/event/event.service';
-import { AlertService, ALERT_TYPE } from '../../services/global/alert/alert.service';
-import { SnackbarService } from '../../services/global/snackbar/snackbar.service';
-import { AuthService } from '../../services/global/auth/auth.service';
-import { NavbarService } from '../../services/navbar/navbar.service';
+import { EventService } from '../../services/global/event.service';
+import { AlertService, ALERT_TYPE } from '../../services/global/alert.service';
+import { SnackbarService } from '../../services/global/snackbar.service';
+import { AuthService } from '../../services/global/auth.service';
+import { NavbarService } from '../../services/navbar.service';
 import { SOCKET_STATE } from '../../enums/enums';
 
 class Friend {

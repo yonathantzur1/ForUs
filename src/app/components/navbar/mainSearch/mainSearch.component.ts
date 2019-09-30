@@ -2,8 +2,8 @@ import { Component, Host } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../../services/global/global.service';
-import { EventService } from '../../../services/global/event/event.service';
-import { NavbarService } from '../../../services/navbar/navbar.service';
+import { EventService } from '../../../services/global/event.service';
+import { NavbarService } from '../../../services/navbar.service';
 import { NavbarComponent } from '../navbar.component';
 
 declare let $: any;

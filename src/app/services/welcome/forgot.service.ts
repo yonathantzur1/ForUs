@@ -1,4 +1,4 @@
-import { BasicService } from '../basic/basic.service';
+import { BasicService } from '../basic.service';
 
 import { ForgotUser } from '../../components/welcome/forgot/forgot.component';
 

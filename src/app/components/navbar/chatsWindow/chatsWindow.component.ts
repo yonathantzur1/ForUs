@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { ChatService } from '../../../services/chat/chat.service';
+import { ChatService } from '../../../services/chat.service';
 import { GlobalService } from '../../../services/global/global.service';
 
 @Component({

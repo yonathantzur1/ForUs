@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../../services/global/global.service';
-import { EventService } from '../../../services/global/event/event.service';
-import { SnackbarService } from '../../../services/global/snackbar/snackbar.service';
-import { MicrotextService, InputFieldValidation } from '../../../services/global/microtext/microtext.service';
+import { EventService } from '../../../services/global/event.service';
+import { SnackbarService } from '../../../services/global/snackbar.service';
+import { MicrotextService, InputFieldValidation } from '../../../services/global/microtext.service';
 
 import { RegisterService } from '../../../services/welcome/register.service';
 

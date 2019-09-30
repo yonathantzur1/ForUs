@@ -1,4 +1,4 @@
-import { BasicService } from '../basic/basic.service';
+import { BasicService } from '../basic.service';
 
 import { NewUser } from '../../components/welcome/register/register.component';
 
