@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DropMenuData } from '../../navbar/navbar.component';
 import { ManagementService } from '../../../services/managementPanel/management/management.service';
 import { GlobalService } from '../../../services/global/global.service';
+import { SocketService } from '../../../services/global/socket.service';
 import { EventService } from '../../../services/global/event.service';
 import { AlertService, ALERT_TYPE } from '../../../services/global/alert.service';
 import { SnackbarService } from '../../../services/global/snackbar.service';
@@ -34,6 +35,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
     constructor(private route: ActivatedRoute,
         public globalService: GlobalService,
+        private socketService: SocketService,
         private eventService: EventService,
         private managementService: ManagementService,
         public alertService: AlertService,
@@ -337,7 +339,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                 if (result) {
                     if (updatedFields["password"]) {
                         delete updatedFields["password"];
-                        this.globalService.SocketEmit("LogoutUserSessionServer",
+                        this.socketService.SocketEmit("LogoutUserSessionServer",
                             "נותקת מהאתר, יש להתחבר מחדש",
                             user._id);
                     }
@@ -378,7 +380,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                         "<b>עד תאריך: </b>" +
                         (user.block.unblockDate ? this.FormatDate(user.block.unblockDate) : "בלתי מוגבל");
 
-                    this.globalService.SocketEmit("LogoutUserSessionServer",
+                    this.socketService.SocketEmit("LogoutUserSessionServer",
                         blockUserMsg,
                         user._id);
                 }
@@ -475,8 +477,8 @@ export class ManagementComponent implements OnInit, OnDestroy {
                         }
 
                         let logoutMsg = "נותקת מהאתר, יש להתחבר מחדש.";
-                        self.globalService.SocketEmit("LogoutUserSessionServer", user._id, logoutMsg);
-                        self.globalService.SocketEmit("LogoutUserSessionServer", friend._id, logoutMsg);
+                        self.socketService.SocketEmit("LogoutUserSessionServer", user._id, logoutMsg);
+                        self.socketService.SocketEmit("LogoutUserSessionServer", friend._id, logoutMsg);
                     }
                     else {
                         self.snackbarService.Snackbar("שגיאה במחיקת החברות");
@@ -502,7 +504,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                         let logoutMsg = "חשבונך נמחק מהמערכת לצמיתות." +
                             "{{enter}}" +
                             "לפרטים נוספים, פנה להנהלת האתר.";
-                        self.globalService.SocketEmit("LogoutUserSessionServer", user._id, logoutMsg);
+                        self.socketService.SocketEmit("LogoutUserSessionServer", user._id, logoutMsg);
 
                         // Remove user from users search list.
                         self.users.splice(user.index, 1);

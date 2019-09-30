@@ -61,7 +61,7 @@
             <div class="col-8 navbar-right-container">
                 <span class="head-container" (click)="NavigateMain()">
                     <img src="assets/logo/icon.png" class="head-icon">
-                    <span *ngIf="!globalService.IsSmallScreenDevice()" class="head-title">ForUs</span>
+                    <span *ngIf="IsShowHeadTitle()" class="head-title">ForUs</span>
                 </span>
                 <span class="search-sector col-md-6">
                     <mainSearch></mainSearch>

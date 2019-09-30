@@ -12,10 +12,10 @@ export class SnackbarService {
     private Initialize() {
         this.delay = 2500;
         this.isShow = false;
-        this.text = '';        
+        this.text = '';
     }
 
-    public Snackbar(text: string, delay?:number) {
+    Snackbar(text: string, delay?: number) {
         // Clear timeout if exists.
         this.currentTimeout && clearTimeout(this.currentTimeout);
 
@@ -29,7 +29,7 @@ export class SnackbarService {
         }, delay || this.delay);
     }
 
-    public HideSnackbar() {
+    HideSnackbar() {
         this.isShow = false;
     }
 }

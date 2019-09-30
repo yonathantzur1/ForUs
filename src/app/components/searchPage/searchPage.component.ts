@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { AlertService, ALERT_TYPE } from '../../services/global/alert.service';
 import { GlobalService } from '../../services/global/global.service';
+import { SocketService } from '../../services/global/socket.service';
 import { EventService } from '../../services/global/event.service';
 import { SearchPageService } from '../../services/searchPage.service';
 
@@ -31,6 +32,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         public alertService: AlertService,
         public globalService: GlobalService,
+        private socketService: SocketService,
         private eventService: EventService,
         private searchPageService: SearchPageService) {
         let self = this;
@@ -113,32 +115,32 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 
         let self = this;
 
-        self.globalService.SocketOn('ClientAddFriend', function (friend: any) {
+        self.socketService.SocketOn('ClientAddFriend', function (friend: any) {
             self.SetUserFriendStatus(friend._id, "isFriend");
         });
 
-        self.globalService.SocketOn('ClientFriendAddedUpdate', function (friend: any) {
+        self.socketService.SocketOn('ClientFriendAddedUpdate', function (friend: any) {
             self.SetUserFriendStatus(friend._id, "isFriend");
         });
 
-        self.globalService.SocketOn('ClientRemoveFriend', function (friendId: string) {
+        self.socketService.SocketOn('ClientRemoveFriend', function (friendId: string) {
             self.UnsetUserFriendStatus(friendId, "isFriend");
         });
 
-        self.globalService.SocketOn('ClientIgnoreFriendRequest', function (friendId: string) {
+        self.socketService.SocketOn('ClientIgnoreFriendRequest', function (friendId: string) {
             self.UnsetUserFriendStatus(friendId, "isGetFriendRequest");
         });
 
-        self.globalService.SocketOn('GetFriendRequest', function (friendId: string) {
+        self.socketService.SocketOn('GetFriendRequest', function (friendId: string) {
             self.SetUserFriendStatus(friendId, "isSendFriendRequest");
         });
 
-        self.globalService.SocketOn('DeleteFriendRequest', function (friendId: string) {
+        self.socketService.SocketOn('DeleteFriendRequest', function (friendId: string) {
             self.UnsetUserFriendStatus(friendId, "isSendFriendRequest");
         });
 
         // In case the user set private user.
-        self.globalService.SocketOn('UserSetToPrivate', function (userId: string) {
+        self.socketService.SocketOn('UserSetToPrivate', function (userId: string) {
             let user = self.GetUserById(userId);
 
             if (userId != self.GetCurrentUserId() && !user.isFriend) {

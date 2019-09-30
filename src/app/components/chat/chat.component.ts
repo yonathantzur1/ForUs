@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy, Input, AfterViewChecked } from '@angular/
 
 import { ChatService } from '../../services/chat.service';
 import { GlobalService } from '../../services/global/global.service';
+import { SocketService } from '../../services/global/socket.service';
+import { DateService } from '../../services/global/date.service';
 import { EventService } from '../../services/global/event.service';
 import { SnackbarService } from '../../services/global/snackbar.service';
 
@@ -83,6 +85,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     constructor(private chatService: ChatService,
         public snackbarService: SnackbarService,
         public globalService: GlobalService,
+        private socketService: SocketService,
+        private dateService: DateService,
         private eventService: EventService) {
 
         let self = this;
@@ -183,7 +187,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     ngOnInit() {
         let self = this;
 
-        self.globalService.SocketOn('GetMessage', function (msgData: any) {
+        self.socketService.SocketOn('GetMessage', function (msgData: any) {
             if (msgData.from == self.chatData.friend._id) {
                 self.AddMessageToChat(msgData);
             }
@@ -393,7 +397,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.isAllowShowUnreadLine = false;
                 this.messages.push(msgData);
                 $("#msg-input").focus();
-                this.globalService.SocketEmit("SendMessage", msgData);
+                this.socketService.SocketEmit("SendMessage", msgData);
             }
         }
     }
@@ -408,7 +412,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             this.CloseChat();
         }
         else {
-            this.globalService.SocketEmit("ServerFriendTyping", this.chatData.friend._id);
+            this.socketService.SocketEmit("ServerFriendTyping", this.chatData.friend._id);
         }
     }
 
@@ -474,7 +478,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     GetDateBubbleText(index: number) {
-        return this.globalService.globalObject.
+        return this.dateService.
             GetDateDetailsString(new Date(this.messages[index].time), new Date(), false);
     }
 
@@ -565,7 +569,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
             this.isAllowScrollDown = true;
             this.messages.push(msgData);
-            this.globalService.SocketEmit("SendMessage", msgData);
+            this.socketService.SocketEmit("SendMessage", msgData);
         }
     }
 

@@ -2,6 +2,7 @@ import { Component, Host } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../../services/global/global.service';
+import { SocketService } from '../../../services/global/socket.service';
 import { EventService } from '../../../services/global/event.service';
 import { NavbarService } from '../../../services/navbar.service';
 import { NavbarComponent } from '../navbar.component';
@@ -34,9 +35,11 @@ export class MainSearchComponent {
 
     constructor(private router: Router,
         public globalService: GlobalService,
+        private socketService: SocketService,
         public eventService: EventService,
         private navbarService: NavbarService,
         @Host() public parent: NavbarComponent) {
+
         this.eventService.Register("hideSearchResults", () => {
             this.isShowSearchResults = false;
         }, this.eventsIds);
@@ -59,11 +62,11 @@ export class MainSearchComponent {
 
         let self = this;
 
-        self.globalService.SocketOn('UserSetToPrivate', (userId: string) => {
+        self.socketService.SocketOn('UserSetToPrivate', (userId: string) => {
             self.RemoveUserFromNavbarSearchCache(userId);
         });
 
-        self.globalService.SocketOn('ClientRemoveFriend', function (userId: string) {
+        self.socketService.SocketOn('ClientRemoveFriend', function (userId: string) {
             self.RemoveUserFromNavbarSearchCache(userId);
         });
     }

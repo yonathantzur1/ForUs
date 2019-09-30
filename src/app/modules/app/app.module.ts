@@ -54,9 +54,11 @@ import { AlertService } from '../../services/global/alert.service';
 import { CookieService } from '../../services/global/cookie.service';
 import { SnackbarService } from '../../services/global/snackbar.service';
 import { MicrotextService } from '../../services/global/microtext.service';
+import { DateService } from '../../services/global/date.service';
+import { SocketService } from 'src/app/services/global/socket.service';
 
 // Routing
-import { Routing } from '../../routes/app.routing'
+import { Routing } from '../../routes/app.routing';
 
 @NgModule({
   imports: [
@@ -115,7 +117,9 @@ import { Routing } from '../../routes/app.routing'
     AlertService,
     CookieService,
     SnackbarService,
-    MicrotextService
+    MicrotextService,
+    DateService,
+    SocketService
   ],
   bootstrap: [AppComponent]
 })

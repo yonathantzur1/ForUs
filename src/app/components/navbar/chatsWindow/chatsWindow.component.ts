@@ -2,6 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import { ChatService } from '../../../services/chat.service';
 import { GlobalService } from '../../../services/global/global.service';
+import { SocketService } from '../../../services/global/socket.service';
+
+import { DateService } from '../../../services/global/date.service';
 
 @Component({
     selector: 'chatsWindow',
@@ -18,14 +21,16 @@ export class ChatsWindowComponent implements OnInit {
     chats: any = [];
 
     constructor(private chatService: ChatService,
-        public globalService: GlobalService) { }
+        public globalService: GlobalService,
+        private socketService: SocketService,
+        private dateService: DateService) { }
 
     ngOnInit() {
         this.LoadChatsObjects();
 
         let self = this;
 
-        self.globalService.SocketOn('ClientUpdateSendMessage', function (msgData: any) {
+        self.socketService.SocketOn('ClientUpdateSendMessage', function (msgData: any) {
             let isChatUpdated = false;
 
             for (let i = 0; i < self.chats.length; i++) {
@@ -46,7 +51,7 @@ export class ChatsWindowComponent implements OnInit {
             }
         });
 
-        self.globalService.SocketOn('ClientUpdateGetMessage', function (msgData: any) {
+        self.socketService.SocketOn('ClientUpdateGetMessage', function (msgData: any) {
             let isChatUpdated = false;
 
             for (let i = 0; i < self.chats.length; i++) {
@@ -68,12 +73,12 @@ export class ChatsWindowComponent implements OnInit {
         });
 
         // Remove friend from management screen.
-        self.globalService.SocketOn('ClientRemoveFriendUser', function (friendId: string) {
+        self.socketService.SocketOn('ClientRemoveFriendUser', function (friendId: string) {
             self.RemoveFriendChat(friendId);
         });
 
         // Remove friend by the user from user page.
-        self.globalService.SocketOn('ClientRemoveFriend', function (friendId: string) {
+        self.socketService.SocketOn('ClientRemoveFriend', function (friendId: string) {
             self.RemoveFriendChat(friendId);
         });
     }
@@ -138,7 +143,7 @@ export class ChatsWindowComponent implements OnInit {
         }
 
         chat.timeString = {
-            "dateDetailsString": this.globalService.globalObject.GetDateDetailsString(localDate, currDate, true),
+            "dateDetailsString": this.dateService.GetDateDetailsString(localDate, currDate, true),
             "dateTimeString": dateTimeString
         };
     }

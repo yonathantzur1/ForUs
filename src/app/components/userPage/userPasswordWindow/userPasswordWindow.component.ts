@@ -3,6 +3,7 @@ import { Component, Input, HostListener } from '@angular/core';
 import { UserPasswordWindowService } from '../../../services/userPage/userPasswordWindow.service';
 import { AlertService, ALERT_TYPE } from '../../../services/global/alert.service';
 import { GlobalService } from '../../../services/global/global.service';
+import { SocketService } from '../../../services/global/socket.service';
 import { EventService } from '../../../services/global/event.service';
 import { MicrotextService, InputFieldValidation } from '../../../services/global/microtext.service';
 
@@ -32,6 +33,7 @@ export class UserPasswordWindowComponent {
     password: Password = new Password();
 
     constructor(public globalService: GlobalService,
+        private socketService: SocketService,
         private eventService: EventService,
         public alertService: AlertService,
         private microtextService: MicrotextService,
@@ -92,7 +94,7 @@ export class UserPasswordWindowComponent {
                     else {
                         this.CloseWindow();
                         let updateMessage = "הסיסמא עודכנה בהצלחה!" + "{{enter}}" + "יש להיכנס מחדש.";
-                        this.globalService.SocketEmit("LogoutUserSessionServer", updateMessage);
+                        this.socketService.SocketEmit("LogoutUserSessionServer", updateMessage);
                     }
                 }
                 else {

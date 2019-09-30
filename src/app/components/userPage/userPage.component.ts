@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
+import { SocketService } from '../../services/global/socket.service';
 import { EventService } from '../../services/global/event.service';
 import { AlertService, ALERT_TYPE } from '../../services/global/alert.service';
 import { UserPageService } from '../../services/userPage/userPage.service';
@@ -32,6 +33,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
         public alertService: AlertService,
         public snackbarService: SnackbarService,
         public globalService: GlobalService,
+        private socketService: SocketService,
         private eventService: EventService) {
         let self = this;
 
@@ -70,7 +72,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
         }, self.eventsIds);
         //#endregion
 
-        self.globalService.SocketOn('DeleteFriendRequest', function (friendId: string) {
+        self.socketService.SocketOn('DeleteFriendRequest', function (friendId: string) {
             (friendId == self.user._id) && self.UnsetUserFriendStatus("isSendFriendRequest");
         });
 
@@ -106,10 +108,10 @@ export class UserPageComponent implements OnInit, OnDestroy {
                                 confirmFunc: function () {
                                     self.userPageService.RemoveFriends(self.user._id).then(result => {
                                         if (result) {
-                                            self.globalService.SocketEmit("ServerRemoveFriend", self.user._id);
+                                            self.socketService.SocketEmit("ServerRemoveFriend", self.user._id);
                                             self.UnsetUserFriendStatus("isFriend");
                                             self.snackbarService.Snackbar("הסרת החברות עם " + self.user.fullName + " בוצעה בהצלחה");
-                                            self.globalService.RefreshSocket();
+                                            self.socketService.RefreshSocket();
                                         }
                                         else {
                                             self.alertService.Alert({
@@ -287,45 +289,45 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
         let self = this;
 
-        self.globalService.SocketOn('ClientAddFriend', function (friend: any) {
+        self.socketService.SocketOn('ClientAddFriend', function (friend: any) {
             if (friend._id == self.user._id) {
                 self.SetUserFriendStatus("isFriend");
             }
         });
 
-        self.globalService.SocketOn('ClientFriendAddedUpdate', function (friend: any) {
+        self.socketService.SocketOn('ClientFriendAddedUpdate', function (friend: any) {
             if (friend._id == self.user._id) {
                 self.SetUserFriendStatus("isFriend");
             }
         });
 
-        self.globalService.SocketOn('ClientRemoveFriend', function (friendId: string) {
+        self.socketService.SocketOn('ClientRemoveFriend', function (friendId: string) {
             if (friendId == self.user._id) {
                 self.UnsetUserFriendStatus("isFriend");
             }
         });
 
-        self.globalService.SocketOn('ClientIgnoreFriendRequest', function (friendId: string) {
+        self.socketService.SocketOn('ClientIgnoreFriendRequest', function (friendId: string) {
             if (friendId == self.user._id) {
                 self.UnsetUserFriendStatus("isGetFriendRequest");
             }
         });
 
-        self.globalService.SocketOn('GetFriendRequest', function (friendId: string) {
+        self.socketService.SocketOn('GetFriendRequest', function (friendId: string) {
             if (friendId == self.user._id) {
                 self.SetUserFriendStatus("isSendFriendRequest");
             }
         });
 
         // In case the user has been removed from the site.
-        self.globalService.SocketOn('ClientRemoveFriendUser', function (friendId: string) {
+        self.socketService.SocketOn('ClientRemoveFriendUser', function (friendId: string) {
             if (friendId == self.user._id) {
                 self.router.navigateByUrl("/");
             }
         });
 
         // In case the user set private user.
-        self.globalService.SocketOn('UserSetToPrivate', function (userId: string) {
+        self.socketService.SocketOn('UserSetToPrivate', function (userId: string) {
             if (!self.IsUserPageSelf() &&
                 !self.user.isFriend &&
                 !self.user.isSendFriendRequest) {

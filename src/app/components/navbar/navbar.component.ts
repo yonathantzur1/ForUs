@@ -2,11 +2,14 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
+import { SocketService } from '../../services/global/socket.service';
+import { CookieService } from '../../services/global/cookie.service';
 import { EventService } from '../../services/global/event.service';
 import { AlertService, ALERT_TYPE } from '../../services/global/alert.service';
 import { SnackbarService } from '../../services/global/snackbar.service';
 import { AuthService } from '../../services/global/auth.service';
 import { NavbarService } from '../../services/navbar.service';
+import { LoginService } from '../../services/welcome/login.service';
 import { SOCKET_STATE } from '../../enums/enums';
 
 class Friend {
@@ -49,7 +52,7 @@ export class DropMenuData {
 @Component({
     selector: 'navbar',
     templateUrl: './navbar.html',
-    providers: [NavbarService],
+    providers: [NavbarService, LoginService],
     styleUrls: ['./navbar.css']
 })
 
@@ -115,9 +118,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
     constructor(private router: Router,
         private authService: AuthService,
         public globalService: GlobalService,
+        private socketService: SocketService,
+        private cookieService: CookieService,
         private eventService: EventService,
         public alertService: AlertService,
         public snackbarService: SnackbarService,
+        private loginService: LoginService,
         private navbarService: NavbarService) {
 
         let self = this;
@@ -218,7 +224,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.globalService.SocketEmit('login');
+        this.socketService.SocketEmit('login');
 
         let self = this;
 
@@ -231,7 +237,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             }),
             new DropMenuData("/login", "התנתקות", (link: string) => {
                 self.snackbarService.HideSnackbar();
-                self.globalService.Logout();
+                self.Logout();
                 self.router.navigateByUrl(link);
             })
         ];
@@ -244,11 +250,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
                             break;
                         // In case the user is login with no connected socket.
                         case SOCKET_STATE.CLOSE:
-                            self.globalService.RefreshSocket();
+                            self.socketService.RefreshSocket();
                             break;
                         // In case the user is logout.
                         case SOCKET_STATE.LOGOUT:
-                            self.globalService.Logout();
+                            self.Logout();
                             self.NavigateToLogin();
                             break;
                     }
@@ -257,7 +263,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }, self.checkSocketConnectDelay * 1000);
 
         self.checkOnlineFriendsInterval = setInterval(() => {
-            self.globalService.SocketEmit("ServerGetOnlineFriends");
+            self.socketService.SocketEmit("ServerGetOnlineFriends");
         }, self.checkOnlineFriendsDelay * 1000);
 
         self.LoadFriendsData(self.user.friends);
@@ -272,8 +278,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
             self.GetToolbarItem("friendRequests").content = result.friendRequests;
         });
 
-        self.globalService.SocketOn('LogoutUserSessionClient', function (msg: string) {
-            self.globalService.Logout();
+        self.socketService.SocketOn('LogoutUserSessionClient', function (msg: string) {
+            self.Logout();
             self.alertService.Alert({
                 title: "התנתקות מהמערכת",
                 text: msg,
@@ -285,7 +291,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             });
         });
 
-        self.globalService.SocketOn('GetMessage', function (msgData: any) {
+        self.socketService.SocketOn('GetMessage', function (msgData: any) {
             if (!self.chatData.isOpen || msgData.from != self.chatData.friend._id) {
                 self.AddMessageToToolbarMessages(msgData);
 
@@ -304,7 +310,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             }
         });
 
-        self.globalService.SocketOn('ClientGetOnlineFriends', function (onlineFriendsIds: Array<string>) {
+        self.socketService.SocketOn('ClientGetOnlineFriends', function (onlineFriendsIds: Array<string>) {
             // In case one or more friends are connected. 
             if (onlineFriendsIds.length > 0) {
                 self.friends.forEach(friend => {
@@ -318,7 +324,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             }
         });
 
-        self.globalService.SocketOn('UpdateFriendConnectionStatus', function (statusObj: any) {
+        self.socketService.SocketOn('UpdateFriendConnectionStatus', function (statusObj: any) {
             self.friends.forEach(friend => {
                 if (friend._id == statusObj.friendId) {
                     friend.isOnline = statusObj.isOnline;
@@ -326,37 +332,37 @@ export class NavbarComponent implements OnInit, OnDestroy {
             });
         });
 
-        self.globalService.SocketOn('ClientUpdateFriendRequests', function (friendRequests: Array<any>) {
+        self.socketService.SocketOn('ClientUpdateFriendRequests', function (friendRequests: Array<any>) {
             self.GetToolbarItem("friendRequests").content = friendRequests;
         });
 
-        self.globalService.SocketOn('GetFriendRequest', function (friendId: string, friendFullName: string) {
+        self.socketService.SocketOn('GetFriendRequest', function (friendId: string, friendFullName: string) {
             let friendRequests: any = self.GetToolbarItem("friendRequests").content;
             friendRequests.get.push(friendId);
             self.ShowFriendRequestNotification(friendFullName, false);
             self.isHideNotificationsBudget = false;
         });
 
-        self.globalService.SocketOn('DeleteFriendRequest', function (friendId: string) {
+        self.socketService.SocketOn('DeleteFriendRequest', function (friendId: string) {
             let friendRequests: any = self.GetToolbarItem("friendRequests").content;
             friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
             self.eventService.Emit("RemoveUserFromNavbarSearchCache", friendId);
         });
 
-        self.globalService.SocketOn('ClientIgnoreFriendRequest', function (friendId: string) {
+        self.socketService.SocketOn('ClientIgnoreFriendRequest', function (friendId: string) {
             let friendRequests: any = self.GetToolbarItem("friendRequests").content;
             friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
         });
 
-        self.globalService.SocketOn('ClientAddFriend', function (friend: any) {
+        self.socketService.SocketOn('ClientAddFriend', function (friend: any) {
             self.AddFriendObjectToUser(friend);
         });
 
-        self.globalService.SocketOn('ClientFriendAddedUpdate', function (friend: any) {
+        self.socketService.SocketOn('ClientFriendAddedUpdate', function (friend: any) {
             self.authService.SetCurrUserToken().then((result: any) => {
                 if (result) {
-                    self.globalService.RefreshSocket();
-                    self.globalService.SocketEmit("ServerGetOnlineFriends");
+                    self.socketService.RefreshSocket();
+                    self.socketService.SocketEmit("ServerGetOnlineFriends");
                 }
             });
 
@@ -372,16 +378,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
             self.isHideNotificationsBudget = false;
             self.ShowFriendRequestNotification(friend.firstName + " " + friend.lastName, true);
 
-            self.globalService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
-            self.globalService.SocketEmit("RemoveFriendRequest", self.user._id, friend._id);
-            self.globalService.SocketEmit("ServerGetOnlineFriends");
+            self.socketService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
+            self.socketService.SocketEmit("RemoveFriendRequest", self.user._id, friend._id);
+            self.socketService.SocketEmit("ServerGetOnlineFriends");
         });
 
-        self.globalService.SocketOn('ClientFriendTyping', function (friendId: string) {
+        self.socketService.SocketOn('ClientFriendTyping', function (friendId: string) {
             self.MakeFriendTyping(friendId);
         });
 
-        self.globalService.SocketOn('ClientRemoveFriendUser', function (friendId: string, userName: string) {
+        self.socketService.SocketOn('ClientRemoveFriendUser', function (friendId: string, userName: string) {
             self.RemoveFriend(friendId);
 
             self.alertService.Alert({
@@ -392,9 +398,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
             });
         });
 
-        self.globalService.SocketOn('ClientRemoveFriend', function (friendId: string) {
+        self.socketService.SocketOn('ClientRemoveFriend', function (friendId: string) {
             self.authService.SetCurrUserToken().then((result: any) => {
-                result && self.globalService.RefreshSocket();
+                result && self.socketService.RefreshSocket();
             });
 
             self.RemoveFriend(friendId);
@@ -506,7 +512,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.navbarService.GetFriends(friendsIds).then((friendsResult: Array<Friend>) => {
                 this.friends = friendsResult;
                 this.isFriendsLoading = false;
-                this.globalService.socket && this.globalService.SocketEmit("ServerGetOnlineFriends");
+                this.socketService.SocketEmit("ServerGetOnlineFriends");
             });
         }
     }
@@ -682,8 +688,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
         let self = this;
         self.navbarService.AddFriendRequest(friendId).then((result: any) => {
             if (result) {
-                self.globalService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
-                self.globalService.SocketEmit("SendFriendRequest", friendId);
+                self.socketService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
+                self.socketService.SocketEmit("SendFriendRequest", friendId);
                 self.eventService.Emit("sendFriendRequest", friendId);
                 self.snackbarService.Snackbar("נשלחה בקשת חברות");
             }
@@ -697,8 +703,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
         let self = this;
         self.navbarService.RemoveFriendRequest(friendId).then((result: any) => {
             if (result) {
-                self.globalService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
-                self.globalService.SocketEmit("RemoveFriendRequest", self.user._id, friendId);
+                self.socketService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
+                self.socketService.SocketEmit("RemoveFriendRequest", self.user._id, friendId);
                 self.snackbarService.Snackbar("בקשת החברות בוטלה");
             }
         });
@@ -712,9 +718,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
         let self = this;
         self.navbarService.IgnoreFriendRequest(friendId).then((result: any) => {
             if (result) {
-                self.globalService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
-                self.globalService.SocketEmit("ServerIgnoreFriendRequest", self.user._id, friendId);
-                self.globalService.SocketEmit("ServerUpdateFriendRequestsStatus", friendId);
+                self.socketService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
+                self.socketService.SocketEmit("ServerIgnoreFriendRequest", self.user._id, friendId);
+                self.socketService.SocketEmit("ServerUpdateFriendRequestsStatus", friendId);
             }
 
             callback && callback(result);
@@ -751,7 +757,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.friends.push(friend);
         }
 
-        this.globalService.SocketEmit("ServerGetOnlineFriends");
+        this.socketService.SocketEmit("ServerGetOnlineFriends");
     }
 
     AddFriend(friendId: string, callback?: Function) {
@@ -767,17 +773,17 @@ export class NavbarComponent implements OnInit, OnDestroy {
             self.isFriendsLoading = false;
 
             if (friend) {
-                self.globalService.RefreshSocket();
-                self.globalService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
-                self.globalService.SocketEmit("ServerAddFriend", friend);
-                self.globalService.SocketEmit("ServerFriendAddedUpdate", friend._id);
-                self.globalService.SocketEmit("ServerUpdateFriendRequestsStatus", friendId);
+                self.socketService.RefreshSocket();
+                self.socketService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
+                self.socketService.SocketEmit("ServerAddFriend", friend);
+                self.socketService.SocketEmit("ServerFriendAddedUpdate", friend._id);
+                self.socketService.SocketEmit("ServerUpdateFriendRequestsStatus", friendId);
                 self.AddFriendObjectToUser(friend);
             }
             else {
                 //  Recover the actions in case the server is fail to add the friend. 
                 friendRequests.get.push(friendId);
-                self.globalService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
+                self.socketService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
             }
 
             callback && callback(friend);
@@ -905,5 +911,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     NavigateToLogin() {
         this.router.navigateByUrl("/login");
+    }
+
+    IsShowHeadTitle() {
+        return ($(window).width() > 576);
+    }
+
+    Logout() {
+        this.cookieService.DeleteUidCookie();
+        this.loginService.DeleteTokenFromCookie();
+        this.globalService.ResetGlobalVariables();
     }
 }

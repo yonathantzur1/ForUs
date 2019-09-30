@@ -53,7 +53,7 @@ export class UserPrivacyWindowComponent implements OnInit {
     ChangePrivacyStatus() {
         let self = this;
 
-        setTimeout(function () {
+        setTimeout(() => {
             self.isUserPrivate = !self.isUserPrivate;
         }, 0);
     }

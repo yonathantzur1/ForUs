@@ -26,7 +26,11 @@ export class CookieService {
         return '';
     }
 
-    DeleteCookieByName(name: string) {
+    private DeleteCookieByName(name: string) {
         document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
+
+    DeleteUidCookie() {
+        this.DeleteCookieByName(this.uidCookieName);
     }
 }

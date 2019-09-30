@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 
 import { GlobalService } from '../../../services/global/global.service';
+import { SocketService } from '../../../services/global/socket.service';
 import { EventService } from '../../../services/global/event.service';
 import { NavbarService } from '../../../services/navbar.service';
 
@@ -30,26 +31,27 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     isFriendRequestsLoaded: boolean = false;
 
     constructor(private router: Router,
-        private navbarService: NavbarService,        
+        private navbarService: NavbarService,
         public globalService: GlobalService,
+        private socketService: SocketService,
         private eventService: EventService) { }
 
     ngOnInit() {
         let self = this;
 
-        self.globalService.SocketOn('ClientUpdateFriendRequestsStatus', function (friendId: string) {
+        self.socketService.SocketOn('ClientUpdateFriendRequestsStatus', function (friendId: string) {
             self.RemoveFriendRequestById(friendId);
         });
 
-        self.globalService.SocketOn('GetFriendRequest', function () {
+        self.socketService.SocketOn('GetFriendRequest', function () {
             self.LoadFriendRequestsObjects();
         });
 
-        self.globalService.SocketOn('DeleteFriendRequest', function (friendId: string) {
+        self.socketService.SocketOn('DeleteFriendRequest', function (friendId: string) {
             self.RemoveFriendRequestById(friendId);
         });
 
-        self.globalService.SocketOn('ClientRemoveFriendUser', function (friendId: string) {
+        self.socketService.SocketOn('ClientRemoveFriendUser', function (friendId: string) {
             self.RemoveFriendRequestById(friendId);
             self.RemoveFriendConfirmById(friendId);
         });

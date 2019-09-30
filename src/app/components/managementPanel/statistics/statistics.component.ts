@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { StatisticsService } from '../../../services/managementPanel/statistics.service';
 import { GlobalService } from '../../../services/global/global.service';
+import { DateService } from '../../../services/global/date.service';
 import { MicrotextService, InputFieldValidation } from '../../../services/global/microtext.service';
 
 import { STATISTICS_RANGE, LOG_TYPE } from '../../../enums/enums';
@@ -19,7 +20,7 @@ declare let Chart: any;
 
 export class StatisticsComponent {
     emailValidationFuncs: Array<InputFieldValidation>;
-    
+
     menus: Array<any>;
     chart: any;
     chartTitle: string;
@@ -42,6 +43,7 @@ export class StatisticsComponent {
     };
 
     constructor(public globalService: GlobalService,
+        private dateService: DateService,
         private statisticsService: StatisticsService,
         private microtextService: MicrotextService) {
         this.emailValidationFuncs = [
@@ -239,11 +241,11 @@ export class StatisticsComponent {
 
         switch (range) {
             case STATISTICS_RANGE.YEARLY: {
-                labels = this.globalService.globalObject.months;
+                labels = this.dateService.months;
                 break;
             }
             case STATISTICS_RANGE.WEEKLY: {
-                labels = this.globalService.globalObject.days;
+                labels = this.dateService.days;
                 break;
             }
             default: {
