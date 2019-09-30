@@ -9,6 +9,7 @@ import { PERMISSION } from '../../enums/enums';
 declare let io: any;
 declare let $: any;
 declare let jQuery: any;
+const defaultProfileImagePath: string = "/assets/images/default_profile_img.jpg";
 
 @Injectable()
 export class GlobalService extends LoginService {
@@ -42,7 +43,11 @@ export class GlobalService extends LoginService {
 
         // Initialize variables        
         this.userPermissions = [];
-        this.defaultProfileImage = "assets/images/no_profile_img.jpg";
+        this.defaultProfileImage = defaultProfileImagePath;
+
+        this.ImageToBase64(defaultProfileImagePath, (imgBase64: string) => {
+            this.defaultProfileImage = imgBase64;
+        });
 
         // Global variables and functions
         let globalObject = this.globalObject = {
@@ -172,5 +177,19 @@ export class GlobalService extends LoginService {
         this.cookieService.DeleteCookieByName(this.cookieService.uidCookieName);
         this.DeleteTokenFromCookie();
         this.ResetGlobalVariables();
+    }
+
+    ImageToBase64(url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                callback(reader.result);
+            }
+            reader.readAsDataURL(xhr.response);
+        };
+        xhr.open('GET', url);
+        xhr.responseType = 'blob';
+        xhr.send();
     }
 }
