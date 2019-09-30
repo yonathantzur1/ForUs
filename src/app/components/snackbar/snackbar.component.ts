@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { SnackbarService } from '../../services/snackbar/snackbar.service';
+import { SnackbarService } from '../../services/global/snackbar/snackbar.service';
 
 @Component({
     selector: 'snackbar',

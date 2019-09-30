@@ -1,9 +1,9 @@
 import { Component, Input, OnInit, HostListener } from '@angular/core';
 
 import { UserReportWindowService } from '../../../services/userPage/userReportWindow.service';
-import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
+import { AlertService, ALERT_TYPE } from '../../../services/global/alert/alert.service';
 import { GlobalService } from '../../../services/global/global.service';
-import { EventService } from '../../../services/event/event.service';
+import { EventService } from '../../../services/global/event/event.service';
 
 class ReportReason {
     _id: string;

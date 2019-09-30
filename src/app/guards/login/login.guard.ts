@@ -3,8 +3,8 @@ import { Observable, Subject } from "rxjs";
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
 
-import { AuthService } from '../../services/auth/auth.service';
-import { CookieService } from '../../services/cookie/cookie.service';
+import { AuthService } from '../../services/global/auth/auth.service';
+import { CookieService } from '../../services/global/cookie/cookie.service';
 import { GlobalService } from '../../services/global/global.service';
 
 @Injectable()

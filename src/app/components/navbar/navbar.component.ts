@@ -2,10 +2,10 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
-import { EventService } from '../../services/event/event.service';
-import { AlertService, ALERT_TYPE } from '../../services/alert/alert.service';
-import { SnackbarService } from '../../services/snackbar/snackbar.service';
-import { AuthService } from '../../services/auth/auth.service';
+import { EventService } from '../../services/global/event/event.service';
+import { AlertService, ALERT_TYPE } from '../../services/global/alert/alert.service';
+import { SnackbarService } from '../../services/global/snackbar/snackbar.service';
+import { AuthService } from '../../services/global/auth/auth.service';
 import { NavbarService } from '../../services/navbar/navbar.service';
 import { SOCKET_STATE } from '../../enums/enums';
 

@@ -47,13 +47,13 @@ import { RootAuthGuard } from '../../guards/rootAuth/rootAuth.guard';
 import { LoginGuard } from '../../guards/login/login.guard';
 
 // Global services
-import { AuthService } from '../../services/auth/auth.service';
+import { AuthService } from '../../services/global/auth/auth.service';
 import { GlobalService } from '../../services/global/global.service';
-import { EventService } from '../../services/event/event.service';
-import { AlertService } from '../../services/alert/alert.service';
-import { CookieService } from '../../services/cookie/cookie.service';
-import { SnackbarService } from '../../services/snackbar/snackbar.service';
-import { MicrotextService } from '../../services/microtext/microtext.service';
+import { EventService } from '../../services/global/event/event.service';
+import { AlertService } from '../../services/global/alert/alert.service';
+import { CookieService } from '../../services/global/cookie/cookie.service';
+import { SnackbarService } from '../../services/global/snackbar/snackbar.service';
+import { MicrotextService } from '../../services/global/microtext/microtext.service';
 
 // Routing
 import { Routing } from '../../routes/app.routing'
@@ -66,7 +66,7 @@ import { Routing } from '../../routes/app.routing'
     Routing
   ],
   declarations: [
-    // ---------Components---------
+    // -----Components-----
     AppComponent,
     LoaderSpinnerComponent,
     LoaderDotsComponent,
@@ -100,13 +100,15 @@ import { Routing } from '../../routes/app.routing'
     PageNotFoundComponent,
     ForgotPasswordComponent,
     DeleteUserComponent,
-    // ---------Pipes---------
+    // -----Pipes-----
     SortObjects
   ],
   providers: [
+    // -----Guards-----
     AuthGuard,
     RootAuthGuard,
     LoginGuard,
+    // -----Global services-----
     AuthService,
     GlobalService,
     EventService,

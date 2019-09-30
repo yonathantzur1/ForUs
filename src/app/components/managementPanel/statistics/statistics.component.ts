@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { StatisticsService } from '../../../services/managementPanel/statistics.service';
 import { GlobalService } from '../../../services/global/global.service';
-import { MicrotextService, InputFieldValidation } from '../../../services/microtext/microtext.service';
+import { MicrotextService, InputFieldValidation } from '../../../services/global/microtext/microtext.service';
 
 import { STATISTICS_RANGE, LOG_TYPE } from '../../../enums/enums';
 import { UserRegexp } from '../../../regex/regexpEnums';

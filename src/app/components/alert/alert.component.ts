@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 
-import { AlertService, ALERT_TYPE } from '../../services/alert/alert.service';
+import { AlertService, ALERT_TYPE } from '../../services/global/alert/alert.service';
 
 @Component({
     selector: 'alert',

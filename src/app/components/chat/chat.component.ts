@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy, Input, AfterViewChecked } from '@angular/
 
 import { ChatService } from '../../services/chat/chat.service';
 import { GlobalService } from '../../services/global/global.service';
-import { EventService } from '../../services/event/event.service';
-import { SnackbarService } from '../../services/snackbar/snackbar.service';
+import { EventService } from '../../services/global/event/event.service';
+import { SnackbarService } from '../../services/global/snackbar/snackbar.service';
 
 export class TopIcon {
     id: string;

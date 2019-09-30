@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { UsersReportsService } from '../../../services/managementPanel/usersReports.service';
-import { SnackbarService } from '../../../services/snackbar/snackbar.service';
+import { SnackbarService } from '../../../services/global/snackbar/snackbar.service';
 import { USER_REPORT_STATUS } from '../../../enums/enums';
 
 class Report {

@@ -1,10 +1,10 @@
 import { Component, Input, HostListener } from '@angular/core';
 
 import { UserPasswordWindowService } from '../../../services/userPage/userPasswordWindow.service';
-import { AlertService, ALERT_TYPE } from '../../../services/alert/alert.service';
+import { AlertService, ALERT_TYPE } from '../../../services/global/alert/alert.service';
 import { GlobalService } from '../../../services/global/global.service';
-import { EventService } from '../../../services/event/event.service';
-import { MicrotextService, InputFieldValidation } from '../../../services/microtext/microtext.service';
+import { EventService } from '../../../services/global/event/event.service';
+import { MicrotextService, InputFieldValidation } from '../../../services/global/microtext/microtext.service';
 
 import { USER_UPDATE_INFO_ERROR } from '../../../enums/enums'
 

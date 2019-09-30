@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 
 import { GlobalService } from '../../../services/global/global.service';
-import { EventService } from '../../../services/event/event.service';
+import { EventService } from '../../../services/global/event/event.service';
 import { NavbarService } from '../../../services/navbar/navbar.service';
 
 import { Router } from '@angular/router';
