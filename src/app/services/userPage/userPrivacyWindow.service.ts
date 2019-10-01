@@ -6,7 +6,6 @@ export class UserPrivacyWindowService extends BasicService {
 
     GetUserPrivacyStatus() {
         return super.get(this.prefix + '/getUserPrivacyStatus')
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -19,7 +18,6 @@ export class UserPrivacyWindowService extends BasicService {
         let details = { isPrivate };
 
         return super.put(this.prefix + '/setUserPrivacy', details)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })

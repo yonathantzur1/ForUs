@@ -6,7 +6,6 @@ export class UserPageService extends BasicService {
 
     GetUserDetails(id: string) {
         return super.get(this.prefix + '/getUserDetails?id=' + id)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -17,7 +16,6 @@ export class UserPageService extends BasicService {
 
     RemoveFriends(friendId: string) {
         return super.delete(this.prefix + '/removeFriends?friendId=' + friendId)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -28,7 +26,6 @@ export class UserPageService extends BasicService {
 
     DeleteUserValidation() {
         return super.put(this.prefix + '/deleteUserValidation')
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -39,7 +36,6 @@ export class UserPageService extends BasicService {
 
     DeleteUser() {
         return super.delete(this.prefix + '/deleteUser')
-            .toPromise()
             .then((result: any) => {
                 return result;
             })

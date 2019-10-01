@@ -6,7 +6,6 @@ export class UserReportWindowService extends BasicService {
 
     GetAllReportReasons() {
         return super.get(this.prefix + '/getAllReportReasons')
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -19,7 +18,6 @@ export class UserReportWindowService extends BasicService {
         let data = { reportedUserId, reasonId, reasonDetails };
 
         return super.post(this.prefix + '/reportUser', data)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })

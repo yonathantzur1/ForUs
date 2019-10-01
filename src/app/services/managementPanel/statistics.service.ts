@@ -20,7 +20,6 @@ export class StatisticsService extends BasicService {
         }
 
         return super.post(this.prefix + '/getChartData', data)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -31,7 +30,6 @@ export class StatisticsService extends BasicService {
 
     GetUserByEmail(email: string) {
         return super.get(this.prefix + '/getUserByEmail?email=' + email)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })

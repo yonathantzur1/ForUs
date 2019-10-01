@@ -6,7 +6,6 @@ export class SearchPageService extends BasicService {
 
     GetSearchResults(input: string) {
         return super.get(this.prefix + '/getSearchResults?input=' + input)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -17,7 +16,6 @@ export class SearchPageService extends BasicService {
 
     GetUserFriendsStatus() {
         return super.get(this.prefix + '/getUserFriendsStatus')
-            .toPromise()
             .then((result: any) => {
                 return result;
             })

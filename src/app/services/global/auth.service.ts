@@ -5,7 +5,6 @@ export class AuthService extends BasicService {
 
     IsUserOnSession() {
         return super.get(this.prefix + '/isUserOnSession')
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -16,7 +15,6 @@ export class AuthService extends BasicService {
 
     IsUserRoot() {
         return super.get(this.prefix + '/isUserRoot')
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -27,7 +25,6 @@ export class AuthService extends BasicService {
 
     GetCurrUser() {
         return super.get(this.prefix + '/getCurrUser')
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -38,7 +35,6 @@ export class AuthService extends BasicService {
 
     SetCurrUserToken() {
         return super.get(this.prefix + '/setCurrUserToken')
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -49,7 +45,6 @@ export class AuthService extends BasicService {
 
     IsUserSocketConnect() {
         return super.get(this.prefix + '/isUserSocketConnect')
-            .toPromise()
             .then((result: any) => {
                 return result;
             })

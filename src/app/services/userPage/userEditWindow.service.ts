@@ -8,7 +8,6 @@ export class UserEditWindowService extends BasicService {
         let details = { updateFields };
 
         return super.put(this.prefix + '/updateUserInfo', details)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })

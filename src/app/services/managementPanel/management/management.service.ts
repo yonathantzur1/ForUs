@@ -7,7 +7,6 @@ export class ManagementService extends BasicService {
         let data = { searchInput };
 
         return super.post(this.prefix + '/getUserByName', data)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -20,7 +19,6 @@ export class ManagementService extends BasicService {
         let data = { friendsIds };
 
         return super.post(this.prefix + '/getUserFriends', data)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -33,7 +31,6 @@ export class ManagementService extends BasicService {
         let data = { updateFields };
 
         return super.put(this.prefix + '/editUser', data)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -46,7 +43,6 @@ export class ManagementService extends BasicService {
         let data = { blockObj };
 
         return super.put(this.prefix + '/blockUser', data)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -59,7 +55,6 @@ export class ManagementService extends BasicService {
         let data = { userId };
 
         return super.put(this.prefix + '/unblockUser', data)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -70,7 +65,6 @@ export class ManagementService extends BasicService {
 
     RemoveFriends(userId: string, friendId: string) {
         return super.delete(this.prefix + '/removeFriends?userId=' + userId + "&friendId=" + friendId)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -83,7 +77,6 @@ export class ManagementService extends BasicService {
         return super.delete(this.prefix + '/deleteUser?userId=' + userId +
             "&userFirstName=" + userFirstName +
             "&userLastName=" + userLastName)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })

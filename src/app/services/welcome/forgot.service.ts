@@ -9,7 +9,6 @@ export class ForgotService extends BasicService {
         let details = { "email": email };
 
         return super.put(this.prefix + '/forgotPasswordRequest', details)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -26,7 +25,6 @@ export class ForgotService extends BasicService {
         };
 
         return super.put(this.prefix + '/resetPassword', details)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -37,7 +35,6 @@ export class ForgotService extends BasicService {
 
     ValidateResetPasswordToken(token: string) {
         return super.get(this.prefix + '/validateResetPasswordToken?token=' + token)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -53,7 +50,6 @@ export class ForgotService extends BasicService {
         };
 
         return super.put(this.prefix + '/resetPasswordByToken', details)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })

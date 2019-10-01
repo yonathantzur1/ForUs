@@ -8,7 +8,6 @@ export class UserPasswordWindowService extends BasicService {
 
     UpdateUserPassword(password: Password) {
         return super.put(this.prefix + '/updateUserPassword', password)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -19,7 +18,6 @@ export class UserPasswordWindowService extends BasicService {
 
     ChangePasswordByMail() {
         return super.get(this.prefix + '/changePasswordByMail')
-            .toPromise()
             .then((result: any) => {
                 return result;
             })

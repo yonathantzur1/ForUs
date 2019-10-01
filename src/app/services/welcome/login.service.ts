@@ -7,7 +7,6 @@ export class LoginService extends BasicService {
 
     Login(user: User) {
         return super.post(this.prefix + '/userLogin', user)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -18,7 +17,6 @@ export class LoginService extends BasicService {
 
     GetUserPermissions() {
         return super.get(this.prefix + '/getUserPermissions')
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -29,7 +27,6 @@ export class LoginService extends BasicService {
 
     DeleteTokenFromCookie() {
         return super.delete(this.prefix + '/deleteToken')
-            .toPromise()
             .then(() => {
                 return true;
             })

@@ -5,7 +5,6 @@ export class DeleteUserService extends BasicService {
 
     ValidateDeleteUserToken(token: string) {
         return super.get(this.prefix + '/validateDeleteUserToken?token=' + token)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -21,7 +20,6 @@ export class DeleteUserService extends BasicService {
         };
 
         return super.put(this.prefix + '/deleteAccount', details)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })

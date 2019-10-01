@@ -15,7 +15,6 @@ export class RegisterService extends BasicService {
         };
 
         return super.post(this.prefix + '/register', details)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })

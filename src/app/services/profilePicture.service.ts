@@ -6,7 +6,6 @@ export class ProfilePictureService extends BasicService {
 
     GetUserProfileImage() {
         return super.get(this.prefix + '/getUserProfileImage')
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -21,7 +20,6 @@ export class ProfilePictureService extends BasicService {
         };
 
         return super.post(this.prefix + '/saveImage', image)
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
@@ -32,7 +30,6 @@ export class ProfilePictureService extends BasicService {
 
     DeleteImage() {
         return super.delete(this.prefix + '/deleteImage')
-            .toPromise()
             .then((result: any) => {
                 return result;
             })

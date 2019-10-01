@@ -5,7 +5,6 @@ export class UsersReportsService extends BasicService {
 
     GetAllReports() {
         return super.get(this.prefix + '/getAllReports')
-            .toPromise()
             .then((result: any) => {
                 return result;
             })
