@@ -1,11 +1,16 @@
 import { BasicService } from '../basic.service';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class UserPageService extends BasicService {
 
-    prefix = "/api/userPage";
+    constructor(public http: HttpClient) {
+        super(http, "/api/userPage");
+    }
 
     GetUserDetails(id: string) {
-        return super.get(this.prefix + '/getUserDetails?id=' + id)
+        return super.get('/getUserDetails?id=' + id)
             .then((result: any) => {
                 return result;
             })
@@ -15,7 +20,7 @@ export class UserPageService extends BasicService {
     }
 
     RemoveFriends(friendId: string) {
-        return super.delete(this.prefix + '/removeFriends?friendId=' + friendId)
+        return super.delete('/removeFriends?friendId=' + friendId)
             .then((result: any) => {
                 return result;
             })
@@ -25,7 +30,7 @@ export class UserPageService extends BasicService {
     }
 
     DeleteUserValidation() {
-        return super.put(this.prefix + '/deleteUserValidation')
+        return super.put('/deleteUserValidation')
             .then((result: any) => {
                 return result;
             })
@@ -35,7 +40,7 @@ export class UserPageService extends BasicService {
     }
 
     DeleteUser() {
-        return super.delete(this.prefix + '/deleteUser')
+        return super.delete('/deleteUser')
             .then((result: any) => {
                 return result;
             })

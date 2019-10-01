@@ -1,14 +1,19 @@
 import { BasicService } from '../basic.service';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 import { ForgotUser } from '../../components/welcome/forgot/forgot.component';
 
+@Injectable()
 export class ForgotService extends BasicService {
-    prefix = "/api/forgotPassword";
+    constructor(public http: HttpClient) {
+        super(http, "/api/forgotPassword");
+    }
 
     ForgotPasswordRequest(email: string) {
         let details = { "email": email };
 
-        return super.put(this.prefix + '/forgotPasswordRequest', details)
+        return super.put('/forgotPasswordRequest', details)
             .then((result: any) => {
                 return result;
             })
@@ -24,7 +29,7 @@ export class ForgotService extends BasicService {
             "newPassword": forgotUser.newPassword
         };
 
-        return super.put(this.prefix + '/resetPassword', details)
+        return super.put('/resetPassword', details)
             .then((result: any) => {
                 return result;
             })
@@ -34,7 +39,7 @@ export class ForgotService extends BasicService {
     }
 
     ValidateResetPasswordToken(token: string) {
-        return super.get(this.prefix + '/validateResetPasswordToken?token=' + token)
+        return super.get('/validateResetPasswordToken?token=' + token)
             .then((result: any) => {
                 return result;
             })
@@ -49,7 +54,7 @@ export class ForgotService extends BasicService {
             newPassword
         };
 
-        return super.put(this.prefix + '/resetPasswordByToken', details)
+        return super.put('/resetPasswordByToken', details)
             .then((result: any) => {
                 return result;
             })

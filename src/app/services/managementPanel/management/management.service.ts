@@ -1,12 +1,18 @@
 import { BasicService } from '../../basic.service';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class ManagementService extends BasicService {
-    prefix = "/api/management";
+
+    constructor(public http: HttpClient) {
+        super(http, "/api/management");
+    }
 
     GetUserByName(searchInput: string) {
         let data = { searchInput };
 
-        return super.post(this.prefix + '/getUserByName', data)
+        return super.post('/getUserByName', data)
             .then((result: any) => {
                 return result;
             })
@@ -18,7 +24,7 @@ export class ManagementService extends BasicService {
     GetUserFriends(friendsIds: Array<string>) {
         let data = { friendsIds };
 
-        return super.post(this.prefix + '/getUserFriends', data)
+        return super.post('/getUserFriends', data)
             .then((result: any) => {
                 return result;
             })
@@ -30,7 +36,7 @@ export class ManagementService extends BasicService {
     EditUser(updateFields: any) {
         let data = { updateFields };
 
-        return super.put(this.prefix + '/editUser', data)
+        return super.put('/editUser', data)
             .then((result: any) => {
                 return result;
             })
@@ -42,7 +48,7 @@ export class ManagementService extends BasicService {
     BlockUser(blockObj: any) {
         let data = { blockObj };
 
-        return super.put(this.prefix + '/blockUser', data)
+        return super.put('/blockUser', data)
             .then((result: any) => {
                 return result;
             })
@@ -54,7 +60,7 @@ export class ManagementService extends BasicService {
     UnblockUser(userId: string) {
         let data = { userId };
 
-        return super.put(this.prefix + '/unblockUser', data)
+        return super.put('/unblockUser', data)
             .then((result: any) => {
                 return result;
             })
@@ -64,7 +70,7 @@ export class ManagementService extends BasicService {
     }
 
     RemoveFriends(userId: string, friendId: string) {
-        return super.delete(this.prefix + '/removeFriends?userId=' + userId + "&friendId=" + friendId)
+        return super.delete('/removeFriends?userId=' + userId + "&friendId=" + friendId)
             .then((result: any) => {
                 return result;
             })
@@ -74,7 +80,7 @@ export class ManagementService extends BasicService {
     }
 
     DeleteUser(userId: string, userFirstName: string, userLastName: string) {
-        return super.delete(this.prefix + '/deleteUser?userId=' + userId +
+        return super.delete('/deleteUser?userId=' + userId +
             "&userFirstName=" + userFirstName +
             "&userLastName=" + userLastName)
             .then((result: any) => {

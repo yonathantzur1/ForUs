@@ -1,10 +1,16 @@
 import { BasicService } from './basic.service';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class DeleteUserService extends BasicService {
-    prefix = "/api/deleteUser";
+
+    constructor(public http: HttpClient) {
+        super(http, "/api/deleteUser");
+    }
 
     ValidateDeleteUserToken(token: string) {
-        return super.get(this.prefix + '/validateDeleteUserToken?token=' + token)
+        return super.get('/validateDeleteUserToken?token=' + token)
             .then((result: any) => {
                 return result;
             })
@@ -19,7 +25,7 @@ export class DeleteUserService extends BasicService {
             password
         };
 
-        return super.put(this.prefix + '/deleteAccount', details)
+        return super.put('/deleteAccount', details)
             .then((result: any) => {
                 return result;
             })

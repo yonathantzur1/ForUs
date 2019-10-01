@@ -1,11 +1,16 @@
 import { BasicService } from './basic.service';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class ProfilePictureService extends BasicService {
 
-    prefix = "/api/profilePicture";
+    constructor(public http: HttpClient) {
+        super(http, "/api/profilePicture");
+    }
 
     GetUserProfileImage() {
-        return super.get(this.prefix + '/getUserProfileImage')
+        return super.get('/getUserProfileImage')
             .then((result: any) => {
                 return result;
             })
@@ -19,7 +24,7 @@ export class ProfilePictureService extends BasicService {
             "imgBase64": imgBase64
         };
 
-        return super.post(this.prefix + '/saveImage', image)
+        return super.post('/saveImage', image)
             .then((result: any) => {
                 return result;
             })
@@ -29,7 +34,7 @@ export class ProfilePictureService extends BasicService {
     }
 
     DeleteImage() {
-        return super.delete(this.prefix + '/deleteImage')
+        return super.delete('/deleteImage')
             .then((result: any) => {
                 return result;
             })

@@ -1,11 +1,16 @@
 import { BasicService } from './basic.service';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class SearchPageService extends BasicService {
 
-    prefix = "/api/searchPage";
+    constructor(public http: HttpClient) {
+        super(http, "/api/searchPage");
+    }
 
     GetSearchResults(input: string) {
-        return super.get(this.prefix + '/getSearchResults?input=' + input)
+        return super.get('/getSearchResults?input=' + input)
             .then((result: any) => {
                 return result;
             })
@@ -15,7 +20,7 @@ export class SearchPageService extends BasicService {
     }
 
     GetUserFriendsStatus() {
-        return super.get(this.prefix + '/getUserFriendsStatus')
+        return super.get('/getUserFriendsStatus')
             .then((result: any) => {
                 return result;
             })

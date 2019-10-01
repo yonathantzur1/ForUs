@@ -1,10 +1,16 @@
 import { BasicService } from '../../basic.service';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class PermissionsCardService extends BasicService {
-    prefix = "/api/permissions";
+
+    constructor(public http: HttpClient) {
+        super(http, "/api/permissions");
+    }
 
     GetAllPermissions() {
-        return super.get(this.prefix + '/getAllPermissions')
+        return super.get('/getAllPermissions')
             .then((result: any) => {
                 return result;
             })
@@ -14,7 +20,7 @@ export class PermissionsCardService extends BasicService {
     }
 
     GetUserPermissions(userId: string) {
-        return super.get(this.prefix + '/getUserPermissions?userId=' + userId)
+        return super.get('/getUserPermissions?userId=' + userId)
             .then((result: any) => {
                 return result;
             })
@@ -25,7 +31,7 @@ export class PermissionsCardService extends BasicService {
 
     UpdatePermissions(userId: string, permissions: Array<any>) {
         let data = { userId, permissions }
-        return super.put(this.prefix + '/updatePermissions', data)
+        return super.put('/updatePermissions', data)
             .then((result: any) => {
                 return result;
             })

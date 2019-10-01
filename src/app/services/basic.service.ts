@@ -3,11 +3,18 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class BasicService {
+    private prefix: string;
 
-    constructor(public http: HttpClient) { }
+    constructor(public http: HttpClient, private pfx: string) {
+        this.prefix = this.pfx || "";
+    }
+
+    private getUrl(url: string): string {
+        return this.prefix + url;
+    }
 
     get(url: string) {
-        return this.http.get(url).toPromise();
+        return this.http.get(this.getUrl(url)).toPromise();
     }
 
     post(url: string, data?: any) {
@@ -15,7 +22,7 @@ export class BasicService {
             data = JSON.stringify(data);
         }
 
-        return this.http.post(url, data, this.getRequestOptions()).toPromise();
+        return this.http.post(this.getUrl(url), data, this.getRequestOptions()).toPromise();
     }
 
     put(url: string, data?: any) {
@@ -23,11 +30,11 @@ export class BasicService {
             data = JSON.stringify(data);
         }
 
-        return this.http.put(url, data, this.getRequestOptions()).toPromise();
+        return this.http.put(this.getUrl(url), data, this.getRequestOptions()).toPromise();
     }
 
     delete(url: string) {
-        return this.http.delete(url).toPromise();
+        return this.http.delete(this.getUrl(url)).toPromise();
     }
 
     private getRequestOptions() {

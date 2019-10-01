@@ -1,11 +1,16 @@
 import { BasicService } from '../basic.service';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class UserPrivacyWindowService extends BasicService {
 
-    prefix = "/api/userPrivacyWindow";
+    constructor(public http: HttpClient) {
+        super(http, "/api/userPrivacyWindow");
+    }
 
     GetUserPrivacyStatus() {
-        return super.get(this.prefix + '/getUserPrivacyStatus')
+        return super.get('/getUserPrivacyStatus')
             .then((result: any) => {
                 return result;
             })
@@ -17,7 +22,7 @@ export class UserPrivacyWindowService extends BasicService {
     SetUserPrivacy(isPrivate: boolean) {
         let details = { isPrivate };
 
-        return super.put(this.prefix + '/setUserPrivacy', details)
+        return super.put('/setUserPrivacy', details)
             .then((result: any) => {
                 return result;
             })

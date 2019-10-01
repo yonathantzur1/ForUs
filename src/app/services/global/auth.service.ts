@@ -1,10 +1,16 @@
 import { BasicService } from '../basic.service';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class AuthService extends BasicService {
-    prefix = "/api/auth";
+
+    constructor(public http: HttpClient) {
+        super(http, "/api/auth");
+    }
 
     IsUserOnSession() {
-        return super.get(this.prefix + '/isUserOnSession')
+        return super.get('/isUserOnSession')
             .then((result: any) => {
                 return result;
             })
@@ -14,7 +20,7 @@ export class AuthService extends BasicService {
     }
 
     IsUserRoot() {
-        return super.get(this.prefix + '/isUserRoot')
+        return super.get('/isUserRoot')
             .then((result: any) => {
                 return result;
             })
@@ -24,7 +30,7 @@ export class AuthService extends BasicService {
     }
 
     GetCurrUser() {
-        return super.get(this.prefix + '/getCurrUser')
+        return super.get('/getCurrUser')
             .then((result: any) => {
                 return result;
             })
@@ -34,7 +40,7 @@ export class AuthService extends BasicService {
     }
 
     SetCurrUserToken() {
-        return super.get(this.prefix + '/setCurrUserToken')
+        return super.get('/setCurrUserToken')
             .then((result: any) => {
                 return result;
             })
@@ -44,7 +50,7 @@ export class AuthService extends BasicService {
     }
 
     IsUserSocketConnect() {
-        return super.get(this.prefix + '/isUserSocketConnect')
+        return super.get('/isUserSocketConnect')
             .then((result: any) => {
                 return result;
             })

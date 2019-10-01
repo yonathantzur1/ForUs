@@ -1,10 +1,15 @@
 import { BasicService } from '../basic.service';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 import { NewUser } from '../../components/welcome/register/register.component';
 
+@Injectable()
 export class RegisterService extends BasicService {
 
-    prefix = "/api/register";
+    constructor(public http: HttpClient) {
+        super(http, "/api/register");
+    }
 
     Register(newUser: NewUser) {
         let details = {
@@ -14,7 +19,7 @@ export class RegisterService extends BasicService {
             "password": newUser.password
         };
 
-        return super.post(this.prefix + '/register', details)
+        return super.post('/register', details)
             .then((result: any) => {
                 return result;
             })

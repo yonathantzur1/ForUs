@@ -1,13 +1,18 @@
 import { BasicService } from './basic.service';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class ChatService extends BasicService {
 
-    prefix = "/api/chat";
+    constructor(public http: HttpClient) {
+        super(http, "/api/chat");
+    }
 
     GetChat(idsArray: Array<string>) {
         let details = { "membersIds": idsArray };
 
-        return super.post(this.prefix + '/getChat', details)
+        return super.post('/getChat', details)
             .then((result: any) => {
                 return result;
             })
@@ -19,7 +24,7 @@ export class ChatService extends BasicService {
     GetChatPage(idsArray: Array<string>, currMessagesNum: number, totalMessagesNum: number) {
         let details = { "membersIds": idsArray, currMessagesNum, totalMessagesNum };
 
-        return super.post(this.prefix + '/getChatPage', details)
+        return super.post('/getChatPage', details)
             .then((result: any) => {
                 return result;
             })
@@ -29,7 +34,7 @@ export class ChatService extends BasicService {
     }
 
     GetAllPreviewChats() {
-        return super.get(this.prefix + '/getAllPreviewChats')
+        return super.get('/getAllPreviewChats')
             .then((result: any) => {
                 return result;
             })

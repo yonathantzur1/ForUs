@@ -1,10 +1,15 @@
 import { BasicService } from '../basic.service';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 import { STATISTICS_RANGE, LOG_TYPE } from '../../enums/enums';
 
+@Injectable()
 export class StatisticsService extends BasicService {
 
-    prefix = "/api/statistics";
+    constructor(public http: HttpClient) {
+        super(http, "/api/statistics");
+    }
 
     GetChartData(logType: LOG_TYPE,
         range: STATISTICS_RANGE,
@@ -19,7 +24,7 @@ export class StatisticsService extends BasicService {
             email
         }
 
-        return super.post(this.prefix + '/getChartData', data)
+        return super.post('/getChartData', data)
             .then((result: any) => {
                 return result;
             })
@@ -29,7 +34,7 @@ export class StatisticsService extends BasicService {
     }
 
     GetUserByEmail(email: string) {
-        return super.get(this.prefix + '/getUserByEmail?email=' + email)
+        return super.get('/getUserByEmail?email=' + email)
             .then((result: any) => {
                 return result;
             })

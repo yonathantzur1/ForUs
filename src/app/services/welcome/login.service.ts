@@ -1,12 +1,18 @@
 import { BasicService } from '../basic.service';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 import { User } from '../../components/welcome/login/login.component';
 
+@Injectable()
 export class LoginService extends BasicService {
-    prefix = "/api/login";
+    
+    constructor(public http: HttpClient) {
+        super(http, "/api/login");
+    }
 
     Login(user: User) {
-        return super.post(this.prefix + '/userLogin', user)
+        return super.post('/userLogin', user)
             .then((result: any) => {
                 return result;
             })
@@ -16,7 +22,7 @@ export class LoginService extends BasicService {
     }
 
     GetUserPermissions() {
-        return super.get(this.prefix + '/getUserPermissions')
+        return super.get('/getUserPermissions')
             .then((result: any) => {
                 return result;
             })
@@ -26,7 +32,7 @@ export class LoginService extends BasicService {
     }
 
     DeleteTokenFromCookie() {
-        return super.delete(this.prefix + '/deleteToken')
+        return super.delete('/deleteToken')
             .then(() => {
                 return true;
             })

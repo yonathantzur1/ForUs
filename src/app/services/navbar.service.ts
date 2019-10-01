@@ -1,11 +1,16 @@
 import { BasicService } from './basic.service';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class NavbarService extends BasicService {
 
-    prefix = "/api/navbar";
+    constructor(public http: HttpClient) {
+        super(http, "/api/navbar");
+    }
 
     GetFriends(friendsIds: Array<string>) {
-        return super.post(this.prefix + '/getFriends', friendsIds)
+        return super.post('/getFriends', friendsIds)
             .then((result: any) => {
                 return result;
             })
@@ -17,7 +22,7 @@ export class NavbarService extends BasicService {
     GetMainSearchResults(searchInput: string) {
         let details = { searchInput };
 
-        return super.post(this.prefix + '/getMainSearchResults', details)
+        return super.post('/getMainSearchResults', details)
             .then((result: any) => {
                 return result;
             })
@@ -27,7 +32,7 @@ export class NavbarService extends BasicService {
     }
 
     GetMainSearchResultsWithImages(ids: any) {
-        return super.post(this.prefix + '/getMainSearchResultsWithImages', ids)
+        return super.post('/getMainSearchResultsWithImages', ids)
             .then((result: any) => {
                 return result;
             })
@@ -37,7 +42,7 @@ export class NavbarService extends BasicService {
     }
 
     GetUserMessagesNotifications() {
-        return super.get(this.prefix + '/getUserMessagesNotifications')
+        return super.get('/getUserMessagesNotifications')
             .then((result: any) => {
                 return result;
             })
@@ -49,17 +54,17 @@ export class NavbarService extends BasicService {
     UpdateMessagesNotifications(messagesNotifications: any) {
         let details = { messagesNotifications };
 
-        super.post(this.prefix + '/updateMessagesNotifications', details);
+        super.post('/updateMessagesNotifications', details);
     }
 
     RemoveMessagesNotifications(messagesNotifications: any) {
         let details = { messagesNotifications };
 
-        super.post(this.prefix + '/removeMessagesNotifications', details);
+        super.post('/removeMessagesNotifications', details);
     }
 
     GetUserFriendRequests() {
-        return super.get(this.prefix + '/getUserFriendRequests')
+        return super.get('/getUserFriendRequests')
             .then((result: any) => {
                 return result;
             })
@@ -71,7 +76,7 @@ export class NavbarService extends BasicService {
     AddFriendRequest(friendId: string) {
         let details = { friendId };
 
-        return super.post(this.prefix + '/addFriendRequest', details)
+        return super.post('/addFriendRequest', details)
             .then((result: any) => {
                 return result;
             })
@@ -83,7 +88,7 @@ export class NavbarService extends BasicService {
     RemoveFriendRequest(friendId: string) {
         let details = { friendId };
 
-        return super.post(this.prefix + '/removeFriendRequest', details)
+        return super.post('/removeFriendRequest', details)
             .then((result: any) => {
                 return result;
             })
@@ -95,7 +100,7 @@ export class NavbarService extends BasicService {
     IgnoreFriendRequest(friendId: string) {
         let details = { friendId };
 
-        return super.post(this.prefix + '/ignoreFriendRequest', details)
+        return super.post('/ignoreFriendRequest', details)
             .then((result: any) => {
                 return result;
             })
@@ -107,7 +112,7 @@ export class NavbarService extends BasicService {
     AddFriend(friendId: string) {
         let details = { friendId };
 
-        return super.post(this.prefix + '/addFriend', details)
+        return super.post('/addFriend', details)
             .then((result: any) => {
                 return result;
             })
@@ -119,7 +124,7 @@ export class NavbarService extends BasicService {
     RemoveFriendRequestConfirmAlert(confirmedFriendsIds: Array<string>) {
         let data = { confirmedFriendsIds };
 
-        return super.put(this.prefix + '/removeFriendRequestConfirmAlert', data)
+        return super.put('/removeFriendRequestConfirmAlert', data)
             .then((result: any) => {
                 return result;
             })
