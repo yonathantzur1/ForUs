@@ -1,11 +1,9 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-@Injectable()
 export class BasicService {
     private prefix: string;
 
-    constructor(public http: HttpClient, public pfx: string) {
+    constructor(public http: HttpClient, private pfx: string) {
         this.prefix = this.pfx || "";
     }
 
