@@ -1,10 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 export class BasicService {
-    private prefix: string;
 
-    constructor(public http: HttpClient, private pfx: string) {
-        this.prefix = this.pfx || "";
+    constructor(public http: HttpClient, public prefix?: string) {
+        this.prefix = this.prefix || "";
     }
 
     private getUrl(url: string): string {
@@ -39,5 +38,4 @@ export class BasicService {
         let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         return { headers };
     }
-
 }
