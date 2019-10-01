@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
-import { EventService } from '../../services/global/event.service';
+import { ImageService } from 'src/app/services/global/image.service';
 import { AuthService } from '../../services/global/auth.service';
 import { ProfilePictureService } from '../../services/profilePicture.service';
 import { HomeService } from '../../services/home.service';
@@ -23,8 +23,8 @@ export class HomeComponent implements OnInit {
         private authService: AuthService,
         private profilePictureService: ProfilePictureService,
         private homeService: HomeService,
-        public globalService: GlobalService,
-        private eventService: EventService) { }
+        private globalService: GlobalService,
+        private imageService: ImageService) { }
 
     ngOnInit() {
         Promise.all([
@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
             let userProfileImage = results[1];
 
             if (userProfileImage) {
-                this.globalService.userProfileImage = userProfileImage.image;
+                this.imageService.userProfileImage = userProfileImage.image;
             }
         });
     }

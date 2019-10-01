@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { GlobalService } from '../../../services/global/global.service';
 import { SocketService } from '../../../services/global/socket.service';
 import { EventService } from '../../../services/global/event.service';
 import { SnackbarService } from '../../../services/global/snackbar.service';
@@ -52,7 +51,6 @@ export class ForgotComponent {
     constructor(private router: Router,
         public snackbarService: SnackbarService,
         private microtextService: MicrotextService,
-        public globalService: GlobalService,
         private socketService: SocketService,
         public eventService: EventService,
         private forgotService: ForgotService) {

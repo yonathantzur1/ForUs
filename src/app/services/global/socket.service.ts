@@ -48,7 +48,7 @@ export class SocketService {
     // This function should be called in order to refresh
     // the client cookies (token) that the socket object contains.
     RefreshSocket() {
-        if (this.socket) {
+        if (this.IsSocketExists()) {
             this.socket.disconnect();
             this.socket.connect();
             this.socket.emit('login');

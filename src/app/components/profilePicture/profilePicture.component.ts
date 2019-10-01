@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 
-import { GlobalService } from '../../services/global/global.service';
 import { EventService } from '../../services/global/event.service';
+import { ImageService } from 'src/app/services/global/image.service';
 
 @Component({
     selector: 'profilePicture',
@@ -11,11 +11,10 @@ import { EventService } from '../../services/global/event.service';
 })
 
 export class ProfilePictureComponent implements OnInit, OnDestroy {
-    @Input() isEditEnable: string;    
-
+    @Input() isEditEnable: string;
     eventsIds: Array<string> = [];
 
-    constructor(public globalService: GlobalService,
+    constructor(public imageService: ImageService,
         private eventService: EventService) { }
 
     ngOnInit() {
@@ -23,11 +22,11 @@ export class ProfilePictureComponent implements OnInit, OnDestroy {
 
         //#region events
         self.eventService.Register("newUploadedImage", (img: string) => {
-            self.globalService.userProfileImage = img;
+            self.imageService.userProfileImage = img;
         }, self.eventsIds);
 
         self.eventService.Register("deleteProfileImage", () => {
-            self.globalService.userProfileImage = null;
+            self.imageService.DeleteUserProfileImage();
         }, self.eventsIds);
 
         self.eventService.Register("openProfileEditWindow", () => {

@@ -17,7 +17,7 @@
         <div *ngIf="isShowMessageNotification" (click)="ClickChatNotification()"
             [ngClass]="{'show-notification' : isShowMessageNotification}" class="notification-sector">
             <img class="notification-img"
-                [src]="messageNotificationFriendObj.profileImage || globalService.defaultProfileImage">
+                [src]="messageNotificationFriendObj.profileImage || imageService.defaultProfileImage">
             <div class="notification-text">
                 <span class="notification-name">{{messageNotificationFriendObj.firstName + " " +
                     messageNotificationFriendObj.lastName}}:</span>

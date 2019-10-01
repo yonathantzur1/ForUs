@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 
-import { GlobalService } from '../../../services/global/global.service';
+import { ImageService } from 'src/app/services/global/image.service';
 import { EventService } from '../../../services/global/event.service';
 import { AlertService, ALERT_TYPE } from '../../../services/global/alert.service';
 import { SnackbarService } from '../../../services/global/snackbar.service';
@@ -22,13 +22,13 @@ export class ProfilePictureEditComponent implements OnInit {
     isNewPhoto: boolean = true;
 
     constructor(private profilePictureService: ProfilePictureService,
-        public alertService: AlertService,
-        public snackbarService: SnackbarService,
-        public globalService: GlobalService,
+        private alertService: AlertService,
+        private snackbarService: SnackbarService,
+        private imageService: ImageService,
         private eventService: EventService) { }
 
     ngOnInit() {
-        this.userImage = this.globalService.userProfileImage;
+        this.userImage = this.imageService.userProfileImage;
         this.ActiveWindow();
 
         $("#profile-modal").bind('touchstart', this.PreventZoom);

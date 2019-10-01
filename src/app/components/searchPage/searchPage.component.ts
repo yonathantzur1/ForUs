@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { AlertService, ALERT_TYPE } from '../../services/global/alert.service';
 import { GlobalService } from '../../services/global/global.service';
+import { ImageService } from 'src/app/services/global/image.service';
 import { SocketService } from '../../services/global/socket.service';
 import { EventService } from '../../services/global/event.service';
 import { SearchPageService } from '../../services/searchPage.service';
@@ -31,7 +32,8 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     constructor(private router: Router,
         private route: ActivatedRoute,
         public alertService: AlertService,
-        public globalService: GlobalService,
+        private globalService: GlobalService,
+        public imageService: ImageService,
         private socketService: SocketService,
         private eventService: EventService,
         private searchPageService: SearchPageService) {

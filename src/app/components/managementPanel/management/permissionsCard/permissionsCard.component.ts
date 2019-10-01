@@ -1,7 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 
 import { PermissionsCardService } from '../../../../services/managementPanel/management/permissionsCard.service';
-import { GlobalService } from '../../../../services/global/global.service';
 import { EventService } from '../../../../services/global/event.service';
 import { SnackbarService } from '../../../../services/global/snackbar.service';
 
@@ -22,8 +21,7 @@ export class PermissionsCardComponent implements OnDestroy {
 
     eventsIds: Array<string> = [];
 
-    constructor(public globalService: GlobalService,
-        private eventService: EventService,
+    constructor(private eventService: EventService,
         public snackbarService: SnackbarService,
         private permissionsCardService: PermissionsCardService) {
         let self = this;

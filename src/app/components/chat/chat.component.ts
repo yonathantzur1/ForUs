@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy, Input, AfterViewChecked } from '@angular/core';
 
 import { ChatService } from '../../services/chat.service';
-import { GlobalService } from '../../services/global/global.service';
 import { SocketService } from '../../services/global/socket.service';
 import { DateService } from '../../services/global/date.service';
 import { EventService } from '../../services/global/event.service';
 import { SnackbarService } from '../../services/global/snackbar.service';
+import { ImageService } from 'src/app/services/global/image.service';
 
 export class TopIcon {
     id: string;
@@ -84,7 +84,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     constructor(private chatService: ChatService,
         public snackbarService: SnackbarService,
-        public globalService: GlobalService,
+        public imageService: ImageService,
         private socketService: SocketService,
         private dateService: DateService,
         private eventService: EventService) {

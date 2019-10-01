@@ -2,7 +2,9 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
+import { ImageService } from 'src/app/services/global/image.service';
 import { SocketService } from '../../services/global/socket.service';
+import { PermissionsService } from '../../services/global/permissions.service';
 import { CookieService } from '../../services/global/cookie.service';
 import { EventService } from '../../services/global/event.service';
 import { AlertService, ALERT_TYPE } from '../../services/global/alert.service';
@@ -117,8 +119,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     constructor(private router: Router,
         private authService: AuthService,
-        public globalService: GlobalService,
+        private globalService: GlobalService,
+        public imageService: ImageService,
         private socketService: SocketService,
+        private permissionsService: PermissionsService,
         private cookieService: CookieService,
         private eventService: EventService,
         public alertService: AlertService,
@@ -230,7 +234,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
         self.dropMenuDataList = [
             new DropMenuData("/panel", "ניהול", null, () => {
-                return (self.globalService.IsUserHasRootPermission());
+                return (self.permissionsService.IsUserHasRootPermission());
             }),
             new DropMenuData("/profile/" + self.user._id, "פרופיל", (link: string) => {
                 self.router.navigateByUrl(link);
@@ -640,7 +644,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
             // Put default profile in case the friend has no profile image.
             if (!friend.profileImage) {
-                friend.profileImage = this.globalService.defaultProfileImage;
+                friend.profileImage = this.imageService.defaultProfileImage;
             }
 
             this.chatData.friend = friend;

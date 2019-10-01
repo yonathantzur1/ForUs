@@ -24,7 +24,7 @@
                     <div class="user-name-container">
                         <span class="user-name">{{user.firstName + " " + user.lastName}}</span>
                         <img class="user-profile-image"
-                            [src]="user.profileImage ? user.profileImage.image : globalService.defaultProfileImage">
+                            [src]="user.profileImage ? user.profileImage.image : imageService.defaultProfileImage">
                         <i [id]="userSettingsIconId" *ngIf="IsShowUserSettingsBtn(user)" (click)="OpenUserMenu(user)"
                             class="material-icons user-left-icon">settings</i>
                         <dropMenu id="user-options" *ngIf="user.isMenuOpen" class="drop-menu-position col-md-3 col-5"
@@ -91,7 +91,7 @@
                                             *ngIf="IsShowRemoveFriendBtn(user)"
                                             (click)="RemoveFriends(user, friend)">close</i>
                                         <img class="friend-profile-image"
-                                            [src]="friend.profileImage || globalService.defaultProfileImage">
+                                            [src]="friend.profileImage || imageService.defaultProfileImage">
                                         <div class="friend-name" [title]="friend.fullName">{{friend.fullName}}</div>
                                     </div>
                                 </div>
@@ -196,4 +196,4 @@
         </div>
     </div>
 </div>
-<permissionsCard *ngIf="globalService.IsUserHasMasterPermission()"></permissionsCard>
+<permissionsCard *ngIf="permissionsService.IsUserHasMasterPermission()"></permissionsCard>

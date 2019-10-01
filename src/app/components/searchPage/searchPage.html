@@ -18,7 +18,7 @@
         </div>
         <div class="user-tab" *ngFor="let user of users">
             <div class="user-details-container" (click)="UserClick(user._id)">
-                <img class="user-image" [src]="user.profileImage || globalService.defaultProfileImage">
+                <img class="user-image" [src]="user.profileImage || imageService.defaultProfileImage">
                 <span class="user-name" [title]="user.fullName">{{user.fullName}}</span>
             </div>
             <div *ngIf="IsFriendRequestAction(user)" class="friend-request-action-sector">

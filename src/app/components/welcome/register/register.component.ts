@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { GlobalService } from '../../../services/global/global.service';
 import { EventService } from '../../../services/global/event.service';
 import { SnackbarService } from '../../../services/global/snackbar.service';
 import { MicrotextService, InputFieldValidation } from '../../../services/global/microtext.service';
@@ -34,7 +33,6 @@ export class RegisterComponent {
     constructor(private router: Router,
         public snackbarService: SnackbarService,
         private microtextService: MicrotextService,
-        public globalService: GlobalService,
         public eventService: EventService,
         public registerService: RegisterService) {
         this.validationFuncs = [

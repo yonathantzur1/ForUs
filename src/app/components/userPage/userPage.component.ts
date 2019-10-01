@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
+import { ImageService } from 'src/app/services/global/image.service';
 import { SocketService } from '../../services/global/socket.service';
 import { EventService } from '../../services/global/event.service';
 import { AlertService, ALERT_TYPE } from '../../services/global/alert.service';
@@ -32,7 +33,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
         private userPageService: UserPageService,
         public alertService: AlertService,
         public snackbarService: SnackbarService,
-        public globalService: GlobalService,
+        private globalService: GlobalService,
+        public imageService: ImageService,
         private socketService: SocketService,
         private eventService: EventService) {
         let self = this;

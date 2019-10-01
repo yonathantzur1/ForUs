@@ -5,7 +5,7 @@
             <span (click)="OpenProfileEditWindow()" class="user-image-container">
                 <i *ngIf="IsUserPageSelf()" class="fas fa-camera change-image-icon"></i>
                 <img class="user-image" [ngClass]="{'clickable' : IsUserPageSelf()}"
-                    [src]="user.profileImage || globalService.defaultProfileImage">
+                    [src]="user.profileImage || imageService.defaultProfileImage">
             </span>
             <div class="user-name">
                 {{user.firstName + " " + user.lastName}}

@@ -1,7 +1,7 @@
 import { Component, Host } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { GlobalService } from '../../../services/global/global.service';
+import { ImageService } from 'src/app/services/global/image.service';
 import { SocketService } from '../../../services/global/socket.service';
 import { EventService } from '../../../services/global/event.service';
 import { NavbarService } from '../../../services/navbar.service';
@@ -34,7 +34,7 @@ export class MainSearchComponent {
     eventsIds: Array<string> = [];
 
     constructor(private router: Router,
-        public globalService: GlobalService,
+        public imageService: ImageService,
         private socketService: SocketService,
         public eventService: EventService,
         private navbarService: NavbarService,

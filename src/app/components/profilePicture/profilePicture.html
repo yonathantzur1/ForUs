@@ -1,11 +1,11 @@
 <div id="profilePicture">
     <div (click)="OpenEditWindow()">
-        <img class="profile-image" [ngClass]="{'profile-image-border': globalService.userProfileImage}"
-            [src]="globalService.userProfileImage || globalService.defaultProfileImage">
-        <div title="שינוי תמונת פרופיל" *ngIf="isEditEnable && globalService.userProfileImage">
+        <img class="profile-image" [ngClass]="{'profile-image-border': imageService.userProfileImage}"
+            [src]="imageService.userProfileImage || imageService.defaultProfileImage">
+        <div title="שינוי תמונת פרופיל" *ngIf="isEditEnable && imageService.userProfileImage">
             <i class="material-icons change-image-btn">photo_camera</i>
         </div>
-        <div title="הוספת תמונת פרופיל" class="add-image-btn" *ngIf="isEditEnable && !globalService.userProfileImage">
+        <div title="הוספת תמונת פרופיל" class="add-image-btn" *ngIf="isEditEnable && !imageService.userProfileImage">
             <i class="fas fa-plus add-image-btn-icon"></i>
         </div>
     </div>

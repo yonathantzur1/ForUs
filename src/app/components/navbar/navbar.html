@@ -40,7 +40,7 @@
                                 class="far fa-comment-dots fa-flip-horizontal typing-icon"></i>
                             <div *ngIf="friend.isOnline" class="online-icon"></div>
                             <img class="friend-profile"
-                                [src]="friend.profileImage || globalService.defaultProfileImage">
+                                [src]="friend.profileImage || imageService.defaultProfileImage">
                         </div>
                         <span [ngClass]="{'bold-friend-name' : GetFriendUnreadMessagesNumberText(friend._id)}"
                             class="friend-name-container" title="{{friend.firstName + ' ' + friend.lastName}}">

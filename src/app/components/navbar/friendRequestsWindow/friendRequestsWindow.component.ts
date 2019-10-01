@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 
-import { GlobalService } from '../../../services/global/global.service';
+import { ImageService } from 'src/app/services/global/image.service';
 import { SocketService } from '../../../services/global/socket.service';
 import { EventService } from '../../../services/global/event.service';
 import { NavbarService } from '../../../services/navbar.service';
@@ -32,7 +32,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
 
     constructor(private router: Router,
         private navbarService: NavbarService,
-        public globalService: GlobalService,
+        public imageService: ImageService,
         private socketService: SocketService,
         private eventService: EventService) { }
 

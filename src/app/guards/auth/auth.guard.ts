@@ -8,7 +8,7 @@ import { GlobalService } from '../../services/global/global.service';
 export class AuthGuard implements CanActivate {
     constructor(private router: Router,
         private authService: AuthService,
-        public globalService: GlobalService) { }
+        private globalService: GlobalService) { }
 
     canActivate() {
         return this.authService.IsUserOnSession().then((result) => {

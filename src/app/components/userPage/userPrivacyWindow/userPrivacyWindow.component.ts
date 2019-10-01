@@ -1,7 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 
 import { AlertService, ALERT_TYPE } from '../../../services/global/alert.service';
-import { GlobalService } from '../../../services/global/global.service';
 import { EventService } from '../../../services/global/event.service';
 import { UserPrivacyWindowService } from '../../../services/userPage/userPrivacyWindow.service';
 import { SnackbarService } from '../../../services/global/snackbar.service';
@@ -22,7 +21,6 @@ export class UserPrivacyWindowComponent implements OnInit {
 
     constructor(private userPrivacyWindowService: UserPrivacyWindowService,
         public alertService: AlertService,
-        public globalService: GlobalService,
         private eventService: EventService,
         public snackbarService: SnackbarService) { }
 

@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { SnackbarService } from '../../services/global/snackbar.service';
 import { MicrotextService, InputFieldValidation } from '../../services/global/microtext.service';
-import { GlobalService } from '../../services/global/global.service';
 import { SocketService } from '../../services/global/socket.service';
 
 import { ForgotService } from '../../services/welcome/forgot.service';
@@ -27,7 +26,6 @@ export class ForgotPasswordComponent implements OnInit {
         private route: ActivatedRoute,
         public snackbarService: SnackbarService,
         private microtextService: MicrotextService,
-        public globalService: GlobalService,
         private socketService: SocketService,
         private forgotPasswordService: ForgotService) {
         this.validationFuncs = [

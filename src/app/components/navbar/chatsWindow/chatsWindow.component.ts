@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { ChatService } from '../../../services/chat.service';
-import { GlobalService } from '../../../services/global/global.service';
+import { ImageService } from 'src/app/services/global/image.service';
 import { SocketService } from '../../../services/global/socket.service';
 
 import { DateService } from '../../../services/global/date.service';
@@ -21,7 +21,7 @@ export class ChatsWindowComponent implements OnInit {
     chats: any = [];
 
     constructor(private chatService: ChatService,
-        public globalService: GlobalService,
+        public imageService: ImageService,
         private socketService: SocketService,
         private dateService: DateService) { }
 

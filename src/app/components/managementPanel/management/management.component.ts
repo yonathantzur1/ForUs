@@ -4,12 +4,14 @@ import { ActivatedRoute } from '@angular/router';
 import { DropMenuData } from '../../navbar/navbar.component';
 import { ManagementService } from '../../../services/managementPanel/management/management.service';
 import { GlobalService } from '../../../services/global/global.service';
+import { PermissionsService } from '../../../services/global/permissions.service';
 import { SocketService } from '../../../services/global/socket.service';
 import { EventService } from '../../../services/global/event.service';
 import { AlertService, ALERT_TYPE } from '../../../services/global/alert.service';
 import { SnackbarService } from '../../../services/global/snackbar.service';
 
 import { PERMISSION } from '../../../enums/enums'
+import { ImageService } from 'src/app/services/global/image.service';
 
 @Component({
     selector: 'management',
@@ -34,8 +36,10 @@ export class ManagementComponent implements OnInit, OnDestroy {
     eventsIds: Array<string> = [];
 
     constructor(private route: ActivatedRoute,
-        public globalService: GlobalService,
+        private globalService: GlobalService,
         private socketService: SocketService,
+        public imageService: ImageService,
+        public permissionsService: PermissionsService,
         private eventService: EventService,
         private managementService: ManagementService,
         public alertService: AlertService,
@@ -98,13 +102,13 @@ export class ManagementComponent implements OnInit, OnDestroy {
             new DropMenuData(null, "הרשאות", () => {
                 self.eventService.Emit("openPermissionsCard", self.GetUserWithOpenMenu());
             }, () => {
-                return (self.globalService.IsUserHasMasterPermission());
+                return (self.permissionsService.IsUserHasMasterPermission());
             }),
             new DropMenuData(null, "מחיקת משתמש", () => {
                 let user = self.GetUserWithOpenMenu();
                 self.DeleteUser(user);
             }, () => {
-                return (self.globalService.IsUserHasMasterPermission());
+                return (self.permissionsService.IsUserHasMasterPermission());
             })
         ];
     }

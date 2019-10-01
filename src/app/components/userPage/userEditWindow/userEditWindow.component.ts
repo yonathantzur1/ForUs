@@ -2,7 +2,6 @@ import { Component, Input, OnInit, HostListener } from '@angular/core';
 
 import { UserEditWindowService } from '../../../services/userPage/userEditWindow.service';
 import { AlertService, ALERT_TYPE } from '../../../services/global/alert.service';
-import { GlobalService } from '../../../services/global/global.service';
 import { SocketService } from '../../../services/global/socket.service';
 import { EventService } from '../../../services/global/event.service';
 import { MicrotextService, InputFieldValidation } from '../../../services/global/microtext.service';
@@ -33,8 +32,7 @@ export class UserEditWindowComponent implements OnInit {
     isShowPasswordValidationWindow: boolean = false;
 
     constructor(private userEditWindowService: UserEditWindowService,
-        public alertService: AlertService,
-        public globalService: GlobalService,
+        private alertService: AlertService,
         private socketService: SocketService,
         private eventService: EventService,
         private microtextService: MicrotextService) {

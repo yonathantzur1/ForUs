@@ -21,7 +21,7 @@
                 <div class="chart-title-container">{{chartTitle}}</div>
                 <span class="user-data-container" *ngIf="userData.fullName" (click)="ClearUserChart()">
                     <span> {{userData.fullName}}</span> -
-                    <img class="user-image" [src]="userData.profileImage || globalService.defaultProfileImage">
+                    <img class="user-image" [src]="userData.profileImage || imageService.defaultProfileImage">
                 </span>
             </div>
         </div>

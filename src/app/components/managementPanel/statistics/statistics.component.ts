@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { StatisticsService } from '../../../services/managementPanel/statistics.service';
-import { GlobalService } from '../../../services/global/global.service';
+import { ImageService } from 'src/app/services/global/image.service';
 import { DateService } from '../../../services/global/date.service';
 import { MicrotextService, InputFieldValidation } from '../../../services/global/microtext.service';
 
@@ -42,7 +42,7 @@ export class StatisticsComponent {
         chartName: "התחברויות"
     };
 
-    constructor(public globalService: GlobalService,
+    constructor(public imageService: ImageService,
         private dateService: DateService,
         private statisticsService: StatisticsService,
         private microtextService: MicrotextService) {

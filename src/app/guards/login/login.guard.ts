@@ -5,14 +5,12 @@ import { Router, CanActivate } from '@angular/router';
 
 import { AuthService } from '../../services/global/auth.service';
 import { CookieService } from '../../services/global/cookie.service';
-import { GlobalService } from '../../services/global/global.service';
 
 @Injectable()
 export class LoginGuard implements CanActivate {
     constructor(private router: Router,
         private authService: AuthService,
-        private cookieService: CookieService,
-        public globalService: GlobalService) { }
+        private cookieService: CookieService) { }
 
     canActivate() {
         return Observable.create((observer: Subject<boolean>) => {

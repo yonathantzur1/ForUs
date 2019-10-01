@@ -46,6 +46,9 @@ import { AuthGuard } from '../../guards/auth/auth.guard';
 import { RootAuthGuard } from '../../guards/rootAuth/rootAuth.guard';
 import { LoginGuard } from '../../guards/login/login.guard';
 
+// Routing
+import { Routing } from '../../routes/app.routing';
+
 // Global services
 import { AuthService } from '../../services/global/auth.service';
 import { GlobalService } from '../../services/global/global.service';
@@ -56,9 +59,8 @@ import { SnackbarService } from '../../services/global/snackbar.service';
 import { MicrotextService } from '../../services/global/microtext.service';
 import { DateService } from '../../services/global/date.service';
 import { SocketService } from 'src/app/services/global/socket.service';
-
-// Routing
-import { Routing } from '../../routes/app.routing';
+import { PermissionsService } from 'src/app/services/global/permissions.service';
+import { ImageService } from 'src/app/services/global/image.service';
 
 @NgModule({
   imports: [
@@ -119,7 +121,9 @@ import { Routing } from '../../routes/app.routing';
     SnackbarService,
     MicrotextService,
     DateService,
-    SocketService
+    SocketService,
+    PermissionsService,
+    ImageService
   ],
   bootstrap: [AppComponent]
 })

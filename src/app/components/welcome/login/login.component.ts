@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { GlobalService } from '../../../services/global/global.service';
 import { EventService } from '../../../services/global/event.service';
 import { AlertService, ALERT_TYPE } from '../../../services/global/alert.service';
 import { SnackbarService } from '../../../services/global/snackbar.service';
@@ -34,7 +33,6 @@ export class LoginComponent {
         public alertService: AlertService,
         public snackbarService: SnackbarService,
         private microtextService: MicrotextService,
-        public globalService: GlobalService,
         public eventService: EventService,
         private loginService: LoginService) {
         this.validationFuncs = [
