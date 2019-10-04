@@ -93,4 +93,9 @@ router.get('/isUserSocketConnect', (req, res) => {
     res.send({ state });
 });
 
+// Get user permissions from token.
+router.get('/getUserPermissions', (req, res) => {
+    res.send(req.user.permissions);
+});
+
 module.exports = router;

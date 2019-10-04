@@ -58,18 +58,6 @@ router.post('/userLogin',
         });
     });
 
-// Get user permissions from token.
-router.get('/getUserPermissions', (req, res) => {
-    let token = tokenHandler.DecodeTokenFromRequest(req);
-
-    if (token) {
-        res.send(token.user.permissions);
-    }
-    else {
-        res.sendStatus(401);
-    }
-});
-
 // Delete token from cookies.
 router.delete('/deleteToken', (req, res) => {
     tokenHandler.DeleteTokenFromCookie(res);

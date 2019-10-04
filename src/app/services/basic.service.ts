@@ -10,11 +10,11 @@ export class BasicService {
         return this.prefix + url;
     }
 
-    get(url: string) {
+    get(url: string): Promise<any> {
         return this.http.get(this.getUrl(url)).toPromise();
     }
 
-    post(url: string, data?: any) {
+    post(url: string, data?: any): Promise<any> {
         if (data != null && typeof data == "object") {
             data = JSON.stringify(data);
         }
@@ -22,7 +22,7 @@ export class BasicService {
         return this.http.post(this.getUrl(url), data, this.getRequestOptions()).toPromise();
     }
 
-    put(url: string, data?: any) {
+    put(url: string, data?: any): Promise<any> {
         if (data != null && typeof data == "object") {
             data = JSON.stringify(data);
         }
@@ -30,7 +30,7 @@ export class BasicService {
         return this.http.put(this.getUrl(url), data, this.getRequestOptions()).toPromise();
     }
 
-    delete(url: string) {
+    delete(url: string): Promise<any> {
         return this.http.delete(this.getUrl(url)).toPromise();
     }
 

@@ -21,16 +21,6 @@ export class LoginService extends BasicService {
             });
     }
 
-    GetUserPermissions() {
-        return super.get('/getUserPermissions')
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
-    }
-
     DeleteTokenFromCookie() {
         return super.delete('/deleteToken')
             .then(() => {
