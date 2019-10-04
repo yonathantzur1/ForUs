@@ -10,24 +10,12 @@ export class UserReportWindowService extends BasicService {
     }
 
     GetAllReportReasons() {
-        return super.get('/getAllReportReasons')
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.get('/getAllReportReasons');
     }
 
     ReportUser(reportedUserId: string, reasonId: string, reasonDetails: string) {
         let data = { reportedUserId, reasonId, reasonDetails };
 
-        return super.post('/reportUser', data)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.post('/reportUser', data);
     }
 }

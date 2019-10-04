@@ -12,22 +12,10 @@ export class UserPasswordWindowService extends BasicService {
     }
 
     UpdateUserPassword(password: Password) {
-        return super.put('/updateUserPassword', password)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.put('/updateUserPassword', password);
     }
 
     ChangePasswordByMail() {
-        return super.get('/changePasswordByMail')
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.get('/changePasswordByMail');
     }
 }

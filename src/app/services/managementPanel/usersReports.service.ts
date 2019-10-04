@@ -10,13 +10,7 @@ export class UsersReportsService extends BasicService {
     }
 
     GetAllReports() {
-        return super.get('/getAllReports')
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.get('/getAllReports');
     }
 
 }

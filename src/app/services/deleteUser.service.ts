@@ -10,13 +10,7 @@ export class DeleteUserService extends BasicService {
     }
 
     ValidateDeleteUserToken(token: string) {
-        return super.get('/validateDeleteUserToken?token=' + token)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.get('/validateDeleteUserToken?token=' + token);
     }
 
     DeleteAccount(token: string, password: string) {
@@ -25,13 +19,7 @@ export class DeleteUserService extends BasicService {
             password
         };
 
-        return super.put('/deleteAccount', details)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.put('/deleteAccount', details);
     }
 
 }

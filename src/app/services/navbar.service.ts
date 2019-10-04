@@ -10,45 +10,21 @@ export class NavbarService extends BasicService {
     }
 
     GetFriends(friendsIds: Array<string>) {
-        return super.post('/getFriends', friendsIds)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.post('/getFriends', friendsIds);
     }
 
     GetMainSearchResults(searchInput: string) {
         let details = { searchInput };
 
-        return super.post('/getMainSearchResults', details)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.post('/getMainSearchResults', details);
     }
 
     GetMainSearchResultsWithImages(ids: any) {
-        return super.post('/getMainSearchResultsWithImages', ids)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.post('/getMainSearchResultsWithImages', ids);
     }
 
     GetUserMessagesNotifications() {
-        return super.get('/getUserMessagesNotifications')
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.get('/getUserMessagesNotifications');
     }
 
     UpdateMessagesNotifications(messagesNotifications: any) {
@@ -64,72 +40,36 @@ export class NavbarService extends BasicService {
     }
 
     GetUserFriendRequests() {
-        return super.get('/getUserFriendRequests')
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.get('/getUserFriendRequests');
     }
 
     AddFriendRequest(friendId: string) {
         let details = { friendId };
 
-        return super.post('/addFriendRequest', details)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.post('/addFriendRequest', details);
     }
 
     RemoveFriendRequest(friendId: string) {
         let details = { friendId };
 
-        return super.post('/removeFriendRequest', details)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.post('/removeFriendRequest', details);
     }
 
     IgnoreFriendRequest(friendId: string) {
         let details = { friendId };
 
-        return super.post('/ignoreFriendRequest', details)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.post('/ignoreFriendRequest', details);
     }
 
     AddFriend(friendId: string) {
         let details = { friendId };
 
-        return super.post('/addFriend', details)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.post('/addFriend', details);
     }
 
     RemoveFriendRequestConfirmAlert(confirmedFriendsIds: Array<string>) {
         let data = { confirmedFriendsIds };
 
-        return super.put('/removeFriendRequestConfirmAlert', data)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.put('/removeFriendRequestConfirmAlert', data);
     }
 }

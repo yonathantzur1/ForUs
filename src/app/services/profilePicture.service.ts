@@ -10,13 +10,7 @@ export class ProfilePictureService extends BasicService {
     }
 
     GetUserProfileImage() {
-        return super.get('/getUserProfileImage')
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.get('/getUserProfileImage');
     }
 
     SaveImage(imgBase64: string) {
@@ -24,23 +18,11 @@ export class ProfilePictureService extends BasicService {
             "imgBase64": imgBase64
         };
 
-        return super.post('/saveImage', image)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.post('/saveImage', image);
     }
 
     DeleteImage() {
-        return super.delete('/deleteImage')
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.delete('/deleteImage');
     }
 
 }

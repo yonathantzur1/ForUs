@@ -13,13 +13,7 @@ export class ForgotService extends BasicService {
     ForgotPasswordRequest(email: string) {
         let details = { "email": email };
 
-        return super.put('/forgotPasswordRequest', details)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.put('/forgotPasswordRequest', details);
     }
 
     ResetPassword(forgotUser: ForgotUser) {
@@ -29,23 +23,11 @@ export class ForgotService extends BasicService {
             "newPassword": forgotUser.newPassword
         };
 
-        return super.put('/resetPassword', details)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.put('/resetPassword', details);
     }
 
     ValidateResetPasswordToken(token: string) {
-        return super.get('/validateResetPasswordToken?token=' + token)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.get('/validateResetPasswordToken?token=' + token);
     }
 
     ResetPasswordByToken(token: string, newPassword: string) {
@@ -54,12 +36,6 @@ export class ForgotService extends BasicService {
             newPassword
         };
 
-        return super.put('/resetPasswordByToken', details)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.put('/resetPasswordByToken', details);
     }
 }

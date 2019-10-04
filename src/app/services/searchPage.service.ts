@@ -10,23 +10,10 @@ export class SearchPageService extends BasicService {
     }
 
     GetSearchResults(input: string) {
-        return super.get('/getSearchResults?input=' + input)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.get('/getSearchResults?input=' + input);
     }
 
     GetUserFriendsStatus() {
-        return super.get('/getUserFriendsStatus')
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.get('/getUserFriendsStatus');
     }
-
 }

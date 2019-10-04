@@ -10,25 +10,13 @@ export class UserPrivacyWindowService extends BasicService {
     }
 
     GetUserPrivacyStatus() {
-        return super.get('/getUserPrivacyStatus')
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.get('/getUserPrivacyStatus');
     }
 
     SetUserPrivacy(isPrivate: boolean) {
         let details = { isPrivate };
 
-        return super.put('/setUserPrivacy', details)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.put('/setUserPrivacy', details);
     }
 
 }

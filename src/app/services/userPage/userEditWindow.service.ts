@@ -12,12 +12,6 @@ export class UserEditWindowService extends BasicService {
     UpdateUserInfo(updateFields: any) {
         let details = { updateFields };
 
-        return super.put('/updateUserInfo', details)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.put('/updateUserInfo', details);
     }
 }

@@ -12,22 +12,10 @@ export class LoginService extends BasicService {
     }
 
     Login(user: User) {
-        return super.post('/userLogin', user)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.post('/userLogin', user);
     }
 
     DeleteTokenFromCookie() {
-        return super.delete('/deleteToken')
-            .then(() => {
-                return true;
-            })
-            .catch(() => {
-                return null;
-            });
+        return super.delete('/deleteToken');
     }
 }

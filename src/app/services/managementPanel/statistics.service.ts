@@ -24,23 +24,11 @@ export class StatisticsService extends BasicService {
             email
         }
 
-        return super.post('/getChartData', data)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.post('/getChartData', data);
     }
 
     GetUserByEmail(email: string) {
-        return super.get('/getUserByEmail?email=' + email)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.get('/getUserByEmail?email=' + email);
     }
 
 }

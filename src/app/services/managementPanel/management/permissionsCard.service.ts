@@ -10,33 +10,15 @@ export class PermissionsCardService extends BasicService {
     }
 
     GetAllPermissions() {
-        return super.get('/getAllPermissions')
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.get('/getAllPermissions');
     }
 
     GetUserPermissions(userId: string) {
-        return super.get('/getUserPermissions?userId=' + userId)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.get('/getUserPermissions?userId=' + userId);
     }
 
     UpdatePermissions(userId: string, permissions: Array<any>) {
         let data = { userId, permissions }
-        return super.put('/updatePermissions', data)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.put('/updatePermissions', data);
     }
 }

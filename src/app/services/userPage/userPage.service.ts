@@ -10,43 +10,19 @@ export class UserPageService extends BasicService {
     }
 
     GetUserDetails(id: string) {
-        return super.get('/getUserDetails?id=' + id)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.get('/getUserDetails?id=' + id);
     }
 
     RemoveFriends(friendId: string) {
-        return super.delete('/removeFriends?friendId=' + friendId)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.delete('/removeFriends?friendId=' + friendId);
     }
 
     DeleteUserValidation() {
-        return super.put('/deleteUserValidation')
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.put('/deleteUserValidation');
     }
 
     DeleteUser() {
-        return super.delete('/deleteUser')
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.delete('/deleteUser');
     }
 
 }

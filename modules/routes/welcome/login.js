@@ -61,7 +61,7 @@ router.post('/userLogin',
 // Delete token from cookies.
 router.delete('/deleteToken', (req, res) => {
     tokenHandler.DeleteTokenFromCookie(res);
-    res.end();
+    res.send(true);
 });
 
 module.exports = router;

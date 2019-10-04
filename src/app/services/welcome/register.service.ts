@@ -19,13 +19,7 @@ export class RegisterService extends BasicService {
             "password": newUser.password
         };
 
-        return super.post('/register', details)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.post('/register', details);
     }
 
 }

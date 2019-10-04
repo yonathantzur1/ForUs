@@ -12,34 +12,16 @@ export class ChatService extends BasicService {
     GetChat(idsArray: Array<string>) {
         let details = { "membersIds": idsArray };
 
-        return super.post('/getChat', details)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.post('/getChat', details);
     }
 
     GetChatPage(idsArray: Array<string>, currMessagesNum: number, totalMessagesNum: number) {
         let details = { "membersIds": idsArray, currMessagesNum, totalMessagesNum };
 
-        return super.post('/getChatPage', details)
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.post('/getChatPage', details);
     }
 
     GetAllPreviewChats() {
-        return super.get('/getAllPreviewChats')
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.get('/getAllPreviewChats');
     }
 }

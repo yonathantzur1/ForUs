@@ -10,52 +10,26 @@ export class AuthService extends BasicService {
     }
 
     IsUserOnSession() {
-        return super.get('/isUserOnSession')
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.get('/isUserOnSession');
     }
 
     IsUserRoot() {
-        return super.get('/isUserRoot')
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.get('/isUserRoot');
     }
 
     GetCurrUser() {
-        return super.get('/getCurrUser')
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.get('/getCurrUser');
     }
 
     SetCurrUserToken() {
-        return super.get('/setCurrUserToken')
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.get('/setCurrUserToken');
     }
 
     IsUserSocketConnect() {
-        return super.get('/isUserSocketConnect')
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+        return super.get('/isUserSocketConnect');
+    }
+
+    GetUserPermissions() {
+        return super.get('/getUserPermissions');
     }
 }

@@ -13,7 +13,7 @@ export class ImageService {
     }
 
     private ImageToBase64(url: string, callback: Function) {
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.onload = () => {
             var reader = new FileReader();
             reader.onloadend = () => {

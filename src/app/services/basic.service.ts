@@ -11,7 +11,7 @@ export class BasicService {
     }
 
     get(url: string): Promise<any> {
-        return this.http.get(this.getUrl(url)).toPromise();
+        return this.handlePromiseResult(this.http.get(this.getUrl(url)).toPromise());
     }
 
     post(url: string, data?: any): Promise<any> {
@@ -19,7 +19,8 @@ export class BasicService {
             data = JSON.stringify(data);
         }
 
-        return this.http.post(this.getUrl(url), data, this.getRequestOptions()).toPromise();
+        return this.handlePromiseResult
+            (this.http.post(this.getUrl(url), data, this.getRequestOptions()).toPromise());
     }
 
     put(url: string, data?: any): Promise<any> {
@@ -27,11 +28,21 @@ export class BasicService {
             data = JSON.stringify(data);
         }
 
-        return this.http.put(this.getUrl(url), data, this.getRequestOptions()).toPromise();
+        return this.handlePromiseResult
+            (this.http.put(this.getUrl(url), data, this.getRequestOptions()).toPromise());
     }
 
     delete(url: string): Promise<any> {
-        return this.http.delete(this.getUrl(url)).toPromise();
+        return this.handlePromiseResult(this.http.delete(this.getUrl(url)).toPromise());
+    }
+
+    private async handlePromiseResult(promise: Promise<any>): Promise<any> {
+        try {
+            return await promise;
+        }
+        catch (err) {
+            return null;
+        }
     }
 
     private getRequestOptions() {

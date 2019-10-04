@@ -1,26 +1,21 @@
 import { Injectable } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
-import { LoginService } from '../welcome/login.service';
+import { AuthService } from '../global/auth.service';
 
 import { PERMISSION } from '../../enums/enums';
-import { BasicService } from '../basic.service';
 
 @Injectable()
-export class PermissionsService extends BasicService {
+export class PermissionsService extends AuthService {
     userPermissions: Array<string>;
 
     constructor(public http: HttpClient) {
-        super(http, "/api/auth");
+        super(http);
         this.userPermissions = [];
     }
 
-    Initialize() {
-        super.get('/getUserPermissions').then(result => {
-            this.userPermissions = result;
-        }).catch(err => {
-            this.userPermissions = [];
-        });
+    async Initialize() {
+        this.userPermissions = (await super.GetUserPermissions()) || [];
     }
 
     DeletePermissions() {
