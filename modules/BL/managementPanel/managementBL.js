@@ -204,12 +204,25 @@ module.exports = {
             updateFields.password = sha512(updateFields.password + updateFields.salt);
         }
 
-        let result = await DAL.UpdateOne(usersCollectionName,
-            { "_id": userId },
-            { $set: updateFields });
+        let isUpdateValid = true;
 
-        result && (result = true);
-        return result;
+        // In case of email update, check the email is not already exists.
+        if (updateFields.email) {
+            let emailsCount = await DAL.Count(usersCollectionName, { "email": updateFields.email });
+            (emailsCount > 0) && (isUpdateValid = false);
+        }
+
+        if (isUpdateValid) {
+            let result = await DAL.UpdateOne(usersCollectionName,
+                { "_id": userId },
+                { $set: updateFields });
+
+            result && (result = true);
+            return { result };
+        }
+        else {
+            return { result: -1 };
+        }
     },
 
     async BlockUser(blockerId, blockObj) {

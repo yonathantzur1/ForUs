@@ -336,11 +336,13 @@ export class ManagementComponent implements OnInit, OnDestroy {
             user.isSaveLoader = true;
 
             // Update user info.
-            this.managementService.EditUser(updatedFields).then((result: any) => {
+            this.managementService.EditUser(updatedFields).then((updateResult: any) => {
                 user.isSaveLoader = false;
 
+                updateResult = updateResult.result;
+
                 // In case the user info edit succeeded. 
-                if (result) {
+                if (updateResult == true) {
                     if (updatedFields["password"]) {
                         delete updatedFields["password"];
                         this.socketService.SocketEmit("LogoutUserSessionServer",
@@ -354,6 +356,10 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
                     this.ReturnMainCard(user);
                     this.snackbarService.Snackbar("המשתמש עודכן בהצלחה");
+                }
+                // In case the updated email is already exists.
+                else if (updateResult == -1) {
+                    this.snackbarService.Snackbar("אימייל זה נמצא בשימוש")
                 }
                 else {
                     this.snackbarService.Snackbar("שגיאה בעדכון המשתמש");
