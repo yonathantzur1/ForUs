@@ -487,8 +487,8 @@ export class ManagementComponent implements OnInit, OnDestroy {
                         }
 
                         let logoutMsg = "נותקת מהאתר, יש להתחבר מחדש.";
-                        self.socketService.SocketEmit("LogoutUserSessionServer", user._id, logoutMsg);
-                        self.socketService.SocketEmit("LogoutUserSessionServer", friend._id, logoutMsg);
+                        self.socketService.SocketEmit("LogoutUserSessionServer", logoutMsg, user._id);
+                        self.socketService.SocketEmit("LogoutUserSessionServer", logoutMsg, friend._id);
                     }
                     else {
                         self.snackbarService.Snackbar("שגיאה במחיקת החברות");
@@ -506,23 +506,26 @@ export class ManagementComponent implements OnInit, OnDestroy {
             text: "האם למחוק את המשתמש של <b>" + user.firstName + " " + user.lastName + "</b>?",
             type: ALERT_TYPE.WARNING,
             confirmFunc: function () {
-                self.managementService.DeleteUser(user._id, user.firstName, user.lastName).then((result: any) => {
-                    if (result) {
-                        self.snackbarService.Snackbar("מחיקת המשתמש בוצעה בהצלחה");
+                self.managementService.DeleteUser(user._id,
+                    user.firstName,
+                    user.lastName,
+                    user.email).then((result: any) => {
+                        if (result) {
+                            self.snackbarService.Snackbar("מחיקת המשתמש בוצעה בהצלחה");
 
-                        // Logout the user from the system.
-                        let logoutMsg = "חשבונך נמחק מהמערכת לצמיתות." +
-                            "{{enter}}" +
-                            "לפרטים נוספים, פנה להנהלת האתר.";
-                        self.socketService.SocketEmit("LogoutUserSessionServer", user._id, logoutMsg);
+                            // Logout the user from the system.
+                            let logoutMsg = "חשבונך נמחק מהמערכת לצמיתות." +
+                                "{{enter}}" +
+                                "לפרטים נוספים, פנה להנהלת האתר.";
+                            self.socketService.SocketEmit("LogoutUserSessionServer", logoutMsg, user._id);
 
-                        // Remove user from users search list.
-                        self.users.splice(user.index, 1);
-                    }
-                    else {
-                        self.snackbarService.Snackbar("שגיאה במחיקת המשתמש");
-                    }
-                })
+                            // Remove user from users search list.
+                            self.users.splice(user.index, 1);
+                        }
+                        else {
+                            self.snackbarService.Snackbar("שגיאה במחיקת המשתמש");
+                        }
+                    })
             }
         });
     }

@@ -43,9 +43,10 @@ export class ManagementService extends BasicService {
         return super.delete('/removeFriends?userId=' + userId + "&friendId=" + friendId);
     }
 
-    DeleteUser(userId: string, userFirstName: string, userLastName: string) {
+    DeleteUser(userId: string, userFirstName: string, userLastName: string, userEmail: string) {
         return super.delete('/deleteUser?userId=' + userId +
             "&userFirstName=" + userFirstName +
-            "&userLastName=" + userLastName);
+            "&userLastName=" + userLastName +
+            "&userEmail=" + userEmail);
     }
 }

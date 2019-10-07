@@ -67,7 +67,9 @@ router.delete('/deleteUser', function (req, res) {
     if (permissionHandler.IsUserHasMasterPermission(req.user.permissions)) {
         managementBL.DeleteUser(req.query.userId,
             req.query.userFirstName,
-            req.query.userLastName).then((result) => {
+            req.query.userLastName,
+            req.query.userEmail,
+            req).then((result) => {
                 res.send(result);
             }).catch((err) => {
                 logger.error(err);

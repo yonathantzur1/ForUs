@@ -24,21 +24,21 @@ router.put('/deleteAccount',
     (req, res) => {
         deleteUserBL.IsAllowToDeleteAccount(req.body).then(user => {
             // In case the password is wrong.
-            if (user == false) {
-                res.send(false);
-                return;
+            if (!user) {
+                return res.send(false);
             }
 
-            // Change user id from ObjectId to string.
-            user._id = user._id.toString();
-
             // Remove the user from DB.
-            deleteUserBL.DeleteUserFromDB(user._id, user.firstName, user.lastName).then((result) => {
-                res.send(result);
-            }).catch((err) => {
-                logger.error(err);
-                res.sendStatus(500);
-            });
+            deleteUserBL.DeleteUserFromDB(user._id.toString(),
+                user.firstName,
+                user.lastName,
+                user.email,
+                req).then((result) => {
+                    res.send(result);
+                }).catch((err) => {
+                    logger.error(err);
+                    res.sendStatus(500);
+                });
         }).catch((err) => {
             logger.error(err);
             res.sendStatus(500);

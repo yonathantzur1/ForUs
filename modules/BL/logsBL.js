@@ -1,64 +1,62 @@
 const DAL = require('../DAL');
 const config = require('../../config');
-const enums = require('../enums');
 const requestHandler = require('../handlers/requestHandler');
+const LOG_TYPE = require('../enums').LOG_TYPE;
 
 let logsCollectionName = config.db.collections.logs;
 
 module.exports = {
     ResetPasswordRequest(email, req) {
-        return this.InsertStandardLog(
-            enums.LOG_TYPE.RESET_PASSWORD_REQUEST,
+        InsertStandardLog(
+            LOG_TYPE.RESET_PASSWORD_REQUEST,
             email,
-            requestHandler.GetIpFromRequest(req),
-            requestHandler.GetUserAgentFromRequest(req)
+            req
         );
     },
 
     Login(email, req) {
-        return this.InsertStandardLog(
-            enums.LOG_TYPE.LOGIN,
+        InsertStandardLog(
+            LOG_TYPE.LOGIN,
             email,
-            requestHandler.GetIpFromRequest(req),
-            requestHandler.GetUserAgentFromRequest(req)
+            req
         );
     },
 
     LoginFail(email, req) {
-        return this.InsertStandardLog(
-            enums.LOG_TYPE.LOGIN_FAIL,
+        InsertStandardLog(
+            LOG_TYPE.LOGIN_FAIL,
             email,
-            requestHandler.GetIpFromRequest(req),
-            requestHandler.GetUserAgentFromRequest(req)
+            req
         );
     },
 
     Register(email, req) {
-        return this.InsertStandardLog(
-            enums.LOG_TYPE.REGISTER,
+        InsertStandardLog(
+            LOG_TYPE.REGISTER,
             email,
-            requestHandler.GetIpFromRequest(req),
-            requestHandler.GetUserAgentFromRequest(req)
+            req
         );
     },
 
-    InsertStandardLog(type, email, ip, userAgent) {
-        return new Promise((resolve, reject) => {
-            // In case of production environment.
-            if (config.server.isProd) {
-                log = {
-                    type,
-                    ip,
-                    userAgent,
-                    email,
-                    "date": new Date()
-                };
-
-                DAL.Insert(logsCollectionName, log).then(resolve).catch(reject);
-            }
-            else {
-                resolve(false);
-            }
-        });
+    DeleteUser(email, req) {
+        InsertStandardLog(
+            LOG_TYPE.DELETE_USER,
+            email,
+            req
+        );
     }
+}
+
+function InsertStandardLog(type, email, req) {
+    if (!config.server.isProd) {
+        return;
+    }
+
+    DAL.Insert(logsCollectionName, {
+        type,
+        ip: requestHandler.GetIpFromRequest(req),
+        userAgent: requestHandler.GetUserAgentFromRequest(req),
+        email,
+        date: new Date()
+    });
 }

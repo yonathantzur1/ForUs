@@ -72,17 +72,18 @@ export class StatisticsComponent {
                     {
                         text: "כניסות שגויות",
                         logType: LOG_TYPE.LOGIN_FAIL,
-                        isSelected: false
                     },
                     {
                         text: "בקשות שינוי סיסמא",
                         logType: LOG_TYPE.RESET_PASSWORD_REQUEST,
-                        isSelected: false
                     },
                     {
                         text: "משתמשים חדשים",
                         logType: LOG_TYPE.REGISTER,
-                        isSelected: false
+                    },
+                    {
+                        text: "משתמשים מחוקים",
+                        logType: LOG_TYPE.DELETE_USER,
                     }
                 ],
                 onClick: function (self: any) {
@@ -125,7 +126,6 @@ export class StatisticsComponent {
                     {
                         text: "שנתית",
                         statisticsRange: STATISTICS_RANGE.YEARLY,
-                        isSelected: false
                     }
                 ],
                 onClick: function (self: any) {

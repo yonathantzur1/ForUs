@@ -283,8 +283,8 @@ module.exports = {
         return userPageBL.RemoveFriends(cardUserId, friendId);
     },
 
-    DeleteUser(userId, userFirstName, userLastName) {
-        return deleteUserBL.DeleteUserFromDB(userId, userFirstName, userLastName);
+    DeleteUser(userId, userFirstName, userLastName, userEmail, req) {
+        return deleteUserBL.DeleteUserFromDB(userId, userFirstName, userLastName, userEmail, req);
     }
 };
 

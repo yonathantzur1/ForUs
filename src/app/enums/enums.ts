@@ -1,33 +1,34 @@
 export enum PERMISSION {
-    MASTER = "master",
-    ADMIN = "admin"
+    MASTER = "MASTER",
+    ADMIN = "ADMIN"
 }
 
 export enum LOG_TYPE {
-    RESET_PASSWORD_REQUEST = "reset_password_request",
-    LOGIN = "login",
-    LOGIN_FAIL = "login_fail",
-    REGISTER = "register"
+    RESET_PASSWORD_REQUEST = "RESET_PASSWORD_REQUEST",
+    LOGIN = "LOGIN",
+    LOGIN_FAIL = "LOGIN_FAIL",
+    REGISTER = "REGISTER",
+    DELETE_USER = "DELETE_USER"
 }
 
 export enum STATISTICS_RANGE {
-    YEARLY = "yearly",
-    WEEKLY = "weekly"
+    YEARLY = "YEARLY",
+    WEEKLY = "WEEKLY"
 }
 
 export enum USER_UPDATE_INFO_ERROR {
-    EMAIL_EXISTS = "email_exists",
-    WRONG_PASSWORD = "wrong_password"
+    EMAIL_EXISTS = "EMAIL_EXISTS",
+    WRONG_PASSWORD = "WRONG_PASSWORD"
 }
 
 export enum SOCKET_STATE {
-    ACTIVE = "active",
-    CLOSE= "close",
-    LOGOUT= "logout"
+    ACTIVE = "ACTIVE",
+    CLOSE = "CLOSE",
+    LOGOUT = "LOGOUT"
 }
 
 export enum USER_REPORT_STATUS {
-    ACTIVE,
-    TAKEN,
-    CLOSE
+    ACTIVE = "ACTIVE",
+    TAKEN = "TAKEN",
+    CLOSE = "CLOSE"
 }

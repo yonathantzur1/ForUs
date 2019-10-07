@@ -1,43 +1,42 @@
-module.exports = {
-    SYSTEM_JOBS_NAMES: {
-        CLEAN_DISCONNECT_USERS: "clean_disconnect_users"
-    },
+exports.SYSTEM_JOBS_NAMES = Object.freeze({
+    CLEAN_DISCONNECT_USERS: "CLEAN_DISCONNECT_USERS"
+});
 
-    PERMISSION: {
-        MASTER: "master",
-        ADMIN: "admin"
-    },
+exports.PERMISSION = Object.freeze({
+    MASTER: "MASTER",
+    ADMIN: "ADMIN"
+});
 
-    LOG_TYPE: {
-        RESET_PASSWORD_REQUEST: "reset_password_request",
-        LOGIN: "login",
-        LOGIN_FAIL: "login_fail",
-        REGISTER: "register"
-    },
+exports.LOG_TYPE = Object.freeze({
+    RESET_PASSWORD_REQUEST: "RESET_PASSWORD_REQUEST",
+    LOGIN: "LOGIN",
+    LOGIN_FAIL: "LOGIN_FAIL",
+    REGISTER: "REGISTER",
+    DELETE_USER: "DELETE_USER"
+});
 
-    STATISTICS_RANGE: {
-        YEARLY: "yearly",
-        WEEKLY: "weekly"
-    },
+exports.STATISTICS_RANGE = Object.freeze({
+    YEARLY: "YEARLY",
+    WEEKLY: "WEEKLY"
+});
 
-    USER_UPDATE_INFO_ERROR: {
-        EMAIL_EXISTS: "email_exists",
-        WRONG_PASSWORD: "wrong_password"
-    },
+exports.USER_UPDATE_INFO_ERROR = Object.freeze({
+    EMAIL_EXISTS: "EMAIL_EXISTS",
+    WRONG_PASSWORD: "WRONG_PASSWORD"
+});
 
-    SOCKET_STATE: {
-        ACTIVE: "active",
-        CLOSE: "close",
-        LOGOUT: "logout"
-    },
+exports.SOCKET_STATE = Object.freeze({
+    ACTIVE: "ACTIVE",
+    CLOSE: "CLOSE",
+    LOGOUT: "LOGOUT"
+});
 
-    REGEXP: {
-        USER: {
-            NAME: "^([א-ת]{1}[-'`]{0,1}[א-ת]{1,}[-'`]{0,1}[א-ת]{0,}){1,}([ ]+([א-ת]{1}[-'`]{0,1}[א-ת]{1,}[-'`]{0,1}[א-ת]{0,}){1,})*$",
-            EMAIL: "^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$"
-        },
-        PASSWORD: {
-            HASH: "^[a-z0-9]{128}$"
-        }
+exports.REGEXP = Object.freeze({
+    USER: {
+        NAME: "^([א-ת]{1}[-'`]{0,1}[א-ת]{1,}[-'`]{0,1}[א-ת]{0,}){1,}([ ]+([א-ת]{1}[-'`]{0,1}[א-ת]{1,}[-'`]{0,1}[א-ת]{0,}){1,})*$",
+        EMAIL: "^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$"
+    },
+    PASSWORD: {
+        HASH: "^[a-z0-9]{128}$"
     }
-}
+});
