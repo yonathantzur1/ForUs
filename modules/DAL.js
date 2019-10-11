@@ -35,9 +35,14 @@ function handleError(err) {
 }
 
 module.exports = {
-    // Convert string id to mongoDB object id.
+    // Convert string id to MongoDB object id.
     getObjectId(id) {
-        return new ObjectId(id);
+        try {
+            return new ObjectId(id.toString());
+        }
+        catch (err) {
+            return handleError(err);
+        }
     },
 
     // Get one document from collection by filter.
