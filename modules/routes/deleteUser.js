@@ -9,7 +9,7 @@ const logger = require('../../logger');
 router.get('/validateDeleteUserToken',
     validation,
     (req, res) => {
-        tokenHandler.DeleteAuthCookies(res);
+        tokenHandler.deleteAuthCookies(res);
         deleteUserBL.ValidateDeleteUserToken(req.query.token).then(result => {
             res.send(result ? { name: (result.firstName + " " + result.lastName) } : false);
         }).catch(err => {

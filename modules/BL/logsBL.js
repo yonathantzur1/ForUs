@@ -54,8 +54,8 @@ function InsertStandardLog(type, email, req) {
 
     DAL.insert(logsCollectionName, {
         type,
-        ip: requestHandler.GetIpFromRequest(req),
-        userAgent: requestHandler.GetUserAgentFromRequest(req),
+        ip: requestHandler.getIpFromRequest(req),
+        userAgent: requestHandler.getUserAgentFromRequest(req),
         email,
         date: new Date()
     });

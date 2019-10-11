@@ -18,12 +18,12 @@ module.exports = {
     // Add user to the DB.
     AddUser(newUser) {
         return new Promise((resolve, reject) => {
-            let salt = generator.GenerateCode(config.security.password.saltSize);
+            let salt = generator.generateCode(config.security.password.saltSize);
             newUser.password = sha512(newUser.password + salt);
 
             // Creat the new user object.
             let newUserObj = {
-                "uid": generator.GenerateId(),
+                "uid": generator.generateId(),
                 "firstName": newUser.firstName,
                 "lastName": newUser.lastName,
                 "email": newUser.email,

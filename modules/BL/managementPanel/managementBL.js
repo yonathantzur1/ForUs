@@ -199,8 +199,8 @@ module.exports = {
 
         // Generate password hash and salt.
         if (updateFields.password) {
-            updateFields.uid = generator.GenerateId();
-            updateFields.salt = generator.GenerateCode(config.security.password.saltSize);
+            updateFields.uid = generator.generateId();
+            updateFields.salt = generator.generateCode(config.security.password.saltSize);
             updateFields.password = sha512(updateFields.password + updateFields.salt);
         }
 
@@ -295,5 +295,5 @@ async function IsUserMaster(userId) {
             return permission.type;
         });
 
-    return permissionHandler.IsUserHasMasterPermission(userPermissions);
+    return permissionHandler.isUserHasMasterPermission(userPermissions);
 }

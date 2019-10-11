@@ -7,7 +7,7 @@ let prefix = "/api/permissions";
 
 // Master permissions check for all management routes
 router.use(prefix, function (req, res, next) {
-    if (permissionHandler.IsUserHasMasterPermission(req.user.permissions)) {
+    if (permissionHandler.isUserHasMasterPermission(req.user.permissions)) {
         next();
     }
     else {

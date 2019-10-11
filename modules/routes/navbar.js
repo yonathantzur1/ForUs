@@ -90,7 +90,7 @@ router.post('/ignoreFriendRequest', function (req, res) {
 router.post('/addFriend', function (req, res) {
     navbarBL.AddFriend(req.user, req.body.friendId).then((result) => {
         if (result) {
-            tokenHandler.SetTokenOnCookie(result.token, res);
+            tokenHandler.setTokenOnCookie(result.token, res);
             res.send(result.friend);
         }
     }).catch((err) => {

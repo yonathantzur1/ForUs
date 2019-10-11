@@ -2,12 +2,11 @@ const loginBL = require('../BL/welcome/loginBL');
 const profilePictureBL = require('../BL/profilePictureBL');
 const tokenHandler = require('../handlers/tokenHandler');
 const mailer = require('../mailer');
-const events = require('../events');
 const logger = require('../../logger');
 
 module.exports = (io, socket, connectedUsers) => {
     socket.on('ServerUpdateFriendRequestsStatus', function (friendId) {
-        let token = tokenHandler.DecodeTokenFromSocket(socket);
+        let token = tokenHandler.decodeTokenFromSocket(socket);
 
         if (token) {
             io.to(token.user._id).emit('ClientUpdateFriendRequestsStatus', friendId);
@@ -15,7 +14,7 @@ module.exports = (io, socket, connectedUsers) => {
     });
 
     socket.on('ServerUpdateFriendRequests', function (friendRequests) {
-        let token = tokenHandler.DecodeTokenFromSocket(socket);
+        let token = tokenHandler.decodeTokenFromSocket(socket);
 
         if (token) {
             io.to(token.user._id).emit('ClientUpdateFriendRequests', friendRequests);
@@ -23,7 +22,7 @@ module.exports = (io, socket, connectedUsers) => {
     });
 
     socket.on('SendFriendRequest', function (friendId) {
-        let token = tokenHandler.DecodeTokenFromSocket(socket);
+        let token = tokenHandler.decodeTokenFromSocket(socket);
 
         if (token) {
             let user = token.user;
@@ -52,7 +51,7 @@ module.exports = (io, socket, connectedUsers) => {
     });
 
     socket.on('ServerAddFriend', function (friend) {
-        let token = tokenHandler.DecodeTokenFromSocket(socket);
+        let token = tokenHandler.decodeTokenFromSocket(socket);
 
         if (token) {
             // In case the confirmed user is not login.
@@ -69,7 +68,7 @@ module.exports = (io, socket, connectedUsers) => {
     });
 
     socket.on('ServerFriendAddedUpdate', function (friendId) {
-        let token = tokenHandler.DecodeTokenFromSocket(socket);
+        let token = tokenHandler.decodeTokenFromSocket(socket);
 
         if (token) {
             let user = token.user;
@@ -95,7 +94,7 @@ module.exports = (io, socket, connectedUsers) => {
     });
 
     socket.on('ServerRemoveFriend', function (friendId) {
-        let token = tokenHandler.DecodeTokenFromSocket(socket);
+        let token = tokenHandler.decodeTokenFromSocket(socket);
 
         if (token && token.user.friends.indexOf(friendId) != -1) {
             let currUserId = token.user._id;
@@ -103,4 +102,4 @@ module.exports = (io, socket, connectedUsers) => {
             io.to(friendId).emit('ClientRemoveFriend', currUserId);
         }
     });
-}
+};

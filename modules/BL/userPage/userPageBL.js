@@ -84,7 +84,7 @@ module.exports = {
 
             if (!isUserSelfPage) {
                 let userPermissions = results[1];
-                user.isManagerView = permissionHandler.IsUserHasRootPermission(userPermissions);
+                user.isManagerView = permissionHandler.isUserHasRootPermission(userPermissions);
             }
 
             return user;
@@ -142,7 +142,7 @@ module.exports = {
 
     async DeleteUserValidation(userId) {
         let deleteUser = {
-            token: sha512(userId + generator.GenerateId()),
+            token: sha512(userId + generator.generateId()),
             date: new Date()
         }
 

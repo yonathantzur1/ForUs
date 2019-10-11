@@ -1,26 +1,26 @@
 module.exports = {
-    GetIpFromRequest(request) {
+    getIpFromRequest(request) {
         let ip = request.ip;
 
-        return GetIpFromRequestString(ip);
+        return getIpFromRequestString(ip);
     },
 
-    GetUserAgentFromRequest(request) {
+    getUserAgentFromRequest(request) {
         return request.headers["user-agent"];
     },
 
-    GetIpFromSocket(socket) {
+    getIpFromSocket(socket) {
         let ip = socket.handshake.address;
 
-        return GetIpFromRequestString(ip);
+        return getIpFromRequestString(ip);
     },
 
-    GetUserAgentFromSocket(socket) {
+    getUserAgentFromSocket(socket) {
         return socket.request.headers["user-agent"];
     }
-}
+};
 
-function GetIpFromRequestString(ip) {
+function getIpFromRequestString(ip) {
     if (ip) {
         let realIpStringPartStartIndex = ip.lastIndexOf(":") + 1;
 

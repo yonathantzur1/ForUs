@@ -8,17 +8,17 @@ const enums = require('../enums');
 
 // Checking if the session of the user is open.
 router.get('/isUserOnSession', (req, res) => {
-    if (!tokenHandler.ValidateUserAuthCookies(req)) {
+    if (!tokenHandler.validateUserAuthCookies(req)) {
         res.send(false);
     }
     else {
         loginBL.GetUserById(req.user._id).then((user) => {
-            let cookieUid = tokenHandler.GetUidFromRequest(req);
+            let cookieUid = tokenHandler.getUidFromRequest(req);
 
             // Double check uid (after main server token validae middleware)
             // from the original DB user object.
             if (user && user.uid == cookieUid && !(loginBL.IsUserBlocked(user))) {
-                tokenHandler.SetTokenOnCookie(tokenHandler.GetTokenFromUserObject(user), res, true);
+                tokenHandler.setTokenOnCookie(tokenHandler.getTokenFromUserObject(user), res, true);
                 res.send(true);
             }
             else {
@@ -33,7 +33,7 @@ router.get('/isUserOnSession', (req, res) => {
 
 // Checking if user has ADMIN permission.
 router.get('/isUserRoot', (req, res) => {
-    res.send(req.user && permissionHandler.IsUserHasRootPermission(req.user.permissions));
+    res.send(req.user && permissionHandler.isUserHasRootPermission(req.user.permissions));
 });
 
 // Getting the current login user.
@@ -58,8 +58,8 @@ router.get('/getCurrUser', (req, res) => {
 router.get('/setCurrUserToken', (req, res) => {
     loginBL.GetUserById(req.user._id).then((user) => {
         if (user) {
-            let token = tokenHandler.GetTokenFromUserObject(user);
-            tokenHandler.SetTokenOnCookie(token, res);
+            let token = tokenHandler.getTokenFromUserObject(user);
+            tokenHandler.setTokenOnCookie(token, res);
             res.send(true);
         }
         else {
@@ -75,7 +75,7 @@ router.get('/isUserSocketConnect', (req, res) => {
     let state;
 
     // In case the user is logout.
-    if (!tokenHandler.ValidateUserAuthCookies(req)) {
+    if (!tokenHandler.validateUserAuthCookies(req)) {
         state = enums.SOCKET_STATE.LOGOUT;
     }
     else {

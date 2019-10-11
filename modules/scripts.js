@@ -9,18 +9,18 @@ let chatsCollectionName = config.db.collections.chats;
 // **delete** it's call.
 module.exports = function () {
 
-}
+};
 
 // ---------------- How to use ----------------
 // Run this function with the new encryption key string, **before** changing
 // the current key on config or on env-variables.
-// After running the function, change the key on env-variables. 
-function ChangeEncryptionKeyString(newKeyString) {
+// After running the function, change the key on env-variables.
+function changeEncryptionKeyString(newKeyString) {
     DAL.find(chatsCollectionName, {}).then(chats => {
         console.log("Query " + chats.length + " chats");
         let updates = [];
 
-        chats.forEach((chat, index) => {
+        chats.forEach(chat => {
             let messages = chat.messages;
             messages.forEach(message => {
                 message.text = encryption.encrypt(encryption.decrypt(message.text), newKeyString);

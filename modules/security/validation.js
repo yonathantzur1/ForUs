@@ -2,7 +2,7 @@ const joi = require('@hapi/joi');
 const regexp = require('../enums').REGEXP;
 const logger = require('../../logger');
 
-module.exports = function (req, res, next) {
+module.exports = (req, res, next) => {
     try {
         let fullRequestPath = req.originalUrl;
         let reqMethod = req.method;
@@ -31,7 +31,7 @@ module.exports = function (req, res, next) {
             schema = schema[schemaPath[i]];
 
             if (schema == null) {
-                throw ("No validation scheme at: " + BuildSchemaPathString(schemaPath));
+                throw ("No validation scheme at: " + buildSchemaPathString(schemaPath));
             }
         }
 
@@ -51,9 +51,9 @@ module.exports = function (req, res, next) {
         logger.error(err);
         res.sendStatus(400);
     }
-}
+};
 
-function BuildSchemaPathString(schemaPath) {
+function buildSchemaPathString(schemaPath) {
     if (schemaPath.length > 0) {
         let schema = schemaPath[0];
 
@@ -68,7 +68,7 @@ function BuildSchemaPathString(schemaPath) {
     }
 }
 
-let validateSchemaObj = {}
+let validateSchemaObj = {};
 
 //#region get
 validateSchemaObj["GET"] = {
@@ -84,7 +84,7 @@ validateSchemaObj["GET"] = {
             }
         }
     }
-}
+};
 //#endregion
 
 //#region post
@@ -112,7 +112,7 @@ validateSchemaObj["POST"] = {
             }
         }
     }
-}
+};
 //#endregion
 
 //#region put
@@ -160,11 +160,11 @@ validateSchemaObj["PUT"] = {
             }
         }
     }
-}
+};
 //#endregion
 
 //#region delete
 validateSchemaObj["DELETE"] = {
 
-}
+};
 //#endregion

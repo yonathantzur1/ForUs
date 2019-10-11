@@ -3,6 +3,7 @@ const permissionHandler = require('../handlers/permissionHandler');
 const events = require('../events');
 const enums = require('../enums');
 const jobs = require('../jobs');
+const config = require('../../config');
 
 let connectedUsers = {};
 
@@ -14,7 +15,7 @@ module.exports = (io) => {
         require('./friends.js')(io, socket, connectedUsers);
 
         socket.on('login', function () {
-            let token = tokenHandler.DecodeTokenFromSocket(socket);
+            let token = tokenHandler.decodeTokenFromSocket(socket);
 
             if (token) {
                 let user = token.user;
@@ -47,7 +48,7 @@ module.exports = (io) => {
         });
 
         socket.on('disconnect', function () {
-            let token = tokenHandler.DecodeTokenFromSocket(socket);
+            let token = tokenHandler.decodeTokenFromSocket(socket);
 
             if (token) {
                 let userId = token.user._id;
@@ -76,11 +77,11 @@ module.exports = (io) => {
         });
 
         socket.on('LogoutUserSessionServer', function (msg, userId) {
-            let token = tokenHandler.DecodeTokenFromSocket(socket);
+            let token = tokenHandler.decodeTokenFromSocket(socket);
 
             // Logout the given user in case the sender is admin, or in case the logout is self.
             if (token &&
-                (permissionHandler.IsUserHasRootPermission(token.user.permissions) || userId == null)) {
+                (permissionHandler.isUserHasRootPermission(token.user.permissions) || userId == null)) {
                 io.to(userId || token.user._id).emit('LogoutUserSessionClient', msg);
             }
         });
@@ -97,13 +98,13 @@ module.exports = (io) => {
     });
 
     return connectedUsers;
-}
+};
 
-let maxLastKeepAliveDelay = 5; // seconds
+let keepAliveDelay = config.socket.keepAlive;
 
 jobs.RegisterJob(enums.SYSTEM_JOBS_NAMES.CLEAN_DISCONNECT_USERS,
     CleanOfflineUsers,
-    (maxLastKeepAliveDelay + 1) * 1000);
+    (keepAliveDelay + 1) * 1000);
 
 function CleanOfflineUsers() {
     let disconnectUsersIds = [];
@@ -114,7 +115,7 @@ function CleanOfflineUsers() {
         let lastKeepAliveDelay = (new Date() - connectedUsers[userId].lastKeepAlive) / 1000;
 
         // In case the diffrence is big, disconnect the user.
-        if (lastKeepAliveDelay > maxLastKeepAliveDelay) {
+        if (lastKeepAliveDelay > keepAliveDelay) {
             disconnectUsersIds.push(userId);
         }
     });

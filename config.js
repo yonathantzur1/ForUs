@@ -37,8 +37,9 @@ module.exports = {
             options: { expiresIn: '90d' } // 90 days
         },
         encrypt: {
+            algorithm: "aes192",
             secret: process.env.FORUS_ENCRYPT_SECRET,
-            algorithm: "aes192"
+            salt: process.env.FORUS_ENCRYPT_SALT
         },
         token: {
             cookieName: "tk",
@@ -60,5 +61,8 @@ module.exports = {
         deleteUser: {
             tokenTTL: 1 // hour
         }
+    },
+    socket: {
+        keepAlive: 9 // seconds
     }
 };

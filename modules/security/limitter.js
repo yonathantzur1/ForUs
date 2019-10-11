@@ -13,4 +13,4 @@ module.exports = rateLimit({
     handler: (req, res, next) => {
         res.send({ "result": { "lock": Math.ceil(waitTime / 60000) } });
     }
-})
+});

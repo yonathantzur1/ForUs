@@ -39,7 +39,7 @@ router.post('/userLogin',
                 }
                 // In case user email and password are valid.
                 else {
-                    tokenHandler.SetTokenOnCookie(tokenHandler.GetTokenFromUserObject(result), res);
+                    tokenHandler.setTokenOnCookie(tokenHandler.getTokenFromUserObject(result), res);
                     res.send({ "result": true });
                 }
             }
@@ -60,7 +60,7 @@ router.post('/userLogin',
 
 // Delete token from cookies.
 router.delete('/deleteToken', (req, res) => {
-    tokenHandler.DeleteTokenFromCookie(res);
+    tokenHandler.deleteTokenFromCookie(res);
     res.send(true);
 });
 

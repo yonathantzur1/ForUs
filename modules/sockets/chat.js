@@ -10,12 +10,12 @@ module.exports = (io, socket, connectedUsers) => {
 
         // Delete spaces from the start and the end of the message text.
         msgData.time = new Date();
-        msgData.id = generator.GenerateId();
+        msgData.id = generator.generateId();
         msgData.text = (msgData.isImage) ? msgData.text : msgData.text.trim();
-        let token = tokenHandler.DecodeTokenFromSocket(socket);
+        let token = tokenHandler.decodeTokenFromSocket(socket);
 
         // In case the message is to the user friend.
-        if (token && ValidateMessage(msgData, token.user)) {
+        if (token && validateMessage(msgData, token.user)) {
             // In case the friend is online.
             if (connectedUsers[msgData.to]) {
                 io.to(msgData.to).emit('GetMessage', msgData);
@@ -34,7 +34,7 @@ module.exports = (io, socket, connectedUsers) => {
     });
 
     socket.on('ServerGetOnlineFriends', function () {
-        let token = tokenHandler.DecodeTokenFromSocket(socket);
+        let token = tokenHandler.decodeTokenFromSocket(socket);
 
         if (token) {
             let user = token.user;
@@ -51,22 +51,17 @@ module.exports = (io, socket, connectedUsers) => {
     });
 
     socket.on('ServerFriendTyping', function (friendId) {
-        let token = tokenHandler.DecodeTokenFromSocket(socket);
+        let token = tokenHandler.decodeTokenFromSocket(socket);
 
         if (token) {
             io.to(friendId).emit('ClientFriendTyping', token.user._id);
         }
     });
-}
+};
 
-function ValidateMessage(msgData, user) {
-    if (user._id == msgData.from &&
+function validateMessage(msgData, user) {
+    return (user._id == msgData.from &&
         user.friends.indexOf(msgData.to) != -1 &&
         msgData.text &&
-        (msgData.isImage || msgData.text.length <= 600)) {
-        return true;
-    }
-    else {
-        return false;
-    }
+        (msgData.isImage || msgData.text.length <= 600));
 }

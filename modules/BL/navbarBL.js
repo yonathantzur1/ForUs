@@ -384,7 +384,7 @@ module.exports = {
 
                 // Getting a new token from the user object with the friend.
                 user.friends.push(friendId);
-                let newToken = tokenHandler.GetTokenFromUserObject(user);
+                let newToken = tokenHandler.getTokenFromUserObject(user);
 
                 let clientFriendObject = {
                     "_id": updatedFriend._id.toString(),

@@ -27,7 +27,7 @@ let db;
 
 async function getCollection(collectionName) {
     return (await getDB()).collection(collectionName);
-};
+}
 
 function handleError(err) {
     logger.error(err);

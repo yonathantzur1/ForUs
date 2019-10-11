@@ -70,12 +70,7 @@ app.use('/api', Exclude([
     '/auth/isUserOnSession',
     '/auth/isUserSocketConnect'
 ], (req, res, next) => {
-    if (tokenHandler.ValidateUserAuthCookies(req)) {
-        next();
-    }
-    else {
-        res.sendStatus(401);
-    }
+    tokenHandler.validateUserAuthCookies(req) ? next() : res.sendStatus(401);
 }));
 
 // Import socket module and get the connected users object.
@@ -96,10 +91,10 @@ app.use("/api/userReportWindow", require('./modules/routes/userPage/userReportWi
 app.use("/api/userPasswordWindow", require('./modules/routes/userPage/userPasswordWindow'));
 app.use("/api/userPrivacyWindow", require('./modules/routes/userPage/userPrivacyWindow'));
 app.use("/api/searchPage", require('./modules/routes/searchPage'));
-app.use("/api/management", permissionsMiddleware.Root, require('./modules/routes/managementPanel/management'));
-app.use("/api/statistics", permissionsMiddleware.Root, require('./modules/routes/managementPanel/statistics'));
-app.use("/api/usersReports", permissionsMiddleware.Root, require('./modules/routes/managementPanel/usersReports'));
-app.use("/api/permissions", permissionsMiddleware.Master, require('./modules/routes/managementPanel/permissions'));
+app.use("/api/management", permissionsMiddleware.root, require('./modules/routes/managementPanel/management'));
+app.use("/api/statistics", permissionsMiddleware.root, require('./modules/routes/managementPanel/statistics'));
+app.use("/api/usersReports", permissionsMiddleware.root, require('./modules/routes/managementPanel/usersReports'));
+app.use("/api/permissions", permissionsMiddleware.master, require('./modules/routes/managementPanel/permissions'));
 
 app.use("/api/auth", (req, res, next) => {
     req.connectedUsers = connectedUsers;

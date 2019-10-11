@@ -51,8 +51,8 @@ router.put('/resetPassword',
     (req, res) => {
         forgotPasswordBL.ResetPassword(req.body).then(result => {
             if (result && result.isChanged) {
-                let token = tokenHandler.GetTokenFromUserObject(result.user);
-                tokenHandler.SetTokenOnCookie(token, res);
+                let token = tokenHandler.getTokenFromUserObject(result.user);
+                tokenHandler.setTokenOnCookie(token, res);
                 res.send({ "result": true });
             }
             else {
@@ -68,7 +68,7 @@ router.put('/resetPassword',
 router.get('/validateResetPasswordToken',
     validation,
     (req, res) => {
-        tokenHandler.DeleteAuthCookies(res);
+        tokenHandler.deleteAuthCookies(res);
         forgotPasswordBL.ValidateResetPasswordToken(req.query.token).then(result => {
             res.send(result ? { name: (result.firstName + " " + result.lastName) } : false);
         }).catch(err => {
@@ -83,8 +83,8 @@ router.put('/resetPasswordByToken',
     (req, res) => {
         forgotPasswordBL.ResetPasswordByToken(req.body).then(result => {
             if (result) {
-                let token = tokenHandler.GetTokenFromUserObject(result);
-                tokenHandler.SetTokenOnCookie(token, res, true);
+                let token = tokenHandler.getTokenFromUserObject(result);
+                tokenHandler.setTokenOnCookie(token, res, true);
                 res.send(true);
             }
             else {

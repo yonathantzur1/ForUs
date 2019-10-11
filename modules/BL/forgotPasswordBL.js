@@ -12,7 +12,7 @@ module.exports = {
     // Add reset password code to the DB and return the user.
     SetUserResetCode(email) {
         return new Promise((resolve, reject) => {
-            let code = generator.GenerateCode(config.security.password.resetCode.numOfDigits, true);
+            let code = generator.generateCode(config.security.password.resetCode.numOfDigits, true);
             let resetPasswordToken = sha512(email + code);
 
             let resetCode = {
@@ -90,8 +90,8 @@ module.exports = {
                 // In case the reset code is valid, change the user password.
                 else {
                     let updateUser = result[0];
-                    updateUser.uid = generator.GenerateId();
-                    updateUser.salt = generator.GenerateCode(saltSize);
+                    updateUser.uid = generator.generateId();
+                    updateUser.salt = generator.generateCode(saltSize);
                     updateUser.password = sha512(forgotUser.newPassword + updateUser.salt);
                     updateUser.resetCode.isUsed = true;
                     updateUser.resetCode.tryNum++;
@@ -120,13 +120,13 @@ module.exports = {
         return new Promise((resolve, reject) => {
             let token = data.token;
             let newPassword = data.newPassword;
-            let salt = generator.GenerateCode(saltSize);
+            let salt = generator.generateCode(saltSize);
 
             let findObj = GetUserByTokenFilterQuery(token);
 
             let updateObj = {
                 $set: {
-                    "uid": generator.GenerateId(),
+                    "uid": generator.generateId(),
                     "salt": salt,
                     "password": sha512(newPassword + salt),
                     "resetCode.isUsed": true

@@ -3,7 +3,7 @@ const config = require('../../config');
 const encryption = require('../security/encryption');
 
 let self = module.exports = {
-    GetTokenFromUserObject(user) {
+    getTokenFromUserObject(user) {
         let tokenUserObject = {
             "_id": user._id,
             "uid": user.uid,
@@ -23,7 +23,7 @@ let self = module.exports = {
         return token;
     },
 
-    DecodeToken(token) {
+    decodeToken(token) {
         try {
             return jwt.verify(encryption.decrypt(token), config.security.jwt.secret);
         }
@@ -32,22 +32,22 @@ let self = module.exports = {
         }
     },
 
-    DecodeTokenFromRequest(request) {
-        let token = this.GetTokenFromRequest(request);
-        return this.DecodeToken(token);
+    decodeTokenFromRequest(request) {
+        let token = this.getTokenFromRequest(request);
+        return this.decodeToken(token);
     },
 
-    DecodeTokenFromSocket(socket) {
-        let token = this.GetTokenFromSocket(socket);
-        return this.DecodeToken(token);
+    decodeTokenFromSocket(socket) {
+        let token = this.getTokenFromSocket(socket);
+        return this.decodeToken(token);
     },
 
-    SetTokenOnCookie(token, res, isPreventUidCookie) {
+    setTokenOnCookie(token, res, isPreventUidCookie) {
         res.cookie(config.security.token.cookieName,
             token,
             { maxAge: config.security.token.maxAge, httpOnly: true });
 
-        token = this.DecodeToken(token);
+        token = this.decodeToken(token);
 
         if (token.user && !isPreventUidCookie) {
             res.cookie(config.security.token.uidCookieName,
@@ -56,38 +56,38 @@ let self = module.exports = {
         }
     },
 
-    DeleteTokenFromCookie(res) {
+    deleteTokenFromCookie(res) {
         res.clearCookie(config.security.token.cookieName);
     },
 
-    DeleteUidFromCookie(res) {
+    deleteUidFromCookie(res) {
         res.clearCookie(config.security.token.uidCookieName);
     },
 
-    DeleteAuthCookies(res) {
-        this.DeleteTokenFromCookie(res);
-        this.DeleteUidFromCookie(res);
+    deleteAuthCookies(res) {
+        this.deleteTokenFromCookie(res);
+        this.deleteUidFromCookie(res);
     },
 
-    GetTokenFromCookie(cookie) {
-        return GetCookieByName(config.security.token.cookieName, cookie);
+    getTokenFromCookie(cookie) {
+        return getCookieByName(config.security.token.cookieName, cookie);
     },
 
-    GetTokenFromSocket(socket) {
-        return GetCookieByName(config.security.token.cookieName, socket.request.headers.cookie);
+    getTokenFromSocket(socket) {
+        return getCookieByName(config.security.token.cookieName, socket.request.headers.cookie);
     },
 
-    GetTokenFromRequest(request) {
-        return GetCookieByName(config.security.token.cookieName, request.headers.cookie);
+    getTokenFromRequest(request) {
+        return getCookieByName(config.security.token.cookieName, request.headers.cookie);
     },
 
-    GetUidFromRequest(request) {
-        return GetCookieByName(config.security.token.uidCookieName, request.headers.cookie);
+    getUidFromRequest(request) {
+        return getCookieByName(config.security.token.uidCookieName, request.headers.cookie);
     },
 
-    ValidateUserAuthCookies(request) {
-        let token = self.DecodeTokenFromRequest(request);
-        let cookieUid = self.GetUidFromRequest(request);
+    validateUserAuthCookies(request) {
+        let token = self.decodeTokenFromRequest(request);
+        let cookieUid = self.getUidFromRequest(request);
 
         // Return if the user is login and authorized.
         if (token && token.user.uid == cookieUid) {
@@ -98,9 +98,9 @@ let self = module.exports = {
             return false;
         }
     }
-}
+};
 
-function GetCookieByName(cname, cookie) {
+function getCookieByName(cname, cookie) {
     if (!cookie) {
         return '';
     }

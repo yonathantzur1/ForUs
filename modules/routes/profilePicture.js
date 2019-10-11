@@ -24,8 +24,8 @@ router.post('/saveImage', function (req, res) {
     profilePictureBL.SaveImage(imageData).then((result) => {
         if (result) {
             req.user.profile = result.profile.toString();
-            let token = tokenHandler.GetTokenFromUserObject(req.user);
-            tokenHandler.SetTokenOnCookie(token, res);
+            let token = tokenHandler.getTokenFromUserObject(req.user);
+            tokenHandler.setTokenOnCookie(token, res);
             res.send(true);
         }
         else {
@@ -33,7 +33,7 @@ router.post('/saveImage', function (req, res) {
         }
     }).catch((err) => {
         logger.error(err);
-        res.sendStatus(500);        
+        res.sendStatus(500);
     });
 });
 
@@ -45,8 +45,8 @@ router.delete('/deleteImage', function (req, res) {
     profilePictureBL.DeleteImage(userId, profileId).then((result) => {
         if (result) {
             delete req.user.profile;
-            let token = tokenHandler.GetTokenFromUserObject(req.user);
-            tokenHandler.SetTokenOnCookie(token, res);
+            let token = tokenHandler.getTokenFromUserObject(req.user);
+            tokenHandler.setTokenOnCookie(token, res);
             res.send(true);
         }
         else {

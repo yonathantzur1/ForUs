@@ -30,8 +30,8 @@ router.post('/register',
                     if (user) {
                         // Sending a welcome mail to the new user.
                         mailer.registerMail(email, req.body.firstName);
-                        let token = tokenHandler.GetTokenFromUserObject(user);
-                        tokenHandler.SetTokenOnCookie(token, res);
+                        let token = tokenHandler.getTokenFromUserObject(user);
+                        tokenHandler.setTokenOnCookie(token, res);
                         res.send({ "result": true });
                         logsBL.Register(email, req);
                     }

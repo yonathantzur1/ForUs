@@ -17,11 +17,11 @@ module.exports = {
             loginBL.IsPasswordMatchToUser(userObjId, oldPassword).then(result => {
                 // In case the password math to the user.
                 if (result) {
-                    let salt = generator.GenerateCode(saltSize);
+                    let salt = generator.generateCode(saltSize);
                     let findObj = { "_id": userObjId };
                     let updateObj = {
                         $set: {
-                            "uid": generator.GenerateId(),
+                            "uid": generator.generateId(),
                             "salt": salt,
                             "password": sha512(newPassword + salt)
                         }

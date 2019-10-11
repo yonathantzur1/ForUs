@@ -64,7 +64,7 @@ router.delete('/removeFriends', function (req, res) {
 
 router.delete('/deleteUser', function (req, res) {
     // Checking master permission.
-    if (permissionHandler.IsUserHasMasterPermission(req.user.permissions)) {
+    if (permissionHandler.isUserHasMasterPermission(req.user.permissions)) {
         managementBL.DeleteUser(req.query.userId,
             req.query.userFirstName,
             req.query.userLastName,
