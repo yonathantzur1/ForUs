@@ -209,7 +209,7 @@ module.exports = {
                     !messagesNotifications[userId] ||
                     GetDatesHoursDiff(new Date(), messagesNotifications[userId].lastUnreadMessageDate) >=
                     chatMailNotificationDelayTime) {
-                    mailer.MessageNotificationAlert(friendObj.email, friendObj.firstName, senderName);
+                    mailer.messageNotificationAlert(friendObj.email, friendObj.firstName, senderName);
                 }
 
                 let friendMessagesNotifications = messagesNotifications ? messagesNotifications[userId] : null;

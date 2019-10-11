@@ -38,7 +38,7 @@ router.get('/changePasswordByMail', function (req, res) {
         if (result) {
             let resetAddress =
                 config.address.site + "/forgot/" + result.resetCode.token;
-            mailer.ChangePasswordMail(email,
+            mailer.changePasswordMail(email,
                 result.firstName,
                 resetAddress);
             res.send(true);

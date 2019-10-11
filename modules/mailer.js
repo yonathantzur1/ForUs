@@ -14,13 +14,13 @@ let transporter = nodemailer.createTransport(
 );
 
 module.exports = {
-    SendMail(destEmail, title, text, css) {
+    sendMail(destEmail, title, text, css) {
         // Setup email data with unicode symbols
         let mailOptions = {
             from: "'ForUs' <" + config.mailer.mail + ">", // Sender address
             to: destEmail, // List of receivers
             subject: title, // Subject line
-            html: "<div dir='rtl'>" + (css ? ReplaceStyleCss(text, css) : text) + "</div>" // html body
+            html: "<div dir='rtl'>" + (css ? replaceStyleCss(text, css) : text) + "</div>" // html body
         };
 
         // Send email with defined transport object
@@ -29,14 +29,14 @@ module.exports = {
         });
     },
 
-    RegisterMail(email, name) {
-        this.SendMail(email,
+    registerMail(email, name) {
+        this.sendMail(email,
             "ForUs",
-            GetTimeBlessing(name) +
+            getTimeBlessing(name) +
             "אנחנו שמחים לברך אותך על הצטרפותך לאתר ForUs!");
     },
 
-    ForgotPasswordMail(email, name, code, resetAddress) {
+    forgotPasswordMail(email, name, code, resetAddress) {
         let css = {
             resetCodeStyle: "padding:8px;background-color:#f2f2f2;border:1px solid #ccc;display:inline-block;margin-top:3px;",
             linkStyle: "padding:7px 16px;border:solid 1px #344c80;background:#547da0;border-radius:2px;color:white;text-decoration:none;",
@@ -44,9 +44,9 @@ module.exports = {
             btnSpaceStyle: "margin-top:10px;"
         }
 
-        this.SendMail(email,
+        this.sendMail(email,
             "איפוס סיסמא",
-            "<div>" + GetTimeBlessing(name) +
+            "<div>" + getTimeBlessing(name) +
             "הקוד שהונפק עבורך לאיפוס הסיסמא הוא:</div><div {{resetCodeStyle}}>" +
             code + "</div><br>" +
             "<div {{lineSpaceStyle}}>או לחילופין, לחיצה על הכפתור:</div>" +
@@ -55,78 +55,78 @@ module.exports = {
             css);
     },
 
-    ChangePasswordMail(email, name, resetAddress) {
+    changePasswordMail(email, name, resetAddress) {
         let css = {
             linkStyle: "padding:7px 16px;border:solid 1px #344c80;background:#547da0;border-radius:2px;color:white;text-decoration:none;",
             btnSpaceStyle: "margin-top:10px;"
         }
 
-        this.SendMail(email,
+        this.sendMail(email,
             "שינוי סיסמא",
-            "<div>" + GetTimeBlessing(name) +
+            "<div>" + getTimeBlessing(name) +
             "לשינוי הסיסמא - יש ללחוץ על הפתור:</div>" +
             "<div {{btnSpaceStyle}}><a href='" +
             resetAddress + "' {{linkStyle}}>שינוי סיסמא</a></div>",
             css);
     },
 
-    MessageNotificationAlert(email, name, senderName) {
-        let text = GetTimeBlessing(name) +
+    messageNotificationAlert(email, name, senderName) {
+        let text = getTimeBlessing(name) +
             "ממתינה עבורך הודעה חדשה<name>." + "<br>" +
             config.address.site;
         text = senderName ? text.replace("<name>", " מ" + senderName) : text.replace("<name>", '');
 
-        this.SendMail(email,
+        this.sendMail(email,
             "הודעה חדשה",
             text);
     },
 
-    FriendRequestAlert(email, name, friendName, friendId) {
+    friendRequestAlert(email, name, friendName, friendId) {
         let friendProfilePageUrl = config.address.site + "/profile/" + friendId;
-        this.SendMail(email,
+        this.sendMail(email,
             "בקשת חברות",
-            GetTimeBlessing(name) +
+            getTimeBlessing(name) +
             "בקשת חברות חדשה הגיעה מ" + friendName + ".<br>" +
             friendProfilePageUrl);
     },
 
-    FriendRequestConfirm(email, name, friendName) {
-        this.SendMail(email,
+    friendRequestConfirm(email, name, friendName) {
+        this.sendMail(email,
             "אישור בקשת חברות",
-            GetTimeBlessing(friendName) +
+            getTimeBlessing(friendName) +
             "החברות עם " + name + " אושרה.<br>" +
             config.address.site);
     },
 
-    BlockMessage(email, name, reason, date) {
+    blockMessage(email, name, reason, date) {
         let dateString;
 
         if (date) {
             dateString = "עד לתאריך: ";
-            date = FormatDate(date);
+            date = formatDate(date);
         }
         else {
             dateString = "לתקופה בלתי מוגבלת";
             date = '';
         }
 
-        this.SendMail(email,
+        this.sendMail(email,
             "חסימת משתמש",
-            GetTimeBlessing(name) +
+            getTimeBlessing(name) +
             "חשבונך באתר נחסם לשימוש.<br><br>" +
             "סיבת החסימה: " + reason + "<br>" +
             dateString + "<b>" + date + "</b>");
     },
 
-    ValidateDeleteUser(email, name, deleteUserLink) {
+    validateDeleteUser(email, name, deleteUserLink) {
         let css = {
             linkStyle: "padding:7px 16px;border:solid 1px #f10000;background:#f44336;border-radius:2px;color:white;text-decoration:none;",
             btnSpaceStyle: "margin-top:10px;"
         }
 
-        this.SendMail(email,
+        this.sendMail(email,
             "אישור מחיקת חשבון",
-            "<div>" + GetTimeBlessing(name) +
+            "<div>" + getTimeBlessing(name) +
             "למחיקת החשבון לצמיתות - יש ללחוץ על הפתור:</div>" +
             "<div {{btnSpaceStyle}}><a href='" +
             deleteUserLink + "' {{linkStyle}}>מחיקת משתמש</a></div>",
@@ -134,12 +134,12 @@ module.exports = {
     },
 };
 
-function FormatDate(date) {
+function formatDate(date) {
     date = new Date(date);
     return (date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
 }
 
-function GetTimeBlessing(name) {
+function getTimeBlessing(name) {
     let hour = new Date().getHours();
     let blessingStr;
 
@@ -162,7 +162,7 @@ function GetTimeBlessing(name) {
     return blessingStr + " " + name + ",<br>";
 }
 
-function ReplaceStyleCss(html, css) {
+function replaceStyleCss(html, css) {
     Object.keys(css).forEach(className => {
         html = html.replace(new RegExp("{{" + className + "}}", 'g'), 'style="' + css[className] + '"');
     });

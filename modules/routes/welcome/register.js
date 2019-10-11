@@ -29,7 +29,7 @@ router.post('/register',
                     // In case all register progress was succeeded.
                     if (user) {
                         // Sending a welcome mail to the new user.
-                        mailer.RegisterMail(email, req.body.firstName);
+                        mailer.registerMail(email, req.body.firstName);
                         let token = tokenHandler.GetTokenFromUserObject(user);
                         tokenHandler.SetTokenOnCookie(token, res);
                         res.send({ "result": true });

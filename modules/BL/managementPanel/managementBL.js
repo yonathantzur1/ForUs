@@ -226,11 +226,11 @@ module.exports = {
     },
 
     async BlockUser(blockerId, blockObj) {
-        let blockerId = DAL.getObjectId(blockerId);
-        let blockedId = DAL.getObjectId(blockObj._id);
+        let blockerObjId = DAL.getObjectId(blockerId);
+        let blockedObjId = DAL.getObjectId(blockObj._id);
 
-        if (await IsUserMaster(blockedId)) {
-            logger.secure("The user: " + blockerId + " attemped to block the master user: " + blockedId);
+        if (await IsUserMaster(blockedObjId)) {
+            logger.secure("The user: " + blockerObjId + " attemped to block the master user: " + blockedObjId);
             return Promise.reject();
         }
 
@@ -248,15 +248,15 @@ module.exports = {
         let block = {
             reason: blockObj.blockReason,
             unblockDate,
-            blockerId
+            blockerId: blockerObjId
         }
 
         let result = await DAL.updateOne(usersCollectionName,
-            { "_id": blockedId },
+            { "_id": blockedObjId },
             { $set: { block } });
 
         if (result) {
-            mailer.BlockMessage(result.email, result.firstName, block.reason, block.unblockDate);
+            mailer.blockMessage(result.email, result.firstName, block.reason, block.unblockDate);
             result = result.block;
         }
 

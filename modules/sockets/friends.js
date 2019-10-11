@@ -36,7 +36,7 @@ module.exports = (io, socket, connectedUsers) => {
             else {
                 loginBL.GetUserById(friendId).then((friendObj) => {
                     if (friendObj) {
-                        mailer.FriendRequestAlert(friendObj.email, friendObj.firstName, userFullName, user._id);
+                        mailer.friendRequestAlert(friendObj.email, friendObj.firstName, userFullName, user._id);
                     }
                 }).catch(logger.error);
             }
@@ -59,7 +59,7 @@ module.exports = (io, socket, connectedUsers) => {
             if (!connectedUsers[friend._id]) {
                 let userName = token.user.firstName + " " + token.user.lastName;
                 let friendEmail = friend.email;
-                mailer.FriendRequestConfirm(friendEmail, userName, friend.firstName);
+                mailer.friendRequestConfirm(friendEmail, userName, friend.firstName);
             }
 
             delete friend.email;

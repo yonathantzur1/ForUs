@@ -152,8 +152,8 @@ module.exports = {
 
         let user = await DAL.updateOne(usersCollectionName, { "_id": DAL.getObjectId(userId) }, updateObj);
         let deleteUserLink = config.address.site + "/delete/" + deleteUser.token;
-        
-        mailer.ValidateDeleteUser(user.email, user.firstName, deleteUserLink);
+
+        mailer.validateDeleteUser(user.email, user.firstName, deleteUserLink);
 
         return true;
     }

@@ -21,7 +21,7 @@ router.put('/forgotPasswordRequest',
             if (result) {
                 let resetAddress =
                     config.address.site + "/forgot/" + result.resetCode.token;
-                mailer.ForgotPasswordMail(email,
+                mailer.forgotPasswordMail(email,
                     result.firstName,
                     result.resetCode.code,
                     resetAddress);
