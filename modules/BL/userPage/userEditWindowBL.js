@@ -9,7 +9,7 @@ const usersCollectionName = config.db.collections.users;
 let self = module.exports = {
     UpdateUserInfo(updateFields) {
         return new Promise((resolve, reject) => {
-            let userObjId = DAL.GetObjectId(updateFields._id);
+            let userObjId = DAL.getObjectId(updateFields._id);
             let userPassword = updateFields.password;
             delete updateFields._id;
             delete updateFields.password;
@@ -19,7 +19,7 @@ let self = module.exports = {
                 if (result) {
                     // In case email field was updated.
                     if (updateFields.email) {
-                        DAL.Count(usersCollectionName, { "email": updateFields.email }).then(amount => {
+                        DAL.count(usersCollectionName, { "email": updateFields.email }).then(amount => {
                             if (amount > 0) {
                                 resolve(enums.USER_UPDATE_INFO_ERROR.EMAIL_EXISTS);
                             }
@@ -40,7 +40,7 @@ let self = module.exports = {
     },    
 
     UpdateUserOnDB(resolve, reject, userObjId, updateFields) {
-        DAL.UpdateOne(usersCollectionName,
+        DAL.updateOne(usersCollectionName,
             { "_id": userObjId },
             { $set: updateFields }).then((result) => {
                 // Change result to true in case the update succeeded.

@@ -9,7 +9,7 @@ let self = module.exports = {
 
     GetUserById(id) {
         return new Promise((resolve, reject) => {
-            let userFilter = { $match: { "_id": DAL.GetObjectId(id) } };
+            let userFilter = { $match: { "_id": DAL.getObjectId(id) } };
             let joinFilter = {
                 $lookup:
                 {
@@ -22,7 +22,7 @@ let self = module.exports = {
 
             let aggregateArray = [userFilter, joinFilter];
 
-            DAL.Aggregate(usersCollectionName, aggregateArray).then((result) => {
+            DAL.aggregate(usersCollectionName, aggregateArray).then((result) => {
                 if (result.length > 0) {
                     let user = result[0];
 
@@ -41,7 +41,7 @@ let self = module.exports = {
 
     IsPasswordMatchToUser(userObjId, password) {
         return new Promise((resolve, reject) => {
-            DAL.FindOneSpecific(usersCollectionName,
+            DAL.findOneSpecific(usersCollectionName,
                 { "_id": userObjId },
                 { "password": 1, "salt": 1 }).then(data => {
                     if (data) {
@@ -58,7 +58,7 @@ let self = module.exports = {
         return new Promise((resolve, reject) => {
             let filter = { "email": user.email };
 
-            DAL.FindOne(usersCollectionName, filter).then((userObj) => {
+            DAL.findOne(usersCollectionName, filter).then((userObj) => {
                 // In case the user was found.
                 if (userObj) {
                     // In case the password and salt hashing are the password hash in the DB.
@@ -98,10 +98,10 @@ let self = module.exports = {
 
     UpdateLastLogin: (userId) => {
         return new Promise((resolve, reject) => {
-            let findObj = { "_id": DAL.GetObjectId(userId) };
+            let findObj = { "_id": DAL.getObjectId(userId) };
             let lastLoginTimeObj = { $set: { "lastLoginTime": new Date() } };
 
-            DAL.UpdateOne(usersCollectionName, findObj, lastLoginTimeObj).then(resolve).catch(reject);
+            DAL.updateOne(usersCollectionName, findObj, lastLoginTimeObj).then(resolve).catch(reject);
         });
     }
 

@@ -11,15 +11,15 @@ module.exports = {
                 resolve(null);
             }
             else {
-                let profileObjectId = DAL.GetObjectId(profileId);
-                DAL.FindOne(profilePicturesCollectionName, { "_id": profileObjectId }).then(resolve).catch(reject);
+                let profileObjectId = DAL.getObjectId(profileId);
+                DAL.findOne(profilePicturesCollectionName, { "_id": profileObjectId }).then(resolve).catch(reject);
             }
         });
     },
 
     SaveImage(imageData) {
         return new Promise((resolve, reject) => {
-            let userIdObject = DAL.GetObjectId(imageData.userId);
+            let userIdObject = DAL.getObjectId(imageData.userId);
 
             let imageObj = {
                 "image": imageData.imgBase64,
@@ -27,28 +27,28 @@ module.exports = {
                 "updateDate": new Date()
             };
 
-            let deleteCurrentPicture = DAL.Delete(profilePicturesCollectionName, { "userId": userIdObject });
-            let insertImage = DAL.Insert(profilePicturesCollectionName, imageObj);
+            let deleteCurrentPicture = DAL.delete(profilePicturesCollectionName, { "userId": userIdObject });
+            let insertImage = DAL.insert(profilePicturesCollectionName, imageObj);
 
             Promise.all([deleteCurrentPicture, insertImage]).then(results => {
                 let imageId = results[1];
                 let userProfile = { $set: { "profile": imageId } };
 
                 // Update the id of the profile picture of the user.
-                DAL.UpdateOne(usersCollectionName, { "_id": userIdObject }, userProfile).then(resolve);
+                DAL.updateOne(usersCollectionName, { "_id": userIdObject }, userProfile).then(resolve);
             }).catch(reject);
         });
     },
 
     DeleteImage(userId, profileId) {
         return new Promise((resolve, reject) => {
-            let usersFilter = { "_id": DAL.GetObjectId(userId) };
+            let usersFilter = { "_id": DAL.getObjectId(userId) };
             let userObjectFieldDeleteQuery = { $unset: { "profile": 1 } };
-            let profileFilter = { "_id": DAL.GetObjectId(profileId) };
+            let profileFilter = { "_id": DAL.getObjectId(profileId) };
 
             let removeProfileImageFromUserObject =
-                DAL.UpdateOne(usersCollectionName, usersFilter, userObjectFieldDeleteQuery);
-            let removeProfileImage = DAL.Delete(profilePicturesCollectionName, profileFilter);
+                DAL.updateOne(usersCollectionName, usersFilter, userObjectFieldDeleteQuery);
+            let removeProfileImage = DAL.delete(profilePicturesCollectionName, profileFilter);
 
             Promise.all([removeProfileImageFromUserObject, removeProfileImage]).then(results => {
                 resolve(true);

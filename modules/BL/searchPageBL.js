@@ -12,7 +12,7 @@ module.exports = {
                 return reject();
             }
 
-            let userObjectId = DAL.GetObjectId(userId);
+            let userObjectId = DAL.getObjectId(userId);
             searchInput = searchInput.replace(/\\/g, '');
 
             let projectFields = {
@@ -75,7 +75,7 @@ module.exports = {
                 usersFinalFieldsWithProfile
             ];
 
-            DAL.Aggregate(usersCollectionName, joinAggregateArray).then((users) => {
+            DAL.aggregate(usersCollectionName, joinAggregateArray).then((users) => {
                 if (users) {
                     // Second sort for results by the search input string.
                     users = users.sort((a, b) => {
@@ -107,10 +107,10 @@ module.exports = {
 
     GetUserFriendRequests(userId) {
         return new Promise((resolve, reject) => {
-            let query = { "_id": DAL.GetObjectId(userId) };
+            let query = { "_id": DAL.getObjectId(userId) };
             let fields = { "_id": 0, "friendRequests.get": 1, "friendRequests.send": 1 };
 
-            DAL.FindOneSpecific(usersCollectionName, query, fields).then(resolve).catch(reject);
+            DAL.findOneSpecific(usersCollectionName, query, fields).then(resolve).catch(reject);
         });
     }
 }

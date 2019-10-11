@@ -28,7 +28,7 @@ module.exports = {
                 }
             };
 
-            DAL.UpdateOne(usersCollectionName, { email }, resetCode).then(resolve).catch(reject);
+            DAL.updateOne(usersCollectionName, { email }, resetCode).then(resolve).catch(reject);
         });
     },
 
@@ -45,7 +45,7 @@ module.exports = {
                 codeIsUsed: false
             };
 
-            DAL.Find(usersCollectionName, emailObj).then((result) => {
+            DAL.find(usersCollectionName, emailObj).then((result) => {
                 if (!result) {
                     resolve(null);
                 }
@@ -83,7 +83,7 @@ module.exports = {
                     let updateCodeObj = { $set: { "resetCode": resetCodeObj } };
 
                     // Update num of tries to the code.
-                    DAL.UpdateOne(usersCollectionName, emailObj, updateCodeObj).then((updateResult) => {
+                    DAL.updateOne(usersCollectionName, emailObj, updateCodeObj).then((updateResult) => {
                         updateResult ? resolve(errorsObj) : resolve(updateResult);
                     });
                 }
@@ -98,7 +98,7 @@ module.exports = {
 
                     updateUserObj = { $set: updateUser };
 
-                    DAL.UpdateOne(usersCollectionName, emailObj, updateUserObj).then((updateResult) => {
+                    DAL.updateOne(usersCollectionName, emailObj, updateUserObj).then((updateResult) => {
                         updateResult ? resolve({ "isChanged": true, "user": updateResult }) : resolve(updateResult);
                     });
                 }
@@ -111,7 +111,7 @@ module.exports = {
             let query = GetUserByTokenFilterQuery(token);
             let fields = { "_id": 0, "firstName": 1, "lastName": 1 };
 
-            DAL.FindOneSpecific(usersCollectionName, query, fields).then(resolve).catch(reject);
+            DAL.findOneSpecific(usersCollectionName, query, fields).then(resolve).catch(reject);
         });
     },
 
@@ -133,7 +133,7 @@ module.exports = {
                 }
             }
 
-            DAL.UpdateOne(usersCollectionName, findObj, updateObj).then(result => {
+            DAL.updateOne(usersCollectionName, findObj, updateObj).then(result => {
                 resolve(result);
             }).catch(reject);
         });

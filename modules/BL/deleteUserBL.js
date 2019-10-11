@@ -25,7 +25,7 @@ module.exports = {
 
             let fields = { "_id": 0, "firstName": 1, "lastName": 1 };
 
-            DAL.FindOneSpecific(usersCollectionName, query, fields).then(resolve).catch(reject);
+            DAL.findOneSpecific(usersCollectionName, query, fields).then(resolve).catch(reject);
         });
     },
 
@@ -39,7 +39,7 @@ module.exports = {
                 "deleteUser.token": token
             };
 
-            DAL.FindOne(usersCollectionName, findObj).then(user => {
+            DAL.findOne(usersCollectionName, findObj).then(user => {
                 // In case the user was not found by token.
                 if (!user) {
                     reject();
@@ -54,17 +54,17 @@ module.exports = {
 
     DeleteUserFromDB(userId, userFirstName, userLastName, userEmail, req) {
         return new Promise((resolve, reject) => {
-            let userObjectId = DAL.GetObjectId(userId);
+            let userObjectId = DAL.getObjectId(userId);
             let notificationsUnsetJson = {};
             notificationsUnsetJson["messagesNotifications." + userId] = 1;
 
-            let findUserFriendsAndFriendRequests = DAL.FindOneSpecific(usersCollectionName,
+            let findUserFriendsAndFriendRequests = DAL.findOneSpecific(usersCollectionName,
                 { "_id": userObjectId },
                 { "friends": 1, "friendRequests.send": 1 });
-            let removeUserPermissions = DAL.Update(permissionsCollectionName, {},
+            let removeUserPermissions = DAL.update(permissionsCollectionName, {},
                 { $pull: { "members": userObjectId } });
-            let removeUserChats = DAL.Delete(chatsCollectionName, { "membersIds": userId });
-            let removeUserFriendsRelations = DAL.Update(usersCollectionName, {},
+            let removeUserChats = DAL.delete(chatsCollectionName, { "membersIds": userId });
+            let removeUserFriendsRelations = DAL.update(usersCollectionName, {},
                 {
                     $pull: {
                         "friends": userObjectId,
@@ -74,8 +74,8 @@ module.exports = {
                     },
                     $unset: notificationsUnsetJson
                 });
-            let removeUserProfileImages = DAL.Delete(profilePicturesCollectionName, { "userId": userObjectId });
-            let removeUser = DAL.DeleteOne(usersCollectionName, { "_id": userObjectId });
+            let removeUserProfileImages = DAL.delete(profilePicturesCollectionName, { "userId": userObjectId });
+            let removeUser = DAL.deleteOne(usersCollectionName, { "_id": userObjectId });
 
             let deleteUserActions = [
                 findUserFriendsAndFriendRequests,

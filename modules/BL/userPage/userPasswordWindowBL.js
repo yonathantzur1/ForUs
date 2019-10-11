@@ -12,7 +12,7 @@ const saltSize = config.security.password.saltSize;
 module.exports = {
     UpdateUserPassword(oldPassword, newPassword, userId) {
         return new Promise((resolve, reject) => {
-            let userObjId = DAL.GetObjectId(userId);
+            let userObjId = DAL.getObjectId(userId);
 
             loginBL.IsPasswordMatchToUser(userObjId, oldPassword).then(result => {
                 // In case the password math to the user.
@@ -27,7 +27,7 @@ module.exports = {
                         }
                     }
 
-                    DAL.UpdateOne(usersCollectionName, findObj, updateObj).then(result => {
+                    DAL.updateOne(usersCollectionName, findObj, updateObj).then(result => {
                         resolve(true);
                     });
                 }

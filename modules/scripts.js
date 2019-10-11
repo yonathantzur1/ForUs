@@ -16,7 +16,7 @@ module.exports = function () {
 // the current key on config or on env-variables.
 // After running the function, change the key on env-variables. 
 function ChangeEncryptionKeyString(newKeyString) {
-    DAL.Find(chatsCollectionName, {}).then(chats => {
+    DAL.find(chatsCollectionName, {}).then(chats => {
         console.log("Query " + chats.length + " chats");
         let updates = [];
 
@@ -29,7 +29,7 @@ function ChangeEncryptionKeyString(newKeyString) {
             let chatFindQuery = { "_id": chat._id };
             let updateObj = { $set: { messages } };
 
-            updates.push(DAL.UpdateOne(chatsCollectionName, chatFindQuery, updateObj));
+            updates.push(DAL.updateOne(chatsCollectionName, chatFindQuery, updateObj));
         });
 
         Promise.all(updates).then(results => {

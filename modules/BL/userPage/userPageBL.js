@@ -14,8 +14,8 @@ const profilePicturesCollectionName = config.db.collections.profilePictures;
 module.exports = {
     async GetUserDetails(userId, currUserId) {
         let isUserSelfPage = (userId == currUserId);
-        let userObjectId = DAL.GetObjectId(userId);
-        let currUserObjectId = DAL.GetObjectId(currUserId);
+        let userObjectId = DAL.getObjectId(userId);
+        let currUserObjectId = DAL.getObjectId(currUserId);
         let userFilter = {
             $match: {
                 $and: [
@@ -65,7 +65,7 @@ module.exports = {
         let aggregateArray = [userFilter, joinFilter, unwindObject, userFileds];
 
         // Build user details async queries.
-        let getUserDetails = DAL.Aggregate(usersCollectionName, aggregateArray);
+        let getUserDetails = DAL.aggregate(usersCollectionName, aggregateArray);
         let userDetailsActions = [getUserDetails];
         !isUserSelfPage && (userDetailsActions.push(permissionsBL.GetUserPermissions(currUserId)));
 
@@ -112,13 +112,13 @@ module.exports = {
         notificationsUnsetJson["messagesNotifications." + userId] = 1;
         notificationsUnsetJson["messagesNotifications." + friendId] = 1;
 
-        let removeFriedsChat = DAL.Delete(chatsCollectionName,
+        let removeFriedsChat = DAL.delete(chatsCollectionName,
             { "membersIds": { $all: [userId, friendId] } });
 
-        let userObjectId = DAL.GetObjectId(userId);
-        let friendObjectId = DAL.GetObjectId(friendId);
+        let userObjectId = DAL.getObjectId(userId);
+        let friendObjectId = DAL.getObjectId(friendId);
 
-        let removeFriendsRelation = DAL.Update(usersCollectionName,
+        let removeFriendsRelation = DAL.update(usersCollectionName,
             {
                 $or: [
                     { "_id": userObjectId },
@@ -150,7 +150,7 @@ module.exports = {
             $set: { deleteUser }
         }
 
-        let user = await DAL.UpdateOne(usersCollectionName, { "_id": DAL.GetObjectId(userId) }, updateObj);
+        let user = await DAL.updateOne(usersCollectionName, { "_id": DAL.getObjectId(userId) }, updateObj);
         let deleteUserLink = config.address.site + "/delete/" + deleteUser.token;
         
         mailer.ValidateDeleteUser(user.email, user.firstName, deleteUserLink);

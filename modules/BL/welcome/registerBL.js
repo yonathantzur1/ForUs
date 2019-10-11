@@ -9,7 +9,7 @@ module.exports = {
     // Check if user is exists on DB.
     CheckIfUserExists(email) {
         return new Promise((resolve, reject) => {
-            DAL.FindOne(usersCollectionName, { email }).then((result) => {
+            DAL.findOne(usersCollectionName, { email }).then((result) => {
                 resolve(result ? true : false)
             }).catch(reject);
         });
@@ -39,7 +39,7 @@ module.exports = {
                 }
             };
 
-            DAL.Insert(usersCollectionName, newUserObj).then((result) => {
+            DAL.insert(usersCollectionName, newUserObj).then((result) => {
                 if (result) {
                     newUserObj._id = result;
                     resolve(newUserObj);

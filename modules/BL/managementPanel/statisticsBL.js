@@ -57,7 +57,7 @@ module.exports = {
 
                 let aggregate = [logsFilter, groupObj];
 
-                DAL.Aggregate(logsCollectionName, aggregate).then((result) => {
+                DAL.aggregate(logsCollectionName, aggregate).then((result) => {
                     let data = [];
 
                     for (let i = 0; i < barsNumber; i++) {
@@ -115,7 +115,7 @@ module.exports = {
                 }
             ];
 
-            DAL.Aggregate(usersCollectionName, aggregateArray).then((users) => {
+            DAL.aggregate(usersCollectionName, aggregateArray).then((users) => {
                 if (users && users.length == 1) {
                     let user = users[0];
 

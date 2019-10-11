@@ -71,7 +71,7 @@ module.exports = {
                 sort
             ];
 
-            DAL.Aggregate(usersReportsCollectionName, aggregateArray).then(reports => {
+            DAL.aggregate(usersReportsCollectionName, aggregateArray).then(reports => {
                 reports && reports.forEach(report => {
                     delete report.reasonId;
                     report.reason = report.reason.name;

@@ -51,7 +51,7 @@ module.exports = {
                 friendsFileds
             ];
 
-            DAL.Aggregate(usersCollectionName, aggregateArray).then((friends) => {
+            DAL.aggregate(usersCollectionName, aggregateArray).then((friends) => {
                 friends && friends.forEach(friend => {
                     if (friend.profileImage) {
                         friend.profileImage = friend.profileImage.image;
@@ -65,7 +65,7 @@ module.exports = {
 
     GetMainSearchResults(searchInput, userId) {
         return new Promise((resolve, reject) => {
-            let userObjectId = DAL.GetObjectId(userId);
+            let userObjectId = DAL.getObjectId(userId);
             searchInput = searchInput.replace(/\\/g, '').trim();
 
             // In case the input is empty, return empty result array.
@@ -123,7 +123,7 @@ module.exports = {
 
             let aggregateArray = [projectFields, usersFilter, userResultFields, sortObj, limitObj];
 
-            DAL.Aggregate(usersCollectionName, aggregateArray).then((results) => {
+            DAL.aggregate(usersCollectionName, aggregateArray).then((results) => {
                 if (results) {
                     // Running on all results and order profiles structure to the next query
                     // for profile images.
@@ -160,7 +160,7 @@ module.exports = {
                 resolve(profilesIds);
             }
             else {
-                DAL.Find(profilePicturesCollectionName, { "_id": { $in: ConvertIdsToObjectIds(profilesIds) } }).then((profiles) => {
+                DAL.find(profilePicturesCollectionName, { "_id": { $in: ConvertIdsToObjectIds(profilesIds) } }).then((profiles) => {
                     if (!profiles) {
                         resolve(null);
                     }
@@ -183,14 +183,14 @@ module.exports = {
 
     GetUserMessagesNotifications(userId) {
         return new Promise((resolve, reject) => {
-            DAL.FindOneSpecific(usersCollectionName,
-                { _id: DAL.GetObjectId(userId) },
+            DAL.findOneSpecific(usersCollectionName,
+                { _id: DAL.getObjectId(userId) },
                 { "messagesNotifications": 1 }).then(resolve).catch(reject);
         });
     },
 
     AddMessageNotification(userId, friendId, msgId, senderName) {
-        let friendIdObject = { "_id": DAL.GetObjectId(friendId) }
+        let friendIdObject = { "_id": DAL.getObjectId(friendId) }
 
         // Specific fields for friend query.
         friendSelectFields = {
@@ -199,7 +199,7 @@ module.exports = {
             messagesNotifications: 1
         }
 
-        DAL.FindOneSpecific(usersCollectionName, friendIdObject, friendSelectFields).then((friendObj) => {
+        DAL.findOneSpecific(usersCollectionName, friendIdObject, friendSelectFields).then((friendObj) => {
             if (friendObj) {
                 let messagesNotifications = friendObj.messagesNotifications;
 
@@ -228,7 +228,7 @@ module.exports = {
                 // Adding the notification date to the notification object.
                 messagesNotifications[userId].lastUnreadMessageDate = new Date();
 
-                DAL.UpdateOne(usersCollectionName, friendIdObject, { $set: { "messagesNotifications": messagesNotifications } })
+                DAL.updateOne(usersCollectionName, friendIdObject, { $set: { "messagesNotifications": messagesNotifications } })
                     .catch(logger.error);
             }
         }).catch(logger.error);
@@ -236,26 +236,26 @@ module.exports = {
 
     UpdateMessagesNotifications(userId, messagesNotifications) {
         let userIdObject = {
-            "_id": DAL.GetObjectId(userId)
+            "_id": DAL.getObjectId(userId)
         }
 
-        DAL.UpdateOne(usersCollectionName, userIdObject, { $set: { "messagesNotifications": messagesNotifications } })
+        DAL.updateOne(usersCollectionName, userIdObject, { $set: { "messagesNotifications": messagesNotifications } })
             .catch(logger.error);
     },
 
     RemoveMessagesNotifications(userId, messagesNotifications) {
         let userIdObject = {
-            "_id": DAL.GetObjectId(userId)
+            "_id": DAL.getObjectId(userId)
         }
 
-        DAL.UpdateOne(usersCollectionName, userIdObject, { $set: { "messagesNotifications": messagesNotifications } })
+        DAL.updateOne(usersCollectionName, userIdObject, { $set: { "messagesNotifications": messagesNotifications } })
             .catch(logger.error);
     },
 
     GetUserFriendRequests(userId) {
         return new Promise((resolve, reject) => {
-            DAL.FindOneSpecific(usersCollectionName,
-                { _id: DAL.GetObjectId(userId) },
+            DAL.findOneSpecific(usersCollectionName,
+                { _id: DAL.getObjectId(userId) },
                 { "friendRequests": 1 }).then(resolve).catch(reject);
         });
     },
@@ -267,13 +267,13 @@ module.exports = {
                 resolve(null);
             }
             else {
-                let userIdObject = { "_id": DAL.GetObjectId(user._id) }
-                let friendIdObject = { "_id": DAL.GetObjectId(friendId) }
+                let userIdObject = { "_id": DAL.getObjectId(user._id) }
+                let friendIdObject = { "_id": DAL.getObjectId(friendId) }
 
-                let addRequestToUser = DAL.UpdateOne(usersCollectionName,
+                let addRequestToUser = DAL.updateOne(usersCollectionName,
                     userIdObject,
                     { $push: { "friendRequests.send": friendId } });
-                let addRequestToFriend = DAL.UpdateOne(usersCollectionName,
+                let addRequestToFriend = DAL.updateOne(usersCollectionName,
                     friendIdObject,
                     { $push: { "friendRequests.get": user._id } });
 
@@ -286,13 +286,13 @@ module.exports = {
 
     RemoveFriendRequest(userId, friendId) {
         return new Promise((resolve, reject) => {
-            let userIdObject = { "_id": DAL.GetObjectId(userId) }
-            let friendIdObject = { "_id": DAL.GetObjectId(friendId) }
+            let userIdObject = { "_id": DAL.getObjectId(userId) }
+            let friendIdObject = { "_id": DAL.getObjectId(friendId) }
 
-            let removeRequestFromUser = DAL.UpdateOne(usersCollectionName,
+            let removeRequestFromUser = DAL.updateOne(usersCollectionName,
                 userIdObject,
                 { $pull: { "friendRequests.send": friendId } });
-            let removeRequestFromFriend = DAL.UpdateOne(usersCollectionName,
+            let removeRequestFromFriend = DAL.updateOne(usersCollectionName,
                 friendIdObject,
                 { $pull: { "friendRequests.get": userId } });
 
@@ -305,17 +305,17 @@ module.exports = {
     // Remove the friend request from DB after the request confirmed.
     RemoveFriendRequestAfterConfirm(userId, friendId) {
         return new Promise((resolve, reject) => {
-            let userObjectId = { "_id": DAL.GetObjectId(userId) }
-            let friendObjectId = { "_id": DAL.GetObjectId(friendId) }
+            let userObjectId = { "_id": DAL.getObjectId(userId) }
+            let friendObjectId = { "_id": DAL.getObjectId(friendId) }
 
-            let removeRequestFromUser = DAL.UpdateOne(usersCollectionName,
+            let removeRequestFromUser = DAL.updateOne(usersCollectionName,
                 userObjectId,
                 {
                     $pull: { "friendRequests.send": friendId },
                     $push: { "friendRequests.accept": friendId }
                 });
 
-            let removeRequestFromFriend = DAL.UpdateOne(usersCollectionName,
+            let removeRequestFromFriend = DAL.updateOne(usersCollectionName,
                 friendObjectId,
                 { $pull: { "friendRequests.get": userId } });
 
@@ -328,14 +328,14 @@ module.exports = {
     // Remove the friend request from DB if the request was not confirmed.
     IgnoreFriendRequest(userId, friendId) {
         return new Promise((resolve, reject) => {
-            let userIdObject = { "_id": DAL.GetObjectId(userId) }
-            let friendIdObject = { "_id": DAL.GetObjectId(friendId) }
+            let userIdObject = { "_id": DAL.getObjectId(userId) }
+            let friendIdObject = { "_id": DAL.getObjectId(friendId) }
 
-            let removeRequestFromUser = DAL.UpdateOne(usersCollectionName,
+            let removeRequestFromUser = DAL.updateOne(usersCollectionName,
                 userIdObject,
                 { $pull: { "friendRequests.get": friendId } });
 
-            let removeRequestFromFriend = DAL.UpdateOne(usersCollectionName,
+            let removeRequestFromFriend = DAL.updateOne(usersCollectionName,
                 friendIdObject,
                 { $pull: { "friendRequests.send": userId } });
 
@@ -353,21 +353,21 @@ module.exports = {
                 return;
             }
 
-            let userObjectId = DAL.GetObjectId(user._id);
-            let friendObjectId = DAL.GetObjectId(friendId);
+            let userObjectId = DAL.getObjectId(user._id);
+            let friendObjectId = DAL.getObjectId(friendId);
 
 
-            let addUserFriendRelation = DAL.UpdateOne(usersCollectionName,
+            let addUserFriendRelation = DAL.updateOne(usersCollectionName,
                 { "_id": userObjectId },
                 { $push: { "friends": friendObjectId } });
 
-            let addFriendUserRelation = DAL.UpdateOne(usersCollectionName,
+            let addFriendUserRelation = DAL.updateOne(usersCollectionName,
                 { "_id": friendObjectId },
                 { $push: { "friends": userObjectId } });
 
             let removeRequestObject = this.RemoveFriendRequestAfterConfirm(friendId, user._id);
 
-            let getFriendProfileImage = DAL.FindOneSpecific(profilePicturesCollectionName,
+            let getFriendProfileImage = DAL.findOneSpecific(profilePicturesCollectionName,
                 { "userId": friendObjectId },
                 { "image": 1 })
 
@@ -406,10 +406,10 @@ module.exports = {
 
     RemoveFriendRequestConfirmAlert(data) {
         return new Promise((resolve, reject) => {
-            let userObjId = DAL.GetObjectId(data.userId);
+            let userObjId = DAL.getObjectId(data.userId);
             let confirmedFriendsIds = data.confirmedFriendsIds;
 
-            DAL.UpdateOne(usersCollectionName,
+            DAL.updateOne(usersCollectionName,
                 { "_id": userObjId },
                 { $pull: { "friendRequests.accept": { $in: confirmedFriendsIds } } }).then((result) => {
                     // Change result to true in case the update succeeded.
@@ -422,7 +422,7 @@ module.exports = {
 
 function ConvertIdsToObjectIds(array) {
     for (let i = 0; i < array.length; i++) {
-        array[i] = DAL.GetObjectId(array[i]);
+        array[i] = DAL.getObjectId(array[i]);
     }
 
     return array;

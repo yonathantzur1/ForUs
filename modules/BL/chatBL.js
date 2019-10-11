@@ -26,7 +26,7 @@ let self = module.exports = {
 
                 let aggregate = [chatQueryFilter, sliceObj];
 
-                DAL.Aggregate(chatsCollectionName, aggregate).then((result) => {
+                DAL.aggregate(chatsCollectionName, aggregate).then((result) => {
                     let chat;
 
                     // In case the chat is not exists.
@@ -69,7 +69,7 @@ let self = module.exports = {
 
                 let aggregate = [chatQueryFilter, sliceObj];
 
-                DAL.Aggregate(chatsCollectionName, aggregate).then((result) => {
+                DAL.aggregate(chatsCollectionName, aggregate).then((result) => {
                     let chat;
 
                     if (result.length != 0) {
@@ -98,7 +98,7 @@ let self = module.exports = {
             }
         }
 
-        DAL.UpdateOne(chatsCollectionName, chatQueryFilter, chatObj, true).catch(logger.error);
+        DAL.updateOne(chatsCollectionName, chatQueryFilter, chatObj, true).catch(logger.error);
     },
 
     AddMessageToChat(msgData) {
@@ -123,7 +123,7 @@ let self = module.exports = {
                 }
             }
 
-            DAL.UpdateOne(chatsCollectionName, chatFilter, chatUpdateQuery).then((result) => {
+            DAL.updateOne(chatsCollectionName, chatFilter, chatUpdateQuery).then((result) => {
                 result ? resolve(true) : resolve(false);
             }).catch(reject);
         });
@@ -133,14 +133,14 @@ let self = module.exports = {
         return new Promise((resolve, reject) => {
             let chatFields = { "membersIds": 1 };
 
-            DAL.FindSpecific(chatsCollectionName, { "messages": { $size: 0 } }, chatFields)
+            DAL.findSpecific(chatsCollectionName, { "messages": { $size: 0 } }, chatFields)
                 .then(resolve).catch(reject);
         });
     },
 
     RemoveChatsByIds(ids) {
         return new Promise((resolve, reject) => {
-            DAL.Delete(chatsCollectionName, { "_id": { $in: ids } }).then(resolve).catch(reject);
+            DAL.delete(chatsCollectionName, { "_id": { $in: ids } }).then(resolve).catch(reject);
         });
     },
 
@@ -185,7 +185,7 @@ let self = module.exports = {
                 sortObj
             ]
 
-            DAL.Aggregate(chatsCollectionName, aggregateArray).then((chats) => {
+            DAL.aggregate(chatsCollectionName, aggregateArray).then((chats) => {
                 let indexChatPositionByFriendId = {};
                 let chatsFriendsIds = [];
 

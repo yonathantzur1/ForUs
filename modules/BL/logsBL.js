@@ -52,7 +52,7 @@ function InsertStandardLog(type, email, req) {
         return;
     }
 
-    DAL.Insert(logsCollectionName, {
+    DAL.insert(logsCollectionName, {
         type,
         ip: requestHandler.GetIpFromRequest(req),
         userAgent: requestHandler.GetUserAgentFromRequest(req),

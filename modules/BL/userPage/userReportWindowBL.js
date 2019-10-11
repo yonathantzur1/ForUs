@@ -7,7 +7,7 @@ const UsersReportsCollectionName = config.db.collections.usersReports;
 module.exports = {
     GetAllReportReasons() {
         return new Promise((resolve, reject) => {
-            DAL.Find(ReportReasonsCollectionName, {}).then(resolve).catch(reject);
+            DAL.find(ReportReasonsCollectionName, {}).then(resolve).catch(reject);
         });
     },
 
@@ -21,16 +21,16 @@ module.exports = {
             }
             else {
                 let reportObj = {
-                    "reportingUserId": DAL.GetObjectId(reportingUserId),
-                    "reportedUserId": DAL.GetObjectId(reportedUserId),
-                    "reasonId": DAL.GetObjectId(data.reasonId),
+                    "reportingUserId": DAL.getObjectId(reportingUserId),
+                    "reportedUserId": DAL.getObjectId(reportedUserId),
+                    "reasonId": DAL.getObjectId(data.reasonId),
                     "details": data.reasonDetails,
                     "handledManagerId": null,
                     "openDate": new Date(),
                     "closeDate": null
                 }
 
-                DAL.Insert(UsersReportsCollectionName, reportObj).then(result => {
+                DAL.insert(UsersReportsCollectionName, reportObj).then(result => {
                     resolve(result ? true : false);
                 }).catch(reject);
             }

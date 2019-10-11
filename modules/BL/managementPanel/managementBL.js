@@ -21,7 +21,7 @@ module.exports = {
         }
 
         try {
-            searchInput = DAL.GetObjectId(searchInput);
+            searchInput = DAL.getObjectId(searchInput);
         }
         catch (e) {
             searchInput = searchInput.replace(/\\/g, '').trim();
@@ -101,7 +101,7 @@ module.exports = {
             }
         ];
 
-        let users = await DAL.Aggregate(usersCollectionName, aggregateArray);
+        let users = await DAL.aggregate(usersCollectionName, aggregateArray);
 
         // Second sort for results by the search input string.
         users = users.sort((a, b) => {
@@ -131,7 +131,7 @@ module.exports = {
 
     async GetUserFriends(friendsIds) {
         friendsIds = friendsIds.map((id) => {
-            return DAL.GetObjectId(id);
+            return DAL.getObjectId(id);
         });
 
         let usersFilter = {
@@ -174,7 +174,7 @@ module.exports = {
             }
         ];
 
-        let friends = await DAL.Aggregate(usersCollectionName, aggregateArray);
+        let friends = await DAL.aggregate(usersCollectionName, aggregateArray);
 
         return friends.map(friend => {
             friend.profileImage = (friend.profileImage.length != 0) ?
@@ -188,7 +188,7 @@ module.exports = {
     },
 
     async UpdateUser(editorUserId, updateFields) {
-        let userId = DAL.GetObjectId(updateFields._id);
+        let userId = DAL.getObjectId(updateFields._id);
 
         if (await IsUserMaster(userId)) {
             logger.secure("The user: " + editorUserId + " attemped to edit the master user: " + userId);
@@ -208,12 +208,12 @@ module.exports = {
 
         // In case of email update, check the email is not already exists.
         if (updateFields.email) {
-            let emailsCount = await DAL.Count(usersCollectionName, { "email": updateFields.email });
+            let emailsCount = await DAL.count(usersCollectionName, { "email": updateFields.email });
             (emailsCount > 0) && (isUpdateValid = false);
         }
 
         if (isUpdateValid) {
-            let result = await DAL.UpdateOne(usersCollectionName,
+            let result = await DAL.updateOne(usersCollectionName,
                 { "_id": userId },
                 { $set: updateFields });
 
@@ -226,8 +226,8 @@ module.exports = {
     },
 
     async BlockUser(blockerId, blockObj) {
-        let blockerId = DAL.GetObjectId(blockerId);
-        let blockedId = DAL.GetObjectId(blockObj._id);
+        let blockerId = DAL.getObjectId(blockerId);
+        let blockedId = DAL.getObjectId(blockObj._id);
 
         if (await IsUserMaster(blockedId)) {
             logger.secure("The user: " + blockerId + " attemped to block the master user: " + blockedId);
@@ -251,7 +251,7 @@ module.exports = {
             blockerId
         }
 
-        let result = await DAL.UpdateOne(usersCollectionName,
+        let result = await DAL.updateOne(usersCollectionName,
             { "_id": blockedId },
             { $set: { block } });
 
@@ -264,19 +264,19 @@ module.exports = {
     },
 
     async UnblockUser(userId) {
-        let result = await DAL.UpdateOne(usersCollectionName,
-            { "_id": DAL.GetObjectId(userId) },
+        let result = await DAL.updateOne(usersCollectionName,
+            { "_id": DAL.getObjectId(userId) },
             { $unset: { "block": 1 } });
 
         return (result ? true : result);
     },
 
     async RemoveFriends(currUserId, cardUserId, friendId) {
-        let isCurrUserMaster = await IsUserMaster(DAL.GetObjectId(currUserId));
+        let isCurrUserMaster = await IsUserMaster(DAL.getObjectId(currUserId));
 
         if (!isCurrUserMaster &&
-            (await IsUserMaster(DAL.GetObjectId(cardUserId)) ||
-                await IsUserMaster(DAL.GetObjectId(friendId)))) {
+            (await IsUserMaster(DAL.getObjectId(cardUserId)) ||
+                await IsUserMaster(DAL.getObjectId(friendId)))) {
             return Promise.reject();
         }
 
@@ -289,7 +289,7 @@ module.exports = {
 };
 
 async function IsUserMaster(userId) {
-    let userPermissions = (await DAL.FindSpecific(permissionsCollectionName,
+    let userPermissions = (await DAL.findSpecific(permissionsCollectionName,
         { "members": userId },
         { "type": 1 })).map(permission => {
             return permission.type;
