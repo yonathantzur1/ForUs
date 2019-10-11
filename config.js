@@ -47,19 +47,19 @@ module.exports = {
             maxAge: 90 * 24 * 60 * 60 * 1000 // 90 days
         },
         limitter: {
-            freeRetries: 10,
+            freeRetries: 5,
             waitTime: 2 * 60 * 1000, // 2 minutes
         },
         password: {
             saltSize: 8,
             resetCode: {
                 numOfDigits: 6,
-                codeTTL: 24, // hours
-                freeRetries: 5
+                freeRetries: 3
             }
         },
-        deleteUser: {
-            tokenTTL: 1 // hour
+        ttl: {
+            resetPasswordCode: 24, // hours
+            deleteUserToken: 1 // hour
         }
     },
     socket: {

@@ -10,7 +10,7 @@ const chatsCollectionName = config.db.collections.chats;
 const profilePicturesCollectionName = config.db.collections.profilePictures;
 const permissionsCollectionName = config.db.collections.permissions;
 
-const tokenTTL = config.security.deleteUser.tokenTTL;
+const tokenTTL = config.security.ttl.deleteUserToken;
 
 module.exports = {
 

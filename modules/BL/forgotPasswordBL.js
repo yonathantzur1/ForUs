@@ -5,8 +5,8 @@ const sha512 = require('js-sha512');
 
 const usersCollectionName = config.db.collections.users;
 const saltSize = config.security.password.saltSize;
-const resetCodeTTL = config.security.password.resetCode.codeTTL;
 const resetCodeFreeRetries = config.security.password.resetCode.freeRetries;
+const resetCodeTTL = config.security.ttl.resetPasswordCode;
 
 module.exports = {
     // Add reset password code to the DB and return the user.
