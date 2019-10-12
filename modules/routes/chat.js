@@ -4,7 +4,7 @@ const logger = require('../../logger');
 
 // Return the first chat page messages.
 router.post('/getChat', (req, res) => {
-    chatBL.GetChat(req.body.membersIds, req.user).then((chat) => {
+    chatBL.getChat(req.body.membersIds, req.user).then((chat) => {
         res.send(chat);
     }).catch((err) => {
         logger.error(err);
@@ -14,7 +14,7 @@ router.post('/getChat', (req, res) => {
 
 // Return the requested chat page messages.
 router.post('/getChatPage', (req, res) => {
-    chatBL.GetChatPage(req.body.membersIds,
+    chatBL.getChatPage(req.body.membersIds,
         req.user,
         req.body.currMessagesNum,
         req.body.totalMessagesNum).then((chat) => {
@@ -27,7 +27,7 @@ router.post('/getChatPage', (req, res) => {
 
 // Get all not empty chats order by last message time.
 router.get('/getAllPreviewChats', (req, res) => {
-    chatBL.GetAllPreviewChats(req.user._id).then((chats) => {
+    chatBL.getAllPreviewChats(req.user._id).then((chats) => {
         res.send(chats);
     }).catch((err) => {
         logger.error(err);

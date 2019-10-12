@@ -27,10 +27,10 @@ router.post('/userLogin',
         // (result == "-1"): email is not exists on DB.
         // (result.block != null): The user is blocked.
         // else: email and password are valid.
-        loginBL.GetUser(req.body).then((result) => {
+        loginBL.getUser(req.body).then((result) => {
             if (result) {
                 // In case the email is not exists on DB.
-                if (result == "-1") {
+                if (result === "-1") {
                     res.send({ result });
                 }
                 // In case the user is blocked.
@@ -48,8 +48,8 @@ router.post('/userLogin',
                 res.send({ result });
 
                 // In case the password is wrong.
-                if (result == false) {
-                    logsBL.LoginFail(req.body.email, req);
+                if (result === false) {
+                    logsBL.loginFail(req.body.email, req);
                 }
             }
         }).catch((err) => {

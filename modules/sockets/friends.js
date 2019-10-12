@@ -33,7 +33,7 @@ module.exports = (io, socket, connectedUsers) => {
                 io.to(friendId).emit('GetFriendRequest', user._id, userFullName);
             }
             else {
-                loginBL.GetUserById(friendId).then((friendObj) => {
+                loginBL.getUserById(friendId).then((friendObj) => {
                     if (friendObj) {
                         mailer.friendRequestAlert(friendObj.email, friendObj.firstName, userFullName, user._id);
                     }
@@ -82,7 +82,7 @@ module.exports = (io, socket, connectedUsers) => {
             }
 
             if (user.profile) {
-                profilePictureBL.GetUserProfileImage(user.profile).then((result) => {
+                profilePictureBL.getUserProfileImage(user.profile).then((result) => {
                     clientFriendObj.profileImage = result.image;
                     io.to(friendId).emit('ClientFriendAddedUpdate', clientFriendObj);
                 }).catch(logger.error);

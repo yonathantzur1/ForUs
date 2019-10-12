@@ -172,7 +172,6 @@ export class ForgotComponent {
                         let self = this;
 
                         self.socketService.SocketEmit('LogoutUserSessionServer',
-                            null,
                             "תוקף הסיסמא פג, יש להתחבר מחדש");
 
                         this.snackbarService.Snackbar("הסיסמא הוחלפה בהצלחה");

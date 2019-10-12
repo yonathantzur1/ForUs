@@ -7,7 +7,7 @@ const usersCollectionName = config.db.collections.users;
 
 module.exports = {
     // Check if user is exists on DB.
-    CheckIfUserExists(email) {
+    checkIfUserExists(email) {
         return new Promise((resolve, reject) => {
             DAL.findOne(usersCollectionName, { email }).then((result) => {
                 resolve(result ? true : false)
@@ -16,7 +16,7 @@ module.exports = {
     },
 
     // Add user to the DB.
-    AddUser(newUser) {
+    addUser(newUser) {
         return new Promise((resolve, reject) => {
             let salt = generator.generateCode(config.security.password.saltSize);
             newUser.password = sha512(newUser.password + salt);
@@ -56,4 +56,4 @@ Date.prototype.addHours = function (h) {
     this.setTime(this.getTime() + (h * 60 * 60 * 1000));
 
     return this;
-}
+};

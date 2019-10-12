@@ -5,9 +5,8 @@ const usersReportsCollectionName = config.db.collections.usersReports;
 const reportReasonsCollectionName = config.db.collections.reportReasons;
 const usersCollectionName = config.db.collections.users;
 
-
 module.exports = {
-    GetAllReports() {
+    getAllReports() {
         return new Promise((resolve, reject) => {
             let joinReason = {
                 $lookup:
@@ -76,8 +75,8 @@ module.exports = {
                     delete report.reasonId;
                     report.reason = report.reason.name;
 
-                    let reportingUser = null;
-                    let reportedUser = null;
+                    let reportingUser;
+                    let reportedUser;
 
                     // Prepare reporting user object to client.
                     report.reportingUser && (reportingUser = {
@@ -102,4 +101,4 @@ module.exports = {
             });
         });
     }
-}
+};

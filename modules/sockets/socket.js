@@ -97,6 +97,10 @@ module.exports = (io) => {
         io.emit('UserSetToPrivate', userId);
     });
 
+    events.on('socket.LogoutUserSession', (userId, msg) => {
+        io.to(userId).emit('LogoutUserSessionClient', msg);
+    });
+
     return connectedUsers;
 };
 

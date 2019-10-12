@@ -7,7 +7,7 @@ const permissionsCollectionName = config.db.collections.permissions;
 
 let self = module.exports = {
 
-    GetUserById(id) {
+    getUserById(id) {
         return new Promise((resolve, reject) => {
             let userFilter = { $match: { "_id": DAL.getObjectId(id) } };
             let joinFilter = {
@@ -18,7 +18,7 @@ let self = module.exports = {
                     foreignField: 'members',
                     as: 'permissions'
                 }
-            }
+            };
 
             let aggregateArray = [userFilter, joinFilter];
 
@@ -39,13 +39,13 @@ let self = module.exports = {
         });
     },
 
-    IsPasswordMatchToUser(userObjId, password) {
+    isPasswordMatchToUser(userObjId, password) {
         return new Promise((resolve, reject) => {
             DAL.findOneSpecific(usersCollectionName,
                 { "_id": userObjId },
                 { "password": 1, "salt": 1 }).then(data => {
                     if (data) {
-                        resolve(sha512(password + data.salt) == data.password);
+                        resolve(sha512(password + data.salt) === data.password);
                     }
                     else {
                         resolve(null);
@@ -54,7 +54,7 @@ let self = module.exports = {
         });
     },
 
-    GetUser(user) {
+    getUser(user) {
         return new Promise((resolve, reject) => {
             let filter = { "email": user.email };
 
@@ -62,9 +62,9 @@ let self = module.exports = {
                 // In case the user was found.
                 if (userObj) {
                     // In case the password and salt hashing are the password hash in the DB.
-                    if (sha512(user.password + userObj.salt) == userObj.password) {
+                    if (sha512(user.password + userObj.salt) === userObj.password) {
                         // In case the user is blocked.
-                        if (self.IsUserBlocked(userObj)) {
+                        if (self.isUserBlocked(userObj)) {
                             if (userObj.block.unblockDate) {
                                 let unblockDate = userObj.block.unblockDate;
                                 unblockDate = unblockDate.getDate() + '/' + (unblockDate.getMonth() + 1) + '/' + unblockDate.getFullYear();
@@ -91,12 +91,12 @@ let self = module.exports = {
         });
     },
 
-    IsUserBlocked(user) {
+    isUserBlocked(user) {
         return (user.block &&
             (!user.block.unblockDate || user.block.unblockDate.getTime() > Date.now()));
     },
 
-    UpdateLastLogin: (userId) => {
+    updateLastLogin: (userId) => {
         return new Promise((resolve, reject) => {
             let findObj = { "_id": DAL.getObjectId(userId) };
             let lastLoginTimeObj = { $set: { "lastLoginTime": new Date() } };
@@ -111,4 +111,4 @@ Date.prototype.addHours = function (h) {
     this.setTime(this.getTime() + (h * 60 * 60 * 1000));
 
     return this;
-}
+};

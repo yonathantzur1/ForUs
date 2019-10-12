@@ -18,14 +18,14 @@ router.post('/register',
         let email = req.body.email;
 
         // Check if the email is exists in the DB.
-        registerBL.CheckIfUserExists(email).then((result) => {
+        registerBL.checkIfUserExists(email).then((result) => {
             // In case the user is already exists.
             if (result) {
                 res.send({ "result": false });
             }
             else {
                 // Add user to DB.
-                registerBL.AddUser(req.body).then((user) => {
+                registerBL.addUser(req.body).then((user) => {
                     // In case all register progress was succeeded.
                     if (user) {
                         // Sending a welcome mail to the new user.
@@ -33,7 +33,7 @@ router.post('/register',
                         let token = tokenHandler.getTokenFromUserObject(user);
                         tokenHandler.setTokenOnCookie(token, res);
                         res.send({ "result": true });
-                        logsBL.Register(email, req);
+                        logsBL.register(email, req);
                     }
                     else {
                         res.send({ result: user });

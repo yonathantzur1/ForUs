@@ -17,7 +17,7 @@ router.put('/forgotPasswordRequest',
     (req, res) => {
         let email = req.body.email;
 
-        forgotPasswordBL.SetUserResetCode(email).then(result => {
+        forgotPasswordBL.setUserResetCode(email).then(result => {
             if (result) {
                 let resetAddress =
                     config.address.site + "/forgot/" + result.resetCode.token;
@@ -28,7 +28,7 @@ router.put('/forgotPasswordRequest',
                 res.send({ "result": true });
 
                 // Log - in case the user has found.
-                logsBL.ResetPasswordRequest(email, req);
+                logsBL.resetPasswordRequest(email, req);
             }
             else {
                 // Return to the client false in case the email was not found,
@@ -49,7 +49,7 @@ router.put('/resetPassword',
         next();
     },
     (req, res) => {
-        forgotPasswordBL.ResetPassword(req.body).then(result => {
+        forgotPasswordBL.resetPassword(req.body).then(result => {
             if (result && result.isChanged) {
                 let token = tokenHandler.getTokenFromUserObject(result.user);
                 tokenHandler.setTokenOnCookie(token, res);
@@ -69,7 +69,7 @@ router.get('/validateResetPasswordToken',
     validation,
     (req, res) => {
         tokenHandler.deleteAuthCookies(res);
-        forgotPasswordBL.ValidateResetPasswordToken(req.query.token).then(result => {
+        forgotPasswordBL.validateResetPasswordToken(req.query.token).then(result => {
             res.send(result ? { name: (result.firstName + " " + result.lastName) } : false);
         }).catch(err => {
             logger.error(err);
@@ -81,7 +81,7 @@ router.get('/validateResetPasswordToken',
 router.put('/resetPasswordByToken',
     validation,
     (req, res) => {
-        forgotPasswordBL.ResetPasswordByToken(req.body).then(result => {
+        forgotPasswordBL.resetPasswordByToken(req.body).then(result => {
             if (result) {
                 let token = tokenHandler.getTokenFromUserObject(result);
                 tokenHandler.setTokenOnCookie(token, res, true);

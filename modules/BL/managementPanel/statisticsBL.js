@@ -7,13 +7,13 @@ const usersCollectionName = config.db.collections.users;
 const profilePicturesCollectionName = config.db.collections.profilePictures;
 
 module.exports = {
-    GetLoginsData(logType, range, datesRange, clientTimeZone, email) {
+    getLogData(logType, range, datesRange, clientTimeZone, email) {
         return new Promise((resolve, reject) => {
             let barsNumber;
             let rangeKey;
             let groupFilter;
             let isRangeValid = true;
-            let dateWithOffsetQuery = { date: "$date", timezone: GetTimeZoneOffsetString(clientTimeZone) };
+            let dateWithOffsetQuery = { date: "$date", timezone: getTimeZoneOffsetString(clientTimeZone) };
 
             switch (range) {
                 case enums.STATISTICS_RANGE.YEARLY: {
@@ -40,20 +40,20 @@ module.exports = {
                         $gte: new Date(datesRange.startDate),
                         $lte: new Date(datesRange.endDate)
                     }
-                }
+                };
 
                 email && (filter.email = email);
 
                 let logsFilter = {
                     $match: filter
-                }
+                };
 
                 let groupObj = {
                     $group: {
                         _id: groupFilter,
                         count: { $sum: 1 }
                     }
-                }
+                };
 
                 let aggregate = [logsFilter, groupObj];
 
@@ -77,7 +77,7 @@ module.exports = {
         });
     },
 
-    GetUserByEmail(email) {
+    getUserByEmail(email) {
         return new Promise((resolve, reject) => {
             email = email.replace(/\\/g, '');
 
@@ -94,7 +94,7 @@ module.exports = {
                     foreignField: '_id',
                     as: 'profileImage'
                 }
-            }
+            };
 
             let aggregateArray = [
                 {
@@ -116,12 +116,12 @@ module.exports = {
             ];
 
             DAL.aggregate(usersCollectionName, aggregateArray).then((users) => {
-                if (users && users.length == 1) {
+                if (users && users.length === 1) {
                     let user = users[0];
 
                     resolve({
                         fullName: user.fullName,
-                        profileImage: (user.profileImage && user.profileImage.length == 1) ?
+                        profileImage: (user.profileImage && user.profileImage.length === 1) ?
                             user.profileImage[0].image : null
                     });
                 }
@@ -131,9 +131,9 @@ module.exports = {
             }).catch(reject);
         });
     }
-}
+};
 
-function GetTimeZoneOffsetString(clientTimeZone) {    
+function getTimeZoneOffsetString(clientTimeZone) {
     // Convert the sign to the opposite for the mongo timezone calculation.
     clientTimeZone *= -1;
     let isPositive = (clientTimeZone >= 0);

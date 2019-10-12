@@ -9,6 +9,7 @@ declare let jQuery: any;
 
 @Injectable()
 export class GlobalService {
+    private data = {};
     userId: string;
 
     constructor(private socketService: SocketService,
@@ -44,5 +45,22 @@ export class GlobalService {
         this.permissionsService.DeletePermissions();
         this.imageService.DeleteUserProfileImage();
         this.userId = null;
+    }
+
+    SetData(key, value) {
+        this.data[key] = value;
+    }
+
+    GetData(key) {
+        if (this.data[key]) {
+            // Deep copy data value.
+            let result = JSON.parse(JSON.stringify(this.data[key]));
+            delete this.data[key];
+
+            return result;
+        }
+        else {
+            return null;
+        }
     }
 }

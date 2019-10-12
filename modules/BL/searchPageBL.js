@@ -5,7 +5,7 @@ const usersCollectionName = config.db.collections.users;
 const profilePicturesCollectionName = config.db.collections.profilePictures;
 
 module.exports = {
-    GetSearchPageResults(searchInput, userId) {
+    getSearchPageResults(searchInput, userId) {
         return new Promise((resolve, reject) => {
             // In case the search input is empty.
             if (!searchInput) {
@@ -25,7 +25,7 @@ module.exports = {
                     fullName: { $concat: ["$firstName", " ", "$lastName"] },
                     fullNameReversed: { $concat: ["$lastName", " ", "$firstName"] }
                 }
-            }
+            };
 
             let usersFilter = {
                 $match: {
@@ -105,12 +105,10 @@ module.exports = {
         });
     },
 
-    GetUserFriendRequests(userId) {
-        return new Promise((resolve, reject) => {
-            let query = { "_id": DAL.getObjectId(userId) };
-            let fields = { "_id": 0, "friendRequests.get": 1, "friendRequests.send": 1 };
+    getUserFriendRequests(userId) {
+        let query = { "_id": DAL.getObjectId(userId) };
+        let fields = { "_id": 0, "friendRequests.get": 1, "friendRequests.send": 1 };
 
-            DAL.findOneSpecific(usersCollectionName, query, fields).then(resolve).catch(reject);
-        });
+        return DAL.findOneSpecific(usersCollectionName, query, fields);
     }
-}
+};

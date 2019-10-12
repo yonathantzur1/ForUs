@@ -10,30 +10,28 @@ const resetCodeTTL = config.security.ttl.resetPasswordCode;
 
 module.exports = {
     // Add reset password code to the DB and return the user.
-    SetUserResetCode(email) {
-        return new Promise((resolve, reject) => {
-            let code = generator.generateCode(config.security.password.resetCode.numOfDigits, true);
-            let resetPasswordToken = sha512(email + code);
+    setUserResetCode(email) {
+        let code = generator.generateCode(config.security.password.resetCode.numOfDigits, true);
+        let resetPasswordToken = sha512(email + code);
 
-            let resetCode = {
-                $set: {
-                    "resetCode":
-                    {
-                        "code": code,
-                        "token": resetPasswordToken,
-                        "date": new Date(),
-                        "tryNum": 0,
-                        "isUsed": false
-                    }
+        let resetCode = {
+            $set: {
+                "resetCode":
+                {
+                    "code": code,
+                    "token": resetPasswordToken,
+                    "date": new Date(),
+                    "tryNum": 0,
+                    "isUsed": false
                 }
-            };
+            }
+        };
 
-            DAL.updateOne(usersCollectionName, { email }, resetCode).then(resolve).catch(reject);
-        });
+        return DAL.updateOne(usersCollectionName, { email }, resetCode);
     },
 
     // Reset user password by code.
-    ResetPassword(forgotUser) {
+    resetPassword(forgotUser) {
         return new Promise((resolve, reject) => {
             let emailObj = { "email": forgotUser.email };
             let errorsObj = {
@@ -50,7 +48,7 @@ module.exports = {
                     resolve(null);
                 }
                 // In case the email was not found.
-                else if (result.length == 0) {
+                else if (result.length === 0) {
                     errorsObj.emailNotFound = true;
                     resolve(errorsObj);
                 }
@@ -75,7 +73,7 @@ module.exports = {
                     resolve(errorsObj);
                 }
                 // In case the code is wrong.
-                else if (result[0].resetCode.code != forgotUser.code) {
+                else if (result[0].resetCode.code !== forgotUser.code) {
                     errorsObj.codeNotValid = true;
                     let resetCodeObj = result[0].resetCode;
                     resetCodeObj.tryNum++;
@@ -96,7 +94,7 @@ module.exports = {
                     updateUser.resetCode.isUsed = true;
                     updateUser.resetCode.tryNum++;
 
-                    updateUserObj = { $set: updateUser };
+                    let updateUserObj = { $set: updateUser };
 
                     DAL.updateOne(usersCollectionName, emailObj, updateUserObj).then((updateResult) => {
                         updateResult ? resolve({ "isChanged": true, "user": updateResult }) : resolve(updateResult);
@@ -106,53 +104,45 @@ module.exports = {
         });
     },
 
-    ValidateResetPasswordToken(token) {
-        return new Promise((resolve, reject) => {
-            let query = GetUserByTokenFilterQuery(token);
-            let fields = { "_id": 0, "firstName": 1, "lastName": 1 };
+    validateResetPasswordToken(token) {
+        let query = getUserByTokenFilterQuery(token);
+        let fields = { "_id": 0, "firstName": 1, "lastName": 1 };
 
-            DAL.findOneSpecific(usersCollectionName, query, fields).then(resolve).catch(reject);
-        });
+        return DAL.findOneSpecific(usersCollectionName, query, fields);
     },
 
     // Reset user password by token.
-    ResetPasswordByToken(data) {
-        return new Promise((resolve, reject) => {
-            let token = data.token;
-            let newPassword = data.newPassword;
-            let salt = generator.generateCode(saltSize);
+    resetPasswordByToken(data) {
+        let token = data.token;
+        let newPassword = data.newPassword;
+        let salt = generator.generateCode(saltSize);
 
-            let findObj = GetUserByTokenFilterQuery(token);
+        let findObj = getUserByTokenFilterQuery(token);
 
-            let updateObj = {
-                $set: {
-                    "uid": generator.generateId(),
-                    "salt": salt,
-                    "password": sha512(newPassword + salt),
-                    "resetCode.isUsed": true
-                }
+        let updateObj = {
+            $set: {
+                "uid": generator.generateId(),
+                "salt": salt,
+                "password": sha512(newPassword + salt),
+                "resetCode.isUsed": true
             }
+        };
 
-            DAL.updateOne(usersCollectionName, findObj, updateObj).then(result => {
-                resolve(result);
-            }).catch(reject);
-        });
+        return DAL.updateOne(usersCollectionName, findObj, updateObj);
     }
-}
+};
 
 // Return mongo query object to find user by reset password token string.
-function GetUserByTokenFilterQuery(token) {
+function getUserByTokenFilterQuery(token) {
     let currDate = new Date();
     let resetDateObjectRuleForQuery = {
         $gte: currDate.addHours(resetCodeTTL * -1)
-    }
+    };
 
-    let query = {
+    return {
         "resetCode.token": token,
         "resetCode.isUsed": false,
         "resetCode.tryNum": { $lt: resetCodeFreeRetries },
         "resetCode.date": resetDateObjectRuleForQuery
-    }
-
-    return query;
+    };
 }

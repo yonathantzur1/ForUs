@@ -14,6 +14,10 @@ function handleError(err) {
 
 module.exports = {
     encrypt(text) {
+        if (!text) {
+            return null;
+        }
+
         try {
             const iv = Buffer.alloc(16, 0);
             const cipher = crypto.createCipheriv(algorithm, key, iv);
@@ -28,6 +32,10 @@ module.exports = {
     },
 
     decrypt(text) {
+        if (!text) {
+            return null;
+        }
+
         try {
             const iv = Buffer.alloc(16, 0);
             const decipher = crypto.createDecipheriv(algorithm, key, iv);

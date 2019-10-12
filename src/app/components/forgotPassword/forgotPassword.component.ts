@@ -73,7 +73,6 @@ export class ForgotPasswordComponent implements OnInit {
 
                 if (result) {
                     self.socketService.SocketEmit('LogoutUserSessionServer',
-                        null,
                         "תוקף הסיסמא פג, יש להתחבר מחדש");
 
                     this.snackbarService.Snackbar("הסיסמא הוחלפה בהצלחה");

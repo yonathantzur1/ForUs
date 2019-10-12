@@ -7,7 +7,7 @@ const tokenHandler = require("../handlers/tokenHandler");
 router.get('/getUserProfileImage', function (req, res) {
     profileId = req.user.profile;
 
-    profilePictureBL.GetUserProfileImage(profileId).then((result) => {
+    profilePictureBL.getUserProfileImage(profileId).then((result) => {
         res.send(result);
     }).catch((err) => {
         logger.error(err);
@@ -21,7 +21,7 @@ router.post('/saveImage', function (req, res) {
 
     imageData.userId = req.user._id;
 
-    profilePictureBL.SaveImage(imageData).then((result) => {
+    profilePictureBL.saveImage(imageData).then((result) => {
         if (result) {
             req.user.profile = result.profile.toString();
             let token = tokenHandler.getTokenFromUserObject(req.user);
@@ -42,7 +42,7 @@ router.delete('/deleteImage', function (req, res) {
     let userId = req.user._id;
     let profileId = req.user.profile;
 
-    profilePictureBL.DeleteImage(userId, profileId).then((result) => {
+    profilePictureBL.deleteImage(userId, profileId).then((result) => {
         if (result) {
             delete req.user.profile;
             let token = tokenHandler.getTokenFromUserObject(req.user);

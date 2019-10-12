@@ -23,10 +23,10 @@ module.exports = (io, socket, connectedUsers) => {
             else {
                 let senderObj = connectedUsers[msgData.from];
                 let senderName = senderObj ? (senderObj.firstName + " " + senderObj.lastName) : null;
-                navbarBL.AddMessageNotification(msgData.from, msgData.to, msgData.id, senderName);
+                navbarBL.addMessageNotification(msgData.from, msgData.to, msgData.id, senderName);
             }
 
-            chatBL.AddMessageToChat(msgData);
+            chatBL.addMessageToChat(msgData);
 
             io.to(msgData.from).emit('ClientUpdateSendMessage', originalMsgData);
             io.to(msgData.to).emit('ClientUpdateGetMessage', originalMsgData);

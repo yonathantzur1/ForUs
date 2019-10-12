@@ -24,7 +24,7 @@ router.put('/updateUserInfo',
         let updateFields = req.body.updateFields;
         updateFields._id = req.user._id;
 
-        userEditWindowBL.UpdateUserInfo(updateFields).then(result => {
+        userEditWindowBL.updateUserInfo(updateFields).then(result => {
             res.send({ result });
         }).catch(err => {
             logger.error(err);

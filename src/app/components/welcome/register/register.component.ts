@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { EventService } from '../../../services/global/event.service';
 import { SnackbarService } from '../../../services/global/snackbar.service';
 import { MicrotextService, InputFieldValidation } from '../../../services/global/microtext.service';
 
 import { RegisterService } from '../../../services/welcome/register.service';
+import { GlobalService } from '../../../services/global/global.service';
 
 import { UserRegexp } from '../../../regex/regexpEnums';
 
@@ -25,16 +25,18 @@ export class NewUser {
     styleUrls: ['./register.css', '../welcome.css']
 })
 
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
     newUser: NewUser = new NewUser();
     isLoading: boolean = false;
     validationFuncs: Array<InputFieldValidation>;
 
+    eventsIds: Array<string> = [];
+
     constructor(private router: Router,
         public snackbarService: SnackbarService,
         private microtextService: MicrotextService,
-        public eventService: EventService,
-        public registerService: RegisterService) {
+        public registerService: RegisterService,
+        private globalService: GlobalService) {
         this.validationFuncs = [
             {
                 isFieldValid(newUser: NewUser) {
@@ -97,10 +99,10 @@ export class RegisterComponent {
                 inputId: "register-password"
             }
         ];
+    }
 
-        eventService.Register("setRegisterEmail", (email: string) => {
-            this.newUser.email = email;
-        });
+    ngOnInit() {
+        this.newUser.email = this.globalService.GetData("registerEmail") || "";
     }
 
     // Regiter the new user to the DB.

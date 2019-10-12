@@ -5,6 +5,7 @@ import { AlertService, ALERT_TYPE } from '../../services/global/alert.service';
 import { MicrotextService, InputFieldValidation } from '../../services/global/microtext.service';
 
 import { DeleteUserService } from '../../services/deleteUser.service';
+import { SocketService } from 'src/app/services/global/socket.service';
 
 @Component({
     selector: 'deleteUser',
@@ -25,7 +26,8 @@ export class DeleteUserComponent implements OnInit {
         private route: ActivatedRoute,
         public alertService: AlertService,
         private microtextService: MicrotextService,
-        private deleteUserService: DeleteUserService) {
+        private deleteUserService: DeleteUserService,
+        private socketService: SocketService) {
         this.validationFuncs = [
             {
                 isFieldValid(password: string) {
@@ -69,7 +71,7 @@ export class DeleteUserComponent implements OnInit {
             if (result) {
                 this.alertService.Alert({
                     title: "מחיקת משתמש",
-                    text: "מחיקת המשתמש שלך בוצעה בהצלחה",
+                    text: "מחיקת המשתמש שלך בוצעה בהצלחה.",
                     showCancelButton: false,
                     type: ALERT_TYPE.INFO
                 });

@@ -10,7 +10,7 @@ router.get('/validateDeleteUserToken',
     validation,
     (req, res) => {
         tokenHandler.deleteAuthCookies(res);
-        deleteUserBL.ValidateDeleteUserToken(req.query.token).then(result => {
+        deleteUserBL.validateDeleteUserToken(req.query.token).then(result => {
             res.send(result ? { name: (result.firstName + " " + result.lastName) } : false);
         }).catch(err => {
             logger.error(err);
@@ -22,19 +22,22 @@ router.get('/validateDeleteUserToken',
 router.put('/deleteAccount',
     validation,
     (req, res) => {
-        deleteUserBL.IsAllowToDeleteAccount(req.body).then(user => {
+        deleteUserBL.isAllowToDeleteAccount(req.body).then(user => {
             // In case the password is wrong.
             if (!user) {
                 return res.send(false);
             }
 
             // Remove the user from DB.
-            deleteUserBL.DeleteUserFromDB(user._id.toString(),
+            deleteUserBL.deleteUserFromDB(user._id.toString(),
                 user.firstName,
                 user.lastName,
                 user.email,
                 req).then((result) => {
                     res.send(result);
+                    events.emit('socket.LogoutUserSession',
+                        user._id.toString(),
+                        "מחיקת המשתמש שלך בוצעה בהצלחה.");
                 }).catch((err) => {
                     logger.error(err);
                     res.sendStatus(500);

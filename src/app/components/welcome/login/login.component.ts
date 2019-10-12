@@ -7,6 +7,7 @@ import { SnackbarService } from '../../../services/global/snackbar.service';
 import { MicrotextService, InputFieldValidation } from '../../../services/global/microtext.service';
 
 import { LoginService } from '../../../services/welcome/login.service';
+import { GlobalService } from 'src/app/services/global/global.service';
 
 import { UserRegexp } from '../../../regex/regexpEnums';
 
@@ -34,7 +35,8 @@ export class LoginComponent {
         public snackbarService: SnackbarService,
         private microtextService: MicrotextService,
         public eventService: EventService,
-        private loginService: LoginService) {
+        private loginService: LoginService,
+        private globalService: GlobalService) {
         this.validationFuncs = [
             {
                 isFieldValid(user: User) {
@@ -94,7 +96,7 @@ export class LoginComponent {
                         confirmBtnText: "כן",
                         cancelBtnText: "לא",
                         confirmFunc: function () {
-                            self.eventService.Emit("setRegisterEmail", self.user.email);
+                            self.globalService.SetData("registerEmail", self.user.email);
                             self.router.navigateByUrl('/register');
                         }
                     });

@@ -5,7 +5,7 @@ const profilePicturesCollectionName = config.db.collections.profilePictures;
 const usersCollectionName = config.db.collections.users;
 
 module.exports = {
-    GetUserProfileImage(profileId) {
+    getUserProfileImage(profileId) {
         return new Promise((resolve, reject) => {
             if (!profileId) {
                 resolve(null);
@@ -17,7 +17,7 @@ module.exports = {
         });
     },
 
-    SaveImage(imageData) {
+    saveImage(imageData) {
         return new Promise((resolve, reject) => {
             let userIdObject = DAL.getObjectId(imageData.userId);
 
@@ -40,7 +40,7 @@ module.exports = {
         });
     },
 
-    DeleteImage(userId, profileId) {
+    deleteImage(userId, profileId) {
         return new Promise((resolve, reject) => {
             let usersFilter = { "_id": DAL.getObjectId(userId) };
             let userObjectFieldDeleteQuery = { $unset: { "profile": 1 } };
@@ -55,4 +55,4 @@ module.exports = {
             }).catch(reject)
         });
     }
-}
+};

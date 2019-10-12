@@ -13,15 +13,14 @@ const permissionsCollectionName = config.db.collections.permissions;
 const tokenTTL = config.security.ttl.deleteUserToken;
 
 module.exports = {
-
-    ValidateDeleteUserToken(token) {
+    validateDeleteUserToken(token) {
         return new Promise((resolve, reject) => {
             let query = {
                 "deleteUser.token": token,
                 "deleteUser.date": {
                     $gte: new Date().addHours(tokenTTL * -1)
                 }
-            }
+            };
 
             let fields = { "_id": 0, "firstName": 1, "lastName": 1 };
 
@@ -30,7 +29,7 @@ module.exports = {
     },
 
     // Validating delete user account by token and password.
-    IsAllowToDeleteAccount(data) {
+    isAllowToDeleteAccount(data) {
         return new Promise((resolve, reject) => {
             let token = data.token;
             let password = data.password;
@@ -46,13 +45,13 @@ module.exports = {
                 }
                 else {
                     // Return user object in case the entered password is equal to the user password.
-                    resolve((user.password == sha512(password + user.salt)) ? user : false);
+                    resolve((user.password === sha512(password + user.salt)) ? user : false);
                 }
             }).catch(reject);
         });
     },
 
-    DeleteUserFromDB(userId, userFirstName, userLastName, userEmail, req) {
+    deleteUserFromDB(userId, userFirstName, userLastName, userEmail, req) {
         return new Promise((resolve, reject) => {
             let userObjectId = DAL.getObjectId(userId);
             let notificationsUnsetJson = {};
@@ -89,7 +88,7 @@ module.exports = {
             Promise.all(deleteUserActions).then(results => {
                 resolve(true);
 
-                logsBL.DeleteUser(userEmail, req);
+                logsBL.deleteUser(userEmail, req);
 
                 // Get user friends ids array.
                 let userFriendsRelations = results[0];
@@ -107,4 +106,4 @@ module.exports = {
             }).catch(reject);
         });
     }
-}
+};

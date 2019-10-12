@@ -9,7 +9,7 @@ router.post('/getUserByName',
         next();
     },
     (req, res) => {
-        managementBL.GetUserByName(req.body.searchInput).then((result) => {
+        managementBL.getUserByName(req.body.searchInput).then((result) => {
             res.send(result);
         }).catch((err) => {
             logger.error(err);
@@ -18,7 +18,7 @@ router.post('/getUserByName',
     });
 
 router.post('/getUserFriends', function (req, res) {
-    managementBL.GetUserFriends(req.body.friendsIds).then((result) => {
+    managementBL.getUserFriends(req.body.friendsIds).then((result) => {
         res.send(result);
     }).catch((err) => {
         logger.error(err);
@@ -27,7 +27,7 @@ router.post('/getUserFriends', function (req, res) {
 });
 
 router.put('/editUser', function (req, res) {
-    managementBL.UpdateUser(req.user._id, req.body.updateFields).then((result) => {
+    managementBL.updateUser(req.user._id, req.body.updateFields).then((result) => {
         res.send(result);
     }).catch((err) => {
         logger.error(err);
@@ -36,7 +36,7 @@ router.put('/editUser', function (req, res) {
 });
 
 router.put('/blockUser', function (req, res) {
-    managementBL.BlockUser(req.user._id, req.body.blockObj).then((result) => {
+    managementBL.blockUser(req.user._id, req.body.blockObj).then((result) => {
         res.send(result);
     }).catch((err) => {
         logger.error(err);
@@ -45,7 +45,7 @@ router.put('/blockUser', function (req, res) {
 });
 
 router.put('/unblockUser', function (req, res) {
-    managementBL.UnblockUser(req.body.userId).then((result) => {
+    managementBL.unblockUser(req.body.userId).then((result) => {
         res.send(result);
     }).catch((err) => {
         logger.error(err);
@@ -54,7 +54,7 @@ router.put('/unblockUser', function (req, res) {
 });
 
 router.delete('/removeFriends', function (req, res) {
-    managementBL.RemoveFriends(req.user._id, req.query.userId, req.query.friendId).then((result) => {
+    managementBL.removeFriends(req.user._id, req.query.userId, req.query.friendId).then((result) => {
         res.send(result);
     }).catch((err) => {
         logger.error(err);
@@ -65,7 +65,7 @@ router.delete('/removeFriends', function (req, res) {
 router.delete('/deleteUser', function (req, res) {
     // Checking master permission.
     if (permissionHandler.isUserHasMasterPermission(req.user.permissions)) {
-        managementBL.DeleteUser(req.query.userId,
+        managementBL.deleteUser(req.query.userId,
             req.query.userFirstName,
             req.query.userLastName,
             req.query.userEmail,

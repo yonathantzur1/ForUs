@@ -6,48 +6,48 @@ const LOG_TYPE = require('../enums').LOG_TYPE;
 let logsCollectionName = config.db.collections.logs;
 
 module.exports = {
-    ResetPasswordRequest(email, req) {
-        InsertStandardLog(
+    resetPasswordRequest(email, req) {
+        insertLog(
             LOG_TYPE.RESET_PASSWORD_REQUEST,
             email,
             req
         );
     },
 
-    Login(email, req) {
-        InsertStandardLog(
+    login(email, req) {
+        insertLog(
             LOG_TYPE.LOGIN,
             email,
             req
         );
     },
 
-    LoginFail(email, req) {
-        InsertStandardLog(
+    loginFail(email, req) {
+        insertLog(
             LOG_TYPE.LOGIN_FAIL,
             email,
             req
         );
     },
 
-    Register(email, req) {
-        InsertStandardLog(
+    register(email, req) {
+        insertLog(
             LOG_TYPE.REGISTER,
             email,
             req
         );
     },
 
-    DeleteUser(email, req) {
-        InsertStandardLog(
+    deleteUser(email, req) {
+        insertLog(
             LOG_TYPE.DELETE_USER,
             email,
             req
         );
     }
-}
+};
 
-function InsertStandardLog(type, email, req) {
+function insertLog(type, email, req) {
     if (!config.server.isProd) {
         return;
     }

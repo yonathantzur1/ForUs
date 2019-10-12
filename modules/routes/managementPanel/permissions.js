@@ -16,7 +16,7 @@ router.use(prefix, function (req, res, next) {
 });
 
 router.get('/getAllPermissions', function (req, res) {
-    permissionsBL.GetAllPermissions().then((result) => {
+    permissionsBL.getAllPermissions().then((result) => {
         res.send(result);
     }).catch((err) => {
         logger.error(err);
@@ -25,7 +25,7 @@ router.get('/getAllPermissions', function (req, res) {
 });
 
 router.get('/getUserPermissions', function (req, res) {
-    permissionsBL.GetUserPermissions(req.query.userId).then((result) => {
+    permissionsBL.getUserPermissions(req.query.userId).then((result) => {
         res.send(result);
     }).catch((err) => {
         logger.error(err);
@@ -34,7 +34,7 @@ router.get('/getUserPermissions', function (req, res) {
 });
 
 router.put('/updatePermissions', function (req, res) {
-    permissionsBL.UpdatePermissions(req.body.userId, req.body.permissions).then((result) => {
+    permissionsBL.updatePermissions(req.body.userId, req.body.permissions).then((result) => {
         res.send(result);
     }).catch((err) => {
         logger.error(err);

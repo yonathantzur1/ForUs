@@ -12,12 +12,12 @@ router.get('/isUserOnSession', (req, res) => {
         res.send(false);
     }
     else {
-        loginBL.GetUserById(req.user._id).then((user) => {
+        loginBL.getUserById(req.user._id).then((user) => {
             let cookieUid = tokenHandler.getUidFromRequest(req);
 
             // Double check uid (after main server token validae middleware)
             // from the original DB user object.
-            if (user && user.uid == cookieUid && !(loginBL.IsUserBlocked(user))) {
+            if (user && user.uid == cookieUid && !(loginBL.isUserBlocked(user))) {
                 tokenHandler.setTokenOnCookie(tokenHandler.getTokenFromUserObject(user), res, true);
                 res.send(true);
             }
@@ -49,14 +49,14 @@ router.get('/getCurrUser', (req, res) => {
         "friends": user.friends
     }
 
-    logsBL.Login(user.email, req);
-    loginBL.UpdateLastLogin(user._id);
+    logsBL.login(user.email, req);
+    loginBL.updateLastLogin(user._id);
     res.send(userClientObject);
 });
 
 // Set the current login user token.
 router.get('/setCurrUserToken', (req, res) => {
-    loginBL.GetUserById(req.user._id).then((user) => {
+    loginBL.getUserById(req.user._id).then((user) => {
         if (user) {
             let token = tokenHandler.getTokenFromUserObject(user);
             tokenHandler.setTokenOnCookie(token, res);

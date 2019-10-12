@@ -11,7 +11,7 @@ router.post('/getChartData',
         next();
     },
     (req, res) => {
-        statisticsBL.GetLoginsData(req.body.logType,
+        statisticsBL.getLogData(req.body.logType,
             req.body.range,
             req.body.datesRange,
             req.body.clientTimeZone,
@@ -29,7 +29,7 @@ router.get('/getUserByEmail',
         next();
     },
     (req, res) => {
-        statisticsBL.GetUserByEmail(req.query.email).then(result => {
+        statisticsBL.getUserByEmail(req.query.email).then(result => {
             // Return -1 in case the user is not found (result is null).
             res.send(result || "-1");
         }).catch(err => {

@@ -5,7 +5,7 @@ const logger = require('../../../logger');
 
 // Get all report reasons from DB.
 router.get('/getAllReportReasons', (req, res) => {
-    userReportWindowBL.GetAllReportReasons().then(result => {
+    userReportWindowBL.getAllReportReasons().then(result => {
         res.send(result);
     }).catch(err => {
         logger.error(err);
@@ -16,7 +16,7 @@ router.get('/getAllReportReasons', (req, res) => {
 router.post('/reportUser',
     validation,
     (req, res) => {
-        userReportWindowBL.ReportUser(req.user._id, req.user.friends, req.body).then(result => {
+        userReportWindowBL.reportUser(req.user._id, req.user.friends, req.body).then(result => {
             res.send(result);
         }).catch(err => {
             logger.error(err);

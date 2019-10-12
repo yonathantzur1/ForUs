@@ -7,7 +7,7 @@ const loginBL = require('../welcome/loginBL');
 const usersCollectionName = config.db.collections.users;
 
 let self = module.exports = {
-    UpdateUserInfo(updateFields) {
+    updateUserInfo(updateFields) {
         return new Promise((resolve, reject) => {
             let userObjId = DAL.getObjectId(updateFields._id);
             let userPassword = updateFields.password;
@@ -15,7 +15,7 @@ let self = module.exports = {
             delete updateFields.password;
 
             // Check if the validation password match to the user password on DB.
-            loginBL.IsPasswordMatchToUser(userObjId, userPassword).then(result => {
+            loginBL.isPasswordMatchToUser(userObjId, userPassword).then(result => {
                 if (result) {
                     // In case email field was updated.
                     if (updateFields.email) {
@@ -24,12 +24,12 @@ let self = module.exports = {
                                 resolve(enums.USER_UPDATE_INFO_ERROR.EMAIL_EXISTS);
                             }
                             else {
-                                self.UpdateUserOnDB(resolve, reject, userObjId, updateFields);
+                                self.updateUserOnDB(resolve, reject, userObjId, updateFields);
                             }
                         });
                     }
                     else {
-                        self.UpdateUserOnDB(resolve, reject, userObjId, updateFields);
+                        self.updateUserOnDB(resolve, reject, userObjId, updateFields);
                     }
                 }
                 else {
@@ -37,9 +37,9 @@ let self = module.exports = {
                 }
             }).catch(reject);
         });
-    },    
+    },
 
-    UpdateUserOnDB(resolve, reject, userObjId, updateFields) {
+    updateUserOnDB(resolve, reject, userObjId, updateFields) {
         DAL.updateOne(usersCollectionName,
             { "_id": userObjId },
             { $set: updateFields }).then((result) => {
@@ -48,4 +48,4 @@ let self = module.exports = {
                 resolve(result);
             }).catch(reject);
     }
-}
+};

@@ -7,7 +7,7 @@ router.get('/getUserDetails', function (req, res) {
     let userId = req.query.id;
     let currUserId = req.user._id;
 
-    userPageBL.GetUserDetails(userId, currUserId).then(result => {
+    userPageBL.getUserDetails(userId, currUserId).then(result => {
         res.send(result);
     }).catch(err => {
         logger.error(err);
@@ -20,7 +20,7 @@ router.delete('/removeFriends', function (req, res) {
     let currUserId = req.user._id;
     let friendId = req.query.friendId;
 
-    userPageBL.RemoveFriends(currUserId, friendId).then(result => {
+    userPageBL.removeFriends(currUserId, friendId).then(result => {
         res.send(result);
     }).catch(err => {
         logger.error(err);
@@ -29,7 +29,7 @@ router.delete('/removeFriends', function (req, res) {
 });
 
 router.put('/deleteUserValidation', function (req, res) {
-    userPageBL.DeleteUserValidation(req.user._id).then(result => {
+    userPageBL.deleteUserValidation(req.user._id).then(result => {
         res.send(result);
     }).catch((err) => {
         logger.error(err);

@@ -1,4 +1,4 @@
-import { Component, Host } from '@angular/core';
+import { Component, Host, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ImageService } from 'src/app/services/global/image.service';
@@ -16,7 +16,7 @@ declare let $: any;
     styleUrls: ['./mainSearch.css']
 })
 
-export class MainSearchComponent {
+export class MainSearchComponent implements OnDestroy {
     searchInput: string;
     isShowSearchResults: boolean;
     searchResults: Array<any> = [];
@@ -69,6 +69,10 @@ export class MainSearchComponent {
         self.socketService.SocketOn('ClientRemoveFriend', function (userId: string) {
             self.RemoveUserFromNavbarSearchCache(userId);
         });
+    }
+
+    ngOnDestroy() {
+        this.eventService.UnsubscribeEvents(this.eventsIds);
     }
 
     SearchChange(input: string) {

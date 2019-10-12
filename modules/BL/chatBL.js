@@ -1,28 +1,27 @@
 const DAL = require('../DAL.js');
 const config = require('../../config');
 const encryption = require('../security/encryption');
-const logger = require('../../logger');
 const navbarBL = require('./navbarBL');
 
 const chatsCollectionName = config.db.collections.chats;
 const messagesInPage = 40;
 
 let self = module.exports = {
-    GetChat(membersIds, user) {
+    getChat(membersIds, user) {
         return new Promise((resolve, reject) => {
-            if (self.ValidateUserGetChat(membersIds, user.friends, user._id)) {
+            if (self.validateUserGetChat(membersIds, user.friends, user._id)) {
                 let chatQueryFilter = {
                     $match: {
                         "membersIds": { $all: membersIds }
                     }
-                }
+                };
 
                 let sliceObj = {
                     $project: {
                         messages: { $slice: ["$messages", -1 * messagesInPage] },
                         totalMessagesNum: { $size: "$messages" }
                     }
-                }
+                };
 
                 let aggregate = [chatQueryFilter, sliceObj];
 
@@ -30,13 +29,13 @@ let self = module.exports = {
                     let chat;
 
                     // In case the chat is not exists.
-                    if (result.length == 0) {
+                    if (result.length === 0) {
                         chat = false;
-                        self.CreateChat(membersIds);
+                        self.createChat(membersIds);
                     }
                     else {
                         chat = result[0];
-                        chat.messages = self.DecryptChatMessages(chat.messages);
+                        chat.messages = self.decryptChatMessages(chat.messages);
                     }
 
                     resolve(chat);
@@ -48,14 +47,14 @@ let self = module.exports = {
         });
     },
 
-    GetChatPage(membersIds, user, currMessagesNum, totalMessagesNum) {
+    getChatPage(membersIds, user, currMessagesNum, totalMessagesNum) {
         return new Promise((resolve, reject) => {
-            if (self.ValidateUserGetChat(membersIds, user.friends, user._id)) {
+            if (self.validateUserGetChat(membersIds, user.friends, user._id)) {
                 let chatQueryFilter = {
                     $match: {
                         "membersIds": { $all: membersIds }
                     }
-                }
+                };
 
                 let messagesInPage = messagesInPage;
                 let page = (currMessagesNum / messagesInPage) + 1;
@@ -65,16 +64,16 @@ let self = module.exports = {
                     $project: {
                         messages: { $slice: ["$messages", (-1 * messagesInPage * page), selectNextNumber] }
                     }
-                }
+                };
 
                 let aggregate = [chatQueryFilter, sliceObj];
 
                 DAL.aggregate(chatsCollectionName, aggregate).then((result) => {
                     let chat;
 
-                    if (result.length != 0) {
+                    if (result.length !== 0) {
                         chat = result[0];
-                        chat.messages = self.DecryptChatMessages(chat.messages);
+                        chat.messages = self.decryptChatMessages(chat.messages);
                     }
 
                     resolve(chat);
@@ -86,22 +85,22 @@ let self = module.exports = {
         });
     },
 
-    CreateChat(membersIds) {
+    createChat(membersIds) {
         let chatQueryFilter = {
             "membersIds": membersIds
-        }
+        };
 
         let chatObj = {
             $set: {
                 "membersIds": membersIds,
                 "messages": []
             }
-        }
+        };
 
-        DAL.updateOne(chatsCollectionName, chatQueryFilter, chatObj, true).catch(logger.error);
+        DAL.updateOne(chatsCollectionName, chatQueryFilter, chatObj, true);
     },
 
-    AddMessageToChat(msgData) {
+    addMessageToChat(msgData) {
         return new Promise((resolve, reject) => {
             // Encrypt message text.
             msgData.text = encryption.encrypt(msgData.text);
@@ -121,7 +120,7 @@ let self = module.exports = {
                 $push: {
                     "messages": message
                 }
-            }
+            };
 
             DAL.updateOne(chatsCollectionName, chatFilter, chatUpdateQuery).then((result) => {
                 result ? resolve(true) : resolve(false);
@@ -129,22 +128,7 @@ let self = module.exports = {
         });
     },
 
-    GetAllEmptyChats() {
-        return new Promise((resolve, reject) => {
-            let chatFields = { "membersIds": 1 };
-
-            DAL.findSpecific(chatsCollectionName, { "messages": { $size: 0 } }, chatFields)
-                .then(resolve).catch(reject);
-        });
-    },
-
-    RemoveChatsByIds(ids) {
-        return new Promise((resolve, reject) => {
-            DAL.delete(chatsCollectionName, { "_id": { $in: ids } }).then(resolve).catch(reject);
-        });
-    },
-
-    DecryptChatMessages(messages) {
+    decryptChatMessages(messages) {
         messages.forEach((msgData) => {
             msgData.text = encryption.decrypt(msgData.text);
         });
@@ -152,9 +136,9 @@ let self = module.exports = {
         return messages;
     },
 
-    ValidateUserGetChat(membersIds, userFriends, userId) {
+    validateUserGetChat(membersIds, userFriends, userId) {
         for (let i = 0; i < membersIds.length; i++) {
-            if (userFriends.indexOf(membersIds[i]) == -1 && membersIds[i] != userId) {
+            if (userFriends.indexOf(membersIds[i]) === -1 && membersIds[i] !== userId) {
                 return false;
             }
         }
@@ -162,14 +146,14 @@ let self = module.exports = {
         return true;
     },
 
-    GetAllPreviewChats(userId) {
+    getAllPreviewChats(userId) {
         return new Promise((resolve, reject) => {
             let chatsFilter = {
                 $match: {
                     "membersIds": userId,
                     "messages": { $ne: [] }
                 }
-            }
+            };
 
             let sortObj = { $sort: { "lastMessage.time": -1 } };
 
@@ -183,7 +167,7 @@ let self = module.exports = {
                     }
                 },
                 sortObj
-            ]
+            ];
 
             DAL.aggregate(chatsCollectionName, aggregateArray).then((chats) => {
                 let indexChatPositionByFriendId = {};
@@ -194,14 +178,14 @@ let self = module.exports = {
                     chat.lastMessage.text = encryption.decrypt(chat.lastMessage.text);
 
                     let friendId = chat.membersIds.find((id) => {
-                        return (id != userId);
+                        return (id !== userId);
                     });
 
                     indexChatPositionByFriendId[friendId] = index;
                     chatsFriendsIds.push(friendId);
                 });
 
-                navbarBL.GetFriends(chatsFriendsIds).then(friends => {
+                navbarBL.getFriends(chatsFriendsIds).then(friends => {
                     friends.forEach(friend => {
                         chats[indexChatPositionByFriendId[friend._id.toString()]].friend = friend;
                     });
@@ -212,4 +196,4 @@ let self = module.exports = {
 
         });
     }
-}
+};

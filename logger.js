@@ -12,7 +12,7 @@ const logger = createLogger({
         json()
     ),
     transports: [
-        new transports.File({ filename: path.join(logsDir, 'forus.log') })
+        new transports.File({ filename: path.join(logsDir, config.logs.mainLogName) })
     ]
 });
 
@@ -23,7 +23,7 @@ const secure = createLogger({
         json()
     ),
     transports: [
-        new transports.File({ filename: path.join(logsDir, 'secure.log') })
+        new transports.File({ filename: path.join(logsDir, config.logs.secureLogName) })
     ]
 });
 
@@ -39,39 +39,38 @@ if (!config.server.isProd) {
 }
 
 module.exports = {
-    info: (err) => {
-        logError(logger.info, err);
+    info: (data) => {
+        logData(logger.info, data);
     },
 
-    error: (err) => {
-        logError(logger.error, err);
+    error: (data) => {
+        logData(logger.error, data);
     },
 
-    warn: (err) => {
-        logError(logger.warn, err);
+    warn: (data) => {
+        logData(logger.warn, data);
     },
 
-    danger: (err) => {
-        logError(logger.danger, err);
+    danger: (data) => {
+        logData(logger.danger, data);
     },
 
-    secure: (msg) => {
-        logError(secure.warn, msg);
+    secure: (data) => {
+        logData(secure.warn, data);
     }
+};
+
+function logData(logger, data) {
+    data && logger(createLogStr(data));
 }
 
-function logError(logFunction, err) {
-    err && logFunction(createErrorMsg(err));
-}
-
-function createErrorMsg(err) {
+function createLogStr(data) {
     let msg;
 
-    if (typeof err == "object") {
-        msg = err.message || JSON.stringify(err);
-    }
-    else {
-        msg = err.toString();
+    if (typeof data == "object") {
+        msg = data.message || JSON.stringify(data);
+    } else {
+        msg = data.toString();
     }
 
     return msg;

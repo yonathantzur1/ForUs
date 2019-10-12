@@ -29,7 +29,9 @@ module.exports = {
         }
     },
     logs: {
-        directoryName: "/logs"
+        directoryName: "/logs",
+        mainLogName: "forus.log",
+        secureLogName: "secure.log"
     },
     security: {
         jwt: {
