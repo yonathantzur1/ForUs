@@ -17,7 +17,7 @@ let db;
     else {
         let client = await MongoClient.connect(connectionString,
             { useNewUrlParser: true, useUnifiedTopology: true }).catch(err => {
-                return Promise.reject(err);
+                return reject(err);
             });
 
         return (db = client.db(dbName));
@@ -28,6 +28,10 @@ async function getCollection(collectionName) {
     return (await getDB()).collection(collectionName);
 }
 
+function reject(err) {
+    return Promise.reject(err);
+}
+
 module.exports = {
     // Convert string id to MongoDB object id.
     getObjectId(id) {
@@ -36,45 +40,35 @@ module.exports = {
 
     // Get one document from collection by filter.
     async findOne(collectionName, filter) {
-        let collection = await getCollection(collectionName).catch(err => {
-            return Promise.reject(err);
-        });
+        let collection = await getCollection(collectionName).catch(reject);
 
         return collection.findOne(filter);
     },
 
     // Get document specific fields from collection by filter.
     async findOneSpecific(collectionName, filter, projection) {
-        let collection = await getCollection(collectionName).catch(err => {
-            return Promise.reject(err);
-        });
+        let collection = await getCollection(collectionName).catch(reject);
 
         return collection.findOne(filter, { projection });
     },
 
     // Get documents from collection by filter.
     async find(collectionName, filter, sortObj) {
-        let collection = await getCollection(collectionName).catch(err => {
-            return Promise.reject(err);
-        });
+        let collection = await getCollection(collectionName).catch(reject);
 
         return collection.find(filter).sort(sortObj || {}).toArray();
     },
 
     // Get documents specific fields from collection by filter.
     async findSpecific(collectionName, filter, projection, sortObj) {
-        let collection = await getCollection(collectionName).catch(err => {
-            return Promise.reject(err);
-        });
+        let collection = await getCollection(collectionName).catch(reject);
 
         return collection.find(filter, { projection }).sort(sortObj || {}).toArray();
     },
 
     // Aggregate documents.
     async aggregate(collectionName, aggregateArray) {
-        let collection = await getCollection(collectionName).catch(err => {
-            return Promise.reject(err);
-        });
+        let collection = await getCollection(collectionName).catch(reject);
 
         return collection.aggregate(aggregateArray).toArray();
     },
@@ -88,7 +82,7 @@ module.exports = {
             return result.insertedId;
         }
         catch (err) {
-            return Promise.reject(err);
+            return reject(err);
         }
     },
 
@@ -104,7 +98,7 @@ module.exports = {
             return updateResult.value || false;
         }
         catch (err) {
-            return Promise.reject(err);
+            return reject(err);
         }
     },
 
@@ -120,7 +114,7 @@ module.exports = {
             return (modifiedAmount > 0 ? modifiedAmount : false);
         }
         catch (err) {
-            return Promise.reject(err);
+            return reject(err);
         }
     },
 
@@ -134,7 +128,7 @@ module.exports = {
             return (deletedAmount > 0 ? deletedAmount : false);
         }
         catch (err) {
-            return Promise.reject(err);
+            return reject(err);
         }
     },
 
@@ -147,15 +141,13 @@ module.exports = {
             return (deleteResult.result.n != 0);
         }
         catch (err) {
-            return Promise.reject(err);
+            return reject(err);
         }
     },
 
     // Getting documents amount by filter.
     async count(collectionName, filter) {
-        let collection = await getCollection(collectionName).catch(err => {
-            return Promise.reject(err);
-        });
+        let collection = await getCollection(collectionName).catch(reject);
 
         return collection.find(filter).count();
     }
