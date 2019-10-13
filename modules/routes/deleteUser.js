@@ -4,6 +4,7 @@ const tokenHandler = require('../handlers/tokenHandler');
 const validation = require('../security/validation');
 const events = require('../events');
 const logger = require('../../logger');
+const errorHandler = require('../handlers/errorHandler');
 
 // Validating the delete user request unique token.
 router.get('/validateDeleteUserToken',
@@ -13,8 +14,7 @@ router.get('/validateDeleteUserToken',
         deleteUserBL.validateDeleteUserToken(req.query.token).then(result => {
             res.send(result ? { name: (result.firstName + " " + result.lastName) } : false);
         }).catch(err => {
-            logger.error(err);
-            res.sendStatus(500);
+            errorHandler.routeError(err, res);
         });
     });
 
@@ -39,12 +39,10 @@ router.put('/deleteAccount',
                         user._id.toString(),
                         "מחיקת המשתמש שלך בוצעה בהצלחה.");
                 }).catch((err) => {
-                    logger.error(err);
-                    res.sendStatus(500);
+                    errorHandler.routeError(err, res);
                 });
         }).catch((err) => {
-            logger.error(err);
-            res.sendStatus(500);
+            errorHandler.routeError(err, res);
         });;
     });
 

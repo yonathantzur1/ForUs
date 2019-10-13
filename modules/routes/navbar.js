@@ -1,14 +1,13 @@
 const router = require('express').Router();
 const navbarBL = require('../BL/navbarBL');
 const tokenHandler = require("../handlers/tokenHandler");
-const logger = require('../../logger');
+const errorHandler = require('../handlers/errorHandler');
 
 router.post('/getFriends', function (req, res) {
     navbarBL.getFriends(req.body).then((friends) => {
         res.send(friends);
     }).catch((err) => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 
@@ -17,8 +16,7 @@ router.post('/getMainSearchResults', function (req, res) {
     navbarBL.getMainSearchResults(req.body.searchInput, req.user._id).then((results) => {
         res.send(results);
     }).catch((err) => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 
@@ -27,8 +25,7 @@ router.post('/getMainSearchResultsWithImages', function (req, res) {
     navbarBL.getMainSearchResultsWithImages(req.body).then((profiles) => {
         res.send(profiles);
     }).catch((err) => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 
@@ -36,8 +33,7 @@ router.get('/getUserMessagesNotifications', function (req, res) {
     navbarBL.getUserMessagesNotifications(req.user._id).then((messagesNotifications) => {
         res.send(messagesNotifications);
     }).catch((err) => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 
@@ -55,8 +51,7 @@ router.get('/getUserFriendRequests', function (req, res) {
     navbarBL.getUserFriendRequests(req.user._id).then((friendRequests) => {
         res.send(friendRequests);
     }).catch((err) => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 
@@ -64,8 +59,7 @@ router.post('/addFriendRequest', function (req, res) {
     navbarBL.addFriendRequest(req.user, req.body.friendId).then((result) => {
         res.send(result);
     }).catch((err) => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 
@@ -73,8 +67,7 @@ router.post('/removeFriendRequest', function (req, res) {
     navbarBL.removeFriendRequest(req.user._id, req.body.friendId).then((result) => {
         res.send(result);
     }).catch((err) => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 
@@ -82,8 +75,7 @@ router.post('/ignoreFriendRequest', function (req, res) {
     navbarBL.ignoreFriendRequest(req.user._id, req.body.friendId).then((result) => {
         res.send(result);
     }).catch((err) => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 
@@ -94,8 +86,7 @@ router.post('/addFriend', function (req, res) {
             res.send(result.friend);
         }
     }).catch((err) => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 
@@ -105,8 +96,7 @@ router.put('/removeFriendRequestConfirmAlert', function (req, res) {
     navbarBL.removeFriendRequestConfirmAlert(data).then((result) => {
         res.send(result);
     }).catch((err) => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 

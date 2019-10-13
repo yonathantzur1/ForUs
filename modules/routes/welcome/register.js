@@ -4,8 +4,7 @@ const logsBL = require('../../BL/logsBL');
 const mailer = require('../../mailer');
 const tokenHandler = require('../../handlers/tokenHandler');
 const validation = require('../../security/validation');
-const logger = require('../../../logger');
-
+const errorHandler = require('../../handlers/errorHandler');
 
 // Add new user to the DB and make sure the email is not already exists.
 router.post('/register',
@@ -39,8 +38,7 @@ router.post('/register',
                         res.send({ result: user });
                     }
                 }).catch((err) => {
-                    logger.error(err);
-                    res.sendStatus(500);
+                    errorHandler.routeError(err, res);
                 });
             }
         });

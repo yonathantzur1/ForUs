@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const userPageBL = require('../../BL/userPage/userPageBL');
-const logger = require('../../../logger');
+const errorHandler = require('../../handlers/errorHandler');
 
 // Get user details by id.
 router.get('/getUserDetails', function (req, res) {
@@ -10,8 +10,7 @@ router.get('/getUserDetails', function (req, res) {
     userPageBL.getUserDetails(userId, currUserId).then(result => {
         res.send(result);
     }).catch(err => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 
@@ -23,8 +22,7 @@ router.delete('/removeFriends', function (req, res) {
     userPageBL.removeFriends(currUserId, friendId).then(result => {
         res.send(result);
     }).catch(err => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 
@@ -32,8 +30,7 @@ router.put('/deleteUserValidation', function (req, res) {
     userPageBL.deleteUserValidation(req.user._id).then(result => {
         res.send(result);
     }).catch((err) => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 

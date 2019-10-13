@@ -2,7 +2,7 @@ const router = require('express').Router();
 const loginBL = require('../BL/welcome/loginBL');
 const tokenHandler = require('../handlers/tokenHandler');
 const permissionHandler = require('../handlers/permissionHandler');
-const logger = require('../../logger');
+const errorHandler = require('../handlers/errorHandler');
 const logsBL = require('../BL/logsBL');
 const enums = require('../enums');
 
@@ -25,8 +25,7 @@ router.get('/isUserOnSession', (req, res) => {
                 res.send(false);
             }
         }).catch((err) => {
-            logger.error(err);
-            res.sendStatus(500);
+            errorHandler.routeError(err, res);
         });
     }
 });
@@ -66,8 +65,7 @@ router.get('/setCurrUserToken', (req, res) => {
             res.send(false);
         }
     }).catch((err) => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 

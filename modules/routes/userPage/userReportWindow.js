@@ -1,15 +1,14 @@
 const router = require('express').Router();
 const userReportWindowBL = require('../../BL/userPage/userReportWindowBL');
 const validation = require('../../security/validation');
-const logger = require('../../../logger');
+const errorHandler = require('../../handlers/errorHandler');
 
 // Get all report reasons from DB.
 router.get('/getAllReportReasons', (req, res) => {
     userReportWindowBL.getAllReportReasons().then(result => {
         res.send(result);
     }).catch(err => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 
@@ -19,8 +18,7 @@ router.post('/reportUser',
         userReportWindowBL.reportUser(req.user._id, req.user.friends, req.body).then(result => {
             res.send(result);
         }).catch(err => {
-            logger.error(err);
-            res.sendStatus(500);
+            errorHandler.routeError(err, res);
         });
     });
 

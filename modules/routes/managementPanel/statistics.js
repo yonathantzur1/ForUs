@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const statisticsBL = require('../../BL/managementPanel/statisticsBL');
-const logger = require('../../../logger');
+const errorHandler = require('../../handlers/errorHandler');
 
 router.post('/getChartData',
     (req, res, next) => {
@@ -18,8 +18,7 @@ router.post('/getChartData',
             req.body.email).then(result => {
                 res.send(result);
             }).catch(err => {
-                logger.error(err);
-                res.sendStatus(500);
+                errorHandler.routeError(err, res);
             });
     });
 
@@ -33,8 +32,7 @@ router.get('/getUserByEmail',
             // Return -1 in case the user is not found (result is null).
             res.send(result || "-1");
         }).catch(err => {
-            logger.error(err);
-            res.sendStatus(500);
+            errorHandler.routeError(err, res);
         });
     });
 

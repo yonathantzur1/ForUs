@@ -2,20 +2,18 @@ const router = require('express').Router();
 const loginBL = require('../../BL/welcome/loginBL');
 const logsBL = require('../../BL/logsBL');
 const tokenHandler = require('../../handlers/tokenHandler');
+const errorHandler = require('../../handlers/errorHandler');
 const validation = require('../../security/validation');
 const limitter = require('../../security/limitter');
-const logger = require('../../../logger');
 
 // Validate the user details and login the user.
 router.post('/userLogin',
     validation,
     (req, res, next) => {
         req.body.email = req.body.email.toLowerCase();
-        next();
-    },
-    // Define limitter key.
-    (req, res, next) => {
-        req.limitterKey = req.body.email + req.url;
+
+        // Define limitter key.
+        req.limitterKey = req.body.email;
         next();
     },
     limitter,
@@ -53,8 +51,7 @@ router.post('/userLogin',
                 }
             }
         }).catch((err) => {
-            logger.error(err);
-            res.sendStatus(500);
+            errorHandler.routeError(err, res);
         });
     });
 

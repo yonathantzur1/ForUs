@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const searchPageBL = require('../BL/searchPageBL');
-const logger = require('../../logger');
+const errorHandler = require('../handlers/errorHandler');
 
 router.get('/getSearchResults', function (req, res) {
     let input = req.query.input;
@@ -8,8 +8,7 @@ router.get('/getSearchResults', function (req, res) {
     searchPageBL.getSearchPageResults(input, req.user._id).then(result => {
         res.send(result);
     }).catch(err => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 
@@ -19,8 +18,7 @@ router.get('/getUserFriendsStatus', function (req, res) {
         friendsStatus.friends = req.user.friends;
         res.send(friendsStatus);
     }).catch(err => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 

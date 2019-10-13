@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const managementBL = require('../../BL/managementPanel/managementBL');
 const permissionHandler = require('../../handlers/permissionHandler');
-const logger = require('../../../logger');
+const errorHandler = require('../../handlers/errorHandler');
 
 router.post('/getUserByName',
     (req, res, next) => {
@@ -12,8 +12,7 @@ router.post('/getUserByName',
         managementBL.getUserByName(req.body.searchInput).then((result) => {
             res.send(result);
         }).catch((err) => {
-            logger.error(err);
-            res.sendStatus(500);
+            errorHandler.routeError(err, res);
         });
     });
 
@@ -21,8 +20,7 @@ router.post('/getUserFriends', function (req, res) {
     managementBL.getUserFriends(req.body.friendsIds).then((result) => {
         res.send(result);
     }).catch((err) => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 
@@ -30,8 +28,7 @@ router.put('/editUser', function (req, res) {
     managementBL.updateUser(req.user._id, req.body.updateFields).then((result) => {
         res.send(result);
     }).catch((err) => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 
@@ -39,8 +36,7 @@ router.put('/blockUser', function (req, res) {
     managementBL.blockUser(req.user._id, req.body.blockObj).then((result) => {
         res.send(result);
     }).catch((err) => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 
@@ -48,8 +44,7 @@ router.put('/unblockUser', function (req, res) {
     managementBL.unblockUser(req.body.userId).then((result) => {
         res.send(result);
     }).catch((err) => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 
@@ -57,8 +52,7 @@ router.delete('/removeFriends', function (req, res) {
     managementBL.removeFriends(req.user._id, req.query.userId, req.query.friendId).then((result) => {
         res.send(result);
     }).catch((err) => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 
@@ -72,8 +66,7 @@ router.delete('/deleteUser', function (req, res) {
             req).then((result) => {
                 res.send(result);
             }).catch((err) => {
-                logger.error(err);
-                res.sendStatus(500);
+                errorHandler.routeError(err, res);
             });
     }
     else {

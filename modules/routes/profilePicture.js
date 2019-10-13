@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const profilePictureBL = require('../BL/profilePictureBL');
-const logger = require('../../logger');
 const tokenHandler = require("../handlers/tokenHandler");
+const errorHandler = require('../handlers/errorHandler');
 
 // Get user profile image.
 router.get('/getUserProfileImage', function (req, res) {
@@ -10,8 +10,7 @@ router.get('/getUserProfileImage', function (req, res) {
     profilePictureBL.getUserProfileImage(profileId).then((result) => {
         res.send(result);
     }).catch((err) => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 
@@ -32,8 +31,7 @@ router.post('/saveImage', function (req, res) {
             res.send(result);
         }
     }).catch((err) => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 
@@ -53,8 +51,7 @@ router.delete('/deleteImage', function (req, res) {
             res.send(result);
         }
     }).catch((err) => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 

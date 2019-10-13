@@ -7,12 +7,13 @@ const limitter = require('../../security/limitter');
 const config = require('../../../config');
 const mailer = require('../../mailer');
 const logger = require('../../../logger');
+const errorHandler = require('../../handlers/errorHandler');
 
 router.put('/updateUserPassword',
     validation,
     // Define limitter key.
     (req, res, next) => {
-        req.limitterKey = req.user.email + req.url;
+        req.limitterKey = req.user.email;
         next();
     },
     limitter,
@@ -25,8 +26,7 @@ router.put('/updateUserPassword',
                 // Log - in case of reset password request.
                 logsBL.resetPasswordRequest(req.user.email, req);
             }).catch(err => {
-                logger.error(err);
-                res.sendStatus(500);
+                errorHandler.routeError(err, res);
             });
     });
 
@@ -51,8 +51,7 @@ router.get('/changePasswordByMail', function (req, res) {
             res.send(null);
         }
     }).catch(err => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 

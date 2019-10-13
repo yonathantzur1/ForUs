@@ -2,7 +2,7 @@ const router = require('express').Router();
 const userEditWindowBL = require('../../BL/userPage/userEditWindowBL');
 const validation = require('../../security/validation');
 const limitter = require('../../security/limitter');
-const logger = require('../../../logger');
+const errorHandler = require('../../handlers/errorHandler');
 
 router.put('/updateUserInfo',
     validation,
@@ -12,11 +12,8 @@ router.put('/updateUserInfo',
             req.body.updateFields.email = req.body.updateFields.email.toLowerCase();
         }
 
-        next();
-    },
-    // Define limitter key.
-    (req, res, next) => {
-        req.limitterKey = req.user.email + req.url;
+        // Define limitter key.
+        req.limitterKey = req.user.email;
         next();
     },
     limitter,
@@ -27,8 +24,7 @@ router.put('/updateUserInfo',
         userEditWindowBL.updateUserInfo(updateFields).then(result => {
             res.send({ result });
         }).catch(err => {
-            logger.error(err);
-            res.sendStatus(500);
+            errorHandler.routeError(err, res);
         });
     });
 

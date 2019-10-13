@@ -6,8 +6,7 @@ router.get('/getAllReports', function (req, res) {
     usersReportsBL.getAllReports().then((result) => {
         res.send(result);
     }).catch((err) => {
-        logger.error(err);
-        res.sendStatus(500);
+        errorHandler.routeError(err, res);
     });
 });
 

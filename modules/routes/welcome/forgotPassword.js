@@ -2,7 +2,7 @@ const router = require('express').Router();
 const forgotPasswordBL = require('../../BL/forgotPasswordBL');
 const tokenHandler = require('../../handlers/tokenHandler');
 const validation = require('../../security/validation');
-const logger = require('../../../logger');
+const errorHandler = require('../../handlers/errorHandler');
 const logsBL = require('../../BL/logsBL');
 const mailer = require('../../mailer');
 const config = require('../../../config');
@@ -36,8 +36,7 @@ router.put('/forgotPasswordRequest',
                 res.send({ result });
             }
         }).catch(err => {
-            logger.error(err);
-            res.sendStatus(500);
+            errorHandler.routeError(err, res);
         });
     });
 
@@ -59,8 +58,7 @@ router.put('/resetPassword',
                 res.send({ result });
             }
         }).catch(err => {
-            logger.error(err);
-            res.sendStatus(500);
+            errorHandler.routeError(err, res);
         });
     });
 
@@ -72,8 +70,7 @@ router.get('/validateResetPasswordToken',
         forgotPasswordBL.validateResetPasswordToken(req.query.token).then(result => {
             res.send(result ? { name: (result.firstName + " " + result.lastName) } : false);
         }).catch(err => {
-            logger.error(err);
-            res.sendStatus(500);
+            errorHandler.routeError(err, res);
         });
     });
 
@@ -91,8 +88,7 @@ router.put('/resetPasswordByToken',
                 res.send(result);
             }
         }).catch(err => {
-            logger.error(err);
-            res.sendStatus(500);
+            errorHandler.routeError(err, res);
         });
     });
 
