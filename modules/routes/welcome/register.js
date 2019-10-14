@@ -14,33 +14,22 @@ router.post('/register',
         next();
     },
     (req, res) => {
-        let email = req.body.email;
-
-        // Check if the email is exists in the DB.
-        registerBL.checkIfUserExists(email).then((result) => {
-            // In case the user is already exists.
-            if (result) {
-                res.send({ "result": false });
+        registerBL.addUser(req.body).then((result) => {
+            // In case the email is exists.
+            if (!result) {
+                res.send({ result });
             }
             else {
-                // Add user to DB.
-                registerBL.addUser(req.body).then((user) => {
-                    // In case all register progress was succeeded.
-                    if (user) {
-                        // Sending a welcome mail to the new user.
-                        mailer.registerMail(email, req.body.firstName);
-                        let token = tokenHandler.getTokenFromUserObject(user);
-                        tokenHandler.setTokenOnCookie(token, res);
-                        res.send({ "result": true });
-                        logsBL.register(email, req);
-                    }
-                    else {
-                        res.send({ result: user });
-                    }
-                }).catch((err) => {
-                    errorHandler.routeError(err, res);
-                });
+                let token = tokenHandler.getTokenFromUserObject(result);
+                tokenHandler.setTokenOnCookie(token, res);
+                res.send({ "result": true });
+
+                let email = result.email;
+                mailer.registerMail(email, result.firstName);
+                logsBL.register(email, req);
             }
+        }).catch((err) => {
+            errorHandler.routeError(err, res);
         });
     });
 

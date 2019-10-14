@@ -197,7 +197,7 @@ module.exports = {
 
         if (isUserMaster) {
             logger.secure("The user: " + editorUserId + " attemped to edit the master user: " + userId);
-            return Promise.reject();
+            return errorHandler.promiseError();
         }
 
         delete updateFields._id;
@@ -240,7 +240,7 @@ module.exports = {
 
         if (isUserMaster) {
             logger.secure("The user: " + blockerObjId + " attempted to block the master user: " + blockedObjId);
-            return Promise.reject();
+            return errorHandler.promiseError();
         }
 
         let unblockDate = null;
@@ -293,7 +293,10 @@ module.exports = {
 
         if (!isCurrUserMaster &&
             (isCardUserMaster || isFrientUserMaster)) {
-            return Promise.reject();
+            logger.secure("The user: " + currUserId +
+                " attempted to remove friends: " + cardUserId + ", " + friendId);
+
+            return errorHandler.promiseError();
         }
 
         return userPageBL.removeFriends(cardUserId, friendId);

@@ -74,7 +74,7 @@ module.exports = {
         let reports = await DAL.aggregate(usersReportsCollectionName, aggregateArray)
             .catch(errorHandler.promiseError);
 
-        reports && reports.forEach(report => {
+        reports.forEach(report => {
             delete report.reasonId;
             report.reason = report.reason.name;
 

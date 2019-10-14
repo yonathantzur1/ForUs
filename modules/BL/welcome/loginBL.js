@@ -2,93 +2,82 @@ const DAL = require('../../DAL');
 const config = require('../../../config');
 const sha512 = require('js-sha512');
 
+const errorHandler = require('../../handlers/errorHandler');
+
 const usersCollectionName = config.db.collections.users;
 const permissionsCollectionName = config.db.collections.permissions;
 
-let self = module.exports = {
+module.exports = {
+    async getUserById(id) {
+        let userFilter = { $match: { "_id": DAL.getObjectId(id) } };
+        let joinFilter = {
+            $lookup:
+            {
+                from: permissionsCollectionName,
+                localField: '_id',
+                foreignField: 'members',
+                as: 'permissions'
+            }
+        };
 
-    getUserById(id) {
-        return new Promise((resolve, reject) => {
-            let userFilter = { $match: { "_id": DAL.getObjectId(id) } };
-            let joinFilter = {
-                $lookup:
-                {
-                    from: permissionsCollectionName,
-                    localField: '_id',
-                    foreignField: 'members',
-                    as: 'permissions'
-                }
-            };
+        let aggregateArray = [userFilter, joinFilter];
 
-            let aggregateArray = [userFilter, joinFilter];
+        let result = await DAL.aggregate(usersCollectionName, aggregateArray)
+            .catch(errorHandler.promiseError);
 
-            DAL.aggregate(usersCollectionName, aggregateArray).then((result) => {
-                if (result.length > 0) {
-                    let user = result[0];
+        if (result.length == 1) {
+            let user = result[0];
 
-                    user.permissions = user.permissions.map(permission => {
-                        return permission.type;
-                    });
+            user.permissions = user.permissions.map(permission => {
+                return permission.type;
+            });
 
-                    resolve(user);
-                }
-                else {
-                    resolve(null);
-                }
-            }).catch(reject);
-        });
+            return user;
+        }
+        else {
+            return null;
+        }
     },
 
-    isPasswordMatchToUser(userObjId, password) {
-        return new Promise((resolve, reject) => {
-            DAL.findOneSpecific(usersCollectionName,
-                { "_id": userObjId },
-                { "password": 1, "salt": 1 }).then(data => {
-                    if (data) {
-                        resolve(sha512(password + data.salt) == data.password);
-                    }
-                    else {
-                        resolve(null);
-                    }
-                }).catch(reject);
-        });
+    async isPasswordMatchToUser(userObjId, password) {
+        let user = await DAL.findOneSpecific(usersCollectionName,
+            { "_id": userObjId },
+            { "password": 1, "salt": 1 }).catch(errorHandler.promiseError);
+
+        if (!user) {
+            return null;
+        }
+
+        return (sha512(password + user.salt) == user.password);
     },
 
-    getUser(user) {
-        return new Promise((resolve, reject) => {
-            let filter = { "email": user.email };
+    async getUser(userAuth) {
+        let userFilter = { "email": userAuth.email };
 
-            DAL.findOne(usersCollectionName, filter).then((userObj) => {
-                // In case the user was found.
-                if (userObj) {
-                    // In case the password and salt hashing are the password hash in the DB.
-                    if (sha512(user.password + userObj.salt) == userObj.password) {
-                        // In case the user is blocked.
-                        if (self.isUserBlocked(userObj)) {
-                            if (userObj.block.unblockDate) {
-                                let unblockDate = userObj.block.unblockDate;
-                                unblockDate = unblockDate.getDate() + '/' + (unblockDate.getMonth() + 1) + '/' + unblockDate.getFullYear();
-                                userObj.block.unblockDate = unblockDate;
-                            }
+        let user = await DAL.findOne(usersCollectionName, userFilter)
+            .catch(errorHandler.promiseError);
 
-                            resolve({ "block": userObj.block });
-                        }
-                        else {
-                            delete userObj.block;
-                            resolve(userObj);
-                        }
-                    }
-                    // In case the password is incorrect.
-                    else {
-                        resolve(false);
-                    }
-                }
-                // In case the user was not found.
-                else {
-                    resolve("-1");
-                }
-            }).catch(reject);
-        });
+        // In case the user email was not found.
+        if (!user) {
+            return "-1";
+        }
+        // In case the password is wrong.
+        else if (sha512(userAuth.password + user.salt) != user.password) {
+            return false;
+        }
+        // In case the user is blocked.
+        else if (this.isUserBlocked(user)) {
+            if (user.block.unblockDate) {
+                user.block.unblockDate = buildDataStr(user.block.unblockDate);
+            }
+
+            return { "block": user.block };
+        }
+        else {
+            delete user.block;
+
+            return user;
+        }
     },
 
     isUserBlocked(user) {
@@ -97,18 +86,22 @@ let self = module.exports = {
     },
 
     updateLastLogin: (userId) => {
-        return new Promise((resolve, reject) => {
-            let findObj = { "_id": DAL.getObjectId(userId) };
-            let lastLoginTimeObj = { $set: { "lastLoginTime": new Date() } };
+        let findObj = { "_id": DAL.getObjectId(userId) };
+        let lastLoginTimeObj = { $set: { "lastLoginTime": new Date() } };
 
-            DAL.updateOne(usersCollectionName, findObj, lastLoginTimeObj).then(resolve).catch(reject);
-        });
+        return DAL.updateOne(usersCollectionName, findObj, lastLoginTimeObj);
     }
 
 };
 
-Date.prototype.addHours = function (h) {
+Date.prototype.addHours = (h) => {
     this.setTime(this.getTime() + (h * 60 * 60 * 1000));
 
     return this;
 };
+
+function buildDataStr(date) {
+    return (date.getDate() + '/' +
+        (date.getMonth() + 1) + '/' +
+        date.getFullYear())
+}

@@ -118,7 +118,7 @@ module.exports = {
         let users = await DAL.aggregate(usersCollectionName, aggregateArray)
             .catch(errorHandler.promiseError);
 
-        if (users && users.length == 1) {
+        if (users.length == 1) {
             let user = users[0];
 
             return {

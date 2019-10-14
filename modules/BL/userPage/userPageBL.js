@@ -75,7 +75,7 @@ module.exports = {
         let userResult = results[0];
 
         // In case the user doesn't exist.
-        if (!userResult || userResult.length == 0) {
+        if (userResult.length == 0) {
             return null;
         }
         else {

@@ -53,7 +53,7 @@ module.exports = {
             ];
 
             DAL.aggregate(usersCollectionName, aggregateArray).then((friends) => {
-                friends && friends.forEach(friend => {
+                friends.forEach(friend => {
                     if (friend.profileImage) {
                         friend.profileImage = friend.profileImage.image;
                     }
@@ -125,30 +125,28 @@ module.exports = {
             let aggregateArray = [projectFields, usersFilter, userResultFields, sortObj, limitObj];
 
             DAL.aggregate(usersCollectionName, aggregateArray).then((results) => {
-                if (results) {
-                    // Running on all results and order profiles structure to the next query
-                    // for profile images.
-                    results.forEach(result => {
-                        result.originalProfile = result.profile;
-                        result.profile = result.originalProfile ? -1 : false;
-                    });
+                // Running on all results and order profiles structure to the next query
+                // for profile images.
+                results.forEach(result => {
+                    result.originalProfile = result.profile;
+                    result.profile = result.originalProfile ? -1 : false;
+                });
 
-                    // Second sort for results by the search input string.
-                    results = results.sort((a, b) => {
-                        let aIndex = a.fullName.indexOf(searchInput);
-                        let bIndex = b.fullName.indexOf(searchInput);
+                // Second sort for results by the search input string.
+                results = results.sort((a, b) => {
+                    let aIndex = a.fullName.indexOf(searchInput);
+                    let bIndex = b.fullName.indexOf(searchInput);
 
-                        if (aIndex < bIndex) {
-                            return -1;
-                        }
-                        else if (aIndex > bIndex) {
-                            return 1;
-                        }
-                        else {
-                            return 0;
-                        }
-                    });
-                }
+                    if (aIndex < bIndex) {
+                        return -1;
+                    }
+                    else if (aIndex > bIndex) {
+                        return 1;
+                    }
+                    else {
+                        return 0;
+                    }
+                });
 
                 resolve(results);
             }).catch(reject);

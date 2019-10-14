@@ -20,7 +20,6 @@ router.post('/userLogin',
     (req, res) => {
         // Input: { email, password }
         // Output: result ->
-        // (result == null): error or exception on the function.
         // (result == false): wrong password.
         // (result == "-1"): email is not exists on DB.
         // (result.block != null): The user is blocked.
@@ -41,14 +40,10 @@ router.post('/userLogin',
                     res.send({ "result": true });
                 }
             }
-            // In case of error.
+            // In case the password is wrong.
             else {
                 res.send({ result });
-
-                // In case the password is wrong.
-                if (result == false) {
-                    logsBL.loginFail(req.body.email, req);
-                }
+                logsBL.loginFail(req.body.email, req);
             }
         }).catch((err) => {
             errorHandler.routeError(err, res);

@@ -76,29 +76,27 @@ module.exports = {
             ];
 
             DAL.aggregate(usersCollectionName, joinAggregateArray).then((users) => {
-                if (users) {
-                    // Second sort for results by the search input string.
-                    users = users.sort((a, b) => {
-                        let aIndex = a.fullName.indexOf(searchInput);
-                        let bIndex = b.fullName.indexOf(searchInput);
+                // Second sort for results by the search input string.
+                users = users.sort((a, b) => {
+                    let aIndex = a.fullName.indexOf(searchInput);
+                    let bIndex = b.fullName.indexOf(searchInput);
 
-                        if (aIndex < bIndex) {
-                            return -1;
-                        }
-                        else if (aIndex > bIndex) {
-                            return 1;
-                        }
-                        else {
-                            return 0;
-                        }
-                    });
+                    if (aIndex < bIndex) {
+                        return -1;
+                    }
+                    else if (aIndex > bIndex) {
+                        return 1;
+                    }
+                    else {
+                        return 0;
+                    }
+                });
 
-                    users.forEach(user => {
-                        if (user.profileImage) {
-                            user.profileImage = user.profileImage.image;
-                        }
-                    });
-                }
+                users.forEach(user => {
+                    if (user.profileImage) {
+                        user.profileImage = user.profileImage.image;
+                    }
+                });
 
                 resolve(users);
             }).catch(reject);
