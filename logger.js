@@ -6,24 +6,30 @@ const config = require('./config');
 const logsDir = path.join(__dirname, config.logs.directoryName);
 
 const logger = createLogger({
-    level: 'info',
     format: combine(
         timestamp(),
         json()
     ),
     transports: [
-        new transports.File({ filename: path.join(logsDir, config.logs.mainLogName) })
+        new transports.File({
+            filename: path.join(logsDir, config.logs.mainLogName),
+            maxsize: config.logs.maxLogSize,
+            maxFiles: config.logs.maxLogFiles
+        })
     ]
 });
 
 const secure = createLogger({
-    level: 'info',
     format: combine(
         timestamp(),
         json()
     ),
     transports: [
-        new transports.File({ filename: path.join(logsDir, config.logs.secureLogName) })
+        new transports.File({
+            filename: path.join(logsDir, config.logs.secureLogName),
+            maxsize: config.logs.maxLogSize,
+            maxFiles: config.logs.maxLogFiles
+        })
     ]
 });
 

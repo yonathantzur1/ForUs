@@ -31,7 +31,7 @@ router.put('/updateUserPassword',
     });
 
 // Change password.
-router.get('/changePasswordByMail', function (req, res) {
+router.get('/changePasswordByMail', (req, res) => {
     let email = req.user.email;
 
     forgotPasswordBL.setUserResetCode(email).then(result => {

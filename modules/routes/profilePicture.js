@@ -4,7 +4,7 @@ const tokenHandler = require("../handlers/tokenHandler");
 const errorHandler = require('../handlers/errorHandler');
 
 // Get user profile image.
-router.get('/getUserProfileImage', function (req, res) {
+router.get('/getUserProfileImage', (req, res) => {
     profileId = req.user.profile;
 
     profilePictureBL.getUserProfileImage(profileId).then((result) => {
@@ -15,7 +15,7 @@ router.get('/getUserProfileImage', function (req, res) {
 });
 
 // Add new profile image.
-router.post('/saveImage', function (req, res) {
+router.post('/saveImage', (req, res) => {
     let imageData = req.body;
 
     imageData.userId = req.user._id;
@@ -36,7 +36,7 @@ router.post('/saveImage', function (req, res) {
 });
 
 // Delete the user profile image.
-router.delete('/deleteImage', function (req, res) {
+router.delete('/deleteImage', (req, res) => {
     let userId = req.user._id;
     let profileId = req.user.profile;
 

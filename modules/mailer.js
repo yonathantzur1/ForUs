@@ -20,7 +20,7 @@ module.exports = {
             from: "'ForUs' <" + config.mailer.mail + ">", // Sender address
             to: destEmail, // List of receivers
             subject: title, // Subject line
-            html: "<div dir='rtl'>" + (css ? replaceStyleCss(text, css) : text) + "</div>" // html body
+            html: "<div dir='rtl'>" + replaceStyleCss(text, css) + "</div>" // html body
         };
 
         // Send email with defined transport object
@@ -163,8 +163,11 @@ function getTimeBlessing(name) {
 }
 
 function replaceStyleCss(html, css) {
-    Object.keys(css).forEach(className => {
-        html = html.replace(new RegExp("{{" + className + "}}", 'g'), 'style="' + css[className] + '"');
+    css && Object.keys(css).forEach(className => {
+        let styleAttr = 'style="' + css[className] + '"';
+        let classRegExp = new RegExp("{{" + className + "}}", 'g');
+
+        html = html.replace(classRegExp, styleAttr);
     });
 
     return html;

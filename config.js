@@ -31,7 +31,9 @@ module.exports = {
     logs: {
         directoryName: "/logs",
         mainLogName: "forus.log",
-        secureLogName: "secure.log"
+        secureLogName: "secure.log",
+        maxLogSize: 5000000, // bytes
+        maxLogFiles: 10
     },
     security: {
         jwt: {

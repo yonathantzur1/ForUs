@@ -16,7 +16,7 @@ router.post('/getUserByName',
         });
     });
 
-router.post('/getUserFriends', function (req, res) {
+router.post('/getUserFriends', (req, res) => {
     managementBL.getUserFriends(req.body.friendsIds).then((result) => {
         res.send(result);
     }).catch((err) => {
@@ -24,7 +24,7 @@ router.post('/getUserFriends', function (req, res) {
     });
 });
 
-router.put('/editUser', function (req, res) {
+router.put('/editUser', (req, res) => {
     managementBL.updateUser(req.user._id, req.body.updateFields).then((result) => {
         res.send(result);
     }).catch((err) => {
@@ -32,7 +32,7 @@ router.put('/editUser', function (req, res) {
     });
 });
 
-router.put('/blockUser', function (req, res) {
+router.put('/blockUser', (req, res) => {
     managementBL.blockUser(req.user._id, req.body.blockObj).then((result) => {
         res.send(result);
     }).catch((err) => {
@@ -40,7 +40,7 @@ router.put('/blockUser', function (req, res) {
     });
 });
 
-router.put('/unblockUser', function (req, res) {
+router.put('/unblockUser', (req, res) => {
     managementBL.unblockUser(req.body.userId).then((result) => {
         res.send(result);
     }).catch((err) => {
@@ -48,7 +48,7 @@ router.put('/unblockUser', function (req, res) {
     });
 });
 
-router.delete('/removeFriends', function (req, res) {
+router.delete('/removeFriends', (req, res) => {
     managementBL.removeFriends(req.user._id, req.query.userId, req.query.friendId).then((result) => {
         res.send(result);
     }).catch((err) => {
@@ -56,7 +56,7 @@ router.delete('/removeFriends', function (req, res) {
     });
 });
 
-router.delete('/deleteUser', function (req, res) {
+router.delete('/deleteUser', (req, res) => {
     // Checking master permission.
     if (permissionHandler.isUserHasMasterPermission(req.user.permissions)) {
         managementBL.deleteUser(req.query.userId,

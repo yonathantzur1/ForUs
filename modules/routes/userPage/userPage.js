@@ -3,7 +3,7 @@ const userPageBL = require('../../BL/userPage/userPageBL');
 const errorHandler = require('../../handlers/errorHandler');
 
 // Get user details by id.
-router.get('/getUserDetails', function (req, res) {
+router.get('/getUserDetails', (req, res) => {
     let userId = req.query.id;
     let currUserId = req.user._id;
 
@@ -15,7 +15,7 @@ router.get('/getUserDetails', function (req, res) {
 });
 
 // Remove friend.
-router.delete('/removeFriends', function (req, res) {
+router.delete('/removeFriends', (req, res) => {
     let currUserId = req.user._id;
     let friendId = req.query.friendId;
 
@@ -26,7 +26,7 @@ router.delete('/removeFriends', function (req, res) {
     });
 });
 
-router.put('/deleteUserValidation', function (req, res) {
+router.put('/deleteUserValidation', (req, res) => {
     userPageBL.deleteUserValidation(req.user._id).then(result => {
         res.send(result);
     }).catch((err) => {

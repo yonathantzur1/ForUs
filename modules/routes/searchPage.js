@@ -2,7 +2,7 @@ const router = require('express').Router();
 const searchPageBL = require('../BL/searchPageBL');
 const errorHandler = require('../handlers/errorHandler');
 
-router.get('/getSearchResults', function (req, res) {
+router.get('/getSearchResults', (req, res) => {
     let input = req.query.input;
 
     searchPageBL.getSearchPageResults(input, req.user._id).then(result => {
@@ -12,7 +12,7 @@ router.get('/getSearchResults', function (req, res) {
     });
 });
 
-router.get('/getUserFriendsStatus', function (req, res) {
+router.get('/getUserFriendsStatus', (req, res) => {
     searchPageBL.getUserFriendRequests(req.user._id).then(result => {
         let friendsStatus = result.friendRequests;
         friendsStatus.friends = req.user.friends;
