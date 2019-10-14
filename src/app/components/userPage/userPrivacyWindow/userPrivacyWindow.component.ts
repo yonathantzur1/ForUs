@@ -39,6 +39,7 @@ export class UserPrivacyWindowComponent implements OnInit {
                     showCancelButton: false,
                     type: ALERT_TYPE.DANGER
                 });
+
                 this.CloseWindow();
             }
         });
@@ -57,20 +58,28 @@ export class UserPrivacyWindowComponent implements OnInit {
     }
 
     SavePrivacyStatus() {
-        !this.isLoading &&
-            this.userPrivacyWindowService.SetUserPrivacy(this.isUserPrivate).then(result => {
-                if (result) {
-                    this.CloseWindow();
-                }
-                else {
-                    this.alertService.Alert({
-                        title: "שגיאה",
-                        text: "אופס... שגיאה בשמירת סטטוס הפרטיות",
-                        showCancelButton: false,
-                        type: ALERT_TYPE.DANGER
-                    });
-                }
-            });
+        if (this.isLoading) {
+            return;
+        }
+
+        this.isLoading = true;
+        this.userPrivacyWindowService.SetUserPrivacy(this.isUserPrivate).then(result => {
+            this.isLoading = false;
+
+            if (result) {
+                this.CloseWindow();
+                let privacyStatus = this.isUserPrivate ? "פעיל" : "כבוי";
+                this.snackbarService.Snackbar("משתמש פרטי " + privacyStatus)
+            }
+            else {
+                this.alertService.Alert({
+                    title: "שגיאה",
+                    text: "אופס... שגיאה בשמירת סטטוס הפרטיות",
+                    showCancelButton: false,
+                    type: ALERT_TYPE.DANGER
+                });
+            }
+        });
     }
 
     @HostListener('document:keyup', ['$event'])

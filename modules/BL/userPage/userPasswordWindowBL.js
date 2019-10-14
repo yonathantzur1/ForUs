@@ -1,6 +1,6 @@
 const DAL = require('../../DAL');
 const config = require('../../../config');
-const enums = require('../../enums');
+const USER_UPDATE_INFO_ERROR = require('../../enums').USER_UPDATE_INFO_ERROR;
 const generator = require('../../generator');
 const sha512 = require('js-sha512');
 
@@ -19,23 +19,23 @@ module.exports = {
             .catch(errorHandler.promiseError);
 
         // In case the password math to the user.
-        if (isPasswordMatch) {
-            let salt = generator.generateCode(saltSize);
-            let findObj = { "_id": userObjId };
-            let updateObj = {
-                $set: {
-                    "uid": generator.generateId(),
-                    "salt": salt,
-                    "password": sha512(newPassword + salt)
-                }
-            };
-
-            let updateResult = await DAL.updateOne(usersCollectionName, findObj, updateObj)
-                .catch(errorHandler);
-
-            return !!updateResult;
-        } else {
-            return enums.USER_UPDATE_INFO_ERROR.WRONG_PASSWORD;
+        if (!isPasswordMatch) {
+            return USER_UPDATE_INFO_ERROR.WRONG_PASSWORD;
         }
+
+        let salt = generator.generateCode(saltSize);
+        let findObj = { "_id": userObjId };
+        let updateObj = {
+            $set: {
+                "uid": generator.generateId(),
+                "salt": salt,
+                "password": sha512(newPassword + salt)
+            }
+        };
+
+        let updateResult = await DAL.updateOne(usersCollectionName, findObj, updateObj)
+            .catch(errorHandler);
+
+        return !!updateResult;
     }
 };

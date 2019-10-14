@@ -6,7 +6,7 @@ const config = require('./config');
 const logsDir = path.join(__dirname, config.logs.directoryName);
 
 const logFormat = printf(info => {
-    const data = info.message;
+    const data = info.message || "";
     const level = info.level;
     const timestamp = info.timestamp;
 

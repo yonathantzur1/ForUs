@@ -1,6 +1,6 @@
 const DAL = require('../../DAL');
 const config = require('../../../config');
-const enums = require('../../enums');
+const STATISTICS_RANGE = require('../../enums').STATISTICS_RANGE;
 
 const errorHandler = require('../../handlers/errorHandler');
 
@@ -17,13 +17,13 @@ module.exports = {
         let dateWithOffsetQuery = { date: "$date", timezone: getTimeZoneOffsetString(clientTimeZone) };
 
         switch (range) {
-            case enums.STATISTICS_RANGE.YEARLY: {
+            case STATISTICS_RANGE.YEARLY: {
                 barsNumber = 12;
                 rangeKey = "month";
                 groupFilter = { month: { $month: dateWithOffsetQuery }, year: { $year: dateWithOffsetQuery } };
                 break;
             }
-            case enums.STATISTICS_RANGE.WEEKLY: {
+            case STATISTICS_RANGE.WEEKLY: {
                 barsNumber = 7;
                 rangeKey = "dayOfWeek";
                 groupFilter = { dayOfWeek: { $dayOfWeek: dateWithOffsetQuery }, month: { $month: dateWithOffsetQuery }, year: { $year: dateWithOffsetQuery } };

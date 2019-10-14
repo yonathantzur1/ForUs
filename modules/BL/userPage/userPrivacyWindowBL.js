@@ -1,28 +1,28 @@
 const DAL = require('../../DAL');
 const config = require('../../../config');
 
+const errorHandler = require('../../handlers/errorHandler');
+
 const usersCollectionName = config.db.collections.users;
 
 module.exports = {
-    getUserPrivacyStatus: (userId) => {
-        return new Promise((resolve, reject) => {
-            let userFilter = { _id: DAL.getObjectId(userId) };
-            let privateField = { isPrivate: 1 };
+    async getUserPrivacyStatus(userId) {
+        let userFilter = { _id: DAL.getObjectId(userId) };
+        let privateField = { isPrivate: 1 };
 
-            DAL.findOneSpecific(usersCollectionName, userFilter, privateField).then(result => {
-                resolve(!!result.isPrivate);
-            }).catch(reject);
-        });
+        let result = await DAL.findOneSpecific(usersCollectionName, userFilter, privateField)
+            .catch(errorHandler.promiseError);
+
+        return !!result.isPrivate;
     },
 
-    setUserPrivacy: (userId, isPrivate) => {
-        return new Promise((resolve, reject) => {
-            let userFilter = { _id: DAL.getObjectId(userId) };
-            let userPrivateSet = { $set: { isPrivate } };
+    async setUserPrivacy(userId, isPrivate) {
+        let userFilter = { _id: DAL.getObjectId(userId) };
+        let userPrivateSet = { $set: { isPrivate } };
 
-            DAL.updateOne(usersCollectionName, userFilter, userPrivateSet).then(result => {
-                resolve(!!result);
-            }).catch(reject);
-        });
+        let result = await DAL.updateOne(usersCollectionName, userFilter, userPrivateSet)
+            .catch(errorHandler.promiseError);
+
+        return !!result;
     }
 };

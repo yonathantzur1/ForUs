@@ -2,7 +2,6 @@ const DAL = require('../DAL');
 const config = require('../../config');
 const events = require('../events');
 const logsBL = require('../BL/logsBL');
-const enums = require('../enums');
 const sha512 = require('js-sha512');
 
 const usersCollectionName = config.db.collections.users;

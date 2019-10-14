@@ -1,51 +1,42 @@
 const DAL = require('../../DAL');
 const config = require('../../../config');
-const enums = require('../../enums');
+const USER_UPDATE_INFO_ERROR = require('../../enums').USER_UPDATE_INFO_ERROR;
 
 const loginBL = require('../welcome/loginBL');
 
+const errorHandler = require('../../handlers/errorHandler');
+
 const usersCollectionName = config.db.collections.users;
 
-let self = module.exports = {
-    updateUserInfo(updateFields) {
-        return new Promise((resolve, reject) => {
-            let userObjId = DAL.getObjectId(updateFields._id);
-            let userPassword = updateFields.password;
-            delete updateFields._id;
-            delete updateFields.password;
+module.exports = {
+    async updateUserInfo(updateFields) {
+        let userObjId = DAL.getObjectId(updateFields._id);
+        let userPassword = updateFields.password;
+        delete updateFields._id;
+        delete updateFields.password;
 
-            // Check if the validation password match to the user password on DB.
-            loginBL.isPasswordMatchToUser(userObjId, userPassword).then(result => {
-                if (result) {
-                    // In case email field was updated.
-                    if (updateFields.email) {
-                        DAL.count(usersCollectionName, { "email": updateFields.email }).then(amount => {
-                            if (amount > 0) {
-                                resolve(enums.USER_UPDATE_INFO_ERROR.EMAIL_EXISTS);
-                            }
-                            else {
-                                self.updateUserOnDB(resolve, reject, userObjId, updateFields);
-                            }
-                        });
-                    }
-                    else {
-                        self.updateUserOnDB(resolve, reject, userObjId, updateFields);
-                    }
-                }
-                else {
-                    resolve(enums.USER_UPDATE_INFO_ERROR.WRONG_PASSWORD);
-                }
-            }).catch(reject);
-        });
-    },
+        // Check if the validation password match to the user password on DB.
+        let isPasswordMatchToUser = await loginBL.isPasswordMatchToUser(userObjId, userPassword)
+            .catch(errorHandler.promiseError);
 
-    updateUserOnDB(resolve, reject, userObjId, updateFields) {
-        DAL.updateOne(usersCollectionName,
+        if (!isPasswordMatchToUser) {
+            return USER_UPDATE_INFO_ERROR.WRONG_PASSWORD;
+        }
+
+        // In case email field was updated.
+        if (updateFields.email) {
+            let emailCounter = await DAL.count(usersCollectionName, { "email": updateFields.email })
+                .catch(errorHandler.promiseError);
+
+            if (emailCounter > 0) {
+                return USER_UPDATE_INFO_ERROR.EMAIL_EXISTS;
+            }
+        }
+
+        let updateResult = await DAL.updateOne(usersCollectionName,
             { "_id": userObjId },
-            { $set: updateFields }).then((result) => {
-                // Change result to true in case the update succeeded.
-                result && (result = true);
-                resolve(result);
-            }).catch(reject);
+            { $set: updateFields }).catch(errorHandler.promiseError);
+
+        return !!updateResult
     }
 };
