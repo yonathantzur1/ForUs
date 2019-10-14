@@ -6,6 +6,8 @@ const sha512 = require('js-sha512');
 
 const loginBL = require('../welcome/loginBL');
 
+const errorHandler = require('../../handlers/errorHandler');
+
 const usersCollectionName = config.db.collections.users;
 const saltSize = config.security.password.saltSize;
 
@@ -13,9 +15,8 @@ module.exports = {
     async updateUserPassword(oldPassword, newPassword, userId) {
         let userObjId = DAL.getObjectId(userId);
 
-        let isPasswordMatch = await loginBL.isPasswordMatchToUser(userObjId, oldPassword).catch(err => {
-            return Promise.reject(err);
-        });
+        let isPasswordMatch = await loginBL.isPasswordMatchToUser(userObjId, oldPassword)
+            .catch(errorHandler.promiseError);
 
         // In case the password math to the user.
         if (isPasswordMatch) {
@@ -29,9 +30,8 @@ module.exports = {
                 }
             };
 
-            let updateResult = await DAL.updateOne(usersCollectionName, findObj, updateObj).catch(err => {
-                return Promise.reject(err);
-            });
+            let updateResult = await DAL.updateOne(usersCollectionName, findObj, updateObj)
+                .catch(errorHandler);
 
             return !!updateResult;
         } else {

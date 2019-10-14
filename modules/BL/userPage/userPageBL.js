@@ -6,6 +6,7 @@ const sha512 = require('js-sha512');
 
 const permissionsBL = require('../../BL/managementPanel/permissionsBL');
 const permissionHandler = require('../../handlers/permissionHandler');
+const errorHandler = require('../../handlers/errorHandler');
 
 const usersCollectionName = config.db.collections.users;
 const chatsCollectionName = config.db.collections.chats;
@@ -68,10 +69,8 @@ module.exports = {
         let getUserDetails = DAL.aggregate(usersCollectionName, aggregateArray);
         let userDetailsActions = [getUserDetails];
         !isUserSelfPage && (userDetailsActions.push(permissionsBL.getUserPermissions(currUserId)));
-        
-        let results = await Promise.all(userDetailsActions).catch(err => {
-            return Promise.reject(err);
-        });
+
+        let results = await Promise.all(userDetailsActions).catch(errorHandler.promiseError);
 
         let userResult = results[0];
 
@@ -137,9 +136,7 @@ module.exports = {
                 $unset: notificationsUnsetJson
             });
 
-        await Promise.all([removeFriendsChat, removeFriendsRelation]).catch(err => {
-            return Promise.reject(err);
-        });
+        await Promise.all([removeFriendsChat, removeFriendsRelation]).catch(errorHandler.promiseError);
 
         return true;
     },
@@ -157,9 +154,7 @@ module.exports = {
         let deleteUserLink = config.address.site + "/delete/" + deleteUser.token;
 
         let user = await DAL.updateOne(usersCollectionName, { "_id": DAL.getObjectId(userId) }, updateObj)
-            .catch(err => {
-                return Promise.reject(err);
-            });
+            .catch(errorHandler.promiseError);
 
         mailer.validateDeleteUser(user.email, user.firstName, deleteUserLink);
 

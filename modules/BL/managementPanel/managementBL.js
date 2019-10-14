@@ -5,6 +5,7 @@ const mailer = require('../../mailer');
 const logger = require('../../../logger');
 const sha512 = require('js-sha512');
 const permissionHandler = require('../../handlers/permissionHandler');
+const errorHandler = require('../../handlers/errorHandler');
 
 const userPageBL = require('../userPage/userPageBL');
 const deleteUserBL = require('../deleteUserBL');
@@ -101,9 +102,8 @@ module.exports = {
             }
         ];
 
-        let users = await DAL.aggregate(usersCollectionName, aggregateArray).catch(err => {
-            Promise.reject(err);
-        });
+        let users = await DAL.aggregate(usersCollectionName, aggregateArray)
+            .catch(errorHandler.promiseError);
 
         // Second sort for results by the search input string.
         users = users.sort((a, b) => {
@@ -176,9 +176,8 @@ module.exports = {
             }
         ];
 
-        let friends = await DAL.aggregate(usersCollectionName, aggregateArray).catch(err => {
-            Promise.reject(err);
-        });
+        let friends = await DAL.aggregate(usersCollectionName, aggregateArray)
+            .catch(errorHandler.promiseError);
 
         return friends.map(friend => {
             friend.profileImage = (friend.profileImage.length !== 0) ?
@@ -194,9 +193,7 @@ module.exports = {
     async updateUser(editorUserId, updateFields) {
         let userId = DAL.getObjectId(updateFields._id);
 
-        let isUserMaster = await isUserMaster(userId).catch(err => {
-            Promise.reject(err);
-        });
+        let isUserMaster = await isUserMaster(userId).catch(errorHandler.promiseError);
 
         if (isUserMaster) {
             logger.secure("The user: " + editorUserId + " attemped to edit the master user: " + userId);
@@ -216,9 +213,8 @@ module.exports = {
 
         // In case of email update, check the email is not already exists.
         if (updateFields.email) {
-            let emailsCount = await DAL.count(usersCollectionName, { "email": updateFields.email }).catch(err => {
-                Promise.reject(err);
-            });
+            let emailsCount = await DAL.count(usersCollectionName, { "email": updateFields.email })
+                .catch(errorHandler.promiseError);
 
             (emailsCount > 0) && (isUpdateValid = false);
         }
@@ -226,9 +222,7 @@ module.exports = {
         if (isUpdateValid) {
             let result = await DAL.updateOne(usersCollectionName,
                 { "_id": userId },
-                { $set: updateFields }).catch(err => {
-                    Promise.reject(err);
-                });
+                { $set: updateFields }).catch(errorHandler.promiseError);
 
             result && (result = true);
             return { result };
@@ -242,9 +236,7 @@ module.exports = {
         let blockerObjId = DAL.getObjectId(blockerId);
         let blockedObjId = DAL.getObjectId(blockObj._id);
 
-        let isUserMaster = await isUserMaster(blockedObjId).catch(err => {
-            Promise.reject(err);
-        });
+        let isUserMaster = await isUserMaster(blockedObjId).catch(errorHandler.promiseError);
 
         if (isUserMaster) {
             logger.secure("The user: " + blockerObjId + " attempted to block the master user: " + blockedObjId);
@@ -270,9 +262,7 @@ module.exports = {
 
         let result = await DAL.updateOne(usersCollectionName,
             { "_id": blockedObjId },
-            { $set: { block } }).catch(err => {
-                return Promise.reject(err);
-            });
+            { $set: { block } }).catch(errorHandler.promiseError);
 
         if (result) {
             mailer.blockMessage(result.email, result.firstName, block.reason, block.unblockDate);
@@ -285,9 +275,7 @@ module.exports = {
     async unblockUser(userId) {
         let result = await DAL.updateOne(usersCollectionName,
             { "_id": DAL.getObjectId(userId) },
-            { $unset: { "block": 1 } }).catch(err => {
-                Promise.reject(err);
-            });
+            { $unset: { "block": 1 } }).catch(errorHandler.promiseError);
 
         return !!result;
     },
@@ -297,9 +285,7 @@ module.exports = {
             isUserMaster(DAL.getObjectId(currUserId)),
             isUserMaster(DAL.getObjectId(cardUserId)),
             isUserMaster(DAL.getObjectId(friendId))
-        ]).catch(err => {
-            return Promise.reject(err);
-        });
+        ]).catch(errorHandler.promiseError);
 
         let isCurrUserMaster = results[0];
         let isCardUserMaster = results[1];
@@ -321,9 +307,7 @@ module.exports = {
 async function isUserMaster(userId) {
     let userPermissions = await DAL.findSpecific(permissionsCollectionName,
         { "members": userId },
-        { "type": 1 }).catch(err => {
-            return Promise.reject(err);
-        });
+        { "type": 1 }).catch(errorHandler.promiseError);
 
     return permissionHandler.isUserHasMasterPermission(userPermissions.map(permission => {
         return permission.type;
