@@ -14,7 +14,7 @@ const profilePicturesCollectionName = config.db.collections.profilePictures;
 
 module.exports = {
     async getUserDetails(userId, currUserId) {
-        let isUserSelfPage = (userId === currUserId);
+        let isUserSelfPage = (userId == currUserId);
         let userObjectId = DAL.getObjectId(userId);
         let currUserObjectId = DAL.getObjectId(currUserId);
         let userFilter = {
@@ -75,7 +75,7 @@ module.exports = {
         let userResult = results[0];
 
         // In case the user doesn't exist.
-        if (!userResult || userResult.length === 0) {
+        if (!userResult || userResult.length == 0) {
             return null;
         }
         else {
@@ -95,14 +95,14 @@ module.exports = {
     setUsersRelation(user, currUserId) {
         // Boolean value that indicates if the current user is friend of the user.
         user.isFriend = (user.friends.some(friendObjId => {
-            return friendObjId.toString() === currUserId;
+            return friendObjId.toString() == currUserId;
         }));
 
         // Boolean value that indicates if the current user sent friend request to the user.
-        user.isGetFriendRequest = (user.friendRequests.get.indexOf(currUserId) !== -1);
+        user.isGetFriendRequest = (user.friendRequests.get.indexOf(currUserId) != -1);
 
         // Boolean value that indicates if the current user got friend request from the user.
-        user.isSendFriendRequest = (user.friendRequests.send.indexOf(currUserId) !== -1);
+        user.isSendFriendRequest = (user.friendRequests.send.indexOf(currUserId) != -1);
 
         delete user.friends;
         delete user.friendRequests;

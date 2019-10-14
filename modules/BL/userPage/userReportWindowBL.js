@@ -14,7 +14,7 @@ module.exports = {
             let reportedUserId = data.reportedUserId;
 
             // In case the reporting user is not friend of the reported user.
-            if (reportingUserFriends.indexOf(reportedUserId) === -1) {
+            if (reportingUserFriends.indexOf(reportedUserId) == -1) {
                 resolve(null);
             }
             else {

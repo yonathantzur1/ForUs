@@ -28,7 +28,7 @@ router.post('/userLogin',
         loginBL.getUser(req.body).then((result) => {
             if (result) {
                 // In case the email is not exists on DB.
-                if (result === "-1") {
+                if (result == "-1") {
                     res.send({ result });
                 }
                 // In case the user is blocked.
@@ -46,7 +46,7 @@ router.post('/userLogin',
                 res.send({ result });
 
                 // In case the password is wrong.
-                if (result === false) {
+                if (result == false) {
                     logsBL.loginFail(req.body.email, req);
                 }
             }

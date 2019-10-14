@@ -45,7 +45,7 @@ module.exports = {
                 }
                 else {
                     // Return user object in case the entered password is equal to the user password.
-                    resolve((user.password === sha512(password + user.salt)) ? user : false);
+                    resolve((user.password == sha512(password + user.salt)) ? user : false);
                 }
             }).catch(reject);
         });

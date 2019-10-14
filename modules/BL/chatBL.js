@@ -29,7 +29,7 @@ let self = module.exports = {
                     let chat;
 
                     // In case the chat is not exists.
-                    if (result.length === 0) {
+                    if (result.length == 0) {
                         chat = false;
                         self.createChat(membersIds);
                     }
@@ -71,7 +71,7 @@ let self = module.exports = {
                 DAL.aggregate(chatsCollectionName, aggregate).then((result) => {
                     let chat;
 
-                    if (result.length !== 0) {
+                    if (result.length != 0) {
                         chat = result[0];
                         chat.messages = self.decryptChatMessages(chat.messages);
                     }
@@ -138,7 +138,7 @@ let self = module.exports = {
 
     validateUserGetChat(membersIds, userFriends, userId) {
         for (let i = 0; i < membersIds.length; i++) {
-            if (userFriends.indexOf(membersIds[i]) === -1 && membersIds[i] !== userId) {
+            if (userFriends.indexOf(membersIds[i]) == -1 && membersIds[i] != userId) {
                 return false;
             }
         }
@@ -178,7 +178,7 @@ let self = module.exports = {
                     chat.lastMessage.text = encryption.decrypt(chat.lastMessage.text);
 
                     let friendId = chat.membersIds.find((id) => {
-                        return (id !== userId);
+                        return (id != userId);
                     });
 
                     indexChatPositionByFriendId[friendId] = index;

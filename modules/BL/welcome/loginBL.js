@@ -45,7 +45,7 @@ let self = module.exports = {
                 { "_id": userObjId },
                 { "password": 1, "salt": 1 }).then(data => {
                     if (data) {
-                        resolve(sha512(password + data.salt) === data.password);
+                        resolve(sha512(password + data.salt) == data.password);
                     }
                     else {
                         resolve(null);
@@ -62,7 +62,7 @@ let self = module.exports = {
                 // In case the user was found.
                 if (userObj) {
                     // In case the password and salt hashing are the password hash in the DB.
-                    if (sha512(user.password + userObj.salt) === userObj.password) {
+                    if (sha512(user.password + userObj.salt) == userObj.password) {
                         // In case the user is blocked.
                         if (self.isUserBlocked(userObj)) {
                             if (userObj.block.unblockDate) {

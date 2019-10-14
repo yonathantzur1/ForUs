@@ -157,7 +157,7 @@ module.exports = {
 
     getMainSearchResultsWithImages(profilesIds) {
         return new Promise((resolve, reject) => {
-            if (profilesIds.length === 0) {
+            if (profilesIds.length == 0) {
                 resolve(profilesIds);
             }
             else {
@@ -262,7 +262,7 @@ module.exports = {
     addFriendRequest(user, friendId) {
         return new Promise((resolve, reject) => {
             // Validation check in order to check if the user and the friend are not already friends.
-            if (user.friends.indexOf(friendId) !== -1) {
+            if (user.friends.indexOf(friendId) != -1) {
                 resolve(null);
             }
             else {
@@ -347,7 +347,7 @@ module.exports = {
     addFriend(user, friendId) {
         return new Promise((resolve, reject) => {
             // Check if the user and the friend are not already friends.
-            if (user.friends.indexOf(friendId) !== -1) {
+            if (user.friends.indexOf(friendId) != -1) {
                 resolve(null);
                 return;
             }

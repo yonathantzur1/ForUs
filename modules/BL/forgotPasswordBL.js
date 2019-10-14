@@ -48,7 +48,7 @@ module.exports = {
                     resolve(null);
                 }
                 // In case the email was not found.
-                else if (result.length === 0) {
+                else if (result.length == 0) {
                     errorsObj.emailNotFound = true;
                     resolve(errorsObj);
                 }
@@ -73,7 +73,7 @@ module.exports = {
                     resolve(errorsObj);
                 }
                 // In case the code is wrong.
-                else if (result[0].resetCode.code !== forgotUser.code) {
+                else if (result[0].resetCode.code != forgotUser.code) {
                     errorsObj.codeNotValid = true;
                     let resetCodeObj = result[0].resetCode;
                     resetCodeObj.tryNum++;

@@ -122,7 +122,7 @@ module.exports = {
         });
 
         return users.map(user => {
-            user.profileImage = (user.profileImage.length !== 0) ? user.profileImage[0] : null;
+            user.profileImage = (user.profileImage.length != 0) ? user.profileImage[0] : null;
             user.permissions = user.permissions.map(permission => {
                 return permission.type;
             });
@@ -180,7 +180,7 @@ module.exports = {
             .catch(errorHandler.promiseError);
 
         return friends.map(friend => {
-            friend.profileImage = (friend.profileImage.length !== 0) ?
+            friend.profileImage = (friend.profileImage.length != 0) ?
                 friend.profileImage[0].image : null;
             friend.permissions = friend.permissions.map(permission => {
                 return permission.type;
