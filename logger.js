@@ -1,35 +1,58 @@
 const { createLogger, format, transports } = require('winston');
-const { combine, timestamp, json } = format;
+const { combine, timestamp, json, printf } = format;
 const path = require('path');
 const config = require('./config');
 
 const logsDir = path.join(__dirname, config.logs.directoryName);
 
+const logFormat = printf(info => {
+    const data = info.message;
+    const level = info.level;
+    const timestamp = info.timestamp;
+
+    let message;
+
+    if (typeof data == "object") {
+        message = JSON.stringify(data);
+    } else {
+        message = data.toString();
+    }
+
+    let log = {
+        message,
+        level,
+        timestamp
+    }
+
+    info.stack && (log.stack = info.stack);
+
+    return JSON.stringify(log);
+});
+
+const formatBuild = combine(
+    timestamp(),
+    logFormat
+);
+
+function createTransportsFile(fileName) {
+    return new transports.File({
+        filename: path.join(logsDir, fileName),
+        maxsize: config.logs.maxLogSize,
+        maxFiles: config.logs.maxLogFiles
+    });
+}
+
 const logger = createLogger({
-    format: combine(
-        timestamp(),
-        json()
-    ),
+    format: formatBuild,
     transports: [
-        new transports.File({
-            filename: path.join(logsDir, config.logs.mainLogName),
-            maxsize: config.logs.maxLogSize,
-            maxFiles: config.logs.maxLogFiles
-        })
+        createTransportsFile(config.logs.mainLogName)
     ]
 });
 
 const secure = createLogger({
-    format: combine(
-        timestamp(),
-        json()
-    ),
+    format: formatBuild,
     transports: [
-        new transports.File({
-            filename: path.join(logsDir, config.logs.secureLogName),
-            maxsize: config.logs.maxLogSize,
-            maxFiles: config.logs.maxLogFiles
-        })
+        createTransportsFile(config.logs.secureLogName)
     ]
 });
 
@@ -67,17 +90,5 @@ module.exports = {
 };
 
 function logData(logger, data) {
-    data && logger(createLogStr(data));
-}
-
-function createLogStr(data) {
-    let msg;
-
-    if (typeof data == "object") {
-        msg = data.message || JSON.stringify(data);
-    } else {
-        msg = data.toString();
-    }
-
-    return msg;
+    data && logger(data);
 }

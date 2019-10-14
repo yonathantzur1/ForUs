@@ -1,56 +1,50 @@
 const DAL = require('../../DAL');
 const config = require('../../../config');
 
+const errorHandler = require('../../handlers/errorHandler');
+
 const permissionsCollectionName = config.db.collections.permissions;
 
 module.exports = {
     getAllPermissions() {
-        return new Promise((resolve, reject) => {
-            let queryFields = { "type": 1, "name": 1 };
+        let queryFields = { "type": 1, "name": 1 };
 
-            DAL.findSpecific(permissionsCollectionName, {}, queryFields).then(resolve).catch(reject);
+        return DAL.findSpecific(permissionsCollectionName, {}, queryFields)
+    },
+
+    async getUserPermissions(userId) {
+        let query = { "members": DAL.getObjectId(userId) };
+        let queryFields = { "type": 1 };
+
+        let permissions = await DAL.findSpecific(permissionsCollectionName, query, queryFields)
+            .catch(errorHandler.promiseError);
+
+        return permissions.map((permission) => {
+            return permission.type;
         });
     },
 
-    getUserPermissions(userId) {
-        return new Promise((resolve, reject) => {
-            let query = { "members": DAL.getObjectId(userId) };
-            let queryFields = { "type": 1 };
+    async updatePermissions(userId, permissions) {
+        let userObjId = DAL.getObjectId(userId);
 
-            DAL.findSpecific(permissionsCollectionName, query, queryFields).then((permissions) => {
-                if (permissions) {
-                    permissions = permissions.map((permission) => {
-                        return permission.type;
-                    });
-                }
+        // Remove all user permissions.
+        await DAL.update(permissionsCollectionName, {}, { $pull: { "members": userObjId } })
+            .catch(errorHandler.promiseError);
 
-                resolve(permissions);
-            }).catch(reject);
-        });
-    },
+        permissions = permissions.filter(permission => {
+            return permission.isChecked;
+        }).map(permission => {
+            return { "_id": DAL.getObjectId(permission._id) };
+        })
 
-    updatePermissions(userId, permissions) {
-        return new Promise((resolve, reject) => {
-            let userObjId = DAL.getObjectId(userId);
+        if (permissions.length > 0) {
+            let updateFindQuery = { $or: permissions };
 
-            DAL.update(permissionsCollectionName, {}, { $pull: { "members": userObjId } }).then((result) => {
-                let updateFindQuery = { $or: [] };
+            // Add permissions to the user.
+            await DAL.update(permissionsCollectionName, updateFindQuery, { $push: { "members": userObjId } })
+                .catch(errorHandler.promiseError)
+        }
 
-                permissions.forEach(permission => {
-                    if (permission.isChecked) {
-                        updateFindQuery.$or.push({ "_id": DAL.getObjectId(permission._id) });
-                    }
-                });
-
-                if (updateFindQuery.$or.length > 0) {
-                    DAL.update(permissionsCollectionName, updateFindQuery, { $push: { "members": userObjId } }).then((result) => {
-                        resolve(true);
-                    });
-                }
-                else {
-                    resolve(true);
-                }
-            }).catch(reject);
-        });
+        return true;
     }
 };
