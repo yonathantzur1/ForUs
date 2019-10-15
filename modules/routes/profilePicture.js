@@ -11,7 +11,9 @@ router.get('/getUserProfileImage', (req, res) => {
         return res.send(null);
     }
 
-    profilePictureBL.getUserProfileImage(profileId).then(res.send).catch(err => {
+    profilePictureBL.getUserProfileImage(profileId).then(result => {
+        res.send(result);
+    }).catch(err => {
         errorHandler.routeError(err, res);
     });
 });
