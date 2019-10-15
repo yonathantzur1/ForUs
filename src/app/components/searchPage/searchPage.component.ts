@@ -67,52 +67,51 @@ export class SearchPageComponent implements OnInit, OnDestroy {
             this.searchString = params["name"];
             this.eventService.Emit("changeSearchInput", this.searchString);
 
-            // In case there is a search string.
-            if (this.searchString) {
-                this.users = [];
-                this.isLoading = true;
-                this.searchPageService.GetUserFriendsStatus().then((friendsStatus: FriendsStatus) => {
-                    if (friendsStatus) {
-                        // Search users by given name parameter.
-                        this.searchPageService.GetSearchResults(this.searchString).then(users => {
-                            this.isLoading = false;
-                            if (users) {
-                                users.forEach((user: any) => {
-                                    let userId = user._id;
+            // In case the search string is empty.
+            if (!this.searchString) {
+                return this.router.navigateByUrl('');
+            }
 
-                                    // In case the result user and the current user are friends.
-                                    if (friendsStatus.friends.indexOf(userId) != -1) {
-                                        user.isFriend = true;
-                                        return;
-                                    }
-                                    // In case the result user sent a friend request to the current user.
-                                    else if (friendsStatus.get.indexOf(userId) != -1) {
-                                        user.isSendFriendRequest = true;
-                                        return;
-                                    }
-                                    // In case the current user sent a friend request to the result user.
-                                    else if (friendsStatus.send.indexOf(userId) != -1) {
-                                        user.isGetFriendRequest = true;
-                                        return;
-                                    }
-                                });
-
-                                this.users = users;
-                            }
-                            else {
-                                this.alertService.Alert(errorJson);
-                            }
-                        });
-                    }
-                    else {
+            this.users = [];
+            this.isLoading = true;
+            this.searchPageService.GetUserFriendsStatus().then((friendsStatus: FriendsStatus) => {
+                if (friendsStatus) {
+                    // Search users by given name parameter.
+                    this.searchPageService.GetSearchResults(this.searchString).then(users => {
                         this.isLoading = false;
-                        this.alertService.Alert(errorJson);
-                    }
-                });
-            }
-            else {
-                this.router.navigateByUrl('');
-            }
+                        if (users) {
+                            users.forEach((user: any) => {
+                                let userId = user._id;
+
+                                // In case the result user and the current user are friends.
+                                if (friendsStatus.friends.indexOf(userId) != -1) {
+                                    user.isFriend = true;
+                                    return;
+                                }
+                                // In case the result user sent a friend request to the current user.
+                                else if (friendsStatus.get.indexOf(userId) != -1) {
+                                    user.isSendFriendRequest = true;
+                                    return;
+                                }
+                                // In case the current user sent a friend request to the result user.
+                                else if (friendsStatus.send.indexOf(userId) != -1) {
+                                    user.isGetFriendRequest = true;
+                                    return;
+                                }
+                            });
+
+                            this.users = users;
+                        }
+                        else {
+                            this.alertService.Alert(errorJson);
+                        }
+                    });
+                }
+                else {
+                    this.isLoading = false;
+                    this.alertService.Alert(errorJson);
+                }
+            });
         });
 
         let self = this;

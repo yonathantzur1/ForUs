@@ -19,7 +19,7 @@ export class LoginGuard implements CanActivate {
                 observer.next(true);
             }
             else {
-                this.authService.IsUserOnSession().then((result) => {
+                this.authService.IsUserOnSession().then(result => {
                     if (!result) {
                         observer.next(true);
                     }

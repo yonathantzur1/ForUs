@@ -24,7 +24,7 @@ router.post('/userLogin',
         // (result == "-1"): email is not exists on DB.
         // (result.block != null): The user is blocked.
         // else: email and password are valid.
-        loginBL.getUser(req.body).then((result) => {
+        loginBL.getUser(req.body).then(result => {
             if (result) {
                 // In case the email is not exists on DB.
                 if (result == "-1") {
@@ -45,7 +45,7 @@ router.post('/userLogin',
                 res.send({ result });
                 logsBL.loginFail(req.body.email, req);
             }
-        }).catch((err) => {
+        }).catch(err => {
             errorHandler.routeError(err, res);
         });
     });

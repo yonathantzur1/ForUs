@@ -3,6 +3,8 @@ const config = require('../../config');
 const generator = require('../generator');
 const sha512 = require('js-sha512');
 
+const errorHandler = require('../handlers/errorHandler');
+
 const usersCollectionName = config.db.collections.users;
 const saltSize = config.security.password.saltSize;
 const resetCodeFreeRetries = config.security.password.resetCode.freeRetries;
@@ -31,77 +33,86 @@ module.exports = {
     },
 
     // Reset user password by code.
-    resetPassword(forgotUser) {
-        return new Promise((resolve, reject) => {
-            let emailObj = { "email": forgotUser.email };
-            let errorsObj = {
-                emailNotFound: false,
-                codeNotFound: false,
-                codeNotValid: false,
-                codeIsExpired: false,
-                maxTry: false,
-                codeIsUsed: false
-            };
+    async resetPassword(forgotUser) {
+        let emailObj = { "email": forgotUser.email };
+        let errorsObj = {
+            emailNotFound: false,
+            codeNotFound: false,
+            codeNotValid: false,
+            codeIsExpired: false,
+            maxTry: false,
+            codeIsUsed: false
+        };
 
-            DAL.find(usersCollectionName, emailObj).then((result) => {
-                if (!result) {
-                    resolve(null);
-                }
-                // In case the email was not found.
-                else if (result.length == 0) {
-                    errorsObj.emailNotFound = true;
-                    resolve(errorsObj);
-                }
-                // In case the code was not found.
-                else if (!result[0].resetCode) {
-                    errorsObj.codeNotFound = true;
-                    resolve(errorsObj);
-                }
-                // In case the code is used.
-                else if (result[0].resetCode.isUsed) {
-                    errorsObj.codeIsUsed = true;
-                    resolve(errorsObj);
-                }
-                // In case the code is in max try.
-                else if (result[0].resetCode.tryNum >= resetCodeFreeRetries) {
-                    errorsObj.maxTry = true;
-                    resolve(errorsObj);
-                }
-                // In case the code is expired.
-                else if (new Date(result[0].resetCode.date).addHours(resetCodeTTL).getTime() < (new Date()).getTime()) {
-                    errorsObj.codeIsExpired = true;
-                    resolve(errorsObj);
-                }
-                // In case the code is wrong.
-                else if (result[0].resetCode.code != forgotUser.code) {
-                    errorsObj.codeNotValid = true;
-                    let resetCodeObj = result[0].resetCode;
-                    resetCodeObj.tryNum++;
+        let result = await DAL.find(usersCollectionName, emailObj)
+            .catch(errorHandler.promiseError);
 
-                    let updateCodeObj = { $set: { "resetCode": resetCodeObj } };
+        // In case the email was not found.
+        if (result.length == 0) {
+            errorsObj.emailNotFound = true;
+            return errorsObj;
+        }
+        // In case the code was not found.
+        else if (!result[0].resetCode) {
+            errorsObj.codeNotFound = true;
+            return errorsObj;
+        }
+        // In case the code is used.
+        else if (result[0].resetCode.isUsed) {
+            errorsObj.codeIsUsed = true;
+            return errorsObj;
+        }
+        // In case the code is in max try.
+        else if (result[0].resetCode.tryNum >= resetCodeFreeRetries) {
+            errorsObj.maxTry = true;
+            return errorsObj;
+        }
+        // In case the code is expired.
+        else if (new Date(result[0].resetCode.date).addHours(resetCodeTTL).getTime() <
+            (new Date()).getTime()) {
+            errorsObj.codeIsExpired = true;
+            return errorsObj;
+        }
+        // In case the code is wrong.
+        else if (result[0].resetCode.code != forgotUser.code) {
+            errorsObj.codeNotValid = true;
+            let resetCodeObj = result[0].resetCode;
+            resetCodeObj.tryNum++;
 
-                    // Update num of tries to the code.
-                    DAL.updateOne(usersCollectionName, emailObj, updateCodeObj).then((updateResult) => {
-                        updateResult ? resolve(errorsObj) : resolve(updateResult);
-                    });
-                }
-                // In case the reset code is valid, change the user password.
-                else {
-                    let updateUser = result[0];
-                    updateUser.uid = generator.generateId();
-                    updateUser.salt = generator.generateCode(saltSize);
-                    updateUser.password = sha512(forgotUser.newPassword + updateUser.salt);
-                    updateUser.resetCode.isUsed = true;
-                    updateUser.resetCode.tryNum++;
+            let updateCodeObj = { $set: { "resetCode": resetCodeObj } };
 
-                    let updateUserObj = { $set: updateUser };
+            // Update num of tries to the code.
+            let updateResult = await DAL.updateOne(usersCollectionName, emailObj, updateCodeObj)
+                .catch(errorHandler.promiseError);
 
-                    DAL.updateOne(usersCollectionName, emailObj, updateUserObj).then((updateResult) => {
-                        updateResult ? resolve({ "isChanged": true, "user": updateResult }) : resolve(updateResult);
-                    });
-                }
-            }).catch(reject);
-        });
+            if (updateResult) {
+                return errorsObj;
+            }
+            else {
+                return null;
+            }
+        }
+        // In case the reset code is valid, change the user password.
+        else {
+            let updateUser = result[0];
+            updateUser.uid = generator.generateId();
+            updateUser.salt = generator.generateCode(saltSize);
+            updateUser.password = sha512(forgotUser.newPassword + updateUser.salt);
+            updateUser.resetCode.isUsed = true;
+            updateUser.resetCode.tryNum++;
+
+            let updateUserObj = { $set: updateUser };
+
+            let updateResult = DAL.updateOne(usersCollectionName, emailObj, updateUserObj)
+                .catch(errorHandler.promiseError);
+
+            if (updateResult) {
+                return { "isChanged": true, "user": updateResult };
+            }
+            else {
+                return null;
+            }
+        }
     },
 
     validateResetPasswordToken(token) {

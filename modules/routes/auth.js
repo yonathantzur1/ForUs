@@ -12,7 +12,7 @@ router.get('/isUserOnSession', (req, res) => {
         res.send(false);
     }
     else {
-        loginBL.getUserById(req.user._id).then((user) => {
+        loginBL.getUserById(req.user._id).then(user => {
             let cookieUid = tokenHandler.getUidFromRequest(req);
 
             // Double check uid (after main server token validae middleware)
@@ -24,7 +24,7 @@ router.get('/isUserOnSession', (req, res) => {
             else {
                 res.send(false);
             }
-        }).catch((err) => {
+        }).catch(err => {
             errorHandler.routeError(err, res);
         });
     }
@@ -55,7 +55,7 @@ router.get('/getCurrUser', (req, res) => {
 
 // Set the current login user token.
 router.get('/setCurrUserToken', (req, res) => {
-    loginBL.getUserById(req.user._id).then((user) => {
+    loginBL.getUserById(req.user._id).then(user => {
         if (user) {
             let token = tokenHandler.getTokenFromUserObject(user);
             tokenHandler.setTokenOnCookie(token, res);
@@ -64,7 +64,7 @@ router.get('/setCurrUserToken', (req, res) => {
         else {
             res.send(false);
         }
-    }).catch((err) => {
+    }).catch(err => {
         errorHandler.routeError(err, res);
     });
 });

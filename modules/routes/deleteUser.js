@@ -33,15 +33,15 @@ router.put('/deleteAccount',
                 user.firstName,
                 user.lastName,
                 user.email,
-                req).then((result) => {
+                req).then(result => {
                     res.send(result);
                     events.emit('socket.LogoutUserSession',
                         user._id.toString(),
                         "מחיקת המשתמש שלך בוצעה בהצלחה.");
-                }).catch((err) => {
+                }).catch(err => {
                     errorHandler.routeError(err, res);
                 });
-        }).catch((err) => {
+        }).catch(err => {
             errorHandler.routeError(err, res);
         });;
     });

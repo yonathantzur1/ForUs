@@ -5,11 +5,13 @@ const errorHandler = require('../handlers/errorHandler');
 
 // Get user profile image.
 router.get('/getUserProfileImage', (req, res) => {
-    profileId = req.user.profile;
+    let profileId = req.user.profile;
 
-    profilePictureBL.getUserProfileImage(profileId).then((result) => {
-        res.send(result);
-    }).catch((err) => {
+    if (!profileId) {
+        return res.send(null);
+    }
+
+    profilePictureBL.getUserProfileImage(profileId).then(res.send).catch(err => {
         errorHandler.routeError(err, res);
     });
 });
@@ -20,7 +22,7 @@ router.post('/saveImage', (req, res) => {
 
     imageData.userId = req.user._id;
 
-    profilePictureBL.saveImage(imageData).then((result) => {
+    profilePictureBL.saveImage(imageData).then(result => {
         if (result) {
             req.user.profile = result.profile.toString();
             let token = tokenHandler.getTokenFromUserObject(req.user);
@@ -30,7 +32,7 @@ router.post('/saveImage', (req, res) => {
         else {
             res.send(result);
         }
-    }).catch((err) => {
+    }).catch(err => {
         errorHandler.routeError(err, res);
     });
 });
@@ -40,7 +42,7 @@ router.delete('/deleteImage', (req, res) => {
     let userId = req.user._id;
     let profileId = req.user.profile;
 
-    profilePictureBL.deleteImage(userId, profileId).then((result) => {
+    profilePictureBL.deleteImage(userId, profileId).then(result => {
         if (result) {
             delete req.user.profile;
             let token = tokenHandler.getTokenFromUserObject(req.user);
@@ -50,7 +52,7 @@ router.delete('/deleteImage', (req, res) => {
         else {
             res.send(result);
         }
-    }).catch((err) => {
+    }).catch(err => {
         errorHandler.routeError(err, res);
     });
 });

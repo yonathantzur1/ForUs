@@ -3,9 +3,9 @@ const usersReportsBL = require('../../BL/managementPanel/usersReportsBL');
 const logger = require('../../../logger');
 
 router.get('/getAllReports', (req, res) => {
-    usersReportsBL.getAllReports().then((result) => {
+    usersReportsBL.getAllReports().then(result => {
         res.send(result);
-    }).catch((err) => {
+    }).catch(err => {
         errorHandler.routeError(err, res);
     });
 });

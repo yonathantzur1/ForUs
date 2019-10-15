@@ -10,11 +10,11 @@ const config = require('./config');
 const logger = require('./logger');
 const requestDataSizeLimit = '8mb';
 
-process.on('uncaughtException', (err) => {
+process.on('uncaughtException', err => {
     logger.error(err)
 });
 
-process.on('unhandledRejection', (err) => {
+process.on('unhandledRejection', err => {
     logger.error(err)
 });
 

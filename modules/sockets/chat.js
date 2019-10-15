@@ -2,6 +2,7 @@ const chatBL = require('../BL/chatBL');
 const navbarBL = require('../BL/navbarBL');
 const generator = require('../generator');
 const tokenHandler = require('../handlers/tokenHandler');
+const logger = require('../../logger');
 
 module.exports = (io, socket, connectedUsers) => {
 
@@ -23,10 +24,11 @@ module.exports = (io, socket, connectedUsers) => {
             else {
                 let senderObj = connectedUsers[msgData.from];
                 let senderName = senderObj ? (senderObj.firstName + " " + senderObj.lastName) : null;
-                navbarBL.addMessageNotification(msgData.from, msgData.to, msgData.id, senderName);
+                navbarBL.addMessageNotification(msgData.from, msgData.to, msgData.id, senderName)
+                    .catch(logger.warn);
             }
 
-            chatBL.addMessageToChat(msgData);
+            chatBL.addMessageToChat(msgData).catch(logger.danger);
 
             io.to(msgData.from).emit('ClientUpdateSendMessage', originalMsgData);
             io.to(msgData.to).emit('ClientUpdateGetMessage', originalMsgData);

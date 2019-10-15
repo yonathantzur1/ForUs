@@ -31,6 +31,7 @@ const logFormat = printf(info => {
 
 const formatBuild = combine(
     timestamp(),
+    json(),
     logFormat
 );
 
@@ -58,33 +59,29 @@ const secure = createLogger({
 
 // Print log to console in case the environment is not prod.
 if (!config.server.isProd) {
-    logger.add(new transports.Console({
-        format: json()
-    }));
+    logger.add(new transports.Console({}));
 
-    secure.add(new transports.Console({
-        format: json()
-    }));
+    secure.add(new transports.Console({}));
 }
 
 module.exports = {
-    info: (data) => {
+    info: data => {
         logData(logger.info, data);
     },
 
-    error: (data) => {
+    error: data => {
         logData(logger.error, data);
     },
 
-    warn: (data) => {
+    warn: data => {
         logData(logger.warn, data);
     },
 
-    danger: (data) => {
+    danger: data => {
         logData(logger.danger, data);
     },
 
-    secure: (data) => {
+    secure: data => {
         logData(secure.warn, data);
     }
 };

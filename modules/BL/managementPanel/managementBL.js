@@ -2,7 +2,6 @@ const DAL = require('../../DAL');
 const config = require('../../../config');
 const generator = require('../../generator');
 const mailer = require('../../mailer');
-const logger = require('../../../logger');
 const sha512 = require('js-sha512');
 const permissionHandler = require('../../handlers/permissionHandler');
 const errorHandler = require('../../handlers/errorHandler');
@@ -18,7 +17,7 @@ module.exports = {
     async getUserByName(searchInput) {
         // In case the input is empty, return empty result array.
         if (!searchInput) {
-            return resolve([]);
+            return [];
         }
 
         try {
@@ -196,8 +195,8 @@ module.exports = {
         let isUserMaster = await isUserMaster(userId).catch(errorHandler.promiseError);
 
         if (isUserMaster) {
-            logger.secure("The user: " + editorUserId + " attemped to edit the master user: " + userId);
-            return errorHandler.promiseError();
+            return errorHandler.promiseSecure("The user: " + editorUserId +
+                " attemped to edit the master user: " + userId);
         }
 
         delete updateFields._id;
@@ -239,8 +238,8 @@ module.exports = {
         let isUserMaster = await isUserMaster(blockedObjId).catch(errorHandler.promiseError);
 
         if (isUserMaster) {
-            logger.secure("The user: " + blockerObjId + " attempted to block the master user: " + blockedObjId);
-            return errorHandler.promiseError();
+            return errorHandler.promiseSecure("The user: " + blockerObjId +
+                " attempted to block the master user: " + blockedObjId);
         }
 
         let unblockDate = null;
@@ -293,10 +292,8 @@ module.exports = {
 
         if (!isCurrUserMaster &&
             (isCardUserMaster || isFrientUserMaster)) {
-            logger.secure("The user: " + currUserId +
+            return errorHandler.promiseSecure("The user: " + currUserId +
                 " attempted to remove friends: " + cardUserId + ", " + friendId);
-
-            return errorHandler.promiseError();
         }
 
         return userPageBL.removeFriends(cardUserId, friendId);

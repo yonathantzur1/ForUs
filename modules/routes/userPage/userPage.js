@@ -29,7 +29,7 @@ router.delete('/removeFriends', (req, res) => {
 router.put('/deleteUserValidation', (req, res) => {
     userPageBL.deleteUserValidation(req.user._id).then(result => {
         res.send(result);
-    }).catch((err) => {
+    }).catch(err => {
         errorHandler.routeError(err, res);
     });
 });

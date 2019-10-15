@@ -38,12 +38,20 @@ router.get('/getUserMessagesNotifications', (req, res) => {
 });
 
 router.post('/updateMessagesNotifications', (req, res) => {
-    navbarBL.updateMessagesNotifications(req.user._id, req.body.messagesNotifications);
+    navbarBL.updateMessagesNotifications(req.user._id, req.body.messagesNotifications)
+        .catch((err) => {
+            errorHandler.routeError(err, res);
+        });
+
     res.end();
 });
 
 router.post('/removeMessagesNotifications', (req, res) => {
-    navbarBL.removeMessagesNotifications(req.user._id, req.body.messagesNotifications);
+    navbarBL.removeMessagesNotifications(req.user._id, req.body.messagesNotifications)
+        .catch((err) => {
+            errorHandler.routeError(err, res);
+        });
+
     res.end();
 });
 
@@ -84,6 +92,9 @@ router.post('/addFriend', (req, res) => {
         if (result) {
             tokenHandler.setTokenOnCookie(result.token, res);
             res.send(result.friend);
+        }
+        else {
+            res.send(null);
         }
     }).catch((err) => {
         errorHandler.routeError(err, res);

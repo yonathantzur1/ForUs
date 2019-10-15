@@ -1,58 +1,55 @@
 const DAL = require('../DAL.js');
 const config = require('../../config.js');
 
+const errorHandler = require('../handlers/errorHandler');
+
 const profilePicturesCollectionName = config.db.collections.profilePictures;
 const usersCollectionName = config.db.collections.users;
 
 module.exports = {
     getUserProfileImage(profileId) {
-        return new Promise((resolve, reject) => {
-            if (!profileId) {
-                resolve(null);
-            }
-            else {
-                let profileObjectId = DAL.getObjectId(profileId);
-                DAL.findOne(profilePicturesCollectionName, { "_id": profileObjectId }).then(resolve).catch(reject);
-            }
-        });
+        let profileObjectId = DAL.getObjectId(profileId);
+
+        return DAL.findOne(profilePicturesCollectionName, { "_id": profileObjectId });
     },
 
-    saveImage(imageData) {
-        return new Promise((resolve, reject) => {
-            let userIdObject = DAL.getObjectId(imageData.userId);
+    async saveImage(imageData) {
+        let userIdObject = DAL.getObjectId(imageData.userId);
 
-            let imageObj = {
-                "image": imageData.imgBase64,
-                "userId": userIdObject,
-                "updateDate": new Date()
-            };
+        let imageObj = {
+            "image": imageData.imgBase64,
+            "userId": userIdObject,
+            "updateDate": new Date()
+        };
 
-            let deleteCurrentPicture = DAL.delete(profilePicturesCollectionName, { "userId": userIdObject });
-            let insertImage = DAL.insert(profilePicturesCollectionName, imageObj);
+        let deleteCurrentPicture = DAL.delete(profilePicturesCollectionName, { "userId": userIdObject });
+        let insertImage = DAL.insert(profilePicturesCollectionName, imageObj);
 
-            Promise.all([deleteCurrentPicture, insertImage]).then(results => {
-                let imageId = results[1];
-                let userProfile = { $set: { "profile": imageId } };
+        let results = await Promise.all([deleteCurrentPicture, insertImage])
+            .catch(errorHandler.promiseError);
 
-                // Update the id of the profile picture of the user.
-                DAL.updateOne(usersCollectionName, { "_id": userIdObject }, userProfile).then(resolve);
-            }).catch(reject);
-        });
+        let imageId = results[1];
+        let userProfile = { $set: { "profile": imageId } };
+
+        // Update the id of the profile picture of the user.
+        let updateResult = await DAL.updateOne(usersCollectionName, { "_id": userIdObject }, userProfile)
+            .catch(errorHandler.promiseError);
+
+        return !!updateResult;
     },
 
-    deleteImage(userId, profileId) {
-        return new Promise((resolve, reject) => {
-            let usersFilter = { "_id": DAL.getObjectId(userId) };
-            let userObjectFieldDeleteQuery = { $unset: { "profile": 1 } };
-            let profileFilter = { "_id": DAL.getObjectId(profileId) };
+    async deleteImage(userId, profileId) {
+        let usersFilter = { "_id": DAL.getObjectId(userId) };
+        let userObjectFieldDeleteQuery = { $unset: { "profile": 1 } };
+        let profileFilter = { "_id": DAL.getObjectId(profileId) };
 
-            let removeProfileImageFromUserObject =
-                DAL.updateOne(usersCollectionName, usersFilter, userObjectFieldDeleteQuery);
-            let removeProfileImage = DAL.delete(profilePicturesCollectionName, profileFilter);
+        let removeProfileImageFromUserObject =
+            DAL.updateOne(usersCollectionName, usersFilter, userObjectFieldDeleteQuery);
+        let removeProfileImage = DAL.delete(profilePicturesCollectionName, profileFilter);
 
-            Promise.all([removeProfileImageFromUserObject, removeProfileImage]).then(results => {
-                resolve(true);
-            }).catch(reject)
-        });
+        await Promise.all([removeProfileImageFromUserObject, removeProfileImage])
+            .catch(errorHandler.promiseError);
+
+        return true;
     }
 };

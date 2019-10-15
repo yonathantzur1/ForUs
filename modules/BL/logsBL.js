@@ -58,5 +58,7 @@ function insertLog(type, email, req) {
         userAgent: requestHandler.getUserAgentFromRequest(req),
         email,
         date: new Date()
+    }).catch(() => {
+        return;
     });
 }

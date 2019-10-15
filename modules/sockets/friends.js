@@ -82,7 +82,7 @@ module.exports = (io, socket, connectedUsers) => {
             }
 
             if (user.profile) {
-                profilePictureBL.getUserProfileImage(user.profile).then((result) => {
+                profilePictureBL.getUserProfileImage(user.profile).then(result => {
                     clientFriendObj.profileImage = result.image;
                     io.to(friendId).emit('ClientFriendAddedUpdate', clientFriendObj);
                 }).catch(logger.error);

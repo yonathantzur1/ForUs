@@ -14,7 +14,7 @@ router.post('/register',
         next();
     },
     (req, res) => {
-        registerBL.addUser(req.body).then((result) => {
+        registerBL.addUser(req.body).then(result => {
             // In case the email is exists.
             if (!result) {
                 res.send({ result });
@@ -28,7 +28,7 @@ router.post('/register',
                 mailer.registerMail(email, result.firstName);
                 logsBL.register(email, req);
             }
-        }).catch((err) => {
+        }).catch(err => {
             errorHandler.routeError(err, res);
         });
     });

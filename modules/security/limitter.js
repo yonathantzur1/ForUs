@@ -7,7 +7,7 @@ const freeRetries = config.security.limitter.freeRetries;
 module.exports = rateLimit({
     windowMs: waitTime,
     max: freeRetries,
-    keyGenerator: (req) => {
+    keyGenerator: req => {
         let key = req.ip.concat(";", req.url, ";");
 
         if (req.limitterKey) {

@@ -24,7 +24,7 @@ module.exports = {
         };
 
         // Send email with defined transport object
-        transporter.sendMail(mailOptions, (error) => {
+        transporter.sendMail(mailOptions, error => {
             error && logger.error(error);
         });
     },

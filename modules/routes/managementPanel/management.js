@@ -9,49 +9,49 @@ router.post('/getUserByName',
         next();
     },
     (req, res) => {
-        managementBL.getUserByName(req.body.searchInput).then((result) => {
+        managementBL.getUserByName(req.body.searchInput).then(result => {
             res.send(result);
-        }).catch((err) => {
+        }).catch(err => {
             errorHandler.routeError(err, res);
         });
     });
 
 router.post('/getUserFriends', (req, res) => {
-    managementBL.getUserFriends(req.body.friendsIds).then((result) => {
+    managementBL.getUserFriends(req.body.friendsIds).then(result => {
         res.send(result);
-    }).catch((err) => {
+    }).catch(err => {
         errorHandler.routeError(err, res);
     });
 });
 
 router.put('/editUser', (req, res) => {
-    managementBL.updateUser(req.user._id, req.body.updateFields).then((result) => {
+    managementBL.updateUser(req.user._id, req.body.updateFields).then(result => {
         res.send(result);
-    }).catch((err) => {
+    }).catch(err => {
         errorHandler.routeError(err, res);
     });
 });
 
 router.put('/blockUser', (req, res) => {
-    managementBL.blockUser(req.user._id, req.body.blockObj).then((result) => {
+    managementBL.blockUser(req.user._id, req.body.blockObj).then(result => {
         res.send(result);
-    }).catch((err) => {
+    }).catch(err => {
         errorHandler.routeError(err, res);
     });
 });
 
 router.put('/unblockUser', (req, res) => {
-    managementBL.unblockUser(req.body.userId).then((result) => {
+    managementBL.unblockUser(req.body.userId).then(result => {
         res.send(result);
-    }).catch((err) => {
+    }).catch(err => {
         errorHandler.routeError(err, res);
     });
 });
 
 router.delete('/removeFriends', (req, res) => {
-    managementBL.removeFriends(req.user._id, req.query.userId, req.query.friendId).then((result) => {
+    managementBL.removeFriends(req.user._id, req.query.userId, req.query.friendId).then(result => {
         res.send(result);
-    }).catch((err) => {
+    }).catch(err => {
         errorHandler.routeError(err, res);
     });
 });
@@ -63,9 +63,9 @@ router.delete('/deleteUser', (req, res) => {
             req.query.userFirstName,
             req.query.userLastName,
             req.query.userEmail,
-            req).then((result) => {
+            req).then(result => {
                 res.send(result);
-            }).catch((err) => {
+            }).catch(err => {
                 errorHandler.routeError(err, res);
             });
     }
