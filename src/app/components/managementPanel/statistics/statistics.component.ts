@@ -162,7 +162,7 @@ export class StatisticsComponent {
                 type: "user-search",
                 isLoaderActive: false,
                 isShow: function (self: any) {
-                    return (self.chart ? true : false);
+                    return !!self.chart;
                 },
                 onClick: function (self: any) {
                     self.OpenModal(this.id);

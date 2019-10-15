@@ -40,7 +40,7 @@ export class LoginComponent {
         this.validationFuncs = [
             {
                 isFieldValid(user: User) {
-                    return (user.email ? true : false);
+                    return !!user.email;
                 },
                 errMsg: "יש להזין כתובת אימייל",
                 fieldId: "login-email-micro",
@@ -57,7 +57,7 @@ export class LoginComponent {
             },
             {
                 isFieldValid(user: User) {
-                    return (user.password ? true : false);
+                    return !!user.password;
                 },
                 errMsg: "יש להזין סיסמא",
                 fieldId: "login-password-micro",

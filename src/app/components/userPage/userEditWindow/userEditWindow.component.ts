@@ -69,7 +69,7 @@ export class UserEditWindowComponent implements OnInit {
         this.passwordValidationFuncs = [
             {
                 isFieldValid(editUser: EditUser) {
-                    return (editUser.password ? true : false);
+                    return !!editUser.password;
                 },
                 errMsg: "יש להזין את סיסמת החשבון",
                 fieldId: "edit-user-password-micro",

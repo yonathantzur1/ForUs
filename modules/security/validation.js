@@ -1,5 +1,6 @@
 const joi = require('@hapi/joi');
 const regexp = require('../enums').REGEXP;
+const REST = require('../enums').REST
 const logger = require('../../logger');
 
 module.exports = (req, res, next) => {
@@ -8,10 +9,10 @@ module.exports = (req, res, next) => {
         let reqMethod = req.method;
         let data;
 
-        if (reqMethod == "POST" || reqMethod == "PUT") {
+        if (reqMethod == REST.POST || reqMethod == REST.PUT) {
             data = req.body;
         }
-        else if (reqMethod == "GET" || reqMethod == "DELETE") {
+        else if (reqMethod == REST.GET || reqMethod == REST.DELETE) {
             data = req.query;
 
             // Searching for ? of query parameters.
@@ -71,7 +72,7 @@ function buildSchemaPathString(schemaPath) {
 let validateSchemaObj = {};
 
 //#region get
-validateSchemaObj["GET"] = {
+validateSchemaObj[REST.GET] = {
     "api": {
         "forgotPassword": {
             "validateResetPasswordToken": {
@@ -88,7 +89,7 @@ validateSchemaObj["GET"] = {
 //#endregion
 
 //#region post
-validateSchemaObj["POST"] = {
+validateSchemaObj[REST.POST] = {
     "api": {
         "login": {
             "userLogin": {
@@ -116,7 +117,7 @@ validateSchemaObj["POST"] = {
 //#endregion
 
 //#region put
-validateSchemaObj["PUT"] = {
+validateSchemaObj[REST.PUT] = {
     "api": {
         "forgotPassword": {
             "forgotPasswordRequest": {
@@ -164,7 +165,7 @@ validateSchemaObj["PUT"] = {
 //#endregion
 
 //#region delete
-validateSchemaObj["DELETE"] = {
+validateSchemaObj[REST.DELETE] = {
 
 };
 //#endregion

@@ -6,7 +6,6 @@ const validation = require('../../security/validation');
 const limitter = require('../../security/limitter');
 const config = require('../../../config');
 const mailer = require('../../mailer');
-const logger = require('../../../logger');
 const errorHandler = require('../../handlers/errorHandler');
 
 router.put('/updateUserPassword',

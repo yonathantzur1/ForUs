@@ -5,7 +5,6 @@ import { AlertService, ALERT_TYPE } from '../../services/global/alert.service';
 import { MicrotextService, InputFieldValidation } from '../../services/global/microtext.service';
 
 import { DeleteUserService } from '../../services/deleteUser.service';
-import { SocketService } from 'src/app/services/global/socket.service';
 
 @Component({
     selector: 'deleteUser',
@@ -26,12 +25,11 @@ export class DeleteUserComponent implements OnInit {
         private route: ActivatedRoute,
         public alertService: AlertService,
         private microtextService: MicrotextService,
-        private deleteUserService: DeleteUserService,
-        private socketService: SocketService) {
+        private deleteUserService: DeleteUserService) {
         this.validationFuncs = [
             {
                 isFieldValid(password: string) {
-                    return (password ? true : false);
+                    return !!password;
                 },
                 errMsg: "יש להזין סיסמא",
                 fieldId: "password-micro",

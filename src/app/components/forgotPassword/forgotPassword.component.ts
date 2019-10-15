@@ -31,7 +31,7 @@ export class ForgotPasswordComponent implements OnInit {
         this.validationFuncs = [
             {
                 isFieldValid(newPassword: string) {
-                    return (newPassword ? true : false);
+                    return !!newPassword;
                 },
                 errMsg: "יש להזין סיסמא חדשה",
                 fieldId: "new-password-micro",

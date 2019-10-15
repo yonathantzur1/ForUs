@@ -40,7 +40,7 @@ export class RegisterComponent implements OnInit {
         this.validationFuncs = [
             {
                 isFieldValid(newUser: NewUser) {
-                    return (newUser.firstName ? true : false);
+                    return !!newUser.firstName;
                 },
                 errMsg: "יש להזין שם פרטי",
                 fieldId: "register-firstName-micro",
@@ -57,7 +57,7 @@ export class RegisterComponent implements OnInit {
             },
             {
                 isFieldValid(newUser: NewUser) {
-                    return (newUser.lastName ? true : false);
+                    return !!newUser.lastName;
                 },
                 errMsg: "יש להזין שם משפחה",
                 fieldId: "register-lastName-micro",
@@ -74,7 +74,7 @@ export class RegisterComponent implements OnInit {
             },
             {
                 isFieldValid(newUser: NewUser) {
-                    return (newUser.email ? true : false);
+                    return !!newUser.email;
                 },
                 errMsg: "יש להזין כתובת אימייל",
                 fieldId: "register-email-micro",
@@ -92,7 +92,7 @@ export class RegisterComponent implements OnInit {
             },
             {
                 isFieldValid(newUser: NewUser) {
-                    return (newUser.password ? true : false);
+                    return !!newUser.password;
                 },
                 errMsg: "יש להזין סיסמא",
                 fieldId: "register-password-micro",

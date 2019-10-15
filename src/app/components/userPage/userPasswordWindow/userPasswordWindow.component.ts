@@ -39,7 +39,7 @@ export class UserPasswordWindowComponent {
         this.validationFuncs = [
             {
                 isFieldValid(password: Password) {
-                    return password.oldPassword ? true : false;
+                    return !!password.oldPassword;
                 },
                 errMsg: "יש להזין סיסמא נוכחית",
                 fieldId: "old-password-micro",
@@ -47,7 +47,7 @@ export class UserPasswordWindowComponent {
             },
             {
                 isFieldValid(password: Password) {
-                    return password.newPassword ? true : false;
+                    return !!password.newPassword;
                 },
                 errMsg: "יש להזין סיסמא חדשה",
                 fieldId: "new-password-micro",

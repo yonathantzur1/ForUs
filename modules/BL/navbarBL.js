@@ -1,7 +1,6 @@
 const DAL = require('../DAL');
 const mailer = require('../mailer');
 const config = require('../../config');
-const logger = require('../../logger');
 
 const tokenHandler = require('../handlers/tokenHandler');
 const errorHandler = require('../handlers/errorHandler');

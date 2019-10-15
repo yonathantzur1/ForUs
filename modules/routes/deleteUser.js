@@ -3,7 +3,6 @@ const deleteUserBL = require('../BL/deleteUserBL');
 const tokenHandler = require('../handlers/tokenHandler');
 const validation = require('../security/validation');
 const events = require('../events');
-const logger = require('../../logger');
 const errorHandler = require('../handlers/errorHandler');
 
 // Validating the delete user request unique token.

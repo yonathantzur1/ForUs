@@ -57,7 +57,7 @@ export class ForgotComponent {
         this.validationFuncs = [
             {
                 isFieldValid(forgotUser: ForgotUser) {
-                    return (forgotUser.email ? true : false);
+                    return !!forgotUser.email;
                 },
                 errMsg: "יש להזין כתובת אימייל",
                 fieldId: "forgot-email-micro",
@@ -77,7 +77,7 @@ export class ForgotComponent {
                 isFieldValid(forgotUser: ForgotUser) {
                     // In case the code field is shown.
                     if (forgotUser.showResetCodeField || forgotUser.hasResetCode) {
-                        return (forgotUser.code ? true : false);
+                        return !!forgotUser.code;
                     }
                     else {
                         return true;
@@ -91,7 +91,7 @@ export class ForgotComponent {
                 isFieldValid(forgotUser: ForgotUser) {
                     // In case the code field is shown.
                     if (forgotUser.showResetCodeField || forgotUser.hasResetCode) {
-                        return (forgotUser.newPassword ? true : false);
+                        return !!forgotUser.newPassword;
                     }
                     else {
                         return true;

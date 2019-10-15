@@ -30,7 +30,7 @@ export class ChatsWindowComponent implements OnInit {
 
         let self = this;
 
-        self.socketService.SocketOn('ClientUpdateSendMessage', function (msgData: any) {
+        self.socketService.SocketOn('ClientUpdateSendMessage', (msgData: any) => {
             let isChatUpdated = false;
 
             for (let i = 0; i < self.chats.length; i++) {
@@ -39,7 +39,7 @@ export class ChatsWindowComponent implements OnInit {
                 if (chat.friendId == msgData.to) {
                     chat.lastMessage.text = msgData.isImage ? '' : msgData.text;
                     chat.lastMessage.time = (new Date()).toISOString();
-                    chat.lastMessage.isImage = msgData.isImage ? true : false;
+                    chat.lastMessage.isImage = !!msgData.isImage;
                     isChatUpdated = true;
 
                     break;
@@ -51,7 +51,7 @@ export class ChatsWindowComponent implements OnInit {
             }
         });
 
-        self.socketService.SocketOn('ClientUpdateGetMessage', function (msgData: any) {
+        self.socketService.SocketOn('ClientUpdateGetMessage', (msgData: any) => {
             let isChatUpdated = false;
 
             for (let i = 0; i < self.chats.length; i++) {
@@ -60,7 +60,7 @@ export class ChatsWindowComponent implements OnInit {
                 if (chat.friendId == msgData.from) {
                     chat.lastMessage.text = msgData.isImage ? '' : msgData.text;
                     chat.lastMessage.time = (new Date()).toISOString();
-                    chat.lastMessage.isImage = msgData.isImage ? true : false;
+                    chat.lastMessage.isImage = !!msgData.isImage;
                     isChatUpdated = true;
 
                     break;
@@ -73,12 +73,12 @@ export class ChatsWindowComponent implements OnInit {
         });
 
         // Remove friend from management screen.
-        self.socketService.SocketOn('ClientRemoveFriendUser', function (friendId: string) {
+        self.socketService.SocketOn('ClientRemoveFriendUser', (friendId: string) => {
             self.RemoveFriendChat(friendId);
         });
 
         // Remove friend by the user from user page.
-        self.socketService.SocketOn('ClientRemoveFriend', function (friendId: string) {
+        self.socketService.SocketOn('ClientRemoveFriend', (friendId: string) => {
             self.RemoveFriendChat(friendId);
         });
     }
@@ -86,7 +86,7 @@ export class ChatsWindowComponent implements OnInit {
     LoadChatsObjects() {
         this.isLoading = true;
 
-        this.chatService.GetAllPreviewChats().then((function (chats: any) {
+        this.chatService.GetAllPreviewChats().then(((chats: any) => {
             this.isLoading = false;
             this.chats = chats;
         }).bind(this));

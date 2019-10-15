@@ -14,7 +14,7 @@ function handleError(err) {
 
 module.exports = {
     encrypt(text) {
-        if (!text) {
+        if (!validateInput(text)) {
             return null;
         }
 
@@ -32,7 +32,7 @@ module.exports = {
     },
 
     decrypt(text) {
-        if (!text) {
+        if (!validateInput(text)) {
             return null;
         }
 
@@ -49,3 +49,7 @@ module.exports = {
         }
     }
 };
+
+function validateInput(text) {
+    return (text && typeof text == "string");
+}

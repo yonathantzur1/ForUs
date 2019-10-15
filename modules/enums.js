@@ -40,3 +40,10 @@ exports.REGEXP = Object.freeze({
         HASH: "^[a-z0-9]{128}$"
     }
 });
+
+exports.REST = Object.freeze({
+    GET: "GET",
+    POST: "POST",
+    PUT: "PUT",
+    DELETE: "DELETE"
+});

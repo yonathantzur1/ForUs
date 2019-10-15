@@ -8,7 +8,7 @@ export class SocketService {
     }
 
     IsSocketExists() {
-        return this.socket ? true : false;
+        return !!this.socket;
     }
 
     private ConvertArrayToString(params: any[]): string {
