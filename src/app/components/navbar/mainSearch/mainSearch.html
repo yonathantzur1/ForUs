@@ -21,7 +21,7 @@
             <div class="result-details-container" (click)="OpenUserProfile(result)">
                 <img *ngIf="result.profile && result.profile != -1" [src]="result.profile" class="search-result-image">
                 <img *ngIf="!result.profile" [src]="imageService.defaultProfileImage" class="search-result-image">
-                <span *ngIf="result.profile == -1" class="search-result-image-loading">
+                <span *ngIf="result.profile == -1" class="search-result-image search-result-image-loading">
                     <loaderDots css='{"font-size": "5px", "text-align": "center", "margin-top": "calc(50% - 3px)"}'>
                     </loaderDots>
                 </span>

@@ -42,9 +42,9 @@ import { ForgotPasswordComponent } from '../../components/forgotPassword/forgotP
 import { DeleteUserComponent } from '../../components/deleteUser/deleteUser.component';
 
 // Guards
-import { AuthGuard } from '../../guards/auth/auth.guard';
-import { RootAuthGuard } from '../../guards/rootAuth/rootAuth.guard';
-import { LoginGuard } from '../../guards/login/login.guard';
+import { AuthGuard } from '../../guards/auth.guard';
+import { RootAuthGuard } from '../../guards/rootAuth.guard';
+import { LoginGuard } from '../../guards/login.guard';
 
 // Routing
 import { Routing } from '../../routes/app.routing';

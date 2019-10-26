@@ -33,7 +33,7 @@ module.exports = {
         mainLogName: "forus.log",
         secureLogName: "secure.log",
         maxLogSize: 5000000, // bytes
-        maxLogFiles: 10
+        maxLogFiles: 3
     },
     security: {
         jwt: {

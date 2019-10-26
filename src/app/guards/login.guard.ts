@@ -3,8 +3,8 @@ import { Observable, Subject } from "rxjs";
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
 
-import { AuthService } from '../../services/global/auth.service';
-import { CookieService } from '../../services/global/cookie.service';
+import { AuthService } from '../services/global/auth.service';
+import { CookieService } from '../services/global/cookie.service';
 
 @Injectable()
 export class LoginGuard implements CanActivate {
