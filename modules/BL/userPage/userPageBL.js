@@ -15,18 +15,18 @@ const profilePicturesCollectionName = config.db.collections.profilePictures;
 module.exports = {
     async getUserDetails(userId, currUserId) {
         let isUserSelfPage = (userId == currUserId);
-        let userObjectId = DAL.getObjectId(userId);
-        let currUserObjectId = DAL.getObjectId(currUserId);
+        let userObjId = DAL.getObjectId(userId);
+        let currUserObjId = DAL.getObjectId(currUserId);
         let userFilter = {
             $match: {
                 $and: [
-                    { "_id": userObjectId },
+                    { "_id": userObjId },
                     {
                         $or: [
                             { "isPrivate": false },
-                            { "_id": currUserObjectId },
-                            { "friends": currUserObjectId },
-                            { "friendRequests.send": currUserId }
+                            { "_id": currUserObjId },
+                            { "friends": currUserObjId },
+                            { "friendRequests.send": currUserObjId }
                         ]
                     }
                 ]
@@ -93,16 +93,20 @@ module.exports = {
     },
 
     setUsersRelation(user, currUserId) {
-        // Boolean value that indicates if the current user is friend of the user.
-        user.isFriend = (user.friends.some(friendObjId => {
+        // True if the current user is friend of the user.
+        user.isFriend = user.friends.some(friendObjId => {
             return friendObjId.toString() == currUserId;
-        }));
+        });
 
-        // Boolean value that indicates if the current user sent friend request to the user.
-        user.isGetFriendRequest = (user.friendRequests.get.indexOf(currUserId) != -1);
+        // True if the current user sent friend request to the user.
+        user.isGetFriendRequest = user.friendRequests.get.some(id => {
+            return id.toString() == currUserId;
+        });
 
-        // Boolean value that indicates if the current user got friend request from the user.
-        user.isSendFriendRequest = (user.friendRequests.send.indexOf(currUserId) != -1);
+        // True if the current user got friend request from the user.
+        user.isSendFriendRequest = user.friendRequests.send.some(id => {
+            return id.toString() == currUserId;
+        });
 
         delete user.friends;
         delete user.friendRequests;
@@ -116,22 +120,22 @@ module.exports = {
         let removeFriendsChat = DAL.delete(chatsCollectionName,
             { "membersIds": { $all: [userId, friendId] } });
 
-        let userObjectId = DAL.getObjectId(userId);
-        let friendObjectId = DAL.getObjectId(friendId);
+        let userObjId = DAL.getObjectId(userId);
+        let friendObjId = DAL.getObjectId(friendId);
 
         let removeFriendsRelation = DAL.update(usersCollectionName,
             {
                 $or: [
-                    { "_id": userObjectId },
-                    { "_id": friendObjectId }
+                    { "_id": userObjId },
+                    { "_id": friendObjId }
                 ]
             },
             {
                 $pull: {
-                    "friends": { $in: [userObjectId, friendObjectId] },
-                    "friendRequests.get": { $in: [userId, friendId] },
-                    "friendRequests.send": { $in: [userId, friendId] },
-                    "friendRequests.accept": { $in: [userId, friendId] }
+                    "friends": { $in: [userObjId, friendObjId] },
+                    "friendRequests.get": { $in: [userObjId, friendObjId] },
+                    "friendRequests.send": { $in: [userObjId, friendObjId] },
+                    "friendRequests.accept": { $in: [userObjId, friendObjId] }
                 },
                 $unset: notificationsUnsetJson
             });

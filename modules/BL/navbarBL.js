@@ -101,7 +101,7 @@ module.exports = {
                             { "isPrivate": false },
                             { "_id": userObjectId },
                             { "friends": userObjectId },
-                            { "friendRequests.send": userId }
+                            { "friendRequests.send": userObjectId }
 
                         ]
                     }
@@ -254,15 +254,15 @@ module.exports = {
             return null;
         }
 
-        let userIdObject = { "_id": DAL.getObjectId(user._id) };
-        let friendIdObject = { "_id": DAL.getObjectId(friendId) };
+        let userObjId = DAL.getObjectId(user._id);
+        let friendObjId = DAL.getObjectId(friendId);
 
         let addRequestToUser = DAL.updateOne(usersCollectionName,
-            userIdObject,
-            { $push: { "friendRequests.send": friendId } });
+            { "_id": userObjId },
+            { $push: { "friendRequests.send": friendObjId } });
         let addRequestToFriend = DAL.updateOne(usersCollectionName,
-            friendIdObject,
-            { $push: { "friendRequests.get": user._id } });
+            { "_id": friendObjId },
+            { $push: { "friendRequests.get": userObjId } });
 
         await Promise.all([addRequestToUser, addRequestToFriend])
             .catch(errorHandler.promiseError);
@@ -271,15 +271,15 @@ module.exports = {
     },
 
     async removeFriendRequest(userId, friendId) {
-        let userIdObject = { "_id": DAL.getObjectId(userId) };
-        let friendIdObject = { "_id": DAL.getObjectId(friendId) };
+        let userObjId = DAL.getObjectId(userId);
+        let friendObjId = DAL.getObjectId(friendId);
 
         let removeRequestFromUser = DAL.updateOne(usersCollectionName,
-            userIdObject,
-            { $pull: { "friendRequests.send": friendId } });
+            { "_id": userObjId },
+            { $pull: { "friendRequests.send": friendObjId } });
         let removeRequestFromFriend = DAL.updateOne(usersCollectionName,
-            friendIdObject,
-            { $pull: { "friendRequests.get": userId } });
+            { "_id": friendObjId },
+            { $pull: { "friendRequests.get": userObjId } });
 
         await Promise.all([removeRequestFromUser, removeRequestFromFriend])
             .catch(errorHandler.promiseError);
@@ -289,19 +289,19 @@ module.exports = {
 
     // Remove the friend request from DB after the request confirmed.
     async removeFriendRequestAfterConfirm(userId, friendId) {
-        let userObjectId = { "_id": DAL.getObjectId(userId) };
-        let friendObjectId = { "_id": DAL.getObjectId(friendId) };
+        let userObjId = DAL.getObjectId(userId);
+        let friendObjId = DAL.getObjectId(friendId);
 
         let removeRequestFromUser = DAL.updateOne(usersCollectionName,
-            userObjectId,
+            { "_id": userObjId },
             {
-                $pull: { "friendRequests.send": friendId },
-                $push: { "friendRequests.accept": friendId }
+                $pull: { "friendRequests.send": friendObjId },
+                $push: { "friendRequests.accept": friendObjId }
             });
 
         let removeRequestFromFriend = DAL.updateOne(usersCollectionName,
-            friendObjectId,
-            { $pull: { "friendRequests.get": userId } });
+            { "_id": friendObjId },
+            { $pull: { "friendRequests.get": userObjId } });
 
         await Promise.all([removeRequestFromUser, removeRequestFromFriend])
             .catch(errorHandler.promiseError);
@@ -311,16 +311,16 @@ module.exports = {
 
     // Remove the friend request from DB if the request was not confirmed.
     async ignoreFriendRequest(userId, friendId) {
-        let userIdObject = { "_id": DAL.getObjectId(userId) };
-        let friendIdObject = { "_id": DAL.getObjectId(friendId) };
+        let userObjId = DAL.getObjectId(userId);
+        let friendObjId = DAL.getObjectId(friendId);
 
         let removeRequestFromUser = DAL.updateOne(usersCollectionName,
-            userIdObject,
-            { $pull: { "friendRequests.get": friendId } });
+            { "_id": userObjId },
+            { $pull: { "friendRequests.get": friendObjId } });
 
         let removeRequestFromFriend = DAL.updateOne(usersCollectionName,
-            friendIdObject,
-            { $pull: { "friendRequests.send": userId } });
+            { "_id": friendObjId },
+            { $pull: { "friendRequests.send": userObjId } });
 
         await Promise.all([removeRequestFromUser, removeRequestFromFriend])
             .catch(errorHandler.promiseError);
@@ -385,7 +385,9 @@ module.exports = {
     },
 
     async removeFriendRequestConfirmAlert(data) {
-        let confirmedFriendsIds = data.confirmedFriendsIds;
+        let confirmedFriendsIds = data.confirmedFriendsIds.map(id => {
+            return DAL.getObjectId(id);
+        });
 
         let filter = { "_id": DAL.getObjectId(data.userId) }
         let updateObj = { $pull: { "friendRequests.accept": { $in: confirmedFriendsIds } } };

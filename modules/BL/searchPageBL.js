@@ -42,7 +42,7 @@ module.exports = {
                             { "isPrivate": false },
                             { "_id": userObjectId },
                             { "friends": userObjectId },
-                            { "friendRequests.send": userId }
+                            { "friendRequests.send": userObjectId }
                         ]
                     }
                 ]

@@ -49,28 +49,28 @@ module.exports = {
     },
 
     async deleteUserFromDB(userId, userFirstName, userLastName, userEmail, req) {
-        let userObjectId = DAL.getObjectId(userId);
+        let userObjId = DAL.getObjectId(userId);
         let notificationsUnsetJson = {};
         notificationsUnsetJson["messagesNotifications." + userId] = 1;
 
         let findUserFriendsAndFriendRequests = DAL.findOneSpecific(usersCollectionName,
-            { "_id": userObjectId },
+            { "_id": userObjId },
             { "friends": 1, "friendRequests.send": 1 });
         let removeUserPermissions = DAL.update(permissionsCollectionName, {},
-            { $pull: { "members": userObjectId } });
+            { $pull: { "members": userObjId } });
         let removeUserChats = DAL.delete(chatsCollectionName, { "membersIds": userId });
         let removeUserFriendsRelations = DAL.update(usersCollectionName, {},
             {
                 $pull: {
-                    "friends": userObjectId,
-                    "friendRequests.get": userId,
-                    "friendRequests.send": userId,
-                    "friendRequests.accept": userId
+                    "friends": userObjId,
+                    "friendRequests.get": userObjId,
+                    "friendRequests.send": userObjId,
+                    "friendRequests.accept": userObjId
                 },
                 $unset: notificationsUnsetJson
             });
-        let removeUserProfileImages = DAL.delete(profilePicturesCollectionName, { "userId": userObjectId });
-        let removeUser = DAL.deleteOne(usersCollectionName, { "_id": userObjectId });
+        let removeUserProfileImages = DAL.delete(profilePicturesCollectionName, { "userId": userObjId });
+        let removeUser = DAL.deleteOne(usersCollectionName, { "_id": userObjId });
 
         let deleteUserActions = [
             findUserFriendsAndFriendRequests,
