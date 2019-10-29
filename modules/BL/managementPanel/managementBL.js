@@ -131,9 +131,7 @@ module.exports = {
     },
 
     async getUserFriends(friendsIds) {
-        friendsIds = friendsIds.map((id) => {
-            return DAL.getObjectId(id);
-        });
+        friendsIds = DAL.getArrayObjectId(friendsIds);
 
         let usersFilter = {
             $match: { "_id": { $in: friendsIds } }

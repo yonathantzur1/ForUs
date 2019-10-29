@@ -37,6 +37,13 @@ module.exports = {
         return new ObjectId(id.toString());
     },
 
+    // Convert array of string ids to MongoDB object ids.
+    getArrayObjectId(arr) {
+        return arr.map(id => {
+            return this.getObjectId(id);
+        });
+    },
+
     // Get one document from collection by filter.
     async findOne(collectionName, filter) {
         let collection = await getCollection(collectionName).catch(errorHandler.promiseError);

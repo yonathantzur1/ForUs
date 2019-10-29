@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "concurrently \"nodemon --ignore src/ server.js\" \"ng serve --open=true\" ",
+    "start": "concurrently \"nodemon --ignore src/ server.js\" \"ng serve --open=true --liveReload=false\" ",
     "heroku-postbuild": "ng build --aot=true --buildOptimizer=true --prod",
     "lint": "ng lint"
   },

@@ -118,7 +118,7 @@ module.exports = {
         notificationsUnsetJson["messagesNotifications." + friendId] = 1;
 
         let removeFriendsChat = DAL.delete(chatsCollectionName,
-            { "membersIds": { $all: [userId, friendId] } });
+            { "membersIds": { $all: DAL.getArrayObjectId([userId, friendId]) } });
 
         let userObjId = DAL.getObjectId(userId);
         let friendObjId = DAL.getObjectId(friendId);

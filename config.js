@@ -67,6 +67,6 @@ module.exports = {
         }
     },
     socket: {
-        keepAlive: 9 // seconds
+        keepAlive: 20 // seconds
     }
 };

@@ -102,8 +102,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     // START CONFIG VARIABLES //
 
     notificationDelay: number = 3800; // milliseconds
-    checkSocketConnectDelay: number = 8; // seconds
-    checkOnlineFriendsDelay: number = 8; // seconds
+    checkSocketConnectDelay: number = 10; // seconds
+    checkOnlineFriendsDelay: number = 20; // seconds
     chatTypingDelay: number = 1200; // milliseconds
     newFriendsLabelDelay: number = 4000; // milliseconds    
     sidenavWidth: string = "230px";
