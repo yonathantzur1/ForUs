@@ -127,7 +127,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     IsShowUserSettingsBtn(user) {
-        return user.permissions.indexOf(PERMISSION.MASTER) == -1 &&
+        return !user.permissions.includes(PERMISSION.MASTER) &&
             this.globalService.userId != user._id &&
             user.isOpen &&
             !user.isOpenCardAnimationActive &&
@@ -138,12 +138,12 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
     IsShowRemoveFriendBtn(user) {
         return user._id == this.globalService.userId ||
-            user.permissions.indexOf(PERMISSION.MASTER) == -1;
+            !user.permissions.includes(PERMISSION.MASTER);
     }
 
     IsDisableRemoveFriendBtn(friend) {
         return friend._id != this.globalService.userId &&
-            friend.permissions.indexOf(PERMISSION.MASTER) != -1;
+            friend.permissions.includes(PERMISSION.MASTER);
     }
 
     SearchUser(userId?: string) {

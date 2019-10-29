@@ -36,12 +36,7 @@ export class PermissionsCardComponent implements OnDestroy {
 
                 if (result) {
                     self.permissions.forEach((permission: any) => {
-                        if (result.indexOf(permission.type) != -1) {
-                            permission.isChecked = true;
-                        }
-                        else {
-                            permission.isChecked = false;
-                        }
+                        permission.isChecked = result.includes(permission.type);
                     });
                 }
             });

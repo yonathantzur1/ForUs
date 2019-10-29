@@ -16,5 +16,5 @@ module.exports = {
 };
 
 function checkPermission(permissionsArray, permissionType) {
-    return (permissionsArray && permissionsArray.indexOf(permissionType) != -1);
+    return (permissionsArray && permissionsArray.includes(permissionType));
 }

@@ -96,7 +96,7 @@ module.exports = (io, socket, connectedUsers) => {
     socket.on('ServerRemoveFriend', function (friendId) {
         let token = tokenHandler.decodeTokenFromSocket(socket);
 
-        if (token && token.user.friends.indexOf(friendId) != -1) {
+        if (token && token.user.friends.includes(friendId)) {
             let currUserId = token.user._id;
             io.to(currUserId).emit('ClientRemoveFriend', friendId);
             io.to(friendId).emit('ClientRemoveFriend', currUserId);

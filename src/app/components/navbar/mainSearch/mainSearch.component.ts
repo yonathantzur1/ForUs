@@ -290,15 +290,15 @@ export class MainSearchComponent implements OnDestroy {
         let friendRequests: any = this.parent.GetToolbarItem("friendRequests").content;
 
         return (friendId != this.parent.user._id &&
-            this.parent.user.friends.indexOf(friendId) == -1 &&
-            friendRequests.send.indexOf(friendId) == -1 &&
-            friendRequests.get.indexOf(friendId) == -1);
+            !this.parent.user.friends.includes(friendId) &&
+            !friendRequests.send.includes(friendId) &&
+            !friendRequests.get.includes(friendId));
     }
 
     IsShowRemoveFriendRequestBtn(friendId: string) {
         let friendRequests: any = this.parent.GetToolbarItem("friendRequests").content;
 
-        if (friendRequests.send.indexOf(friendId) != -1) {
+        if (friendRequests.send.includes(friendId)) {
             return true;
         }
         else {
@@ -309,7 +309,7 @@ export class MainSearchComponent implements OnDestroy {
     IsIncomeFriendRequest(friendId: string) {
         let friendRequests: any = this.parent.GetToolbarItem("friendRequests").content;
 
-        if (friendRequests.get.indexOf(friendId) != -1) {
+        if (friendRequests.get.includes(friendId)) {
             return true;
         }
         else {

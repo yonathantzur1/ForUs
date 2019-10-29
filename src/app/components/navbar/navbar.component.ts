@@ -318,7 +318,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             // In case one or more friends are connected. 
             if (onlineFriendsIds.length > 0) {
                 self.friends.forEach(friend => {
-                    friend.isOnline = (onlineFriendsIds.indexOf(friend._id) != -1);
+                    friend.isOnline = onlineFriendsIds.includes(friend._id);
                 });
             }
             else {
@@ -753,7 +753,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     AddFriendObjectToUser(friend: any) {
         let userFriends = this.user.friends;
 
-        if (userFriends.indexOf(friend._id) == -1) {
+        if (!userFriends.includes(friend._id)) {
             // Add the friend id to the user's friends array.
             userFriends.push(friend._id);
 

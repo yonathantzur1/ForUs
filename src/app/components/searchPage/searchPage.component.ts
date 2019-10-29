@@ -84,17 +84,17 @@ export class SearchPageComponent implements OnInit, OnDestroy {
                                 let userId = user._id;
 
                                 // In case the result user and the current user are friends.
-                                if (friendsStatus.friends.indexOf(userId) != -1) {
+                                if (friendsStatus.friends.includes(userId)) {
                                     user.isFriend = true;
                                     return;
                                 }
                                 // In case the result user sent a friend request to the current user.
-                                else if (friendsStatus.get.indexOf(userId) != -1) {
+                                else if (friendsStatus.get.includes(userId)) {
                                     user.isSendFriendRequest = true;
                                     return;
                                 }
                                 // In case the current user sent a friend request to the result user.
-                                else if (friendsStatus.send.indexOf(userId) != -1) {
+                                else if (friendsStatus.send.includes(userId)) {
                                     user.isGetFriendRequest = true;
                                     return;
                                 }

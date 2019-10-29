@@ -52,7 +52,7 @@ export class EventService {
 
         Object.keys(self.events).forEach((name: string) => {
             self.events[name] = self.events[name].filter((event: Event) => {
-                return (eventsIds.indexOf(event.id) == -1);
+                return !eventsIds.includes(event.id);
             });
 
             if (self.events[name].length == 0) {

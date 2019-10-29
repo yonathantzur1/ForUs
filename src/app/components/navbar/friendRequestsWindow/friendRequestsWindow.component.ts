@@ -111,11 +111,11 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
                     // Running on all friends and confirmed friends of the request.
                     friendsResult.forEach((friend: any) => {
                         // In case the friend object is for friend request.
-                        if (this.friendRequests.indexOf(friend._id) != -1) {
+                        if (this.friendRequests.includes(friend._id)) {
                             this.friendRequestsObjects.push(friend);
                         }
                         // In case the friend object is for friend request confirm notification.
-                        else if (this.confirmedReuests.indexOf(friend._id) != -1) {
+                        else if (this.confirmedReuests.includes(friend._id)) {
                             this.friendConfirmObjects.push(friend);
                         }
                     });

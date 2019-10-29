@@ -23,11 +23,11 @@ export class PermissionsService extends AuthService {
     }
 
     IsUserHasAdminPermission() {
-        return (this.userPermissions.indexOf(PERMISSION.ADMIN) != -1);
+        return this.userPermissions.includes(PERMISSION.ADMIN);
     }
 
     IsUserHasMasterPermission() {
-        return (this.userPermissions.indexOf(PERMISSION.MASTER) != -1);
+        return this.userPermissions.includes(PERMISSION.MASTER);
     }
 
     IsUserHasRootPermission() {

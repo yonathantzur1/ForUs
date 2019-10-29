@@ -250,7 +250,7 @@ module.exports = {
 
     async addFriendRequest(user, friendId) {
         // Check if the user and the friend are not already friends.
-        if (user.friends.indexOf(friendId) != -1) {
+        if (user.friends.includes(friendId)) {
             return null;
         }
 
@@ -330,7 +330,7 @@ module.exports = {
 
     async addFriend(user, friendId) {
         // Check if the user and the friend are not already friends.
-        if (user.friends.indexOf(friendId) != -1) {
+        if (user.friends.includes(friendId)) {
             return null;
         }
 

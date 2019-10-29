@@ -63,7 +63,7 @@ module.exports = (io, socket, connectedUsers) => {
 
 function validateMessage(msgData, user) {
     return (user._id == msgData.from &&
-        user.friends.indexOf(msgData.to) != -1 &&
+        user.friends.includes(msgData.to) &&
         msgData.text &&
         (msgData.isImage || msgData.text.length <= 600));
 }
