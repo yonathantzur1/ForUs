@@ -4,7 +4,7 @@ const errorHandler = require('../handlers/errorHandler');
 
 // Return the first chat page messages.
 router.post('/getChat', (req, res) => {
-    chatBL.getChat(req.body.membersIds, req.user).then(chat => {
+    chatBL.getChat(req.body.members, req.user).then(chat => {
         res.send(chat);
     }).catch(err => {
         errorHandler.routeError(err, res);
@@ -13,7 +13,7 @@ router.post('/getChat', (req, res) => {
 
 // Return the requested chat page messages.
 router.post('/getChatPage', (req, res) => {
-    chatBL.getChatPage(req.body.membersIds,
+    chatBL.getChatPage(req.body.members,
         req.user,
         req.body.currMessagesNum,
         req.body.totalMessagesNum).then(chat => {

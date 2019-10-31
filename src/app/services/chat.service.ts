@@ -10,13 +10,13 @@ export class ChatService extends BasicService {
     }
 
     GetChat(idsArray: Array<string>) {
-        let details = { "membersIds": idsArray };
+        let details = { "members": idsArray };
 
         return super.post('/getChat', details);
     }
 
     GetChatPage(idsArray: Array<string>, currMessagesNum: number, totalMessagesNum: number) {
-        let details = { "membersIds": idsArray, currMessagesNum, totalMessagesNum };
+        let details = { "members": idsArray, currMessagesNum, totalMessagesNum };
 
         return super.post('/getChatPage', details);
     }

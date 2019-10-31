@@ -54,13 +54,14 @@ const allowedExt = [
 
 // Redirect angular requests back to client side.
 app.get('/*', (req, res) => {
+    let buildFolder = 'dist/';
     let filePath;
 
     if (allowedExt.filter(ext => req.url.indexOf(ext) > 0).length > 0) {
-        filePath = path.resolve('dist/' + req.url);
+        filePath = path.resolve(buildFolder + req.url);
     }
     else {
-        filePath = path.resolve('dist/index.html');
+        filePath = path.resolve(buildFolder + 'index.html');
     }
 
     res.sendFile(filePath);

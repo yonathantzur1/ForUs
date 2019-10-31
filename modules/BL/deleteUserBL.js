@@ -58,7 +58,7 @@ module.exports = {
             { "friends": 1, "friendRequests.send": 1 });
         let removeUserPermissions = DAL.update(permissionsCollectionName, {},
             { $pull: { "members": userObjId } });
-        let removeUserChats = DAL.delete(chatsCollectionName, { "membersIds": DAL.getObjectId(userId) });
+        let removeUserChats = DAL.delete(chatsCollectionName, { "members": DAL.getObjectId(userId) });
         let removeUserFriendsRelations = DAL.update(usersCollectionName, {},
             {
                 $pull: {

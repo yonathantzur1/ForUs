@@ -9,17 +9,17 @@ const chatsCollectionName = config.db.collections.chats;
 const messagesInPage = 40;
 
 module.exports = {
-    async getChat(membersIds, user) {
-        if (!this.validateChatMembers(membersIds, user.friends, user._id)) {
+    async getChat(members, user) {
+        if (!this.validateChatMembers(members, user.friends, user._id)) {
             return errorHandler.promiseSecure("The user: " + user._id +
                 " was try to get invalid chat with users ids: " + JSON.stringify(user.friends));
         }
 
-        membersIds = DAL.getArrayObjectId(membersIds);
+        members = DAL.getArrayObjectId(members);
 
         let chatQueryFilter = {
             $match: {
-                "membersIds": { $all: membersIds }
+                "members": { $all: members }
             }
         };
 
@@ -37,12 +37,12 @@ module.exports = {
 
         // In case the chat is not exists.
         if (result.length == 0) {
-            let createChatResult = await this.createChat(membersIds)
+            let createChatResult = await this.createChat(members)
                 .catch(errorHandler.promiseError);
 
             if (!createChatResult) {
                 return errorHandler.promiseError("Failed to create new chat of members: " +
-                    JSON.stringify(membersIds));
+                    JSON.stringify(members));
             }
 
             return false;
@@ -54,17 +54,17 @@ module.exports = {
         return chat;
     },
 
-    async getChatPage(membersIds, user, currMessagesNum, totalMessagesNum) {
-        if (!this.validateChatMembers(membersIds, user.friends, user._id)) {
+    async getChatPage(members, user, currMessagesNum, totalMessagesNum) {
+        if (!this.validateChatMembers(members, user.friends, user._id)) {
             return errorHandler.promiseSecure("The user: " + user._id +
                 " was try to get invalid chat with users ids: " + JSON.stringify(user.friends));
         }
 
-        membersIds = DAL.getArrayObjectId(membersIds);
+        members = DAL.getArrayObjectId(members);
 
         let chatQueryFilter = {
             $match: {
-                "membersIds": { $all: membersIds }
+                "members": { $all: members }
             }
         };
 
@@ -88,14 +88,14 @@ module.exports = {
         return chat;
     },
 
-    async createChat(membersIds) {
+    async createChat(members) {
         let chatQueryFilter = {
-            "membersIds": membersIds
+            "members": members
         };
 
         let chatObj = {
             $set: {
-                "membersIds": membersIds,
+                "members": members,
                 "messages": []
             }
         };
@@ -110,7 +110,7 @@ module.exports = {
         // Encrypt message text.
         msgData.text = encryption.encrypt(msgData.text);
         let chatMembers = [DAL.getObjectId(msgData.from), DAL.getObjectId(msgData.to)];
-        let chatFilter = { "membersIds": { $all: chatMembers } };
+        let chatFilter = { "members": { $all: chatMembers } };
 
         // Build message object to save on DB.
         let message = {
@@ -141,9 +141,9 @@ module.exports = {
         return messages;
     },
 
-    validateChatMembers(membersIds, userFriends, userId) {
+    validateChatMembers(members, userFriends, userId) {
         // Return true if all chat members are the user or his friends, else false.
-        return membersIds.every(id => {
+        return members.every(id => {
             return (userFriends.includes(id.toString()) || id.toString() == userId);
         });
     },
@@ -151,7 +151,7 @@ module.exports = {
     async getAllPreviewChats(userId) {
         let chatsFilter = {
             $match: {
-                "membersIds": DAL.getObjectId(userId),
+                "members": DAL.getObjectId(userId),
                 "messages": { $ne: [] }
             }
         };
@@ -164,7 +164,7 @@ module.exports = {
                 $project:
                 {
                     lastMessage: { $arrayElemAt: ["$messages", -1] },
-                    membersIds: "$membersIds"
+                    members: "$members"
                 }
             },
             sortObj
@@ -180,7 +180,7 @@ module.exports = {
         chats.forEach((chat, index) => {
             chat.lastMessage.text = encryption.decrypt(chat.lastMessage.text);
 
-            let friendId = chat.membersIds.find(id => {
+            let friendId = chat.members.find(id => {
                 return (id.toString() != userId);
             });
 
