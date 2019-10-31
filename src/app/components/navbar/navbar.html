@@ -12,8 +12,7 @@
                     </div>
                     <div class="toolbar-menu">
                         <span class="toolbar-item" *ngFor="let item of toolbarItems">
-                            <i [title]="item.title" (click)="item.onClick()"
-                                class="{{item.icon}}">{{item.innerIconText}}</i>
+                            <i [title]="item.title" (click)="item.onClick()" class="{{item.icon}}"></i>
                             <span class="badget-icon" (click)="item.onClick()"
                                 *ngIf="item.isShowToolbarItemBadget()"></span>
                         </span>
@@ -39,8 +38,7 @@
                             <i *ngIf="friend.isTyping" title="{{friend.firstName}} מקליד/ה"
                                 class="far fa-comment-dots fa-flip-horizontal typing-icon"></i>
                             <div *ngIf="friend.isOnline" class="online-icon"></div>
-                            <img class="friend-profile"
-                                [src]="friend.profileImage || imageService.defaultProfileImage">
+                            <img class="friend-profile" [src]="friend.profileImage || imageService.defaultProfileImage">
                         </div>
                         <span [ngClass]="{'bold-friend-name' : GetFriendUnreadMessagesNumberText(friend._id)}"
                             class="friend-name-container" title="{{friend.firstName + ' ' + friend.lastName}}">
@@ -108,10 +106,10 @@
 
 <profilePictureEdit *ngIf="isOpenProfileEditWindow"></profilePictureEdit>
 <chatsWindow [hidden]="!isChatsWindowOpen" [OpenChat]="OpenChat.bind(this)"
-    [messagesNotifications]="GetToolbarItem('messages').content"></chatsWindow>
+    [messagesNotifications]="GetToolbarItem(TOOLBAR_ID.MESSAGES).content"></chatsWindow>
 <friendRequestsWindow [hidden]="!isFriendRequestsWindowOpen" [isFriendRequestsWindowOpen]="isFriendRequestsWindowOpen"
     [AddFriend]="AddFriend.bind(this)" [IgnoreFriendRequest]="IgnoreFriendRequest.bind(this)"
-    [friendRequests]="GetToolbarItem('friendRequests').content.get"
-    [confirmedReuests]="GetToolbarItem('friendRequests').content.accept"></friendRequestsWindow>
+    [friendRequests]="GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content.get"
+    [confirmedReuests]="GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content.accept"></friendRequestsWindow>
 <chat *ngIf="chatData.isOpen" [chatData]="chatData" [GetFriendById]="GetFriendById.bind(this)"
     [OpenChat]="OpenChat.bind(this)"></chat>

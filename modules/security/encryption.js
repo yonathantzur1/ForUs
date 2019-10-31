@@ -8,7 +8,7 @@ const salt = config.security.encrypt.salt;
 const key = crypto.scryptSync(password, salt, 24);
 
 function handleError(err) {
-    logger.error(err);
+    logger.warn(err);
     return null;
 }
 

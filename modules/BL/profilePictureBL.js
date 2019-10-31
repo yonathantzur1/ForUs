@@ -14,15 +14,15 @@ module.exports = {
     },
 
     async saveImage(imageData) {
-        let userIdObject = DAL.getObjectId(imageData.userId);
+        let userObjId = DAL.getObjectId(imageData.userId);
 
         let imageObj = {
             "image": imageData.imgBase64,
-            "userId": userIdObject,
-            "updateDate": new Date()
+            "userId": userObjId,
+            "updateTime": new Date()
         };
 
-        let deleteCurrentPicture = DAL.delete(profilePicturesCollectionName, { "userId": userIdObject });
+        let deleteCurrentPicture = DAL.delete(profilePicturesCollectionName, { "userId": userObjId });
         let insertImage = DAL.insert(profilePicturesCollectionName, imageObj);
 
         let results = await Promise.all([deleteCurrentPicture, insertImage])
@@ -32,7 +32,7 @@ module.exports = {
         let userProfile = { $set: { "profile": imageId } };
 
         // Update the id of the profile picture of the user.
-        let updateResult = await DAL.updateOne(usersCollectionName, { "_id": userIdObject }, userProfile)
+        let updateResult = await DAL.updateOne(usersCollectionName, { "_id": userObjId }, userProfile)
             .catch(errorHandler.promiseError);
 
         return !!updateResult;

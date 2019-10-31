@@ -13,6 +13,7 @@ import { AuthService } from '../../services/global/auth.service';
 import { NavbarService } from '../../services/navbar.service';
 import { LoginService } from '../../services/welcome/login.service';
 import { SOCKET_STATE } from '../../enums/enums';
+import { DropMenuData } from '../dropMenu/dropMenu.component';
 
 class Friend {
     _id: string;
@@ -24,32 +25,33 @@ class Friend {
     typingTimer: any;
 }
 
+export enum TOOLBAR_ID {
+    MESSAGES,
+    FRIEND_REQUESTS
+}
+
 class ToolbarItem {
-    id: string;
+    id: TOOLBAR_ID;
     icon: string;
-    innerIconText: string;
     title: string;
     content: Object;
     getNotificationsNumber: Function;
     isShowToolbarItemBadget: Function;
     onClick: Function;
+
+    constructor(id: TOOLBAR_ID, icon: string, title: string, content: Object,
+        getNotificationsNumber: Function, isShowToolbarItemBadget: Function, onClick: Function) {
+        this.id = id;
+        this.icon = icon;
+        this.title = title;
+        this.content = content;
+        this.getNotificationsNumber = getNotificationsNumber;
+        this.isShowToolbarItemBadget = isShowToolbarItemBadget;
+        this.onClick = onClick;
+    }
 }
 
 declare let $: any;
-
-export class DropMenuData {
-    link: string;
-    text: string;
-    action: Function;
-    showFunction: Function;
-
-    constructor(link: string, text: string, action: Function, showFunction?: Function) {
-        this.link = link;
-        this.text = text;
-        this.action = action;
-        this.showFunction = showFunction ? showFunction : () => { return true; };
-    }
-}
 
 @Component({
     selector: 'navbar',
@@ -96,6 +98,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     checkSocketConnectInterval: any;
     checkOnlineFriendsInterval: any;
 
+    TOOLBAR_ID: any = TOOLBAR_ID;
     toolbarItems: Array<ToolbarItem>;
     dropMenuDataList: Array<DropMenuData>;
 
@@ -182,13 +185,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
         //#endregion
 
         self.toolbarItems = [
-            {
-                id: "messages",
-                icon: "far fa-comment-dots",
-                innerIconText: '',
-                title: "הודעות",
-                content: {},
-                getNotificationsNumber: function () {
+            new ToolbarItem(TOOLBAR_ID.MESSAGES, "far fa-comment-dots", "הודעות", {},
+                function () {
                     let counter = 0;
 
                     Object.keys(this.content).forEach(id => {
@@ -197,33 +195,26 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
                     return counter;
                 },
-                isShowToolbarItemBadget: function () {
+                function () {
                     return (this.getNotificationsNumber() > 0);
                 },
-                onClick: function () {
+                function () {
                     self.ShowHideChatsWindow();
-                }
-            },
-            {
-                id: "friendRequests",
-                icon: "fas fa-user-friends fa-sm",
-                innerIconText: '',
-                title: "בקשות חברות",
-                content: {
+                }),
+            new ToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS, "fas fa-user-friends fa-sm", "בקשות חברות",
+                {
                     get: [],
                     send: [],
                     accept: []
-                },
-                getNotificationsNumber: function () {
+                }, function () {
                     return this.content.get.length + this.content.accept.length;
                 },
-                isShowToolbarItemBadget: function () {
+                function () {
                     return (this.getNotificationsNumber() > 0);
                 },
-                onClick: function () {
+                function () {
                     self.ShowHideFriendRequestsWindow();
-                }
-            }
+                })
         ];
     }
 
@@ -234,15 +225,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
         self.dropMenuDataList = [
             new DropMenuData("/panel", "ניהול", null, () => {
-                return (self.permissionsService.IsUserHasRootPermission());
+                return self.permissionsService.IsUserHasRootPermission();
             }),
-            new DropMenuData("/profile/" + self.user._id, "פרופיל", (link: string) => {
-                self.router.navigateByUrl(link);
-            }),
-            new DropMenuData("/login", "התנתקות", (link: string) => {
+            new DropMenuData("/profile/" + self.user._id, "פרופיל"),
+            new DropMenuData("/login", "התנתקות", () => {
                 self.snackbarService.HideSnackbar();
                 self.Logout();
-                self.router.navigateByUrl(link);
             })
         ];
 
@@ -274,15 +262,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
         // Loading user messages notifications.
         self.navbarService.GetUserMessagesNotifications().then((result: any) => {
-            self.GetToolbarItem("messages").content = result.messagesNotifications || {};
+            self.GetToolbarItem(TOOLBAR_ID.MESSAGES).content = result.messagesNotifications || {};
         });
 
         // Loading user friend requests.
         self.navbarService.GetUserFriendRequests().then((result: any) => {
-            self.GetToolbarItem("friendRequests").content = result.friendRequests;
+            self.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content = result.friendRequests;
         });
 
-        self.socketService.SocketOn('LogoutUserSessionClient', function (msg: string) {
+        self.socketService.SocketOn('LogoutUserSessionClient', (msg: string) => {
             self.Logout();
             self.alertService.Alert({
                 title: "התנתקות מהמערכת",
@@ -295,7 +283,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             });
         });
 
-        self.socketService.SocketOn('GetMessage', function (msgData: any) {
+        self.socketService.SocketOn('GetMessage', (msgData: any) => {
             if (!self.chatData.isOpen || msgData.from != self.chatData.friend._id) {
                 self.AddMessageToToolbarMessages(msgData);
 
@@ -308,13 +296,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
                         self.messageNotificationInterval = null;
                     }
 
-                    self.ShowMessageNotification(self.GetFriendNameById(msgData.from), msgData.text, msgData.isImage, msgData.from);
+                    self.ShowMessageNotification(self.GetFriendNameById(msgData.from),
+                        msgData.text,
+                        msgData.isImage,
+                        msgData.from);
                     self.isHideNotificationsBudget = false;
                 }
             }
         });
 
-        self.socketService.SocketOn('ClientGetOnlineFriends', function (onlineFriendsIds: Array<string>) {
+        self.socketService.SocketOn('ClientGetOnlineFriends', (onlineFriendsIds: Array<string>) => {
             // In case one or more friends are connected. 
             if (onlineFriendsIds.length > 0) {
                 self.friends.forEach(friend => {
@@ -328,41 +319,41 @@ export class NavbarComponent implements OnInit, OnDestroy {
             }
         });
 
-        self.socketService.SocketOn('UpdateFriendConnectionStatus', function (statusObj: any) {
-            self.friends.forEach(friend => {
-                if (friend._id == statusObj.friendId) {
-                    friend.isOnline = statusObj.isOnline;
-                }
+        self.socketService.SocketOn('UpdateFriendConnectionStatus', (statusObj: any) => {
+            let friend = self.friends.find(friend => {
+                return (friend._id == statusObj.friendId);
             });
+
+            friend && (friend.isOnline = statusObj.isOnline);
         });
 
-        self.socketService.SocketOn('ClientUpdateFriendRequests', function (friendRequests: Array<any>) {
-            self.GetToolbarItem("friendRequests").content = friendRequests;
+        self.socketService.SocketOn('ClientUpdateFriendRequests', (friendRequests: Array<any>) => {
+            self.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content = friendRequests;
         });
 
-        self.socketService.SocketOn('GetFriendRequest', function (friendId: string, friendFullName: string) {
-            let friendRequests: any = self.GetToolbarItem("friendRequests").content;
+        self.socketService.SocketOn('GetFriendRequest', (friendId: string, friendFullName: string) => {
+            let friendRequests: any = self.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
             friendRequests.get.push(friendId);
             self.ShowFriendRequestNotification(friendFullName, false);
             self.isHideNotificationsBudget = false;
         });
 
-        self.socketService.SocketOn('DeleteFriendRequest', function (friendId: string) {
-            let friendRequests: any = self.GetToolbarItem("friendRequests").content;
+        self.socketService.SocketOn('DeleteFriendRequest', (friendId: string) => {
+            let friendRequests: any = self.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
             friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
             self.eventService.Emit("RemoveUserFromNavbarSearchCache", friendId);
         });
 
-        self.socketService.SocketOn('ClientIgnoreFriendRequest', function (friendId: string) {
-            let friendRequests: any = self.GetToolbarItem("friendRequests").content;
+        self.socketService.SocketOn('ClientIgnoreFriendRequest', (friendId: string) => {
+            let friendRequests: any = self.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
             friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
         });
 
-        self.socketService.SocketOn('ClientAddFriend', function (friend: any) {
+        self.socketService.SocketOn('ClientAddFriend', (friend: any) => {
             self.AddFriendObjectToUser(friend);
         });
 
-        self.socketService.SocketOn('ClientFriendAddedUpdate', function (friend: any) {
+        self.socketService.SocketOn('ClientFriendAddedUpdate', (friend: any) => {
             self.authService.SetCurrUserToken().then((result: any) => {
                 if (result) {
                     self.socketService.RefreshSocket();
@@ -370,7 +361,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 }
             });
 
-            let friendRequests: any = self.GetToolbarItem("friendRequests").content;
+            let friendRequests: any = self.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
 
             // Remove friend id from send array and push it to the friends array.
             friendRequests.send.splice(friendRequests.send.indexOf(friend._id), 1);
@@ -378,7 +369,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             self.friends.push(friend);
 
             // Add the friend id to the confirmed requests array and show notifications.
-            self.GetToolbarItem('friendRequests').content.accept.push(friend._id);
+            self.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content.accept.push(friend._id);
             self.isHideNotificationsBudget = false;
             self.ShowFriendRequestNotification(friend.firstName + " " + friend.lastName, true);
 
@@ -387,11 +378,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
             self.socketService.SocketEmit("ServerGetOnlineFriends");
         });
 
-        self.socketService.SocketOn('ClientFriendTyping', function (friendId: string) {
+        self.socketService.SocketOn('ClientFriendTyping', (friendId: string) => {
             self.MakeFriendTyping(friendId);
         });
 
-        self.socketService.SocketOn('ClientRemoveFriendUser', function (friendId: string, userName: string) {
+        self.socketService.SocketOn('ClientRemoveFriendUser', (friendId: string, userName: string) => {
             self.RemoveFriend(friendId);
 
             self.alertService.Alert({
@@ -402,7 +393,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             });
         });
 
-        self.socketService.SocketOn('ClientRemoveFriend', function (friendId: string) {
+        self.socketService.SocketOn('ClientRemoveFriend', (friendId: string) => {
             self.authService.SetCurrUserToken().then((result: any) => {
                 result && self.socketService.RefreshSocket();
             });
@@ -422,7 +413,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     AddMessageToToolbarMessages(msgData: any) {
-        let notificationsMessages = this.GetToolbarItem("messages").content;
+        let notificationsMessages = this.GetToolbarItem(TOOLBAR_ID.MESSAGES).content;
         let friendMessages = notificationsMessages[msgData.from];
 
         if (friendMessages) {
@@ -439,7 +430,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     RemoveFriendMessagesFromToolbarMessages(friendId: string) {
-        let notificationsMessages = this.GetToolbarItem("messages").content;
+        let notificationsMessages = this.GetToolbarItem(TOOLBAR_ID.MESSAGES).content;
 
         if (notificationsMessages[friendId]) {
             delete (notificationsMessages[friendId]);
@@ -448,7 +439,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     // Return item object from toolbar items array by its id.
-    GetToolbarItem(id: string): any {
+    GetToolbarItem(id: TOOLBAR_ID): any {
         for (let i = 0; i < this.toolbarItems.length; i++) {
             if (this.toolbarItems[i].id == id) {
                 return this.toolbarItems[i];
@@ -592,7 +583,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
         else {
             friendSearchInput = friendSearchInput.trim();
             friendSearchInput = friendSearchInput.replace(/\\/g, '');
-            return this.friends.filter(function (friend: any) {
+
+            return this.friends.filter((friend: any) => {
                 return (((friend.firstName + " " + friend.lastName).indexOf(friendSearchInput) == 0) ||
                     ((friend.lastName + " " + friend.firstName).indexOf(friendSearchInput) == 0));
             });
@@ -600,7 +592,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     GetSidebarFriends(friendSearchInput: string): Array<any> {
-        return this.GetFilteredFriends(friendSearchInput).sort(function (a, b) {
+        return this.GetFilteredFriends(friendSearchInput).sort((a, b) => {
             if (a.isOnline && !b.isOnline) {
                 return -1;
             }
@@ -622,7 +614,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     GetFriendUnreadMessagesNumberText(friendId: string) {
-        let friendNotificationsMessages = this.GetToolbarItem("messages").content[friendId];
+        let friendNotificationsMessages = this.GetToolbarItem(TOOLBAR_ID.MESSAGES).content[friendId];
 
         if (friendNotificationsMessages) {
             return "- (" + friendNotificationsMessages.unreadMessagesNumber + ")"
@@ -637,7 +629,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.HideSidenav();
 
         if (!this.chatData.isOpen || !this.chatData.friend || this.chatData.friend._id != friend._id) {
-            let messagesNotifications = Object.assign({}, this.GetToolbarItem("messages").content);
+            let messagesNotifications = Object.assign({}, this.GetToolbarItem(TOOLBAR_ID.MESSAGES).content);
 
             // Empty unread messages notifications from the currend friend.
             this.RemoveFriendMessagesFromToolbarMessages(friend._id);
@@ -686,7 +678,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     AddFriendRequest(friendId: string) {
-        let friendRequests: any = this.GetToolbarItem("friendRequests").content;
+        let friendRequests: any = this.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
         friendRequests.send.push(friendId);
 
         let self = this;
@@ -701,7 +693,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     RemoveFriendRequest(friendId: string, isHideMessageText?: boolean) {
-        let friendRequests: any = this.GetToolbarItem("friendRequests").content;
+        let friendRequests: any = this.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
         friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
 
         let self = this;
@@ -716,7 +708,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     IgnoreFriendRequest(friendId: string, callback?: Function) {
         // Remove the friend request from all friend requests object.
-        let friendRequests: any = this.GetToolbarItem("friendRequests").content;
+        let friendRequests: any = this.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
         friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
 
         let self = this;
@@ -768,7 +760,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.isFriendsLoading = true;
 
         // Remove the friend request from all friend requests object.
-        let friendRequests: any = this.GetToolbarItem("friendRequests").content;
+        let friendRequests: any = this.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
         friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
 
         let self = this;
@@ -858,21 +850,22 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     RemoveFriend(friendId: string) {
         // ---------- Remove friend notifications on friend requests window ----------
+        let friendRequests = this.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
 
-        let friendRequestGetIndex = this.GetToolbarItem('friendRequests').content.get.indexOf(friendId);
-        let friendRequestSendIndex = this.GetToolbarItem('friendRequests').content.send.indexOf(friendId);
-        let friendRequestAcceptIndex = this.GetToolbarItem('friendRequests').content.accept.indexOf(friendId);
+        let friendRequestGetIndex = friendRequests.get.indexOf(friendId);
+        let friendRequestSendIndex = friendRequests.send.indexOf(friendId);
+        let friendRequestAcceptIndex = friendRequests.accept.indexOf(friendId);
 
         if (friendRequestGetIndex != -1) {
-            this.GetToolbarItem('friendRequests').content.get.splice(friendRequestGetIndex, 1);
+            friendRequests.get.splice(friendRequestGetIndex, 1);
         }
 
         if (friendRequestSendIndex != -1) {
-            this.GetToolbarItem('friendRequests').content.send.splice(friendRequestSendIndex, 1);
+            friendRequests.send.splice(friendRequestSendIndex, 1);
         }
 
         if (friendRequestAcceptIndex != -1) {
-            this.GetToolbarItem('friendRequests').content.accept.splice(friendRequestAcceptIndex, 1);
+            friendRequests.accept.splice(friendRequestAcceptIndex, 1);
         }
 
         // ---------------------------------------------------------------------------
@@ -883,7 +876,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
 
         // Remove friend messages notifications
-        delete this.GetToolbarItem('messages').content[friendId];
+        delete this.GetToolbarItem(TOOLBAR_ID.MESSAGES).content[friendId];
 
         // Removing friend from user friends ids list.
         for (let i = 0; i < this.user.friends.length; i++) {

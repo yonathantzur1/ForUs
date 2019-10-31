@@ -5,7 +5,7 @@ const mailer = require('../mailer');
 const logger = require('../../logger');
 
 module.exports = (io, socket, connectedUsers) => {
-    socket.on('ServerUpdateFriendRequestsStatus', function (friendId) {
+    socket.on('ServerUpdateFriendRequestsStatus', (friendId) => {
         let token = tokenHandler.decodeTokenFromSocket(socket);
 
         if (token) {
@@ -13,7 +13,7 @@ module.exports = (io, socket, connectedUsers) => {
         }
     });
 
-    socket.on('ServerUpdateFriendRequests', function (friendRequests) {
+    socket.on('ServerUpdateFriendRequests', (friendRequests) => {
         let token = tokenHandler.decodeTokenFromSocket(socket);
 
         if (token) {
@@ -21,7 +21,7 @@ module.exports = (io, socket, connectedUsers) => {
         }
     });
 
-    socket.on('SendFriendRequest', function (friendId) {
+    socket.on('SendFriendRequest', (friendId) => {
         let token = tokenHandler.decodeTokenFromSocket(socket);
 
         if (token) {
@@ -42,15 +42,15 @@ module.exports = (io, socket, connectedUsers) => {
         }
     });
 
-    socket.on('RemoveFriendRequest', function (userId, friendId) {
+    socket.on('RemoveFriendRequest', (userId, friendId) => {
         io.to(friendId).emit('DeleteFriendRequest', userId);
     });
 
-    socket.on('ServerIgnoreFriendRequest', function (userId, friendId) {
+    socket.on('ServerIgnoreFriendRequest', (userId, friendId) => {
         io.to(friendId).emit('ClientIgnoreFriendRequest', userId);
     });
 
-    socket.on('ServerAddFriend', function (friend) {
+    socket.on('ServerAddFriend', (friend) => {
         let token = tokenHandler.decodeTokenFromSocket(socket);
 
         if (token) {
@@ -67,7 +67,7 @@ module.exports = (io, socket, connectedUsers) => {
 
     });
 
-    socket.on('ServerFriendAddedUpdate', function (friendId) {
+    socket.on('ServerFriendAddedUpdate', (friendId) => {
         let token = tokenHandler.decodeTokenFromSocket(socket);
 
         if (token) {
@@ -93,7 +93,7 @@ module.exports = (io, socket, connectedUsers) => {
         }
     });
 
-    socket.on('ServerRemoveFriend', function (friendId) {
+    socket.on('ServerRemoveFriend', (friendId) => {
         let token = tokenHandler.decodeTokenFromSocket(socket);
 
         if (token && token.user.friends.includes(friendId)) {

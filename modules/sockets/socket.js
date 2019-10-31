@@ -8,13 +8,13 @@ const config = require('../../config');
 let connectedUsers = {};
 
 module.exports = (io) => {
-    io.on('connection', function (socket) {
+    io.on('connection', (socket) => {
 
         // Import socket modules.
         require('./chat.js')(io, socket, connectedUsers);
         require('./friends.js')(io, socket, connectedUsers);
 
-        socket.on('login', function () {
+        socket.on('login', () => {
             let token = tokenHandler.decodeTokenFromSocket(socket);
 
             if (token) {
@@ -32,13 +32,13 @@ module.exports = (io) => {
                     user.connections = 1;
                     connectedUsers[userId] = user;
 
-                    let conStatus = {
+                    let status = {
                         "friendId": userId,
                         "isOnline": true
                     }
 
                     user.friends.forEach(friendId => {
-                        io.to(friendId).emit('UpdateFriendConnectionStatus', conStatus);
+                        io.to(friendId).emit('UpdateFriendConnectionStatus', status);
                     });
                 }
 
@@ -47,7 +47,7 @@ module.exports = (io) => {
             }
         });
 
-        socket.on('disconnect', function () {
+        socket.on('disconnect', () => {
             let token = tokenHandler.decodeTokenFromSocket(socket);
 
             if (token) {
@@ -58,13 +58,13 @@ module.exports = (io) => {
                     // In case the user was connected only once.
                     if (user.connections == 1) {
                         let userFriendsIds = user.friends;
-                        let statusObj = {
+                        let status = {
                             "friendId": userId,
                             "isOnline": false
                         }
 
                         userFriendsIds.forEach(friendId => {
-                            io.to(friendId).emit('UpdateFriendConnectionStatus', statusObj);
+                            io.to(friendId).emit('UpdateFriendConnectionStatus', status);
                         });
 
                         delete connectedUsers[userId];
@@ -76,12 +76,12 @@ module.exports = (io) => {
             }
         });
 
-        socket.on('LogoutUserSessionServer', function (msg, userId) {
+        socket.on('LogoutUserSessionServer', (msg, userId) => {
             let token = tokenHandler.decodeTokenFromSocket(socket);
 
             // Logout the given user in case the sender is admin, or in case the logout is self.
             if (token &&
-                (permissionHandler.isUserHasRootPermission(token.user.permissions) || userId == null)) {
+                (permissionHandler.isUserHasRootPermission(token.user.permissions) || !userId)) {
                 io.to(userId || token.user._id).emit('LogoutUserSessionClient', msg);
             }
         });

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { DropMenuData } from '../../navbar/navbar.component';
+import { DropMenuData } from '../../dropMenu/dropMenu.component';
 import { ManagementService } from '../../../services/managementPanel/management/management.service';
 import { GlobalService } from '../../../services/global/global.service';
 import { PermissionsService } from '../../../services/global/permissions.service';

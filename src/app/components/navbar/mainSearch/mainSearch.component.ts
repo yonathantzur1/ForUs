@@ -5,7 +5,7 @@ import { ImageService } from 'src/app/services/global/image.service';
 import { SocketService } from '../../../services/global/socket.service';
 import { EventService } from '../../../services/global/event.service';
 import { NavbarService } from '../../../services/navbar.service';
-import { NavbarComponent } from '../navbar.component';
+import { NavbarComponent, TOOLBAR_ID } from '../navbar.component';
 
 declare let $: any;
 
@@ -287,7 +287,7 @@ export class MainSearchComponent implements OnDestroy {
     }
 
     IsShowAddFriendRequestBtn(friendId: string) {
-        let friendRequests: any = this.parent.GetToolbarItem("friendRequests").content;
+        let friendRequests: any = this.parent.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
 
         return (friendId != this.parent.user._id &&
             !this.parent.user.friends.includes(friendId) &&
@@ -296,7 +296,7 @@ export class MainSearchComponent implements OnDestroy {
     }
 
     IsShowRemoveFriendRequestBtn(friendId: string) {
-        let friendRequests: any = this.parent.GetToolbarItem("friendRequests").content;
+        let friendRequests: any = this.parent.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
 
         if (friendRequests.send.includes(friendId)) {
             return true;
@@ -307,7 +307,7 @@ export class MainSearchComponent implements OnDestroy {
     }
 
     IsIncomeFriendRequest(friendId: string) {
-        let friendRequests: any = this.parent.GetToolbarItem("friendRequests").content;
+        let friendRequests: any = this.parent.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
 
         if (friendRequests.get.includes(friendId)) {
             return true;

@@ -93,7 +93,6 @@ module.exports = {
                     // Taking only specific fields from the document.
                     "permissions.type": 1,
                     "profileImage.image": 1,
-                    "profileImage.updateDate": 1
                 }
             },
             {

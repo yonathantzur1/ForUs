@@ -35,7 +35,7 @@ module.exports = (io, socket, connectedUsers) => {
         }
     });
 
-    socket.on('ServerGetOnlineFriends', function () {
+    socket.on('ServerGetOnlineFriends', () => {
         let token = tokenHandler.decodeTokenFromSocket(socket);
 
         if (token) {
@@ -52,7 +52,7 @@ module.exports = (io, socket, connectedUsers) => {
         }
     });
 
-    socket.on('ServerFriendTyping', function (friendId) {
+    socket.on('ServerFriendTyping', (friendId) => {
         let token = tokenHandler.decodeTokenFromSocket(socket);
 
         if (token) {

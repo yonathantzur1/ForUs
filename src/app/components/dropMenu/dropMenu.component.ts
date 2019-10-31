@@ -2,7 +2,20 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { EventService } from '../../services/global/event.service';
-import { DropMenuData } from '../navbar/navbar.component';
+
+export class DropMenuData {
+    link: string;
+    text: string;
+    action: Function;
+    showFunction: Function;
+
+    constructor(link: string, text: string, action?: Function, showFunction?: Function) {
+        this.link = link;
+        this.text = text;
+        this.action = action;
+        this.showFunction = showFunction;
+    }
+}
 
 @Component({
     selector: 'dropMenu',
@@ -16,14 +29,9 @@ export class DropMenuComponent {
 
     @Input() options: DropMenuData[];
 
-    ActiveAction(action: Function, link: string) {
-
-        if (action) {
-            action(link);
-        }
-        else {
-            link && this.router.navigateByUrl(link);
-        }
+    Click(action: Function, link: string) {
+        action && action(link);
+        link && this.router.navigateByUrl(link);
 
         this.eventService.Emit("closeDropMenu", true);
         this.eventService.Emit("openNewWindow", true);
