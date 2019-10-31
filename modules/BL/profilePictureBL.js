@@ -35,7 +35,7 @@ module.exports = {
         let updateResult = await DAL.updateOne(usersCollectionName, { "_id": userObjId }, userProfile)
             .catch(errorHandler.promiseError);
 
-        return !!updateResult;
+        return updateResult;
     },
 
     async deleteImage(userId, profileId) {

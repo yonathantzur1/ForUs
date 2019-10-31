@@ -21,8 +21,7 @@ module.exports = {
         try {
             const iv = Buffer.alloc(16, 0);
             const cipher = crypto.createCipheriv(algorithm, key, iv);
-            let crypted = cipher.update(text, 'utf8', 'hex');
-            crypted += cipher.final('hex');
+            const crypted = cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
 
             return crypted;
         }
@@ -39,8 +38,7 @@ module.exports = {
         try {
             const iv = Buffer.alloc(16, 0);
             const decipher = crypto.createDecipheriv(algorithm, key, iv);
-            let dec = decipher.update(text, 'hex', 'utf8');
-            dec += decipher.final('utf8');
+            const dec = decipher.update(text, 'hex', 'utf8') + decipher.final('utf8');
 
             return dec;
         }

@@ -24,15 +24,15 @@ router.post('/saveImage', (req, res) => {
 
     imageData.userId = req.user._id;
 
-    profilePictureBL.saveImage(imageData).then(result => {
-        if (result) {
-            req.user.profile = result.profile.toString();
+    profilePictureBL.saveImage(imageData).then(updatedUser => {
+        if (updatedUser) {
+            req.user.profile = updatedUser.profile.toString();
             let token = tokenHandler.getTokenFromUserObject(req.user);
             tokenHandler.setTokenOnCookie(token, res);
             res.send(true);
         }
         else {
-            res.send(result);
+            res.send(updatedUser);
         }
     }).catch(err => {
         errorHandler.routeError(err, res);
