@@ -19,6 +19,8 @@ import { RegisterComponent } from '../../components/welcome/register/register.co
 import { ForgotComponent } from '../../components/welcome/forgot/forgot.component';
 import { HomeComponent } from '../../components/home/home.component';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
+import { TopNavbarComponent } from '../../components/navbar/topNavbar/topNavbar.component';
+import { SideNavbarComponent } from '../../components/navbar/sideNavbar/sideNavbar.component';
 import { MainSearchComponent } from '../../components/navbar/mainSearch/mainSearch.component';
 import { DropMenuComponent } from '../../components/dropMenu/dropMenu.component';
 import { ProfilePictureEditComponent } from '../../components/profilePicture/profilePictureEdit/profilePictureEdit.component';
@@ -82,6 +84,7 @@ import { ImageService } from 'src/app/services/global/image.service';
     RegisterComponent,
     ForgotComponent,
     NavbarComponent,
+    TopNavbarComponent,
     MainSearchComponent,
     DropMenuComponent,
     ProfilePictureEditComponent,

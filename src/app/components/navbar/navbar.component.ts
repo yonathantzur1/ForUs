@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
-import { ImageService } from 'src/app/services/global/image.service';
+import { ImageService } from '../../services/global/image.service';
 import { SocketService } from '../../services/global/socket.service';
 import { PermissionsService } from '../../services/global/permissions.service';
 import { CookieService } from '../../services/global/cookie.service';
@@ -100,7 +100,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     TOOLBAR_ID: any = TOOLBAR_ID;
     toolbarItems: Array<ToolbarItem>;
-    dropMenuDataList: Array<DropMenuData>;
 
     // START CONFIG VARIABLES //
 
@@ -141,20 +140,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
             self.isOpenProfileEditWindow = isShow;
         }, self.eventsIds);
 
-        eventService.Register("setNavbarUnder", () => {
-            self.isNavbarUnder = true;
-        }, self.eventsIds);
-
-        eventService.Register("setNavbarTop", () => {
-            self.isNavbarUnder = false;
-        }, self.eventsIds);
-
         eventService.Register("hideSidenav", () => {
             self.HideSidenav();
         }, self.eventsIds);
 
         eventService.Register("closeDropMenu", () => {
-            self.isDropMenuOpen = false;
+            this.HideDropMenu();
         }, self.eventsIds);
 
         eventService.Register("openNewWindow", () => {
@@ -222,17 +213,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.socketService.SocketEmit('login');
 
         let self = this;
-
-        self.dropMenuDataList = [
-            new DropMenuData("/panel", "ניהול", null, () => {
-                return self.permissionsService.IsUserHasRootPermission();
-            }),
-            new DropMenuData("/profile/" + self.user._id, "פרופיל"),
-            new DropMenuData("/login", "התנתקות", () => {
-                self.snackbarService.HideSnackbar();
-                self.Logout();
-            })
-        ];
 
         self.checkSocketConnectInterval = setInterval(() => {
             self.authService.IsUserSocketConnect().then((result: any) => {
@@ -522,7 +502,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.isSidenavOpen = true;
             this.isHideNotificationsBudget = true;
             this.HideDropMenu();
-            this.HideSearchResults();
+            this.eventService.Emit("hideSearchResults");
             $("#sidenav").width(this.sidenavWidth);
             $("body").addClass("no-overflow");
         }
@@ -539,31 +519,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    ShowHideDropMenu() {
-        this.isDropMenuOpen = !this.isDropMenuOpen;
-
-        if (this.isDropMenuOpen) {
-            this.HideSidenav();
-            this.HideSearchResults();
-        }
-    }
-
     HideDropMenu() {
         this.isDropMenuOpen = false;
-    }
-
-    HideSearchResults() {
-        this.eventService.Emit("hideSearchResults");
-    }
-
-    ChangeSearchInput(str: string) {
-        this.eventService.Emit("changeSearchInput", str);
     }
 
     ClosePopups() {
         this.HideSidenav();
         this.HideDropMenu();
-        this.HideSearchResults();
+        this.eventService.Emit("hideSearchResults");
     }
 
     OverlayClicked() {
@@ -804,7 +767,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     SearchNewFriends() {
-        this.ChangeSearchInput('');
+        this.eventService.Emit("changeSearchInput", '');
         $("#" + this.searchInputId).focus();
         clearTimeout(this.showNewFriendsLabelTimeout);
         clearTimeout(this.hideNewFriendsLabelTimeout);
@@ -824,13 +787,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     CloseChatWindow() {
         this.chatData.isOpen = false;
-    }
-
-    NavigateMain() {
-        this.ClosePopups();
-        this.CloseChatWindow();
-        this.ChangeSearchInput('');
-        this.router.navigateByUrl('');
     }
 
     GetNotificationsNumber() {
@@ -908,10 +864,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     NavigateToLogin() {
         this.router.navigateByUrl("/login");
-    }
-
-    IsShowHeadTitle() {
-        return ($(window).width() > 576);
     }
 
     Logout() {

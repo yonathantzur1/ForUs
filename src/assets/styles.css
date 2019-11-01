@@ -44,6 +44,7 @@ a, a:hover, a:focus {
     --microtext-color: #e53935;
     --main-font: Rubik;
     --navbar-height: 42px;
+    --navbar-animation-delay: 0.32s;
 }
 
 body {

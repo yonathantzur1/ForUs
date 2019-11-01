@@ -1,0 +1,120 @@
+.navbar {
+    width: 100%;
+    height: var(--navbar-height);
+    background-color: #0375d8;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 1000;
+    padding: 0 10px 0 10px;
+    cursor: default;
+    user-select: none;
+    box-shadow: none;
+}
+
+.navbar-under {
+    z-index: -1 !important;
+}
+
+.navbar-right-container {
+    position: relative;
+    padding-right: 0;
+    padding-left: 0;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.head-container {
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.head-icon {    
+    width: 35px;
+    height: 35px;
+}
+
+.head-title {
+    font-family: Mona Shark;
+    color: #dff3ff;
+    font-size: 26px;    
+    margin-left: 10px;
+    margin-right: 2px;
+    margin-top: 3px; 
+}
+
+.search-sector {
+    position: relative;
+    z-index: 1;
+    padding-right: 5px;
+    align-self: center;
+}
+
+.navbar-left-container {
+    height: 100%;
+    left: 0;
+}
+
+.manage-sector {    
+    white-space: nowrap;
+    max-width: 100%;
+    width: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    color: whitesmoke;
+    height: 100%;
+    display: flex;
+}
+
+.menu-icon {
+    font-size: 20px;
+    left: 0;
+    cursor: pointer;
+    align-self: center;
+    position: absolute;
+}
+
+.menu-icon:hover {
+    color: var(--main-background-color);
+}
+
+.name {
+    font-size: 14px;    
+    display: inline-block;
+    max-width: 78%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    left: 18px;
+    position: absolute;
+    padding-left: 5px;
+    cursor: pointer;
+    align-self: center;
+}
+
+.top-navbar-user-image {
+    width: 30px;
+    height: 30px;
+    margin-left: 3px;
+    display: inline-block;
+}
+
+.menu-top-arrow {
+    position: absolute;
+    color: #fefff4;
+    left: -1px;
+    font-size: 20px;
+    top: calc(var(--navbar-height) - 13px);
+    z-index: 1;
+}
+
+.drop-menu-position {
+    position: fixed;
+    left: 5px;
+    top: var(--navbar-height);
+    padding: 0;
+}
