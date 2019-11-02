@@ -85,6 +85,7 @@ import { ImageService } from 'src/app/services/global/image.service';
     ForgotComponent,
     NavbarComponent,
     TopNavbarComponent,
+    SideNavbarComponent,
     MainSearchComponent,
     DropMenuComponent,
     ProfilePictureEditComponent,
