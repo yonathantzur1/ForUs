@@ -21,6 +21,7 @@ export class ProfilePictureComponent implements OnInit, OnDestroy {
         let self = this;
 
         //#region events
+
         self.eventService.Register("newUploadedImage", (img: string) => {
             self.imageService.userProfileImage = img;
         }, self.eventsIds);
@@ -32,6 +33,7 @@ export class ProfilePictureComponent implements OnInit, OnDestroy {
         self.eventService.Register("openProfileEditWindow", () => {
             self.OpenEditWindow();
         }, self.eventsIds);
+        
         //#endregion
     }
 

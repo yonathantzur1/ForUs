@@ -34,6 +34,8 @@ export class TopNavbarComponent implements OnInit, OnDestroy {
 
         let self = this;
 
+        //#region events
+
         eventService.Register("setNavbarUnder", () => {
             self.isNavbarUnder = true;
         }, self.eventsIds);
@@ -41,6 +43,8 @@ export class TopNavbarComponent implements OnInit, OnDestroy {
         eventService.Register("setNavbarTop", () => {
             self.isNavbarUnder = false;
         }, self.eventsIds);
+
+        //#endregion
     }
 
     ngOnInit() {

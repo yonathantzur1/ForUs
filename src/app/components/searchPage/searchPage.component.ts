@@ -40,6 +40,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         let self = this;
 
         //#region events
+        
         eventService.Register("ignoreFriendRequest", (userId: string) => {
             self.UnsetUserFriendStatus(userId, "isSendFriendRequest");
         }, self.eventsIds);
@@ -51,6 +52,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         eventService.Register("removeFriendRequest", (userId: string) => {
             self.UnsetUserFriendStatus(userId, "isGetFriendRequest");
         }, self.eventsIds);
+
         //#endregion
     }
 

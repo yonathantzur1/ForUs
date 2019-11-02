@@ -135,6 +135,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         let self = this;
 
         //#region events
+        
         eventService.Register("showProfileEditWindow", (isShow: boolean) => {
             isShow && this.ClosePopups();
             self.isOpenProfileEditWindow = isShow;
@@ -156,7 +157,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
             self.OpenChat(friend);
         }, self.eventsIds);
 
-        //#region friend requests functions
         eventService.Register("addFriendRequest", (friendId: string) => {
             self.AddFriendRequest(friendId);
         }, self.eventsIds);
@@ -172,19 +172,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
         eventService.Register("ignoreFriendRequest", (friendId: string) => {
             self.IgnoreFriendRequest(friendId);
         }, self.eventsIds);
-        //#endregion
+
         //#endregion
 
         self.toolbarItems = [
-            new ToolbarItem(TOOLBAR_ID.MESSAGES, "far fa-comment-dots", "הודעות", {},
+            new ToolbarItem(TOOLBAR_ID.MESSAGES, "far fa-comment-dots", "הודעות",
+                {},
                 function () {
-                    let counter = 0;
-
-                    Object.keys(this.content).forEach(id => {
-                        counter += this.content[id].unreadMessagesNumber;
-                    })
-
-                    return counter;
+                    return Object.keys(this.content).reduce((acc, id) => {
+                        return acc + this.content[id].unreadMessagesNumber;
+                    }, 0);
                 },
                 function () {
                     return (this.getNotificationsNumber() > 0);
@@ -197,7 +194,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
                     get: [],
                     send: [],
                     accept: []
-                }, function () {
+                },
+                function () {
                     return this.content.get.length + this.content.accept.length;
                 },
                 function () {
@@ -420,11 +418,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     // Return item object from toolbar items array by its id.
     GetToolbarItem(id: TOOLBAR_ID): any {
-        for (let i = 0; i < this.toolbarItems.length; i++) {
-            if (this.toolbarItems[i].id == id) {
-                return this.toolbarItems[i];
-            }
-        }
+        return this.toolbarItems.find(item => {
+            return (item.id == id);
+        });
     }
 
     ShowMessageNotification(name: string, text: string, isImage: boolean, friendId: string) {
@@ -449,23 +445,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     GetFriendNameById(id: string): string {
-        for (let i = 0; i < this.friends.length; i++) {
-            if (this.friends[i]._id == id) {
-                return (this.friends[i].firstName + " " + this.friends[i].lastName);
-            }
-        }
+        let friend: Friend = this.GetFriendById(id);
 
-        return null;
+        return friend ? (friend.firstName + " " + friend.lastName) : null;
     }
 
     GetFriendById(id: string): Friend {
-        for (let i = 0; i < this.friends.length; i++) {
-            if (this.friends[i]._id == id) {
-                return this.friends[i];
-            }
-        }
-
-        return null;
+        return this.friends.find(friend => {
+            return (friend._id == id);
+        });
     }
 
     MessageNotificationClicked() {

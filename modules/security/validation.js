@@ -72,6 +72,7 @@ function buildSchemaPathString(schemaPath) {
 let validateSchemaObj = {};
 
 //#region get
+
 validateSchemaObj[REST.GET] = {
     "api": {
         "forgotPassword": {
@@ -86,9 +87,11 @@ validateSchemaObj[REST.GET] = {
         }
     }
 };
+
 //#endregion
 
 //#region post
+
 validateSchemaObj[REST.POST] = {
     "api": {
         "login": {
@@ -114,9 +117,11 @@ validateSchemaObj[REST.POST] = {
         }
     }
 };
+
 //#endregion
 
 //#region put
+
 validateSchemaObj[REST.PUT] = {
     "api": {
         "forgotPassword": {
@@ -162,10 +167,13 @@ validateSchemaObj[REST.PUT] = {
         }
     }
 };
+
 //#endregion
 
 //#region delete
+
 validateSchemaObj[REST.DELETE] = {
 
 };
+
 //#endregion

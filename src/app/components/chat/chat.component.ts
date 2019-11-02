@@ -49,20 +49,25 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     topIcons: Array<TopIcon>;
 
     //#region unread messages line sector properties
+
     isAllowShowUnreadLine: boolean;
     unreadMessagesNumber: number;
+
     //#endregion
 
     //#region chat notification properties
+
     isShowMessageNotification: boolean;
     isSelfMessageNotification: boolean;
     messageNotificationText: string;
     messageNotificationFriendObj: any;
     messageNotificationDelay: number = 3800; // milliseconds
     messageNotificationInterval: any;
+
     //#endregion
 
     //#region cavas sector properties
+
     isCanvasInitialize: boolean;
     canvas: any;
     ctx: any;
@@ -78,6 +83,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     undoArray: Array<string>;
     canvasEvents: any;
     CanvasResizeFunc: any;
+
     //#endregion
 
     eventsIds: Array<string> = [];
@@ -92,6 +98,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         let self = this;
 
         //#region events
+        
         eventService.Register("setChatData", (chatData: any) => {
             self.chatData = chatData;
             self.InitializeChat();
@@ -104,6 +111,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         eventService.Register("closeChat", () => {
             self.CloseChat();
         }, self.eventsIds);
+
         //#endregion
 
         self.topIcons = [
