@@ -1,9 +1,8 @@
 <div id="navbar">
     <div class="sidenav-overlay"
         [ngClass]="{'overlay-background' : isSidenavOpen, 'sidenav-overlay-top' : (isChatsWindowOpen || isFriendRequestsWindowOpen)}"
-        *ngIf="isSidenavOpen || isDropMenuOpen" (click)="OverlayClicked()"></div>
-    <topNavbar [user]="user" [Logout]="Logout.bind(this)" [(isDropMenuOpen)]="isDropMenuOpen"
-        [ClosePopups]="ClosePopups.bind(this)" [CloseChatWindow]="CloseChatWindow.bind(this)">
+        *ngIf="isSidenavOpen || isShowDropMenu" (click)="OverlayClicked()"></div>
+    <topNavbar [user]="user" [(isShowDropMenu)]="isShowDropMenu">
         <mainSearch></mainSearch>
     </topNavbar>
     <div id="sidenav" class="sidenav" [ngClass]="{'sidenav-shadow' : isSidenavOpen}">

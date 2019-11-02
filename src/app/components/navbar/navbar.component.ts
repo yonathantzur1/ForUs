@@ -94,7 +94,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     isFriendRequestsWindowOpen: boolean = false;
     isSidenavOpen: boolean = false;
     isHideNotificationsBudget: boolean = false;
-    isDropMenuOpen: boolean;
+    isShowDropMenu: boolean;
     checkSocketConnectInterval: any;
     checkOnlineFriendsInterval: any;
 
@@ -520,7 +520,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     HideDropMenu() {
-        this.isDropMenuOpen = false;
+        this.isShowDropMenu = false;
     }
 
     ClosePopups() {

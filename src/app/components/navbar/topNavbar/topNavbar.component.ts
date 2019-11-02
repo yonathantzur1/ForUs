@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Host, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { PermissionsService } from '../../../services/global/permissions.service';
 import { EventService } from '../../../services/global/event.service';
 import { SnackbarService } from '../../../services/global/snackbar.service';
 import { DropMenuData } from '../../dropMenu/dropMenu.component';
+import { NavbarComponent } from '../navbar.component';
 
 declare let $: any;
 
@@ -17,11 +18,8 @@ declare let $: any;
 
 export class TopNavbarComponent implements OnInit, OnDestroy {
     @Input() user: any;
-    @Input() Logout: Function;
-    @Input() ClosePopups: Function;
-    @Input() CloseChatWindow: Function;
-    @Input() isDropMenuOpen: boolean;
-    @Output() isDropMenuOpenChange = new EventEmitter();
+    @Input() isShowDropMenu: boolean;
+    @Output() isShowDropMenuChange = new EventEmitter();
 
     isNavbarUnder: boolean = false;
     dropMenuDataList: Array<DropMenuData>;
@@ -31,7 +29,8 @@ export class TopNavbarComponent implements OnInit, OnDestroy {
     constructor(private router: Router,
         private permissionsService: PermissionsService,
         private eventService: EventService,
-        public snackbarService: SnackbarService) {
+        public snackbarService: SnackbarService,
+        @Host() public parent: NavbarComponent) {
 
         let self = this;
 
@@ -54,7 +53,7 @@ export class TopNavbarComponent implements OnInit, OnDestroy {
             new DropMenuData("/profile/" + self.user._id, "פרופיל"),
             new DropMenuData("/login", "התנתקות", () => {
                 self.snackbarService.HideSnackbar();
-                self.Logout();
+                self.parent.Logout();
             })
         ];
     }
@@ -64,21 +63,21 @@ export class TopNavbarComponent implements OnInit, OnDestroy {
     }
 
     NavigateMain() {
-        this.ClosePopups();
-        this.CloseChatWindow();
+        this.parent.ClosePopups();
+        this.parent.CloseChatWindow();
         this.eventService.Emit("changeSearchInput", '');
         this.router.navigateByUrl('');
     }
 
-    IsShowHeadTitle() {
+    IsShowMainTitle() {
         return ($(window).width() > 576);
     }
 
     ShowHideDropMenu() {
-        this.isDropMenuOpen = !this.isDropMenuOpen;
-        this.isDropMenuOpenChange.emit(this.isDropMenuOpen);
+        let isShowDropMenu = !this.isShowDropMenu;
+        this.isShowDropMenuChange.emit(isShowDropMenu);
 
-        if (this.isDropMenuOpen) {
+        if (isShowDropMenu) {
             this.eventService.Emit("hideSidenav");
             this.eventService.Emit("hideSearchResults");
         }
