@@ -2,7 +2,7 @@ import { Component, Host, OnInit, OnDestroy, Input, Output, EventEmitter } from 
 import { Router } from '@angular/router';
 
 import { PermissionsService } from '../../../services/global/permissions.service';
-import { EventService } from '../../../services/global/event.service';
+import { EventService, EVENT_TYPE } from '../../../services/global/event.service';
 import { SnackbarService } from '../../../services/global/snackbar.service';
 import { DropMenuData } from '../../dropMenu/dropMenu.component';
 import { NavbarComponent } from '../navbar.component';
@@ -36,11 +36,11 @@ export class TopNavbarComponent implements OnInit, OnDestroy {
 
         //#region events
 
-        eventService.Register("setNavbarUnder", () => {
+        eventService.Register(EVENT_TYPE.setNavbarUnder, () => {
             self.isNavbarUnder = true;
         }, self.eventsIds);
 
-        eventService.Register("setNavbarTop", () => {
+        eventService.Register(EVENT_TYPE.setNavbarTop, () => {
             self.isNavbarUnder = false;
         }, self.eventsIds);
 
@@ -69,7 +69,7 @@ export class TopNavbarComponent implements OnInit, OnDestroy {
     NavigateMain() {
         this.parent.ClosePopups();
         this.parent.CloseChatWindow();
-        this.eventService.Emit("changeSearchInput", '');
+        this.eventService.Emit(EVENT_TYPE.changeSearchInput, '');
         this.router.navigateByUrl('');
     }
 
@@ -82,8 +82,8 @@ export class TopNavbarComponent implements OnInit, OnDestroy {
         this.isShowDropMenuChange.emit(isShowDropMenu);
 
         if (isShowDropMenu) {
-            this.eventService.Emit("hideSidenav");
-            this.eventService.Emit("hideSearchResults");
+            this.eventService.Emit(EVENT_TYPE.hideSidenav);
+            this.eventService.Emit(EVENT_TYPE.hideSearchResults);
         }
     }
 }

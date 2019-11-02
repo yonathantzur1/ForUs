@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy, Input, AfterViewChecked } from '@angular/
 import { ChatService } from '../../services/chat.service';
 import { SocketService } from '../../services/global/socket.service';
 import { DateService } from '../../services/global/date.service';
-import { EventService } from '../../services/global/event.service';
+import { EventService, EVENT_TYPE } from '../../services/global/event.service';
 import { SnackbarService } from '../../services/global/snackbar.service';
 import { ImageService } from 'src/app/services/global/image.service';
 
@@ -98,17 +98,17 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         let self = this;
 
         //#region events
-        
-        eventService.Register("setChatData", (chatData: any) => {
+
+        eventService.Register(EVENT_TYPE.setChatData, (chatData: any) => {
             self.chatData = chatData;
             self.InitializeChat();
         }, self.eventsIds);
 
-        eventService.Register("moveToChatWindow", () => {
+        eventService.Register(EVENT_TYPE.moveToChatWindow, () => {
             self.SelectTopIcon(self.GetTopIconById("chat"));
         }, self.eventsIds);
 
-        eventService.Register("closeChat", () => {
+        eventService.Register(EVENT_TYPE.closeChat, () => {
             self.CloseChat();
         }, self.eventsIds);
 
@@ -721,7 +721,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     MoveToFriendPage(friendObj: any) {
-        this.eventService.Emit("openUserProfile", friendObj);
+        this.eventService.Emit(EVENT_TYPE.openUserProfile, friendObj);
     }
 
     PreventZoom(e: any) {

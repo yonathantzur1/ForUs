@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { EventService } from '../../services/global/event.service';
+import { EventService, EVENT_TYPE } from '../../services/global/event.service';
 
 export class DropMenuData {
     link: string;
@@ -33,7 +33,7 @@ export class DropMenuComponent {
         action && action(link);
         link && this.router.navigateByUrl(link);
 
-        this.eventService.Emit("closeDropMenu", true);
-        this.eventService.Emit("openNewWindow", true);
+        this.eventService.Emit(EVENT_TYPE.closeDropMenu, true);
+        this.eventService.Emit(EVENT_TYPE.openNewWindow, true);
     }
 }

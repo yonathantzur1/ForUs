@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 
 import { ImageService } from 'src/app/services/global/image.service';
-import { EventService } from '../../../services/global/event.service';
+import { EventService, EVENT_TYPE } from '../../../services/global/event.service';
 import { AlertService, ALERT_TYPE } from '../../../services/global/alert.service';
 import { SnackbarService } from '../../../services/global/snackbar.service';
 import { ProfilePictureService } from '../../../services/profilePicture.service';
@@ -184,7 +184,7 @@ export class ProfilePictureEditComponent implements OnInit {
     CloseWindow() {
         $("#profile-modal").removeClass("fade");
         $("#profile-modal").modal("hide");
-        this.eventService.Emit("showProfileEditWindow", false);
+        this.eventService.Emit(EVENT_TYPE.showProfileEditWindow, false);
     }
 
     ChangeImage() {
@@ -232,7 +232,7 @@ export class ProfilePictureEditComponent implements OnInit {
                         $("#profile-modal").removeClass("fade");
                         $("#profile-modal").modal("hide");
 
-                        self.eventService.Emit("newUploadedImage", imgBase64);
+                        self.eventService.Emit(EVENT_TYPE.newUploadedImage, imgBase64);
 
                         self.alertService.Alert({
                             title: "התמונה הוחלפה בהצלחה",
@@ -266,7 +266,7 @@ export class ProfilePictureEditComponent implements OnInit {
                 return self.profilePictureService.DeleteImage();
             },
             confirmFunc: function () {
-                self.eventService.Emit("deleteProfileImage", true);
+                self.eventService.Emit(EVENT_TYPE.deleteProfileImage, true);
                 self.CloseWindow();
             },
             closeFunc: function () {

@@ -5,7 +5,7 @@ import { AlertService, ALERT_TYPE } from '../../services/global/alert.service';
 import { GlobalService } from '../../services/global/global.service';
 import { ImageService } from 'src/app/services/global/image.service';
 import { SocketService } from '../../services/global/socket.service';
-import { EventService } from '../../services/global/event.service';
+import { EventService, EVENT_TYPE } from '../../services/global/event.service';
 import { SearchPageService } from '../../services/searchPage.service';
 
 class FriendsStatus {
@@ -40,16 +40,16 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         let self = this;
 
         //#region events
-        
-        eventService.Register("ignoreFriendRequest", (userId: string) => {
+
+        eventService.Register(EVENT_TYPE.ignoreFriendRequest, (userId: string) => {
             self.UnsetUserFriendStatus(userId, "isSendFriendRequest");
         }, self.eventsIds);
 
-        eventService.Register("sendFriendRequest", (userId: string) => {
+        eventService.Register(EVENT_TYPE.sendFriendRequest, (userId: string) => {
             self.SetUserFriendStatus(userId, "isGetFriendRequest");
         }, self.eventsIds);
 
-        eventService.Register("removeFriendRequest", (userId: string) => {
+        eventService.Register(EVENT_TYPE.removeFriendRequest, (userId: string) => {
             self.UnsetUserFriendStatus(userId, "isGetFriendRequest");
         }, self.eventsIds);
 
@@ -67,7 +67,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         // In case of route params changes.
         this.route.params.subscribe(params => {
             this.searchString = params["name"];
-            this.eventService.Emit("changeSearchInput", this.searchString);
+            this.eventService.Emit(EVENT_TYPE.changeSearchInput, this.searchString);
 
             // In case the search string is empty.
             if (!this.searchString) {
@@ -210,12 +210,12 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     }
 
     AddFriendRequest(user: any) {
-        this.eventService.Emit("addFriendRequest", user._id);
+        this.eventService.Emit(EVENT_TYPE.addFriendRequest, user._id);
         user.isGetFriendRequest = true;
     }
 
     RemoveFriendRequest(user: any) {
-        this.eventService.Emit("removeFriendRequest", user._id);
+        this.eventService.Emit(EVENT_TYPE.removeFriendRequest, user._id);
         user.isGetFriendRequest = false;
     }
 

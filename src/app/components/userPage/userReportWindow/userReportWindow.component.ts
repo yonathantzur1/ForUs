@@ -2,7 +2,7 @@ import { Component, Input, OnInit, HostListener } from '@angular/core';
 
 import { UserReportWindowService } from '../../../services/userPage/userReportWindow.service';
 import { AlertService, ALERT_TYPE } from '../../../services/global/alert.service';
-import { EventService } from '../../../services/global/event.service';
+import { EventService, EVENT_TYPE } from '../../../services/global/event.service';
 
 class ReportReason {
     _id: string;
@@ -52,7 +52,7 @@ export class UserReportWindowComponent implements OnInit {
     }
 
     CloseWindow() {
-        this.eventService.Emit("closeUserReportWindow");
+        this.eventService.Emit(EVENT_TYPE.closeUserReportWindow);
     }
 
     InitializeReasonButtons() {

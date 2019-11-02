@@ -6,7 +6,7 @@ import { ManagementService } from '../../../services/managementPanel/management/
 import { GlobalService } from '../../../services/global/global.service';
 import { PermissionsService } from '../../../services/global/permissions.service';
 import { SocketService } from '../../../services/global/socket.service';
-import { EventService } from '../../../services/global/event.service';
+import { EventService, EVENT_TYPE } from '../../../services/global/event.service';
 import { AlertService, ALERT_TYPE } from '../../../services/global/alert.service';
 import { SnackbarService } from '../../../services/global/snackbar.service';
 
@@ -49,10 +49,10 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
         //#region events
 
-        eventService.Register("closeDropMenu", () => {
+        eventService.Register(EVENT_TYPE.closeDropMenu, () => {
             self.CloseAllUsersMenu();
         }, self.eventsIds);
-        
+
         //#endregion
 
         self.dropMenuDataList = [
@@ -102,7 +102,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                 }
             }),
             new DropMenuData(null, "הרשאות", () => {
-                self.eventService.Emit("openPermissionsCard", self.GetUserWithOpenMenu());
+                self.eventService.Emit(EVENT_TYPE.openPermissionsCard, self.GetUserWithOpenMenu());
             }, () => {
                 return (self.permissionsService.IsUserHasMasterPermission());
             }),

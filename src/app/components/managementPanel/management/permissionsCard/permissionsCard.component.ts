@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 
 import { PermissionsCardService } from '../../../../services/managementPanel/management/permissionsCard.service';
-import { EventService } from '../../../../services/global/event.service';
+import { EventService, EVENT_TYPE } from '../../../../services/global/event.service';
 import { SnackbarService } from '../../../../services/global/snackbar.service';
 
 declare let $: any;
@@ -27,8 +27,8 @@ export class PermissionsCardComponent implements OnDestroy {
         let self = this;
 
         //#region events
-        
-        eventService.Register("openPermissionsCard", (user: any) => {
+
+        eventService.Register(EVENT_TYPE.openPermissionsCard, (user: any) => {
             self.user = user;
 
             self.isLoading = true;

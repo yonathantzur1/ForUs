@@ -12,15 +12,9 @@ class Event {
 
 @Injectable()
 export class EventService {
-    private events: Object;
-    private emitQueue: Array<string>;
+    private events: Object = {};
 
-    constructor() {
-        this.events = {};
-        this.emitQueue = [];
-    }
-
-    Register(name: string, func: Function, eventsIds?: Array<string>) {
+    Register(name: EVENT_TYPE, func: Function, eventsIds?: Array<string>) {
         let id: string = this.GenerateId();
         let event: Event = new Event(id, func);
 
@@ -34,7 +28,7 @@ export class EventService {
         eventsIds && eventsIds.push(id);
     }
 
-    Emit(name: string, data?: any) {
+    Emit(name: EVENT_TYPE, data?: any) {
         let self = this;
 
         // Emit the event after view rendering.
@@ -68,3 +62,12 @@ export class EventService {
         }).toLowerCase();
     }
 }
+
+export enum EVENT_TYPE {
+    showProfileEditWindow, hideSidenav, closeDropMenu, openNewWindow, openChat,
+    addFriendRequest, removeFriendRequest, openPermissionsCard, closeChat, moveToChatWindow,
+    addFriend, ignoreFriendRequest, setChatData, setNewFriendsLabelVisability, openUserProfile,
+    hideSearchResults, changeSearchInput, setNavbarUnder, setNavbarTop, openProfileEditWindow,
+    sendFriendRequest, newUploadedImage, deleteProfileImage, removeUserFromNavbarSearchCache,
+    closeUserEditWindow, closeUserReportWindow, closeUserPasswordWindow, closeUserPrivacyWindow
+};

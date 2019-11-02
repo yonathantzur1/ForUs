@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 
 import { AlertService, ALERT_TYPE } from '../../../services/global/alert.service';
-import { EventService } from '../../../services/global/event.service';
+import { EventService, EVENT_TYPE } from '../../../services/global/event.service';
 import { UserPrivacyWindowService } from '../../../services/userPage/userPrivacyWindow.service';
 import { SnackbarService } from '../../../services/global/snackbar.service';
 
@@ -46,7 +46,7 @@ export class UserPrivacyWindowComponent implements OnInit {
     }
 
     CloseWindow() {
-        this.eventService.Emit("closeUserPrivacyWindow");
+        this.eventService.Emit(EVENT_TYPE.closeUserPrivacyWindow);
     }
 
     ChangePrivacyStatus() {

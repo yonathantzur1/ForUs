@@ -2,7 +2,7 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/cor
 
 import { ImageService } from 'src/app/services/global/image.service';
 import { SocketService } from '../../../services/global/socket.service';
-import { EventService } from '../../../services/global/event.service';
+import { EventService, EVENT_TYPE } from '../../../services/global/event.service';
 import { NavbarService } from '../../../services/navbar.service';
 
 import { Router } from '@angular/router';
@@ -166,7 +166,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
             return (friendRequest._id != friendId);
         });
 
-        this.eventService.Emit("RemoveUserFromNavbarSearchCache", friendId)
+        this.eventService.Emit(EVENT_TYPE.removeUserFromNavbarSearchCache, friendId)
     }
 
     RemoveFriendConfirmById(friendId: string) {
@@ -177,6 +177,6 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
 
     OpenUserPage(friendId: string) {
         this.router.navigateByUrl("/profile/" + friendId);
-        this.eventService.Emit("hideSidenav", true);
+        this.eventService.Emit(EVENT_TYPE.hideSidenav, true);
     }
 }

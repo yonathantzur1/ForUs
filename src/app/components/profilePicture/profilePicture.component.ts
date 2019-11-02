@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 
-import { EventService } from '../../services/global/event.service';
+import { EventService, EVENT_TYPE } from '../../services/global/event.service';
 import { ImageService } from 'src/app/services/global/image.service';
 
 @Component({
@@ -22,18 +22,18 @@ export class ProfilePictureComponent implements OnInit, OnDestroy {
 
         //#region events
 
-        self.eventService.Register("newUploadedImage", (img: string) => {
+        self.eventService.Register(EVENT_TYPE.newUploadedImage, (img: string) => {
             self.imageService.userProfileImage = img;
         }, self.eventsIds);
 
-        self.eventService.Register("deleteProfileImage", () => {
+        self.eventService.Register(EVENT_TYPE.deleteProfileImage, () => {
             self.imageService.DeleteUserProfileImage();
         }, self.eventsIds);
 
-        self.eventService.Register("openProfileEditWindow", () => {
+        self.eventService.Register(EVENT_TYPE.openProfileEditWindow, () => {
             self.OpenEditWindow();
         }, self.eventsIds);
-        
+
         //#endregion
     }
 
@@ -43,7 +43,7 @@ export class ProfilePictureComponent implements OnInit, OnDestroy {
 
     OpenEditWindow() {
         if (this.isEditEnable) {
-            this.eventService.Emit("showProfileEditWindow", true);
+            this.eventService.Emit(EVENT_TYPE.showProfileEditWindow, true);
         }
     }
 

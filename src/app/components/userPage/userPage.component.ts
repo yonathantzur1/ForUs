@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GlobalService } from '../../services/global/global.service';
 import { ImageService } from 'src/app/services/global/image.service';
 import { SocketService } from '../../services/global/socket.service';
-import { EventService } from '../../services/global/event.service';
+import { EventService, EVENT_TYPE } from '../../services/global/event.service';
 import { AlertService, ALERT_TYPE } from '../../services/global/alert.service';
 import { UserPageService } from '../../services/userPage/userPage.service';
 import { SnackbarService } from '../../services/global/snackbar.service';
@@ -40,37 +40,37 @@ export class UserPageComponent implements OnInit, OnDestroy {
         let self = this;
 
         //#region events
-        
-        eventService.Register("newUploadedImage", (img: string) => {
+
+        eventService.Register(EVENT_TYPE.newUploadedImage, (img: string) => {
             self.user.profileImage = self.user.profileImage || null;
             self.user.profileImage = img;
         }, self.eventsIds);
 
-        eventService.Register("deleteProfileImage", () => {
+        eventService.Register(EVENT_TYPE.deleteProfileImage, () => {
             self.user.profileImage = null;
         }, self.eventsIds);
 
-        eventService.Register("closeUserEditWindow", () => {
+        eventService.Register(EVENT_TYPE.closeUserEditWindow, () => {
             self.isShowUserEditWindow = false;
-            self.eventService.Emit("setNavbarTop", true);
+            self.eventService.Emit(EVENT_TYPE.setNavbarTop, true);
         }, self.eventsIds);
 
-        eventService.Register("closeUserReportWindow", () => {
+        eventService.Register(EVENT_TYPE.closeUserReportWindow, () => {
             self.isShowUserReportWindow = false;
-            self.eventService.Emit("setNavbarTop", true);
+            self.eventService.Emit(EVENT_TYPE.setNavbarTop, true);
         }, self.eventsIds);
 
-        eventService.Register("closeUserPasswordWindow", () => {
+        eventService.Register(EVENT_TYPE.closeUserPasswordWindow, () => {
             self.isShowUserPasswordWindow = false;
-            self.eventService.Emit("setNavbarTop", true);
+            self.eventService.Emit(EVENT_TYPE.setNavbarTop, true);
         }, self.eventsIds);
 
-        eventService.Register("closeUserPrivacyWindow", () => {
+        eventService.Register(EVENT_TYPE.closeUserPrivacyWindow, () => {
             self.isShowUserPrivacyWindow = false;
-            self.eventService.Emit("setNavbarTop", true);
+            self.eventService.Emit(EVENT_TYPE.setNavbarTop, true);
         }, self.eventsIds);
 
-        eventService.Register("ignoreFriendRequest", (userId: string) => {
+        eventService.Register(EVENT_TYPE.ignoreFriendRequest, (userId: string) => {
             (userId == self.user._id) && self.UnsetUserFriendStatus("isSendFriendRequest");
         }, self.eventsIds);
 
@@ -151,7 +151,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                 },
                 onClick: function () {
                     self.SetUserFriendStatus("isGetFriendRequest");
-                    self.eventService.Emit("addFriendRequest", self.user._id);
+                    self.eventService.Emit(EVENT_TYPE.addFriendRequest, self.user._id);
                 }
             },
             {
@@ -167,14 +167,14 @@ export class UserPageComponent implements OnInit, OnDestroy {
                         text: "אישור חברות",
                         action: function () {
                             self.SetUserFriendStatus("isFriend");
-                            self.eventService.Emit("addFriend", self.user._id);
+                            self.eventService.Emit(EVENT_TYPE.addFriend, self.user._id);
                         }
                     },
                     {
                         text: "דחיית חברות",
                         action: function () {
                             self.UnsetUserFriendStatus("isSendFriendRequest");
-                            self.eventService.Emit("ignoreFriendRequest", self.user._id);
+                            self.eventService.Emit(EVENT_TYPE.ignoreFriendRequest, self.user._id);
                         }
                     }
                 ]
@@ -189,7 +189,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                 },
                 onClick: function () {
                     self.UnsetUserFriendStatus("isGetFriendRequest");
-                    self.eventService.Emit("removeFriendRequest", self.user._id);
+                    self.eventService.Emit(EVENT_TYPE.removeFriendRequest, self.user._id);
                 }
             },
             {
@@ -201,7 +201,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                     return self.user.isFriend;
                 },
                 onClick: function () {
-                    self.eventService.Emit("openChat", self.user);
+                    self.eventService.Emit(EVENT_TYPE.openChat, self.user);
                 }
             },
             {
@@ -276,7 +276,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
             this.user = null;
 
             // Close chat window in case it is open.
-            this.eventService.Emit("closeChat", true);
+            this.eventService.Emit(EVENT_TYPE.closeChat, true);
 
             // Get user details by user id route parameter.
             this.userPageService.GetUserDetails(params["id"]).then((user: any) => {
@@ -345,8 +345,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
     }
 
     OpenUserWindow(windowShowPropertyName: string) {
-        this.eventService.Emit("setNavbarUnder", true);
-        this.eventService.Emit("closeChat", true);
+        this.eventService.Emit(EVENT_TYPE.setNavbarUnder, true);
+        this.eventService.Emit(EVENT_TYPE.closeChat, true);
         this[windowShowPropertyName] = true;
     }
 
@@ -372,7 +372,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
     InitializePage(user: any) {
         this.CloseAllTabsOptionsMenus();
-        this.eventService.Emit("changeSearchInput", user.firstName + " " + user.lastName);
+        this.eventService.Emit(EVENT_TYPE.changeSearchInput, user.firstName + " " + user.lastName);
         this.user = user;
     }
 
@@ -410,7 +410,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
         this.CloseAllTabsOptionsMenus();
 
         if (this.IsUserPageSelf()) {
-            this.eventService.Emit("openProfileEditWindow", true);
+            this.eventService.Emit(EVENT_TYPE.openProfileEditWindow, true);
         }
     }
 

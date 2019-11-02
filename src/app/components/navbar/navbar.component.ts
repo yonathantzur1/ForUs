@@ -4,16 +4,14 @@ import { Router } from '@angular/router';
 import { GlobalService } from '../../services/global/global.service';
 import { ImageService } from '../../services/global/image.service';
 import { SocketService } from '../../services/global/socket.service';
-import { PermissionsService } from '../../services/global/permissions.service';
 import { CookieService } from '../../services/global/cookie.service';
-import { EventService } from '../../services/global/event.service';
+import { EventService, EVENT_TYPE } from '../../services/global/event.service';
 import { AlertService, ALERT_TYPE } from '../../services/global/alert.service';
 import { SnackbarService } from '../../services/global/snackbar.service';
 import { AuthService } from '../../services/global/auth.service';
 import { NavbarService } from '../../services/navbar.service';
 import { LoginService } from '../../services/welcome/login.service';
 import { SOCKET_STATE } from '../../enums/enums';
-import { DropMenuData } from '../dropMenu/dropMenu.component';
 
 class Friend {
     _id: string;
@@ -124,7 +122,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
         private globalService: GlobalService,
         public imageService: ImageService,
         private socketService: SocketService,
-        private permissionsService: PermissionsService,
         private cookieService: CookieService,
         private eventService: EventService,
         public alertService: AlertService,
@@ -135,41 +132,41 @@ export class NavbarComponent implements OnInit, OnDestroy {
         let self = this;
 
         //#region events
-        
-        eventService.Register("showProfileEditWindow", (isShow: boolean) => {
+
+        eventService.Register(EVENT_TYPE.showProfileEditWindow, (isShow: boolean) => {
             isShow && this.ClosePopups();
             self.isOpenProfileEditWindow = isShow;
         }, self.eventsIds);
 
-        eventService.Register("hideSidenav", () => {
+        eventService.Register(EVENT_TYPE.hideSidenav, () => {
             self.HideSidenav();
         }, self.eventsIds);
 
-        eventService.Register("closeDropMenu", () => {
+        eventService.Register(EVENT_TYPE.closeDropMenu, () => {
             this.HideDropMenu();
         }, self.eventsIds);
 
-        eventService.Register("openNewWindow", () => {
+        eventService.Register(EVENT_TYPE.openNewWindow, () => {
             self.OpenNewWindow();
         }, self.eventsIds);
 
-        eventService.Register("openChat", (friend: any) => {
+        eventService.Register(EVENT_TYPE.openChat, (friend: any) => {
             self.OpenChat(friend);
         }, self.eventsIds);
 
-        eventService.Register("addFriendRequest", (friendId: string) => {
+        eventService.Register(EVENT_TYPE.addFriendRequest, (friendId: string) => {
             self.AddFriendRequest(friendId);
         }, self.eventsIds);
 
-        eventService.Register("removeFriendRequest", (friendId: string) => {
+        eventService.Register(EVENT_TYPE.removeFriendRequest, (friendId: string) => {
             self.RemoveFriendRequest(friendId);
         }, self.eventsIds);
 
-        eventService.Register("addFriend", (friendId: string) => {
+        eventService.Register(EVENT_TYPE.addFriend, (friendId: string) => {
             self.AddFriend(friendId);
         }, self.eventsIds);
 
-        eventService.Register("ignoreFriendRequest", (friendId: string) => {
+        eventService.Register(EVENT_TYPE.ignoreFriendRequest, (friendId: string) => {
             self.IgnoreFriendRequest(friendId);
         }, self.eventsIds);
 
@@ -319,7 +316,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         self.socketService.SocketOn('DeleteFriendRequest', (friendId: string) => {
             let friendRequests: any = self.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
             friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
-            self.eventService.Emit("RemoveUserFromNavbarSearchCache", friendId);
+            self.eventService.Emit(EVENT_TYPE.removeUserFromNavbarSearchCache, friendId);
         });
 
         self.socketService.SocketOn('ClientIgnoreFriendRequest', (friendId: string) => {
@@ -490,7 +487,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.isSidenavOpen = true;
             this.isHideNotificationsBudget = true;
             this.HideDropMenu();
-            this.eventService.Emit("hideSearchResults");
+            this.eventService.Emit(EVENT_TYPE.hideSearchResults);
             $("#sidenav").width(this.sidenavWidth);
             $("body").addClass("no-overflow");
         }
@@ -514,7 +511,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     ClosePopups() {
         this.HideSidenav();
         this.HideDropMenu();
-        this.eventService.Emit("hideSearchResults");
+        this.eventService.Emit(EVENT_TYPE.hideSearchResults);
     }
 
     OverlayClicked() {
@@ -595,10 +592,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.chatData.messagesNotifications = messagesNotifications;
             this.chatData.isOpen = true;
 
-            this.eventService.Emit("setChatData", this.chatData);
+            this.eventService.Emit(EVENT_TYPE.setChatData, this.chatData);
         }
         else {
-            this.eventService.Emit("moveToChatWindow", true);
+            this.eventService.Emit(EVENT_TYPE.moveToChatWindow, true);
         }
     }
 
@@ -637,7 +634,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             if (result) {
                 self.socketService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
                 self.socketService.SocketEmit("SendFriendRequest", friendId);
-                self.eventService.Emit("sendFriendRequest", friendId);
+                self.eventService.Emit(EVENT_TYPE.sendFriendRequest, friendId);
                 self.snackbarService.Snackbar("נשלחה בקשת חברות");
             }
         });
@@ -755,7 +752,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     SearchNewFriends() {
-        this.eventService.Emit("changeSearchInput", '');
+        this.eventService.Emit(EVENT_TYPE.changeSearchInput, '');
         $("#" + this.searchInputId).focus();
         clearTimeout(this.showNewFriendsLabelTimeout);
         clearTimeout(this.hideNewFriendsLabelTimeout);
@@ -770,7 +767,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     SetNewFriendsLabelVisability(isVisible: boolean) {
-        this.eventService.Emit("setNewFriendsLabelVisability", isVisible);
+        this.eventService.Emit(EVENT_TYPE.setNewFriendsLabelVisability, isVisible);
     }
 
     CloseChatWindow() {

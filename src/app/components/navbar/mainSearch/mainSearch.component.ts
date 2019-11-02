@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { ImageService } from 'src/app/services/global/image.service';
 import { SocketService } from '../../../services/global/socket.service';
-import { EventService } from '../../../services/global/event.service';
+import { EventService, EVENT_TYPE } from '../../../services/global/event.service';
 import { NavbarService } from '../../../services/navbar.service';
 import { NavbarComponent, TOOLBAR_ID } from '../navbar.component';
 
@@ -40,23 +40,23 @@ export class MainSearchComponent implements OnDestroy {
         private navbarService: NavbarService,
         @Host() public parent: NavbarComponent) {
 
-        this.eventService.Register("hideSearchResults", () => {
+        this.eventService.Register(EVENT_TYPE.hideSearchResults, () => {
             this.isShowSearchResults = false;
         }, this.eventsIds);
 
-        this.eventService.Register("changeSearchInput", (input: string) => {
+        this.eventService.Register(EVENT_TYPE.changeSearchInput, (input: string) => {
             this.searchInput = input;
         }, this.eventsIds);
 
-        this.eventService.Register('RemoveUserFromNavbarSearchCache', (userId: string) => {
+        this.eventService.Register(EVENT_TYPE.removeUserFromNavbarSearchCache, (userId: string) => {
             this.RemoveUserFromNavbarSearchCache(userId);
         }, this.eventsIds);
 
-        eventService.Register("openUserProfile", (user: any) => {
+        eventService.Register(EVENT_TYPE.openUserProfile, (user: any) => {
             this.OpenUserProfile(user);
         }, this.eventsIds);
 
-        eventService.Register("setNewFriendsLabelVisability", (isVisible: boolean) => {
+        eventService.Register(EVENT_TYPE.setNewFriendsLabelVisability, (isVisible: boolean) => {
             this.isShowNewFriendsLabel = isVisible;
         }, this.eventsIds);
 
@@ -321,4 +321,11 @@ export class MainSearchComponent implements OnDestroy {
         this.isShowSearchResults = false;
     }
 
+    AddFriendRequest(userId: string) {
+        this.eventService.Emit(EVENT_TYPE.addFriendRequest, userId)
+    }
+
+    RemoveFriendRequest(userId: string) {
+        this.eventService.Emit(EVENT_TYPE.removeFriendRequest, userId)
+    }
 }
