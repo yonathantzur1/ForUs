@@ -70,5 +70,5 @@ export enum EVENT_TYPE {
     hideSearchResults, changeSearchInput, setNavbarUnder, setNavbarTop, openProfileEditWindow,
     sendFriendRequest, newUploadedImage, deleteProfileImage, removeUserFromNavbarSearchCache,
     closeUserEditWindow, closeUserReportWindow, closeUserPasswordWindow, closeUserPrivacyWindow,
-    showHideChatsWindow, showHideFriendRequestsWindow
+    showHideChatsWindow, showHideFriendRequestsWindow, setUserFriendsLoading
 };

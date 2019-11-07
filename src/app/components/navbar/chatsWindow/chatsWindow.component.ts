@@ -14,6 +14,7 @@ import { DateService } from '../../../services/global/date.service';
 })
 
 export class ChatsWindowComponent implements OnInit {
+    @Input() isChatsWindowOpen: boolean;
     @Input() messagesNotifications: Object;
     @Input() OpenChat: Function;
 

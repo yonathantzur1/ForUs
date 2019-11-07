@@ -20,8 +20,6 @@ export class SideNavbarComponent implements OnInit, OnDestroy {
     @Input() user: any;
     @Input() friends: Array<Friend>;
     @Output() friendsChange = new EventEmitter();
-    @Input() isFriendsLoading: boolean;
-    @Output() isFriendsLoadingChange = new EventEmitter();
     @Input() isShowSidenav: boolean;
     @Output() isShowSidenavChange = new EventEmitter();
     @Input() isHideNotificationsBudget: boolean;
@@ -30,6 +28,7 @@ export class SideNavbarComponent implements OnInit, OnDestroy {
     sidenavWidth: string = "230px";
     searchInputId: string = "search-input";
     TOOLBAR_ID: any = TOOLBAR_ID;
+    isFriendsLoading: boolean = false;
 
     eventsIds: Array<string> = [];
 
@@ -42,6 +41,8 @@ export class SideNavbarComponent implements OnInit, OnDestroy {
 
         let self = this;
 
+        //#region events
+
         eventService.Register(EVENT_TYPE.showHideChatsWindow, () => {
             self.ShowHideChatsWindow();
         }, self.eventsIds);
@@ -49,6 +50,12 @@ export class SideNavbarComponent implements OnInit, OnDestroy {
         eventService.Register(EVENT_TYPE.showHideFriendRequestsWindow, () => {
             self.ShowHideFriendRequestsWindow();
         }, self.eventsIds);
+
+        eventService.Register(EVENT_TYPE.setUserFriendsLoading, (value: boolean) => {
+            self.isFriendsLoading = value;
+        }, self.eventsIds);
+
+        //#endregion
     }
 
     ngOnInit() {
@@ -100,10 +107,10 @@ export class SideNavbarComponent implements OnInit, OnDestroy {
     // Loading full friends objects to friends array.
     LoadFriendsData(friendsIds: Array<string>) {
         if (friendsIds.length > 0) {
-            this.isFriendsLoadingChange.emit(true);
+            this.isFriendsLoading = true;
             this.navbarService.GetFriends(friendsIds).then((friendsResult: Array<Friend>) => {
                 this.friendsChange.emit(friendsResult);
-                this.isFriendsLoadingChange.emit(false);
+                this.isFriendsLoading = false;
                 this.socketService.SocketEmit("ServerGetOnlineFriends");
             });
         }

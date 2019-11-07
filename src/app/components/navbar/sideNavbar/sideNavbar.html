@@ -60,11 +60,10 @@
         </div>
         <i class="open-sidenav-icon fas {{isShowSidenav ? 'fa-chevron-right': 'fa-chevron-left'}}"></i>
     </div>
-    <chatsWindow [hidden]="!parent.isChatsWindowOpen" [OpenChat]="parent.OpenChat.bind(parent)"
+    <chatsWindow [isChatsWindowOpen]="parent.isChatsWindowOpen" [OpenChat]="parent.OpenChat.bind(parent)"
         [messagesNotifications]="parent.GetToolbarItem(TOOLBAR_ID.MESSAGES).content"></chatsWindow>
-    <friendRequestsWindow [hidden]="!parent.isFriendRequestsWindowOpen"
-        [isFriendRequestsWindowOpen]="parent.isFriendRequestsWindowOpen" [AddFriend]="parent.AddFriend.bind(parent)"
-        [IgnoreFriendRequest]="parent.IgnoreFriendRequest.bind(parent)"
+    <friendRequestsWindow [isFriendRequestsWindowOpen]="parent.isFriendRequestsWindowOpen"
+        [AddFriend]="parent.AddFriend.bind(parent)" [IgnoreFriendRequest]="parent.IgnoreFriendRequest.bind(parent)"
         [friendRequests]="parent.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content.get"
         [confirmedReuests]="parent.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content.accept"></friendRequestsWindow>
 </div>

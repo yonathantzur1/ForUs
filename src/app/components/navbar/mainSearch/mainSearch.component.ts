@@ -43,15 +43,15 @@ export class MainSearchComponent implements OnDestroy {
         private navbarService: NavbarService,
         @Host() public parent: NavbarComponent) {
 
-        this.eventService.Register(EVENT_TYPE.hideSearchResults, () => {
+        eventService.Register(EVENT_TYPE.hideSearchResults, () => {
             this.isShowSearchResults = false;
         }, this.eventsIds);
 
-        this.eventService.Register(EVENT_TYPE.changeSearchInput, (input: string) => {
+        eventService.Register(EVENT_TYPE.changeSearchInput, (input: string) => {
             this.searchInput = input;
         }, this.eventsIds);
 
-        this.eventService.Register(EVENT_TYPE.removeUserFromNavbarSearchCache, (userId: string) => {
+        eventService.Register(EVENT_TYPE.removeUserFromNavbarSearchCache, (userId: string) => {
             this.RemoveUserFromNavbarSearchCache(userId);
         }, this.eventsIds);
 

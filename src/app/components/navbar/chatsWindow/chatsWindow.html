@@ -1,4 +1,4 @@
-<div id="chatsWindow">
+<div id="chatsWindow" *ngIf="isChatsWindowOpen">
     <i class="fas fa-caret-up window-top-arrow"></i>
     <div class="chatsWindow-container">
         <div *ngIf="!isLoading" class="top-line">

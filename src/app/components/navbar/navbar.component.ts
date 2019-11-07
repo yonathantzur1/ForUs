@@ -61,7 +61,6 @@ declare let $: any;
 export class NavbarComponent implements OnInit, OnDestroy {
     @Input() user: any;
     friends: Array<Friend> = [];
-    isFriendsLoading: boolean = false;
     chatData: any = { "isOpen": false };
     isOpenProfileEditWindow: boolean;
     isNavbarUnder: boolean = false;
@@ -596,7 +595,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     AddFriend(friendId: string, callback?: Function) {
-        this.isFriendsLoading = true;
+        this.eventService.Emit(EVENT_TYPE.setUserFriendsLoading, true);
 
         // Remove the friend request from all friend requests object.
         let friendRequests: any = this.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
@@ -605,7 +604,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         let self = this;
 
         self.navbarService.AddFriend(friendId).then((friend: any) => {
-            self.isFriendsLoading = false;
+            self.eventService.Emit(EVENT_TYPE.setUserFriendsLoading, false);
 
             if (friend) {
                 self.socketService.RefreshSocket();
