@@ -341,7 +341,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
             this.managementService.EditUser(updatedFields).then((updateResult: any) => {
                 user.isSaveLoader = false;
 
-                updateResult = updateResult.result;
+                updateResult = updateResult ? updateResult.result : null;
 
                 // In case the user info edit succeeded. 
                 if (updateResult == true) {

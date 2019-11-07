@@ -189,9 +189,9 @@ module.exports = {
     async updateUser(editorUserId, updateFields) {
         let userId = DAL.getObjectId(updateFields._id);
 
-        let isUserMaster = await isUserMaster(userId).catch(errorHandler.promiseError);
+        let isUserMasterResult = await isUserMaster(userId).catch(errorHandler.promiseError);
 
-        if (isUserMaster) {
+        if (isUserMasterResult) {
             return errorHandler.promiseSecure("The user: " + editorUserId +
                 " attemped to edit the master user: " + userId);
         }
@@ -232,9 +232,9 @@ module.exports = {
         let blockerObjId = DAL.getObjectId(blockerId);
         let blockedObjId = DAL.getObjectId(blockObj._id);
 
-        let isUserMaster = await isUserMaster(blockedObjId).catch(errorHandler.promiseError);
+        let isUserMasterResult = await isUserMaster(blockedObjId).catch(errorHandler.promiseError);
 
-        if (isUserMaster) {
+        if (isUserMasterResult) {
             return errorHandler.promiseSecure("The user: " + blockerObjId +
                 " attempted to block the master user: " + blockedObjId);
         }
