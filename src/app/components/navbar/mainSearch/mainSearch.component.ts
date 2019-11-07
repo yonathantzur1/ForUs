@@ -59,13 +59,16 @@ export class MainSearchComponent implements OnDestroy {
             this.OpenUserProfile(user);
         }, this.eventsIds);
 
-        eventService.Register(EVENT_TYPE.showNewFriendsLabel, () => {
+        eventService.Register(EVENT_TYPE.showNewFriendsLabel, (value: boolean) => {
             clearTimeout(this.newFriendsLabelTimeout);
-            this.isShowNewFriendsLabel = true;
 
-            this.newFriendsLabelTimeout = setTimeout(() => {
-                this.isShowNewFriendsLabel = false;
-            }, this.newFriendsLabelDelay);
+            if (value) {
+                this.isShowNewFriendsLabel = value;
+
+                this.newFriendsLabelTimeout = setTimeout(() => {
+                    this.isShowNewFriendsLabel = false;
+                }, this.newFriendsLabelDelay);
+            }
         }, this.eventsIds);
 
         let self = this;
