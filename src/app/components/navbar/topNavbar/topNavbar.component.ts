@@ -1,4 +1,4 @@
-import { Component, Host, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Host, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { PermissionsService } from '../../../services/global/permissions.service';
@@ -18,8 +18,6 @@ declare let $: any;
 
 export class TopNavbarComponent implements OnInit, OnDestroy {
     @Input() user: any;
-    @Input() isShowDropMenu: boolean;
-    @Output() isShowDropMenuChange = new EventEmitter();
 
     isNavbarUnder: boolean = false;
     dropMenuDataList: Array<DropMenuData>;
@@ -78,11 +76,10 @@ export class TopNavbarComponent implements OnInit, OnDestroy {
     }
 
     ShowHideDropMenu() {
-        let isShowDropMenu = !this.isShowDropMenu;
-        this.isShowDropMenuChange.emit(isShowDropMenu);
+        this.parent.isShowDropMenu = !this.parent.isShowDropMenu;
 
-        if (isShowDropMenu) {
-            this.eventService.Emit(EVENT_TYPE.hideSidenav);
+        if (this.parent.isShowDropMenu) {
+            this.parent.HideSidenav();
             this.eventService.Emit(EVENT_TYPE.hideSearchResults);
         }
     }

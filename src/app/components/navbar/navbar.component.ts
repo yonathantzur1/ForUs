@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GlobalService } from '../../services/global/global.service';
@@ -13,7 +13,7 @@ import { NavbarService } from '../../services/navbar.service';
 import { LoginService } from '../../services/welcome/login.service';
 import { SOCKET_STATE } from '../../enums/enums';
 
-class Friend {
+export class Friend {
     _id: string;
     firstName: string;
     lastName: string;
@@ -62,8 +62,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     @Input() user: any;
     friends: Array<Friend> = [];
     isFriendsLoading: boolean = false;
-    showNewFriendsLabelTimeout: any;
-    hideNewFriendsLabelTimeout: any;
     chatData: any = { "isOpen": false };
     isOpenProfileEditWindow: boolean;
     isNavbarUnder: boolean = false;
@@ -90,9 +88,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     isChatsWindowOpen: boolean = false;
     isFriendRequestsWindowOpen: boolean = false;
-    isSidenavOpen: boolean = false;
+    isShowSidenav: boolean = false;
     isHideNotificationsBudget: boolean = false;
-    isShowDropMenu: boolean;
+    isShowDropMenu: boolean = false;
     checkSocketConnectInterval: any;
     checkOnlineFriendsInterval: any;
 
@@ -105,15 +103,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     checkSocketConnectDelay: number = 10; // seconds
     checkOnlineFriendsDelay: number = 20; // seconds
     chatTypingDelay: number = 1200; // milliseconds
-    newFriendsLabelDelay: number = 4000; // milliseconds    
-    sidenavWidth: string = "230px";
-    searchInputId: string = "search-input";
 
     // END CONFIG VARIABLES //
-
-    // Search users cache objects
-    searchCache: any = {};
-    profilesCache: any = {};
 
     eventsIds: Array<string> = [];
 
@@ -184,7 +175,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                     return (this.getNotificationsNumber() > 0);
                 },
                 function () {
-                    self.ShowHideChatsWindow();
+                    self.eventService.Emit(EVENT_TYPE.showHideChatsWindow);
                 }),
             new ToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS, "fas fa-user-friends fa-sm", "בקשות חברות",
                 {
@@ -199,7 +190,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                     return (this.getNotificationsNumber() > 0);
                 },
                 function () {
-                    self.ShowHideFriendRequestsWindow();
+                    self.eventService.Emit(EVENT_TYPE.showHideFriendRequestsWindow);
                 })
         ];
     }
@@ -232,8 +223,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
         self.checkOnlineFriendsInterval = setInterval(() => {
             self.socketService.SocketEmit("ServerGetOnlineFriends");
         }, self.checkOnlineFriendsDelay * 1000);
-
-        self.LoadFriendsData(self.user.friends);
 
         // Loading user messages notifications.
         self.navbarService.GetUserMessagesNotifications().then((result: any) => {
@@ -383,10 +372,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
         clearInterval(this.checkOnlineFriendsInterval);
     }
 
-    IsShowFriendFindInput() {
-        return $(".sidenav-body-sector").hasScrollBar();
-    }
-
     AddMessageToToolbarMessages(msgData: any) {
         let notificationsMessages = this.GetToolbarItem(TOOLBAR_ID.MESSAGES).content;
         let friendMessages = notificationsMessages[msgData.from];
@@ -465,40 +450,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.OpenChat(this.GetFriendById(this.messageNotificationFriendId));
     }
 
-    // Loading full friends objects to friends array.
-    LoadFriendsData(friendsIds: Array<string>) {
-        if (friendsIds.length > 0) {
-            this.isFriendsLoading = true;
-            this.navbarService.GetFriends(friendsIds).then((friendsResult: Array<Friend>) => {
-                this.friends = friendsResult;
-                this.isFriendsLoading = false;
-                this.socketService.SocketEmit("ServerGetOnlineFriends");
-            });
-        }
-    }
-
-    ShowHideSidenav() {
-        this.SetNewFriendsLabelVisability(false);
-
-        if (this.isSidenavOpen) {
-            this.HideSidenav();
-        }
-        else {
-            this.isSidenavOpen = true;
-            this.isHideNotificationsBudget = true;
-            this.HideDropMenu();
-            this.eventService.Emit(EVENT_TYPE.hideSearchResults);
-            $("#sidenav").width(this.sidenavWidth);
-            $("body").addClass("no-overflow");
-        }
-    }
-
     HideSidenav() {
-        if (this.isSidenavOpen) {
+        if (this.isShowSidenav) {
             this.isHideNotificationsBudget = true;
             this.HideChatsWindow();
             this.HideFriendRequestsWindow();
-            this.isSidenavOpen = false;
+            this.isShowSidenav = false;
             $("#sidenav").width("0px");
             $("body").removeClass("no-overflow");
         }
@@ -521,54 +478,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
         else {
             this.ClosePopups();
-        }
-    }
-
-    GetFilteredFriends(friendSearchInput: string): Array<any> {
-        if (!friendSearchInput) {
-            return this.friends;
-        }
-        else {
-            friendSearchInput = friendSearchInput.trim();
-            friendSearchInput = friendSearchInput.replace(/\\/g, '');
-
-            return this.friends.filter((friend: any) => {
-                return (((friend.firstName + " " + friend.lastName).indexOf(friendSearchInput) == 0) ||
-                    ((friend.lastName + " " + friend.firstName).indexOf(friendSearchInput) == 0));
-            });
-        }
-    }
-
-    GetSidebarFriends(friendSearchInput: string): Array<any> {
-        return this.GetFilteredFriends(friendSearchInput).sort((a, b) => {
-            if (a.isOnline && !b.isOnline) {
-                return -1;
-            }
-            else if (b.isOnline && !a.isOnline) {
-                return 1;
-            }
-            else {
-                let aName = a.firstName + " " + a.lastName;
-                let bName = b.firstName + " " + b.lastName;
-
-                if (aName > bName) {
-                    return 1;
-                }
-                else {
-                    return -1;
-                }
-            }
-        });
-    }
-
-    GetFriendUnreadMessagesNumberText(friendId: string) {
-        let friendNotificationsMessages = this.GetToolbarItem(TOOLBAR_ID.MESSAGES).content[friendId];
-
-        if (friendNotificationsMessages) {
-            return "- (" + friendNotificationsMessages.unreadMessagesNumber + ")"
-        }
-        else {
-            return '';
         }
     }
 
@@ -599,26 +508,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    ShowHideChatsWindow() {
-        this.isChatsWindowOpen = !this.isChatsWindowOpen;
-
-        // Scroll chat window to top after the view is getting refreshed.
-        setTimeout(() => {
-            $("#chatsWindow .body-container")[0].scrollTop = 0
-        }, 0);
-    }
-
     HideChatsWindow() {
         this.isChatsWindowOpen = false;
-    }
-
-    ShowHideFriendRequestsWindow() {
-        this.isFriendRequestsWindowOpen = !this.isFriendRequestsWindowOpen;
-
-        // Scroll friend requests window to top after the view is getting refreshed.
-        setTimeout(() => {
-            $("#friendRequestsWindow .body-container")[0].scrollTop = 0
-        }, 0);
     }
 
     HideFriendRequestsWindow() {
@@ -751,37 +642,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    SearchNewFriends() {
-        this.eventService.Emit(EVENT_TYPE.changeSearchInput, '');
-        $("#" + this.searchInputId).focus();
-        clearTimeout(this.showNewFriendsLabelTimeout);
-        clearTimeout(this.hideNewFriendsLabelTimeout);
-        let self = this;
-
-        self.showNewFriendsLabelTimeout = setTimeout(() => {
-            self.SetNewFriendsLabelVisability(true);
-            self.hideNewFriendsLabelTimeout = setTimeout(() => {
-                self.SetNewFriendsLabelVisability(false);
-            }, self.newFriendsLabelDelay);
-        }, 200);
-    }
-
-    SetNewFriendsLabelVisability(isVisible: boolean) {
-        this.eventService.Emit(EVENT_TYPE.setNewFriendsLabelVisability, isVisible);
-    }
-
     CloseChatWindow() {
         this.chatData.isOpen = false;
-    }
-
-    GetNotificationsNumber() {
-        let notificationsAmount = 0;
-
-        this.toolbarItems.forEach((item: ToolbarItem) => {
-            notificationsAmount += item.getNotificationsNumber();
-        });
-
-        return notificationsAmount;
     }
 
     OpenNewWindow() {

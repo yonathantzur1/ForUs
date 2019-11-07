@@ -1,65 +1,177 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, OnDestroy, Input, Output, Host, EventEmitter } from '@angular/core';
 
-import { GlobalService } from '../../../services/global/global.service';
 import { ImageService } from '../../../services/global/image.service';
 import { SocketService } from '../../../services/global/socket.service';
-import { PermissionsService } from '../../../services/global/permissions.service';
-import { CookieService } from '../../../services/global/cookie.service';
-import { EventService } from '../../../services/global/event.service';
-import { AlertService, ALERT_TYPE } from '../../../services/global/alert.service';
+import { EventService, EVENT_TYPE } from '../../../services/global/event.service';
 import { SnackbarService } from '../../../services/global/snackbar.service';
-import { AuthService } from '../../../services/global/auth.service';
 import { NavbarService } from '../../../services/navbar.service';
-import { LoginService } from '../../../services/welcome/login.service';
-import { SOCKET_STATE } from '../../../enums/enums';
-import { DropMenuData } from '../../dropMenu/dropMenu.component';
-
-class Friend {
-    _id: string;
-    firstName: string;
-    lastName: string;
-    profileImage: string;
-    isOnline: boolean;
-    isTyping: boolean;
-    typingTimer: any;
-}
-
-export enum TOOLBAR_ID {
-    MESSAGES,
-    FRIEND_REQUESTS
-}
-
-class ToolbarItem {
-    id: TOOLBAR_ID;
-    icon: string;
-    title: string;
-    content: Object;
-    getNotificationsNumber: Function;
-    isShowToolbarItemBadget: Function;
-    onClick: Function;
-
-    constructor(id: TOOLBAR_ID, icon: string, title: string, content: Object,
-        getNotificationsNumber: Function, isShowToolbarItemBadget: Function, onClick: Function) {
-        this.id = id;
-        this.icon = icon;
-        this.title = title;
-        this.content = content;
-        this.getNotificationsNumber = getNotificationsNumber;
-        this.isShowToolbarItemBadget = isShowToolbarItemBadget;
-        this.onClick = onClick;
-    }
-}
+import { NavbarComponent, Friend, TOOLBAR_ID } from '../navbar.component';
 
 declare let $: any;
 
 @Component({
     selector: 'sideNavbar',
     templateUrl: './sideNavbar.html',
-    providers: [NavbarService, LoginService],
+    providers: [NavbarService],
     styleUrls: ['./sideNavbar.css']
 })
 
-export class SideNavbarComponent {
+export class SideNavbarComponent implements OnInit, OnDestroy {
+    @Input() user: any;
+    @Input() friends: Array<Friend>;
+    @Output() friendsChange = new EventEmitter();
+    @Input() isFriendsLoading: boolean;
+    @Output() isFriendsLoadingChange = new EventEmitter();
+    @Input() isShowSidenav: boolean;
+    @Output() isShowSidenavChange = new EventEmitter();
+    @Input() isHideNotificationsBudget: boolean;
+    @Output() isHideNotificationsBudgetChange = new EventEmitter();
 
+    sidenavWidth: string = "230px";
+    searchInputId: string = "search-input";
+    TOOLBAR_ID: any = TOOLBAR_ID;
+
+    eventsIds: Array<string> = [];
+
+    constructor(public imageService: ImageService,
+        private socketService: SocketService,
+        private eventService: EventService,
+        public snackbarService: SnackbarService,
+        private navbarService: NavbarService,
+        @Host() public parent: NavbarComponent) {
+
+        let self = this;
+
+        eventService.Register(EVENT_TYPE.showHideChatsWindow, () => {
+            self.ShowHideChatsWindow();
+        }, self.eventsIds);
+
+        eventService.Register(EVENT_TYPE.showHideFriendRequestsWindow, () => {
+            self.ShowHideFriendRequestsWindow();
+        }, self.eventsIds);
+    }
+
+    ngOnInit() {
+        this.LoadFriendsData(this.user.friends);
+    }
+
+    ngOnDestroy() {
+        this.eventService.UnsubscribeEvents(this.eventsIds);
+    }
+
+    ShowHideSidenav() {
+        this.eventService.Emit(EVENT_TYPE.showNewFriendsLabel, false);
+
+        if (this.isShowSidenav) {
+            this.parent.HideSidenav();
+        }
+        else {
+            this.isShowSidenavChange.emit(true);
+            this.isHideNotificationsBudget = true;
+            this.parent.HideDropMenu();
+            this.eventService.Emit(EVENT_TYPE.hideSearchResults);
+            $("#sidenav").width(this.sidenavWidth);
+            $("body").addClass("no-overflow");
+        }
+    }
+
+    ShowHideChatsWindow() {
+        this.parent.isChatsWindowOpen = !this.parent.isChatsWindowOpen;
+
+        // Scroll chat window to top after the view is getting refreshed.
+        setTimeout(() => {
+            $("#chatsWindow .body-container")[0].scrollTop = 0
+        }, 0);
+    }
+
+    ShowHideFriendRequestsWindow() {
+        this.parent.isFriendRequestsWindowOpen = !this.parent.isFriendRequestsWindowOpen;
+
+        // Scroll friend requests window to top after the view is getting refreshed.
+        setTimeout(() => {
+            $("#friendRequestsWindow .body-container")[0].scrollTop = 0
+        }, 0);
+    }
+
+    IsShowFriendFindInput() {
+        return $(".sidenav-body-sector").hasScrollBar();
+    }
+
+    // Loading full friends objects to friends array.
+    LoadFriendsData(friendsIds: Array<string>) {
+        if (friendsIds.length > 0) {
+            this.isFriendsLoadingChange.emit(true);
+            this.navbarService.GetFriends(friendsIds).then((friendsResult: Array<Friend>) => {
+                this.friendsChange.emit(friendsResult);
+                this.isFriendsLoadingChange.emit(false);
+                this.socketService.SocketEmit("ServerGetOnlineFriends");
+            });
+        }
+    }
+
+    GetFilteredFriends(friendSearchInput: string): Array<any> {
+        if (!friendSearchInput) {
+            return this.friends;
+        }
+        else {
+            friendSearchInput = friendSearchInput.trim();
+            friendSearchInput = friendSearchInput.replace(/\\/g, '');
+
+            return this.friends.filter((friend: any) => {
+                return (((friend.firstName + " " + friend.lastName).indexOf(friendSearchInput) == 0) ||
+                    ((friend.lastName + " " + friend.firstName).indexOf(friendSearchInput) == 0));
+            });
+        }
+    }
+
+    GetSidebarFriends(friendSearchInput: string): Array<any> {
+        return this.GetFilteredFriends(friendSearchInput).sort((a, b) => {
+            if (a.isOnline && !b.isOnline) {
+                return -1;
+            }
+            else if (b.isOnline && !a.isOnline) {
+                return 1;
+            }
+            else {
+                let aName = a.firstName + " " + a.lastName;
+                let bName = b.firstName + " " + b.lastName;
+
+                if (aName > bName) {
+                    return 1;
+                }
+                else {
+                    return -1;
+                }
+            }
+        });
+    }
+
+    GetFriendUnreadMessagesNumberText(friendId: string) {
+        let friendNotificationsMessages = this.parent.GetToolbarItem(TOOLBAR_ID.MESSAGES).content[friendId];
+
+        if (friendNotificationsMessages) {
+            return "- (" + friendNotificationsMessages.unreadMessagesNumber + ")"
+        }
+        else {
+            return '';
+        }
+    }
+
+    GetNotificationsNumber() {
+        let notificationsAmount = 0;
+
+        this.parent.toolbarItems.forEach(item => {
+            notificationsAmount += item.getNotificationsNumber();
+        });
+
+        return notificationsAmount;
+    }
+
+    SearchNewFriends() {
+        this.eventService.Emit(EVENT_TYPE.changeSearchInput, '');
+        setTimeout(() => {
+            $("#" + this.searchInputId).focus();
+            this.eventService.Emit(EVENT_TYPE.showNewFriendsLabel, true);
+        }, 0);
+    }
 }

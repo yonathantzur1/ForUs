@@ -5,7 +5,7 @@
         (focus)="ClickSearchInput(searchInput)" (click)="ClickSearchInput(searchInput)" autocomplete="off"
         autocorrect="off" autocapitalize="off" spellcheck="false">
     <div class="new-friends-label-container"
-        *ngIf="isShowNewFriendsLabel && !parent.isSidenavOpen && !isShowSearchResults">
+        *ngIf="isShowNewFriendsLabel && !parent.isShowSidenav && !isShowSearchResults">
         <i class="fas fa-caret-up new-friends-label-top-arrow"></i>
         <div class="new-friends-label">חיפוש חברים חדשים</div>
     </div>

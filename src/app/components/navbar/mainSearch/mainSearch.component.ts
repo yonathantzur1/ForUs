@@ -25,6 +25,9 @@ export class MainSearchComponent implements OnDestroy {
     searchInputId: string = "search-input";
     isShowNewFriendsLabel: boolean = false;
 
+    newFriendsLabelTimeout: any;
+
+    newFriendsLabelDelay: number = 4000; // milliseconds
     searchInputChangeDelay: number = 220; // milliseconds
 
     // Search users cache objects
@@ -56,8 +59,13 @@ export class MainSearchComponent implements OnDestroy {
             this.OpenUserProfile(user);
         }, this.eventsIds);
 
-        eventService.Register(EVENT_TYPE.setNewFriendsLabelVisability, (isVisible: boolean) => {
-            this.isShowNewFriendsLabel = isVisible;
+        eventService.Register(EVENT_TYPE.showNewFriendsLabel, () => {
+            clearTimeout(this.newFriendsLabelTimeout);
+            this.isShowNewFriendsLabel = true;
+
+            this.newFriendsLabelTimeout = setTimeout(() => {
+                this.isShowNewFriendsLabel = false;
+            }, this.newFriendsLabelDelay);
         }, this.eventsIds);
 
         let self = this;

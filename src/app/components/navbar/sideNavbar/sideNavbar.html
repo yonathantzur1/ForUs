@@ -1,3 +1,70 @@
 <div id="sideNavbar">
-    
+    <div id="sidenav" class="sidenav" [ngClass]="{'sidenav-shadow' : isShowSidenav}">
+        <div class="sidenav-head-sector">
+            <div class="sidenav-header">
+                <profilePicture class="profile-picture" [isEditEnable]="true"></profilePicture>
+                <div class="user-name" [title]="user.firstName + ' ' + user.lastName">
+                    {{user.firstName + " " + user.lastName}}
+                </div>
+                <div class="toolbar-menu">
+                    <span class="toolbar-item" *ngFor="let item of parent.toolbarItems">
+                        <i [title]="item.title" (click)="item.onClick()" class="{{item.icon}}"></i>
+                        <span class="badget-icon" (click)="item.onClick()"
+                            *ngIf="item.isShowToolbarItemBadget()"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="sidenav-body-sector">
+            <loaderSpinner id="friends-loader" class="friends-loader" *ngIf="isFriendsLoading"></loaderSpinner>
+            <div id="friends-sector" *ngIf="!isFriendsLoading && friends.length > 0">
+                <form *ngIf="isShowSidenav && (IsShowFriendFindInput() || friendSearchInput)">
+                    <div class="form-group">
+                        <div id="friend-search-container" class="col-md-12">
+                            <i (click)="friendSearchInput=''" class="material-icons clear-friend-search">close</i>
+                            <input [(ngModel)]="friendSearchInput" style="padding-left:20px;" id="friend-search"
+                                name="friend-search" class="form-control" type="text" placeholder="חיפוש חברים"
+                                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                        </div>
+                    </div>
+                </form>
+                <div (click)="parent.OpenChat(friend)" class="friend-container"
+                    *ngFor="let friend of (GetSidebarFriends(friendSearchInput))">
+                    <div class="friend-image-container">
+                        <i *ngIf="friend.isTyping" title="{{friend.firstName}} מקליד/ה"
+                            class="far fa-comment-dots fa-flip-horizontal typing-icon"></i>
+                        <div *ngIf="friend.isOnline" class="online-icon"></div>
+                        <img class="friend-profile" [src]="friend.profileImage || imageService.defaultProfileImage">
+                    </div>
+                    <span [ngClass]="{'bold-friend-name' : GetFriendUnreadMessagesNumberText(friend._id)}"
+                        class="friend-name-container" title="{{friend.firstName + ' ' + friend.lastName}}">
+                        <span>{{friend.firstName + " " + friend.lastName}}</span>
+                        <span> {{GetFriendUnreadMessagesNumberText(friend._id)}}</span>
+                    </span>
+                </div>
+            </div>
+            <div style="position:relative;" *ngIf="!isFriendsLoading && friends.length == 0 && isShowSidenav">
+                <div class="new-friends-title">חברים חדשים</div>
+                <div class="no-friends-container">
+                    <i (click)="SearchNewFriends()" class="material-icons no-friends-icon">people</i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="open-sidenav-btn" class="open-sidenav-btn" [ngStyle]="{'right': isShowSidenav ? sidenavWidth : 0}"
+        [ngClass]="{'open-sidenav' : isShowSidenav, 'top-sidenav-btn' : parent.chatData.isOpen}"
+        (click)="ShowHideSidenav()">
+        <div class="notifications-budget"
+            *ngIf="!isHideNotificationsBudget && GetNotificationsNumber() > 0 && !isShowSidenav">
+            <span class="notifications-number">{{GetNotificationsNumber()}}</span>
+        </div>
+        <i class="open-sidenav-icon fas {{isShowSidenav ? 'fa-chevron-right': 'fa-chevron-left'}}"></i>
+    </div>
+    <chatsWindow [hidden]="!parent.isChatsWindowOpen" [OpenChat]="parent.OpenChat.bind(parent)"
+        [messagesNotifications]="parent.GetToolbarItem(TOOLBAR_ID.MESSAGES).content"></chatsWindow>
+    <friendRequestsWindow [hidden]="!parent.isFriendRequestsWindowOpen"
+        [isFriendRequestsWindowOpen]="parent.isFriendRequestsWindowOpen" [AddFriend]="parent.AddFriend.bind(parent)"
+        [IgnoreFriendRequest]="parent.IgnoreFriendRequest.bind(parent)"
+        [friendRequests]="parent.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content.get"
+        [confirmedReuests]="parent.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content.accept"></friendRequestsWindow>
 </div>

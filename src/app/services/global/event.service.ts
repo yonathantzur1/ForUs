@@ -66,8 +66,9 @@ export class EventService {
 export enum EVENT_TYPE {
     showProfileEditWindow, hideSidenav, closeDropMenu, openNewWindow, openChat,
     addFriendRequest, removeFriendRequest, openPermissionsCard, closeChat, moveToChatWindow,
-    addFriend, ignoreFriendRequest, setChatData, setNewFriendsLabelVisability, openUserProfile,
+    addFriend, ignoreFriendRequest, setChatData, showNewFriendsLabel, openUserProfile,
     hideSearchResults, changeSearchInput, setNavbarUnder, setNavbarTop, openProfileEditWindow,
     sendFriendRequest, newUploadedImage, deleteProfileImage, removeUserFromNavbarSearchCache,
-    closeUserEditWindow, closeUserReportWindow, closeUserPasswordWindow, closeUserPrivacyWindow
+    closeUserEditWindow, closeUserReportWindow, closeUserPasswordWindow, closeUserPrivacyWindow,
+    showHideChatsWindow, showHideFriendRequestsWindow
 };
