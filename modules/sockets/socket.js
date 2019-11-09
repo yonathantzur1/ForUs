@@ -4,6 +4,7 @@ const events = require('../events');
 const enums = require('../enums');
 const jobs = require('../jobs');
 const config = require('../../config');
+const logger = require('../../logger');
 
 let connectedUsers = {};
 
@@ -74,6 +75,10 @@ module.exports = (io) => {
                     }
                 }
             }
+        });
+
+        socket.on('error', (err) => {
+            logger.error(err);
         });
 
         socket.on('LogoutUserSessionServer', (msg, userId) => {

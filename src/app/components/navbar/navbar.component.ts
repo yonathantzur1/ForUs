@@ -64,27 +64,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     chatData: any = { "isOpen": false };
     isOpenProfileEditWindow: boolean;
     isNavbarUnder: boolean = false;
-
-    // START message notification variables //
-
-    isShowMessageNotification: boolean = false;
-    messageNotificationName: string;
-    messageNotificationText: string;
-    isMessageNotificationImage: boolean;
     messageNotificationFriendId: string;
-    messageNotificationInterval: any;
-
-    // END message notification variables //
-
-    // START friend-request notification variables //
-
-    isShowFriendRequestNotification: boolean = false;
-    isShowFriendConfirmNotification: boolean = false;
-    friendRequestNotificationName: string;
-    friendRequestNotificationInterval: any;
-
-    // END friend-request notification variables //
-
     isChatsWindowOpen: boolean = false;
     isFriendRequestsWindowOpen: boolean = false;
     isShowSidenav: boolean = false;
@@ -96,14 +76,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
     TOOLBAR_ID: any = TOOLBAR_ID;
     toolbarItems: Array<ToolbarItem>;
 
-    // START CONFIG VARIABLES //
+    //#region config variables
 
     notificationDelay: number = 3800; // milliseconds
     checkSocketConnectDelay: number = 10; // seconds
     checkOnlineFriendsDelay: number = 20; // seconds
     chatTypingDelay: number = 1200; // milliseconds
 
-    // END CONFIG VARIABLES //
+    //#endregion
 
     eventsIds: Array<string> = [];
 
@@ -251,14 +231,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 self.AddMessageToToolbarMessages(msgData);
 
                 if (!self.chatData.isOpen) {
-                    // Turn off the open notification.
-                    self.isShowMessageNotification = false;
-
-                    if (self.messageNotificationInterval) {
-                        clearInterval(self.messageNotificationInterval);
-                        self.messageNotificationInterval = null;
-                    }
-
                     self.ShowMessageNotification(self.GetFriendNameById(msgData.from),
                         msgData.text,
                         msgData.isImage,
@@ -405,24 +377,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     ShowMessageNotification(name: string, text: string, isImage: boolean, friendId: string) {
-        if (name && text) {
-            this.messageNotificationName = name;
-            this.messageNotificationText = text;
-            this.isMessageNotificationImage = isImage;
-            this.messageNotificationFriendId = friendId;
-            this.isShowMessageNotification = true;
-
-            let self = this;
-            self.messageNotificationInterval = setInterval(() => {
-                self.HideMessageNotification();
-            }, self.notificationDelay);
-        }
-    }
-
-    HideMessageNotification() {
-        this.isShowMessageNotification = false;
-        clearInterval(this.messageNotificationInterval);
-        this.messageNotificationInterval = null;
+        this.messageNotificationFriendId = friendId;
+        let notificationText = name + ": " + (isImage ? "שלח/ה לך תמונה" : text);
+        this.snackbarService.Snackbar(notificationText,
+            this.notificationDelay,
+            this.MessageNotificationClicked.bind(this));
     }
 
     GetFriendNameById(id: string): string {
@@ -438,15 +397,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     MessageNotificationClicked() {
-        // Turn off the open notification.
-        this.isShowMessageNotification = false;
-
-        if (this.messageNotificationInterval) {
-            clearInterval(this.messageNotificationInterval);
-            this.messageNotificationInterval = null;
-        }
-
-        this.OpenChat(this.GetFriendById(this.messageNotificationFriendId));
+        let friendId = this.GetFriendById(this.messageNotificationFriendId);
+        this.OpenChat(friendId);
     }
 
     HideSidenav() {
@@ -481,7 +433,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     OpenChat(friend: any) {
-        this.HideMessageNotification();
+        this.snackbarService.HideSnackbar();
         this.HideSidenav();
 
         if (!this.chatData.isOpen || !this.chatData.friend || this.chatData.friend._id != friend._id) {
@@ -562,22 +514,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     ShowFriendRequestNotification(name: string, isConfirm: boolean) {
-        this.friendRequestNotificationName = name;
-
-        if (isConfirm) {
-            this.isShowFriendConfirmNotification = true
-        }
-        else {
-            this.isShowFriendRequestNotification = true
-        }
-
-        let self = this;
-        self.friendRequestNotificationInterval = setInterval(() => {
-            self.isShowFriendRequestNotification = false;
-            self.isShowFriendConfirmNotification = false;
-            clearInterval(self.friendRequestNotificationInterval);
-            self.friendRequestNotificationInterval = null;
-        }, this.notificationDelay);
+        let notificationText = name + " " +
+            (isConfirm ? "אישר/ה את בקשת החברות" : "שלח/ה לך בקשת חברות");
+        this.snackbarService.Snackbar(notificationText, this.notificationDelay);
     }
 
     AddFriendObjectToUser(friend: any) {

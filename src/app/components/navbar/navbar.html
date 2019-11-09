@@ -8,18 +8,6 @@
     <sideNavbar [user]="user" [(friends)]="friends" [(isShowSidenav)]="isShowSidenav"
         [(isHideNotificationsBudget)]="isHideNotificationsBudget">
     </sideNavbar>
-    <span (click)="MessageNotificationClicked()" id="notification" class="notification"
-        *ngIf="isShowMessageNotification && !isShowFriendRequestNotification">
-        <span class="notification-name">{{messageNotificationName}}</span>:
-        <span *ngIf="!isMessageNotificationImage" class="notification-text">{{messageNotificationText}}</span>
-        <span *ngIf="isMessageNotificationImage" class="notification-text">שלח/ה לך תמונה</span>
-    </span>
-    <span id="notification" class="notification"
-        *ngIf="(isShowFriendRequestNotification || isShowFriendConfirmNotification) && !isShowMessageNotification">
-        <span class="notification-name">{{friendRequestNotificationName}} </span>
-        <span *ngIf="isShowFriendRequestNotification" class="notification-text">שלח/ה לך בקשת חברות</span>
-        <span *ngIf="isShowFriendConfirmNotification" class="notification-text">אישר/ה את בקשת החברות</span>
-    </span>
 </div>
 
 <profilePictureEdit *ngIf="isOpenProfileEditWindow"></profilePictureEdit>

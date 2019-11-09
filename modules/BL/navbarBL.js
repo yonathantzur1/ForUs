@@ -66,7 +66,7 @@ module.exports = {
 
     async getMainSearchResults(searchInput, userId) {
         let userObjectId = DAL.getObjectId(userId);
-        searchInput = searchInput.replace(/\\/g, '').trim();
+        searchInput = searchInput ? searchInput.replace(/\\/g, '').trim() : null;
 
         // In case the input is empty, return empty result array.
         if (!searchInput) {
