@@ -9,27 +9,27 @@ export class AuthService extends BasicService {
         super(http, "/api/auth");
     }
 
-    IsUserOnSession() {
+    isUserOnSession() {
         return super.get('/isUserOnSession');
     }
 
-    IsUserRoot() {
+    isUserRoot() {
         return super.get('/isUserRoot');
     }
 
-    GetCurrUser() {
+    getCurrUser() {
         return super.get('/getCurrUser');
     }
 
-    SetCurrUserToken() {
+    setCurrUserToken() {
         return super.get('/setCurrUserToken');
     }
 
-    IsUserSocketConnect() {
+    isUserSocketConnect() {
         return super.get('/isUserSocketConnect');
     }
 
-    GetUserPermissions() {
+    getUserPermissions() {
         return super.get('/getUserPermissions');
     }
 }

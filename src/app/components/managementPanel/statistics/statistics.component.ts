@@ -178,11 +178,11 @@ export class StatisticsComponent {
                 onConfirm: function (self: any) {
                     if (!this.isLoaderActive &&
                         self.userEmailInput &&
-                        self.microtextService.Validation(self.emailValidationFuncs,
+                        self.microtextService.validation(self.emailValidationFuncs,
                             self.userEmailInput,
                             UserRegexp)) {
                         this.isLoaderActive = true;
-                        self.statisticsService.GetUserByEmail(self.userEmailInput).then((result: any) => {
+                        self.statisticsService.getUserByEmail(self.userEmailInput).then((result: any) => {
                             this.isLoaderActive = false;
 
                             // In case the user is not found.
@@ -219,7 +219,7 @@ export class StatisticsComponent {
         let clientTimeZone = new Date().getTimezoneOffset();
         this.isLoadingChart = true;
 
-        this.statisticsService.GetChartData(type,
+        this.statisticsService.getChartData(type,
             range,
             this.datesRange,
             clientTimeZone,

@@ -102,15 +102,15 @@ export class ManagementComponent implements OnInit, OnDestroy {
                 }
             }),
             new DropMenuData(null, "הרשאות", () => {
-                self.eventService.Emit(EVENT_TYPE.openPermissionsCard, self.getUserWithOpenMenu());
+                self.eventService.emit(EVENT_TYPE.openPermissionsCard, self.getUserWithOpenMenu());
             }, () => {
-                return (self.permissionsService.IsUserHasMasterPermission());
+                return (self.permissionsService.isUserHasMasterPermission());
             }),
             new DropMenuData(null, "מחיקת משתמש", () => {
                 let user = self.getUserWithOpenMenu();
                 self.deleteUser(user);
             }, () => {
-                return (self.permissionsService.IsUserHasMasterPermission());
+                return (self.permissionsService.isUserHasMasterPermission());
             })
         ];
     }
@@ -125,7 +125,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.eventService.UnsubscribeEvents(this.eventsIds);
+        this.eventService.unsubscribeEvents(this.eventsIds);
     }
 
     isShowUserSettingsBtn(user) {
@@ -152,7 +152,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
         if (userId || (this.searchInput && (this.searchInput = this.searchInput.trim()))) {
             this.isLoadingUsers = true;
 
-            this.managementService.GetUserByName(userId || this.searchInput).then((results: Array<any>) => {
+            this.managementService.getUserByName(userId || this.searchInput).then((results: Array<any>) => {
                 this.isLoadingUsers = false;
 
                 if (results && results.length > 0) {
@@ -203,7 +203,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                 user.isOpenCardAnimationActive = false;
             }, this.openCardAnimationTime);
         }
-        // Close the card in case it is open.
+        // close the card in case it is open.
         else {
             user.isOpen = false;
             this.isPreventFirstOpenCardAnimation = false;
@@ -238,7 +238,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                 let noneCachedFriendsIds = this.getNoneCachedFriendsIds(user.friends);
 
                 if (noneCachedFriendsIds.length > 0) {
-                    this.managementService.GetUserFriends(noneCachedFriendsIds).then((friends: any) => {
+                    this.managementService.getUserFriends(noneCachedFriendsIds).then((friends: any) => {
                         friends && friends.forEach((friend: any) => {
                             this.friendsCache[friend._id] = friend;
                         });
@@ -338,7 +338,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
             user.isSaveLoader = true;
 
             // Update user info.
-            this.managementService.EditUser(updatedFields).then((updateResult: any) => {
+            this.managementService.editUser(updatedFields).then((updateResult: any) => {
                 user.isSaveLoader = false;
 
                 updateResult = updateResult ? updateResult.result : null;
@@ -347,7 +347,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
                 if (updateResult == true) {
                     if (updatedFields["password"]) {
                         delete updatedFields["password"];
-                        this.socketService.SocketEmit("LogoutUserSessionServer",
+                        this.socketService.socketEmit("LogoutUserSessionServer",
                             "נותקת מהאתר, יש להתחבר מחדש",
                             user._id);
                     }
@@ -357,14 +357,14 @@ export class ManagementComponent implements OnInit, OnDestroy {
                     });
 
                     this.returnMainCard(user);
-                    this.snackbarService.Snackbar("המשתמש עודכן בהצלחה");
+                    this.snackbarService.snackbar("המשתמש עודכן בהצלחה");
                 }
                 // In case the updated email is already exists.
                 else if (updateResult == -1) {
-                    this.snackbarService.Snackbar("אימייל זה נמצא בשימוש")
+                    this.snackbarService.snackbar("אימייל זה נמצא בשימוש")
                 }
                 else {
-                    this.snackbarService.Snackbar("שגיאה בעדכון המשתמש");
+                    this.snackbarService.snackbar("שגיאה בעדכון המשתמש");
                 }
             });
         }
@@ -377,13 +377,13 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
             user.isSaveLoader = true;
 
-            this.managementService.BlockUser(blockObj).then((result: any) => {
+            this.managementService.blockUser(blockObj).then((result: any) => {
                 user.isSaveLoader = false;
 
                 if (result) {
                     user.block = result;
                     this.returnMainCard(user);
-                    this.snackbarService.Snackbar("חסימת המשתמש בוצעה בהצלחה");
+                    this.snackbarService.snackbar("חסימת המשתמש בוצעה בהצלחה");
 
                     let blockUserMsg = "חשבון זה נחסם" +
                         "{{enter}}" + "{{enter}}" +
@@ -392,12 +392,12 @@ export class ManagementComponent implements OnInit, OnDestroy {
                         "<b>עד תאריך: </b>" +
                         (user.block.unblockDate ? this.formatDate(user.block.unblockDate) : "בלתי מוגבל");
 
-                    this.socketService.SocketEmit("LogoutUserSessionServer",
+                    this.socketService.socketEmit("LogoutUserSessionServer",
                         blockUserMsg,
                         user._id);
                 }
                 else {
-                    this.snackbarService.Snackbar("שגיאה בחסימת המשתמש");
+                    this.snackbarService.snackbar("שגיאה בחסימת המשתמש");
                 }
             });
         }
@@ -407,7 +407,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
         this.closeAllUsersMenu();
         let self = this;
 
-        self.alertService.Alert({
+        self.alertService.alert({
             title: "ביטול חסימה - " + user.firstName + " " + user.lastName,
             text: "האם לבטל את החסימה?" + "\n\n" +
                 "<b>סיבה - </b>" + user.block.reason + "\n" +
@@ -417,10 +417,10 @@ export class ManagementComponent implements OnInit, OnDestroy {
                 self.managementService.unblockUser(user._id).then((result: any) => {
                     if (result) {
                         delete user.block;
-                        self.snackbarService.Snackbar("ביטול החסימה בוצע בהצלחה");
+                        self.snackbarService.snackbar("ביטול החסימה בוצע בהצלחה");
                     }
                     else {
-                        self.snackbarService.Snackbar("שגיאה בביטול חסימת המשתמש");
+                        self.snackbarService.snackbar("שגיאה בביטול חסימת המשתמש");
                     }
                 });
             }
@@ -466,7 +466,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
         let self = this;
 
-        self.alertService.Alert({
+        self.alertService.alert({
             title: "הסרת חברות",
             text: "האם למחוק את החברות בין " + "<b>" + user.firstName + " " + user.lastName + "</b>\n" +
                 "לבין " + "<b>" + friend.fullName + "</b>?",
@@ -485,15 +485,15 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
                         if (index != null) {
                             user.friends.splice(index, 1);
-                            self.snackbarService.Snackbar("החברות נמחקה");
+                            self.snackbarService.snackbar("החברות נמחקה");
                         }
 
                         let logoutMsg = "נותקת מהאתר, יש להתחבר מחדש.";
-                        self.socketService.SocketEmit("LogoutUserSessionServer", logoutMsg, user._id);
-                        self.socketService.SocketEmit("LogoutUserSessionServer", logoutMsg, friend._id);
+                        self.socketService.socketEmit("LogoutUserSessionServer", logoutMsg, user._id);
+                        self.socketService.socketEmit("LogoutUserSessionServer", logoutMsg, friend._id);
                     }
                     else {
-                        self.snackbarService.Snackbar("שגיאה במחיקת החברות");
+                        self.snackbarService.snackbar("שגיאה במחיקת החברות");
                     }
                 });
             }
@@ -503,7 +503,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
     deleteUser(user: any) {
         let self = this;
 
-        self.alertService.Alert({
+        self.alertService.alert({
             title: "מחיקת משתמש",
             text: "האם למחוק את המשתמש של <b>" + user.firstName + " " + user.lastName + "</b>?",
             type: ALERT_TYPE.WARNING,
@@ -513,19 +513,19 @@ export class ManagementComponent implements OnInit, OnDestroy {
                     user.lastName,
                     user.email).then((result: any) => {
                         if (result) {
-                            self.snackbarService.Snackbar("מחיקת המשתמש בוצעה בהצלחה");
+                            self.snackbarService.snackbar("מחיקת המשתמש בוצעה בהצלחה");
 
                             // logout the user from the system.
                             let logoutMsg = "חשבונך נמחק מהמערכת לצמיתות." +
                                 "{{enter}}" +
                                 "לפרטים נוספים, פנה להנהלת האתר.";
-                            self.socketService.SocketEmit("LogoutUserSessionServer", logoutMsg, user._id);
+                            self.socketService.socketEmit("LogoutUserSessionServer", logoutMsg, user._id);
 
                             // Remove user from users search list.
                             self.users.splice(user.index, 1);
                         }
                         else {
-                            self.snackbarService.Snackbar("שגיאה במחיקת המשתמש");
+                            self.snackbarService.snackbar("שגיאה במחיקת המשתמש");
                         }
                     })
             }

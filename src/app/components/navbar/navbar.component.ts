@@ -154,7 +154,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                     return (this.getNotificationsNumber() > 0);
                 },
                 function () {
-                    self.eventService.Emit(EVENT_TYPE.showHideChatsWindow);
+                    self.eventService.emit(EVENT_TYPE.showHideChatsWindow);
                 }),
             new ToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS, "fas fa-user-friends fa-sm", "בקשות חברות",
                 {
@@ -169,25 +169,25 @@ export class NavbarComponent implements OnInit, OnDestroy {
                     return (this.getNotificationsNumber() > 0);
                 },
                 function () {
-                    self.eventService.Emit(EVENT_TYPE.showHideFriendRequestsWindow);
+                    self.eventService.emit(EVENT_TYPE.showHideFriendRequestsWindow);
                 })
         ];
     }
 
     ngOnInit() {
-        this.socketService.SocketEmit('login');
+        this.socketService.socketEmit('login');
 
         let self = this;
 
         self.checkSocketConnectInterval = setInterval(() => {
-            self.authService.IsUserSocketConnect().then((result: any) => {
+            self.authService.isUserSocketConnect().then((result: any) => {
                 if (result) {
                     switch (result.state) {
                         case SOCKET_STATE.ACTIVE:
                             break;
                         // In case the user is login with no connected socket.
                         case SOCKET_STATE.CLOSE:
-                            self.socketService.RefreshSocket();
+                            self.socketService.refreshSocket();
                             break;
                         // In case the user is logout.
                         case SOCKET_STATE.LOGOUT:
@@ -200,22 +200,22 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }, self.checkSocketConnectDelay * 1000);
 
         self.checkOnlineFriendsInterval = setInterval(() => {
-            self.socketService.SocketEmit("ServerGetOnlineFriends");
+            self.socketService.socketEmit("ServerGetOnlineFriends");
         }, self.checkOnlineFriendsDelay * 1000);
 
         // Loading user messages notifications.
-        self.navbarService.GetUserMessagesNotifications().then((result: any) => {
+        self.navbarService.getUserMessagesNotifications().then((result: any) => {
             self.getToolbarItem(TOOLBAR_ID.MESSAGES).content = result.messagesNotifications || {};
         });
 
         // Loading user friend requests.
-        self.navbarService.GetUserFriendRequests().then((result: any) => {
+        self.navbarService.getUserFriendRequests().then((result: any) => {
             self.getToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content = result.friendRequests;
         });
 
-        self.socketService.SocketOn('LogoutUserSessionClient', (msg: string) => {
+        self.socketService.socketOn('LogoutUserSessionClient', (msg: string) => {
             self.logout();
-            self.alertService.Alert({
+            self.alertService.alert({
                 title: "התנתקות מהמערכת",
                 text: msg,
                 showCancelButton: false,
@@ -226,7 +226,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             });
         });
 
-        self.socketService.SocketOn('GetMessage', (msgData: any) => {
+        self.socketService.socketOn('GetMessage', (msgData: any) => {
             if (!self.chatData.isOpen || msgData.from != self.chatData.friend._id) {
                 self.addMessageToToolbarMessages(msgData);
 
@@ -240,7 +240,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             }
         });
 
-        self.socketService.SocketOn('ClientGetOnlineFriends', (onlineFriendsIds: Array<string>) => {
+        self.socketService.socketOn('ClientGetOnlineFriends', (onlineFriendsIds: Array<string>) => {
             // In case one or more friends are connected. 
             if (onlineFriendsIds.length > 0) {
                 self.friends.forEach(friend => {
@@ -254,7 +254,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             }
         });
 
-        self.socketService.SocketOn('UpdateFriendConnectionStatus', (statusObj: any) => {
+        self.socketService.socketOn('UpdateFriendConnectionStatus', (statusObj: any) => {
             let friend = self.friends.find(friend => {
                 return (friend._id == statusObj.friendId);
             });
@@ -262,37 +262,37 @@ export class NavbarComponent implements OnInit, OnDestroy {
             friend && (friend.isOnline = statusObj.isOnline);
         });
 
-        self.socketService.SocketOn('ClientUpdateFriendRequests', (friendRequests: Array<any>) => {
+        self.socketService.socketOn('ClientUpdateFriendRequests', (friendRequests: Array<any>) => {
             self.getToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content = friendRequests;
         });
 
-        self.socketService.SocketOn('GetFriendRequest', (friendId: string, friendFullName: string) => {
+        self.socketService.socketOn('GetFriendRequest', (friendId: string, friendFullName: string) => {
             let friendRequests: any = self.getToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
             friendRequests.get.push(friendId);
             self.showFriendRequestNotification(friendFullName, false);
             self.isHideNotificationsBudget = false;
         });
 
-        self.socketService.SocketOn('DeleteFriendRequest', (friendId: string) => {
+        self.socketService.socketOn('DeleteFriendRequest', (friendId: string) => {
             let friendRequests: any = self.getToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
             friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
-            self.eventService.Emit(EVENT_TYPE.removeUserFromNavbarSearchCache, friendId);
+            self.eventService.emit(EVENT_TYPE.removeUserFromNavbarSearchCache, friendId);
         });
 
-        self.socketService.SocketOn('ClientIgnoreFriendRequest', (friendId: string) => {
+        self.socketService.socketOn('ClientIgnoreFriendRequest', (friendId: string) => {
             let friendRequests: any = self.getToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
             friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
         });
 
-        self.socketService.SocketOn('ClientAddFriend', (friend: any) => {
+        self.socketService.socketOn('ClientAddFriend', (friend: any) => {
             self.addFriendObjectToUser(friend);
         });
 
-        self.socketService.SocketOn('ClientFriendAddedUpdate', (friend: any) => {
-            self.authService.SetCurrUserToken().then((result: any) => {
+        self.socketService.socketOn('ClientFriendAddedUpdate', (friend: any) => {
+            self.authService.setCurrUserToken().then((result: any) => {
                 if (result) {
-                    self.socketService.RefreshSocket();
-                    self.socketService.SocketEmit("ServerGetOnlineFriends");
+                    self.socketService.refreshSocket();
+                    self.socketService.socketEmit("ServerGetOnlineFriends");
                 }
             });
 
@@ -308,19 +308,19 @@ export class NavbarComponent implements OnInit, OnDestroy {
             self.isHideNotificationsBudget = false;
             self.showFriendRequestNotification(friend.firstName + " " + friend.lastName, true);
 
-            self.socketService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
-            self.socketService.SocketEmit("removeFriendRequest", self.user._id, friend._id);
-            self.socketService.SocketEmit("ServerGetOnlineFriends");
+            self.socketService.socketEmit("ServerUpdateFriendRequests", friendRequests);
+            self.socketService.socketEmit("removeFriendRequest", self.user._id, friend._id);
+            self.socketService.socketEmit("ServerGetOnlineFriends");
         });
 
-        self.socketService.SocketOn('ClientFriendTyping', (friendId: string) => {
+        self.socketService.socketOn('ClientFriendTyping', (friendId: string) => {
             self.makeFriendTyping(friendId);
         });
 
-        self.socketService.SocketOn('ClientRemoveFriendUser', (friendId: string, userName: string) => {
+        self.socketService.socketOn('ClientRemoveFriendUser', (friendId: string, userName: string) => {
             self.removeFriend(friendId);
 
-            self.alertService.Alert({
+            self.alertService.alert({
                 title: "מחיקת משתמש מהאתר",
                 text: "החשבון של " + "<b>" + userName + "</b>" + " נמחק מהאתר לצמיתות.",
                 showCancelButton: false,
@@ -328,9 +328,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
             });
         });
 
-        self.socketService.SocketOn('ClientRemoveFriend', (friendId: string) => {
-            self.authService.SetCurrUserToken().then((result: any) => {
-                result && self.socketService.RefreshSocket();
+        self.socketService.socketOn('ClientRemoveFriend', (friendId: string) => {
+            self.authService.setCurrUserToken().then((result: any) => {
+                result && self.socketService.refreshSocket();
             });
 
             self.removeFriend(friendId);
@@ -338,7 +338,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.eventService.UnsubscribeEvents(this.eventsIds);
+        this.eventService.unsubscribeEvents(this.eventsIds);
         clearInterval(this.checkSocketConnectInterval);
         clearInterval(this.checkOnlineFriendsInterval);
     }
@@ -357,7 +357,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
             };
         }
 
-        this.navbarService.UpdateMessagesNotifications(notificationsMessages);
+        this.navbarService.updateMessagesNotifications(notificationsMessages);
     }
 
     removeFriendMessagesFromToolbarMessages(friendId: string) {
@@ -365,7 +365,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
         if (notificationsMessages[friendId]) {
             delete (notificationsMessages[friendId]);
-            this.navbarService.RemoveMessagesNotifications(notificationsMessages);
+            this.navbarService.removeMessagesNotifications(notificationsMessages);
         }
     }
 
@@ -379,7 +379,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     showMessageNotification(name: string, text: string, isImage: boolean, friendId: string) {
         this.messageNotificationFriendId = friendId;
         let notificationText = name + ": " + (isImage ? "שלח/ה לך תמונה" : text);
-        this.snackbarService.Snackbar(notificationText,
+        this.snackbarService.snackbar(notificationText,
             this.notificationDelay,
             this.messageNotificationClicked.bind(this));
     }
@@ -419,7 +419,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     closePopups() {
         this.hideSidenav();
         this.hideDropMenu();
-        this.eventService.Emit(EVENT_TYPE.hideSearchResults);
+        this.eventService.emit(EVENT_TYPE.hideSearchResults);
     }
 
     overlayClicked() {
@@ -433,7 +433,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     openChat(friend: any) {
-        this.snackbarService.HideSnackbar();
+        this.snackbarService.hideSnackbar();
         this.hideSidenav();
 
         if (!this.chatData.isOpen || !this.chatData.friend || this.chatData.friend._id != friend._id) {
@@ -452,10 +452,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.chatData.messagesNotifications = messagesNotifications;
             this.chatData.isOpen = true;
 
-            this.eventService.Emit(EVENT_TYPE.setChatData, this.chatData);
+            this.eventService.emit(EVENT_TYPE.setChatData, this.chatData);
         }
         else {
-            this.eventService.Emit(EVENT_TYPE.moveToChatWindow, true);
+            this.eventService.emit(EVENT_TYPE.moveToChatWindow, true);
         }
     }
 
@@ -474,10 +474,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
         let self = this;
         self.navbarService.addFriendRequest(friendId).then((result: any) => {
             if (result) {
-                self.socketService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
-                self.socketService.SocketEmit("SendFriendRequest", friendId);
-                self.eventService.Emit(EVENT_TYPE.sendFriendRequest, friendId);
-                self.snackbarService.Snackbar("נשלחה בקשת חברות");
+                self.socketService.socketEmit("ServerUpdateFriendRequests", friendRequests);
+                self.socketService.socketEmit("SendFriendRequest", friendId);
+                self.eventService.emit(EVENT_TYPE.sendFriendRequest, friendId);
+                self.snackbarService.snackbar("נשלחה בקשת חברות");
             }
         });
     }
@@ -489,9 +489,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
         let self = this;
         self.navbarService.removeFriendRequest(friendId).then((result: any) => {
             if (result) {
-                self.socketService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
-                self.socketService.SocketEmit("removeFriendRequest", self.user._id, friendId);
-                self.snackbarService.Snackbar("בקשת החברות בוטלה");
+                self.socketService.socketEmit("ServerUpdateFriendRequests", friendRequests);
+                self.socketService.socketEmit("removeFriendRequest", self.user._id, friendId);
+                self.snackbarService.snackbar("בקשת החברות בוטלה");
             }
         });
     }
@@ -504,9 +504,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
         let self = this;
         self.navbarService.ignoreFriendRequest(friendId).then((result: any) => {
             if (result) {
-                self.socketService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
-                self.socketService.SocketEmit("ServerIgnoreFriendRequest", self.user._id, friendId);
-                self.socketService.SocketEmit("ServerUpdateFriendRequestsStatus", friendId);
+                self.socketService.socketEmit("ServerUpdateFriendRequests", friendRequests);
+                self.socketService.socketEmit("ServerIgnoreFriendRequest", self.user._id, friendId);
+                self.socketService.socketEmit("ServerUpdateFriendRequestsStatus", friendId);
             }
 
             callback && callback(result);
@@ -516,7 +516,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     showFriendRequestNotification(name: string, isConfirm: boolean) {
         let notificationText = name + " " +
             (isConfirm ? "אישר/ה את בקשת החברות" : "שלח/ה לך בקשת חברות");
-        this.snackbarService.Snackbar(notificationText, this.notificationDelay);
+        this.snackbarService.snackbar(notificationText, this.notificationDelay);
     }
 
     addFriendObjectToUser(friend: any) {
@@ -530,11 +530,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.friends.push(friend);
         }
 
-        this.socketService.SocketEmit("ServerGetOnlineFriends");
+        this.socketService.socketEmit("ServerGetOnlineFriends");
     }
 
     addFriend(friendId: string, callback?: Function) {
-        this.eventService.Emit(EVENT_TYPE.setUserFriendsLoading, true);
+        this.eventService.emit(EVENT_TYPE.setUserFriendsLoading, true);
 
         // Remove the friend request from all friend requests object.
         let friendRequests: any = this.getToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
@@ -543,20 +543,20 @@ export class NavbarComponent implements OnInit, OnDestroy {
         let self = this;
 
         self.navbarService.addFriend(friendId).then((friend: any) => {
-            self.eventService.Emit(EVENT_TYPE.setUserFriendsLoading, false);
+            self.eventService.emit(EVENT_TYPE.setUserFriendsLoading, false);
 
             if (friend) {
-                self.socketService.RefreshSocket();
-                self.socketService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
-                self.socketService.SocketEmit("ServerAddFriend", friend);
-                self.socketService.SocketEmit("ServerFriendAddedUpdate", friend._id);
-                self.socketService.SocketEmit("ServerUpdateFriendRequestsStatus", friendId);
+                self.socketService.refreshSocket();
+                self.socketService.socketEmit("ServerUpdateFriendRequests", friendRequests);
+                self.socketService.socketEmit("ServerAddFriend", friend);
+                self.socketService.socketEmit("ServerFriendAddedUpdate", friend._id);
+                self.socketService.socketEmit("ServerUpdateFriendRequestsStatus", friendId);
                 self.addFriendObjectToUser(friend);
             }
             else {
                 //  Recover the actions in case the server is fail to add the friend. 
                 friendRequests.get.push(friendId);
-                self.socketService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
+                self.socketService.socketEmit("ServerUpdateFriendRequests", friendRequests);
             }
 
             callback && callback(friend);
@@ -652,8 +652,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     logout() {
-        this.cookieService.DeleteUidCookie();
-        this.loginService.DeleteTokenFromCookie();
-        this.globalService.ResetGlobalVariables();
+        this.cookieService.deleteUidCookie();
+        this.loginService.deleteTokenFromCookie();
+        this.globalService.resetGlobalVariables();
     }
 }

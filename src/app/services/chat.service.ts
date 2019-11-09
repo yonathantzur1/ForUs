@@ -9,19 +9,19 @@ export class ChatService extends BasicService {
         super(http, "/api/chat");
     }
 
-    GetChat(idsArray: Array<string>) {
+    getChat(idsArray: Array<string>) {
         let details = { "members": idsArray };
 
         return super.post('/getChat', details);
     }
 
-    GetChatPage(idsArray: Array<string>, currMessagesNum: number, totalMessagesNum: number) {
+    getChatPage(idsArray: Array<string>, currMessagesNum: number, totalMessagesNum: number) {
         let details = { "members": idsArray, currMessagesNum, totalMessagesNum };
 
         return super.post('/getChatPage', details);
     }
 
-    GetAllPreviewChats() {
+    getAllPreviewChats() {
         return super.get('/getAllPreviewChats');
     }
 }

@@ -9,7 +9,7 @@ export class UserPageService extends BasicService {
         super(http, "/api/userPage");
     }
 
-    GetUserDetails(id: string) {
+    getUserDetails(id: string) {
         return super.get('/getUserDetails?id=' + id);
     }
 
@@ -17,12 +17,11 @@ export class UserPageService extends BasicService {
         return super.delete('/removeFriends?friendId=' + friendId);
     }
 
-    DeleteUserValidation() {
+    deleteUserValidation() {
         return super.put('/deleteUserValidation');
     }
 
     deleteUser() {
         return super.delete('/deleteUser');
     }
-
 }

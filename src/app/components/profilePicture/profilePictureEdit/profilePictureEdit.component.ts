@@ -184,7 +184,7 @@ export class ProfilePictureEditComponent implements OnInit {
     closeWindow() {
         $("#profile-modal").removeClass("fade");
         $("#profile-modal").modal("hide");
-        this.eventService.Emit(EVENT_TYPE.showProfileEditWindow, false);
+        this.eventService.emit(EVENT_TYPE.showProfileEditWindow, false);
     }
 
     changeImage() {
@@ -195,10 +195,10 @@ export class ProfilePictureEditComponent implements OnInit {
             this.isNewPhoto = false;
         }
         else if (isSuccess == false) {
-            this.snackbarService.Snackbar("הקובץ שנבחר אינו תמונה");
+            this.snackbarService.snackbar("הקובץ שנבחר אינו תמונה");
         }
         else {
-            this.snackbarService.Snackbar("שגיאה בהעלאת התמונה");
+            this.snackbarService.snackbar("שגיאה בהעלאת התמונה");
         }
     }
 
@@ -224,7 +224,7 @@ export class ProfilePictureEditComponent implements OnInit {
 
                     // In case of error or the user was not fount.
                     if (!result) {
-                        self.snackbarService.Snackbar("שגיאה בהעלאת התמונה");
+                        self.snackbarService.snackbar("שגיאה בהעלאת התמונה");
                         self.closeWindow();
                     }
                     else {
@@ -232,9 +232,9 @@ export class ProfilePictureEditComponent implements OnInit {
                         $("#profile-modal").removeClass("fade");
                         $("#profile-modal").modal("hide");
 
-                        self.eventService.Emit(EVENT_TYPE.newUploadedImage, imgBase64);
+                        self.eventService.emit(EVENT_TYPE.newUploadedImage, imgBase64);
 
-                        self.alertService.Alert({
+                        self.alertService.alert({
                             title: "התמונה הוחלפה בהצלחה",
                             image: imgBase64,
                             showCancelButton: false,
@@ -257,7 +257,7 @@ export class ProfilePictureEditComponent implements OnInit {
 
         let self = this;
 
-        this.alertService.Alert({
+        this.alertService.alert({
             title: "למחוק את התמונה?",
             image: this.userImage,
             type: ALERT_TYPE.WARNING,
@@ -266,7 +266,7 @@ export class ProfilePictureEditComponent implements OnInit {
                 return self.profilePictureService.deleteImage();
             },
             confirmFunc: function () {
-                self.eventService.Emit(EVENT_TYPE.deleteProfileImage, true);
+                self.eventService.emit(EVENT_TYPE.deleteProfileImage, true);
                 self.closeWindow();
             },
             closeFunc: function () {

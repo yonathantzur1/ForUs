@@ -9,8 +9,7 @@ export class UsersReportsService extends BasicService {
         super(http, "/api/usersReports");
     }
 
-    GetAllReports() {
+    getAllReports() {
         return super.get('/getAllReports');
     }
-
 }

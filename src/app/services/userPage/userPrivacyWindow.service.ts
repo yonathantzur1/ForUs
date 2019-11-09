@@ -9,14 +9,13 @@ export class UserPrivacyWindowService extends BasicService {
         super(http, "/api/userPrivacyWindow");
     }
 
-    GetUserPrivacyStatus() {
+    getUserPrivacyStatus() {
         return super.get('/getUserPrivacyStatus');
     }
 
-    SetUserPrivacy(isPrivate: boolean) {
+    setUserPrivacy(isPrivate: boolean) {
         let details = { isPrivate };
 
         return super.put('/setUserPrivacy', details);
     }
-
 }

@@ -9,11 +9,11 @@ export class DeleteUserService extends BasicService {
         super(http, "/api/deleteUser");
     }
 
-    ValidateDeleteUserToken(token: string) {
+    validateDeleteUserToken(token: string) {
         return super.get('/validateDeleteUserToken?token=' + token);
     }
 
-    DeleteAccount(token: string, password: string) {
+    deleteAccount(token: string, password: string) {
         let details = {
             token,
             password

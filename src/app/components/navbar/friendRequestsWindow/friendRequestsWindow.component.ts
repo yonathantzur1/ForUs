@@ -39,19 +39,19 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     ngOnInit() {
         let self = this;
 
-        self.socketService.SocketOn('ClientUpdateFriendRequestsStatus', function (friendId: string) {
+        self.socketService.socketOn('ClientUpdateFriendRequestsStatus', function (friendId: string) {
             self.removeFriendRequestById(friendId);
         });
 
-        self.socketService.SocketOn('GetFriendRequest', function () {
+        self.socketService.socketOn('GetFriendRequest', function () {
             self.loadFriendRequestsObjects();
         });
 
-        self.socketService.SocketOn('DeleteFriendRequest', function (friendId: string) {
+        self.socketService.socketOn('DeleteFriendRequest', function (friendId: string) {
             self.removeFriendRequestById(friendId);
         });
 
-        self.socketService.SocketOn('ClientRemoveFriendUser', function (friendId: string) {
+        self.socketService.socketOn('ClientRemoveFriendUser', function (friendId: string) {
             self.removeFriendRequestById(friendId);
             self.removeFriendConfirmById(friendId);
         });
@@ -81,7 +81,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
 
             if (this.confirmedReuests.length > 0) {
                 // Removing friend requests confirm alerts from DB.
-                this.navbarService.RemoveFriendRequestConfirmAlert(this.confirmedReuests);
+                this.navbarService.removeFriendRequestConfirmAlert(this.confirmedReuests);
             }
         }
 
@@ -101,7 +101,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     loadFriendRequestsObjects() {
         if (this.friendRequests.length > 0 || this.confirmedReuests.length > 0) {
             this.isFriendRequestsLoading = true;
-            this.navbarService.GetFriends(this.friendRequests.concat(this.confirmedReuests)).then((friendsResult: Array<any>) => {
+            this.navbarService.getFriends(this.friendRequests.concat(this.confirmedReuests)).then((friendsResult: Array<any>) => {
                 if (friendsResult) {
                     this.friendRequestsObjects = [];
                     this.friendConfirmObjects = [];
@@ -166,7 +166,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
             return (friendRequest._id != friendId);
         });
 
-        this.eventService.Emit(EVENT_TYPE.removeUserFromNavbarSearchCache, friendId)
+        this.eventService.emit(EVENT_TYPE.removeUserFromNavbarSearchCache, friendId)
     }
 
     removeFriendConfirmById(friendId: string) {
@@ -177,6 +177,6 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
 
     openUserPage(friendId: string) {
         this.router.navigateByUrl("/profile/" + friendId);
-        this.eventService.Emit(EVENT_TYPE.hideSidenav, true);
+        this.eventService.emit(EVENT_TYPE.hideSidenav, true);
     }
 }

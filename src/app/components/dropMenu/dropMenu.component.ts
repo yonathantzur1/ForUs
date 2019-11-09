@@ -33,7 +33,7 @@ export class DropMenuComponent {
         action && action(link);
         link && this.router.navigateByUrl(link);
 
-        this.eventService.Emit(EVENT_TYPE.closeDropMenu, true);
-        this.eventService.Emit(EVENT_TYPE.openNewWindow, true);
+        this.eventService.emit(EVENT_TYPE.closeDropMenu, true);
+        this.eventService.emit(EVENT_TYPE.openNewWindow, true);
     }
 }

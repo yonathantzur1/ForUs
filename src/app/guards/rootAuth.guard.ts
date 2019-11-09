@@ -8,7 +8,7 @@ export class RootAuthGuard implements CanActivate {
     constructor(private router: Router, private authService: AuthService) { }
 
     canActivate() {
-        return this.authService.IsUserRoot().then(result => {
+        return this.authService.isUserRoot().then(result => {
             if (result) {
                 return true;
             }

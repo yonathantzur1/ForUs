@@ -9,11 +9,11 @@ export class SearchPageService extends BasicService {
         super(http, "/api/searchPage");
     }
 
-    GetSearchResults(input: string) {
+    getSearchResults(input: string) {
         return super.get('/getSearchResults?input=' + input);
     }
 
-    GetUserFriendsStatus() {
+    getUserFriendsStatus() {
         return super.get('/getUserFriendsStatus');
     }
 }

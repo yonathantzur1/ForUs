@@ -28,8 +28,8 @@ export class HomeComponent implements OnInit {
 
     ngOnInit() {
         Promise.all([
-            this.authService.GetCurrUser(),
-            this.profilePictureService.GetUserProfileImage()
+            this.authService.getCurrUser(),
+            this.profilePictureService.getUserProfileImage()
         ]).then(results => {
             // Assign user object.
             this.currUser = results[0];

@@ -102,7 +102,7 @@ export class RegisterComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.newUser.email = this.globalService.GetData("registerEmail") || "";
+        this.newUser.email = this.globalService.getData("registerEmail") || "";
     }
 
     // Regiter the new user to the DB.
@@ -112,7 +112,7 @@ export class RegisterComponent implements OnInit {
         this.newUser.email = this.newUser.email.trim();
 
         // In case the register modal fields are valid.
-        if (this.microtextService.Validation(this.validationFuncs, this.newUser, UserRegexp)) {
+        if (this.microtextService.validation(this.validationFuncs, this.newUser, UserRegexp)) {
             this.isLoading = true;
 
             this.registerService.register(this.newUser).then((data: any) => {
@@ -121,7 +121,7 @@ export class RegisterComponent implements OnInit {
 
                 // In case of server error.
                 if (result == null) {
-                    this.snackbarService.Snackbar("אירעה שגיאה בחיבור לשרת");
+                    this.snackbarService.snackbar("אירעה שגיאה בחיבור לשרת");
                 }
                 // In case the email is already exists.
                 else if (result == false) {

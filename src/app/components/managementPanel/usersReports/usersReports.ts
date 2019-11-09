@@ -35,12 +35,12 @@ export class UsersReportsComponent implements OnInit {
 
     ngOnInit() {
         this.isLoading = true;
-        this.usersReportsService.GetAllReports().then((reports: Array<Report>) => {
+        this.usersReportsService.getAllReports().then((reports: Array<Report>) => {
             this.isLoading = false;
 
             // In case of error.
             if (!reports) {
-                this.snackbarService.Snackbar("שגיאה בטעינת דיווחי משתמשים");
+                this.snackbarService.snackbar("שגיאה בטעינת דיווחי משתמשים");
             }
             else {
                 reports.forEach((report: Report) => {

@@ -73,17 +73,17 @@ export class MainSearchComponent implements OnDestroy {
 
         let self = this;
 
-        self.socketService.SocketOn('UserSetToPrivate', (userId: string) => {
+        self.socketService.socketOn('UserSetToPrivate', (userId: string) => {
             self.removeUserFromNavbarSearchCache(userId);
         });
 
-        self.socketService.SocketOn('ClientRemoveFriend', function (userId: string) {
+        self.socketService.socketOn('ClientRemoveFriend', function (userId: string) {
             self.removeUserFromNavbarSearchCache(userId);
         });
     }
 
     ngOnDestroy() {
-        this.eventService.UnsubscribeEvents(this.eventsIds);
+        this.eventService.unsubscribeEvents(this.eventsIds);
     }
 
     searchChange(input: string) {
@@ -109,7 +109,7 @@ export class MainSearchComponent implements OnDestroy {
             cachedUsers = null;
 
             self.inputInterval = setTimeout(() => {
-                self.navbarService.GetMainSearchResults(input).then((results: Array<any>) => {
+                self.navbarService.getMainSearchResults(input).then((results: Array<any>) => {
                     if (results &&
                         results.length > 0 &&
                         $("#" + self.searchInputId).is(":focus") &&
@@ -119,7 +119,7 @@ export class MainSearchComponent implements OnDestroy {
                         self.searchResults = results;
                         self.showSearchResults();
 
-                        self.navbarService.GetMainSearchResultsWithImages(self.getResultsIds(results)).then((profiles: any) => {
+                        self.navbarService.getMainSearchResultsWithImages(self.getResultsIds(results)).then((profiles: any) => {
                             if (profiles && Object.keys(profiles).length > 0 && input == self.searchInput.trim()) {
                                 self.searchResults.forEach((result: any) => {
                                     if (result.originalProfile) {
@@ -333,10 +333,10 @@ export class MainSearchComponent implements OnDestroy {
     }
 
     addFriendRequest(userId: string) {
-        this.eventService.Emit(EVENT_TYPE.addFriendRequest, userId)
+        this.eventService.emit(EVENT_TYPE.addFriendRequest, userId)
     }
 
     removeFriendRequest(userId: string) {
-        this.eventService.Emit(EVENT_TYPE.removeFriendRequest, userId)
+        this.eventService.emit(EVENT_TYPE.removeFriendRequest, userId)
     }
 }

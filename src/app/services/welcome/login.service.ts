@@ -15,7 +15,7 @@ export class LoginService extends BasicService {
         return super.post('/userLogin', user);
     }
 
-    DeleteTokenFromCookie() {
+    deleteTokenFromCookie() {
         return super.delete('/deleteToken');
     }
 }

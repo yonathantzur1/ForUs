@@ -27,7 +27,7 @@ export class ProfilePictureComponent implements OnInit, OnDestroy {
         }, self.eventsIds);
 
         self.eventService.register(EVENT_TYPE.deleteProfileImage, () => {
-            self.imageService.DeleteUserProfileImage();
+            self.imageService.deleteUserProfileImage();
         }, self.eventsIds);
 
         self.eventService.register(EVENT_TYPE.openProfileEditWindow, () => {
@@ -38,12 +38,12 @@ export class ProfilePictureComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.eventService.UnsubscribeEvents(this.eventsIds);
+        this.eventService.unsubscribeEvents(this.eventsIds);
     }
 
     openEditWindow() {
         if (this.isEditEnable) {
-            this.eventService.Emit(EVENT_TYPE.showProfileEditWindow, true);
+            this.eventService.emit(EVENT_TYPE.showProfileEditWindow, true);
         }
     }
 }

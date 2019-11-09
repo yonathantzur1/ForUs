@@ -68,7 +68,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         // In case of route params changes.
         this.route.params.subscribe(params => {
             this.searchString = params["name"];
-            this.eventService.Emit(EVENT_TYPE.changeSearchInput, this.searchString);
+            this.eventService.emit(EVENT_TYPE.changeSearchInput, this.searchString);
 
             // In case the search string is empty.
             if (!this.searchString) {
@@ -77,10 +77,10 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 
             this.users = [];
             this.isLoading = true;
-            this.searchPageService.GetUserFriendsStatus().then((friendsStatus: FriendsStatus) => {
+            this.searchPageService.getUserFriendsStatus().then((friendsStatus: FriendsStatus) => {
                 if (friendsStatus) {
                     // Search users by given name parameter.
-                    this.searchPageService.GetSearchResults(this.searchString).then(users => {
+                    this.searchPageService.getSearchResults(this.searchString).then(users => {
                         this.isLoading = false;
                         if (users) {
                             users.forEach((user: any) => {
@@ -106,45 +106,45 @@ export class SearchPageComponent implements OnInit, OnDestroy {
                             this.users = users;
                         }
                         else {
-                            this.alertService.Alert(errorJson);
+                            this.alertService.alert(errorJson);
                         }
                     });
                 }
                 else {
                     this.isLoading = false;
-                    this.alertService.Alert(errorJson);
+                    this.alertService.alert(errorJson);
                 }
             });
         });
 
         let self = this;
 
-        self.socketService.SocketOn('ClientAddFriend', function (friend: any) {
+        self.socketService.socketOn('ClientAddFriend', function (friend: any) {
             self.setUserFriendStatus(friend._id, FRIEND_STATUS.IS_FRIEND);
         });
 
-        self.socketService.SocketOn('ClientFriendAddedUpdate', function (friend: any) {
+        self.socketService.socketOn('ClientFriendAddedUpdate', function (friend: any) {
             self.setUserFriendStatus(friend._id, FRIEND_STATUS.IS_FRIEND);
         });
 
-        self.socketService.SocketOn('ClientRemoveFriend', function (friendId: string) {
+        self.socketService.socketOn('ClientRemoveFriend', function (friendId: string) {
             self.unsetUserFriendStatus(friendId, FRIEND_STATUS.IS_FRIEND);
         });
 
-        self.socketService.SocketOn('ClientIgnoreFriendRequest', function (friendId: string) {
+        self.socketService.socketOn('ClientIgnoreFriendRequest', function (friendId: string) {
             self.unsetUserFriendStatus(friendId, FRIEND_STATUS.IS_GET_FRIEND_REQUEST);
         });
 
-        self.socketService.SocketOn('GetFriendRequest', function (friendId: string) {
+        self.socketService.socketOn('GetFriendRequest', function (friendId: string) {
             self.setUserFriendStatus(friendId, FRIEND_STATUS.IS_SEND_FRIEND_REQUEST);
         });
 
-        self.socketService.SocketOn('DeleteFriendRequest', function (friendId: string) {
+        self.socketService.socketOn('DeleteFriendRequest', function (friendId: string) {
             self.unsetUserFriendStatus(friendId, FRIEND_STATUS.IS_SEND_FRIEND_REQUEST);
         });
 
         // In case the user set private user.
-        self.socketService.SocketOn('UserSetToPrivate', function (userId: string) {
+        self.socketService.socketOn('UserSetToPrivate', function (userId: string) {
             let user = self.getUserById(userId);
 
             if (userId != self.getCurrentUserId() && !user.isFriend) {
@@ -154,7 +154,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.eventService.UnsubscribeEvents(this.eventsIds);
+        this.eventService.unsubscribeEvents(this.eventsIds);
     }
 
     resetUserFriendStatus(user: any) {
@@ -211,12 +211,12 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     }
 
     addFriendRequest(user: any) {
-        this.eventService.Emit(EVENT_TYPE.addFriendRequest, user._id);
+        this.eventService.emit(EVENT_TYPE.addFriendRequest, user._id);
         user.isGetFriendRequest = true;
     }
 
     removeFriendRequest(user: any) {
-        this.eventService.Emit(EVENT_TYPE.removeFriendRequest, user._id);
+        this.eventService.emit(EVENT_TYPE.removeFriendRequest, user._id);
         user.isGetFriendRequest = false;
     }
 

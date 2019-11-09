@@ -9,7 +9,7 @@ export class ProfilePictureService extends BasicService {
         super(http, "/api/profilePicture");
     }
 
-    GetUserProfileImage() {
+    getUserProfileImage() {
         return super.get('/getUserProfileImage');
     }
 

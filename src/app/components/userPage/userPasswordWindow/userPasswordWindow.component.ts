@@ -52,7 +52,7 @@ export class UserPasswordWindowComponent {
     }
 
     closeWindow() {
-        this.eventService.Emit(EVENT_TYPE.closeUserPasswordWindow);
+        this.eventService.emit(EVENT_TYPE.closeUserPasswordWindow);
     }
 
     // Hide microtext in a specific field.
@@ -72,22 +72,22 @@ export class UserPasswordWindowComponent {
     }
 
     changePassword() {
-        if (this.microtextService.Validation(this.validationFuncs, this.password)) {
-            this.userPasswordWindowService.UpdateUserPassword(this.password).then(data => {
+        if (this.microtextService.validation(this.validationFuncs, this.password)) {
+            this.userPasswordWindowService.updateUserPassword(this.password).then(data => {
                 if (data) {
                     let result = data.result;
 
                     if (result.lock) {
-                        this.microtextService.ShowMicrotext("old-password-micro",
+                        this.microtextService.showMicrotext("old-password-micro",
                             "העדכון ננעל למשך " + result.lock + " דקות");
                     }
                     else if (result == USER_UPDATE_INFO_ERROR.WRONG_PASSWORD) {
-                        this.microtextService.ShowMicrotext("old-password-micro", "הסיסמא שהוזנה שגוייה");
+                        this.microtextService.showMicrotext("old-password-micro", "הסיסמא שהוזנה שגוייה");
                     }
                     else {
                         this.closeWindow();
                         let updateMessage = "הסיסמא עודכנה בהצלחה!" + "{{enter}}" + "יש להיכנס מחדש.";
-                        this.socketService.SocketEmit("LogoutUserSessionServer", updateMessage);
+                        this.socketService.socketEmit("LogoutUserSessionServer", updateMessage);
                     }
                 }
                 else {
@@ -102,7 +102,7 @@ export class UserPasswordWindowComponent {
             this.closeWindow();
 
             if (result) {
-                this.alertService.Alert({
+                this.alertService.alert({
                     title: "שינוי סיסמא",
                     text: "יש להיכנס לקישור שנשלח לכתובת האימייל שלך.",
                     type: ALERT_TYPE.INFO,
@@ -116,7 +116,7 @@ export class UserPasswordWindowComponent {
     }
 
     changePasswordErrorAlert() {
-        this.alertService.Alert({
+        this.alertService.alert({
             title: "שינוי סיסמא",
             text: "אופס... אירעה שגיאה בשינוי הסיסמא",
             type: ALERT_TYPE.DANGER,

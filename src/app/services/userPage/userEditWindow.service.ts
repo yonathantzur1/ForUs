@@ -9,7 +9,7 @@ export class UserEditWindowService extends BasicService {
         super(http, "/api/userEditWindow");
     }
 
-    UpdateUserInfo(updateFields: any) {
+    updateUserInfo(updateFields: any) {
         let details = { updateFields };
 
         return super.put('/updateUserInfo', details);

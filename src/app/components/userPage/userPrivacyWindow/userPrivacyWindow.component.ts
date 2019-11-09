@@ -26,14 +26,14 @@ export class UserPrivacyWindowComponent implements OnInit {
 
     ngOnInit() {
         this.isLoading = true;
-        this.userPrivacyWindowService.GetUserPrivacyStatus().then((isUserPrivate: boolean) => {
+        this.userPrivacyWindowService.getUserPrivacyStatus().then((isUserPrivate: boolean) => {
             this.isLoading = false;
 
             if (isUserPrivate != null) {
                 this.isUserPrivate = isUserPrivate;
             }
             else {
-                this.alertService.Alert({
+                this.alertService.alert({
                     title: "שגיאה",
                     text: "אופס... שגיאה בטעינת סטטוס הפרטיות",
                     showCancelButton: false,
@@ -46,7 +46,7 @@ export class UserPrivacyWindowComponent implements OnInit {
     }
 
     closeWindow() {
-        this.eventService.Emit(EVENT_TYPE.closeUserPrivacyWindow);
+        this.eventService.emit(EVENT_TYPE.closeUserPrivacyWindow);
     }
 
     changePrivacyStatus() {
@@ -59,16 +59,16 @@ export class UserPrivacyWindowComponent implements OnInit {
         }
 
         this.isLoading = true;
-        this.userPrivacyWindowService.SetUserPrivacy(this.isUserPrivate).then(result => {
+        this.userPrivacyWindowService.setUserPrivacy(this.isUserPrivate).then(result => {
             this.isLoading = false;
 
             if (result) {
                 this.closeWindow();
                 let privacyStatus = this.isUserPrivate ? "פעיל" : "כבוי";
-                this.snackbarService.Snackbar("משתמש פרטי " + privacyStatus)
+                this.snackbarService.snackbar("משתמש פרטי " + privacyStatus)
             }
             else {
-                this.alertService.Alert({
+                this.alertService.alert({
                     title: "שגיאה",
                     text: "אופס... שגיאה בשמירת סטטוס הפרטיות",
                     showCancelButton: false,

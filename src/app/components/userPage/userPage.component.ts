@@ -58,22 +58,22 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
         eventService.register(EVENT_TYPE.closeUserEditWindow, () => {
             self.isShowUserEditWindow = false;
-            self.eventService.Emit(EVENT_TYPE.setNavbarTop, true);
+            self.eventService.emit(EVENT_TYPE.setNavbarTop, true);
         }, self.eventsIds);
 
         eventService.register(EVENT_TYPE.closeUserReportWindow, () => {
             self.isShowUserReportWindow = false;
-            self.eventService.Emit(EVENT_TYPE.setNavbarTop, true);
+            self.eventService.emit(EVENT_TYPE.setNavbarTop, true);
         }, self.eventsIds);
 
         eventService.register(EVENT_TYPE.closeUserPasswordWindow, () => {
             self.isShowUserPasswordWindow = false;
-            self.eventService.Emit(EVENT_TYPE.setNavbarTop, true);
+            self.eventService.emit(EVENT_TYPE.setNavbarTop, true);
         }, self.eventsIds);
 
         eventService.register(EVENT_TYPE.closeUserPrivacyWindow, () => {
             self.isShowUserPrivacyWindow = false;
-            self.eventService.Emit(EVENT_TYPE.setNavbarTop, true);
+            self.eventService.emit(EVENT_TYPE.setNavbarTop, true);
         }, self.eventsIds);
 
         eventService.register(EVENT_TYPE.ignoreFriendRequest, (userId: string) => {
@@ -84,7 +84,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
         //#endregion
 
-        self.socketService.SocketOn('DeleteFriendRequest', (friendId: string) => {
+        self.socketService.socketOn('DeleteFriendRequest', (friendId: string) => {
             if (friendId == self.user._id) {
                 self.unsetUserFriendStatus(FRIEND_STATUS.IS_SEND_FRIEND_REQUEST);
             }
@@ -115,20 +115,20 @@ export class UserPageComponent implements OnInit, OnDestroy {
                     {
                         text: "הסרת חברות",
                         action: function () {
-                            self.alertService.Alert({
+                            self.alertService.alert({
                                 title: "הסרת חברות",
                                 text: "האם להסיר את החברות עם " + self.user.fullName + "?",
                                 type: ALERT_TYPE.WARNING,
                                 confirmFunc: function () {
                                     self.userPageService.removeFriends(self.user._id).then(result => {
                                         if (result) {
-                                            self.socketService.SocketEmit("ServerRemoveFriend", self.user._id);
+                                            self.socketService.socketEmit("ServerRemoveFriend", self.user._id);
                                             self.unsetUserFriendStatus(FRIEND_STATUS.IS_FRIEND);
-                                            self.snackbarService.Snackbar("הסרת החברות עם " + self.user.fullName + " בוצעה בהצלחה");
-                                            self.socketService.RefreshSocket();
+                                            self.snackbarService.snackbar("הסרת החברות עם " + self.user.fullName + " בוצעה בהצלחה");
+                                            self.socketService.refreshSocket();
                                         }
                                         else {
-                                            self.alertService.Alert({
+                                            self.alertService.alert({
                                                 title: "שגיאה בהסרת החברות",
                                                 text: "אירעה שגיאה בהסרת החברות עם " + self.user.fullName,
                                                 type: ALERT_TYPE.WARNING,
@@ -161,7 +161,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                 },
                 onClick: function () {
                     self.setUserFriendStatus(FRIEND_STATUS.IS_GET_FRIEND_REQUEST);
-                    self.eventService.Emit(EVENT_TYPE.addFriendRequest, self.user._id);
+                    self.eventService.emit(EVENT_TYPE.addFriendRequest, self.user._id);
                 }
             },
             {
@@ -177,14 +177,14 @@ export class UserPageComponent implements OnInit, OnDestroy {
                         text: "אישור חברות",
                         action: function () {
                             self.setUserFriendStatus(FRIEND_STATUS.IS_FRIEND);
-                            self.eventService.Emit(EVENT_TYPE.addFriend, self.user._id);
+                            self.eventService.emit(EVENT_TYPE.addFriend, self.user._id);
                         }
                     },
                     {
                         text: "דחיית חברות",
                         action: function () {
                             self.unsetUserFriendStatus(FRIEND_STATUS.IS_SEND_FRIEND_REQUEST);
-                            self.eventService.Emit(EVENT_TYPE.ignoreFriendRequest, self.user._id);
+                            self.eventService.emit(EVENT_TYPE.ignoreFriendRequest, self.user._id);
                         }
                     }
                 ]
@@ -199,7 +199,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                 },
                 onClick: function () {
                     self.unsetUserFriendStatus(FRIEND_STATUS.IS_GET_FRIEND_REQUEST);
-                    self.eventService.Emit(EVENT_TYPE.removeFriendRequest, self.user._id);
+                    self.eventService.emit(EVENT_TYPE.removeFriendRequest, self.user._id);
                 }
             },
             {
@@ -211,7 +211,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                     return self.user.isFriend;
                 },
                 onClick: function () {
-                    self.eventService.Emit(EVENT_TYPE.openChat, self.user);
+                    self.eventService.emit(EVENT_TYPE.openChat, self.user);
                 }
             },
             {
@@ -241,7 +241,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                     {
                         text: "מחיקת משתמש",
                         action: function () {
-                            self.alertService.Alert({
+                            self.alertService.alert({
                                 title: "מחיקת המשתמש באתר לצמיתות",
                                 text: "משמעות פעולה זו היא מחיקת חשבונך באתר. \n" +
                                     "הפעולה תוביל למחיקת כל הנתונים בחשבון לרבות: \n" +
@@ -250,8 +250,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
                                     "<b>האם למחוק את המשתמש שלך מהאתר?</b>",
                                 type: ALERT_TYPE.DANGER,
                                 confirmFunc: function () {
-                                    self.userPageService.DeleteUserValidation().then(result => {
-                                        result && self.alertService.Alert({
+                                    self.userPageService.deleteUserValidation().then(result => {
+                                        result && self.alertService.alert({
                                             title: "מחיקת משתמש",
                                             text: "לאישור המחיקה, יש להיכנס לקישור שנשלח לכתובת האימייל שלך.",
                                             type: ALERT_TYPE.INFO,
@@ -285,11 +285,11 @@ export class UserPageComponent implements OnInit, OnDestroy {
             // Reset user object.
             this.user = null;
 
-            // Close chat window in case it is open.
-            this.eventService.Emit(EVENT_TYPE.closeChat, true);
+            // close chat window in case it is open.
+            this.eventService.emit(EVENT_TYPE.closeChat, true);
 
             // Get user details by user id route parameter.
-            this.userPageService.GetUserDetails(params["id"]).then((user: any) => {
+            this.userPageService.getUserDetails(params["id"]).then((user: any) => {
                 // In case the user was found.
                 if (user) {
                     user.fullName = user.firstName + " " + user.lastName;
@@ -303,45 +303,45 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
         let self = this;
 
-        self.socketService.SocketOn('ClientAddFriend', function (friend: any) {
+        self.socketService.socketOn('ClientAddFriend', function (friend: any) {
             if (friend._id == self.user._id) {
                 self.setUserFriendStatus(FRIEND_STATUS.IS_FRIEND);
             }
         });
 
-        self.socketService.SocketOn('ClientFriendAddedUpdate', function (friend: any) {
+        self.socketService.socketOn('ClientFriendAddedUpdate', function (friend: any) {
             if (friend._id == self.user._id) {
                 self.setUserFriendStatus(FRIEND_STATUS.IS_FRIEND);
             }
         });
 
-        self.socketService.SocketOn('ClientRemoveFriend', function (friendId: string) {
+        self.socketService.socketOn('ClientRemoveFriend', function (friendId: string) {
             if (friendId == self.user._id) {
                 self.unsetUserFriendStatus(FRIEND_STATUS.IS_FRIEND);
             }
         });
 
-        self.socketService.SocketOn('ClientIgnoreFriendRequest', function (friendId: string) {
+        self.socketService.socketOn('ClientIgnoreFriendRequest', function (friendId: string) {
             if (friendId == self.user._id) {
                 self.unsetUserFriendStatus(FRIEND_STATUS.IS_GET_FRIEND_REQUEST);
             }
         });
 
-        self.socketService.SocketOn('GetFriendRequest', function (friendId: string) {
+        self.socketService.socketOn('GetFriendRequest', function (friendId: string) {
             if (friendId == self.user._id) {
                 self.setUserFriendStatus(FRIEND_STATUS.IS_SEND_FRIEND_REQUEST);
             }
         });
 
         // In case the user has been removed from the site.
-        self.socketService.SocketOn('ClientRemoveFriendUser', function (friendId: string) {
+        self.socketService.socketOn('ClientRemoveFriendUser', function (friendId: string) {
             if (friendId == self.user._id) {
                 self.router.navigateByUrl("/");
             }
         });
 
         // In case the user set private user.
-        self.socketService.SocketOn('UserSetToPrivate', function (userId: string) {
+        self.socketService.socketOn('UserSetToPrivate', function (userId: string) {
             if (!self.isUserPageSelf() &&
                 !self.user.isFriend &&
                 !self.user.isSendFriendRequest) {
@@ -351,12 +351,12 @@ export class UserPageComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.eventService.UnsubscribeEvents(this.eventsIds);
+        this.eventService.unsubscribeEvents(this.eventsIds);
     }
 
     openUserWindow(windowShowPropertyName: string) {
-        this.eventService.Emit(EVENT_TYPE.setNavbarUnder, true);
-        this.eventService.Emit(EVENT_TYPE.closeChat, true);
+        this.eventService.emit(EVENT_TYPE.setNavbarUnder, true);
+        this.eventService.emit(EVENT_TYPE.closeChat, true);
         this[windowShowPropertyName] = true;
     }
 
@@ -369,7 +369,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
         }
     }
 
-    // Close all tabs without the tab with the given id.
+    // close all tabs without the tab with the given id.
     closeAllTabsOptionsMenus(id?: string) {
         this.tabs.forEach((tab: any) => {
             if (tab.id != id) {
@@ -382,7 +382,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
     initializePage(user: any) {
         this.closeAllTabsOptionsMenus();
-        this.eventService.Emit(EVENT_TYPE.changeSearchInput, user.firstName + " " + user.lastName);
+        this.eventService.emit(EVENT_TYPE.changeSearchInput, user.firstName + " " + user.lastName);
         this.user = user;
     }
 
@@ -420,7 +420,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
         this.closeAllTabsOptionsMenus();
 
         if (this.isUserPageSelf()) {
-            this.eventService.Emit(EVENT_TYPE.openProfileEditWindow, true);
+            this.eventService.emit(EVENT_TYPE.openProfileEditWindow, true);
         }
     }
 

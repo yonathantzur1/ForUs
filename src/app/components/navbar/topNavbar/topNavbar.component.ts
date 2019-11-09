@@ -50,24 +50,24 @@ export class TopNavbarComponent implements OnInit, OnDestroy {
 
         self.dropMenuDataList = [
             new DropMenuData("/panel", "ניהול", null, () => {
-                return self.permissionsService.IsUserHasRootPermission();
+                return self.permissionsService.isUserHasRootPermission();
             }),
             new DropMenuData("/profile/" + self.user._id, "פרופיל"),
             new DropMenuData("/login", "התנתקות", () => {
-                self.snackbarService.HideSnackbar();
+                self.snackbarService.hideSnackbar();
                 self.parent.logout();
             })
         ];
     }
 
     ngOnDestroy() {
-        this.eventService.UnsubscribeEvents(this.eventsIds);
+        this.eventService.unsubscribeEvents(this.eventsIds);
     }
 
     navigateMain() {
         this.parent.closePopups();
         this.parent.closeChatWindow();
-        this.eventService.Emit(EVENT_TYPE.changeSearchInput, '');
+        this.eventService.emit(EVENT_TYPE.changeSearchInput, '');
         this.router.navigateByUrl('');
     }
 
@@ -80,7 +80,7 @@ export class TopNavbarComponent implements OnInit, OnDestroy {
 
         if (this.parent.isShowDropMenu) {
             this.parent.hideSidenav();
-            this.eventService.Emit(EVENT_TYPE.hideSearchResults);
+            this.eventService.emit(EVENT_TYPE.hideSearchResults);
         }
     }
 }

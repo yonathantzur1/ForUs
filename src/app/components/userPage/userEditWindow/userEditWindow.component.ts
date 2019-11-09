@@ -9,7 +9,7 @@ import { MicrotextService, InputFieldValidation } from '../../../services/global
 import { USER_UPDATE_INFO_ERROR } from '../../../enums/enums'
 import { UserRegexp } from '../../../regex/regexpEnums'
 
-class EditUser {
+class editUser {
     firstName?: string;
     lastName?: string;
     email?: string;
@@ -28,7 +28,7 @@ export class UserEditWindowComponent implements OnInit {
     passwordValidationFuncs: Array<InputFieldValidation>;
 
     @Input() user: any;
-    editUser: EditUser = {};
+    editUser: editUser = {};
     isShowPasswordValidationWindow: boolean = false;
 
     constructor(private userEditWindowService: UserEditWindowService,
@@ -38,7 +38,7 @@ export class UserEditWindowComponent implements OnInit {
         private microtextService: MicrotextService) {
         this.editValidationFuncs = [
             {
-                isFieldValid(editUser: EditUser, userRegexp: any) {
+                isFieldValid(editUser: editUser, userRegexp: any) {
                     let namePattern = userRegexp.name;
                     return (namePattern.test(editUser.firstName));
                 },
@@ -47,7 +47,7 @@ export class UserEditWindowComponent implements OnInit {
                 inputId: "edit-first-name"
             },
             {
-                isFieldValid(editUser: EditUser, userRegexp: any) {
+                isFieldValid(editUser: editUser, userRegexp: any) {
                     let namePattern = userRegexp.name;
                     return (namePattern.test(editUser.lastName));
                 },
@@ -56,7 +56,7 @@ export class UserEditWindowComponent implements OnInit {
                 inputId: "edit-last-name"
             },
             {
-                isFieldValid(editUser: EditUser, userRegexp: any) {
+                isFieldValid(editUser: editUser, userRegexp: any) {
                     let emailPattern = userRegexp.email;
                     return (emailPattern.test(editUser.email));
                 },
@@ -68,7 +68,7 @@ export class UserEditWindowComponent implements OnInit {
 
         this.passwordValidationFuncs = [
             {
-                isFieldValid(editUser: EditUser) {
+                isFieldValid(editUser: editUser) {
                     return !!editUser.password;
                 },
                 errMsg: "יש להזין את סיסמת החשבון",
@@ -99,7 +99,7 @@ export class UserEditWindowComponent implements OnInit {
 
     showValidatePasswordWindow() {
         if (!this.isDisableSaveEdit() &&
-            this.microtextService.Validation(this.editValidationFuncs, this.editUser, UserRegexp)) {
+            this.microtextService.validation(this.editValidationFuncs, this.editUser, UserRegexp)) {
             this.isShowPasswordValidationWindow = true;
         }
     }
@@ -110,7 +110,7 @@ export class UserEditWindowComponent implements OnInit {
     }
 
     closeWindow() {
-        this.eventService.Emit(EVENT_TYPE.closeUserEditWindow, true);
+        this.eventService.emit(EVENT_TYPE.closeUserEditWindow, true);
     }
 
     // Hide microtext in a specific field.
@@ -135,7 +135,7 @@ export class UserEditWindowComponent implements OnInit {
     }
 
     saveChanges() {
-        if (this.microtextService.Validation(this.passwordValidationFuncs, this.editUser)) {
+        if (this.microtextService.validation(this.passwordValidationFuncs, this.editUser)) {
             let updatedFields = {};
 
             updatedFields["password"] = this.editUser.password;
@@ -155,31 +155,31 @@ export class UserEditWindowComponent implements OnInit {
                 }
             });
 
-            this.userEditWindowService.UpdateUserInfo(updatedFields).then(data => {
+            this.userEditWindowService.updateUserInfo(updatedFields).then(data => {
                 if (data) {
                     let result = data.result;
 
                     if (result.lock) {
-                        this.microtextService.ShowMicrotext("edit-user-password-micro",
+                        this.microtextService.showMicrotext("edit-user-password-micro",
                             "העדכון ננעל למשך " + result.lock + " דקות");
                     }
                     else if (result == USER_UPDATE_INFO_ERROR.EMAIL_EXISTS) {
                         this.backToDetailsWindow();
-                        this.microtextService.ShowMicrotext("edit-user-email-micro",
+                        this.microtextService.showMicrotext("edit-user-email-micro",
                             "כתובת אימייל זו כבר נמצאת בשימוש");
                     }
                     else if (result == USER_UPDATE_INFO_ERROR.WRONG_PASSWORD) {
-                        this.microtextService.ShowMicrotext("edit-user-password-micro",
+                        this.microtextService.showMicrotext("edit-user-password-micro",
                             "הסיסמא שהוזנה שגוייה");
                     }
                     else {
                         this.closeWindow();
                         let updateMessage = "הפרטים עודכנו בהצלחה!" + "{{enter}}" + "יש להיכנס מחדש.";
-                        this.socketService.SocketEmit("LogoutUserSessionServer", updateMessage);
+                        this.socketService.socketEmit("LogoutUserSessionServer", updateMessage);
                     }
                 }
                 else {
-                    this.alertService.Alert({
+                    this.alertService.alert({
                         title: "עדכון מידע",
                         text: "אופס... אירעה שגיאה בעדכון הפרטים",
                         type: ALERT_TYPE.DANGER,

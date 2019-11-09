@@ -10,7 +10,7 @@ export class ForgotService extends BasicService {
         super(http, "/api/forgotPassword");
     }
 
-    ForgotPasswordRequest(email: string) {
+    forgotPasswordRequest(email: string) {
         let details = { "email": email };
 
         return super.put('/forgotPasswordRequest', details);
@@ -26,15 +26,12 @@ export class ForgotService extends BasicService {
         return super.put('/resetPassword', details);
     }
 
-    ValidateResetPasswordToken(token: string) {
+    validateResetPasswordToken(token: string) {
         return super.get('/validateResetPasswordToken?token=' + token);
     }
 
-    ResetPasswordByToken(token: string, newPassword: string) {
-        let details = {
-            token,
-            newPassword
-        };
+    resetPasswordByToken(token: string, newPassword: string) {
+        let details = { token, newPassword };
 
         return super.put('/resetPasswordByToken', details);
     }

@@ -11,7 +11,7 @@ export class StatisticsService extends BasicService {
         super(http, "/api/statistics");
     }
 
-    GetChartData(logType: LOG_TYPE,
+    getChartData(logType: LOG_TYPE,
         range: STATISTICS_RANGE,
         datesRange: Object,
         clientTimeZone: number,
@@ -27,8 +27,7 @@ export class StatisticsService extends BasicService {
         return super.post('/getChartData', data);
     }
 
-    GetUserByEmail(email: string) {
+    getUserByEmail(email: string) {
         return super.get('/getUserByEmail?email=' + email);
     }
-
 }

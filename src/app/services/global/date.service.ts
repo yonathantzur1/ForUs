@@ -3,7 +3,7 @@ export class DateService {
     public months: Array<string> = ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני", "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"];
     public shortMonths: Array<string> = ["ינו'", "פבר'", "מרץ", "אפר'", "מאי", "יוני", "יול'", "אוג'", "ספט'", "אוק'", "נוב'", "דצמ'"];
 
-    GetDateDetailsString(localDate: Date, currDate: Date, isShortMonths?: boolean) {
+    getDateDetailsString(localDate: Date, currDate: Date, isShortMonths?: boolean) {
         currDate.setHours(23, 59, 59, 999);
 
         let timeDiff = Math.abs(currDate.getTime() - localDate.getTime());

@@ -32,7 +32,7 @@ export class PermissionsCardComponent implements OnDestroy {
             self.user = user;
 
             self.isLoading = true;
-            permissionsCardService.GetUserPermissions(self.user._id).then((result: any) => {
+            permissionsCardService.getUserPermissions(self.user._id).then((result: any) => {
                 self.isLoading = false;
 
                 if (result) {
@@ -49,7 +49,7 @@ export class PermissionsCardComponent implements OnDestroy {
 
         self.isLoading = true;
 
-        permissionsCardService.GetAllPermissions().then((result: any) => {
+        permissionsCardService.getAllPermissions().then((result: any) => {
             self.isLoading = false;
 
             if (result) {
@@ -59,7 +59,7 @@ export class PermissionsCardComponent implements OnDestroy {
     }
 
     ngOnDestroy() {
-        this.eventService.UnsubscribeEvents(this.eventsIds);
+        this.eventService.unsubscribeEvents(this.eventsIds);
     }
 
     checkPermission(permission: any) {
@@ -79,10 +79,10 @@ export class PermissionsCardComponent implements OnDestroy {
             $("#permissions-modal").modal('hide');
 
             if (result) {
-                this.snackbarService.Snackbar("עדכון ההרשאות בוצע בהצלחה");
+                this.snackbarService.snackbar("עדכון ההרשאות בוצע בהצלחה");
             }
             else {
-                this.snackbarService.Snackbar("שגיאה בעדכון ההרשאות");
+                this.snackbarService.snackbar("שגיאה בעדכון ההרשאות");
             }
         });
     }

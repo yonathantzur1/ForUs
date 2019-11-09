@@ -9,7 +9,7 @@ export class UserReportWindowService extends BasicService {
         super(http, "/api/userReportWindow");
     }
 
-    GetAllReportReasons() {
+    getAllReportReasons() {
         return super.get('/getAllReportReasons');
     }
 

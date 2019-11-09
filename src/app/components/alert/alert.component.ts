@@ -16,11 +16,11 @@ export class AlertComponent {
     constructor(public alertService: AlertService) { }
 
     confirmClick() {
-        !this.alertService.isLoading && this.alertService.Confirm();
+        !this.alertService.isLoading && this.alertService.confirm();
     }
 
     closeClick() {
-        !this.alertService.isLoading && this.alertService.Close();
+        !this.alertService.isLoading && this.alertService.close();
     }
 
     @HostListener('document:keyup', ['$event'])

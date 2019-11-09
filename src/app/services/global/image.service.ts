@@ -7,12 +7,12 @@ export class ImageService {
     constructor() {
         this.defaultProfileImage = defaultProfileImagePath;
 
-        this.ImageToBase64(defaultProfileImagePath, (imgBase64: string) => {
+        this.imageToBase64(defaultProfileImagePath, (imgBase64: string) => {
             this.defaultProfileImage = imgBase64;
         });
     }
 
-    private ImageToBase64(url: string, callback: Function) {
+    private imageToBase64(url: string, callback: Function) {
         let xhr = new XMLHttpRequest();
         xhr.onload = () => {
             var reader = new FileReader();
@@ -26,7 +26,7 @@ export class ImageService {
         xhr.send();
     }
 
-    DeleteUserProfileImage() {
+    deleteUserProfileImage() {
         this.userProfileImage = null;
     }
 }

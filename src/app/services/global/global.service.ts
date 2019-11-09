@@ -16,7 +16,7 @@ export class GlobalService {
         private permissionsService: PermissionsService,
         private imageService: ImageService) {
 
-        // Close modal when click back on browser.
+        // close modal when click back on browser.
         $(window).on('popstate', function () {
             let modalElement = $(".modal");
 
@@ -33,25 +33,25 @@ export class GlobalService {
         })(jQuery);
     }
 
-    Initialize() {
-        if (!this.socketService.IsSocketExists()) {
-            this.socketService.Initialize();
-            this.permissionsService.Initialize();
+    initialize() {
+        if (!this.socketService.isSocketExists()) {
+            this.socketService.initialize();
+            this.permissionsService.initialize();
         }
     }
 
-    ResetGlobalVariables() {
-        this.socketService.DeleteSocket();
-        this.permissionsService.DeletePermissions();
-        this.imageService.DeleteUserProfileImage();
+    resetGlobalVariables() {
+        this.socketService.deleteSocket();
+        this.permissionsService.deletePermissions();
+        this.imageService.deleteUserProfileImage();
         this.userId = null;
     }
 
-    SetData(key, value) {
+    setData(key, value) {
         this.data[key] = value;
     }
 
-    GetData(key) {
+    getData(key) {
         if (this.data[key]) {
             // Deep copy data value.
             let result = JSON.parse(JSON.stringify(this.data[key]));

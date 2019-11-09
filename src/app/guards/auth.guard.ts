@@ -11,9 +11,9 @@ export class AuthGuard implements CanActivate {
         private globalService: GlobalService) { }
 
     canActivate() {
-        return this.authService.IsUserOnSession().then(result => {
+        return this.authService.isUserOnSession().then(result => {
             if (result) {
-                this.globalService.Initialize();
+                this.globalService.initialize();
                 return true;
             }
             else {

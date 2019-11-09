@@ -9,11 +9,11 @@ export class PermissionsCardService extends BasicService {
         super(http, "/api/permissions");
     }
 
-    GetAllPermissions() {
+    getAllPermissions() {
         return super.get('/getAllPermissions');
     }
 
-    GetUserPermissions(userId: string) {
+    getUserPermissions(userId: string) {
         return super.get('/getUserPermissions?userId=' + userId);
     }
 

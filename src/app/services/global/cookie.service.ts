@@ -1,14 +1,14 @@
 export class CookieService {
     uidCookieName: string = "uid";
 
-    SetCookie(name: string, value: any, exHours: number) {
+    setCookie(name: string, value: any, exHours: number) {
         let d = new Date();
         d.setTime(d.getTime() + (exHours * 60 * 60 * 1000));
         let expires = "expires=" + d.toUTCString();
         document.cookie = name + "=" + value + ";" + expires + ";path=/";
     }
 
-    GetCookie(name: string) {
+    getCookie(name: string) {
         name += "=";
         let decodedCookie = decodeURIComponent(document.cookie);
         let ca = decodedCookie.split(';');
@@ -26,11 +26,11 @@ export class CookieService {
         return '';
     }
 
-    private DeleteCookieByName(name: string) {
+    private deleteCookieByName(name: string) {
         document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     }
 
-    DeleteUidCookie() {
-        this.DeleteCookieByName(this.uidCookieName);
+    deleteUidCookie() {
+        this.deleteCookieByName(this.uidCookieName);
     }
 }

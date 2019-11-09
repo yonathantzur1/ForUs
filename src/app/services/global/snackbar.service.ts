@@ -7,17 +7,17 @@ export class SnackbarService {
     private currentTimeout: any;
 
     constructor() {
-        this.Initialize();
+        this.initialize();
     }
 
-    private Initialize() {
+    private initialize() {
         this.delay = 2500; // milliseconds
         this.isShow = false;
         this.currentTimeout = null;
         this.text = '';
     }
 
-    Snackbar(text: string, delay?: number, onClick?: Function) {
+    snackbar(text: string, delay?: number, onClick?: Function) {
         // Clear timeout if exists.
         clearTimeout(this.currentTimeout);
 
@@ -26,15 +26,15 @@ export class SnackbarService {
         this.isShow = true;
         this.onClick = () => {
             onClick && onClick();
-            this.HideSnackbar();
+            this.hideSnackbar();
         };
 
         this.currentTimeout = setTimeout(() => {
-            this.Initialize()
+            this.initialize()
         }, delay || this.delay);
     }
 
-    HideSnackbar() {
+    hideSnackbar() {
         this.isShow = false;
     }
 }

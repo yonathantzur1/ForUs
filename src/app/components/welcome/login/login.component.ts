@@ -71,7 +71,7 @@ export class LoginComponent {
         this.user.email = this.user.email.trim();
 
         // In case the login fields are valid.
-        if (this.microtextService.Validation(this.validationFuncs, this.user, UserRegexp)) {
+        if (this.microtextService.validation(this.validationFuncs, this.user, UserRegexp)) {
             this.isLoading = true;
             let self = this;
 
@@ -81,22 +81,22 @@ export class LoginComponent {
 
                 // In case of server error.
                 if (result == null) {
-                    this.snackbarService.Snackbar("אירעה שגיאה בחיבור לשרת");
+                    this.snackbarService.snackbar("אירעה שגיאה בחיבור לשרת");
                 }
                 // In case the login details is incorrect.
                 else if (result == false) {
-                    this.snackbarService.Snackbar("שם המשתמש או הסיסמא שגויים");
+                    this.snackbarService.snackbar("שם המשתמש או הסיסמא שגויים");
                 }
                 // In case the user was not found.
                 else if (result == "-1") {
-                    this.alertService.Alert({
+                    this.alertService.alert({
                         title: "משתמש לא קיים במערכת",
                         text: "האם ברצונך להרשם?",
                         type: ALERT_TYPE.INFO,
                         confirmBtnText: "כן",
                         cancelBtnText: "לא",
                         confirmFunc: function () {
-                            self.globalService.SetData("registerEmail", self.user.email);
+                            self.globalService.setData("registerEmail", self.user.email);
                             self.router.navigateByUrl('/register');
                         }
                     });
@@ -104,11 +104,11 @@ export class LoginComponent {
                 else {
                     // In case the user is locked via brute attack.
                     if (result.lock) {
-                        this.snackbarService.Snackbar("החשבון ננעל למשך " + result.lock + " דקות");
+                        this.snackbarService.snackbar("החשבון ננעל למשך " + result.lock + " דקות");
                     }
                     // In case the user is blocked.
                     else if (result.block) {
-                        this.alertService.Alert({
+                        this.alertService.alert({
                             title: "משתמש חסום",
                             text: "<b>סיבה: </b>" + result.block.reason + "\n" +
                                 "<b>עד תאריך: </b>" + (result.block.unblockDate ? result.block.unblockDate : "בלתי מוגבל"),
@@ -118,7 +118,7 @@ export class LoginComponent {
                     }
                     else {
                         // Show the loader again because the gurd validates the token.
-                        this.snackbarService.HideSnackbar();
+                        this.snackbarService.hideSnackbar();
                         this.isLoading = true;
                         this.router.navigateByUrl('');
                     }

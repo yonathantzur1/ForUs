@@ -195,7 +195,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     ngOnInit() {
         let self = this;
 
-        self.socketService.SocketOn('GetMessage', function (msgData: any) {
+        self.socketService.socketOn('GetMessage', function (msgData: any) {
             if (msgData.from == self.chatData.friend._id) {
                 self.addMessageToChat(msgData);
             }
@@ -309,7 +309,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     ngOnDestroy() {
         let self = this;
 
-        self.eventService.UnsubscribeEvents(self.eventsIds);
+        self.eventService.unsubscribeEvents(self.eventsIds);
 
         Object.keys(self.canvasEvents).forEach(key => {
             self.canvas.removeEventListener(key, self.canvasEvents[key], false);
@@ -350,7 +350,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.isMessagesLoading = true
         this.isChatLoadingError = false;
 
-        this.chatService.GetChat([this.chatData.user._id, this.chatData.friend._id]).then((chat: any) => {
+        this.chatService.getChat([this.chatData.user._id, this.chatData.friend._id]).then((chat: any) => {
             if (chat) {
                 this.messages = chat.messages;
                 this.totalMessagesNum = chat.totalMessagesNum;
@@ -405,7 +405,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.isAllowShowUnreadLine = false;
                 this.messages.push(msgData);
                 $("#msg-input").focus();
-                this.socketService.SocketEmit("sendMessage", msgData);
+                this.socketService.socketEmit("sendMessage", msgData);
             }
         }
     }
@@ -420,7 +420,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             this.closeChat();
         }
         else {
-            this.socketService.SocketEmit("ServerFriendTyping", this.chatData.friend._id);
+            this.socketService.socketEmit("ServerFriendTyping", this.chatData.friend._id);
         }
     }
 
@@ -487,7 +487,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     getDateBubbleText(index: number) {
         return this.dateService.
-            GetDateDetailsString(new Date(this.messages[index].time), new Date(), false);
+            getDateDetailsString(new Date(this.messages[index].time), new Date(), false);
     }
 
     getTopIconById(id: string): TopIcon {
@@ -577,7 +577,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
             this.isAllowScrollDown = true;
             this.messages.push(msgData);
-            this.socketService.SocketEmit("sendMessage", msgData);
+            this.socketService.socketEmit("sendMessage", msgData);
         }
     }
 
@@ -647,10 +647,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         let isSuccess = this.uploadImage();
 
         if (isSuccess == false) {
-            this.snackbarService.Snackbar("הקובץ שנבחר אינו תמונה");
+            this.snackbarService.snackbar("הקובץ שנבחר אינו תמונה");
         }
         else if (isSuccess == null) {
-            this.snackbarService.Snackbar("שגיאה בהעלאת התמונה");
+            this.snackbarService.snackbar("שגיאה בהעלאת התמונה");
         }
     }
 
@@ -700,7 +700,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             (this.messages.length < this.totalMessagesNum)) {
             this.isMessagesPageLoading = true;
 
-            this.chatService.GetChatPage([this.chatData.user._id, this.chatData.friend._id],
+            this.chatService.getChatPage([this.chatData.user._id, this.chatData.friend._id],
                 this.messages.length, this.totalMessagesNum).then((chat: any) => {
                     this.isMessagesPageLoading = false;
 
@@ -721,7 +721,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     moveToFriendPage(friendObj: any) {
-        this.eventService.Emit(EVENT_TYPE.openUserProfile, friendObj);
+        this.eventService.emit(EVENT_TYPE.openUserProfile, friendObj);
     }
 
     preventZoom(e: any) {

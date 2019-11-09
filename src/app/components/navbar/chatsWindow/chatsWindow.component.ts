@@ -31,7 +31,7 @@ export class ChatsWindowComponent implements OnInit {
 
         let self = this;
 
-        self.socketService.SocketOn('ClientUpdateSendMessage', (msgData: any) => {
+        self.socketService.socketOn('ClientUpdateSendMessage', (msgData: any) => {
             let isChatUpdated = false;
 
             for (let i = 0; i < self.chats.length; i++) {
@@ -52,7 +52,7 @@ export class ChatsWindowComponent implements OnInit {
             }
         });
 
-        self.socketService.SocketOn('ClientUpdateGetMessage', (msgData: any) => {
+        self.socketService.socketOn('ClientUpdateGetMessage', (msgData: any) => {
             let isChatUpdated = false;
 
             for (let i = 0; i < self.chats.length; i++) {
@@ -74,12 +74,12 @@ export class ChatsWindowComponent implements OnInit {
         });
 
         // Remove friend from management screen.
-        self.socketService.SocketOn('ClientRemoveFriendUser', (friendId: string) => {
+        self.socketService.socketOn('ClientRemoveFriendUser', (friendId: string) => {
             self.removeFriendChat(friendId);
         });
 
         // Remove friend by the user from user page.
-        self.socketService.SocketOn('ClientRemoveFriend', (friendId: string) => {
+        self.socketService.socketOn('ClientRemoveFriend', (friendId: string) => {
             self.removeFriendChat(friendId);
         });
     }
@@ -87,7 +87,7 @@ export class ChatsWindowComponent implements OnInit {
     loadChatsObjects() {
         this.isLoading = true;
 
-        this.chatService.GetAllPreviewChats().then(((chats: any) => {
+        this.chatService.getAllPreviewChats().then(((chats: any) => {
             this.isLoading = false;
             this.chats = chats;
         }).bind(this));
@@ -144,7 +144,7 @@ export class ChatsWindowComponent implements OnInit {
         }
 
         chat.timeString = {
-            "dateDetailsString": this.dateService.GetDateDetailsString(localDate, currDate, true),
+            "dateDetailsString": this.dateService.getDateDetailsString(localDate, currDate, true),
             "dateTimeString": dateTimeString
         };
     }

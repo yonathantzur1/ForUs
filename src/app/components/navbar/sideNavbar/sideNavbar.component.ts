@@ -57,11 +57,11 @@ export class SideNavbarComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.eventService.UnsubscribeEvents(this.eventsIds);
+        this.eventService.unsubscribeEvents(this.eventsIds);
     }
 
     showHideSidenav() {
-        this.eventService.Emit(EVENT_TYPE.showNewFriendsLabel, false);
+        this.eventService.emit(EVENT_TYPE.showNewFriendsLabel, false);
 
         if (this.parent.isShowSidenav) {
             this.parent.hideSidenav();
@@ -70,7 +70,7 @@ export class SideNavbarComponent implements OnInit, OnDestroy {
             this.parent.isShowSidenav = true;
             this.parent.isHideNotificationsBudget = true;
             this.parent.hideDropMenu();
-            this.eventService.Emit(EVENT_TYPE.hideSearchResults);
+            this.eventService.emit(EVENT_TYPE.hideSearchResults);
             $("#sidenav").width(this.sidenavWidth);
             $("body").addClass("no-overflow");
         }
@@ -102,10 +102,10 @@ export class SideNavbarComponent implements OnInit, OnDestroy {
     loadFriendsData(friendsIds: Array<string>) {
         if (friendsIds.length > 0) {
             this.isFriendsLoading = true;
-            this.navbarService.GetFriends(friendsIds).then((friendsResult: Array<Friend>) => {
+            this.navbarService.getFriends(friendsIds).then((friendsResult: Array<Friend>) => {
                 this.parent.friends = friendsResult;
                 this.isFriendsLoading = false;
-                this.socketService.SocketEmit("ServerGetOnlineFriends");
+                this.socketService.socketEmit("ServerGetOnlineFriends");
             });
         }
     }
@@ -169,10 +169,10 @@ export class SideNavbarComponent implements OnInit, OnDestroy {
     }
 
     searchNewFriends() {
-        this.eventService.Emit(EVENT_TYPE.changeSearchInput, '');
+        this.eventService.emit(EVENT_TYPE.changeSearchInput, '');
         setTimeout(() => {
             $("#" + this.searchInputId).focus();
-            this.eventService.Emit(EVENT_TYPE.showNewFriendsLabel, true);
+            this.eventService.emit(EVENT_TYPE.showNewFriendsLabel, true);
         }, 0);
     }
 }

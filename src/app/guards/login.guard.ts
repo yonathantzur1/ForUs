@@ -15,11 +15,11 @@ export class LoginGuard implements CanActivate {
     canActivate() {
         return Observable.create((observer: Subject<boolean>) => {
             // In case the uid cookie is not exists.
-            if (!this.cookieService.GetCookie(this.cookieService.uidCookieName)) {
+            if (!this.cookieService.getCookie(this.cookieService.uidCookieName)) {
                 observer.next(true);
             }
             else {
-                this.authService.IsUserOnSession().then(result => {
+                this.authService.isUserOnSession().then(result => {
                     if (!result) {
                         observer.next(true);
                     }

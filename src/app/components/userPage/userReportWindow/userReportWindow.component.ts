@@ -32,7 +32,7 @@ export class UserReportWindowComponent implements OnInit {
 
     ngOnInit() {
         this.isLoading = true;
-        this.userReportWindowService.GetAllReportReasons().then((result: Array<ReportReason>) => {
+        this.userReportWindowService.getAllReportReasons().then((result: Array<ReportReason>) => {
             this.isLoading = false;
 
             if (result) {
@@ -41,7 +41,7 @@ export class UserReportWindowComponent implements OnInit {
             }
             else {
                 this.closeWindow();
-                this.alertService.Alert({
+                this.alertService.alert({
                     title: "דיווח משתמש",
                     text: "אופס... אירעה שגיאה בפתיחת חלון הדיווח.",
                     type: ALERT_TYPE.DANGER,
@@ -52,7 +52,7 @@ export class UserReportWindowComponent implements OnInit {
     }
 
     closeWindow() {
-        this.eventService.Emit(EVENT_TYPE.closeUserReportWindow);
+        this.eventService.emit(EVENT_TYPE.closeUserReportWindow);
     }
 
     initializeReasonButtons() {
@@ -136,7 +136,7 @@ export class UserReportWindowComponent implements OnInit {
                     this.closeWindow();
                     let successMsg = "הדיווח שהזנת נשמר בהצלחה, ויבדק על ידי צוות האתר." +
                         "\n" + "תודה שעזרת לשמור על סביבה בטוחה יותר!";
-                    this.alertService.Alert({
+                    this.alertService.alert({
                         title: "דיווח משתמש",
                         text: successMsg,
                         type: ALERT_TYPE.INFO,
@@ -144,7 +144,7 @@ export class UserReportWindowComponent implements OnInit {
                     });
                 }
                 else {
-                    this.alertService.Alert({
+                    this.alertService.alert({
                         title: "דיווח משתמש",
                         text: "אופס... אירעה שגיאה בשמירת הדיווח.",
                         type: ALERT_TYPE.DANGER,

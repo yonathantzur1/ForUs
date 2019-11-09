@@ -9,37 +9,37 @@ export class NavbarService extends BasicService {
         super(http, "/api/navbar");
     }
 
-    GetFriends(friendsIds: Array<string>) {
+    getFriends(friendsIds: Array<string>) {
         return super.post('/getFriends', friendsIds);
     }
 
-    GetMainSearchResults(searchInput: string) {
+    getMainSearchResults(searchInput: string) {
         let details = { searchInput };
 
         return super.post('/getMainSearchResults', details);
     }
 
-    GetMainSearchResultsWithImages(ids: any) {
+    getMainSearchResultsWithImages(ids: any) {
         return super.post('/getMainSearchResultsWithImages', ids);
     }
 
-    GetUserMessagesNotifications() {
+    getUserMessagesNotifications() {
         return super.get('/getUserMessagesNotifications');
     }
 
-    UpdateMessagesNotifications(messagesNotifications: any) {
+    updateMessagesNotifications(messagesNotifications: any) {
         let details = { messagesNotifications };
 
         super.post('/updateMessagesNotifications', details);
     }
 
-    RemoveMessagesNotifications(messagesNotifications: any) {
+    removeMessagesNotifications(messagesNotifications: any) {
         let details = { messagesNotifications };
 
         super.post('/removeMessagesNotifications', details);
     }
 
-    GetUserFriendRequests() {
+    getUserFriendRequests() {
         return super.get('/getUserFriendRequests');
     }
 
@@ -67,7 +67,7 @@ export class NavbarService extends BasicService {
         return super.post('/addFriend', details);
     }
 
-    RemoveFriendRequestConfirmAlert(confirmedFriendsIds: Array<string>) {
+    removeFriendRequestConfirmAlert(confirmedFriendsIds: Array<string>) {
         let data = { confirmedFriendsIds };
 
         return super.put('/removeFriendRequestConfirmAlert', data);

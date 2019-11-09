@@ -45,7 +45,7 @@ export class ForgotPasswordComponent implements OnInit {
         this.route.params.subscribe(params => {
             this.resetPasswordToken = params["passToken"];
 
-            this.forgotPasswordService.ValidateResetPasswordToken(this.resetPasswordToken)
+            this.forgotPasswordService.validateResetPasswordToken(this.resetPasswordToken)
                 .then((result: any) => {
                     if (result) {
                         this.isResetTokenValid = true;
@@ -63,23 +63,23 @@ export class ForgotPasswordComponent implements OnInit {
     }
 
     resetPassword() {
-        if (!this.microtextService.Validation(this.validationFuncs, this.newPassword)) {
+        if (!this.microtextService.validation(this.validationFuncs, this.newPassword)) {
             return;
         }
 
-        this.forgotPasswordService.ResetPasswordByToken(this.resetPasswordToken, this.newPassword)
+        this.forgotPasswordService.resetPasswordByToken(this.resetPasswordToken, this.newPassword)
             .then((result: boolean) => {
                 let self = this;
 
                 if (result) {
-                    self.socketService.SocketEmit('LogoutUserSessionServer',
+                    self.socketService.socketEmit('LogoutUserSessionServer',
                         "תוקף הסיסמא פג, יש להתחבר מחדש");
 
-                    this.snackbarService.Snackbar("הסיסמא הוחלפה בהצלחה");
+                    this.snackbarService.snackbar("הסיסמא הוחלפה בהצלחה");
                     self.router.navigateByUrl('/login');
                 }
                 else {
-                    this.snackbarService.Snackbar("אירעה שגיאה בחיבור לשרת");
+                    this.snackbarService.snackbar("אירעה שגיאה בחיבור לשרת");
                 }
             });
     }

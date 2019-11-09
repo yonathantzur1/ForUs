@@ -9,25 +9,25 @@ export class ManagementService extends BasicService {
         super(http, "/api/management");
     }
 
-    GetUserByName(searchInput: string) {
+    getUserByName(searchInput: string) {
         let data = { searchInput };
 
         return super.post('/getUserByName', data);
     }
 
-    GetUserFriends(friendsIds: Array<string>) {
+    getUserFriends(friendsIds: Array<string>) {
         let data = { friendsIds };
 
         return super.post('/getUserFriends', data);
     }
 
-    EditUser(updateFields: any) {
+    editUser(updateFields: any) {
         let data = { updateFields };
 
         return super.put('/editUser', data);
     }
 
-    BlockUser(blockObj: any) {
+    blockUser(blockObj: any) {
         let data = { blockObj };
 
         return super.put('/blockUser', data);

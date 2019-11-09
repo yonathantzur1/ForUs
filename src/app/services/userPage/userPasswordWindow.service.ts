@@ -11,7 +11,7 @@ export class UserPasswordWindowService extends BasicService {
         super(http, "/api/userPasswordWindow");
     }
 
-    UpdateUserPassword(password: Password) {
+    updateUserPassword(password: Password) {
         return super.put('/updateUserPassword', password);
     }
 

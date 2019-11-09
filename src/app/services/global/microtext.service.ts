@@ -9,7 +9,7 @@ declare let $: any;
 
 export class MicrotextService {
 
-    Validation(validations: Array<InputFieldValidation>, obj: any, regexp?: any): boolean {
+    validation(validations: Array<InputFieldValidation>, obj: any, regexp?: any): boolean {
         let regexpPatterns = {};
         // Convert strings to regex patterns in case regex was sent.
         if (regexp) {
@@ -54,13 +54,13 @@ export class MicrotextService {
     }
 
     // Hide microtext in a specific field.
-    ShowMicrotext(fieldId: string, text: string) {
+    showMicrotext(fieldId: string, text: string) {
         $("#" + fieldId).html(text);
     }
 
     // Hide microtext in a specific field.
     hideMicrotext(fieldId: string) {
-        this.ShowMicrotext(fieldId, '');
+        this.showMicrotext(fieldId, '');
     }
 
 }

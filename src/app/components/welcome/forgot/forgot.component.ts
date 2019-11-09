@@ -100,18 +100,18 @@ export class ForgotComponent {
         this.forgotUser.email = this.forgotUser.email.trim();
 
         // In case the forgot modal fields are valid.
-        if (this.microtextService.Validation(this.validationFuncs, this.forgotUser, UserRegexp)) {
+        if (this.microtextService.validation(this.validationFuncs, this.forgotUser, UserRegexp)) {
             this.isLoading = true;
 
             // In case the user is in the first stage of reset password.
             if (this.forgotUser.showResetCodeField == false) {
-                this.forgotService.ForgotPasswordRequest(this.forgotUser.email).then((data: any) => {
+                this.forgotService.forgotPasswordRequest(this.forgotUser.email).then((data: any) => {
                     let result = data ? data.result : null;
                     this.isLoading = false;
 
                     // In case of server error.
                     if (result == null) {
-                        this.snackbarService.Snackbar("אירעה שגיאה בחיבור לשרת");
+                        this.snackbarService.snackbar("אירעה שגיאה בחיבור לשרת");
                     }
                     // In case the user was not found.
                     else if (result == false) {
@@ -122,7 +122,7 @@ export class ForgotComponent {
                     else {
                         this.forgotUser.showResetCodeField = true;
                         this.forgotUser.forgotBtnText = FORGOT_BTN_TEXT.RESET_PASSWORD;
-                        this.snackbarService.Snackbar("קוד לאיפוס הסיסמא נשלח לאימייל שלך");
+                        this.snackbarService.snackbar("קוד לאיפוס הסיסמא נשלח לאימייל שלך");
                     }
                 });
             }
@@ -134,7 +134,7 @@ export class ForgotComponent {
 
                     // In case of server error.
                     if (result == null) {
-                        this.snackbarService.Snackbar("אירעה שגיאה בחיבור לשרת");
+                        this.snackbarService.snackbar("אירעה שגיאה בחיבור לשרת");
                     }
                     // In case the email was not found.
                     else if (result == false || result.emailNotFound) {
@@ -162,10 +162,10 @@ export class ForgotComponent {
 
                         let self = this;
 
-                        self.socketService.SocketEmit('LogoutUserSessionServer',
+                        self.socketService.socketEmit('LogoutUserSessionServer',
                             "תוקף הסיסמא פג, יש להתחבר מחדש");
 
-                        this.snackbarService.Snackbar("הסיסמא הוחלפה בהצלחה");
+                        this.snackbarService.snackbar("הסיסמא הוחלפה בהצלחה");
                         self.router.navigateByUrl('');
                     }
                 });

@@ -14,23 +14,23 @@ export class PermissionsService extends AuthService {
         this.userPermissions = [];
     }
 
-    async Initialize() {
-        this.userPermissions = (await super.GetUserPermissions()) || [];
+    async initialize() {
+        this.userPermissions = (await super.getUserPermissions()) || [];
     }
 
-    DeletePermissions() {
+    deletePermissions() {
         this.userPermissions = [];
     }
 
-    IsUserHasAdminPermission() {
+    isUserHasAdminPermission() {
         return this.userPermissions.includes(PERMISSION.ADMIN);
     }
 
-    IsUserHasMasterPermission() {
+    isUserHasMasterPermission() {
         return this.userPermissions.includes(PERMISSION.MASTER);
     }
 
-    IsUserHasRootPermission() {
-        return (this.IsUserHasAdminPermission() || this.IsUserHasMasterPermission());
+    isUserHasRootPermission() {
+        return (this.isUserHasAdminPermission() || this.isUserHasMasterPermission());
     }
 }

@@ -3,15 +3,15 @@ declare let io: any;
 export class SocketService {
     socket: any;
 
-    Initialize() {
+    initialize() {
         this.socket = io();
     }
 
-    IsSocketExists() {
+    isSocketExists() {
         return !!this.socket;
     }
 
-    private ConvertArrayToString(params: any[]): string {
+    private convertArrayToString(params: any[]): string {
         let paramsString = '';
 
         if (!params || params.length == 0) {
@@ -36,27 +36,27 @@ export class SocketService {
         }
     }
 
-    SocketEmit(funcName: string, ...params: any[]) {
+    socketEmit(funcName: string, ...params: any[]) {
         let socketObjStr = this.socket ? "this.socket" : "io()";
-        eval(socketObjStr + ".emit('" + funcName + "'," + this.ConvertArrayToString(params) + ");");
+        eval(socketObjStr + ".emit('" + funcName + "'," + this.convertArrayToString(params) + ");");
     }
 
-    SocketOn(name: string, func: Function) {
+    socketOn(name: string, func: Function) {
         this.socket.on(name, func);
     }
 
     // This function should be called in order to refresh
     // the client cookies (token) that the socket object contains.
-    RefreshSocket() {
-        if (this.IsSocketExists()) {
+    refreshSocket() {
+        if (this.isSocketExists()) {
             this.socket.disconnect();
             this.socket.connect();
             this.socket.emit('login');
         }
     }
 
-    DeleteSocket() {
-        if (this.IsSocketExists()) {
+    deleteSocket() {
+        if (this.isSocketExists()) {
             this.socket.destroy();
             this.socket = null;
         }

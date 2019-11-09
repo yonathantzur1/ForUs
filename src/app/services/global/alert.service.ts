@@ -22,7 +22,7 @@ export class AlertService {
 
     private newLine: string = "{{enter}}";
 
-    private Initialize() {
+    private initialize() {
         this.isShow = false;
         this.isLoading = false;
         this.showCancelButton = true;
@@ -31,8 +31,8 @@ export class AlertService {
         this.closeBtnText = "ביטול";
     }
 
-    Alert(alt: any) {
-        this.Initialize();
+    alert(alt: any) {
+        this.initialize();
 
         if (alt) {
             this.title = alt.title;
@@ -51,28 +51,28 @@ export class AlertService {
         }
     }
 
-    Confirm() {
+    confirm() {
         if (this.preConfirm) {
             this.isLoading = true;
             this.preConfirm().then(() => {
                 this.isLoading = true;
                 this.confirmFunc && this.confirmFunc();
-                this.Initialize();
+                this.initialize();
             });
         }
         else {
             this.confirmFunc && this.confirmFunc();
-            this.ActivateAlertClose();
+            this.activateAlertClose();
         }
     }
 
-    Close() {
+    close() {
         this.closeFunc && this.closeFunc();
-        this.ActivateAlertClose();
+        this.activateAlertClose();
     }
 
-    ActivateAlertClose() {
+    activateAlertClose() {
         this.finalFunc && this.finalFunc();
-        this.Initialize();
+        this.initialize();
     }
 }

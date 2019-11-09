@@ -43,7 +43,7 @@ export class DeleteUserComponent implements OnInit {
         this.route.params.subscribe(params => {
             this.deleteUserToken = params["passToken"];
 
-            this.deleteUserService.ValidateDeleteUserToken(this.deleteUserToken)
+            this.deleteUserService.validateDeleteUserToken(this.deleteUserToken)
                 .then((result: any) => {
                     if (result) {
                         this.isDeleteTokenValid = true;
@@ -61,13 +61,13 @@ export class DeleteUserComponent implements OnInit {
     }
 
     deleteUser() {
-        if (!this.microtextService.Validation(this.validationFuncs, this.password)) {
+        if (!this.microtextService.validation(this.validationFuncs, this.password)) {
             return;
         }
 
-        this.deleteUserService.DeleteAccount(this.deleteUserToken, this.password).then(result => {
+        this.deleteUserService.deleteAccount(this.deleteUserToken, this.password).then(result => {
             if (result) {
-                this.alertService.Alert({
+                this.alertService.alert({
                     title: "מחיקת משתמש",
                     text: "מחיקת המשתמש שלך בוצעה בהצלחה.",
                     showCancelButton: false,
@@ -77,10 +77,10 @@ export class DeleteUserComponent implements OnInit {
                 this.backToLogin();
             }
             else if (result == false) {
-                this.microtextService.ShowMicrotext("password-micro", "הסיסמא שהוזנה שגוייה");
+                this.microtextService.showMicrotext("password-micro", "הסיסמא שהוזנה שגוייה");
             }
             else {
-                this.alertService.Alert({
+                this.alertService.alert({
                     title: "שגיאה",
                     text: "אופס... שגיאה בתהליך מחיקת המשתמש",
                     showCancelButton: false,
