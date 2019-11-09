@@ -19,7 +19,7 @@ const logFormat = printf(info => {
     return JSON.stringify(log);
 });
 
-const format = combine(
+const loggerFormat = combine(
     timestamp(),
     json(),
     logFormat
@@ -34,14 +34,14 @@ function createTransport(logName) {
 }
 
 const logger = createLogger({
-    format,
+    format: loggerFormat,
     transports: [
         createTransport(config.logs.mainLogName)
     ]
 });
 
 const secure = createLogger({
-    format,
+    format: loggerFormat,
     transports: [
         createTransport(config.logs.secureLogName)
     ]
