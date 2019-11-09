@@ -37,15 +37,15 @@ export class SideNavbarComponent implements OnInit, OnDestroy {
 
         //#region events
 
-        eventService.Register(EVENT_TYPE.showHideChatsWindow, () => {
-            self.ShowHideChatsWindow();
+        eventService.register(EVENT_TYPE.showHideChatsWindow, () => {
+            self.showHideChatsWindow();
         }, self.eventsIds);
 
-        eventService.Register(EVENT_TYPE.showHideFriendRequestsWindow, () => {
-            self.ShowHideFriendRequestsWindow();
+        eventService.register(EVENT_TYPE.showHideFriendRequestsWindow, () => {
+            self.showHideFriendRequestsWindow();
         }, self.eventsIds);
 
-        eventService.Register(EVENT_TYPE.setUserFriendsLoading, (value: boolean) => {
+        eventService.register(EVENT_TYPE.setUserFriendsLoading, (value: boolean) => {
             self.isFriendsLoading = value;
         }, self.eventsIds);
 
@@ -53,30 +53,30 @@ export class SideNavbarComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.LoadFriendsData(this.user.friends);
+        this.loadFriendsData(this.user.friends);
     }
 
     ngOnDestroy() {
         this.eventService.UnsubscribeEvents(this.eventsIds);
     }
 
-    ShowHideSidenav() {
+    showHideSidenav() {
         this.eventService.Emit(EVENT_TYPE.showNewFriendsLabel, false);
 
         if (this.parent.isShowSidenav) {
-            this.parent.HideSidenav();
+            this.parent.hideSidenav();
         }
         else {
             this.parent.isShowSidenav = true;
             this.parent.isHideNotificationsBudget = true;
-            this.parent.HideDropMenu();
+            this.parent.hideDropMenu();
             this.eventService.Emit(EVENT_TYPE.hideSearchResults);
             $("#sidenav").width(this.sidenavWidth);
             $("body").addClass("no-overflow");
         }
     }
 
-    ShowHideChatsWindow() {
+    showHideChatsWindow() {
         this.parent.isChatsWindowOpen = !this.parent.isChatsWindowOpen;
 
         // Scroll chat window to top after the view is getting refreshed.
@@ -85,7 +85,7 @@ export class SideNavbarComponent implements OnInit, OnDestroy {
         }, 0);
     }
 
-    ShowHideFriendRequestsWindow() {
+    showHideFriendRequestsWindow() {
         this.parent.isFriendRequestsWindowOpen = !this.parent.isFriendRequestsWindowOpen;
 
         // Scroll friend requests window to top after the view is getting refreshed.
@@ -94,12 +94,12 @@ export class SideNavbarComponent implements OnInit, OnDestroy {
         }, 0);
     }
 
-    IsShowFriendFindInput() {
+    isShowFriendFindInput() {
         return $(".sidenav-body-sector").hasScrollBar();
     }
 
     // Loading full friends objects to friends array.
-    LoadFriendsData(friendsIds: Array<string>) {
+    loadFriendsData(friendsIds: Array<string>) {
         if (friendsIds.length > 0) {
             this.isFriendsLoading = true;
             this.navbarService.GetFriends(friendsIds).then((friendsResult: Array<Friend>) => {
@@ -110,7 +110,7 @@ export class SideNavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    GetFilteredFriends(friendSearchInput: string): Array<any> {
+    getFilteredFriends(friendSearchInput: string): Array<any> {
         if (!friendSearchInput) {
             return this.parent.friends;
         }
@@ -125,8 +125,8 @@ export class SideNavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    GetSidebarFriends(friendSearchInput: string): Array<any> {
-        return this.GetFilteredFriends(friendSearchInput).sort((a, b) => {
+    getSidebarFriends(friendSearchInput: string): Array<any> {
+        return this.getFilteredFriends(friendSearchInput).sort((a, b) => {
             if (a.isOnline && !b.isOnline) {
                 return -1;
             }
@@ -147,8 +147,8 @@ export class SideNavbarComponent implements OnInit, OnDestroy {
         });
     }
 
-    GetFriendUnreadMessagesNumberText(friendId: string) {
-        let friendNotificationsMessages = this.parent.GetToolbarItem(TOOLBAR_ID.MESSAGES).content[friendId];
+    getFriendUnreadMessagesNumberText(friendId: string) {
+        let friendNotificationsMessages = this.parent.getToolbarItem(TOOLBAR_ID.MESSAGES).content[friendId];
 
         if (friendNotificationsMessages) {
             return "- (" + friendNotificationsMessages.unreadMessagesNumber + ")"
@@ -158,7 +158,7 @@ export class SideNavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    GetNotificationsNumber() {
+    getNotificationsNumber() {
         let notificationsAmount = 0;
 
         this.parent.toolbarItems.forEach(item => {
@@ -168,7 +168,7 @@ export class SideNavbarComponent implements OnInit, OnDestroy {
         return notificationsAmount;
     }
 
-    SearchNewFriends() {
+    searchNewFriends() {
         this.eventService.Emit(EVENT_TYPE.changeSearchInput, '');
         setTimeout(() => {
             $("#" + this.searchInputId).focus();

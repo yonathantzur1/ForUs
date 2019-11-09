@@ -13,7 +13,7 @@ export class UserReportWindowService extends BasicService {
         return super.get('/getAllReportReasons');
     }
 
-    ReportUser(reportedUserId: string, reasonId: string, reasonDetails: string) {
+    reportUser(reportedUserId: string, reasonId: string, reasonDetails: string) {
         let data = { reportedUserId, reasonId, reasonDetails };
 
         return super.post('/reportUser', data);

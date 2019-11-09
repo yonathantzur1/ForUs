@@ -1,5 +1,5 @@
 <div id="forgot" class="container">
-    <div (keyup.enter)="ForgotEnter()" align="center" class="row card-container col-md-4 col-11">
+    <div (keyup.enter)="forgotEnter()" align="center" class="row card-container col-md-4 col-11">
         <loaderSpinner class="loader" *ngIf="isLoading"></loaderSpinner>
         <div class="head-container">
             <span class="title-text">איפוס סיסמא</span>
@@ -9,7 +9,7 @@
             <div class="form-group">
                 <div *ngIf="!forgotUser.showResetCodeField || forgotUser.hasResetCode" class="col-12 no-padding">
                     <input [(ngModel)]="forgotUser.email" id="forgot-email" class="form-control user-input" type="email"
-                        name="email" (keydown)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="אימייל">
+                        name="email" (keydown)="hideMicrotext($event.srcElement.id + '-micro')" placeholder="אימייל">
                     <label id="forgot-email-micro" class="microtext"></label>
                 </div>
                 <div *ngIf="forgotUser.showResetCodeField && !forgotUser.hasResetCode" class="col-12 no-padding">
@@ -24,7 +24,7 @@
                 <div class="form-group">
                     <div class="col-12 no-padding">
                         <input [(ngModel)]="forgotUser.code" id="forgot-code" class="form-control user-input"
-                            type="text" name="code" (keydown)="HideMicrotext($event.srcElement.id + '-micro')"
+                            type="text" name="code" (keydown)="hideMicrotext($event.srcElement.id + '-micro')"
                             placeholder="קוד איפוס" maxlength="8" autocomplete="off" autocorrect="off"
                             autocapitalize="off" spellcheck="false">
                         <label id="forgot-code-micro" class="microtext"></label>
@@ -34,7 +34,7 @@
                     <div class="col-12 no-padding">
                         <input [(ngModel)]="forgotUser.newPassword" id="forgot-newPassword"
                             class="form-control user-input" type="password" name="newPassword"
-                            (keydown)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="סיסמא חדשה"
+                            (keydown)="hideMicrotext($event.srcElement.id + '-micro')" placeholder="סיסמא חדשה"
                             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                         <label id="forgot-newPassword-micro" class="microtext"></label>
                     </div>
@@ -47,7 +47,7 @@
                 יש לי כבר קוד איפוס
             </a>
             <a class="btn btn-default cancel-forgot" [routerLink]="'/login'">ביטול</a>
-            <a class="btn btn-primary submit-email-forgot" (click)="ResetPassword()">{{forgotUser.forgotBtnText}}</a>
+            <a class="btn btn-primary submit-email-forgot" (click)="resetPassword()">{{forgotUser.forgotBtnText}}</a>
         </div>
     </div>
 </div>

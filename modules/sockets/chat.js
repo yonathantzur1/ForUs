@@ -6,7 +6,7 @@ const logger = require('../../logger');
 
 module.exports = (io, socket, connectedUsers) => {
 
-    socket.on('SendMessage', (msgData) => {
+    socket.on('sendMessage', (msgData) => {
         let originalMsgData = Object.assign({}, msgData);
 
         // Delete spaces from the start and the end of the message text.

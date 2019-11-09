@@ -42,7 +42,7 @@ module.exports = (io, socket, connectedUsers) => {
         }
     });
 
-    socket.on('RemoveFriendRequest', (userId, friendId) => {
+    socket.on('removeFriendRequest', (userId, friendId) => {
         io.to(friendId).emit('DeleteFriendRequest', userId);
     });
 

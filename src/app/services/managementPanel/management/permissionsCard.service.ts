@@ -17,7 +17,7 @@ export class PermissionsCardService extends BasicService {
         return super.get('/getUserPermissions?userId=' + userId);
     }
 
-    UpdatePermissions(userId: string, permissions: Array<any>) {
+    updatePermissions(userId: string, permissions: Array<any>) {
         let data = { userId, permissions }
         return super.put('/updatePermissions', data);
     }

@@ -22,16 +22,16 @@ export class ProfilePictureComponent implements OnInit, OnDestroy {
 
         //#region events
 
-        self.eventService.Register(EVENT_TYPE.newUploadedImage, (img: string) => {
+        self.eventService.register(EVENT_TYPE.newUploadedImage, (img: string) => {
             self.imageService.userProfileImage = img;
         }, self.eventsIds);
 
-        self.eventService.Register(EVENT_TYPE.deleteProfileImage, () => {
+        self.eventService.register(EVENT_TYPE.deleteProfileImage, () => {
             self.imageService.DeleteUserProfileImage();
         }, self.eventsIds);
 
-        self.eventService.Register(EVENT_TYPE.openProfileEditWindow, () => {
-            self.OpenEditWindow();
+        self.eventService.register(EVENT_TYPE.openProfileEditWindow, () => {
+            self.openEditWindow();
         }, self.eventsIds);
 
         //#endregion
@@ -41,10 +41,9 @@ export class ProfilePictureComponent implements OnInit, OnDestroy {
         this.eventService.UnsubscribeEvents(this.eventsIds);
     }
 
-    OpenEditWindow() {
+    openEditWindow() {
         if (this.isEditEnable) {
             this.eventService.Emit(EVENT_TYPE.showProfileEditWindow, true);
         }
     }
-
 }

@@ -8,7 +8,7 @@
                         <div class="mini-loader-spinner"></div>
                     </div>
                     <div class="disable-screen" *ngIf="isLoading"></div>
-                    <a class="close" (click)="CloseWindow()" aria-label="Close">
+                    <a class="close" (click)="closeWindow()" aria-label="Close">
                         <i class="material-icons">close</i>
                     </a>
                     <h4 class="modal-title modal-title-label" id="profileLabel">תמונת פרופיל
@@ -17,16 +17,16 @@
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal">
-                        <input (change)="ChangeImage()" style="display:none;" type="file" id="inputImage" name="file"
+                        <input (change)="changeImage()" style="display:none;" type="file" id="inputImage" name="file"
                             accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
 
                         <div class="upload-image-sector col-12" *ngIf="isNewPhoto">
-                            <div class="upload-image-container edit-image-preview-sector" (click)="EditUserPhoto()"
+                            <div class="upload-image-container edit-image-preview-sector" (click)="editUserPhoto()"
                                 *ngIf="userImage">
                                 <div class="new-image-text">עריכת תמונה</div>
                                 <img class="edit-image-preview" [src]="userImage">
                             </div>
-                            <div class="upload-image-container" (click)="UploadNewPhoto()">
+                            <div class="upload-image-container" (click)="uploadNewPhoto()">
                                 <div class="new-image-text">תמונה חדשה</div>
                                 <i class="material-icons new-image-icon">add_a_photo</i>
                             </div>
@@ -57,9 +57,9 @@
                     </form>
                 </div>
                 <div class="footer-sector">
-                    <i *ngIf="userImage && isNewPhoto" title="מחיקת תמונת הפרופיל" (click)="DeleteImage()"
+                    <i *ngIf="userImage && isNewPhoto" title="מחיקת תמונת הפרופיל" (click)="deleteImage()"
                         class="far fa-trash-alt delete-profile-btn"></i>
-                    <button (click)="SaveImage()" id="register-btn" *ngIf="!isNewPhoto"
+                    <button (click)="saveImage()" id="register-btn" *ngIf="!isNewPhoto"
                         class="btn btn-primary change-img-btn">אישור</button>
                 </div>
             </div>

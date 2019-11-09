@@ -37,10 +37,10 @@ export class UserReportWindowComponent implements OnInit {
 
             if (result) {
                 this.reportReasons = result;
-                this.InitializeReasonButtons();
+                this.initializeReasonButtons();
             }
             else {
-                this.CloseWindow();
+                this.closeWindow();
                 this.alertService.Alert({
                     title: "דיווח משתמש",
                     text: "אופס... אירעה שגיאה בפתיחת חלון הדיווח.",
@@ -51,28 +51,28 @@ export class UserReportWindowComponent implements OnInit {
         });
     }
 
-    CloseWindow() {
+    closeWindow() {
         this.eventService.Emit(EVENT_TYPE.closeUserReportWindow);
     }
 
-    InitializeReasonButtons() {
+    initializeReasonButtons() {
         this.reportReasons.forEach((reason) => {
             reason.isClicked = false;
         });
     }
 
-    ClickReasonButton(btn: ReportReason) {
+    clickReasonButton(btn: ReportReason) {
         // Disable selected btn in case it is already clicked.
         if (btn.isClicked) {
             btn.isClicked = false;
         }
         else {
-            this.InitializeReasonButtons();
+            this.initializeReasonButtons();
             btn.isClicked = true;
         }
     }
 
-    IsDisableReportBtn() {
+    isDisableReportBtn() {
         if (!this.reportReasons) {
             return true;
         }
@@ -87,21 +87,21 @@ export class UserReportWindowComponent implements OnInit {
         }
     }
 
-    ShowTextReasonWindow() {
-        if (!this.IsDisableReportBtn()) {
+    showTextReasonWindow() {
+        if (!this.isDisableReportBtn()) {
             this.isShowTextReasonWindow = true;
         }
     }
 
-    BackToReasonsWindow() {
+    backToReasonsWindow() {
         this.isShowTextReasonWindow = false;
     }
 
-    HideEmptyFieldAlert() {
+    hideEmptyFieldAlert() {
         this.isShowEmptyFieldAlert = false;
     }
 
-    GetSelectedReasonId() {
+    getSelectedReasonId() {
         for (let i = 0; i < this.reportReasons.length; i++) {
             if (this.reportReasons[i].isClicked) {
                 return this.reportReasons[i]._id;
@@ -115,25 +115,25 @@ export class UserReportWindowComponent implements OnInit {
     KeyPress(event: any) {
         // In case of pressing escape.
         if (event.code == "Escape") {
-            this.CloseWindow();
+            this.closeWindow();
         }
         else if (event.code == "Enter" || event.code == "NumpadEnter") {
             if (!this.isShowTextReasonWindow) {
-                this.ShowTextReasonWindow();
+                this.showTextReasonWindow();
             }
         }
     }
 
-    ReportUser() {
+    reportUser() {
         // In case the user did not fill the description text.
         if (this.reportText.trim().length == 0) {
             this.isShowEmptyFieldAlert = true;
         }
         else {
-            let selectedReasonId = this.GetSelectedReasonId();
-            this.userReportWindowService.ReportUser(this.user._id, selectedReasonId, this.reportText).then(result => {
+            let selectedReasonId = this.getSelectedReasonId();
+            this.userReportWindowService.reportUser(this.user._id, selectedReasonId, this.reportText).then(result => {
                 if (result) {
-                    this.CloseWindow();
+                    this.closeWindow();
                     let successMsg = "הדיווח שהזנת נשמר בהצלחה, ויבדק על ידי צוות האתר." +
                         "\n" + "תודה שעזרת לשמור על סביבה בטוחה יותר!";
                     this.alertService.Alert({

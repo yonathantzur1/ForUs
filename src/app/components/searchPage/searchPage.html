@@ -17,22 +17,22 @@
             <loaderSpinner></loaderSpinner>
         </div>
         <div class="user-tab" *ngFor="let user of users">
-            <div class="user-details-container" (click)="UserClick(user._id)">
+            <div class="user-details-container" (click)="userClick(user._id)">
                 <img class="user-image" [src]="user.profileImage || imageService.defaultProfileImage">
                 <span class="user-name" [title]="user.fullName">{{user.fullName}}</span>
             </div>
-            <div *ngIf="IsFriendRequestAction(user)" class="friend-request-action-sector">
-                <div (click)="AddFriendRequest(user)" title="בקשת חברות" class="action-btn"
+            <div *ngIf="isFriendRequestAction(user)" class="friend-request-action-sector">
+                <div (click)="addFriendRequest(user)" title="בקשת חברות" class="action-btn"
                     *ngIf="!user.isFriend && !user.isGetFriendRequest && !user.isSendFriendRequest">
                     <span class="action-btn-text">בקשת חברות</span>
                     <i class="fas fa-user-plus"></i>
                 </div>
-                <div (click)="RemoveFriendRequest(user)" title="ביטול בקשת חברות" class="action-btn"
+                <div (click)="removeFriendRequest(user)" title="ביטול בקשת חברות" class="action-btn"
                     *ngIf="user.isGetFriendRequest">
                     <span class="action-btn-text">ביטול בקשה</span>
                     <i class="fas fa-user-times"></i>
                 </div>
-                <div (click)="UserClick(user._id)" title="בקשת חברות ממתינה" class="action-btn"
+                <div (click)="userClick(user._id)" title="בקשת חברות ממתינה" class="action-btn"
                     *ngIf="user.isSendFriendRequest">
                     <i class="fas fa-ellipsis-h"></i>
                 </div>

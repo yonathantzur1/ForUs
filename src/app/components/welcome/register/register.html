@@ -1,5 +1,5 @@
 <div id="register" class="container">
-    <div (keyup.enter)="RegisterEnter()" align="center" class="row card-container col-md-4 col-11">
+    <div (keyup.enter)="registerEnter()" align="center" class="row card-container col-md-4 col-11">
         <loaderSpinner class="loader" *ngIf="isLoading"></loaderSpinner>
         <div class="head-container">
             <span class="title-text">חשבון חדש</span>
@@ -13,7 +13,7 @@
                             <div class="col" style="padding-right: 0;">
                                 <input [(ngModel)]="newUser.firstName" id="register-firstName"
                                     class="form-control user-input" type="text" name="firstName"
-                                    (keydown)="HideMicrotext($event.srcElement.id + '-micro')" maxlength="10"
+                                    (keydown)="hideMicrotext($event.srcElement.id + '-micro')" maxlength="10"
                                     placeholder="שם פרטי">
                                 <label id="register-firstName-micro" class="microtext"></label>
                             </div>
@@ -24,7 +24,7 @@
                             <div class="col" style="padding: 0;">
                                 <input [(ngModel)]="newUser.lastName" id="register-lastName"
                                     class="form-control user-input" type="text" name="lastName"
-                                    (keydown)="HideMicrotext($event.srcElement.id + '-micro')" maxlength="10"
+                                    (keydown)="hideMicrotext($event.srcElement.id + '-micro')" maxlength="10"
                                     placeholder="שם משפחה">
                                 <label id="register-lastName-micro" class="microtext"></label>
                             </div>
@@ -35,14 +35,14 @@
             <div class="form-group">
                 <div class="col-12 no-padding">
                     <input [(ngModel)]="newUser.email" id="register-email" class="form-control user-input" type="email"
-                        name="email" (keydown)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="אימייל">
+                        name="email" (keydown)="hideMicrotext($event.srcElement.id + '-micro')" placeholder="אימייל">
                     <label id="register-email-micro" class="microtext"></label>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-12 no-padding">
                     <input [(ngModel)]="newUser.password" id="register-password" class="form-control user-input"
-                        type="password" name="password" (keydown)="HideMicrotext($event.srcElement.id + '-micro')"
+                        type="password" name="password" (keydown)="hideMicrotext($event.srcElement.id + '-micro')"
                         placeholder="סיסמא">
                     <label id="register-password-micro" class="microtext"></label>
                 </div>
@@ -50,7 +50,7 @@
         </form>
         <div class="footer">
             <a class="btn btn-default cancel-register-btn" [routerLink]="'/login'">ביטול</a>
-            <a id="register-btn" class="btn btn-primary register-btn" (click)="Register()">הרשמה</a>
+            <a id="register-btn" class="btn btn-primary register-btn" (click)="register()">הרשמה</a>
         </div>
     </div>
 </div>

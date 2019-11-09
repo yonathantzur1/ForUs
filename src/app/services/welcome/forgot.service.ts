@@ -16,7 +16,7 @@ export class ForgotService extends BasicService {
         return super.put('/forgotPasswordRequest', details);
     }
 
-    ResetPassword(forgotUser: ForgotUser) {
+    resetPassword(forgotUser: ForgotUser) {
         let details = {
             "email": forgotUser.email,
             "code": forgotUser.code,

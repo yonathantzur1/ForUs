@@ -1,26 +1,26 @@
 <div id="login" class="container">
-	<div (keyup.enter)="LoginEnter()" align="center" class="row card-container col-md-4 col-11">
+	<div (keyup.enter)="loginEnter()" align="center" class="row card-container col-md-4 col-11">
 		<loaderSpinner class="loader" *ngIf="isLoading"></loaderSpinner>
 		<div class="disable-screen" *ngIf="isLoading"></div>
 		<form>
 			<div class="form-group">
 				<div class="col-12 no-padding">
 					<input [(ngModel)]="user.email" id="login-email" class="form-control user-input" type="email"
-						name="email" (keydown)="HideMicrotext($event.srcElement.id + '-micro')" placeholder="אימייל">
+						name="email" (keydown)="hideMicrotext($event.srcElement.id + '-micro')" placeholder="אימייל">
 					<label id="login-email-micro" class="microtext"></label>
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="col-12 no-padding">
 					<input [(ngModel)]="user.password" id="login-password" class="form-control user-input"
-						type="password" name="password" (keydown)="HideMicrotext($event.srcElement.id + '-micro')"
+						type="password" name="password" (keydown)="hideMicrotext($event.srcElement.id + '-micro')"
 						placeholder="סיסמא">
 					<label id="login-password-micro" class="microtext"></label>
 				</div>
 			</div>
 			<div class="form-group">
 				<div>
-					<button type="button" id="login-btn" (click)="Login()"
+					<button type="button" id="login-btn" (click)="login()"
 						class="col-12 btn btn-primary login-btn">כניסה</button>
 				</div>
 				<div class="options">

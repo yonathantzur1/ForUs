@@ -7,6 +7,7 @@ import { ImageService } from 'src/app/services/global/image.service';
 import { SocketService } from '../../services/global/socket.service';
 import { EventService, EVENT_TYPE } from '../../services/global/event.service';
 import { SearchPageService } from '../../services/searchPage.service';
+import { FRIEND_STATUS } from '../../components/userPage/userPage.component';
 
 class FriendsStatus {
     friends: Array<string>;
@@ -41,16 +42,16 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 
         //#region events
 
-        eventService.Register(EVENT_TYPE.ignoreFriendRequest, (userId: string) => {
-            self.UnsetUserFriendStatus(userId, "isSendFriendRequest");
+        eventService.register(EVENT_TYPE.ignoreFriendRequest, (userId: string) => {
+            self.unsetUserFriendStatus(userId, FRIEND_STATUS.IS_SEND_FRIEND_REQUEST);
         }, self.eventsIds);
 
-        eventService.Register(EVENT_TYPE.sendFriendRequest, (userId: string) => {
-            self.SetUserFriendStatus(userId, "isGetFriendRequest");
+        eventService.register(EVENT_TYPE.sendFriendRequest, (userId: string) => {
+            self.setUserFriendStatus(userId, FRIEND_STATUS.IS_GET_FRIEND_REQUEST);
         }, self.eventsIds);
 
-        eventService.Register(EVENT_TYPE.removeFriendRequest, (userId: string) => {
-            self.UnsetUserFriendStatus(userId, "isGetFriendRequest");
+        eventService.register(EVENT_TYPE.removeFriendRequest, (userId: string) => {
+            self.unsetUserFriendStatus(userId, FRIEND_STATUS.IS_GET_FRIEND_REQUEST);
         }, self.eventsIds);
 
         //#endregion
@@ -119,35 +120,35 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         let self = this;
 
         self.socketService.SocketOn('ClientAddFriend', function (friend: any) {
-            self.SetUserFriendStatus(friend._id, "isFriend");
+            self.setUserFriendStatus(friend._id, FRIEND_STATUS.IS_FRIEND);
         });
 
         self.socketService.SocketOn('ClientFriendAddedUpdate', function (friend: any) {
-            self.SetUserFriendStatus(friend._id, "isFriend");
+            self.setUserFriendStatus(friend._id, FRIEND_STATUS.IS_FRIEND);
         });
 
         self.socketService.SocketOn('ClientRemoveFriend', function (friendId: string) {
-            self.UnsetUserFriendStatus(friendId, "isFriend");
+            self.unsetUserFriendStatus(friendId, FRIEND_STATUS.IS_FRIEND);
         });
 
         self.socketService.SocketOn('ClientIgnoreFriendRequest', function (friendId: string) {
-            self.UnsetUserFriendStatus(friendId, "isGetFriendRequest");
+            self.unsetUserFriendStatus(friendId, FRIEND_STATUS.IS_GET_FRIEND_REQUEST);
         });
 
         self.socketService.SocketOn('GetFriendRequest', function (friendId: string) {
-            self.SetUserFriendStatus(friendId, "isSendFriendRequest");
+            self.setUserFriendStatus(friendId, FRIEND_STATUS.IS_SEND_FRIEND_REQUEST);
         });
 
         self.socketService.SocketOn('DeleteFriendRequest', function (friendId: string) {
-            self.UnsetUserFriendStatus(friendId, "isSendFriendRequest");
+            self.unsetUserFriendStatus(friendId, FRIEND_STATUS.IS_SEND_FRIEND_REQUEST);
         });
 
         // In case the user set private user.
         self.socketService.SocketOn('UserSetToPrivate', function (userId: string) {
-            let user = self.GetUserById(userId);
+            let user = self.getUserById(userId);
 
-            if (userId != self.GetCurrentUserId() && !user.isFriend) {
-                self.RemoveUserFromUsers(userId);
+            if (userId != self.getCurrentUserId() && !user.isFriend) {
+                self.removeUserFromUsers(userId);
             }
         });
     }
@@ -156,13 +157,13 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         this.eventService.UnsubscribeEvents(this.eventsIds);
     }
 
-    ResetUserFriendStatus(user: any) {
+    resetUserFriendStatus(user: any) {
         user.isFriend = false;
         user.isSendFriendRequest = false;
         user.isGetFriendRequest = false;
     }
 
-    GetUserById(userId: string): any {
+    getUserById(userId: string): any {
         for (let i = 0; i < this.users.length; i++) {
             let user = this.users[i];
 
@@ -174,33 +175,33 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         return null;
     }
 
-    GetCurrentUserId() {
+    getCurrentUserId() {
         return this.globalService.userId;
     }
 
-    SetUserFriendStatus(userId: string, statusName: string) {
-        let user = this.GetUserById(userId);
+    setUserFriendStatus(userId: string, status: FRIEND_STATUS) {
+        let user = this.getUserById(userId);
 
         if (user) {
-            this.ResetUserFriendStatus(user);
-            user[statusName] = true;
+            this.resetUserFriendStatus(user);
+            user[status] = true;
         }
     }
 
-    UnsetUserFriendStatus(userId: string, statusName: string) {
-        let user = this.GetUserById(userId);
+    unsetUserFriendStatus(userId: string, status: FRIEND_STATUS) {
+        let user = this.getUserById(userId);
 
         if (user) {
-            user[statusName] = false;
+            user[status] = false;
         }
     }
 
-    UserClick(userId: string) {
+    userClick(userId: string) {
         this.router.navigateByUrl('/profile/' + userId);
     }
 
-    IsFriendRequestAction(user: any) {
-        if ((!user.isFriend && this.GetCurrentUserId() != user._id) ||
+    isFriendRequestAction(user: any) {
+        if ((!user.isFriend && this.getCurrentUserId() != user._id) ||
             user.isGetFriendRequest ||
             user.isSendFriendRequest) {
             return true;
@@ -209,17 +210,17 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         return false;
     }
 
-    AddFriendRequest(user: any) {
+    addFriendRequest(user: any) {
         this.eventService.Emit(EVENT_TYPE.addFriendRequest, user._id);
         user.isGetFriendRequest = true;
     }
 
-    RemoveFriendRequest(user: any) {
+    removeFriendRequest(user: any) {
         this.eventService.Emit(EVENT_TYPE.removeFriendRequest, user._id);
         user.isGetFriendRequest = false;
     }
 
-    RemoveUserFromUsers(userId: string) {
+    removeUserFromUsers(userId: string) {
         this.users = this.users.filter(user => {
             return (user._id != userId);
         });

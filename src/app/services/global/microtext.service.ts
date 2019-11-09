@@ -59,7 +59,7 @@ export class MicrotextService {
     }
 
     // Hide microtext in a specific field.
-    HideMicrotext(fieldId: string) {
+    hideMicrotext(fieldId: string) {
         this.ShowMicrotext(fieldId, '');
     }
 

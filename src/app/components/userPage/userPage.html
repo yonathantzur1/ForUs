@@ -1,10 +1,10 @@
 <div id="userPage">
     <div *ngIf="user" class="page-container">
-        <div class="overlay" *ngIf="isOverlay" (click)="CloseAllTabsOptionsMenus()"></div>
+        <div class="overlay" *ngIf="isOverlay" (click)="closeAllTabsOptionsMenus()"></div>
         <div class="head-container">
-            <span (click)="OpenProfileEditWindow()" class="user-image-container">
-                <i *ngIf="IsUserPageSelf()" class="fas fa-camera change-image-icon"></i>
-                <img class="user-image" [ngClass]="{'clickable' : IsUserPageSelf()}"
+            <span (click)="openProfileEditWindow()" class="user-image-container">
+                <i *ngIf="isUserPageSelf()" class="fas fa-camera change-image-icon"></i>
+                <img class="user-image" [ngClass]="{'clickable' : isUserPageSelf()}"
                     [src]="user.profileImage || imageService.defaultProfileImage">
             </span>
             <div class="user-name">
@@ -14,14 +14,14 @@
         <div class="body-container">
             <!-- Tabs for user page -->
             <div class="tab-line">
-                <span class="tab-container" *ngFor="let tab of GetTabs()">
+                <span class="tab-container" *ngFor="let tab of getTabs()">
                     <span [title]="tab.title" class="tab"
-                        (click)="ChangeTabOptionsMenuState(tab);tab.onClick && tab.onClick()">
+                        (click)="changeTabOptionsMenuState(tab);tab.onClick && tab.onClick()">
                         <i class="tab-icon {{tab.icon}}">{{tab.innerIconText}}</i>
                     </span>
                     <div *ngIf="tab.isOptionsMenuOpen" class="options-drop-menu">
                         <div class="option-container" *ngFor="let option of tab.options"
-                            (click)="CloseTabOptions(tab);option.action && option.action()">
+                            (click)="closeTabOptions(tab);option.action && option.action()">
                             <span>{{option.text}}</span>
                         </div>
                     </div>

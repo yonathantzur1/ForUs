@@ -9,13 +9,8 @@ import { MicrotextService, InputFieldValidation } from '../../../services/global
 import { USER_UPDATE_INFO_ERROR } from '../../../enums/enums'
 
 export class Password {
-    oldPassword: string;
-    newPassword: string;
-
-    constructor() {
-        this.oldPassword = '';
-        this.newPassword = '';
-    }
+    oldPassword: string = '';
+    newPassword: string = '';
 }
 
 @Component({
@@ -56,27 +51,27 @@ export class UserPasswordWindowComponent {
         ]
     }
 
-    CloseWindow() {
+    closeWindow() {
         this.eventService.Emit(EVENT_TYPE.closeUserPasswordWindow);
     }
 
     // Hide microtext in a specific field.
-    HideMicrotext(microtextId: string) {
-        this.microtextService.HideMicrotext(microtextId);
+    hideMicrotext(microtextId: string) {
+        this.microtextService.hideMicrotext(microtextId);
     }
 
     @HostListener('document:keyup', ['$event'])
     KeyPress(event: any) {
         // In case of pressing escape.
         if (event.code == "Escape") {
-            this.CloseWindow();
+            this.closeWindow();
         }
         else if (event.code == "Enter" || event.code == "NumpadEnter") {
-            this.ChangePassword();
+            this.changePassword();
         }
     }
 
-    ChangePassword() {
+    changePassword() {
         if (this.microtextService.Validation(this.validationFuncs, this.password)) {
             this.userPasswordWindowService.UpdateUserPassword(this.password).then(data => {
                 if (data) {
@@ -90,21 +85,21 @@ export class UserPasswordWindowComponent {
                         this.microtextService.ShowMicrotext("old-password-micro", "הסיסמא שהוזנה שגוייה");
                     }
                     else {
-                        this.CloseWindow();
+                        this.closeWindow();
                         let updateMessage = "הסיסמא עודכנה בהצלחה!" + "{{enter}}" + "יש להיכנס מחדש.";
                         this.socketService.SocketEmit("LogoutUserSessionServer", updateMessage);
                     }
                 }
                 else {
-                    this.ChangePasswordErrorAlert();
+                    this.changePasswordErrorAlert();
                 }
             });
         }
     }
 
-    ChangePasswordByMail() {
-        this.userPasswordWindowService.ChangePasswordByMail().then(result => {
-            this.CloseWindow();
+    changePasswordByMail() {
+        this.userPasswordWindowService.changePasswordByMail().then(result => {
+            this.closeWindow();
 
             if (result) {
                 this.alertService.Alert({
@@ -115,12 +110,12 @@ export class UserPasswordWindowComponent {
                 });
             }
             else {
-                this.ChangePasswordErrorAlert();
+                this.changePasswordErrorAlert();
             }
         });
     }
 
-    ChangePasswordErrorAlert() {
+    changePasswordErrorAlert() {
         this.alertService.Alert({
             title: "שינוי סיסמא",
             text: "אופס... אירעה שגיאה בשינוי הסיסמא",

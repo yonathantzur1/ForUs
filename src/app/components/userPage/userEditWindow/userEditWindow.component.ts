@@ -84,7 +84,7 @@ export class UserEditWindowComponent implements OnInit {
         this.editUser.email = this.user.email;
     }
 
-    IsDisableSaveEdit() {
+    isDisableSaveEdit() {
         if (!this.editUser.firstName.trim() ||
             !this.editUser.lastName.trim() ||
             !this.editUser.email.trim()) {
@@ -97,44 +97,44 @@ export class UserEditWindowComponent implements OnInit {
         }
     }
 
-    ShowValidatePasswordWindow() {
-        if (!this.IsDisableSaveEdit() &&
+    showValidatePasswordWindow() {
+        if (!this.isDisableSaveEdit() &&
             this.microtextService.Validation(this.editValidationFuncs, this.editUser, UserRegexp)) {
             this.isShowPasswordValidationWindow = true;
         }
     }
 
-    BackToDetailsWindow() {
+    backToDetailsWindow() {
         this.isShowPasswordValidationWindow = false;
         this.editUser.password = '';
     }
 
-    CloseWindow() {
+    closeWindow() {
         this.eventService.Emit(EVENT_TYPE.closeUserEditWindow, true);
     }
 
     // Hide microtext in a specific field.
-    HideMicrotext(microtextId: string) {
-        this.microtextService.HideMicrotext(microtextId);
+    hideMicrotext(microtextId: string) {
+        this.microtextService.hideMicrotext(microtextId);
     }
 
     @HostListener('document:keyup', ['$event'])
     KeyPress(event: any) {
         // In case of pressing escape.
         if (event.code == "Escape") {
-            this.CloseWindow();
+            this.closeWindow();
         }
         else if (event.code == "Enter" || event.code == "NumpadEnter") {
             if (!this.isShowPasswordValidationWindow) {
-                this.ShowValidatePasswordWindow()
+                this.showValidatePasswordWindow()
             }
             else {
-                this.SaveChanges();
+                this.saveChanges();
             }
         }
     }
 
-    SaveChanges() {
+    saveChanges() {
         if (this.microtextService.Validation(this.passwordValidationFuncs, this.editUser)) {
             let updatedFields = {};
 
@@ -164,7 +164,7 @@ export class UserEditWindowComponent implements OnInit {
                             "העדכון ננעל למשך " + result.lock + " דקות");
                     }
                     else if (result == USER_UPDATE_INFO_ERROR.EMAIL_EXISTS) {
-                        this.BackToDetailsWindow();
+                        this.backToDetailsWindow();
                         this.microtextService.ShowMicrotext("edit-user-email-micro",
                             "כתובת אימייל זו כבר נמצאת בשימוש");
                     }
@@ -173,7 +173,7 @@ export class UserEditWindowComponent implements OnInit {
                             "הסיסמא שהוזנה שגוייה");
                     }
                     else {
-                        this.CloseWindow();
+                        this.closeWindow();
                         let updateMessage = "הפרטים עודכנו בהצלחה!" + "{{enter}}" + "יש להיכנס מחדש.";
                         this.socketService.SocketEmit("LogoutUserSessionServer", updateMessage);
                     }

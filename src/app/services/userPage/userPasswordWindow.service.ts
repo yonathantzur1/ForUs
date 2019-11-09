@@ -15,7 +15,7 @@ export class UserPasswordWindowService extends BasicService {
         return super.put('/updateUserPassword', password);
     }
 
-    ChangePasswordByMail() {
+    changePasswordByMail() {
         return super.get('/changePasswordByMail');
     }
 }

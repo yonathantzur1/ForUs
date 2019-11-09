@@ -103,41 +103,41 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
         //#region events
 
-        eventService.Register(EVENT_TYPE.showProfileEditWindow, (isShow: boolean) => {
-            isShow && this.ClosePopups();
+        eventService.register(EVENT_TYPE.showProfileEditWindow, (isShow: boolean) => {
+            isShow && this.closePopups();
             self.isOpenProfileEditWindow = isShow;
         }, self.eventsIds);
 
-        eventService.Register(EVENT_TYPE.hideSidenav, () => {
-            self.HideSidenav();
+        eventService.register(EVENT_TYPE.hideSidenav, () => {
+            self.hideSidenav();
         }, self.eventsIds);
 
-        eventService.Register(EVENT_TYPE.closeDropMenu, () => {
-            this.HideDropMenu();
+        eventService.register(EVENT_TYPE.closeDropMenu, () => {
+            this.hideDropMenu();
         }, self.eventsIds);
 
-        eventService.Register(EVENT_TYPE.openNewWindow, () => {
-            self.OpenNewWindow();
+        eventService.register(EVENT_TYPE.openNewWindow, () => {
+            self.openNewWindow();
         }, self.eventsIds);
 
-        eventService.Register(EVENT_TYPE.openChat, (friend: any) => {
-            self.OpenChat(friend);
+        eventService.register(EVENT_TYPE.openChat, (friend: any) => {
+            self.openChat(friend);
         }, self.eventsIds);
 
-        eventService.Register(EVENT_TYPE.addFriendRequest, (friendId: string) => {
-            self.AddFriendRequest(friendId);
+        eventService.register(EVENT_TYPE.addFriendRequest, (friendId: string) => {
+            self.addFriendRequest(friendId);
         }, self.eventsIds);
 
-        eventService.Register(EVENT_TYPE.removeFriendRequest, (friendId: string) => {
-            self.RemoveFriendRequest(friendId);
+        eventService.register(EVENT_TYPE.removeFriendRequest, (friendId: string) => {
+            self.removeFriendRequest(friendId);
         }, self.eventsIds);
 
-        eventService.Register(EVENT_TYPE.addFriend, (friendId: string) => {
-            self.AddFriend(friendId);
+        eventService.register(EVENT_TYPE.addFriend, (friendId: string) => {
+            self.addFriend(friendId);
         }, self.eventsIds);
 
-        eventService.Register(EVENT_TYPE.ignoreFriendRequest, (friendId: string) => {
-            self.IgnoreFriendRequest(friendId);
+        eventService.register(EVENT_TYPE.ignoreFriendRequest, (friendId: string) => {
+            self.ignoreFriendRequest(friendId);
         }, self.eventsIds);
 
         //#endregion
@@ -191,8 +191,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
                             break;
                         // In case the user is logout.
                         case SOCKET_STATE.LOGOUT:
-                            self.Logout();
-                            self.NavigateToLogin();
+                            self.logout();
+                            self.navigateToLogin();
                             break;
                     }
                 }
@@ -205,33 +205,33 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
         // Loading user messages notifications.
         self.navbarService.GetUserMessagesNotifications().then((result: any) => {
-            self.GetToolbarItem(TOOLBAR_ID.MESSAGES).content = result.messagesNotifications || {};
+            self.getToolbarItem(TOOLBAR_ID.MESSAGES).content = result.messagesNotifications || {};
         });
 
         // Loading user friend requests.
         self.navbarService.GetUserFriendRequests().then((result: any) => {
-            self.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content = result.friendRequests;
+            self.getToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content = result.friendRequests;
         });
 
         self.socketService.SocketOn('LogoutUserSessionClient', (msg: string) => {
-            self.Logout();
+            self.logout();
             self.alertService.Alert({
                 title: "התנתקות מהמערכת",
                 text: msg,
                 showCancelButton: false,
                 type: ALERT_TYPE.INFO,
                 finalFunc: () => {
-                    self.NavigateToLogin();
+                    self.navigateToLogin();
                 }
             });
         });
 
         self.socketService.SocketOn('GetMessage', (msgData: any) => {
             if (!self.chatData.isOpen || msgData.from != self.chatData.friend._id) {
-                self.AddMessageToToolbarMessages(msgData);
+                self.addMessageToToolbarMessages(msgData);
 
                 if (!self.chatData.isOpen) {
-                    self.ShowMessageNotification(self.GetFriendNameById(msgData.from),
+                    self.showMessageNotification(self.getFriendNameById(msgData.from),
                         msgData.text,
                         msgData.isImage,
                         msgData.from);
@@ -263,29 +263,29 @@ export class NavbarComponent implements OnInit, OnDestroy {
         });
 
         self.socketService.SocketOn('ClientUpdateFriendRequests', (friendRequests: Array<any>) => {
-            self.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content = friendRequests;
+            self.getToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content = friendRequests;
         });
 
         self.socketService.SocketOn('GetFriendRequest', (friendId: string, friendFullName: string) => {
-            let friendRequests: any = self.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
+            let friendRequests: any = self.getToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
             friendRequests.get.push(friendId);
-            self.ShowFriendRequestNotification(friendFullName, false);
+            self.showFriendRequestNotification(friendFullName, false);
             self.isHideNotificationsBudget = false;
         });
 
         self.socketService.SocketOn('DeleteFriendRequest', (friendId: string) => {
-            let friendRequests: any = self.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
+            let friendRequests: any = self.getToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
             friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
             self.eventService.Emit(EVENT_TYPE.removeUserFromNavbarSearchCache, friendId);
         });
 
         self.socketService.SocketOn('ClientIgnoreFriendRequest', (friendId: string) => {
-            let friendRequests: any = self.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
+            let friendRequests: any = self.getToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
             friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
         });
 
         self.socketService.SocketOn('ClientAddFriend', (friend: any) => {
-            self.AddFriendObjectToUser(friend);
+            self.addFriendObjectToUser(friend);
         });
 
         self.socketService.SocketOn('ClientFriendAddedUpdate', (friend: any) => {
@@ -296,7 +296,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 }
             });
 
-            let friendRequests: any = self.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
+            let friendRequests: any = self.getToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
 
             // Remove friend id from send array and push it to the friends array.
             friendRequests.send.splice(friendRequests.send.indexOf(friend._id), 1);
@@ -304,21 +304,21 @@ export class NavbarComponent implements OnInit, OnDestroy {
             self.friends.push(friend);
 
             // Add the friend id to the confirmed requests array and show notifications.
-            self.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content.accept.push(friend._id);
+            self.getToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content.accept.push(friend._id);
             self.isHideNotificationsBudget = false;
-            self.ShowFriendRequestNotification(friend.firstName + " " + friend.lastName, true);
+            self.showFriendRequestNotification(friend.firstName + " " + friend.lastName, true);
 
             self.socketService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
-            self.socketService.SocketEmit("RemoveFriendRequest", self.user._id, friend._id);
+            self.socketService.SocketEmit("removeFriendRequest", self.user._id, friend._id);
             self.socketService.SocketEmit("ServerGetOnlineFriends");
         });
 
         self.socketService.SocketOn('ClientFriendTyping', (friendId: string) => {
-            self.MakeFriendTyping(friendId);
+            self.makeFriendTyping(friendId);
         });
 
         self.socketService.SocketOn('ClientRemoveFriendUser', (friendId: string, userName: string) => {
-            self.RemoveFriend(friendId);
+            self.removeFriend(friendId);
 
             self.alertService.Alert({
                 title: "מחיקת משתמש מהאתר",
@@ -333,7 +333,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 result && self.socketService.RefreshSocket();
             });
 
-            self.RemoveFriend(friendId);
+            self.removeFriend(friendId);
         });
     }
 
@@ -343,8 +343,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
         clearInterval(this.checkOnlineFriendsInterval);
     }
 
-    AddMessageToToolbarMessages(msgData: any) {
-        let notificationsMessages = this.GetToolbarItem(TOOLBAR_ID.MESSAGES).content;
+    addMessageToToolbarMessages(msgData: any) {
+        let notificationsMessages = this.getToolbarItem(TOOLBAR_ID.MESSAGES).content;
         let friendMessages = notificationsMessages[msgData.from];
 
         if (friendMessages) {
@@ -360,8 +360,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.navbarService.UpdateMessagesNotifications(notificationsMessages);
     }
 
-    RemoveFriendMessagesFromToolbarMessages(friendId: string) {
-        let notificationsMessages = this.GetToolbarItem(TOOLBAR_ID.MESSAGES).content;
+    removeFriendMessagesFromToolbarMessages(friendId: string) {
+        let notificationsMessages = this.getToolbarItem(TOOLBAR_ID.MESSAGES).content;
 
         if (notificationsMessages[friendId]) {
             delete (notificationsMessages[friendId]);
@@ -370,77 +370,77 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     // Return item object from toolbar items array by its id.
-    GetToolbarItem(id: TOOLBAR_ID): any {
+    getToolbarItem(id: TOOLBAR_ID): any {
         return this.toolbarItems.find(item => {
             return (item.id == id);
         });
     }
 
-    ShowMessageNotification(name: string, text: string, isImage: boolean, friendId: string) {
+    showMessageNotification(name: string, text: string, isImage: boolean, friendId: string) {
         this.messageNotificationFriendId = friendId;
         let notificationText = name + ": " + (isImage ? "שלח/ה לך תמונה" : text);
         this.snackbarService.Snackbar(notificationText,
             this.notificationDelay,
-            this.MessageNotificationClicked.bind(this));
+            this.messageNotificationClicked.bind(this));
     }
 
-    GetFriendNameById(id: string): string {
-        let friend: Friend = this.GetFriendById(id);
+    getFriendNameById(id: string): string {
+        let friend: Friend = this.getFriendById(id);
 
         return friend ? (friend.firstName + " " + friend.lastName) : null;
     }
 
-    GetFriendById(id: string): Friend {
+    getFriendById(id: string): Friend {
         return this.friends.find(friend => {
             return (friend._id == id);
         });
     }
 
-    MessageNotificationClicked() {
-        let friendId = this.GetFriendById(this.messageNotificationFriendId);
-        this.OpenChat(friendId);
+    messageNotificationClicked() {
+        let friendId = this.getFriendById(this.messageNotificationFriendId);
+        this.openChat(friendId);
     }
 
-    HideSidenav() {
+    hideSidenav() {
         if (this.isShowSidenav) {
             this.isHideNotificationsBudget = true;
-            this.HideChatsWindow();
-            this.HideFriendRequestsWindow();
+            this.hideChatsWindow();
+            this.hideFriendRequestsWindow();
             this.isShowSidenav = false;
             $("#sidenav").width("0px");
             $("body").removeClass("no-overflow");
         }
     }
 
-    HideDropMenu() {
+    hideDropMenu() {
         this.isShowDropMenu = false;
     }
 
-    ClosePopups() {
-        this.HideSidenav();
-        this.HideDropMenu();
+    closePopups() {
+        this.hideSidenav();
+        this.hideDropMenu();
         this.eventService.Emit(EVENT_TYPE.hideSearchResults);
     }
 
-    OverlayClicked() {
+    overlayClicked() {
         if (this.isChatsWindowOpen || this.isFriendRequestsWindowOpen) {
-            this.HideChatsWindow();
-            this.HideFriendRequestsWindow();
+            this.hideChatsWindow();
+            this.hideFriendRequestsWindow();
         }
         else {
-            this.ClosePopups();
+            this.closePopups();
         }
     }
 
-    OpenChat(friend: any) {
+    openChat(friend: any) {
         this.snackbarService.HideSnackbar();
-        this.HideSidenav();
+        this.hideSidenav();
 
         if (!this.chatData.isOpen || !this.chatData.friend || this.chatData.friend._id != friend._id) {
-            let messagesNotifications = Object.assign({}, this.GetToolbarItem(TOOLBAR_ID.MESSAGES).content);
+            let messagesNotifications = Object.assign({}, this.getToolbarItem(TOOLBAR_ID.MESSAGES).content);
 
             // Empty unread messages notifications from the currend friend.
-            this.RemoveFriendMessagesFromToolbarMessages(friend._id);
+            this.removeFriendMessagesFromToolbarMessages(friend._id);
 
             // Put default profile in case the friend has no profile image.
             if (!friend.profileImage) {
@@ -459,20 +459,20 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    HideChatsWindow() {
+    hideChatsWindow() {
         this.isChatsWindowOpen = false;
     }
 
-    HideFriendRequestsWindow() {
+    hideFriendRequestsWindow() {
         this.isFriendRequestsWindowOpen = false;
     }
 
-    AddFriendRequest(friendId: string) {
-        let friendRequests: any = this.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
+    addFriendRequest(friendId: string) {
+        let friendRequests: any = this.getToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
         friendRequests.send.push(friendId);
 
         let self = this;
-        self.navbarService.AddFriendRequest(friendId).then((result: any) => {
+        self.navbarService.addFriendRequest(friendId).then((result: any) => {
             if (result) {
                 self.socketService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
                 self.socketService.SocketEmit("SendFriendRequest", friendId);
@@ -482,27 +482,27 @@ export class NavbarComponent implements OnInit, OnDestroy {
         });
     }
 
-    RemoveFriendRequest(friendId: string, isHideMessageText?: boolean) {
-        let friendRequests: any = this.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
+    removeFriendRequest(friendId: string, isHideMessageText?: boolean) {
+        let friendRequests: any = this.getToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
         friendRequests.send.splice(friendRequests.send.indexOf(friendId), 1);
 
         let self = this;
-        self.navbarService.RemoveFriendRequest(friendId).then((result: any) => {
+        self.navbarService.removeFriendRequest(friendId).then((result: any) => {
             if (result) {
                 self.socketService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
-                self.socketService.SocketEmit("RemoveFriendRequest", self.user._id, friendId);
+                self.socketService.SocketEmit("removeFriendRequest", self.user._id, friendId);
                 self.snackbarService.Snackbar("בקשת החברות בוטלה");
             }
         });
     }
 
-    IgnoreFriendRequest(friendId: string, callback?: Function) {
+    ignoreFriendRequest(friendId: string, callback?: Function) {
         // Remove the friend request from all friend requests object.
-        let friendRequests: any = this.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
+        let friendRequests: any = this.getToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
         friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
 
         let self = this;
-        self.navbarService.IgnoreFriendRequest(friendId).then((result: any) => {
+        self.navbarService.ignoreFriendRequest(friendId).then((result: any) => {
             if (result) {
                 self.socketService.SocketEmit("ServerUpdateFriendRequests", friendRequests);
                 self.socketService.SocketEmit("ServerIgnoreFriendRequest", self.user._id, friendId);
@@ -513,13 +513,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
         });
     }
 
-    ShowFriendRequestNotification(name: string, isConfirm: boolean) {
+    showFriendRequestNotification(name: string, isConfirm: boolean) {
         let notificationText = name + " " +
             (isConfirm ? "אישר/ה את בקשת החברות" : "שלח/ה לך בקשת חברות");
         this.snackbarService.Snackbar(notificationText, this.notificationDelay);
     }
 
-    AddFriendObjectToUser(friend: any) {
+    addFriendObjectToUser(friend: any) {
         let userFriends = this.user.friends;
 
         if (!userFriends.includes(friend._id)) {
@@ -533,16 +533,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.socketService.SocketEmit("ServerGetOnlineFriends");
     }
 
-    AddFriend(friendId: string, callback?: Function) {
+    addFriend(friendId: string, callback?: Function) {
         this.eventService.Emit(EVENT_TYPE.setUserFriendsLoading, true);
 
         // Remove the friend request from all friend requests object.
-        let friendRequests: any = this.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
+        let friendRequests: any = this.getToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
         friendRequests.get.splice(friendRequests.get.indexOf(friendId), 1);
 
         let self = this;
 
-        self.navbarService.AddFriend(friendId).then((friend: any) => {
+        self.navbarService.addFriend(friendId).then((friend: any) => {
             self.eventService.Emit(EVENT_TYPE.setUserFriendsLoading, false);
 
             if (friend) {
@@ -551,7 +551,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 self.socketService.SocketEmit("ServerAddFriend", friend);
                 self.socketService.SocketEmit("ServerFriendAddedUpdate", friend._id);
                 self.socketService.SocketEmit("ServerUpdateFriendRequestsStatus", friendId);
-                self.AddFriendObjectToUser(friend);
+                self.addFriendObjectToUser(friend);
             }
             else {
                 //  Recover the actions in case the server is fail to add the friend. 
@@ -563,7 +563,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         });
     }
 
-    MakeFriendTyping(friendId: string) {
+    makeFriendTyping(friendId: string) {
         let friendObj: Friend = this.friends.find((friend: Friend) => {
             return (friend._id == friendId);
         });
@@ -580,18 +580,18 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    CloseChatWindow() {
+    closeChatWindow() {
         this.chatData.isOpen = false;
     }
 
-    OpenNewWindow() {
-        this.ClosePopups();
-        this.CloseChatWindow();
+    openNewWindow() {
+        this.closePopups();
+        this.closeChatWindow();
     }
 
-    RemoveFriend(friendId: string) {
+    removeFriend(friendId: string) {
         // ---------- Remove friend notifications on friend requests window ----------
-        let friendRequests = this.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
+        let friendRequests = this.getToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
 
         let friendRequestGetIndex = friendRequests.get.indexOf(friendId);
         let friendRequestSendIndex = friendRequests.send.indexOf(friendId);
@@ -613,11 +613,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
         // In case chat is open with the friend.
         if (this.chatData.isOpen && this.chatData.friend._id == friendId) {
-            this.CloseChatWindow();
+            this.closeChatWindow();
         }
 
         // Remove friend messages notifications
-        delete this.GetToolbarItem(TOOLBAR_ID.MESSAGES).content[friendId];
+        delete this.getToolbarItem(TOOLBAR_ID.MESSAGES).content[friendId];
 
         // Removing friend from user friends ids list.
         for (let i = 0; i < this.user.friends.length; i++) {
@@ -636,7 +636,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    GetResultsIds(results: Array<any>) {
+    getResultsIds(results: Array<any>) {
         let profilesIds: Array<string> = [];
 
         results.forEach((result: any) => {
@@ -647,11 +647,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
         return profilesIds;
     }
 
-    NavigateToLogin() {
+    navigateToLogin() {
         this.router.navigateByUrl("/login");
     }
 
-    Logout() {
+    logout() {
         this.cookieService.DeleteUidCookie();
         this.loginService.DeleteTokenFromCookie();
         this.globalService.ResetGlobalVariables();

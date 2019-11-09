@@ -2,7 +2,7 @@
     <div class="chat-window-container">
         <div class="top-chat-info-line">
             <img class="friend-chat-profile" [src]="chatData.friend.profileImage">
-            <span (click)="MoveToFriendPage(chatData.friend)" class="friend-chat-name">
+            <span (click)="moveToFriendPage(chatData.friend)" class="friend-chat-name">
                 {{chatData.friend.firstName + " " + chatData.friend.lastName}}
             </span>
             <div class="online-icon" *ngIf="chatData.friend.isOnline"></div>
@@ -12,9 +12,9 @@
             <i *ngFor="let iconObj of topIcons" [title]="iconObj.title" (click)="iconObj.onClick()"
                 class="top-icon {{iconObj.class}}"
                 [ngClass]="{'selected-top-icon' : iconObj.isSelected}">{{iconObj.innerIconText}}</i>
-            <i (click)="CloseChat()" class="material-icons exit-chat">close</i>
+            <i (click)="closeChat()" class="material-icons exit-chat">close</i>
         </div>
-        <div *ngIf="isShowMessageNotification" (click)="ClickChatNotification()"
+        <div *ngIf="isShowMessageNotification" (click)="clickChatNotification()"
             [ngClass]="{'show-notification' : isShowMessageNotification}" class="notification-sector">
             <img class="notification-img"
                 [src]="messageNotificationFriendObj.profileImage || imageService.defaultProfileImage">
@@ -29,8 +29,8 @@
         </div>
 
         <!-- START CANVAS SECTOR -->
-        <div [hidden]="!GetTopIconById('canvas').isSelected" class="canvas-body-container">
-            <input (change)="ChangeImage()" style="display:none;" type="file" id="chatImage" name="file"
+        <div [hidden]="!getTopIconById('canvas').isSelected" class="canvas-body-container">
+            <input (change)="changeImage()" style="display:none;" type="file" id="chatImage" name="file"
                 accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
             <div id="canvas-body-sector" class="canvas-body-sector">
                 <span *ngIf="isMessagesLoading" class="chat-loading-container">
@@ -49,12 +49,12 @@
                 </table>
             </div>
             <div id="canvas-bar-sector" class="canvas-bar-sector">
-                <div (click)="ShowHideCanvasTopSector()" class="canvas-options-sector">
+                <div (click)="showHideCanvasTopSector()" class="canvas-options-sector">
                     <i class="material-icons open-canvas-icon">{{!isCanvasTopOpen ? "keyboard_arrow_up" :
                         "keyboard_arrow_down"}}</i>
                 </div>
                 <div class="color-btns-sector">
-                    <div *ngFor="let colorBtn of colorBtns; let i = index" (click)="ChangeCanvasColor(i)"
+                    <div *ngFor="let colorBtn of colorBtns; let i = index" (click)="changeCanvasColor(i)"
                         [ngStyle]="{'backgroundColor': colorBtn}" class="color-btn">
                         <span *ngIf="canvasSelectedColorIndex == i" class="selected-color-line"
                             [ngStyle]="{'backgroundColor': colorBtn}"></span>
@@ -62,7 +62,7 @@
                 </div>
                 <div class="send-canvas-sector">
                     <div class="send-canvas-btn" [ngClass]="{'send-canvas-btn-disabled' : isCanvasEmpty}">
-                        <i (click)="SendCanvas()" class="fas fa-caret-left fa-lg send-canvas-btn-icon"></i>
+                        <i (click)="sendCanvas()" class="fas fa-caret-left fa-lg send-canvas-btn-icon"></i>
                     </div>
                 </div>
             </div>
@@ -70,7 +70,7 @@
         <!-- END CANVAS SECTOR -->
 
         <!-- START CHAT SECTOR -->
-        <div [hidden]="!GetTopIconById('chat').isSelected" class="chat-body-container">
+        <div [hidden]="!getTopIconById('chat').isSelected" class="chat-body-container">
             <div id="chat-body-sector" class="chat-body-sector">
                 <div class="top-space-line"></div>
                 <span *ngIf="isMessagesLoading" class="chat-loading-container">
@@ -78,29 +78,29 @@
                 </span>
                 <div *ngIf="isChatLoadingError" class="loading-error-messages">
                     <span>אופס... משהו השתבש בטעינה</span>
-                    <i class="material-icons reload-chat-icon" title="טעינה חוזרת" (click)="ReloadChat()">loop</i>
+                    <i class="material-icons reload-chat-icon" title="טעינה חוזרת" (click)="reloadChat()">loop</i>
                 </div>
                 <div *ngFor="let message of messages; let i = index">
-                    <div *ngIf="IsShowUnreadLine(message.from, message.id, i)" class="bubble-message-line-sector">
+                    <div *ngIf="isShowUnreadLine(message.from, message.id, i)" class="bubble-message-line-sector">
                         <div class="bubble-message-line">
                             <span class="bubble-message-text-container">
                                 <span
-                                    class="bubble-message-text">{{GetUnreadMessagesNumberText(unreadMessagesNumber)}}</span>
+                                    class="bubble-message-text">{{getUnreadMessagesNumberText(unreadMessagesNumber)}}</span>
                             </span>
                         </div>
                     </div>
-                    <div *ngIf="IsShowDateBubble(i)" class="bubble-message-line-sector">
+                    <div *ngIf="isShowDateBubble(i)" class="bubble-message-line-sector">
                         <span class="bubble-date-text-container">
-                            <span class="bubble-message-text">{{GetDateBubbleText(i)}}</span>
+                            <span class="bubble-message-text">{{getDateBubbleText(i)}}</span>
                         </span>
                     </div>
                     <span>
                         <div class="message-container"
-                            [ngClass]="{'message-container-with-top-space' : (!IsShowDateBubble(i) && (i-1 > 0) && message.from != messages[i-1].from), 'message-container-with-bottom-space': i == (messages.length -1)}">
+                            [ngClass]="{'message-container-with-top-space' : (!isShowDateBubble(i) && (i-1 > 0) && message.from != messages[i-1].from), 'message-container-with-bottom-space': i == (messages.length -1)}">
                             <div id="message-time-container" class="message-time-container"
                                 [ngClass]="{'user-message-time' : message.from == chatData.user._id, 'friend-message-time': message.from == chatData.friend._id}">
                                 <span class="message-time">
-                                    {{GetTimeString(message.time)}}
+                                    {{getTimeString(message.time)}}
                                 </span>
                             </div>
                             <span [id]="message.id" *ngIf="!message.isImage" class="message"
@@ -117,10 +117,10 @@
             </div>
             <div class="chat-write-sector">
                 <div class="msg-input-sector">
-                    <input [(ngModel)]="msghInput" (keyup)="MsgInputKeyup($event)" maxlength="600" id="msg-input"
+                    <input [(ngModel)]="msghInput" (keyup)="msgInputKeyup($event)" maxlength="600" id="msg-input"
                         class="msg-input" type="text" autocapitalize="off" autocomplete="off">
                 </div>
-                <div (click)="SendMessage()" [ngClass]="{'send-msg-btn-sector-disabled' : isMessagesLoading}"
+                <div (click)="sendMessage()" [ngClass]="{'send-msg-btn-sector-disabled' : isMessagesLoading}"
                     class="send-msg-btn-sector">
                     <i class="fas fa-caret-left fa-lg send-msg-btn"></i>
                 </div>

@@ -14,17 +14,17 @@ export class PageNotFoundComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.monsterImage = this.GetRandomMonsterImage();
+    this.monsterImage = this.getRandomMonsterImage();
   }
 
-  GetRandomMonsterImage() {
+  getRandomMonsterImage() {
     // Rundom monster number.
     let imageNumber = Math.floor(Math.random() * this.numOfMonsters) + 1;
 
     return ("monster" + imageNumber + ".png");
   }
 
-  MainRoute() {
+  mainRoute() {
     this.router.navigateByUrl('/');
   }
 }

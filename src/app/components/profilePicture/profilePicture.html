@@ -1,5 +1,5 @@
 <div id="profilePicture">
-    <div (click)="OpenEditWindow()">
+    <div (click)="openEditWindow()">
         <img class="profile-image" [ngClass]="{'profile-image-border': imageService.userProfileImage}"
             [src]="imageService.userProfileImage || imageService.defaultProfileImage">
         <div title="שינוי תמונת פרופיל" *ngIf="isEditEnable && imageService.userProfileImage">

@@ -33,17 +33,17 @@ export class ManagementService extends BasicService {
         return super.put('/blockUser', data);
     }
 
-    UnblockUser(userId: string) {
+    unblockUser(userId: string) {
         let data = { userId };
 
         return super.put('/unblockUser', data);
     }
 
-    RemoveFriends(userId: string, friendId: string) {
+    removeFriends(userId: string, friendId: string) {
         return super.delete('/removeFriends?userId=' + userId + "&friendId=" + friendId);
     }
 
-    DeleteUser(userId: string, userFirstName: string, userLastName: string, userEmail: string) {
+    deleteUser(userId: string, userFirstName: string, userLastName: string, userEmail: string) {
         return super.delete('/deleteUser?userId=' + userId +
             "&userFirstName=" + userFirstName +
             "&userLastName=" + userLastName +

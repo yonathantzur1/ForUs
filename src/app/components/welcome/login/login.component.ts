@@ -67,7 +67,7 @@ export class LoginComponent {
     }
 
     // Login user and redirect him to main page.
-    Login() {
+    login() {
         this.user.email = this.user.email.trim();
 
         // In case the login fields are valid.
@@ -75,7 +75,7 @@ export class LoginComponent {
             this.isLoading = true;
             let self = this;
 
-            this.loginService.Login(this.user).then((data: any) => {
+            this.loginService.login(this.user).then((data: any) => {
                 let result = data ? data.result : null;
                 this.isLoading = false;
 
@@ -127,13 +127,13 @@ export class LoginComponent {
         }
     }
 
-    LoginEnter() {
+    loginEnter() {
         $(".user-input").blur();
-        this.Login();
+        this.login();
     }
 
     // Hide microtext in a specific field.
-    HideMicrotext(microtextId: string) {
-        this.microtextService.HideMicrotext(microtextId);
+    hideMicrotext(microtextId: string) {
+        this.microtextService.hideMicrotext(microtextId);
     }
 }

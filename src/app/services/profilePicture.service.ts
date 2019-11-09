@@ -13,7 +13,7 @@ export class ProfilePictureService extends BasicService {
         return super.get('/getUserProfileImage');
     }
 
-    SaveImage(imgBase64: string) {
+    saveImage(imgBase64: string) {
         let image = {
             "imgBase64": imgBase64
         };
@@ -21,7 +21,7 @@ export class ProfilePictureService extends BasicService {
         return super.post('/saveImage', image);
     }
 
-    DeleteImage() {
+    deleteImage() {
         return super.delete('/deleteImage');
     }
 

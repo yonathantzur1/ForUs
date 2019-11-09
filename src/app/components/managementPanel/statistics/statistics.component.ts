@@ -87,14 +87,14 @@ export class StatisticsComponent {
                     }
                 ],
                 onClick: function (self: any) {
-                    self.OpenModal(this.id);
-                    self.SaveCurrentSelectedOption(this.options);
+                    self.openModal(this.id);
+                    self.saveCurrentSelectedOption(this.options);
                 },
                 onCancel: function (self: any) {
-                    self.RestoreSelectedOption(this.options);
+                    self.restoreSelectedOption(this.options);
                 },
                 onConfirm: function (self: any, options: Array<any>) {
-                    self.CloseModal(this.id);
+                    self.closeModal(this.id);
 
                     let option;
 
@@ -109,7 +109,7 @@ export class StatisticsComponent {
                         self.chartsValues.logType = option.logType;
                         self.chartsValues.chartName = option.text;
 
-                        self.LoadChartAgain();
+                        self.loadChartAgain();
                     }
                 }
             },
@@ -129,14 +129,14 @@ export class StatisticsComponent {
                     }
                 ],
                 onClick: function (self: any) {
-                    self.OpenModal(this.id);
-                    self.SaveCurrentSelectedOption(this.options);
+                    self.openModal(this.id);
+                    self.saveCurrentSelectedOption(this.options);
                 },
                 onCancel: function (self: any) {
-                    self.RestoreSelectedOption(this.options);
+                    self.restoreSelectedOption(this.options);
                 },
                 onConfirm: function (self: any, options: Array<any>) {
-                    self.CloseModal(this.id);
+                    self.closeModal(this.id);
                     let option;
 
                     for (let i = 0; i < options.length; i++) {
@@ -150,7 +150,7 @@ export class StatisticsComponent {
                         self.chartsValues.statisticsRange = option.statisticsRange;
 
                         if (self.chart != null) {
-                            self.LoadChartAgain();
+                            self.loadChartAgain();
                         }
                     }
                 }
@@ -165,12 +165,12 @@ export class StatisticsComponent {
                     return !!self.chart;
                 },
                 onClick: function (self: any) {
-                    self.OpenModal(this.id);
+                    self.openModal(this.id);
                 },
                 onCancel: function (self: any) {
                     self.userEmailInput = null;
                     self.isUserEmailFound = null;
-                    self.HideMicrotext("email-micro");
+                    self.hideMicrotext("email-micro");
                 },
                 isDisableConfirm: function (self: any) {
                     return (self.userEmailInput ? false : true);
@@ -195,12 +195,12 @@ export class StatisticsComponent {
                                 // Setting the user email for the chart filter.
                                 self.userEmail = self.userEmailInput;
 
-                                self.LoadChartAgain();
+                                self.loadChartAgain();
 
                                 self.userData["fullName"] = result.fullName;
                                 self.userData["profileImage"] = result.profileImage;
                                 self.userEmailInput = null;
-                                self.CloseModal(this.id);
+                                self.closeModal(this.id);
                             }
                         });
                     }
@@ -210,12 +210,12 @@ export class StatisticsComponent {
     }
 
     // Hide microtext in a specific field.
-    HideMicrotext(microtextId: string) {
-        this.microtextService.HideMicrotext(microtextId);
+    hideMicrotext(microtextId: string) {
+        this.microtextService.hideMicrotext(microtextId);
     }
 
-    LoadChart(type: LOG_TYPE, range: STATISTICS_RANGE, chartName: string, datesRange?: Object) {
-        this.datesRange = datesRange || this.CalculateDatesRangeByRangeType(range);
+    loadChart(type: LOG_TYPE, range: STATISTICS_RANGE, chartName: string, datesRange?: Object) {
+        this.datesRange = datesRange || this.calculateDatesRangeByRangeType(range);
         let clientTimeZone = new Date().getTimezoneOffset();
         this.isLoadingChart = true;
 
@@ -225,11 +225,11 @@ export class StatisticsComponent {
             clientTimeZone,
             this.userEmail).then(data => {
                 this.isLoadingChart = false;
-                this.InitializeChart(chartName, range, this.datesRange, data);
+                this.initializeChart(chartName, range, this.datesRange, data);
             });
     }
 
-    InitializeChart(name: string, range: STATISTICS_RANGE, datesRange: Object, data: Array<number>) {
+    initializeChart(name: string, range: STATISTICS_RANGE, datesRange: Object, data: Array<number>) {
         if (this.chart) {
             this.chart.destroy();
         }
@@ -315,7 +315,7 @@ export class StatisticsComponent {
         });
     }
 
-    SelectOption(options: Array<any>, index: number) {
+    selectOption(options: Array<any>, index: number) {
         options.forEach(option => {
             option.isSelected = false;
         });
@@ -323,15 +323,15 @@ export class StatisticsComponent {
         options[index].isSelected = true;
     }
 
-    OpenModal(modalId: string) {
+    openModal(modalId: string) {
         $("#" + modalId).modal("show");
     }
 
-    CloseModal(modalId: string) {
+    closeModal(modalId: string) {
         $("#" + modalId).modal("hide");
     }
 
-    SaveCurrentSelectedOption(options: Array<any>) {
+    saveCurrentSelectedOption(options: Array<any>) {
         options.forEach((option, index) => {
             if (option.isSelected) {
                 this.selectedOptionIndex = index;
@@ -339,13 +339,13 @@ export class StatisticsComponent {
         });
     }
 
-    RestoreSelectedOption(options: Array<any>) {
+    restoreSelectedOption(options: Array<any>) {
         options.forEach((option, index) => {
             option.isSelected = (index == this.selectedOptionIndex);
         });
     }
 
-    CalculateDatesRangeByRangeType(range: STATISTICS_RANGE): Object {
+    calculateDatesRangeByRangeType(range: STATISTICS_RANGE): Object {
         // Reset date ranges page for the calculate of the current date by range.
         this.datesRangeMovementIndex = 0;
 
@@ -373,7 +373,7 @@ export class StatisticsComponent {
         }
     }
 
-    GetNextDatesRangePeriod() {
+    getNextDatesRangePeriod() {
         if (this.datesRangeMovementIndex != 0) {
             this.datesRangeMovementIndex++;
             let startDate: Date = this.datesRange["startDate"];
@@ -394,14 +394,14 @@ export class StatisticsComponent {
                 }
             }
 
-            this.LoadChart(this.chartsValues["logType"],
+            this.loadChart(this.chartsValues["logType"],
                 this.chartsValues["statisticsRange"],
                 this.chartsValues["chartName"],
                 this.datesRange);
         }
     }
 
-    GetPreviousDatesRangePeriod() {
+    getPreviousDatesRangePeriod() {
         this.datesRangeMovementIndex--;
         let startDate = this.datesRange["startDate"];
         let endDate = this.datesRange["endDate"];
@@ -421,10 +421,10 @@ export class StatisticsComponent {
             }
         }
 
-        this.LoadChartAgain(this.datesRange);
+        this.loadChartAgain(this.datesRange);
     }
 
-    ClearUserChart() {
+    clearUserChart() {
         // Reset user data.
         Object.keys(this.userData).forEach(key => {
             this.userData[key] = null;
@@ -432,13 +432,13 @@ export class StatisticsComponent {
 
         this.userEmail = null;
 
-        this.LoadChartAgain();
+        this.loadChartAgain();
     }
 
     // Full loading the chart objects and data.
     // May send data range object to control the dates of chart.
-    LoadChartAgain(datesRange?: Object) {
-        this.LoadChart(this.chartsValues["logType"],
+    loadChartAgain(datesRange?: Object) {
+        this.loadChart(this.chartsValues["logType"],
             this.chartsValues["statisticsRange"],
             this.chartsValues["chartName"],
             datesRange);

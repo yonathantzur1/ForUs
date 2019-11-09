@@ -22,7 +22,7 @@
             </div>
             <div class="report-group">
                 <span class="report-field report-top-field">
-                    <span>{{GetInfoDateString(report.openDate)}}</span>
+                    <span>{{getInfoDateString(report.openDate)}}</span>
                 </span>
             </div>
             <div class="report-group">
@@ -35,11 +35,11 @@
             </div>
             <div class="report-group users-details-container">
                 <span class="line"></span>
-                <span (click)="MoveToUserPage(report.reportingUser)"
+                <span (click)="moveToUserPage(report.reportingUser)"
                     [ngClass]="{'user-name-btn' : report.reportingUser}">{{report.reportingUser ? report.reportingUser.fullName : "(משתמש מחוק)"}}</span>
                 <i class="fas fa-arrow-left names-arrow-icon"></i>
                 <span [ngClass]="{'user-name-btn' : report.reportedUser}"
-                    (click)="MoveToUserPage(report.reportedUser)">{{report.reportedUser ? report.reportedUser.fullName : "(משתמש מחוק)"}}</span>
+                    (click)="moveToUserPage(report.reportedUser)">{{report.reportedUser ? report.reportedUser.fullName : "(משתמש מחוק)"}}</span>
             </div>
         </div>
     </div>

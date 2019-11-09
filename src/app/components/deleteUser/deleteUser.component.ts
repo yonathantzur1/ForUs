@@ -56,11 +56,11 @@ export class DeleteUserComponent implements OnInit {
         });
     }
 
-    BackToLogin() {
+    backToLogin() {
         this.router.navigateByUrl('/login');
     }
 
-    DeleteUser() {
+    deleteUser() {
         if (!this.microtextService.Validation(this.validationFuncs, this.password)) {
             return;
         }
@@ -74,7 +74,7 @@ export class DeleteUserComponent implements OnInit {
                     type: ALERT_TYPE.INFO
                 });
 
-                this.BackToLogin();
+                this.backToLogin();
             }
             else if (result == false) {
                 this.microtextService.ShowMicrotext("password-micro", "הסיסמא שהוזנה שגוייה");
@@ -91,8 +91,7 @@ export class DeleteUserComponent implements OnInit {
     }
 
     // Hide microtext in a specific field.
-    HideMicrotext(microtextId: string) {
-        this.microtextService.HideMicrotext(microtextId);
+    hideMicrotext(microtextId: string) {
+        this.microtextService.hideMicrotext(microtextId);
     }
-
 }

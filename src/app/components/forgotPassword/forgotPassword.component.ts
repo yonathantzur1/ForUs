@@ -58,11 +58,11 @@ export class ForgotPasswordComponent implements OnInit {
         });
     }
 
-    BackToLogin() {
+    backToLogin() {
         this.router.navigateByUrl('/login');
     }
 
-    ResetPassword() {
+    resetPassword() {
         if (!this.microtextService.Validation(this.validationFuncs, this.newPassword)) {
             return;
         }
@@ -85,7 +85,7 @@ export class ForgotPasswordComponent implements OnInit {
     }
 
     // Hide microtext in a specific field.
-    HideMicrotext(microtextId: string) {
-        this.microtextService.HideMicrotext(microtextId);
+    hideMicrotext(microtextId: string) {
+        this.microtextService.hideMicrotext(microtextId);
     }
 }

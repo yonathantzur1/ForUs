@@ -29,7 +29,7 @@ export class DropMenuComponent {
 
     @Input() options: DropMenuData[];
 
-    Click(action: Function, link: string) {
+    click(action: Function, link: string) {
         action && action(link);
         link && this.router.navigateByUrl(link);
 

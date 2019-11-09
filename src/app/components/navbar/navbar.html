@@ -1,7 +1,7 @@
 <div id="navbar">
     <div class="sidenav-overlay"
         [ngClass]="{'overlay-background' : isShowSidenav, 'sidenav-overlay-top' : (isChatsWindowOpen || isFriendRequestsWindowOpen)}"
-        *ngIf="isShowSidenav || isShowDropMenu" (click)="OverlayClicked()"></div>
+        *ngIf="isShowSidenav || isShowDropMenu" (click)="overlayClicked()"></div>
     <topNavbar [user]="user">
         <mainSearch></mainSearch>
     </topNavbar>
@@ -9,5 +9,5 @@
 </div>
 
 <profilePictureEdit *ngIf="isOpenProfileEditWindow"></profilePictureEdit>
-<chat *ngIf="chatData.isOpen" [chatData]="chatData" [GetFriendById]="GetFriendById.bind(this)"
-    [OpenChat]="OpenChat.bind(this)"></chat>
+<chat *ngIf="chatData.isOpen" [chatData]="chatData" [getFriendById]="getFriendById.bind(this)"
+    [openChat]="openChat.bind(this)"></chat>

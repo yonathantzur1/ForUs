@@ -43,23 +43,23 @@ export class MainSearchComponent implements OnDestroy {
         private navbarService: NavbarService,
         @Host() public parent: NavbarComponent) {
 
-        eventService.Register(EVENT_TYPE.hideSearchResults, () => {
+        eventService.register(EVENT_TYPE.hideSearchResults, () => {
             this.isShowSearchResults = false;
         }, this.eventsIds);
 
-        eventService.Register(EVENT_TYPE.changeSearchInput, (input: string) => {
+        eventService.register(EVENT_TYPE.changeSearchInput, (input: string) => {
             this.searchInput = input;
         }, this.eventsIds);
 
-        eventService.Register(EVENT_TYPE.removeUserFromNavbarSearchCache, (userId: string) => {
-            this.RemoveUserFromNavbarSearchCache(userId);
+        eventService.register(EVENT_TYPE.removeUserFromNavbarSearchCache, (userId: string) => {
+            this.removeUserFromNavbarSearchCache(userId);
         }, this.eventsIds);
 
-        eventService.Register(EVENT_TYPE.openUserProfile, (user: any) => {
-            this.OpenUserProfile(user);
+        eventService.register(EVENT_TYPE.openUserProfile, (user: any) => {
+            this.openUserProfile(user);
         }, this.eventsIds);
 
-        eventService.Register(EVENT_TYPE.showNewFriendsLabel, (value: boolean) => {
+        eventService.register(EVENT_TYPE.showNewFriendsLabel, (value: boolean) => {
             clearTimeout(this.newFriendsLabelTimeout);
 
             if (value) {
@@ -74,11 +74,11 @@ export class MainSearchComponent implements OnDestroy {
         let self = this;
 
         self.socketService.SocketOn('UserSetToPrivate', (userId: string) => {
-            self.RemoveUserFromNavbarSearchCache(userId);
+            self.removeUserFromNavbarSearchCache(userId);
         });
 
         self.socketService.SocketOn('ClientRemoveFriend', function (userId: string) {
-            self.RemoveUserFromNavbarSearchCache(userId);
+            self.removeUserFromNavbarSearchCache(userId);
         });
     }
 
@@ -86,7 +86,7 @@ export class MainSearchComponent implements OnDestroy {
         this.eventService.UnsubscribeEvents(this.eventsIds);
     }
 
-    SearchChange(input: string) {
+    searchChange(input: string) {
         this.markedResult = null;
         this.isShowNewFriendsLabel = false;
         this.inputInterval && clearTimeout(this.inputInterval);
@@ -96,13 +96,13 @@ export class MainSearchComponent implements OnDestroy {
         // In case the input is not empty.
         if (input && (input = input.trim())) {
             // Recover search results from cache if exists.
-            let cachedUsers = this.GetSearchUsersFromCache(input);
+            let cachedUsers = this.getSearchUsersFromCache(input);
 
             // In case cached users result found for this query input.
             if (cachedUsers) {
-                this.GetResultImagesFromCache(cachedUsers);
+                this.getResultImagesFromCache(cachedUsers);
                 this.searchResults = cachedUsers;
-                this.ShowSearchResults();
+                this.showSearchResults();
             }
 
             // Clear cached users (with full profiles) from memory.
@@ -114,12 +114,12 @@ export class MainSearchComponent implements OnDestroy {
                         results.length > 0 &&
                         $("#" + self.searchInputId).is(":focus") &&
                         input == self.searchInput.trim()) {
-                        self.InsertSearchUsersToCache(input, results);
-                        self.GetResultImagesFromCache(results);
+                        self.insertSearchUsersToCache(input, results);
+                        self.getResultImagesFromCache(results);
                         self.searchResults = results;
-                        self.ShowSearchResults();
+                        self.showSearchResults();
 
-                        self.navbarService.GetMainSearchResultsWithImages(self.GetResultsIds(results)).then((profiles: any) => {
+                        self.navbarService.GetMainSearchResultsWithImages(self.getResultsIds(results)).then((profiles: any) => {
                             if (profiles && Object.keys(profiles).length > 0 && input == self.searchInput.trim()) {
                                 self.searchResults.forEach((result: any) => {
                                     if (result.originalProfile) {
@@ -127,7 +127,7 @@ export class MainSearchComponent implements OnDestroy {
                                     }
                                 });
 
-                                self.InsertResultsImagesToCache(profiles);
+                                self.insertResultsImagesToCache(profiles);
                             }
                         });
                     }
@@ -141,29 +141,29 @@ export class MainSearchComponent implements OnDestroy {
     }
 
 
-    ClickSearchInput(input: string) {
+    clickSearchInput(input: string) {
         if (input) {
             this.isShowSearchResults = true;
-            this.SearchChange(this.searchInput);
+            this.searchChange(this.searchInput);
         }
         else {
             this.isShowSearchResults = false;
         }
 
-        this.parent.HideSidenav();
-        this.parent.HideDropMenu();
+        this.parent.hideSidenav();
+        this.parent.hideDropMenu();
     }
 
-    ShowSearchResults() {
+    showSearchResults() {
         this.isShowSearchResults = true;
 
         if (this.isShowSearchResults) {
-            this.parent.HideSidenav();
-            this.parent.HideDropMenu();
+            this.parent.hideSidenav();
+            this.parent.hideDropMenu();
         }
     }
 
-    GetFilteredSearchResults(searchInput: string): Array<any> {
+    getFilteredSearchResults(searchInput: string): Array<any> {
         if (!searchInput) {
             return this.searchResults;
         }
@@ -179,7 +179,7 @@ export class MainSearchComponent implements OnDestroy {
         }
     }
 
-    InsertSearchUsersToCache(searchInput: string, results: Array<any>) {
+    insertSearchUsersToCache(searchInput: string, results: Array<any>) {
         let resultsClone: Array<any> = [];
 
         results.forEach((result: any) => {
@@ -189,11 +189,11 @@ export class MainSearchComponent implements OnDestroy {
         this.searchCache[searchInput] = resultsClone;
     }
 
-    GetSearchUsersFromCache(searchInput: string) {
+    getSearchUsersFromCache(searchInput: string) {
         return this.searchCache[searchInput];
     }
 
-    InsertResultsImagesToCache(profiles: any) {
+    insertResultsImagesToCache(profiles: any) {
         let self = this;
 
         Object.keys(profiles).forEach((profileId: string) => {
@@ -201,7 +201,7 @@ export class MainSearchComponent implements OnDestroy {
         });
     }
 
-    GetResultImagesFromCache(results: any) {
+    getResultImagesFromCache(results: any) {
         let self = this;
 
         results.forEach((result: any) => {
@@ -211,7 +211,7 @@ export class MainSearchComponent implements OnDestroy {
         });
     }
 
-    RemoveUserFromNavbarSearchCache(userId: string) {
+    removeUserFromNavbarSearchCache(userId: string) {
         Object.keys(this.searchCache).forEach((searchInput: string) => {
             this.searchCache[searchInput] = this.searchCache[searchInput].filter((user: any) => {
                 let isRemoveUser = (user._id == userId);
@@ -225,7 +225,7 @@ export class MainSearchComponent implements OnDestroy {
         });
     }
 
-    GetResultsIds(results: Array<any>) {
+    getResultsIds(results: Array<any>) {
         let profilesIds: Array<string> = [];
 
         results.forEach((result: any) => {
@@ -236,7 +236,7 @@ export class MainSearchComponent implements OnDestroy {
         return profilesIds;
     }
 
-    SearchKeyUp(event: any) {
+    searchKeyUp(event: any) {
         if (this.searchResults.length > 0 && this.isShowSearchResults) {
             if (event.key == "ArrowDown") {
                 if (this.markedResult != null) {
@@ -262,14 +262,14 @@ export class MainSearchComponent implements OnDestroy {
             else if (event.key == "Enter" || event.key == "NumpadEnter") {
                 if (this.markedResult != null) {
                     if (this.markedResult == 0 || this.markedResult == 1) {
-                        this.OpenSearchPage(this.searchInput);
+                        this.openSearchPage(this.searchInput);
                     }
                     else {
-                        this.OpenUserProfile(this.searchResults[this.markedResult - 2]);
+                        this.openUserProfile(this.searchResults[this.markedResult - 2]);
                     }
                 }
                 else {
-                    this.OpenSearchPage(this.searchInput);
+                    this.openSearchPage(this.searchInput);
                 }
             }
             else if (event.key == "Escape") {
@@ -279,26 +279,26 @@ export class MainSearchComponent implements OnDestroy {
         else if (this.searchResults.length == 0 &&
             this.searchInput &&
             (event.key == "Enter" || event.key == "NumpadEnter")) {
-            this.OpenSearchPage(this.searchInput);
+            this.openSearchPage(this.searchInput);
         }
     }
 
-    OpenSearchPage(name: string) {
+    openSearchPage(name: string) {
         $("#" + this.searchInputId).blur();
         this.isShowSearchResults = false;
-        this.parent.CloseChatWindow();
+        this.parent.closeChatWindow();
         this.router.navigateByUrl("/search/" + name.trim());
     }
 
-    OpenUserProfile(user: any) {
+    openUserProfile(user: any) {
         $("#" + this.searchInputId).blur();
         this.isShowSearchResults = false;
         this.searchInput = user.fullName;
         this.router.navigateByUrl("/profile/" + user._id);
     }
 
-    IsShowAddFriendRequestBtn(friendId: string) {
-        let friendRequests: any = this.parent.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
+    isShowAddFriendRequestBtn(friendId: string) {
+        let friendRequests: any = this.parent.getToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
 
         return (friendId != this.parent.user._id &&
             !this.parent.user.friends.includes(friendId) &&
@@ -306,8 +306,8 @@ export class MainSearchComponent implements OnDestroy {
             !friendRequests.get.includes(friendId));
     }
 
-    IsShowRemoveFriendRequestBtn(friendId: string) {
-        let friendRequests: any = this.parent.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
+    isShowRemoveFriendRequestBtn(friendId: string) {
+        let friendRequests: any = this.parent.getToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
 
         if (friendRequests.send.includes(friendId)) {
             return true;
@@ -317,8 +317,8 @@ export class MainSearchComponent implements OnDestroy {
         }
     }
 
-    IsIncomeFriendRequest(friendId: string) {
-        let friendRequests: any = this.parent.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
+    isIncomeFriendRequest(friendId: string) {
+        let friendRequests: any = this.parent.getToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content;
 
         if (friendRequests.get.includes(friendId)) {
             return true;
@@ -328,15 +328,15 @@ export class MainSearchComponent implements OnDestroy {
         }
     }
 
-    OverlayClicked() {
+    overlayClicked() {
         this.isShowSearchResults = false;
     }
 
-    AddFriendRequest(userId: string) {
+    addFriendRequest(userId: string) {
         this.eventService.Emit(EVENT_TYPE.addFriendRequest, userId)
     }
 
-    RemoveFriendRequest(userId: string) {
+    removeFriendRequest(userId: string) {
         this.eventService.Emit(EVENT_TYPE.removeFriendRequest, userId)
     }
 }

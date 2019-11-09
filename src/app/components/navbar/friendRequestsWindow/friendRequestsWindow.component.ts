@@ -17,8 +17,8 @@ import { Router } from '@angular/router';
 export class FriendRequestsWindowComponent implements OnInit, OnChanges {
     @Input() isFriendRequestsWindowOpen: Array<string>;
     @Input() friendRequests: Array<string>;
-    @Input() AddFriend: Function;
-    @Input() IgnoreFriendRequest: Function;
+    @Input() addFriend: Function;
+    @Input() ignoreFriendRequest: Function;
 
     // IDs of friends that confirmed the friend request of the user.
     @Input() confirmedReuests: Array<string>;
@@ -40,20 +40,20 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
         let self = this;
 
         self.socketService.SocketOn('ClientUpdateFriendRequestsStatus', function (friendId: string) {
-            self.RemoveFriendRequestById(friendId);
+            self.removeFriendRequestById(friendId);
         });
 
         self.socketService.SocketOn('GetFriendRequest', function () {
-            self.LoadFriendRequestsObjects();
+            self.loadFriendRequestsObjects();
         });
 
         self.socketService.SocketOn('DeleteFriendRequest', function (friendId: string) {
-            self.RemoveFriendRequestById(friendId);
+            self.removeFriendRequestById(friendId);
         });
 
         self.socketService.SocketOn('ClientRemoveFriendUser', function (friendId: string) {
-            self.RemoveFriendRequestById(friendId);
-            self.RemoveFriendConfirmById(friendId);
+            self.removeFriendRequestById(friendId);
+            self.removeFriendConfirmById(friendId);
         });
     }
 
@@ -62,14 +62,14 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
         if (changes.friendRequests &&
             !changes.friendRequests.firstChange &&
             !this.isFriendRequestsLoaded) {
-            this.LoadFriendRequestsObjects();
+            this.loadFriendRequestsObjects();
         }
 
         // In case of confirm request added.
         if (changes.confirmedReuests &&
             !changes.confirmedReuests.firstChange &&
             changes.confirmedReuests.currentValue.length > 0) {
-            this.LoadFriendRequestsObjects();
+            this.loadFriendRequestsObjects();
         }
 
         // On first Openning.
@@ -98,7 +98,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
         }
     }
 
-    LoadFriendRequestsObjects() {
+    loadFriendRequestsObjects() {
         if (this.friendRequests.length > 0 || this.confirmedReuests.length > 0) {
             this.isFriendRequestsLoading = true;
             this.navbarService.GetFriends(this.friendRequests.concat(this.confirmedReuests)).then((friendsResult: Array<any>) => {
@@ -127,7 +127,7 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
         }
     }
 
-    GetFriendRequestsNumberText() {
+    getFriendRequestsNumberText() {
         let friendRequestsNumber = this.friendRequests.length;
 
         if (friendRequestsNumber == 0) {
@@ -141,27 +141,27 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
         }
     }
 
-    FriendAccept(requestId: string) {
+    friendAccept(requestId: string) {
         this.isFriendRequestsLoading = true;
-        this.RemoveFriendRequestById(requestId);
+        this.removeFriendRequestById(requestId);
         let self = this;
 
-        self.AddFriend(requestId, function (res: any) {
+        self.addFriend(requestId, function (res: any) {
             self.isFriendRequestsLoading = false;
         });
     }
 
-    FriendIgnore(requestId: string) {
+    friendIgnore(requestId: string) {
         this.isFriendRequestsLoading = true;
-        this.RemoveFriendRequestById(requestId);
+        this.removeFriendRequestById(requestId);
         let self = this;
 
-        self.IgnoreFriendRequest(requestId, function (res: any) {
+        self.ignoreFriendRequest(requestId, function (res: any) {
             self.isFriendRequestsLoading = false;
         });
     }
 
-    RemoveFriendRequestById(friendId: string) {
+    removeFriendRequestById(friendId: string) {
         this.friendRequestsObjects = this.friendRequestsObjects.filter((friendRequest: any) => {
             return (friendRequest._id != friendId);
         });
@@ -169,13 +169,13 @@ export class FriendRequestsWindowComponent implements OnInit, OnChanges {
         this.eventService.Emit(EVENT_TYPE.removeUserFromNavbarSearchCache, friendId)
     }
 
-    RemoveFriendConfirmById(friendId: string) {
+    removeFriendConfirmById(friendId: string) {
         this.friendConfirmObjects = this.friendConfirmObjects.filter((friendConfirm: any) => {
             return (friendConfirm._id != friendId);
         });
     }
 
-    OpenUserPage(friendId: string) {
+    openUserPage(friendId: string) {
         this.router.navigateByUrl("/profile/" + friendId);
         this.eventService.Emit(EVENT_TYPE.hideSidenav, true);
     }

@@ -40,20 +40,20 @@ export class UserPrivacyWindowComponent implements OnInit {
                     type: ALERT_TYPE.DANGER
                 });
 
-                this.CloseWindow();
+                this.closeWindow();
             }
         });
     }
 
-    CloseWindow() {
+    closeWindow() {
         this.eventService.Emit(EVENT_TYPE.closeUserPrivacyWindow);
     }
 
-    ChangePrivacyStatus() {
+    changePrivacyStatus() {
         this.isUserPrivate = !this.isUserPrivate;
     }
 
-    SavePrivacyStatus() {
+    savePrivacyStatus() {
         if (this.isLoading) {
             return;
         }
@@ -63,7 +63,7 @@ export class UserPrivacyWindowComponent implements OnInit {
             this.isLoading = false;
 
             if (result) {
-                this.CloseWindow();
+                this.closeWindow();
                 let privacyStatus = this.isUserPrivate ? "פעיל" : "כבוי";
                 this.snackbarService.Snackbar("משתמש פרטי " + privacyStatus)
             }
@@ -82,7 +82,7 @@ export class UserPrivacyWindowComponent implements OnInit {
     KeyPress(event: any) {
         // In case of pressing escape.
         if (event.code == "Escape") {
-            this.CloseWindow();
+            this.closeWindow();
         }
     }
 }

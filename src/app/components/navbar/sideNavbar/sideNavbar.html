@@ -18,7 +18,7 @@
         <div class="sidenav-body-sector">
             <loaderSpinner id="friends-loader" class="friends-loader" *ngIf="isFriendsLoading"></loaderSpinner>
             <div id="friends-sector" *ngIf="!isFriendsLoading && parent.friends.length > 0">
-                <form *ngIf="parent.isShowSidenav && (IsShowFriendFindInput() || friendSearchInput)">
+                <form *ngIf="parent.isShowSidenav && (isShowFriendFindInput() || friendSearchInput)">
                     <div class="form-group">
                         <div id="friend-search-container" class="col-md-12">
                             <i (click)="friendSearchInput=''" class="material-icons clear-friend-search">close</i>
@@ -28,18 +28,18 @@
                         </div>
                     </div>
                 </form>
-                <div (click)="parent.OpenChat(friend)" class="friend-container"
-                    *ngFor="let friend of (GetSidebarFriends(friendSearchInput))">
+                <div (click)="parent.openChat(friend)" class="friend-container"
+                    *ngFor="let friend of (getSidebarFriends(friendSearchInput))">
                     <div class="friend-image-container">
                         <i *ngIf="friend.isTyping" title="{{friend.firstName}} מקליד/ה"
                             class="far fa-comment-dots fa-flip-horizontal typing-icon"></i>
                         <div *ngIf="friend.isOnline" class="online-icon"></div>
                         <img class="friend-profile" [src]="friend.profileImage || imageService.defaultProfileImage">
                     </div>
-                    <span [ngClass]="{'bold-friend-name' : GetFriendUnreadMessagesNumberText(friend._id)}"
+                    <span [ngClass]="{'bold-friend-name' : getFriendUnreadMessagesNumberText(friend._id)}"
                         class="friend-name-container" title="{{friend.firstName + ' ' + friend.lastName}}">
                         <span>{{friend.firstName + " " + friend.lastName}}</span>
-                        <span> {{GetFriendUnreadMessagesNumberText(friend._id)}}</span>
+                        <span> {{getFriendUnreadMessagesNumberText(friend._id)}}</span>
                     </span>
                 </div>
             </div>
@@ -47,24 +47,24 @@
                 *ngIf="!isFriendsLoading && parent.friends.length == 0 && parent.isShowSidenav">
                 <div class="new-friends-title">חברים חדשים</div>
                 <div class="no-friends-container">
-                    <i (click)="SearchNewFriends()" class="material-icons no-friends-icon">people</i>
+                    <i (click)="searchNewFriends()" class="material-icons no-friends-icon">people</i>
                 </div>
             </div>
         </div>
     </div>
     <div id="open-sidenav-btn" class="open-sidenav-btn" [ngStyle]="{'right': parent.isShowSidenav ? sidenavWidth : 0}"
         [ngClass]="{'open-sidenav' : parent.isShowSidenav, 'top-sidenav-btn' : parent.chatData.isOpen}"
-        (click)="ShowHideSidenav()">
+        (click)="showHideSidenav()">
         <div class="notifications-budget"
-            *ngIf="!parent.isHideNotificationsBudget && GetNotificationsNumber() > 0 && !parent.isShowSidenav">
-            <span class="notifications-number">{{GetNotificationsNumber()}}</span>
+            *ngIf="!parent.isHideNotificationsBudget && getNotificationsNumber() > 0 && !parent.isShowSidenav">
+            <span class="notifications-number">{{getNotificationsNumber()}}</span>
         </div>
         <i class="open-sidenav-icon fas {{parent.isShowSidenav ? 'fa-chevron-right': 'fa-chevron-left'}}"></i>
     </div>
-    <chatsWindow [isChatsWindowOpen]="parent.isChatsWindowOpen" [OpenChat]="parent.OpenChat.bind(parent)"
-        [messagesNotifications]="parent.GetToolbarItem(TOOLBAR_ID.MESSAGES).content"></chatsWindow>
+    <chatsWindow [isChatsWindowOpen]="parent.isChatsWindowOpen" [openChat]="parent.openChat.bind(parent)"
+        [messagesNotifications]="parent.getToolbarItem(TOOLBAR_ID.MESSAGES).content"></chatsWindow>
     <friendRequestsWindow [isFriendRequestsWindowOpen]="parent.isFriendRequestsWindowOpen"
-        [AddFriend]="parent.AddFriend.bind(parent)" [IgnoreFriendRequest]="parent.IgnoreFriendRequest.bind(parent)"
-        [friendRequests]="parent.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content.get"
-        [confirmedReuests]="parent.GetToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content.accept"></friendRequestsWindow>
+        [addFriend]="parent.addFriend.bind(parent)" [ignoreFriendRequest]="parent.ignoreFriendRequest.bind(parent)"
+        [friendRequests]="parent.getToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content.get"
+        [confirmedReuests]="parent.getToolbarItem(TOOLBAR_ID.FRIEND_REQUESTS).content.accept"></friendRequestsWindow>
 </div>

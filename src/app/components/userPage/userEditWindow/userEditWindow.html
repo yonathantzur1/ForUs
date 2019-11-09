@@ -3,8 +3,8 @@
         <div class="overlay"></div>
         <div class="container">
             <i class="material-icons icon top-icon back-icon" *ngIf="isShowPasswordValidationWindow"
-                (click)="BackToDetailsWindow()">arrow_forward</i>
-            <i class="material-icons icon top-icon close-icon" (click)="CloseWindow()">close</i>
+                (click)="backToDetailsWindow()">arrow_forward</i>
+            <i class="material-icons icon top-icon close-icon" (click)="closeWindow()">close</i>
             <div class="title">
                 {{isShowPasswordValidationWindow ? "אימות חשבון" : "עדכון מידע"}}
             </div>
@@ -15,7 +15,7 @@
                         <input [(ngModel)]="editUser.firstName" id="edit-first-name" name="editFirstName"
                             class="form-control" maxlength="10" autocapitalize="off" autocomplete="off"
                             autocorrect="off" spellcheck="false" type="text"
-                            (keydown)="HideMicrotext('edit-user-first-name-micro')">
+                            (keydown)="hideMicrotext('edit-user-first-name-micro')">
                         <span id="edit-user-first-name-micro" class="microtext"></span>
                     </span>
                     <span class="col-6">
@@ -23,7 +23,7 @@
                         <input [(ngModel)]="editUser.lastName" id="edit-last-name" name="editLastName"
                             class="form-control" maxlength="10" autocapitalize="off" autocomplete="off"
                             autocorrect="off" spellcheck="false" type="text"
-                            (keydown)="HideMicrotext('edit-user-last-name-micro')">
+                            (keydown)="hideMicrotext('edit-user-last-name-micro')">
                         <span id="edit-user-last-name-micro" class="microtext"></span>
                     </span>
                 </div>
@@ -32,24 +32,24 @@
                         <label>אימייל</label>
                         <input [(ngModel)]="editUser.email" id="edit-email" name="editEmail"
                             class="form-control email-input" autocapitalize="off" autocomplete="off" autocorrect="off"
-                            spellcheck="false" type="email" (keydown)="HideMicrotext('edit-user-email-micro')">
+                            spellcheck="false" type="email" (keydown)="hideMicrotext('edit-user-email-micro')">
                         <span id="edit-user-email-micro" class="microtext"></span>
                     </span>
                 </div>
-                <i class="material-icons icon bottom-icon next-icon" [ngClass]="{'disabled-icon': IsDisableSaveEdit()}"
-                    (click)="ShowValidatePasswordWindow()">arrow_back</i>
+                <i class="material-icons icon bottom-icon next-icon" [ngClass]="{'disabled-icon': isDisableSaveEdit()}"
+                    (click)="showValidatePasswordWindow()">arrow_back</i>
             </form>
             <form [hidden]="!isShowPasswordValidationWindow">
                 <div class="row form-group">
                     <span class="col-12">
                         <label>סיסמא:</label>
                         <input [(ngModel)]="editUser.password" id="edit-password" name="editPassword"
-                            class="form-control" type="password" (keydown)="HideMicrotext('edit-user-password-micro')">
+                            class="form-control" type="password" (keydown)="hideMicrotext('edit-user-password-micro')">
                         <span id="edit-user-password-micro" class="microtext"></span>
                     </span>
                 </div>
                 <p class="validate-user-info">*לצורך אימות החשבון, יש להזין סיסמא</p>
-                <a class="btn btn-primary save-btn" (click)="SaveChanges()">שמירה</a>
+                <a class="btn btn-primary save-btn" (click)="saveChanges()">שמירה</a>
             </form>
         </div>
     </div>

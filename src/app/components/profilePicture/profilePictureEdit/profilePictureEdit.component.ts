@@ -29,9 +29,9 @@ export class ProfilePictureEditComponent implements OnInit {
 
     ngOnInit() {
         this.userImage = this.imageService.userProfileImage;
-        this.ActiveWindow();
+        this.activeWindow();
 
-        $("#profile-modal").bind('touchstart', this.PreventZoom);
+        $("#profile-modal").bind('touchstart', this.preventZoom);
     }
 
     options = {
@@ -52,7 +52,7 @@ export class ProfilePictureEditComponent implements OnInit {
             icon: "fas fa-sync",
             title: "איפוס תמונה",
             onClick: function (self: any) {
-                self.ResetAllImageBtns();
+                self.resetAllImageBtns();
                 $('#main-img').cropper("reset");
             }
         },
@@ -158,7 +158,7 @@ export class ProfilePictureEditComponent implements OnInit {
         }
     ];
 
-    ResetAllImageBtns() {
+    resetAllImageBtns() {
         this.imageBtns.forEach(function (btn: any) {
             // In case the btn is pressed.
             if (btn.isPressed) {
@@ -167,7 +167,7 @@ export class ProfilePictureEditComponent implements OnInit {
         });
     }
 
-    ResetAllImageBtnsMode() {
+    resetAllImageBtnsMode() {
         this.imageBtns.forEach(function (btn: any) {
             // In case the btn is pressed.
             if (btn.isPressed) {
@@ -176,22 +176,22 @@ export class ProfilePictureEditComponent implements OnInit {
         });
     }
 
-    ActiveWindow() {
+    activeWindow() {
         $('#main-img').cropper(this.options);
         $("#profile-modal").modal("show");
     }
 
-    CloseWindow() {
+    closeWindow() {
         $("#profile-modal").removeClass("fade");
         $("#profile-modal").modal("hide");
         this.eventService.Emit(EVENT_TYPE.showProfileEditWindow, false);
     }
 
-    ChangeImage() {
-        let isSuccess = this.UploadPhoto(this.options);
+    changeImage() {
+        let isSuccess = this.uploadPhoto(this.options);
 
         if (isSuccess == true) {
-            this.ResetAllImageBtnsMode();
+            this.resetAllImageBtnsMode();
             this.isNewPhoto = false;
         }
         else if (isSuccess == false) {
@@ -202,30 +202,30 @@ export class ProfilePictureEditComponent implements OnInit {
         }
     }
 
-    UploadNewPhoto() {
+    uploadNewPhoto() {
         $("#inputImage").trigger("click");
     }
 
-    EditUserPhoto() {
+    editUserPhoto() {
         $('#main-img').cropper('destroy').attr('src', this.userImage).cropper(this.options);
         this.isNewPhoto = false;
     }
 
-    SaveImage() {
+    saveImage() {
         // In case the user is not in the select part.
         if (!this.isNewPhoto) {
             this.isLoading = true;
             let self = this;
 
-            this.GetCroppedBase64Image().then((img: any) => {
+            this.getCroppedBase64Image().then((img: any) => {
                 let imgBase64 = img[0].currentSrc;
-                self.profilePictureService.SaveImage(imgBase64).then((result: any) => {
+                self.profilePictureService.saveImage(imgBase64).then((result: any) => {
                     self.isLoading = false;
 
                     // In case of error or the user was not fount.
                     if (!result) {
                         self.snackbarService.Snackbar("שגיאה בהעלאת התמונה");
-                        self.CloseWindow();
+                        self.closeWindow();
                     }
                     else {
                         // Disable modal close fade animation, close modal and return the fade animation. 
@@ -241,7 +241,7 @@ export class ProfilePictureEditComponent implements OnInit {
                             type: ALERT_TYPE.INFO,
                             confirmBtnText: "אישור",
                             confirmFunc: function () {
-                                self.CloseWindow();
+                                self.closeWindow();
                             }
                         });
                     }
@@ -250,7 +250,7 @@ export class ProfilePictureEditComponent implements OnInit {
         }
     }
 
-    DeleteImage() {
+    deleteImage() {
         // Disable modal close fade animation, close modal and return the fade animation. 
         $("#profile-modal").removeClass("fade");
         $("#profile-modal").modal("hide");
@@ -263,11 +263,11 @@ export class ProfilePictureEditComponent implements OnInit {
             type: ALERT_TYPE.WARNING,
             disableEscapeExit: true,
             preConfirm: function () {
-                return self.profilePictureService.DeleteImage();
+                return self.profilePictureService.deleteImage();
             },
             confirmFunc: function () {
                 self.eventService.Emit(EVENT_TYPE.deleteProfileImage, true);
-                self.CloseWindow();
+                self.closeWindow();
             },
             closeFunc: function () {
                 $("#profile-modal").removeClass("fade");
@@ -276,7 +276,7 @@ export class ProfilePictureEditComponent implements OnInit {
         });
     }
 
-    UploadPhoto(options: any) {
+    uploadPhoto(options: any) {
         let URL = window.URL;
         let $image = $('#main-img');
         let $inputImage = $('#inputImage');
@@ -319,11 +319,11 @@ export class ProfilePictureEditComponent implements OnInit {
         }
     }
 
-    GetCroppedBase64Image() {
-        return this.ResizeBase64Img($('#main-img').cropper('getCroppedCanvas').toDataURL(), 300, 300);
+    getCroppedBase64Image() {
+        return this.resizeBase64Img($('#main-img').cropper('getCroppedCanvas').toDataURL(), 300, 300);
     }
 
-    ResizeBase64Img(base64: any, width: any, height: any) {
+    resizeBase64Img(base64: any, width: any, height: any) {
         let canvas = document.createElement("canvas");
         canvas.width = width;
         canvas.height = height;
@@ -339,7 +339,7 @@ export class ProfilePictureEditComponent implements OnInit {
         return deferred.promise();
     }
 
-    PreventZoom(e: any) {
+    preventZoom(e: any) {
         let t2 = e.timeStamp
         let t1 = $(this).data('lastTouch') || t2
         let dt = t2 - t1
@@ -359,7 +359,7 @@ export class ProfilePictureEditComponent implements OnInit {
     KeyPress(event: any) {
         // In case of pressing escape.
         if (event.code == "Escape") {
-            this.CloseWindow();
+            this.closeWindow();
         }
     }
 

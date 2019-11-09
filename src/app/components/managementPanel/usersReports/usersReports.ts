@@ -44,7 +44,7 @@ export class UsersReportsComponent implements OnInit {
             }
             else {
                 reports.forEach((report: Report) => {
-                    this.CalculateReportStatus(report);
+                    this.calculateReportStatus(report);
                 });
 
                 this.reports = reports;
@@ -52,7 +52,7 @@ export class UsersReportsComponent implements OnInit {
         });
     }
 
-    CalculateReportStatus(report: Report) {
+    calculateReportStatus(report: Report) {
         // In case the report was closed.
         if (report.closeDate) {
             report.status = USER_REPORT_STATUS.CLOSE;
@@ -66,7 +66,7 @@ export class UsersReportsComponent implements OnInit {
         }
     }
 
-    GetInfoDateString(date: string) {
+    getInfoDateString(date: string) {
         let dateObj = new Date(date);
 
         let dateString = (dateObj.getDate()) + "/" + (dateObj.getMonth() + 1) + "/" + dateObj.getFullYear();
@@ -83,7 +83,7 @@ export class UsersReportsComponent implements OnInit {
         return (timeString + " - " + dateString);
     }
 
-    MoveToUserPage(user: any) {
+    moveToUserPage(user: any) {
         if (user) {
             this.router.navigateByUrl("/profile/" + user._id);
         }

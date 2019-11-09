@@ -11,7 +11,7 @@ export class RegisterService extends BasicService {
         super(http, "/api/register");
     }
 
-    Register(newUser: NewUser) {
+    register(newUser: NewUser) {
         let details = {
             "firstName": newUser.firstName,
             "lastName": newUser.lastName,

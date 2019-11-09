@@ -2,23 +2,23 @@
     <i class="fas fa-caret-up window-top-arrow"></i>
     <div class="chatsWindow-container">
         <div *ngIf="!isLoading" class="top-line">
-            <span>{{GetUnreadMessagesNumberText()}}</span>
+            <span>{{getUnreadMessagesNumberText()}}</span>
         </div>
         <div class="body-container">
             <loaderSpinner *ngIf="isLoading" id="chats-loader" class="chats-loader"></loaderSpinner>
             <div *ngIf="!isLoading">
-                <div class="chat-container" *ngFor="let chat of SortByDate(chats)" (click)="OpenChat(chat.friend)">
+                <div class="chat-container" *ngFor="let chat of sortByDate(chats)" (click)="openChat(chat.friend)">
                     <span *ngIf="messagesNotifications[chat.friend._id]" class="notification-sign"></span>
-                    <img class="chat-image" [src]="GetFriendProfile(chat.friend) || imageService.defaultProfileImage">
+                    <img class="chat-image" [src]="getFriendProfile(chat.friend) || imageService.defaultProfileImage">
                     <div class="details-container">
-                        <div class="chat-name">{{GetFriendName(chat.friend) || "משתמש לא קיים"}}</div>
+                        <div class="chat-name">{{getFriendName(chat.friend) || "משתמש לא קיים"}}</div>
                         <div *ngIf="!chat.lastMessage.isImage" class="chat-last-text">{{chat.lastMessage.text}}</div>
                         <div *ngIf="chat.lastMessage.isImage" class="chat-last-text">
                             <i class="fas fa-camera img-sign"></i>
                         </div>
                     </div>
                     <div class="chat-last-time">
-                        {{CalculateChatTimeString(chat)}}
+                        {{calculateChatTimeString(chat)}}
                         <div>{{chat.timeString.dateDetailsString}}</div>
                         <div>{{chat.timeString.dateTimeString}}</div>
                     </div>

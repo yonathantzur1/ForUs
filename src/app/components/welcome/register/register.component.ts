@@ -106,7 +106,7 @@ export class RegisterComponent implements OnInit {
     }
 
     // Regiter the new user to the DB.
-    Register() {
+    register() {
         this.newUser.firstName = this.newUser.firstName.trim();
         this.newUser.lastName = this.newUser.lastName.trim();
         this.newUser.email = this.newUser.email.trim();
@@ -115,7 +115,7 @@ export class RegisterComponent implements OnInit {
         if (this.microtextService.Validation(this.validationFuncs, this.newUser, UserRegexp)) {
             this.isLoading = true;
 
-            this.registerService.Register(this.newUser).then((data: any) => {
+            this.registerService.register(this.newUser).then((data: any) => {
                 let result = data ? data.result : null;
                 this.isLoading = false;
 
@@ -136,12 +136,12 @@ export class RegisterComponent implements OnInit {
     }
 
     // Hide microtext in a specific field.
-    HideMicrotext(microtextId: string) {
-        this.microtextService.HideMicrotext(microtextId);
+    hideMicrotext(microtextId: string) {
+        this.microtextService.hideMicrotext(microtextId);
     }
 
-    RegisterEnter() {
+    registerEnter() {
         $(".user-input").blur();
-        this.Register();
+        this.register();
     }
 }

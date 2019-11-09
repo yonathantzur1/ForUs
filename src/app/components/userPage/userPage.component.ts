@@ -9,6 +9,12 @@ import { AlertService, ALERT_TYPE } from '../../services/global/alert.service';
 import { UserPageService } from '../../services/userPage/userPage.service';
 import { SnackbarService } from '../../services/global/snackbar.service';
 
+export enum FRIEND_STATUS {
+    IS_FRIEND = "isFriend",
+    IS_GET_FRIEND_REQUEST = "isGetFriendRequest",
+    IS_SEND_FRIEND_REQUEST = "isSendFriendRequest"
+}
+
 @Component({
     selector: 'userPage',
     templateUrl: './userPage.html',
@@ -41,43 +47,47 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
         //#region events
 
-        eventService.Register(EVENT_TYPE.newUploadedImage, (img: string) => {
+        eventService.register(EVENT_TYPE.newUploadedImage, (img: string) => {
             self.user.profileImage = self.user.profileImage || null;
             self.user.profileImage = img;
         }, self.eventsIds);
 
-        eventService.Register(EVENT_TYPE.deleteProfileImage, () => {
+        eventService.register(EVENT_TYPE.deleteProfileImage, () => {
             self.user.profileImage = null;
         }, self.eventsIds);
 
-        eventService.Register(EVENT_TYPE.closeUserEditWindow, () => {
+        eventService.register(EVENT_TYPE.closeUserEditWindow, () => {
             self.isShowUserEditWindow = false;
             self.eventService.Emit(EVENT_TYPE.setNavbarTop, true);
         }, self.eventsIds);
 
-        eventService.Register(EVENT_TYPE.closeUserReportWindow, () => {
+        eventService.register(EVENT_TYPE.closeUserReportWindow, () => {
             self.isShowUserReportWindow = false;
             self.eventService.Emit(EVENT_TYPE.setNavbarTop, true);
         }, self.eventsIds);
 
-        eventService.Register(EVENT_TYPE.closeUserPasswordWindow, () => {
+        eventService.register(EVENT_TYPE.closeUserPasswordWindow, () => {
             self.isShowUserPasswordWindow = false;
             self.eventService.Emit(EVENT_TYPE.setNavbarTop, true);
         }, self.eventsIds);
 
-        eventService.Register(EVENT_TYPE.closeUserPrivacyWindow, () => {
+        eventService.register(EVENT_TYPE.closeUserPrivacyWindow, () => {
             self.isShowUserPrivacyWindow = false;
             self.eventService.Emit(EVENT_TYPE.setNavbarTop, true);
         }, self.eventsIds);
 
-        eventService.Register(EVENT_TYPE.ignoreFriendRequest, (userId: string) => {
-            (userId == self.user._id) && self.UnsetUserFriendStatus("isSendFriendRequest");
+        eventService.register(EVENT_TYPE.ignoreFriendRequest, (userId: string) => {
+            if (userId == self.user._id) {
+                self.unsetUserFriendStatus(FRIEND_STATUS.IS_SEND_FRIEND_REQUEST);
+            }
         }, self.eventsIds);
 
         //#endregion
 
-        self.socketService.SocketOn('DeleteFriendRequest', function (friendId: string) {
-            (friendId == self.user._id) && self.UnsetUserFriendStatus("isSendFriendRequest");
+        self.socketService.SocketOn('DeleteFriendRequest', (friendId: string) => {
+            if (friendId == self.user._id) {
+                self.unsetUserFriendStatus(FRIEND_STATUS.IS_SEND_FRIEND_REQUEST);
+            }
         });
 
         self.tabs = [
@@ -87,10 +97,10 @@ export class UserPageComponent implements OnInit, OnDestroy {
                 innerIconText: '',
                 title: "עדכון פרטים",
                 isShow: function () {
-                    return self.IsUserPageSelf();
+                    return self.isUserPageSelf();
                 },
                 onClick: function () {
-                    self.OpenUserWindow("isShowUserEditWindow");
+                    self.openUserWindow("isShowUserEditWindow");
                 }
             },
             {
@@ -110,10 +120,10 @@ export class UserPageComponent implements OnInit, OnDestroy {
                                 text: "האם להסיר את החברות עם " + self.user.fullName + "?",
                                 type: ALERT_TYPE.WARNING,
                                 confirmFunc: function () {
-                                    self.userPageService.RemoveFriends(self.user._id).then(result => {
+                                    self.userPageService.removeFriends(self.user._id).then(result => {
                                         if (result) {
                                             self.socketService.SocketEmit("ServerRemoveFriend", self.user._id);
-                                            self.UnsetUserFriendStatus("isFriend");
+                                            self.unsetUserFriendStatus(FRIEND_STATUS.IS_FRIEND);
                                             self.snackbarService.Snackbar("הסרת החברות עם " + self.user.fullName + " בוצעה בהצלחה");
                                             self.socketService.RefreshSocket();
                                         }
@@ -133,7 +143,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                     {
                         text: "דיווח",
                         action: function () {
-                            self.OpenUserWindow("isShowUserReportWindow");
+                            self.openUserWindow("isShowUserReportWindow");
                         }
                     }
                 ]
@@ -147,10 +157,10 @@ export class UserPageComponent implements OnInit, OnDestroy {
                     return (!self.user.isFriend &&
                         !self.user.isGetFriendRequest &&
                         !self.user.isSendFriendRequest &&
-                        !self.IsUserPageSelf());
+                        !self.isUserPageSelf());
                 },
                 onClick: function () {
-                    self.SetUserFriendStatus("isGetFriendRequest");
+                    self.setUserFriendStatus(FRIEND_STATUS.IS_GET_FRIEND_REQUEST);
                     self.eventService.Emit(EVENT_TYPE.addFriendRequest, self.user._id);
                 }
             },
@@ -166,14 +176,14 @@ export class UserPageComponent implements OnInit, OnDestroy {
                     {
                         text: "אישור חברות",
                         action: function () {
-                            self.SetUserFriendStatus("isFriend");
+                            self.setUserFriendStatus(FRIEND_STATUS.IS_FRIEND);
                             self.eventService.Emit(EVENT_TYPE.addFriend, self.user._id);
                         }
                     },
                     {
                         text: "דחיית חברות",
                         action: function () {
-                            self.UnsetUserFriendStatus("isSendFriendRequest");
+                            self.unsetUserFriendStatus(FRIEND_STATUS.IS_SEND_FRIEND_REQUEST);
                             self.eventService.Emit(EVENT_TYPE.ignoreFriendRequest, self.user._id);
                         }
                     }
@@ -188,7 +198,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                     return self.user.isGetFriendRequest;
                 },
                 onClick: function () {
-                    self.UnsetUserFriendStatus("isGetFriendRequest");
+                    self.unsetUserFriendStatus(FRIEND_STATUS.IS_GET_FRIEND_REQUEST);
                     self.eventService.Emit(EVENT_TYPE.removeFriendRequest, self.user._id);
                 }
             },
@@ -213,19 +223,19 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
                 },
                 isShow: function () {
-                    return self.IsUserPageSelf();
+                    return self.isUserPageSelf();
                 },
                 options: [
                     {
                         text: "שינוי סיסמא",
                         action: function () {
-                            self.OpenUserWindow("isShowUserPasswordWindow");
+                            self.openUserWindow("isShowUserPasswordWindow");
                         }
                     },
                     {
                         text: "הגדרות פרטיות",
                         action: function () {
-                            self.OpenUserWindow("isShowUserPrivacyWindow");
+                            self.openUserWindow("isShowUserPrivacyWindow");
                         }
                     },
                     {
@@ -283,7 +293,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                 // In case the user was found.
                 if (user) {
                     user.fullName = user.firstName + " " + user.lastName;
-                    this.InitializePage(user);
+                    this.initializePage(user);
                 }
                 else {
                     this.router.navigateByUrl('/page-not-found');
@@ -295,31 +305,31 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
         self.socketService.SocketOn('ClientAddFriend', function (friend: any) {
             if (friend._id == self.user._id) {
-                self.SetUserFriendStatus("isFriend");
+                self.setUserFriendStatus(FRIEND_STATUS.IS_FRIEND);
             }
         });
 
         self.socketService.SocketOn('ClientFriendAddedUpdate', function (friend: any) {
             if (friend._id == self.user._id) {
-                self.SetUserFriendStatus("isFriend");
+                self.setUserFriendStatus(FRIEND_STATUS.IS_FRIEND);
             }
         });
 
         self.socketService.SocketOn('ClientRemoveFriend', function (friendId: string) {
             if (friendId == self.user._id) {
-                self.UnsetUserFriendStatus("isFriend");
+                self.unsetUserFriendStatus(FRIEND_STATUS.IS_FRIEND);
             }
         });
 
         self.socketService.SocketOn('ClientIgnoreFriendRequest', function (friendId: string) {
             if (friendId == self.user._id) {
-                self.UnsetUserFriendStatus("isGetFriendRequest");
+                self.unsetUserFriendStatus(FRIEND_STATUS.IS_GET_FRIEND_REQUEST);
             }
         });
 
         self.socketService.SocketOn('GetFriendRequest', function (friendId: string) {
             if (friendId == self.user._id) {
-                self.SetUserFriendStatus("isSendFriendRequest");
+                self.setUserFriendStatus(FRIEND_STATUS.IS_SEND_FRIEND_REQUEST);
             }
         });
 
@@ -332,7 +342,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
         // In case the user set private user.
         self.socketService.SocketOn('UserSetToPrivate', function (userId: string) {
-            if (!self.IsUserPageSelf() &&
+            if (!self.isUserPageSelf() &&
                 !self.user.isFriend &&
                 !self.user.isSendFriendRequest) {
                 self.router.navigateByUrl("/");
@@ -344,14 +354,14 @@ export class UserPageComponent implements OnInit, OnDestroy {
         this.eventService.UnsubscribeEvents(this.eventsIds);
     }
 
-    OpenUserWindow(windowShowPropertyName: string) {
+    openUserWindow(windowShowPropertyName: string) {
         this.eventService.Emit(EVENT_TYPE.setNavbarUnder, true);
         this.eventService.Emit(EVENT_TYPE.closeChat, true);
         this[windowShowPropertyName] = true;
     }
 
-    ChangeTabOptionsMenuState(tab: any) {
-        this.CloseAllTabsOptionsMenus(tab.id);
+    changeTabOptionsMenuState(tab: any) {
+        this.closeAllTabsOptionsMenus(tab.id);
 
         if (tab.options) {
             tab.isOptionsMenuOpen = !tab.isOptionsMenuOpen;
@@ -360,7 +370,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
     }
 
     // Close all tabs without the tab with the given id.
-    CloseAllTabsOptionsMenus(id?: string) {
+    closeAllTabsOptionsMenus(id?: string) {
         this.tabs.forEach((tab: any) => {
             if (tab.id != id) {
                 tab.isOptionsMenuOpen = false;
@@ -370,27 +380,27 @@ export class UserPageComponent implements OnInit, OnDestroy {
         this.isOverlay = false;
     }
 
-    InitializePage(user: any) {
-        this.CloseAllTabsOptionsMenus();
+    initializePage(user: any) {
+        this.closeAllTabsOptionsMenus();
         this.eventService.Emit(EVENT_TYPE.changeSearchInput, user.firstName + " " + user.lastName);
         this.user = user;
     }
 
-    UnsetUserFriendStatus(field: string) {
+    unsetUserFriendStatus(status: FRIEND_STATUS) {
         // Set the requested field to true.
-        this.user[field] = false;
+        this.user[status] = false;
     }
 
-    SetUserFriendStatus(field: string) {
+    setUserFriendStatus(status: FRIEND_STATUS) {
         this.user.isFriend = false;
         this.user.isGetFriendRequest = false;
         this.user.isSendFriendRequest = false;
 
         // Set the requested field to true.
-        this.user[field] = true;
+        this.user[status] = true;
     }
 
-    GetTabs() {
+    getTabs() {
         return this.tabs.filter((option: any) => {
             if (!option.isShow) {
                 return true;
@@ -402,19 +412,19 @@ export class UserPageComponent implements OnInit, OnDestroy {
     }
 
     // Return true if the user page belongs to the current user.
-    IsUserPageSelf() {
+    isUserPageSelf() {
         return (this.user && this.user._id == this.globalService.userId);
     }
 
-    OpenProfileEditWindow() {
-        this.CloseAllTabsOptionsMenus();
+    openProfileEditWindow() {
+        this.closeAllTabsOptionsMenus();
 
-        if (this.IsUserPageSelf()) {
+        if (this.isUserPageSelf()) {
             this.eventService.Emit(EVENT_TYPE.openProfileEditWindow, true);
         }
     }
 
-    CloseTabOptions(tab: any) {
+    closeTabOptions(tab: any) {
         tab.isOptionsMenuOpen = false;
         this.isOverlay = tab.isOptionsMenuOpen;
     }

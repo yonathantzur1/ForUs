@@ -2,7 +2,7 @@
     <div id="userPrivacyWindow">
         <div class="overlay"></div>
         <div class="container">
-            <i class="material-icons icon top-icon close-icon" (click)="CloseWindow()">close</i>
+            <i class="material-icons icon top-icon close-icon" (click)="closeWindow()">close</i>
             <div class="title">
                 הגדרות פרטיות
             </div>
@@ -18,13 +18,13 @@
             <div class="switch-container" *ngIf="!isLoading">
                 <span class="switch-text">משתמש פרטי</span>
                 <label class="switch">
-                    <input [checked]="isUserPrivate" (click)="ChangePrivacyStatus()" type="checkbox">
+                    <input [checked]="isUserPrivate" (click)="changePrivacyStatus()" type="checkbox">
                     <span id="slider" class="slider slider-animation round"></span>
                 </label>
                 <span class="switch-status-text">- {{isUserPrivate ? "פעיל" : "כבוי"}}</span>
             </div>
             <i class="material-icons icon bottom-icon next-icon" [ngClass]="{'disabled-icon': isLoading}"
-                (click)="SavePrivacyStatus()">arrow_back</i>
+                (click)="savePrivacyStatus()">arrow_back</i>
         </div>
     </div>
 </div>

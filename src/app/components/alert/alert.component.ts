@@ -15,11 +15,11 @@ export class AlertComponent {
 
     constructor(public alertService: AlertService) { }
 
-    ConfirmClick() {
+    confirmClick() {
         !this.alertService.isLoading && this.alertService.Confirm();
     }
 
-    CloseClick() {
+    closeClick() {
         !this.alertService.isLoading && this.alertService.Close();
     }
 
@@ -27,7 +27,7 @@ export class AlertComponent {
     KeyPress(event: any) {
         // In case of pressing escape.
         if (event.code == "Escape" && !this.alertService.disableEscapeExit) {
-            this.CloseClick();
+            this.closeClick();
         }
     }
 }

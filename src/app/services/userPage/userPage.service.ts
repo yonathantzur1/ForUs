@@ -13,7 +13,7 @@ export class UserPageService extends BasicService {
         return super.get('/getUserDetails?id=' + id);
     }
 
-    RemoveFriends(friendId: string) {
+    removeFriends(friendId: string) {
         return super.delete('/removeFriends?friendId=' + friendId);
     }
 
@@ -21,7 +21,7 @@ export class UserPageService extends BasicService {
         return super.put('/deleteUserValidation');
     }
 
-    DeleteUser() {
+    deleteUser() {
         return super.delete('/deleteUser');
     }
 

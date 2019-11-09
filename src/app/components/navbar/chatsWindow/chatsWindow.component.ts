@@ -16,7 +16,7 @@ import { DateService } from '../../../services/global/date.service';
 export class ChatsWindowComponent implements OnInit {
     @Input() isChatsWindowOpen: boolean;
     @Input() messagesNotifications: Object;
-    @Input() OpenChat: Function;
+    @Input() openChat: Function;
 
     isLoading: boolean;
     chats: any = [];
@@ -27,7 +27,7 @@ export class ChatsWindowComponent implements OnInit {
         private dateService: DateService) { }
 
     ngOnInit() {
-        this.LoadChatsObjects();
+        this.loadChatsObjects();
 
         let self = this;
 
@@ -48,7 +48,7 @@ export class ChatsWindowComponent implements OnInit {
             }
 
             if (!isChatUpdated) {
-                self.LoadChatsObjects();
+                self.loadChatsObjects();
             }
         });
 
@@ -69,22 +69,22 @@ export class ChatsWindowComponent implements OnInit {
             }
 
             if (!isChatUpdated) {
-                self.LoadChatsObjects();
+                self.loadChatsObjects();
             }
         });
 
         // Remove friend from management screen.
         self.socketService.SocketOn('ClientRemoveFriendUser', (friendId: string) => {
-            self.RemoveFriendChat(friendId);
+            self.removeFriendChat(friendId);
         });
 
         // Remove friend by the user from user page.
         self.socketService.SocketOn('ClientRemoveFriend', (friendId: string) => {
-            self.RemoveFriendChat(friendId);
+            self.removeFriendChat(friendId);
         });
     }
 
-    LoadChatsObjects() {
+    loadChatsObjects() {
         this.isLoading = true;
 
         this.chatService.GetAllPreviewChats().then(((chats: any) => {
@@ -93,7 +93,7 @@ export class ChatsWindowComponent implements OnInit {
         }).bind(this));
     }
 
-    GetUnreadMessagesNumber() {
+    getUnreadMessagesNumber() {
         let counter = 0;
 
         Object.keys(this.messagesNotifications).forEach((id: any) => {
@@ -103,12 +103,12 @@ export class ChatsWindowComponent implements OnInit {
         return counter;
     }
 
-    GetUnreadMessagesNumberText() {
+    getUnreadMessagesNumberText() {
         if (this.chats.length == 0) {
             return "אין הודעות חדשות";
         }
         else {
-            let unreadMessagesNumber = this.GetUnreadMessagesNumber();
+            let unreadMessagesNumber = this.getUnreadMessagesNumber();
 
             if (unreadMessagesNumber == 0) {
                 return "שיחות אחרונות";
@@ -122,7 +122,7 @@ export class ChatsWindowComponent implements OnInit {
         }
     }
 
-    CalculateChatTimeString(chat: any) {
+    calculateChatTimeString(chat: any) {
         let localDate = new Date(chat.lastMessage.time);
         let currDate = new Date();
         currDate.setHours(23, 59, 59, 999);
@@ -149,7 +149,7 @@ export class ChatsWindowComponent implements OnInit {
         };
     }
 
-    GetFriendName(friend: any) {
+    getFriendName(friend: any) {
         if (!friend) {
             return null;
         }
@@ -158,7 +158,7 @@ export class ChatsWindowComponent implements OnInit {
         }
     }
 
-    GetFriendProfile(friend: any) {
+    getFriendProfile(friend: any) {
         if (!friend) {
             return null;
         }
@@ -167,7 +167,7 @@ export class ChatsWindowComponent implements OnInit {
         }
     }
 
-    SortByDate(chats: any) {
+    sortByDate(chats: any) {
         chats = chats.sort((a: any, b: any) => {
             let firstDate = new Date(a.lastMessage.time);
             let secondDate = new Date(b.lastMessage.time);
@@ -186,7 +186,7 @@ export class ChatsWindowComponent implements OnInit {
         return chats;
     }
 
-    RemoveFriendChat(friendId: string) {
+    removeFriendChat(friendId: string) {
         for (let i = 0; i < this.chats.length; i++) {
             if (this.chats[i].friend._id == friendId) {
                 this.chats.splice(i, 1);

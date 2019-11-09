@@ -13,13 +13,13 @@
             <div class="btns-sector">
                 <div class="alert-btn confirm-btn"
                     [ngClass]="{'danger-btn' : alertService.type == ALERT_TYPE.DANGER || alertService.type == ALERT_TYPE.WARNING}"
-                    (click)="ConfirmClick()">
+                    (click)="confirmClick()">
                     <span *ngIf="!alertService.isLoading">{{alertService.confirmBtnText}}</span>
                     <div class="mini-loader alert-loader" *ngIf="alertService.isLoading">
                         <div class="mini-loader-spinner"></div>
                     </div>
                 </div>
-                <div class="alert-btn close-btn" *ngIf="alertService.showCancelButton" (click)="CloseClick()">
+                <div class="alert-btn close-btn" *ngIf="alertService.showCancelButton" (click)="closeClick()">
                     {{alertService.closeBtnText}}</div>
             </div>
         </div>

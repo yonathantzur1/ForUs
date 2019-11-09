@@ -11,7 +11,7 @@ export class LoginService extends BasicService {
         super(http, "/api/login");
     }
 
-    Login(user: User) {
+    login(user: User) {
         return super.post('/userLogin', user);
     }
 

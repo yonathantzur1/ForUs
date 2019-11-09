@@ -14,7 +14,7 @@ class Event {
 export class EventService {
     private events: Object = {};
 
-    Register(name: EVENT_TYPE, func: Function, eventsIds?: Array<string>) {
+    register(name: EVENT_TYPE, func: Function, eventsIds?: Array<string>) {
         let id: string = this.GenerateId();
         let event: Event = new Event(id, func);
 

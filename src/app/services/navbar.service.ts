@@ -43,25 +43,25 @@ export class NavbarService extends BasicService {
         return super.get('/getUserFriendRequests');
     }
 
-    AddFriendRequest(friendId: string) {
+    addFriendRequest(friendId: string) {
         let details = { friendId };
 
         return super.post('/addFriendRequest', details);
     }
 
-    RemoveFriendRequest(friendId: string) {
+    removeFriendRequest(friendId: string) {
         let details = { friendId };
 
         return super.post('/removeFriendRequest', details);
     }
 
-    IgnoreFriendRequest(friendId: string) {
+    ignoreFriendRequest(friendId: string) {
         let details = { friendId };
 
         return super.post('/ignoreFriendRequest', details);
     }
 
-    AddFriend(friendId: string) {
+    addFriend(friendId: string) {
         let details = { friendId };
 
         return super.post('/addFriend', details);

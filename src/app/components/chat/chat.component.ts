@@ -35,8 +35,8 @@ declare let loadImage: any;
 
 export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     @Input() chatData: any;
-    @Input() GetFriendById: Function;
-    @Input() OpenChat: Function;
+    @Input() getFriendById: Function;
+    @Input() openChat: Function;
     isChatLoadingError: boolean;
     msghInput: string;
     messages: Array<any>;
@@ -99,17 +99,17 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
         //#region events
 
-        eventService.Register(EVENT_TYPE.setChatData, (chatData: any) => {
+        eventService.register(EVENT_TYPE.setChatData, (chatData: any) => {
             self.chatData = chatData;
-            self.InitializeChat();
+            self.initializeChat();
         }, self.eventsIds);
 
-        eventService.Register(EVENT_TYPE.moveToChatWindow, () => {
-            self.SelectTopIcon(self.GetTopIconById("chat"));
+        eventService.register(EVENT_TYPE.moveToChatWindow, () => {
+            self.selectTopIcon(self.getTopIconById("chat"));
         }, self.eventsIds);
 
-        eventService.Register(EVENT_TYPE.closeChat, () => {
-            self.CloseChat();
+        eventService.register(EVENT_TYPE.closeChat, () => {
+            self.closeChat();
         }, self.eventsIds);
 
         //#endregion
@@ -122,7 +122,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 title: "צ'אט",
                 isSelected: true,
                 onClick: function () {
-                    self.SelectTopIcon(this);
+                    self.selectTopIcon(this);
                 }
             },
             {
@@ -133,8 +133,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 isSelected: false,
                 onClick: function () {
                     self.isAllowShowUnreadLine = false;
-                    self.HideCanvasTopSector();
-                    self.SelectTopIcon(this);
+                    self.hideCanvasTopSector();
+                    self.selectTopIcon(this);
                 }
             }
         ];
@@ -197,22 +197,22 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
         self.socketService.SocketOn('GetMessage', function (msgData: any) {
             if (msgData.from == self.chatData.friend._id) {
-                self.AddMessageToChat(msgData);
+                self.addMessageToChat(msgData);
             }
             else {
-                self.ShowChatNotification(msgData, false);
+                self.showChatNotification(msgData, false);
             }
         });
 
-        self.InitializeCanvas();
+        self.initializeCanvas();
 
         self.canvasEvents = {
             "mousedown": function (e: any) {
                 self.drawing = true;
-                self.lastPos = self.GetMousePos(self.canvas, e);
+                self.lastPos = self.getMousePos(self.canvas, e);
                 self.ctx.fillStyle = self.colorBtns[self.canvasSelectedColorIndex];
                 self.ctx.fillRect(self.lastPos.x, self.lastPos.y, 1, 1);
-                self.HideCanvasTopSector();
+                self.hideCanvasTopSector();
 
                 if (self.isCanvasEmpty) {
                     self.isCanvasEmpty = false;
@@ -224,7 +224,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 self.undoArray.push(self.canvas.toDataURL());
             },
             "mousemove": function (e: any) {
-                self.mousePos = self.GetMousePos(self.canvas, e);
+                self.mousePos = self.getMousePos(self.canvas, e);
             },
             "mouseout": function (e: any) {
                 if (self.drawing) {
@@ -236,7 +236,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             "touchstart": function (e: any) {
                 e.preventDefault();
                 e.stopPropagation()
-                self.mousePos = self.GetTouchPos(self.canvas, e);
+                self.mousePos = self.getTouchPosition(self.canvas, e);
                 let touch = e.touches[0];
                 let mouseEvent = new MouseEvent("mousedown", {
                     clientX: touch.clientX,
@@ -266,8 +266,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             self.canvas.addEventListener(key, self.canvasEvents[key], false);
         });
 
-        $("#canvas-top-bar-sector").bind('touchstart', self.PreventZoom);
-        $("#canvas-bar-sector").bind('touchstart', self.PreventZoom);
+        $("#canvas-top-bar-sector").bind('touchstart', self.preventZoom);
+        $("#canvas-bar-sector").bind('touchstart', self.preventZoom);
 
         self.CanvasResizeFunc = function () {
             let image = new Image;
@@ -302,7 +302,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         // Allow for animation
         (function drawLoop() {
             window.requestAnimFrame(drawLoop);
-            self.RenderCanvas();
+            self.renderCanvas();
         })();
     }
 
@@ -315,8 +315,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             self.canvas.removeEventListener(key, self.canvasEvents[key], false);
         });
 
-        $("#canvas-top-bar-sector").unbind('touchstart', self.PreventZoom);
-        $("#canvas-bar-sector").unbind('touchstart', self.PreventZoom);
+        $("#canvas-top-bar-sector").unbind('touchstart', self.preventZoom);
+        $("#canvas-bar-sector").unbind('touchstart', self.preventZoom);
 
         window.removeEventListener("resize", self.CanvasResizeFunc);
 
@@ -325,21 +325,21 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     ngAfterViewChecked() {
         if ($("#chat-body-sector")[0].scrollHeight != this.chatBodyScrollHeight && this.isAllowScrollDown) {
-            this.ScrollToBottom();
+            this.scrollToBottom();
             this.chatBodyScrollHeight = $("#chat-body-sector")[0].scrollHeight;
         }
 
-        if (this.GetTopIconById("canvas").isSelected &&
+        if (this.getTopIconById("canvas").isSelected &&
             this.canvas &&
             (this.canvas.width == 0 || this.canvas.height == 0)) {
-            this.InitializeCanvas();
+            this.initializeCanvas();
         }
     }
 
-    InitializeChat() {
+    initializeChat() {
         if (this.isCanvasInitialize) {
-            this.SelectTopIcon(this.GetTopIconById("chat"));
-            this.InitializeCanvas();
+            this.selectTopIcon(this.getTopIconById("chat"));
+            this.initializeCanvas();
         }
 
         this.messages = [];
@@ -358,10 +358,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 let chatBodySectorElement = $("#chat-body-sector");
 
                 if (chatBodySectorElement && chatBodySectorElement.length > 0) {
-                    chatBodySectorElement[0].removeEventListener("scroll", this.ChatScrollTopFunc.bind(this));
+                    chatBodySectorElement[0].removeEventListener("scroll", this.chatScrollTopFunc.bind(this));
                 }
 
-                (this.messages.length < this.totalMessagesNum) && chatBodySectorElement[0].addEventListener("scroll", this.ChatScrollTopFunc.bind(this));
+                (this.messages.length < this.totalMessagesNum) && chatBodySectorElement[0].addEventListener("scroll", this.chatScrollTopFunc.bind(this));
             }
             else if (chat == null) {
                 this.isChatLoadingError = true;
@@ -372,22 +372,22 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         });
     }
 
-    AddMessageToChat(msgData) {
+    addMessageToChat(msgData) {
         this.isAllowScrollDown = true;
         this.chatData.friend.isTyping = false;
         this.messages.push(msgData);
 
         // In case the chat is on canvas mode.
-        if (this.GetTopIconById("canvas").isSelected) {
-            this.ShowChatNotification(msgData, true);
+        if (this.getTopIconById("canvas").isSelected) {
+            this.showChatNotification(msgData, true);
         }
     }
 
-    CloseChat() {
+    closeChat() {
         this.chatData.isOpen = false;
     }
 
-    SendMessage() {
+    sendMessage() {
         if (!this.isMessagesLoading && this.msghInput) {
             // Delete spaces from the start and the end of the message text.
             this.msghInput = this.msghInput.trim();
@@ -405,30 +405,30 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.isAllowShowUnreadLine = false;
                 this.messages.push(msgData);
                 $("#msg-input").focus();
-                this.socketService.SocketEmit("SendMessage", msgData);
+                this.socketService.SocketEmit("sendMessage", msgData);
             }
         }
     }
 
-    MsgInputKeyup(event: any) {
+    msgInputKeyup(event: any) {
         // In case of pressing ENTER.
         if (event.key == "Enter" || event.key == "NumpadEnter") {
-            this.SendMessage();
+            this.sendMessage();
         }
         // In case of pressing ESCAPE.
         else if (event.keyCode == 27) {
-            this.CloseChat();
+            this.closeChat();
         }
         else {
             this.socketService.SocketEmit("ServerFriendTyping", this.chatData.friend._id);
         }
     }
 
-    ScrollToBottom() {
+    scrollToBottom() {
         $("#chat-body-sector")[0].scrollTop = $("#chat-body-sector")[0].scrollHeight;
     }
 
-    GetTimeString(date: Date) {
+    getTimeString(date: Date) {
         let localDate = new Date(date);
 
         let HH = localDate.getHours().toString();
@@ -441,7 +441,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         return (HH + ":" + mm);
     }
 
-    IsShowUnreadLine(msgFromId: string, msgId: string, msgIndex: number) {
+    isShowUnreadLine(msgFromId: string, msgId: string, msgIndex: number) {
         let friendMessagesNotifications = this.chatData.messagesNotifications[msgFromId];
 
         if (this.isAllowShowUnreadLine &&
@@ -457,7 +457,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
     }
 
-    GetUnreadMessagesNumberText(unreadMessagesNumber: number) {
+    getUnreadMessagesNumberText(unreadMessagesNumber: number) {
         if (unreadMessagesNumber == 1) {
             return ("הודעה 1 שלא נקראה");
         }
@@ -466,7 +466,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
     }
 
-    IsShowDateBubble(index: number) {
+    isShowDateBubble(index: number) {
         if (index > 0) {
             let currMessageDate = new Date(this.messages[index].time);
             let beforeMessageDate = new Date(this.messages[index - 1].time);
@@ -485,12 +485,12 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
     }
 
-    GetDateBubbleText(index: number) {
+    getDateBubbleText(index: number) {
         return this.dateService.
             GetDateDetailsString(new Date(this.messages[index].time), new Date(), false);
     }
 
-    GetTopIconById(id: string): TopIcon {
+    getTopIconById(id: string): TopIcon {
         for (let i = 0; i < this.topIcons.length; i++) {
             if (this.topIcons[i].id == id) {
                 return this.topIcons[i];
@@ -500,7 +500,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         return null;
     }
 
-    SelectTopIcon(iconObj: any) {
+    selectTopIcon(iconObj: any) {
         this.topIcons.forEach((obj: TopIcon) => {
             obj.isSelected = false;
         });
@@ -508,7 +508,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         iconObj.isSelected = true;
     }
 
-    InitializeCanvas() {
+    initializeCanvas() {
         this.canvas = document.getElementById("sig-canvas");
         this.canvasTopBar = document.getElementById("canvas-top-bar-sector");
         let canvasContainer = document.getElementById("canvas-body-sector");
@@ -528,7 +528,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     // Get the position of the mouse relative to the canvas
-    GetMousePos(canvasDom: any, mouseEvent: any) {
+    getMousePos(canvasDom: any, mouseEvent: any) {
         let rect = canvasDom.getBoundingClientRect();
         return {
             x: mouseEvent.clientX - rect.left,
@@ -536,7 +536,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         };
     }
 
-    RenderCanvas() {
+    renderCanvas() {
         if (this.drawing) {
             let offset = $("#sig-canvas").offset();
             this.ctx.moveTo(this.lastPos.x - offset.left, this.lastPos.y);
@@ -548,7 +548,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     // Get the position of a touch relative to the canvas
-    GetTouchPos(canvasDom: any, touchEvent: any) {
+    getTouchPosition(canvasDom: any, touchEvent: any) {
         let rect = canvasDom.getBoundingClientRect();
         return {
             x: touchEvent.touches[0].clientX - rect.left,
@@ -556,16 +556,16 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         };
     }
 
-    ChangeCanvasColor(colorIndex: number) {
+    changeCanvasColor(colorIndex: number) {
         this.canvasSelectedColorIndex = colorIndex;
         this.ctx.strokeStyle = this.colorBtns[colorIndex];
     }
 
-    SendCanvas() {
+    sendCanvas() {
         if (!this.isMessagesLoading && !this.isCanvasEmpty) {
             let imageBase64 = this.canvas.toDataURL();
-            this.InitializeCanvas();
-            this.SelectTopIcon(this.GetTopIconById("chat"));
+            this.initializeCanvas();
+            this.selectTopIcon(this.getTopIconById("chat"));
 
             let msgData = {
                 "from": this.chatData.user._id,
@@ -577,11 +577,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
             this.isAllowScrollDown = true;
             this.messages.push(msgData);
-            this.socketService.SocketEmit("SendMessage", msgData);
+            this.socketService.SocketEmit("sendMessage", msgData);
         }
     }
 
-    ShowHideCanvasTopSector() {
+    showHideCanvasTopSector() {
         if (this.isCanvasTopOpen) {
             this.canvasTopBar.style.bottom = "0px";
         }
@@ -592,14 +592,14 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.isCanvasTopOpen = !this.isCanvasTopOpen;
     }
 
-    HideCanvasTopSector() {
+    hideCanvasTopSector() {
         if (this.isCanvasTopOpen) {
             this.canvasTopBar.style.bottom = "0px";
             this.isCanvasTopOpen = false;
         }
     }
 
-    UploadImage() {
+    uploadImage() {
         let self = this;
         let URL = window.URL;
         let $chatImage: any = $('#chatImage');
@@ -630,7 +630,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                         });
 
                     $chatImage.val('');
-                    self.HideCanvasTopSector();
+                    self.hideCanvasTopSector();
 
                     return true;
                 }
@@ -643,8 +643,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         return null;
     }
 
-    ChangeImage() {
-        let isSuccess = this.UploadImage();
+    changeImage() {
+        let isSuccess = this.uploadImage();
 
         if (isSuccess == false) {
             this.snackbarService.Snackbar("הקובץ שנבחר אינו תמונה");
@@ -654,13 +654,13 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
     }
 
-    ShowChatNotification(msgData: any, isSelfMessageNotification: boolean) {
+    showChatNotification(msgData: any, isSelfMessageNotification: boolean) {
         if (this.messageNotificationInterval) {
             clearInterval(this.messageNotificationInterval);
         }
 
         this.isSelfMessageNotification = isSelfMessageNotification;
-        this.messageNotificationFriendObj = this.GetFriendById(msgData.from);
+        this.messageNotificationFriendObj = this.getFriendById(msgData.from);
         this.messageNotificationText = msgData.isImage ? null : msgData.text;
         this.isShowMessageNotification = true;
 
@@ -673,7 +673,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }, self.messageNotificationDelay);
     }
 
-    ClickChatNotification() {
+    clickChatNotification() {
         this.isShowMessageNotification = false;
 
         if (this.messageNotificationInterval) {
@@ -681,19 +681,19 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
 
         if (this.isSelfMessageNotification) {
-            this.GetTopIconById("chat").onClick();
+            this.getTopIconById("chat").onClick();
         }
         else {
-            this.OpenChat(this.messageNotificationFriendObj);
+            this.openChat(this.messageNotificationFriendObj);
         }
     }
 
-    ReloadChat() {
+    reloadChat() {
         this.isChatLoadingError = false;
-        this.InitializeChat();
+        this.initializeChat();
     }
 
-    ChatScrollTopFunc() {
+    chatScrollTopFunc() {
         if ($("#chat-body-sector").scrollTop() < 400 &&
             $("#chat-body-sector").hasScrollBar() &&
             !this.isMessagesPageLoading &&
@@ -710,7 +710,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
                         this.messages = chat.messages.concat(this.messages);
 
                         if (this.messages.length == this.totalMessagesNum) {
-                            $("#chat-body-sector")[0].removeEventListener("scroll", this.ChatScrollTopFunc.bind(this));
+                            $("#chat-body-sector")[0].removeEventListener("scroll", this.chatScrollTopFunc.bind(this));
                         }
                     }
                     else {
@@ -720,11 +720,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
     }
 
-    MoveToFriendPage(friendObj: any) {
+    moveToFriendPage(friendObj: any) {
         this.eventService.Emit(EVENT_TYPE.openUserProfile, friendObj);
     }
 
-    PreventZoom(e: any) {
+    preventZoom(e: any) {
         let t2 = e.timeStamp
         let t1 = $(this).data('lastTouch') || t2
         let dt = t2 - t1

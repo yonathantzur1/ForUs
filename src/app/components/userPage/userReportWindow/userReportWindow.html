@@ -3,14 +3,14 @@
         <div class="overlay"></div>
         <div class="container">
             <i class="material-icons icon top-icon back-icon" *ngIf="isShowTextReasonWindow"
-                (click)="BackToReasonsWindow()">arrow_forward</i>
-            <i class="material-icons icon top-icon close-icon" (click)="CloseWindow()">close</i>
+                (click)="backToReasonsWindow()">arrow_forward</i>
+            <i class="material-icons icon top-icon close-icon" (click)="closeWindow()">close</i>
             <div class="title">
                 דיווח - {{user.firstName + " " + user.lastName}}
             </div>
             <loaderSpinner class="reasons-loader" *ngIf="isLoading"></loaderSpinner>
             <div [hidden]="isShowTextReasonWindow" class="reasons-sector">
-                <div (click)="ClickReasonButton(reason)" [ngClass]="{'selected': reason.isClicked}" class="reason"
+                <div (click)="clickReasonButton(reason)" [ngClass]="{'selected': reason.isClicked}" class="reason"
                     *ngFor="let reason of reportReasons">
                     {{reason.name}}
                 </div>
@@ -20,7 +20,7 @@
                     <span class="col-12">
                         <label>תיאור המקרה:</label>
                         <textarea [(ngModel)]="reportText" [maxlength]="maxReportTextLength"
-                            (keyup)="HideEmptyFieldAlert()" id="reason-text" name="reasonText" type="text"></textarea>
+                            (keyup)="hideEmptyFieldAlert()" id="reason-text" name="reasonText" type="text"></textarea>
                         <span [ngClass]="{'max-details-text-length': reportText.length == maxReportTextLength}"
                             class="char-counter">
                             תווים {{reportText.length}}/{{maxReportTextLength}}
@@ -28,14 +28,14 @@
                     </span>
                 </div>
             </form>
-            <p *ngIf="!isShowTextReasonWindow && IsDisableReportBtn() && !isLoading" class="select-reason-info">*יש
+            <p *ngIf="!isShowTextReasonWindow && isDisableReportBtn() && !isLoading" class="select-reason-info">*יש
                 לבחור את סיבת הדיווח</p>
             <p *ngIf="isShowTextReasonWindow && isShowEmptyFieldAlert" class="select-reason-info">*יש להזין את תיאור
                 המקרה</p>
-            <i (click)="ShowTextReasonWindow()" *ngIf="!isShowTextReasonWindow"
+            <i (click)="showTextReasonWindow()" *ngIf="!isShowTextReasonWindow"
                 class="material-icons icon bottom-icon next-icon"
-                [ngClass]="{'disabled-icon': IsDisableReportBtn()}">arrow_back</i>
-            <a class="btn btn-primary save-btn" *ngIf="isShowTextReasonWindow" (click)="ReportUser()">דיווח</a>
+                [ngClass]="{'disabled-icon': isDisableReportBtn()}">arrow_back</i>
+            <a class="btn btn-primary save-btn" *ngIf="isShowTextReasonWindow" (click)="reportUser()">דיווח</a>
         </div>
     </div>
 </div>

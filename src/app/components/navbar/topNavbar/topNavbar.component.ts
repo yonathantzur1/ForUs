@@ -34,11 +34,11 @@ export class TopNavbarComponent implements OnInit, OnDestroy {
 
         //#region events
 
-        eventService.Register(EVENT_TYPE.setNavbarUnder, () => {
+        eventService.register(EVENT_TYPE.setNavbarUnder, () => {
             self.isNavbarUnder = true;
         }, self.eventsIds);
 
-        eventService.Register(EVENT_TYPE.setNavbarTop, () => {
+        eventService.register(EVENT_TYPE.setNavbarTop, () => {
             self.isNavbarUnder = false;
         }, self.eventsIds);
 
@@ -55,7 +55,7 @@ export class TopNavbarComponent implements OnInit, OnDestroy {
             new DropMenuData("/profile/" + self.user._id, "פרופיל"),
             new DropMenuData("/login", "התנתקות", () => {
                 self.snackbarService.HideSnackbar();
-                self.parent.Logout();
+                self.parent.logout();
             })
         ];
     }
@@ -64,22 +64,22 @@ export class TopNavbarComponent implements OnInit, OnDestroy {
         this.eventService.UnsubscribeEvents(this.eventsIds);
     }
 
-    NavigateMain() {
-        this.parent.ClosePopups();
-        this.parent.CloseChatWindow();
+    navigateMain() {
+        this.parent.closePopups();
+        this.parent.closeChatWindow();
         this.eventService.Emit(EVENT_TYPE.changeSearchInput, '');
         this.router.navigateByUrl('');
     }
 
-    IsShowMainTitle() {
+    isShowMainTitle() {
         return ($(window).width() > 576);
     }
 
-    ShowHideDropMenu() {
+    showHideDropMenu() {
         this.parent.isShowDropMenu = !this.parent.isShowDropMenu;
 
         if (this.parent.isShowDropMenu) {
-            this.parent.HideSidenav();
+            this.parent.hideSidenav();
             this.eventService.Emit(EVENT_TYPE.hideSearchResults);
         }
     }

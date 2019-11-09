@@ -28,7 +28,7 @@ export class PermissionsCardComponent implements OnDestroy {
 
         //#region events
 
-        eventService.Register(EVENT_TYPE.openPermissionsCard, (user: any) => {
+        eventService.register(EVENT_TYPE.openPermissionsCard, (user: any) => {
             self.user = user;
 
             self.isLoading = true;
@@ -62,7 +62,7 @@ export class PermissionsCardComponent implements OnDestroy {
         this.eventService.UnsubscribeEvents(this.eventsIds);
     }
 
-    CheckPermission(permission: any) {
+    checkPermission(permission: any) {
         let currentState = permission.isChecked;
 
         this.permissions.forEach((perm: any) => {
@@ -72,9 +72,9 @@ export class PermissionsCardComponent implements OnDestroy {
         permission.isChecked = !currentState;
     }
 
-    UpdatePermissions() {
+    updatePermissions() {
         this.isLoading = true;
-        this.permissionsCardService.UpdatePermissions(this.user._id, this.permissions).then((result: any) => {
+        this.permissionsCardService.updatePermissions(this.user._id, this.permissions).then((result: any) => {
             this.isLoading = false;
             $("#permissions-modal").modal('hide');
 

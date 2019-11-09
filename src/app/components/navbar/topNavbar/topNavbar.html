@@ -1,9 +1,9 @@
 <div id="topNavbar">
     <div class="container-fluid navbar" [ngClass]="{'navbar-under' : isNavbarUnder}">
         <div class="col-8 navbar-right-container">
-            <span class="head-container" (click)="NavigateMain()">
+            <span class="head-container" (click)="navigateMain()">
                 <img src="assets/logo/icon.png" class="head-icon">
-                <span *ngIf="IsShowMainTitle()" class="head-title">ForUs</span>
+                <span *ngIf="isShowMainTitle()" class="head-title">ForUs</span>
             </span>
             <span class="search-sector col-md-6">
                 <ng-content></ng-content>
@@ -11,8 +11,8 @@
         </div>
         <div class="col-4 navbar-left-container">
             <div class="manage-sector">
-                <i (click)="ShowHideDropMenu()" class="fas fa-caret-down menu-icon"></i>
-                <span (click)="ShowHideDropMenu()" class="name">
+                <i (click)="showHideDropMenu()" class="fas fa-caret-down menu-icon"></i>
+                <span (click)="showHideDropMenu()" class="name">
                     <span class="top-navbar-user-image">
                         <profilePicture [isEditEnable]="false"></profilePicture>
                     </span>

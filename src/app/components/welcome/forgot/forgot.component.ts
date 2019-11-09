@@ -18,21 +18,12 @@ enum FORGOT_BTN_TEXT {
 }
 
 export class ForgotUser {
-    email: string;
-    code: string;
-    newPassword: string;
-    showResetCodeField: boolean;
-    hasResetCode: boolean;
-    forgotBtnText: string;
-
-    constructor() {
-        this.email = '';
-        this.code = '';
-        this.newPassword = '';
-        this.showResetCodeField = false;
-        this.hasResetCode = false;
-        this.forgotBtnText = FORGOT_BTN_TEXT.SEARCH;
-    }
+    email: string = '';
+    code: string = '';
+    newPassword: string = '';
+    showResetCodeField: boolean = false;
+    hasResetCode: boolean = false;
+    forgotBtnText: FORGOT_BTN_TEXT = FORGOT_BTN_TEXT.SEARCH;
 }
 
 @Component({
@@ -105,7 +96,7 @@ export class ForgotComponent {
     }
 
     // Send mail with reset code to the user.
-    ResetPassword() {
+    resetPassword() {
         this.forgotUser.email = this.forgotUser.email.trim();
 
         // In case the forgot modal fields are valid.
@@ -137,7 +128,7 @@ export class ForgotComponent {
             }
             // In case the user is in the second stage of reset password.
             else {
-                this.forgotService.ResetPassword(this.forgotUser).then((data: any) => {
+                this.forgotService.resetPassword(this.forgotUser).then((data: any) => {
                     let result = data ? data.result : null;
                     this.isLoading = false;
 
@@ -189,13 +180,13 @@ export class ForgotComponent {
         $(".microtext").html('');
     }
 
-    ForgotEnter() {
+    forgotEnter() {
         $(".user-input").blur();
-        this.ResetPassword();
+        this.resetPassword();
     }
 
     // Hide microtext in a specific field.
-    HideMicrotext(microtextId: string) {
-        this.microtextService.HideMicrotext(microtextId);
+    hideMicrotext(microtextId: string) {
+        this.microtextService.hideMicrotext(microtextId);
     }
 }
