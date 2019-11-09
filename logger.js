@@ -10,57 +10,46 @@ const logFormat = printf(info => {
     const level = info.level;
     const timestamp = info.timestamp;
 
-    let message;
+    let message = (typeof data == "object") ? JSON.stringify(data) : data.toString();
 
-    if (typeof data == "object") {
-        message = JSON.stringify(data);
-    } else {
-        message = data.toString();
-    }
-
-    let log = {
-        message,
-        level,
-        timestamp
-    }
+    let log = { message, level, timestamp }
 
     info.stack && (log.stack = info.stack);
 
     return JSON.stringify(log);
 });
 
-const formatBuild = combine(
+const format = combine(
     timestamp(),
     json(),
     logFormat
 );
 
-function createTransportsFile(fileName) {
+function createTransport(logName) {
     return new transports.File({
-        filename: path.join(logsDir, fileName),
+        filename: path.join(logsDir, logName),
         maxsize: config.logs.maxLogSize,
         maxFiles: config.logs.maxLogFiles
     });
 }
 
 const logger = createLogger({
-    format: formatBuild,
+    format,
     transports: [
-        createTransportsFile(config.logs.mainLogName)
+        createTransport(config.logs.mainLogName)
     ]
 });
 
 const secure = createLogger({
-    format: formatBuild,
+    format,
     transports: [
-        createTransportsFile(config.logs.secureLogName)
+        createTransport(config.logs.secureLogName)
     ]
 });
 
 // Print log to console in case the environment is not prod.
 if (!config.server.isProd) {
     logger.add(new transports.Console({}));
-
     secure.add(new transports.Console({}));
 }
 
