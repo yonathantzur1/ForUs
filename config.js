@@ -52,7 +52,7 @@ module.exports = {
         },
         limitter: {
             freeRetries: 5,
-            waitTime: 2 * 60 * 1000, // 2 minutes
+            waitTime: 1 * 60 * 1000, // 1 minutes
         },
         password: {
             saltSize: 8,

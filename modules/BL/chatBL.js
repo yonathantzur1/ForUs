@@ -109,16 +109,21 @@ module.exports = {
     async addMessageToChat(msgData) {
         // Encrypt message text.
         msgData.text = encryption.encrypt(msgData.text);
-        let chatMembers = [DAL.getObjectId(msgData.from), DAL.getObjectId(msgData.to)];
-        let chatFilter = { "members": { $all: chatMembers } };
+
+        let chatFilter = {
+            "members": {
+                $all: DAL.getArrayObjectId([msgData.from, msgData.to])
+            }
+        };
 
         // Build message object to save on DB.
         let message = {
             id: msgData.id,
-            from: msgData.from,
+            from: DAL.getObjectId(msgData.from),
             time: msgData.time,
             text: msgData.text
         };
+
         msgData.isImage && (message.isImage = true);
 
         let chatUpdateQuery = {
