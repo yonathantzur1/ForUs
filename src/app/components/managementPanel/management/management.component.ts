@@ -485,7 +485,7 @@ export class ManagementComponent implements OnInit, OnDestroy {
 
                         if (index != null) {
                             user.friends.splice(index, 1);
-                            self.snackbarService.Snackbar("מחיקת החברות בוצעה בהצלחה");
+                            self.snackbarService.Snackbar("החברות נמחקה");
                         }
 
                         let logoutMsg = "נותקת מהאתר, יש להתחבר מחדש.";

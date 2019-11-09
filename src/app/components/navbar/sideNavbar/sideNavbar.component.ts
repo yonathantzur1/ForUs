@@ -18,12 +18,6 @@ declare let $: any;
 
 export class SideNavbarComponent implements OnInit, OnDestroy {
     @Input() user: any;
-    @Input() friends: Array<Friend>;
-    @Output() friendsChange = new EventEmitter();
-    @Input() isShowSidenav: boolean;
-    @Output() isShowSidenavChange = new EventEmitter();
-    @Input() isHideNotificationsBudget: boolean;
-    @Output() isHideNotificationsBudgetChange = new EventEmitter();
 
     sidenavWidth: string = "230px";
     searchInputId: string = "search-input";
@@ -69,12 +63,12 @@ export class SideNavbarComponent implements OnInit, OnDestroy {
     ShowHideSidenav() {
         this.eventService.Emit(EVENT_TYPE.showNewFriendsLabel, false);
 
-        if (this.isShowSidenav) {
+        if (this.parent.isShowSidenav) {
             this.parent.HideSidenav();
         }
         else {
-            this.isShowSidenavChange.emit(true);
-            this.isHideNotificationsBudget = true;
+            this.parent.isShowSidenav = true;
+            this.parent.isHideNotificationsBudget = true;
             this.parent.HideDropMenu();
             this.eventService.Emit(EVENT_TYPE.hideSearchResults);
             $("#sidenav").width(this.sidenavWidth);
@@ -109,7 +103,7 @@ export class SideNavbarComponent implements OnInit, OnDestroy {
         if (friendsIds.length > 0) {
             this.isFriendsLoading = true;
             this.navbarService.GetFriends(friendsIds).then((friendsResult: Array<Friend>) => {
-                this.friendsChange.emit(friendsResult);
+                this.parent.friends = friendsResult;
                 this.isFriendsLoading = false;
                 this.socketService.SocketEmit("ServerGetOnlineFriends");
             });
@@ -118,13 +112,13 @@ export class SideNavbarComponent implements OnInit, OnDestroy {
 
     GetFilteredFriends(friendSearchInput: string): Array<any> {
         if (!friendSearchInput) {
-            return this.friends;
+            return this.parent.friends;
         }
         else {
             friendSearchInput = friendSearchInput.trim();
             friendSearchInput = friendSearchInput.replace(/\\/g, '');
 
-            return this.friends.filter((friend: any) => {
+            return this.parent.friends.filter((friend: any) => {
                 return (((friend.firstName + " " + friend.lastName).indexOf(friendSearchInput) == 0) ||
                     ((friend.lastName + " " + friend.firstName).indexOf(friendSearchInput) == 0));
             });

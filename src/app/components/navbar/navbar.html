@@ -5,9 +5,7 @@
     <topNavbar [user]="user">
         <mainSearch></mainSearch>
     </topNavbar>
-    <sideNavbar [user]="user" [(friends)]="friends" [(isShowSidenav)]="isShowSidenav"
-        [(isHideNotificationsBudget)]="isHideNotificationsBudget">
-    </sideNavbar>
+    <sideNavbar [user]="user"></sideNavbar>
 </div>
 
 <profilePictureEdit *ngIf="isOpenProfileEditWindow"></profilePictureEdit>
