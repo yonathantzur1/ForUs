@@ -1,7 +1,7 @@
 let jobs = {};
 
 module.exports = {
-    RegisterJob(name, func, intervalTime) {
+    registerJob(name, func, intervalTime) {
         if (jobs[name] != null) {
             throw ("Job " + name + " is already registered");
         }
@@ -11,7 +11,7 @@ module.exports = {
         }
     },
 
-    CancelJob(name) {
+    cancelJob(name) {
         let jobId = jobs[name];
 
         if (jobId != null) {

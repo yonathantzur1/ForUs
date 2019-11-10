@@ -3,12 +3,12 @@ const loginBL = require('../../BL/welcome/loginBL');
 const logsBL = require('../../BL/logsBL');
 const tokenHandler = require('../../handlers/tokenHandler');
 const errorHandler = require('../../handlers/errorHandler');
-const validation = require('../../security/validation');
+const validator = require('../../security/validations/validator');
 const limitter = require('../../security/limitter');
 
 // Validate the user details and login the user.
 router.post('/userLogin',
-    validation,
+    validator,
     (req, res, next) => {
         req.body.email = req.body.email.toLowerCase();
 

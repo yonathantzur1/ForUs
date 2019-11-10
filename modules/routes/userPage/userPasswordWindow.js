@@ -2,14 +2,14 @@ const router = require('express').Router();
 const userPasswordWindowBL = require('../../BL/userPage/userPasswordWindowBL');
 const forgotPasswordBL = require('../../BL/forgotPasswordBL');
 const logsBL = require('../../BL/logsBL');
-const validation = require('../../security/validation');
+const validator = require('../../security/validations/validator');
 const limitter = require('../../security/limitter');
 const config = require('../../../config');
 const mailer = require('../../mailer');
 const errorHandler = require('../../handlers/errorHandler');
 
 router.put('/updateUserPassword',
-    validation,
+    validator,
     // Define limitter key.
     (req, res, next) => {
         req.limitterKey = req.user.email;

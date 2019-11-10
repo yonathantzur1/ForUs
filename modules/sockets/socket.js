@@ -111,11 +111,11 @@ module.exports = (io) => {
 
 let keepAliveDelay = config.socket.keepAlive;
 
-jobs.RegisterJob(enums.SYSTEM_JOBS_NAMES.CLEAN_DISCONNECT_USERS,
-    CleanOfflineUsers,
+jobs.registerJob(enums.SYSTEM_JOBS_NAMES.CLEAN_DISCONNECT_USERS,
+    cleanOfflineUsers,
     (keepAliveDelay + 1) * 1000);
 
-function CleanOfflineUsers() {
+function cleanOfflineUsers() {
     let disconnectUsersIds = [];
 
     // Running on all the connected users.

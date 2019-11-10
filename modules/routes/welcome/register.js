@@ -3,12 +3,12 @@ const registerBL = require('../../BL/welcome/registerBL');
 const logsBL = require('../../BL/logsBL');
 const mailer = require('../../mailer');
 const tokenHandler = require('../../handlers/tokenHandler');
-const validation = require('../../security/validation');
+const validator = require('../../security/validations/validator');
 const errorHandler = require('../../handlers/errorHandler');
 
 // Add new user to the DB and make sure the email is not already exists.
 router.post('/register',
-    validation,
+    validator,
     (req, res, next) => {
         req.body.email = req.body.email.toLowerCase();
         next();
