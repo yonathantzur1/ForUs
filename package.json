@@ -4,8 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "concurrently \"nodemon --ignore src/ server.js\" \"ng serve --open=true\" ",
-    "heroku-postbuild": "ng build --aot=true --buildOptimizer=true --prod",
-    "lint": "ng lint"
+    "heroku-postbuild": "ng build --aot=true --buildOptimizer=true --prod"
   },
   "private": true,
   "dependencies": {
