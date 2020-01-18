@@ -104,7 +104,8 @@ export class LoginComponent {
                 else {
                     // In case the user is locked via brute attack.
                     if (result.lock) {
-                        this.snackbarService.snackbar("החשבון ננעל למשך " + result.lock + " דקות");
+                        let lockTimeStr = (result.lock == 1) ? "דקה" : result.lock + " דקות";
+                        this.snackbarService.snackbar("החשבון ננעל למשך " + lockTimeStr);
                     }
                     // In case the user is blocked.
                     else if (result.block) {

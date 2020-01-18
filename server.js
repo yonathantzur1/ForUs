@@ -8,7 +8,6 @@ const compression = require('compression');
 const io = require('socket.io')(http);
 const config = require('./config');
 const logger = require('./logger');
-const requestDataSizeLimit = '8mb';
 
 process.on('uncaughtException', err => {
     logger.error(err)
@@ -21,9 +20,9 @@ process.on('unhandledRejection', err => {
 // app define settings.
 config.server.isForceHttps && app.use(secure);
 app.enable('trust proxy');
-app.use(bodyParser.json({ limit: requestDataSizeLimit }));
+app.use(bodyParser.json({ limit: config.server.maxRequestSize }));
 app.use(bodyParser.urlencoded({
-    limit: requestDataSizeLimit,
+    limit: config.server.maxRequestSize,
     extended: true
 }));
 app.use(express.static('./'));
@@ -39,30 +38,21 @@ require('./modules/routes/main')(app, connectedUsers);
 require('./modules/schedules')();
 require('./modules/scripts')();
 
-// Allowed extensions list.
+// Allowed files extensions list.
 const allowedExt = [
-    '.js',
-    '.ico',
-    '.css',
-    '.png',
-    '.jpg',
-    '.woff2',
-    '.woff',
-    '.ttf',
-    '.svg',
+    '.js', '.ico', '.css', '.png', '.jpg',
+    '.woff2', '.woff', '.ttf', '.svg',
 ];
+
+function isFileAllow(reqUrl) {
+    return (allowedExt.filter(ext => reqUrl.indexOf(ext) > 0).length > 0);
+}
 
 // Redirect angular requests back to client side.
 app.get('/*', (req, res) => {
     let buildFolder = 'dist/';
-    let filePath;
-
-    if (allowedExt.filter(ext => req.url.indexOf(ext) > 0).length > 0) {
-        filePath = path.resolve(buildFolder + req.url);
-    }
-    else {
-        filePath = path.resolve(buildFolder + 'index.html');
-    }
+    let file = isFileAllow(req.url) ? req.url : 'index.html';
+    let filePath = path.resolve(buildFolder + file);
 
     res.sendFile(filePath);
 });

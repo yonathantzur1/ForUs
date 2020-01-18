@@ -6,6 +6,7 @@ module.exports = {
     server: {
         port: serverPort,
         isProd: isServerProd,
+        maxRequestSize: '10mb',
         isForceHttps: true // (for production environment)
     },
     address: {
