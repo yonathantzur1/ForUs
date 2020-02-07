@@ -1,3 +1,4 @@
+import { Injectable } from "@angular/core";
 export class InputFieldValidation {
     isFieldValid: Function;
     errMsg: string;
@@ -7,6 +8,7 @@ export class InputFieldValidation {
 
 declare let $: any;
 
+@Injectable()
 export class MicrotextService {
 
     validation(validations: Array<InputFieldValidation>, obj: any, regexp?: any): boolean {

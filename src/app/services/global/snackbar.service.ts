@@ -1,3 +1,5 @@
+import { Injectable } from "@angular/core";
+@Injectable()
 export class SnackbarService {
     public delay: number;
     public isShow: boolean;

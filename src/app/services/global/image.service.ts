@@ -1,5 +1,7 @@
+import { Injectable } from "@angular/core";
 const defaultProfileImagePath: string = "/assets/images/default_profile_img.jpg";
 
+@Injectable()
 export class ImageService {
     userProfileImage: string;
     defaultProfileImage: string;

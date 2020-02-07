@@ -1,9 +1,11 @@
+import { Injectable } from "@angular/core";
 export enum ALERT_TYPE {
     INFO,
     DANGER,
     WARNING
 }
 
+@Injectable()
 export class AlertService {
     public isShow: boolean;
     public isLoading: boolean;
