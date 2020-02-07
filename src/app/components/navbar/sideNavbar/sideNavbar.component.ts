@@ -19,6 +19,7 @@ declare let $: any;
 export class SideNavbarComponent implements OnInit, OnDestroy {
     @Input() user: any;
 
+    friendSearchInput: string = "";
     sidenavWidth: string = "230px";
     searchInputId: string = "search-input";
     TOOLBAR_ID: any = TOOLBAR_ID;

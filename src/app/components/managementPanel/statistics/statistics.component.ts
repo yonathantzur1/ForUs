@@ -31,9 +31,9 @@ export class StatisticsComponent {
     userEmailInput: string;
     userEmail: string;
     isUserEmailFound: boolean;
-    userData: Object = {
-        "fullName": null,
-        "profileImage": null
+    userData: any = {
+        "fullName": "",
+        "profileImage": ""
     };
     isLoadingChart: boolean;
     chartsValues: Object = {
