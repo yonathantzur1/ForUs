@@ -30,8 +30,6 @@ export class ProfilePictureEditComponent implements OnInit {
     ngOnInit() {
         this.userImage = this.imageService.userProfileImage;
         this.activeWindow();
-
-        $("#profile-modal").bind('touchstart', this.preventZoom);
     }
 
     options = {
@@ -337,22 +335,6 @@ export class ProfilePictureEditComponent implements OnInit {
         });
 
         return deferred.promise();
-    }
-
-    preventZoom(e: any) {
-        let t2 = e.timeStamp
-        let t1 = $(this).data('lastTouch') || t2
-        let dt = t2 - t1
-        let fingers = e.touches.length;
-        $(this).data('lastTouch', t2);
-
-        if (!dt || dt > 400 || fingers > 1) {
-            return; // not double-tap
-        }
-
-        e.preventDefault(); // double tap - prevent the zoom
-        // also synthesize click events we just swallowed up
-        $(this).trigger('click').trigger('click');
     }
 
     @HostListener('document:keyup', ['$event'])

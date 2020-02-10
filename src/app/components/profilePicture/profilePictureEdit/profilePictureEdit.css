@@ -1,3 +1,7 @@
+.modal {
+    touch-action: manipulation;
+}
+
 .close {
     position: absolute;
     left: 10px;

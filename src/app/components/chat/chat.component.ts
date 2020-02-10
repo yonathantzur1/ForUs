@@ -266,9 +266,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
             self.canvas.addEventListener(key, self.canvasEvents[key], false);
         });
 
-        $("#canvas-top-bar-sector").bind('touchstart', self.preventZoom);
-        $("#canvas-bar-sector").bind('touchstart', self.preventZoom);
-
         self.CanvasResizeFunc = function () {
             let image = new Image;
             image.src = self.canvas.toDataURL();
@@ -314,9 +311,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         Object.keys(self.canvasEvents).forEach(key => {
             self.canvas.removeEventListener(key, self.canvasEvents[key], false);
         });
-
-        $("#canvas-top-bar-sector").unbind('touchstart', self.preventZoom);
-        $("#canvas-bar-sector").unbind('touchstart', self.preventZoom);
 
         window.removeEventListener("resize", self.CanvasResizeFunc);
 
@@ -722,21 +716,5 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     moveToFriendPage(friendObj: any) {
         this.eventService.emit(EVENT_TYPE.openUserProfile, friendObj);
-    }
-
-    preventZoom(e: any) {
-        let t2 = e.timeStamp
-        let t1 = $(this).data('lastTouch') || t2
-        let dt = t2 - t1
-        let fingers = e.touches.length;
-        $(this).data('lastTouch', t2);
-
-        if (!dt || dt > 400 || fingers > 1) {
-            return; // not double-tap
-        }
-
-        e.preventDefault(); // double tap - prevent the zoom
-        // also synthesize click events we just swallowed up
-        $(this).trigger('click').trigger('click');
     }
 }
