@@ -189,7 +189,12 @@
     color: #f7f7f7;
 }
 
-.no-friends-container {
+.new-friends-container {
+    position: relative;
+    height: 100%;
+}
+
+.new-friends-icon-container {
     width: 100%;
     height: 100%;
     display: flex;
@@ -197,7 +202,7 @@
     overflow-x: hidden;
 }
 
-.no-friends-icon {
+.new-friends-icon {
     margin: auto;
     font-size: 50px;
     color: #e7e7e7;

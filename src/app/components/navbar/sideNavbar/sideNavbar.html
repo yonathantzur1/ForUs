@@ -43,11 +43,11 @@
                     </span>
                 </div>
             </div>
-            <div style="position:relative;"
+            <div class="new-friends-container"
                 *ngIf="!isFriendsLoading && parent.friends.length == 0 && parent.isShowSidenav">
                 <div class="new-friends-title">חברים חדשים</div>
-                <div class="no-friends-container">
-                    <i (click)="searchNewFriends()" class="material-icons no-friends-icon">people</i>
+                <div class="new-friends-icon-container">
+                    <i (click)="searchNewFriends()" class="material-icons new-friends-icon">people</i>
                 </div>
             </div>
         </div>

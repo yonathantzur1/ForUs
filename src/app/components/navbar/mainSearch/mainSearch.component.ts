@@ -60,11 +60,10 @@ export class MainSearchComponent implements OnDestroy {
         }, this.eventsIds);
 
         eventService.register(EVENT_TYPE.showNewFriendsLabel, (value: boolean) => {
+            this.isShowNewFriendsLabel = value;
             clearTimeout(this.newFriendsLabelTimeout);
 
             if (value) {
-                this.isShowNewFriendsLabel = value;
-
                 this.newFriendsLabelTimeout = setTimeout(() => {
                     this.isShowNewFriendsLabel = false;
                 }, this.newFriendsLabelDelay);
