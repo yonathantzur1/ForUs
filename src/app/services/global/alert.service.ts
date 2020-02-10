@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+
 export enum ALERT_TYPE {
     INFO,
     DANGER,

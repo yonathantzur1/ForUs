@@ -1,6 +1,7 @@
+import { Injectable } from '@angular/core';
+
 import { BasicService } from '../basic.service';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
 
 import { User } from '../../components/welcome/login/login.component';
 

@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+
 @Injectable()
 export class DateService {
     public days: Array<string> = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];

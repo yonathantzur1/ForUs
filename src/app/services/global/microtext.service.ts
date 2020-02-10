@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+
 export class InputFieldValidation {
     isFieldValid: Function;
     errMsg: string;
