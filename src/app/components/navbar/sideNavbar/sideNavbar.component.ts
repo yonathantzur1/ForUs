@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, Output, Host, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Host } from '@angular/core';
 
 import { ImageService } from '../../../services/global/image.service';
 import { SocketService } from '../../../services/global/socket.service';
