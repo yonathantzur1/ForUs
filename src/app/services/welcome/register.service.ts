@@ -13,14 +13,7 @@ export class RegisterService extends BasicService {
     }
 
     register(newUser: NewUser) {
-        let details = {
-            "firstName": newUser.firstName,
-            "lastName": newUser.lastName,
-            "email": newUser.email,
-            "password": newUser.password
-        };
-
-        return super.post('/register', details);
+        return super.post('/register', newUser);
     }
 
 }

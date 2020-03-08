@@ -118,7 +118,7 @@ export class LoginComponent {
                         });
                     }
                     else {
-                        // Show the loader again because the gurd validates the token.
+                        // Show the loader again because the guard validates the token.
                         this.snackbarService.hideSnackbar();
                         this.isLoading = true;
                         this.router.navigateByUrl('');
