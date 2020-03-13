@@ -24,25 +24,25 @@ router.post('/userLogin',
         // (result == "-1"): email is not exists on DB.
         // (result.block != null): The user is blocked.
         // else: email and password are valid.
-        loginBL.getUser(req.body).then(result => {
-            if (result) {
+        loginBL.getUser(req.body).then(user => {
+            if (user) {
                 // In case the email is not exists on DB.
-                if (result == "-1") {
-                    res.send({ result });
+                if (user == "-1") {
+                    res.send({ result: user });
                 }
                 // In case the user is blocked.
-                else if (result.block) {
-                    res.send({ "result": { "block": result.block } });
+                else if (user.block) {
+                    res.send({ result: { block: user.block } });
                 }
                 // In case user email and password are valid.
                 else {
-                    tokenHandler.setTokenOnCookie(tokenHandler.getTokenFromUserObject(result), res);
-                    res.send({ "result": true });
+                    tokenHandler.setTokenOnCookie(tokenHandler.getTokenFromUserObject(user), res);
+                    res.send({ result: true });
                 }
             }
             // In case the password is wrong.
             else {
-                res.send({ result });
+                res.send({ result: user });
                 logsBL.loginFail(req.body.email, req);
             }
         }).catch(err => {

@@ -1,4 +1,3 @@
-const tokenHandler = require('../handlers/tokenHandler');
 const permissionsMiddleware = require('../middlewares/permissionsMiddleware');
 
 module.exports = (app, connectedUsers) => {
@@ -10,9 +9,7 @@ module.exports = (app, connectedUsers) => {
         '/deleteUser/*',
         '/auth/isUserOnSession',
         '/auth/isUserSocketConnect'
-    ], (req, res, next) => {
-        tokenHandler.validateUserAuthCookies(req) ? next() : res.sendStatus(401);
-    }));
+    ], permissionsMiddleware.auth));
 
     app.use('/api/login', require('./welcome/login'));
     app.use('/api/register', require('./welcome/register'));
