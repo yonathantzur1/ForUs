@@ -94,7 +94,7 @@ export class LoginComponent {
                         text: "האם ברצונך להרשם?",
                         type: ALERT_TYPE.INFO,
                         confirmBtnText: "כן",
-                        cancelBtnText: "לא",
+                        closeBtnText: "לא",
                         confirmFunc: function () {
                             self.globalService.setData("registerEmail", self.user.email);
                             self.router.navigateByUrl('/register');
